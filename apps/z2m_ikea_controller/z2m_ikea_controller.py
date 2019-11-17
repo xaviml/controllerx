@@ -59,7 +59,7 @@ class IkeaController(hass.Hass):
                 self.turn_on_light(attribute, value, sign, self.manual_steps)
             elif action == "hold":
                 self.on_hold = True
-                while self.on_hold and min_ <= value <= max_:
+                while self.on_hold and value is not None:
                     value = self.turn_on_light(
                         attribute, value, sign, self.automatic_steps
                     )
@@ -69,14 +69,20 @@ class IkeaController(hass.Hass):
                     time.sleep(self.delay / 1000)
 
     def turn_on_light(self, attribute, old, sign, steps):
+        """
+        It returns the new value if it didn't reached min or max. Otherwise None.
+        """
         max_ = attribute_minmax[attribute]["max"]
         min_ = attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
-        new_state_attribute = max(min_, min(new_state_attribute, max_))
-        self.turn_on(self.light, **{attribute: new_state_attribute})
-        return new_state_attribute
-
+        if min_ <= new_state_attribute <= max_:
+            self.turn_on(self.light, **{attribute: new_state_attribute})
+            return new_state_attribute
+        else:
+            new_state_attribute = max(min_, min(new_state_attribute, max_))
+            self.turn_on(self.light, **{attribute: new_state_attribute})
+            return None
 
 class E1810Controller(IkeaController):
     # Different states reported from the controller:
