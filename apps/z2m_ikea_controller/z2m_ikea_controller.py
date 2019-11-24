@@ -20,14 +20,22 @@ sign_mapping = {"up": 1, "down": -1}
 
 class IkeaController(hass.Hass):
     def initialize(self):
-        self.sensor = self.args["sensor"]
+        self.sensors = self.get_sensors(self.args["sensor"])
         self.light = self.args["light"]
         # Since time.sleep is not recommended I limited to 1s
         self.delay = min(1000, self.args.get("delay", DEFAULT_DELAY))
         self.manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.on_hold = False
-        self.listen_state(self.state, self.sensor)
+        for sensor in self.sensors:
+            self.listen_state(self.state, sensor)
+
+    def get_sensors(self, sensors):
+        type_ = type(sensors)
+        if type_ == str:
+            return sensors.replace(" ", "").split(",")
+        elif type_ == list:
+            return sensors
 
     def process_state(self, state):
         """
@@ -42,6 +50,7 @@ class IkeaController(hass.Hass):
         if new == "":
             return
         attribute, direction, action = self.process_state(new)
+        light_state = self.get_state(self.light)
         if action == "toggle":
             self.toggle(self.light)
         elif action == "on":
@@ -51,8 +60,10 @@ class IkeaController(hass.Hass):
         elif action == "release":
             self.on_hold = False
         else:
+            if light_state == "off":
+                return
             sign = sign_mapping[direction]
-            value = self.get_state(self.light, attribute=attribute)
+            value = self.get_attr_value(self.light, attribute)
             max_ = attribute_minmax[attribute]["max"]
             min_ = attribute_minmax[attribute]["min"]
             if action == "click":
@@ -67,6 +78,13 @@ class IkeaController(hass.Hass):
                     # in run_every function. It is also fine to use as long is in control:
                     # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
                     time.sleep(self.delay / 1000)
+
+    def get_attr_value(self, light, attribute):
+        if "group." in light:
+            lights = self.get_state(self.light, attribute="entity_id")
+            light = lights[0]
+        out = self.get_state(light, attribute=attribute)
+        return out
 
     def turn_on_light(self, attribute, old, sign, steps):
         """
@@ -83,6 +101,7 @@ class IkeaController(hass.Hass):
             new_state_attribute = max(min_, min(new_state_attribute, max_))
             self.turn_on(self.light, **{attribute: new_state_attribute})
             return None
+
 
 class E1810Controller(IkeaController):
     # Different states reported from the controller:
