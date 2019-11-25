@@ -1,14 +1,14 @@
 """
 Bring full functionality to IKEA light controllers
 
-https://github.com/xaviml/ad-watchdog
+https://github.com/xaviml/z2m_ikea_controller
 """
 import appdaemon.plugins.hass.hassapi as hass
 import time
 
 DEFAULT_MANUAL_STEPS = 10
-DEFAULT_AUTOMATIC_STEPS = 20
-DEFAULT_DELAY = 150
+DEFAULT_AUTOMATIC_STEPS = 10
+DEFAULT_DELAY = 350
 
 attribute_minmax = {
     "brightness": {"min": 1, "max": 255},
@@ -94,12 +94,14 @@ class IkeaController(hass.Hass):
         min_ = attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
+        attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
-            self.turn_on(self.light, **{attribute: new_state_attribute})
+            self.turn_on(self.light, **attributes)
             return new_state_attribute
         else:
             new_state_attribute = max(min_, min(new_state_attribute, max_))
-            self.turn_on(self.light, **{attribute: new_state_attribute})
+            attributes[attribute] = new_state_attribute
+            self.turn_on(self.light, **attributes)
             return None
 
 
