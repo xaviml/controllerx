@@ -9,6 +9,7 @@ import time
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_DELAY = 350
+DEFAULT_COLORTEMP_ONLY = 0
 
 attribute_minmax = {
     "brightness": {"min": 1, "max": 255},
@@ -26,6 +27,7 @@ class IkeaController(hass.Hass):
         self.delay = min(1000, self.args.get("delay", DEFAULT_DELAY))
         self.manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
+        self.colortemp_only = self.args.get("colortemp_only", DEFAULT_COLORTEMP_ONLY)
         self.on_hold = False
         for sensor in self.sensors:
             self.listen_state(self.state, sensor)
@@ -51,33 +53,33 @@ class IkeaController(hass.Hass):
             return
         attribute, direction, action = self.process_state(new)
         light_state = self.get_state(self.light)
-        if action == "toggle":
-            self.toggle(self.light)
-        elif action == "on":
-            self.turn_on(self.light)
-        elif action == "off":
-            self.turn_off(self.light)
-        elif action == "release":
+        if self.colortemp_only == 0:
+            if action == "toggle":
+                self.toggle(self.light)
+            elif action == "on":
+                self.turn_on(self.light)
+            elif action == "off":
+                self.turn_off(self.light)
+        if action == "release":
             self.on_hold = False
-        else:
-            if light_state == "off":
-                return
-            sign = sign_mapping[direction]
-            value = self.get_attr_value(self.light, attribute)
-            max_ = attribute_minmax[attribute]["max"]
-            min_ = attribute_minmax[attribute]["min"]
-            if action == "click":
-                self.turn_on_light(attribute, value, sign, self.manual_steps)
-            elif action == "hold":
-                self.on_hold = True
-                while self.on_hold and value is not None:
-                    value = self.turn_on_light(
-                        attribute, value, sign, self.automatic_steps
-                    )
-                    # The use of the time.sleep is due to not have a support of seconds
-                    # in run_every function. It is also fine to use as long is in control:
-                    # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
-                    time.sleep(self.delay / 1000)
+        elif light_state == "off":
+            return
+        sign = sign_mapping[direction]
+        value = self.get_attr_value(self.light, attribute)
+        max_ = attribute_minmax[attribute]["max"]
+        min_ = attribute_minmax[attribute]["min"]
+        if action == "click":
+            self.turn_on_light(attribute, value, sign, self.manual_steps)
+        elif action == "hold":
+            self.on_hold = True
+            while self.on_hold and value is not None:
+                value = self.turn_on_light(
+                    attribute, value, sign, self.automatic_steps
+                )
+                # The use of the time.sleep is due to not have a support of seconds
+                # in run_every function. It is also fine to use as long is in control:
+                # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
+                time.sleep(self.delay / 1000)
 
     def get_attr_value(self, light, attribute):
         if "group." in light:
@@ -113,7 +115,7 @@ class E1810Controller(IkeaController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
     def process_state(self, state):
-        if state == "toggle":
+        if state == "toggle" and self.colortemp_only == 0:
             return (None, None, "toggle")
         else:
             attribute, direction, action = state.split("_")
