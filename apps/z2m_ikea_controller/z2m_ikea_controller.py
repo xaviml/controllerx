@@ -53,7 +53,7 @@ class IkeaController(hass.Hass):
             return
         attribute, direction, action = self.process_state(new)
         light_state = self.get_state(self.light)
-        if self.colortemp_only == 0:
+        if self.colortemp_only != 1:
             if action == "toggle":
                 self.toggle(self.light)
             elif action == "on":
@@ -115,7 +115,7 @@ class E1810Controller(IkeaController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
     def process_state(self, state):
-        if state == "toggle" and self.colortemp_only == 0:
+        if state == "toggle" and self.colortemp_only != 1:
             return (None, None, "toggle")
         else:
             attribute, direction, action = state.split("_")
