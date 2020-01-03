@@ -9,7 +9,7 @@ import time
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_DELAY = 350
-DEFAULT_COLORTEMP_ONLY = 0
+DEFAULT_COLORTEMP_ONLY = False
 
 attribute_minmax = {
     "brightness": {"min": 1, "max": 255},
@@ -53,7 +53,7 @@ class IkeaController(hass.Hass):
             return
         attribute, direction, action = self.process_state(new)
         light_state = self.get_state(self.light)
-        if self.colortemp_only != 1:
+        if self.colortemp_only == False:
             if action == "toggle":
                 self.toggle(self.light)
             elif action == "on":
@@ -64,10 +64,13 @@ class IkeaController(hass.Hass):
             self.on_hold = False
         elif light_state == "off":
             return
-        sign = sign_mapping[direction]
-        value = self.get_attr_value(self.light, attribute)
-        max_ = attribute_minmax[attribute]["max"]
-        min_ = attribute_minmax[attribute]["min"]
+        try:
+            sign = sign_mapping[direction]
+            value = self.get_attr_value(self.light, attribute)
+            max_ = attribute_minmax[attribute]["max"]
+            min_ = attribute_minmax[attribute]["min"]
+        except KeyError:
+            pass
         if action == "click":
             self.turn_on_light(attribute, value, sign, self.manual_steps)
         elif action == "hold":
@@ -115,10 +118,13 @@ class E1810Controller(IkeaController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
     def process_state(self, state):
-        if state == "toggle" and self.colortemp_only != 1:
+        if state == "toggle":
             return (None, None, "toggle")
         else:
-            attribute, direction, action = state.split("_")
+            try:
+                attribute, direction, action = state.split("_")
+            except ValueError:
+                pass
             if attribute == "arrow":
                 attribute = "color_temp"
             direction_mapping = {"left": "down", "right": "up"}
