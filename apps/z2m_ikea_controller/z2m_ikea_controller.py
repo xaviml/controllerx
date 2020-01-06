@@ -46,11 +46,8 @@ class Controller(hass.Hass, abc.ABC):
 
     def initialize(self):
         self.actions_mapping = self.get_actions_mapping()
-        self.log(f"Action mapping: {self.actions_mapping}")
         included_actions = self.args.get("actions", list(self.actions_mapping.keys()))
-        self.log(f"included_actions: {included_actions}")
         included_actions = self.get_list(included_actions)
-        self.log(f"included_actions2: {included_actions}")
         self.actions_mapping = {
             key: value
             for key, value in self.actions_mapping.items()
