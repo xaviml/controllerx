@@ -50,11 +50,16 @@ class IkeaController(hass.Hass):
         if new == "":
             return
         attribute, direction, action = self.process_state(new)
+        if((attribute, direction, action) == (None, None, None)):
+            return
         light_state = self.get_state(self.light)
         if action == "toggle":
             self.toggle(self.light)
         elif action == "on":
             self.turn_on(self.light)
+        elif action == "on_full":
+            self.turn_on(
+                self.light, brightness=attribute_minmax['brightness']['max'])
         elif action == "off":
             self.turn_off(self.light)
         elif action == "release":
@@ -64,8 +69,6 @@ class IkeaController(hass.Hass):
                 return
             sign = sign_mapping[direction]
             value = self.get_attr_value(self.light, attribute)
-            max_ = attribute_minmax[attribute]["max"]
-            min_ = attribute_minmax[attribute]["min"]
             if action == "click":
                 self.turn_on_light(attribute, value, sign, self.manual_steps)
             elif action == "hold":
@@ -138,3 +141,41 @@ class E1743Controller(IkeaController):
                 return attribute, action, "hold"
             else:
                 return attribute, None, "release"
+
+
+class ICTCG1Controller(IkeaController):
+    def initialize(self):
+        super().initialize()
+        self.rotating = False
+
+    # Different states reported from the controller:
+    # rotate_left, rotate_left_quick
+    # rotate_right, rotate_right_quick
+    # rotate_stop
+    def process_state(self, state):
+        attribute = "brightness"  # only brightness
+        splitted = state.split("_")
+        # handle rotate_left_quick / rotate_right_quick
+        if len(splitted) == 3:
+            t, direction, action = splitted
+            if direction == "right" and action == "quick":
+                return None, None, "on_full"
+            elif direction == "left" and action == "quick":
+                return None, None, "off"
+        else:
+            # handle rotate_stop / rotate_left / rotate_right
+            t, direction = splitted
+            if direction == "stop":
+                if self.rotating == False:
+                    # ignore duplicate rotate_stop messages
+                    return None, None, None
+                self.rotating = False
+                return attribute, None, "release"
+            elif self.rotating == False:
+                direction_mapping = {"left": "down", "right": "up"}
+                direction = direction_mapping.get(direction, direction)
+                self.rotating = True
+                return attribute, direction, "hold"
+            else:
+                # ignore duplicate rotate_left / rotate_right messages
+                return None, None, None
