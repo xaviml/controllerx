@@ -45,9 +45,12 @@ class Controller(hass.Hass, abc.ABC):
     """
 
     def initialize(self):
-        self.actions_mapping = self.get_actions_mappings()
-        included_actions = self.args.get("actions", self.actions_mapping.keys())
+        self.actions_mapping = self.get_actions_mapping()
+        self.log(f"Action mapping: {self.actions_mapping}")
+        included_actions = self.args.get("actions", list(self.actions_mapping.keys()))
+        self.log(f"included_actions: {included_actions}")
         included_actions = self.get_list(included_actions)
+        self.log(f"included_actions2: {included_actions}")
         self.actions_mapping = {
             key: value
             for key, value in self.actions_mapping.items()
@@ -79,7 +82,7 @@ class Controller(hass.Hass, abc.ABC):
         return True
 
     @abc.abstractmethod
-    def get_actions_mappings(self):
+    def get_actions_mapping(self):
         """
         All controllers must implement this function. It should return a dict
         with the states that a controller can take and the functions as values.
@@ -336,7 +339,7 @@ class E1810Controller(LightController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
 
-    def get_actions_mappings(self):
+    def get_actions_mapping(self):
         return {
             "toggle": lambda: self.toggle(),
             "brightness_up_click": lambda: self.click(
@@ -374,7 +377,7 @@ class E1743Controller(LightController):
     # Different states reported from the controller:
     # on, off, brightness_up, brightness_down, brightness_stop
 
-    def get_actions_mappings(self):
+    def get_actions_mapping(self):
         return {
             "on": lambda: self.on(),
             "off": lambda: self.off(),
@@ -394,7 +397,7 @@ class ICTCG1Controller(LightController):
     # rotate_right, rotate_right_quick
     # rotate_stop
 
-    def get_actions_mappings(self):
+    def get_actions_mapping(self):
         return {
             "rotate_left": lambda: self.hold(
                 LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
