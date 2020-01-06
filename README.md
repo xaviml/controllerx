@@ -16,6 +16,12 @@ This automation will bring the following functionalities to IKEA E1743:
 - Manual increase/decrease of brightness
 - Smooth increase/decrease (holding button) of brightness
 
+This automation will bring the following functionalities to IKEA ICTC-G-1:
+
+- Turn off light(s) (quickly rotating left)
+- Turn on light(s) at full brightness (quickly rotating right)
+- Smooth increase/decrease of brightness (rotating right/left)
+
 ## Installation
 
 ### HACS
@@ -44,6 +50,16 @@ For IKEA E1743:
 nameOfYourInstanceApp:
   module: z2m_ikea_controller
   class: E1743Controller
+  sensor: <sensor(s) entity id>
+  light: <light or group entity id>
+```
+
+For IKEA ICTC-G-1:
+
+```yaml
+nameOfYourInstanceApp:
+  module: z2m_ikea_controller
+  class: ICTCG1Controller
   sensor: <sensor(s) entity id>
   light: <light or group entity id>
 ```
