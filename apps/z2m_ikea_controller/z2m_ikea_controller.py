@@ -16,14 +16,12 @@ DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_DELAY = 350
 
 
-def check_before_action(method):
-    @wraps(method)
-    def _impl(self, *args, **kwargs):
+def action(method):
+    def _action_impl(self, *args, **kwargs):
         continue_call = self.before_action(method.__name__)
         if continue_call:
             method(self, *args, **kwargs)
-
-    return _impl
+    return _action_impl
 
 
 ###############################################################
@@ -101,21 +99,24 @@ class ReleaseHoldController(Controller, abc.ABC):
         # Since time.sleep is not recommended I limited to 1s
         self.delay = min(1000, self.args.get("delay", DEFAULT_DELAY))
 
+    @action
     def release(self):
         self.on_hold = False
 
+    @action
     def hold(self, *args):
         self.on_hold = True
         stop = False
         while self.on_hold and not stop:
             stop = self.hold_loop(*args)
-            # value = self.turn_on_light(
-            #     attribute, value, sign, self.automatic_steps
-            # )
             # The use of the time.sleep is due to not have a support of seconds
             # in run_every function. It is also fine to use as long is in control:
             # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
             time.sleep(self.delay / 1000)
+
+    def before_action(self, action):
+        to_return = not (action == "hold" and self.on_hold)
+        return super().before_action(action) and to_return
 
     @abc.abstractmethod
     def hold_loop(self):
@@ -215,15 +216,19 @@ class LightController(ReleaseHoldController):
             else:
                 return {"name": light["name"], "color_mode": "auto"}
 
+    @action
     def on(self):
         self.turn_on(self.light["name"])
 
+    @action
     def off(self):
         self.turn_off(self.light["name"])
 
+    @action
     def toggle(self):
         super().toggle(self.light["name"])
 
+    @action
     def on_full(self, attribute):
         self.change_light_state(
             self.attribute_minmax[attribute]["min"], attribute, self.DIRECTION_UP, 1
@@ -254,12 +259,13 @@ class LightController(ReleaseHoldController):
             return self.get_attr_value(self.light["name"], attribute)
 
     def before_action(self, action):
+        to_return = True
         if action == "click" or action == "hold":
             light_state = self.get_state(self.light["name"])
-            return light_state == "on"
-        return True
+            to_return = light_state == "on"
+        return super().before_action(action) and to_return
 
-    @check_before_action
+    @action
     def click(self, attribute, direction):
         attribute = self.get_attribute(attribute)
         self.value_attribute = self.get_value_attribute(attribute)
@@ -267,7 +273,7 @@ class LightController(ReleaseHoldController):
             self.value_attribute, attribute, direction, self.manual_steps
         )
 
-    @check_before_action
+    @action
     def hold(self, attribute, direction):
         attribute = self.get_attribute(attribute)
         self.value_attribute = self.get_value_attribute(attribute)
