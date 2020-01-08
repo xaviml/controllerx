@@ -158,8 +158,8 @@ class LightController(ReleaseHoldController):
         - automatic_steps (optional): Number of steps to go from min to max when smoothing.
     """
 
-    ATTRUBUTE_BRIGHTNESS = "brightness"
-    ATTRUBUTE_COLOR = "color"
+    ATTRIBUTE_BRIGHTNESS = "brightness"
+    ATTRIBUTE_COLOR = "color"
     DIRECTION_UP = "up"
     DIRECTION_DOWN = "down"
 
@@ -235,7 +235,7 @@ class LightController(ReleaseHoldController):
         )
 
     def get_attribute(self, attribute):
-        if attribute == self.ATTRUBUTE_COLOR:
+        if attribute == self.ATTRIBUTE_COLOR:
             entity_states = self.get_state(self.light["name"], attribute="all")
             entity_attributes = entity_states["attributes"]
             if self.light["color_mode"] == "auto":
@@ -346,31 +346,31 @@ class E1810Controller(LightController):
         return {
             "toggle": lambda: self.toggle(),
             "brightness_up_click": lambda: self.click(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
             "brightness_down_click": lambda: self.click(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
             "arrow_left_click": lambda: self.click(
-                LightController.ATTRUBUTE_COLOR, LightController.DIRECTION_DOWN
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
             "arrow_right_click": lambda: self.click(
-                LightController.ATTRUBUTE_COLOR, LightController.DIRECTION_UP
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
             "brightness_up_hold": lambda: self.hold(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
             "brightness_up_release": lambda: self.release(),
             "brightness_down_hold": lambda: self.hold(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
             "brightness_down_release": lambda: self.release(),
             "arrow_left_hold": lambda: self.hold(
-                LightController.ATTRUBUTE_COLOR, LightController.DIRECTION_DOWN
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
             "arrow_left_release": lambda: self.release(),
             "arrow_right_hold": lambda: self.hold(
-                LightController.ATTRUBUTE_COLOR, LightController.DIRECTION_UP
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
             "arrow_right_release": lambda: self.release(),
         }
@@ -385,10 +385,10 @@ class E1743Controller(LightController):
             "on": lambda: self.on(),
             "off": lambda: self.off(),
             "brightness_up": lambda: self.hold(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
             "brightness_down": lambda: self.hold(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
             "brightness_stop": lambda: self.release(),
         }
@@ -400,17 +400,25 @@ class ICTCG1Controller(LightController):
     # rotate_right, rotate_right_quick
     # rotate_stop
 
+    def rotate_left_quick(self):
+        self.release()
+        self.off()
+
+    def rotate_right_quick(self):
+        self.release()
+        self.on_full(
+            LightController.ATTRIBUTE_BRIGHTNESS
+        )
+
     def get_actions_mapping(self):
         return {
             "rotate_left": lambda: self.hold(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "rotate_left_quick": lambda: self.off(),
+            "rotate_left_quick": lambda: self.rotate_left_quick(),
             "rotate_right": lambda: self.hold(
-                LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "rotate_right_quick": lambda: self.on_full(
-                LightController.ATTRUBUTE_BRIGHTNESS
-            ),
+            "rotate_right_quick": lambda: self.rotate_right_quick(),
             "rotate_stop": lambda: self.release(),
         }
