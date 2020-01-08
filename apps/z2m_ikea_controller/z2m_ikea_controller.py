@@ -400,17 +400,25 @@ class ICTCG1Controller(LightController):
     # rotate_right, rotate_right_quick
     # rotate_stop
 
+    def rotate_left_quick(self):
+        self.release()
+        self.off()
+
+    def rotate_right_quick(self):
+        self.release()
+        self.on_full(
+            LightController.ATTRUBUTE_BRIGHTNESS
+        )
+
     def get_actions_mapping(self):
         return {
             "rotate_left": lambda: self.hold(
                 LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "rotate_left_quick": lambda: self.off(),
+            "rotate_left_quick": lambda: self.rotate_left_quick(),
             "rotate_right": lambda: self.hold(
                 LightController.ATTRUBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "rotate_right_quick": lambda: self.on_full(
-                LightController.ATTRUBUTE_BRIGHTNESS
-            ),
+            "rotate_right_quick": lambda: self.rotate_right_quick(),
             "rotate_stop": lambda: self.release(),
         }
