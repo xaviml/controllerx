@@ -18,7 +18,7 @@ This automation brings the following functionalities for different [devices](htt
 
 ### HACS
 
-The easiest way to add this to your Homeassistant installation is using HACS. And then follow the instructions under Configuration below.
+The easiest way to add this to your Homeassistant installation is using HACS with Appdaemon enabled. And then follow the instructions under Configuration below.
 
 ### Manual
 
