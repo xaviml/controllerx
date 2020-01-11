@@ -17,10 +17,10 @@ DEFAULT_DELAY = 350
 
 
 def action(method):
-    def _action_impl(self, *args):
-        continue_call = self.before_action(method.__name__, *args)
+    def _action_impl(self, *args, **kwargs):
+        continue_call = self.before_action(method.__name__, *args, **kwargs)
         if continue_call:
-            method(self, *args)
+            method(self, *args, **kwargs)
 
     return _action_impl
 
@@ -272,9 +272,9 @@ class LightController(ReleaseHoldController):
     def before_action(self, action, *args):
         to_return = True
         if action == "click" or action == "hold":
-            attribute,direction,*_= args
+            attribute, direction, *_ = args
             light_state = self.get_state(self.light["name"])
-            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute== "brightness" and self.from_off_to_min_brightness
+            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute == self.ATTRIBUTE_BRIGHTNESS and self.from_off_to_min_brightness
         return super().before_action(action, *args) and to_return
 
     @action
@@ -322,7 +322,7 @@ class LightController(ReleaseHoldController):
         min_ = self.attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
-        if self.from_off_to_min_brightness and attribute == "brightness" and  self.get_state(self.light["name"])=="off":
+        if self.from_off_to_min_brightness and attribute == self.ATTRIBUTE_BRIGHTNESS and self.get_state(self.light["name"]) == "off":
             new_state_attribute = min_
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
