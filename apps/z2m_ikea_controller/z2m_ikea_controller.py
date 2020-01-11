@@ -21,6 +21,7 @@ def action(method):
         continue_call = self.before_action(method.__name__)
         if continue_call:
             method(self, *args, **kwargs)
+
     return _action_impl
 
 
@@ -41,6 +42,9 @@ class Controller(hass.Hass, abc.ABC):
     It is mandatory to implement `get_actions_mapping` to map the controller 
     actions to the internal functions.
     """
+
+    DIRECTION_UP = "up"
+    DIRECTION_DOWN = "down"
 
     def initialize(self):
         self.actions_mapping = self.get_actions_mapping()
@@ -97,7 +101,7 @@ class ReleaseHoldController(Controller, abc.ABC):
         super().initialize()
         self.on_hold = False
         # Since time.sleep is not recommended I limited to 1s
-        self.delay = min(1000, self.args.get("delay", DEFAULT_DELAY))
+        self.delay = min(1000, self.args.get("delay", self.default_delay()))
 
     @action
     def release(self):
@@ -126,6 +130,13 @@ class ReleaseHoldController(Controller, abc.ABC):
         returns True.
         """
         pass
+
+    def default_delay(self):
+        """
+        This function can be overwritten for each device to indeicate the delay 
+        for the specific device, by default it returns the default delay from the app
+        """
+        return DEFAULT_DELAY
 
 
 ###############################################################
@@ -160,8 +171,6 @@ class LightController(ReleaseHoldController):
 
     ATTRIBUTE_BRIGHTNESS = "brightness"
     ATTRIBUTE_COLOR = "color"
-    DIRECTION_UP = "up"
-    DIRECTION_DOWN = "down"
 
     # These are the 24 colors that appear in the circle color of home assistant
     colors = [
@@ -196,7 +205,7 @@ class LightController(ReleaseHoldController):
         "color_temp": {"min": 153, "max": 500},
     }
 
-    sign_mapping = {DIRECTION_UP: 1, DIRECTION_DOWN: -1}
+    sign_mapping = {Controller.DIRECTION_UP: 1, Controller.DIRECTION_DOWN: -1}
 
     def initialize(self):
         super().initialize()
@@ -322,6 +331,37 @@ class LightController(ReleaseHoldController):
             return True
 
 
+class MediaPlayerController(ReleaseHoldController):
+    def initialize(self):
+        super().initialize()
+        self.media_player = self.args["media_player"]
+        self.volume = None
+
+    @action
+    def play_pause(self):
+        self.call_service("media_player/media_play_pause", entity_id=self.media_player)
+
+    @action
+    def previous_track(self):
+        self.call_service(
+            "media_player/media_previous_track", entity_id=self.media_player
+        )
+
+    @action
+    def next_track(self):
+        self.call_service("media_player/media_next_track", entity_id=self.media_player)
+
+    def hold_loop(self, direction):
+        if direction == Controller.DIRECTION_UP:
+            self.call_service("media_player/volume_up", entity_id=self.media_player)
+        else:
+            self.call_service("media_player/volume_down", entity_id=self.media_player)
+        return False
+
+    def default_delay(self):
+        return 500
+
+
 ###############################################################
 ###############################################################
 ###  DEVICES                                                ###
@@ -400,15 +440,15 @@ class ICTCG1Controller(LightController):
     # rotate_right, rotate_right_quick
     # rotate_stop
 
+    @action
     def rotate_left_quick(self):
         self.release()
         self.off()
 
+    @action
     def rotate_right_quick(self):
         self.release()
-        self.on_full(
-            LightController.ATTRIBUTE_BRIGHTNESS
-        )
+        self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
 
     def get_actions_mapping(self):
         return {
@@ -422,3 +462,74 @@ class ICTCG1Controller(LightController):
             "rotate_right_quick": lambda: self.rotate_right_quick(),
             "rotate_stop": lambda: self.release(),
         }
+
+
+class E1744LightController(LightController):
+    # Different states reported from the controller:
+    # rotate_left, rotate_right, rotate_stop,
+    # play_pause, skip_forward, skip_backward
+
+    def get_actions_mapping(self):
+        return {
+            "rotate_left": lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            "rotate_right": lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            "rotate_stop": lambda: self.release(),
+            "play_pause": lambda: self.toggle(),
+            "skip_forward": lambda: self.on_full(LightController.ATTRIBUTE_BRIGHTNESS),
+        }
+
+
+class E1744MediaPlayerController(MediaPlayerController):
+    # Different states reported from the controller:
+    # rotate_left, rotate_right, rotate_stop,
+    # play_pause, skip_forward, skip_backward
+
+    def get_actions_mapping(self):
+        return {
+            "rotate_left": lambda: self.hold(LightController.DIRECTION_DOWN),
+            "rotate_right": lambda: self.hold(LightController.DIRECTION_UP),
+            "rotate_stop": lambda: self.release(),
+            "play_pause": lambda: self.play_pause(),
+            "skip_forward": lambda: self.next_track(),
+            "skip_backward": lambda: self.previous_track(),
+        }
+
+
+class HueDimmerController(LightController):
+    # Different states reported from the controller:
+    # on-press, on-hold, on-hold-release, up-press, up-hold,
+    # up-hold-release, down-press, down-hold, down-hold-release,
+    # off-press, off-hold, off-hold-release
+
+    def get_actions_mapping(self):
+        return {
+            "on-press": lambda: self.on(),
+            "on-hold": lambda: self.hold(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            ),
+            "on-hold-release": lambda: self.release(),
+            "up-press": lambda: self.click(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            "up-hold": lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            "up-hold-release": lambda: self.release(),
+            "down-press": lambda: self.click(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            "down-hold": lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            "down-hold-release": lambda: self.release(),
+            "off-press": lambda: self.off(),
+            "off-hold": lambda: self.hold(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            ),
+            "off-hold-release": lambda: self.release(),
+        }
+
