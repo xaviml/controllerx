@@ -7,13 +7,15 @@ import abc
 import math
 import random
 import time
+from collections import defaultdict
 from functools import wraps
 
 import appdaemon.plugins.hass.hassapi as hass
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
-DEFAULT_DELAY = 350
+DEFAULT_DELAY = 350 # In milliseconds
+DEFAULT_TIME_BETWEEN_ACTIONS = 400 # In milliseconds
 
 
 def action(method):
@@ -55,6 +57,7 @@ class Controller(hass.Hass, abc.ABC):
             for key, value in self.actions_mapping.items()
             if key in included_actions
         }
+        self.action_times = defaultdict(lambda: 0)
         self.sensors = self.get_list(self.args["sensor"])
         for sensor in self.sensors:
             self.listen_state(self.state, sensor)
@@ -68,9 +71,13 @@ class Controller(hass.Hass, abc.ABC):
 
     def state(self, entity, attribute, old, new, kwargs):
         if new in self.actions_mapping and old == new:
-            self.log(f"Button pressed: {new}", level="DEBUG")
-            action = self.actions_mapping[new]
-            action()
+            previous_call_time = self.action_times[new]
+            now = time.time() * 1000
+            self.action_times[new] = now
+            if now - previous_call_time > DEFAULT_TIME_BETWEEN_ACTIONS:
+                self.log(f"Button pressed: {new}", level="INFO")
+                action = self.actions_mapping[new]
+                action()
 
     def before_action(self, action):
         """
@@ -533,4 +540,3 @@ class HueDimmerController(LightController):
             ),
             "off-hold-release": lambda: self.release(),
         }
-
