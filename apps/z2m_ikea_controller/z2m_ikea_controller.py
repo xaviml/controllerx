@@ -186,6 +186,7 @@ class LightController(ReleaseHoldController):
         (0.137, 0.065),
         (0.141, 0.137),
         (0.146, 0.238),
+        (0.323, 0.329),# white color middle
         (0.151, 0.343),
         (0.157, 0.457),
         (0.164, 0.591),
