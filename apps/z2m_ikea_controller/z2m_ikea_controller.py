@@ -15,7 +15,7 @@ import appdaemon.plugins.hass.hassapi as hass
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_DELAY = 350 # In milliseconds
-DEFAULT_TIME_BETWEEN_ACTIONS = 400 # In milliseconds
+DEFAULT_ACTION_DELTA = 300 # In milliseconds
 
 
 def action(method):
@@ -57,6 +57,7 @@ class Controller(hass.Hass, abc.ABC):
             for key, value in self.actions_mapping.items()
             if key in included_actions
         }
+        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
         self.action_times = defaultdict(lambda: 0)
         self.sensors = self.get_list(self.args["sensor"])
         for sensor in self.sensors:
@@ -74,8 +75,8 @@ class Controller(hass.Hass, abc.ABC):
             previous_call_time = self.action_times[new]
             now = time.time() * 1000
             self.action_times[new] = now
-            if now - previous_call_time > DEFAULT_TIME_BETWEEN_ACTIONS:
-                self.log(f"Button pressed: {new}", level="INFO")
+            if now - previous_call_time > self.action_delta:
+                self.log(f"Button pressed: {new}", level="DEBUG")
                 action = self.actions_mapping[new]
                 action()
 
