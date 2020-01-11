@@ -17,10 +17,10 @@ DEFAULT_DELAY = 350
 
 
 def action(method):
-    def _action_impl(self, *args, **kwargs):
-        continue_call = self.before_action(method.__name__)
+    def _action_impl(self, *args):
+        continue_call = self.before_action(method.__name__, *args)
         if continue_call:
-            method(self, *args, **kwargs)
+            method(self, *args)
 
     return _action_impl
 
@@ -72,7 +72,7 @@ class Controller(hass.Hass, abc.ABC):
             action = self.actions_mapping[new]
             action()
 
-    def before_action(self, action):
+    def before_action(self, action, *args):
         """
         Controllers have the option to implement this function, which is called
         everytime before an action is called and it has the check_before_action decorator.
@@ -118,9 +118,9 @@ class ReleaseHoldController(Controller, abc.ABC):
             # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
             time.sleep(self.delay / 1000)
 
-    def before_action(self, action):
+    def before_action(self, action, *args):
         to_return = not (action == "hold" and self.on_hold)
-        return super().before_action(action) and to_return
+        return super().before_action(action, *args) and to_return
 
     @abc.abstractmethod
     def hold_loop(self):
@@ -215,6 +215,7 @@ class LightController(ReleaseHoldController):
         self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.value_attribute = None
         self.index_color = 0
+        self.from_off_to_min_brightness = self.supports_from_off_to_min_brightness()
 
     def get_light(self, light):
         type_ = type(light)
@@ -268,12 +269,13 @@ class LightController(ReleaseHoldController):
         else:
             return self.get_attr_value(self.light["name"], attribute)
 
-    def before_action(self, action):
+    def before_action(self, action, *args):
         to_return = True
         if action == "click" or action == "hold":
+            attribute,direction,*_= args
             light_state = self.get_state(self.light["name"])
-            to_return = light_state == "on"
-        return super().before_action(action) and to_return
+            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute== "brightness" and self.from_off_to_min_brightness
+        return super().before_action(action, *args) and to_return
 
     @action
     def click(self, attribute, direction):
@@ -320,6 +322,8 @@ class LightController(ReleaseHoldController):
         min_ = self.attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
+        if self.from_off_to_min_brightness and attribute == "brightness" and  self.get_state(self.light["name"])=="off":
+            new_state_attribute = min_
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
             self.turn_on(self.light["name"], **attributes)
@@ -331,6 +335,14 @@ class LightController(ReleaseHoldController):
             self.turn_on(self.light["name"], **attributes)
             return True
 
+    def supports_from_off_to_min_brightness(self):
+        """
+        This function can be overwritten for each device to indicate the behaviour of the controller
+        when the associated light is off and the event for incrementing brightness is received.
+        Returns True if the associated light should be turned on with minimum brightness if an event for incrementing
+        brightness is received, while the lamp is off.
+        """
+        return False
 
 class MediaPlayerController(ReleaseHoldController):
     def initialize(self):
@@ -416,6 +428,8 @@ class E1810Controller(LightController):
             "arrow_right_release": lambda: self.release(),
         }
 
+    def supports_from_off_to_min_brightness(self):
+        return True
 
 class E1743Controller(LightController):
     # Different states reported from the controller:
@@ -434,6 +448,8 @@ class E1743Controller(LightController):
             "brightness_stop": lambda: self.release(),
         }
 
+    def supports_from_off_to_min_brightness(self):
+        return True
 
 class ICTCG1Controller(LightController):
     # Different states reported from the controller:
