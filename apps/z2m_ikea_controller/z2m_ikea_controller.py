@@ -215,7 +215,7 @@ class LightController(ReleaseHoldController):
         self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.value_attribute = None
         self.index_color = 0
-        self.from_off_to_min_brightness = self.supports_from_off_to_min_brightness()
+        self.smooth_power_on = self.args.get("smooth_power_on", self.supports_smooth_power_on())
 
     def get_light(self, light):
         type_ = type(light)
@@ -274,7 +274,7 @@ class LightController(ReleaseHoldController):
         if action == "click" or action == "hold":
             attribute, direction, *_ = args
             light_state = self.get_state(self.light["name"])
-            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute == self.ATTRIBUTE_BRIGHTNESS and self.from_off_to_min_brightness
+            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute == self.ATTRIBUTE_BRIGHTNESS and self.smooth_power_on
         return super().before_action(action, *args) and to_return
 
     @action
@@ -322,7 +322,7 @@ class LightController(ReleaseHoldController):
         min_ = self.attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
-        if self.from_off_to_min_brightness and attribute == self.ATTRIBUTE_BRIGHTNESS and self.get_state(self.light["name"]) == "off":
+        if self.smooth_power_on and attribute == self.ATTRIBUTE_BRIGHTNESS and self.get_state(self.light["name"]) == "off":
             new_state_attribute = min_
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
@@ -335,12 +335,13 @@ class LightController(ReleaseHoldController):
             self.turn_on(self.light["name"], **attributes)
             return True
 
-    def supports_from_off_to_min_brightness(self):
+    def supports_smooth_power_on(self):
         """
-        This function can be overwritten for each device to indicate the behaviour of the controller
-        when the associated light is off and the event for incrementing brightness is received.
+        This function can be overrided for each device to indicate the default behaviour of the controller
+        when the associated light is off and an event for incrementing brightness is received.
         Returns True if the associated light should be turned on with minimum brightness if an event for incrementing
         brightness is received, while the lamp is off.
+        The behaviour can be overridden by the user with the 'smooth_power_on' option in app configuration.
         """
         return False
 
@@ -428,8 +429,6 @@ class E1810Controller(LightController):
             "arrow_right_release": lambda: self.release(),
         }
 
-    def supports_from_off_to_min_brightness(self):
-        return True
 
 class E1743Controller(LightController):
     # Different states reported from the controller:
@@ -448,8 +447,6 @@ class E1743Controller(LightController):
             "brightness_stop": lambda: self.release(),
         }
 
-    def supports_from_off_to_min_brightness(self):
-        return True
 
 class ICTCG1Controller(LightController):
     # Different states reported from the controller:
