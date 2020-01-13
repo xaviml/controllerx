@@ -14,8 +14,8 @@ import appdaemon.plugins.hass.hassapi as hass
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
-DEFAULT_DELAY = 350 # In milliseconds
-DEFAULT_ACTION_DELTA = 300 # In milliseconds
+DEFAULT_DELAY = 350  # In milliseconds
+DEFAULT_ACTION_DELTA = 300  # In milliseconds
 
 
 def action(method):
@@ -194,7 +194,7 @@ class LightController(ReleaseHoldController):
         (0.137, 0.065),
         (0.141, 0.137),
         (0.146, 0.238),
-        (0.323, 0.329),# white color middle
+        (0.323, 0.329),  # white color middle
         (0.151, 0.343),
         (0.157, 0.457),
         (0.164, 0.591),
@@ -360,12 +360,20 @@ class MediaPlayerController(ReleaseHoldController):
     def next_track(self):
         self.call_service("media_player/media_next_track", entity_id=self.media_player)
 
+    @action
+    def hold(self, direction):
+        # This variable is responsible to count how many times hold_loop has been called
+        # so we don't fall in a infinite loop
+        self.hold_loop_times = 0
+        super().hold(direction)
+
     def hold_loop(self, direction):
         if direction == Controller.DIRECTION_UP:
             self.call_service("media_player/volume_up", entity_id=self.media_player)
         else:
             self.call_service("media_player/volume_down", entity_id=self.media_player)
-        return False
+        self.hold_loop_times += 1
+        return self.hold_loop_times > 10
 
     def default_delay(self):
         return 500
