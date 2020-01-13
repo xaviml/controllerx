@@ -80,7 +80,7 @@ class Controller(hass.Hass, abc.ABC):
                 action = self.actions_mapping[new]
                 action()
 
-    def before_action(self, action, *args):
+    def before_action(self, action, *args, **kwargs):
         """
         Controllers have the option to implement this function, which is called
         everytime before an action is called and it has the check_before_action decorator.
@@ -126,9 +126,9 @@ class ReleaseHoldController(Controller, abc.ABC):
             # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
             time.sleep(self.delay / 1000)
 
-    def before_action(self, action, *args):
+    def before_action(self, action, *args, **kwargs):
         to_return = not (action == "hold" and self.on_hold)
-        return super().before_action(action, *args) and to_return
+        return super().before_action(action, *args, **kwargs) and to_return
 
     @abc.abstractmethod
     def hold_loop(self):
@@ -277,13 +277,13 @@ class LightController(ReleaseHoldController):
         else:
             return self.get_attr_value(self.light["name"], attribute)
 
-    def before_action(self, action, *args):
+    def before_action(self, action, *args, **kwargs):
         to_return = True
         if action == "click" or action == "hold":
             attribute, direction, *_ = args
             light_state = self.get_state(self.light["name"])
             to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute == self.ATTRIBUTE_BRIGHTNESS and self.smooth_power_on
-        return super().before_action(action, *args) and to_return
+        return super().before_action(action, *args, **kwargs) and to_return
 
     @action
     def click(self, attribute, direction):
