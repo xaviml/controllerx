@@ -20,7 +20,7 @@ DEFAULT_ACTION_DELTA = 300  # In milliseconds
 
 def action(method):
     def _action_impl(self, *args, **kwargs):
-        continue_call = self.before_action(method.__name__)
+        continue_call = self.before_action(method.__name__, *args, **kwargs)
         if continue_call:
             method(self, *args, **kwargs)
 
@@ -80,7 +80,7 @@ class Controller(hass.Hass, abc.ABC):
                 action = self.actions_mapping[new]
                 action()
 
-    def before_action(self, action):
+    def before_action(self, action, *args):
         """
         Controllers have the option to implement this function, which is called
         everytime before an action is called and it has the check_before_action decorator.
@@ -126,9 +126,9 @@ class ReleaseHoldController(Controller, abc.ABC):
             # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
             time.sleep(self.delay / 1000)
 
-    def before_action(self, action):
+    def before_action(self, action, *args):
         to_return = not (action == "hold" and self.on_hold)
-        return super().before_action(action) and to_return
+        return super().before_action(action, *args) and to_return
 
     @abc.abstractmethod
     def hold_loop(self):
@@ -223,6 +223,7 @@ class LightController(ReleaseHoldController):
         self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.value_attribute = None
         self.index_color = 0
+        self.smooth_power_on = self.args.get("smooth_power_on", self.supports_smooth_power_on())
 
     def get_light(self, light):
         type_ = type(light)
@@ -276,12 +277,13 @@ class LightController(ReleaseHoldController):
         else:
             return self.get_attr_value(self.light["name"], attribute)
 
-    def before_action(self, action):
+    def before_action(self, action, *args):
         to_return = True
         if action == "click" or action == "hold":
+            attribute, direction, *_ = args
             light_state = self.get_state(self.light["name"])
-            to_return = light_state == "on"
-        return super().before_action(action) and to_return
+            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute == self.ATTRIBUTE_BRIGHTNESS and self.smooth_power_on
+        return super().before_action(action, *args) and to_return
 
     @action
     def click(self, attribute, direction):
@@ -328,6 +330,8 @@ class LightController(ReleaseHoldController):
         min_ = self.attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
+        if self.smooth_power_on and attribute == self.ATTRIBUTE_BRIGHTNESS and self.get_state(self.light["name"]) == "off":
+            new_state_attribute = min_
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
             self.turn_on(self.light["name"], **attributes)
@@ -339,6 +343,15 @@ class LightController(ReleaseHoldController):
             self.turn_on(self.light["name"], **attributes)
             return True
 
+    def supports_smooth_power_on(self):
+        """
+        This function can be overrided for each device to indicate the default behaviour of the controller
+        when the associated light is off and an event for incrementing brightness is received.
+        Returns True if the associated light should be turned on with minimum brightness if an event for incrementing
+        brightness is received, while the lamp is off.
+        The behaviour can be overridden by the user with the 'smooth_power_on' option in app configuration.
+        """
+        return False
 
 class MediaPlayerController(ReleaseHoldController):
     def initialize(self):
