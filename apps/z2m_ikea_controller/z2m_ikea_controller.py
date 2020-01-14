@@ -71,7 +71,7 @@ class Controller(hass.Hass, abc.ABC):
             return entities
 
     def state(self, entity, attribute, old, new, kwargs):
-        if new in self.actions_mapping and old == new:
+        if new in self.actions_mapping:
             previous_call_time = self.action_times[new]
             now = time.time() * 1000
             self.action_times[new] = now
@@ -223,7 +223,9 @@ class LightController(ReleaseHoldController):
         self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.value_attribute = None
         self.index_color = 0
-        self.smooth_power_on = self.args.get("smooth_power_on", self.supports_smooth_power_on())
+        self.smooth_power_on = self.args.get(
+            "smooth_power_on", self.supports_smooth_power_on()
+        )
 
     def get_light(self, light):
         type_ = type(light)
@@ -277,12 +279,22 @@ class LightController(ReleaseHoldController):
         else:
             return self.get_attr_value(self.light["name"], attribute)
 
+    def check_smooth_power_on(self, attribute, direction, light_state):
+        return (
+            direction == LightController.DIRECTION_UP
+            and attribute == self.ATTRIBUTE_BRIGHTNESS
+            and self.smooth_power_on
+            and light_state == "off"
+        )
+
     def before_action(self, action, *args, **kwargs):
         to_return = True
         if action == "click" or action == "hold":
             attribute, direction, *_ = args
             light_state = self.get_state(self.light["name"])
-            to_return = light_state == "on" or direction == LightController.DIRECTION_UP and attribute == self.ATTRIBUTE_BRIGHTNESS and self.smooth_power_on
+            to_return = light_state == "on" or self.check_smooth_power_on(
+                attribute, direction, light_state
+            )
         return super().before_action(action, *args, **kwargs) and to_return
 
     @action
@@ -330,8 +342,14 @@ class LightController(ReleaseHoldController):
         min_ = self.attribute_minmax[attribute]["min"]
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
-        if self.smooth_power_on and attribute == self.ATTRIBUTE_BRIGHTNESS and self.get_state(self.light["name"]) == "off":
+        if self.check_smooth_power_on(
+            attribute, direction, self.get_state(self.light["name"])
+        ):
             new_state_attribute = min_
+            # The light needs to be turned on since the current state is off
+            # and if the light is turned on with the brightness attribute,
+            # the brightness state won't remain when turned of and on again.
+            self.turn_on(self.light["name"])
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
             self.turn_on(self.light["name"], **attributes)
@@ -341,6 +359,7 @@ class LightController(ReleaseHoldController):
             new_state_attribute = max(min_, min(new_state_attribute, max_))
             attributes[attribute] = new_state_attribute
             self.turn_on(self.light["name"], **attributes)
+            self.value_attribute = new_state_attribute
             return True
 
     def supports_smooth_power_on(self):
@@ -352,6 +371,7 @@ class LightController(ReleaseHoldController):
         The behaviour can be overridden by the user with the 'smooth_power_on' option in app configuration.
         """
         return False
+
 
 class MediaPlayerController(ReleaseHoldController):
     def initialize(self):
