@@ -32,8 +32,8 @@ def action(method):
 ###  CORE CLASSES                                           ###
 ###                                                         ###
 ###  All controllers must extend from Controller and        ###
-###  implement get_actions_mapping to map the controller    ###
-###  actions to the internal functions.                     ###
+###  implement get_state_actions_mapping to map the         ###
+###  controller actions to the internal functions.          ###
 ###############################################################
 ###############################################################
 
@@ -41,7 +41,7 @@ def action(method):
 class Controller(hass.Hass, abc.ABC):
     """
     This is the parent Controller, all controllers must extend from this class.
-    It is mandatory to implement `get_actions_mapping` to map the controller 
+    It is mandatory to implement `get_state_actions_mapping` to map the controller 
     actions to the internal functions.
     """
 
@@ -49,7 +49,16 @@ class Controller(hass.Hass, abc.ABC):
     DIRECTION_DOWN = "down"
 
     def initialize(self):
-        self.actions_mapping = self.get_actions_mapping()
+        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.action_times = defaultdict(lambda: 0)
+
+        if "event_id" in self.args and "sensor" in self.args:
+            raise ValueError("'event_id' and 'sensor' cannot be used together")
+        action_mapping_type, self.actions_mapping = self.get_actions_mapping()
+        if self.actions_mapping == None:
+            raise ValueError(
+                f"This controller does not support {action_mapping_type} actions."
+            )
         included_actions = self.args.get("actions", list(self.actions_mapping.keys()))
         included_actions = self.get_list(included_actions)
         self.actions_mapping = {
@@ -57,11 +66,24 @@ class Controller(hass.Hass, abc.ABC):
             for key, value in self.actions_mapping.items()
             if key in included_actions
         }
-        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
-        self.action_times = defaultdict(lambda: 0)
-        self.sensors = self.get_list(self.args["sensor"])
-        for sensor in self.sensors:
-            self.listen_state(self.state, sensor)
+
+        if "event_id" in self.args:
+            events_id = self.get_list(self.args.get("event_id"))
+            for event_id in events_id:
+                self.listen_event(self.event_callback, "deconz_event", id=self.event_id)
+
+        if "sensor" in self.args:
+            sensors = self.get_list(self.args["sensor"])
+            for sensor in self.sensors:
+                self.listen_state(self.state_callback, sensor)
+
+    def get_actions_mapping(self):
+        if "event_id" in self.args:
+            return "event", self.get_event_actions_mapping()
+        elif "sensor" in selg.args:
+            return "state", self.get_state_actions_mapping()
+        else:
+            return None, None
 
     def get_list(self, entities):
         type_ = type(entities)
@@ -70,14 +92,20 @@ class Controller(hass.Hass, abc.ABC):
         elif type_ == list:
             return entities
 
-    def state(self, entity, attribute, old, new, kwargs):
-        if new in self.actions_mapping:
-            previous_call_time = self.action_times[new]
+    def state_callback(self, entity, attribute, old, new, kwargs):
+        self.handle_action(new)
+
+    def event_callback(self, event_name, data, kwargs):
+        self.handle_action(data["event"])
+
+    def handle_action(self, action_key):
+        if action_key in self.actions_mapping:
+            previous_call_time = self.action_times[action_key]
             now = time.time() * 1000
-            self.action_times[new] = now
+            self.action_times[action_key] = now
             if now - previous_call_time > self.action_delta:
-                self.log(f"Button pressed: {new}", level="DEBUG")
-                action = self.actions_mapping[new]
+                self.log(f"Button pressed: {action_key}", level="DEBUG")
+                action = self.actions_mapping[action_key]
                 action()
 
     def before_action(self, action, *args, **kwargs):
@@ -88,13 +116,21 @@ class Controller(hass.Hass, abc.ABC):
         """
         return True
 
-    @abc.abstractmethod
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         """
-        All controllers must implement this function. It should return a dict
+        Controllers can implement this function. It should return a dict
         with the states that a controller can take and the functions as values.
+        This is used for z2m support.
         """
-        pass
+        return None
+
+    def get_event_actions_mapping(self):
+        """
+        Controllers can implement this function. It should return a dict
+        with the event id that a controller can take and the functions as values.
+        This is used for deConz support.
+        """
+        return None
 
     def get_attr_value(self, entity, attribute):
         if "group." in entity:
@@ -432,7 +468,7 @@ class E1810Controller(LightController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
 
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         return {
             "toggle": lambda: self.toggle(),
             "brightness_up_click": lambda: self.click(
@@ -470,7 +506,7 @@ class E1743Controller(LightController):
     # Different states reported from the controller:
     # on, off, brightness_up, brightness_down, brightness_stop
 
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         return {
             "on": lambda: self.on(),
             "off": lambda: self.off(),
@@ -500,7 +536,7 @@ class ICTCG1Controller(LightController):
         self.release()
         self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
 
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         return {
             "rotate_left": lambda: self.hold(
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
@@ -519,7 +555,7 @@ class E1744LightController(LightController):
     # rotate_left, rotate_right, rotate_stop,
     # play_pause, skip_forward, skip_backward
 
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         return {
             "rotate_left": lambda: self.hold(
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
@@ -538,7 +574,7 @@ class E1744MediaPlayerController(MediaPlayerController):
     # rotate_left, rotate_right, rotate_stop,
     # play_pause, skip_forward, skip_backward
 
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         return {
             "rotate_left": lambda: self.hold(LightController.DIRECTION_DOWN),
             "rotate_right": lambda: self.hold(LightController.DIRECTION_UP),
@@ -555,7 +591,7 @@ class HueDimmerController(LightController):
     # up-hold-release, down-press, down-hold, down-hold-release,
     # off-press, off-hold, off-hold-release
 
-    def get_actions_mapping(self):
+    def get_state_actions_mapping(self):
         return {
             "on-press": lambda: self.on(),
             "on-hold": lambda: self.hold(
