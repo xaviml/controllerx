@@ -16,6 +16,7 @@ DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
+DEFAULT_EVENT_NAME = "deconz_event"
 
 
 def action(method):
@@ -68,9 +69,10 @@ class Controller(hass.Hass, abc.ABC):
         }
 
         if "event_id" in self.args:
+            event_name = self.args.get("event", DEFAULT_EVENT_NAME)
             events_id = self.get_list(self.args.get("event_id"))
             for event_id in events_id:
-                self.listen_event(self.event_callback, "deconz_event", id=event_id)
+                self.listen_event(self.event_callback, event_name, id=event_id)
 
         if "sensor" in self.args:
             sensors = self.get_list(self.args["sensor"])
