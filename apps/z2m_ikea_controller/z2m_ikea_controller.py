@@ -70,17 +70,17 @@ class Controller(hass.Hass, abc.ABC):
         if "event_id" in self.args:
             events_id = self.get_list(self.args.get("event_id"))
             for event_id in events_id:
-                self.listen_event(self.event_callback, "deconz_event", id=self.event_id)
+                self.listen_event(self.event_callback, "deconz_event", id=event_id)
 
         if "sensor" in self.args:
             sensors = self.get_list(self.args["sensor"])
-            for sensor in self.sensors:
+            for sensor in sensors:
                 self.listen_state(self.state_callback, sensor)
 
     def get_actions_mapping(self):
         if "event_id" in self.args:
             return "event", self.get_event_actions_mapping()
-        elif "sensor" in selg.args:
+        elif "sensor" in self.args:
             return "state", self.get_state_actions_mapping()
         else:
             return None, None
@@ -617,4 +617,33 @@ class HueDimmerController(LightController):
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
             "off-hold-release": lambda: self.release(),
+        }
+
+
+    def get_event_actions_mapping(self):
+        return {
+            1000: lambda: self.on(),
+            1001: lambda: self.hold(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            ),
+            1003: lambda: self.release(),
+            2000: lambda: self.click(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            2001: lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            2003: lambda: self.release(),
+            3000: lambda: self.click(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            3001: lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            3003: lambda: self.release(),
+            4000: lambda: self.off(),
+            4001: lambda: self.hold(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            ),
+            4003: lambda: self.release(),
         }
