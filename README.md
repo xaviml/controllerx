@@ -14,6 +14,8 @@ This automation brings the following functionalities for different [devices](htt
 - Play/pause music
 - Volume up/down for a media player.
 
+The appdaemon app supports zigbee2mqtt (use the `sensor` parameter) and deConz (use the `event_id` parameter).
+
 ## Installation
 
 ### HACS

@@ -502,6 +502,39 @@ class E1810Controller(LightController):
             ),
             "arrow_right_release": lambda: self.release(),
         }
+    
+    def get_event_actions_mapping(self):
+        return {
+            1002: lambda: self.toggle(),
+            2002: lambda: self.click(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            3002: lambda: self.click(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            4002: lambda: self.click(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            ),
+            5002: lambda: self.click(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            ),
+            2001: lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            2003: lambda: self.release(),
+            3001: lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            3003: lambda: self.release(),
+            4001: lambda: self.hold(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            ),
+            4003: lambda: self.release(),
+            5001: lambda: self.hold(
+                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            ),
+            5003: lambda: self.release(),
+        }
 
 
 class E1743Controller(LightController):
@@ -569,6 +602,20 @@ class E1744LightController(LightController):
             "play_pause": lambda: self.toggle(),
             "skip_forward": lambda: self.on_full(LightController.ATTRIBUTE_BRIGHTNESS),
         }
+    
+    def get_event_actions_mapping(self):
+        return {
+            2001: lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            ),
+            3001: lambda: self.hold(
+                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            ),
+            2003: lambda: self.release(),
+            3003: lambda: self.release(),
+            1002: lambda: self.toggle(),
+            1004: lambda: self.on_full(LightController.ATTRIBUTE_BRIGHTNESS),
+        }
 
 
 class E1744MediaPlayerController(MediaPlayerController):
@@ -578,14 +625,24 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_state_actions_mapping(self):
         return {
-            "rotate_left": lambda: self.hold(LightController.DIRECTION_DOWN),
-            "rotate_right": lambda: self.hold(LightController.DIRECTION_UP),
+            "rotate_left": lambda: self.hold(Controller.DIRECTION_DOWN),
+            "rotate_right": lambda: self.hold(Controller.DIRECTION_UP),
             "rotate_stop": lambda: self.release(),
             "play_pause": lambda: self.play_pause(),
             "skip_forward": lambda: self.next_track(),
             "skip_backward": lambda: self.previous_track(),
         }
 
+    def get_event_actions_mapping(self):
+        return {
+            2001: lambda: self.hold(Controller.DIRECTION_DOWN),
+            3001: lambda: self.hold(Controller.DIRECTION_UP),
+            2003: lambda: self.release(),
+            3003: lambda: self.release(),
+            1002: lambda: self.play_pause(),
+            1004: lambda: self.next_track(),
+            1005: lambda: self.previous_track(),
+        }
 
 class HueDimmerController(LightController):
     # Different states reported from the controller:
@@ -620,7 +677,6 @@ class HueDimmerController(LightController):
             ),
             "off-hold-release": lambda: self.release(),
         }
-
 
     def get_event_actions_mapping(self):
         return {
