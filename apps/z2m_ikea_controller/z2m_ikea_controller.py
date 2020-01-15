@@ -10,7 +10,7 @@ import time
 from collections import defaultdict
 from functools import wraps
 
-import appdaemon.plugins.hass.hassapi as hass
+import hassapi as hass
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -20,10 +20,10 @@ DEFAULT_EVENT_NAME = "deconz_event"
 
 
 def action(method):
-    def _action_impl(self, *args, **kwargs):
-        continue_call = self.before_action(method.__name__, *args, **kwargs)
+    async def _action_impl(self, *args, **kwargs):
+        continue_call = await self.before_action(method.__name__, *args, **kwargs)
         if continue_call:
-            method(self, *args, **kwargs)
+            await method(self, *args, **kwargs)
 
     return _action_impl
 
@@ -50,6 +50,10 @@ class Controller(hass.Hass, abc.ABC):
     DIRECTION_DOWN = "down"
 
     def initialize(self):
+        ad_version = self.get_ad_version()
+        major, minor, patch = ad_version.split('.')
+        if int(major) < 4:
+            raise ValueError("Please upgrade to AppDaemon 4.x")
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
         self.action_times = defaultdict(lambda: 0)
 
@@ -94,29 +98,37 @@ class Controller(hass.Hass, abc.ABC):
         elif type_ == list:
             return entities
 
-    def state_callback(self, entity, attribute, old, new, kwargs):
-        self.handle_action(new)
+    async def state_callback(self, entity, attribute, old, new, kwargs):
+        await self.handle_action(new)
 
-    def event_callback(self, event_name, data, kwargs):
+    async def event_callback(self, event_name, data, kwargs):
         self.handle_action(data["event"])
 
-    def handle_action(self, action_key):
+    async def handle_action(self, action_key):
         if action_key in self.actions_mapping:
             previous_call_time = self.action_times[action_key]
             now = time.time() * 1000
             self.action_times[action_key] = now
             if now - previous_call_time > self.action_delta:
-                self.log(f"Button pressed: {action_key}", level="DEBUG")
-                action = self.actions_mapping[action_key]
-                action()
+                self.log(f"Button pressed after: {action_key}", level="DEBUG")
+                action, *args = self.get_action(self.actions_mapping[action_key])
+                await action(*args)
 
-    def before_action(self, action, *args, **kwargs):
+    async def before_action(self, action, *args, **kwargs):
         """
         Controllers have the option to implement this function, which is called
         everytime before an action is called and it has the check_before_action decorator.
         It should return True if the action shoul be called. Otherwise it should return False.
         """
         return True
+
+    def get_action(self, action_value):
+        if type(action_value) == tuple or type(action_value) == list:
+            return action_value
+        elif callable(action_value):
+            return  (action_value,)
+        else:
+            raise ValueError("The action value from the action mapping should be a list or a function")
 
     def get_state_actions_mapping(self):
         """
@@ -134,11 +146,11 @@ class Controller(hass.Hass, abc.ABC):
         """
         return None
 
-    def get_attr_value(self, entity, attribute):
+    async def get_attr_value(self, entity, attribute):
         if "group." in entity:
-            entities = self.get_state(entity, attribute="entity_id")
+            entities = await self.get_state(entity, attribute="entity_id")
             entity = entities[0]
-        out = self.get_state(entity, attribute=attribute)
+        out = await self.get_state(entity, attribute=attribute)
         return out
 
 
@@ -146,30 +158,26 @@ class ReleaseHoldController(Controller, abc.ABC):
     def initialize(self):
         super().initialize()
         self.on_hold = False
-        # Since time.sleep is not recommended I limited to 1s
-        self.delay = min(1000, self.args.get("delay", self.default_delay()))
+        self.delay = self.args.get("delay", self.default_delay())
 
     @action
-    def release(self):
+    async def release(self):
         self.on_hold = False
 
     @action
-    def hold(self, *args):
+    async def hold(self, *args):
         self.on_hold = True
         stop = False
         while self.on_hold and not stop:
-            stop = self.hold_loop(*args)
-            # The use of the time.sleep is due to not have a support of seconds
-            # in run_every function. It is also fine to use as long is in control:
-            # https://github.com/home-assistant/appdaemon/issues/26#issuecomment-274798324
-            time.sleep(self.delay / 1000)
+            stop = await self.hold_loop(*args)
+            await self.sleep(self.delay/1000)
 
-    def before_action(self, action, *args, **kwargs):
+    async def before_action(self, action, *args, **kwargs):
         to_return = not (action == "hold" and self.on_hold)
-        return super().before_action(action, *args, **kwargs) and to_return
+        return await super().before_action(action, *args, **kwargs) and to_return
 
     @abc.abstractmethod
-    def hold_loop(self):
+    async def hold_loop(self):
         """
         This function is called by the ReleaseHoldController depending on the settings.
         It stops calling the function once release action is called or when this function
@@ -276,26 +284,26 @@ class LightController(ReleaseHoldController):
                 return {"name": light["name"], "color_mode": "auto"}
 
     @action
-    def on(self):
-        self.turn_on(self.light["name"])
+    async def on(self, **attributes):
+        self.call_service("homeassistant/turn_on", entity_id=self.light["name"], **attributes)
 
     @action
-    def off(self):
-        self.turn_off(self.light["name"])
+    async def off(self):
+        self.call_service("homeassistant/turn_off", entity_id=self.light["name"])
 
     @action
-    def toggle(self):
-        super().toggle(self.light["name"])
+    async def toggle(self):
+        self.call_service("homeassistant/toggle", entity_id=self.light["name"])
 
     @action
-    def on_full(self, attribute):
+    async def on_full(self, attribute):
         self.change_light_state(
             self.attribute_minmax[attribute]["min"], attribute, self.DIRECTION_UP, 1
         )
 
-    def get_attribute(self, attribute):
+    async def get_attribute(self, attribute):
         if attribute == self.ATTRIBUTE_COLOR:
-            entity_states = self.get_state(self.light["name"], attribute="all")
+            entity_states = await self.get_state(self.light["name"], attribute="all")
             entity_attributes = entity_states["attributes"]
             if self.light["color_mode"] == "auto":
                 if "xy_color" in entity_attributes:
@@ -311,11 +319,11 @@ class LightController(ReleaseHoldController):
         else:
             return attribute
 
-    def get_value_attribute(self, attribute):
+    async def get_value_attribute(self, attribute):
         if attribute == "xy_color":
             return None
         else:
-            return self.get_attr_value(self.light["name"], attribute)
+            return await self.get_attr_value(self.light["name"], attribute)
 
     def check_smooth_power_on(self, attribute, direction, light_state):
         return (
@@ -325,36 +333,36 @@ class LightController(ReleaseHoldController):
             and light_state == "off"
         )
 
-    def before_action(self, action, *args, **kwargs):
+    async def before_action(self, action, *args, **kwargs):
         to_return = True
         if action == "click" or action == "hold":
             attribute, direction, *_ = args
-            light_state = self.get_state(self.light["name"])
+            light_state = await self.get_state(self.light["name"])
             to_return = light_state == "on" or self.check_smooth_power_on(
                 attribute, direction, light_state
             )
-        return super().before_action(action, *args, **kwargs) and to_return
+        return await super().before_action(action, *args, **kwargs) and to_return
 
     @action
-    def click(self, attribute, direction):
-        attribute = self.get_attribute(attribute)
-        self.value_attribute = self.get_value_attribute(attribute)
-        self.change_light_state(
+    async def click(self, attribute, direction):
+        attribute = await self.get_attribute(attribute)
+        self.value_attribute = await self.get_value_attribute(attribute)
+        await self.change_light_state(
             self.value_attribute, attribute, direction, self.manual_steps
         )
 
     @action
-    def hold(self, attribute, direction):
-        attribute = self.get_attribute(attribute)
-        self.value_attribute = self.get_value_attribute(attribute)
-        super().hold(attribute, direction)
+    async def hold(self, attribute, direction):
+        attribute = await self.get_attribute(attribute)
+        self.value_attribute = await self.get_value_attribute(attribute)
+        await super().hold(attribute, direction)
 
-    def hold_loop(self, attribute, direction):
-        return self.change_light_state(
+    async def hold_loop(self, attribute, direction):
+        return await self.change_light_state(
             self.value_attribute, attribute, direction, self.automatic_steps
         )
 
-    def change_light_state(self, old, attribute, direction, steps):
+    async def change_light_state(self, old, attribute, direction, steps):
         """
         This functions changes the state of the light depending on the previous
         value and attribute. It returns True when no more changes will need to be done.
@@ -369,7 +377,7 @@ class LightController(ReleaseHoldController):
                 attribute: new_state_attribute,
                 "transition": self.delay / 1000,
             }
-            self.turn_on(self.light["name"], **attributes)
+            await self.on(**attributes)
             # In case of xy_color mode it never finishes the loop, the hold loop
             # will only stop if the hold action is called when releasing the button.
             # I haven't experimented any problems with it, but a future implementation
@@ -381,22 +389,22 @@ class LightController(ReleaseHoldController):
         step = (max_ - min_) // steps
         new_state_attribute = old + sign * step
         if self.check_smooth_power_on(
-            attribute, direction, self.get_state(self.light["name"])
+            attribute, direction, await self.get_state(self.light["name"])
         ):
             new_state_attribute = min_
             # The light needs to be turned on since the current state is off
             # and if the light is turned on with the brightness attribute,
             # the brightness state won't remain when turned of and on again.
-            self.turn_on(self.light["name"])
+            await self.on()
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         if min_ <= new_state_attribute <= max_:
-            self.turn_on(self.light["name"], **attributes)
+            await self.on(**attributes)
             self.value_attribute = new_state_attribute
             return False
         else:
             new_state_attribute = max(min_, min(new_state_attribute, max_))
             attributes[attribute] = new_state_attribute
-            self.turn_on(self.light["name"], **attributes)
+            await self.on(**attributes)
             self.value_attribute = new_state_attribute
             return True
 
@@ -415,30 +423,29 @@ class MediaPlayerController(ReleaseHoldController):
     def initialize(self):
         super().initialize()
         self.media_player = self.args["media_player"]
-        self.volume = None
 
     @action
-    def play_pause(self):
+    async def play_pause(self):
         self.call_service("media_player/media_play_pause", entity_id=self.media_player)
 
     @action
-    def previous_track(self):
+    async def previous_track(self):
         self.call_service(
             "media_player/media_previous_track", entity_id=self.media_player
         )
 
     @action
-    def next_track(self):
+    async def next_track(self):
         self.call_service("media_player/media_next_track", entity_id=self.media_player)
 
     @action
-    def hold(self, direction):
+    async def hold(self, direction):
         # This variable is responsible to count how many times hold_loop has been called
         # so we don't fall in a infinite loop
         self.hold_loop_times = 0
-        super().hold(direction)
+        await super().hold(direction)
 
-    def hold_loop(self, direction):
+    async def hold_loop(self, direction):
         if direction == Controller.DIRECTION_UP:
             self.call_service("media_player/volume_up", entity_id=self.media_player)
         else:
@@ -472,68 +479,68 @@ class E1810Controller(LightController):
 
     def get_state_actions_mapping(self):
         return {
-            "toggle": lambda: self.toggle(),
-            "brightness_up_click": lambda: self.click(
+            "toggle": self.toggle,
+            "brightness_up_click": (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "brightness_down_click": lambda: self.click(
+            "brightness_down_click": (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "arrow_left_click": lambda: self.click(
+            "arrow_left_click": (self.click,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
-            "arrow_right_click": lambda: self.click(
+            "arrow_right_click": (self.click,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
-            "brightness_up_hold": lambda: self.hold(
+            "brightness_up_hold": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "brightness_up_release": lambda: self.release(),
-            "brightness_down_hold": lambda: self.hold(
+            "brightness_up_release": self.release,
+            "brightness_down_hold": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "brightness_down_release": lambda: self.release(),
-            "arrow_left_hold": lambda: self.hold(
+            "brightness_down_release": self.release,
+            "arrow_left_hold": (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
-            "arrow_left_release": lambda: self.release(),
-            "arrow_right_hold": lambda: self.hold(
+            "arrow_left_release": self.release,
+            "arrow_right_hold": (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
-            "arrow_right_release": lambda: self.release(),
+            "arrow_right_release": self.release,
         }
     
     def get_event_actions_mapping(self):
         return {
-            1002: lambda: self.toggle(),
-            2002: lambda: self.click(
+            1002: self.toggle,
+            2002: (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            3002: lambda: self.click(
+            3002: (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            4002: lambda: self.click(
+            4002: (self.click,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
-            5002: lambda: self.click(
+            5002: (self.click,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
-            2001: lambda: self.hold(
+            2001: (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            2003: lambda: self.release(),
-            3001: lambda: self.hold(
+            2003: self.release,
+            3001: (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            3003: lambda: self.release(),
-            4001: lambda: self.hold(
+            3003: self.release,
+            4001: (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
-            4003: lambda: self.release(),
-            5001: lambda: self.hold(
+            4003: self.release,
+            5001: (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
-            5003: lambda: self.release(),
+            5003: self.release,
         }
 
 
@@ -543,15 +550,15 @@ class E1743Controller(LightController):
 
     def get_state_actions_mapping(self):
         return {
-            "on": lambda: self.on(),
-            "off": lambda: self.off(),
-            "brightness_up": lambda: self.hold(
+            "on": self.on,
+            "off": self.off,
+            "brightness_up": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "brightness_down": lambda: self.hold(
+            "brightness_down": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "brightness_stop": lambda: self.release(),
+            "brightness_stop": self.release,
         }
 
 
@@ -562,26 +569,26 @@ class ICTCG1Controller(LightController):
     # rotate_stop
 
     @action
-    def rotate_left_quick(self):
-        self.release()
-        self.off()
+    async def rotate_left_quick(self):
+        await self.release()
+        await self.off()
 
     @action
-    def rotate_right_quick(self):
-        self.release()
-        self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
+    async def rotate_right_quick(self):
+        await self.release()
+        await self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
 
     def get_state_actions_mapping(self):
         return {
-            "rotate_left": lambda: self.hold(
+            "rotate_left": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "rotate_left_quick": lambda: self.rotate_left_quick(),
-            "rotate_right": lambda: self.hold(
+            "rotate_left_quick": self.rotate_left_quick,
+            "rotate_right": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "rotate_right_quick": lambda: self.rotate_right_quick(),
-            "rotate_stop": lambda: self.release(),
+            "rotate_right_quick": self.rotate_right_quick,
+            "rotate_stop": self.release,
         }
 
 
@@ -592,30 +599,33 @@ class E1744LightController(LightController):
 
     def get_state_actions_mapping(self):
         return {
-            "rotate_left": lambda: self.hold(
+            "rotate_left": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "rotate_right": lambda: self.hold(
+            "rotate_right": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "rotate_stop": lambda: self.release(),
-            "play_pause": lambda: self.toggle(),
-            "skip_forward": lambda: self.on_full(LightController.ATTRIBUTE_BRIGHTNESS),
+            "rotate_stop": self.release,
+            "play_pause": self.toggle,
+            "skip_forward": (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
         }
     
     def get_event_actions_mapping(self):
         return {
-            2001: lambda: self.hold(
+            2001: (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            3001: lambda: self.hold(
+            3001: (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            2003: lambda: self.release(),
-            3003: lambda: self.release(),
-            1002: lambda: self.toggle(),
-            1004: lambda: self.on_full(LightController.ATTRIBUTE_BRIGHTNESS),
+            2003: self.release,
+            3003: self.release,
+            1002: self.toggle,
+            1004: (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
         }
+
+    def default_delay(self):
+        return 1200
 
 
 class E1744MediaPlayerController(MediaPlayerController):
@@ -625,24 +635,27 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_state_actions_mapping(self):
         return {
-            "rotate_left": lambda: self.hold(Controller.DIRECTION_DOWN),
-            "rotate_right": lambda: self.hold(Controller.DIRECTION_UP),
-            "rotate_stop": lambda: self.release(),
-            "play_pause": lambda: self.play_pause(),
-            "skip_forward": lambda: self.next_track(),
-            "skip_backward": lambda: self.previous_track(),
+            "rotate_left": (self.hold, Controller.DIRECTION_DOWN),
+            "rotate_right": (self.hold, Controller.DIRECTION_UP),
+            "rotate_stop": self.release,
+            "play_pause": self.play_pause,
+            "skip_forward": self.next_track,
+            "skip_backward": self.previous_track,
         }
 
     def get_event_actions_mapping(self):
         return {
-            2001: lambda: self.hold(Controller.DIRECTION_DOWN),
-            3001: lambda: self.hold(Controller.DIRECTION_UP),
-            2003: lambda: self.release(),
-            3003: lambda: self.release(),
-            1002: lambda: self.play_pause(),
-            1004: lambda: self.next_track(),
-            1005: lambda: self.previous_track(),
+            2001: (self.hold, Controller.DIRECTION_DOWN),
+            3001: (self.hold, Controller.DIRECTION_UP),
+            2003: self.release,
+            3003: self.release,
+            1002: self.play_pause,
+            1004: self.next_track,
+            1005: self.previous_track,
         }
+
+    def default_delay(self):
+        return 1000
 
 class HueDimmerController(LightController):
     # Different states reported from the controller:
@@ -652,56 +665,54 @@ class HueDimmerController(LightController):
 
     def get_state_actions_mapping(self):
         return {
-            "on-press": lambda: self.on(),
-            "on-hold": lambda: self.hold(
+            "on-press": self.on,
+            "on-hold": (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
-            "on-hold-release": lambda: self.release(),
-            "up-press": lambda: self.click(
+            "on-hold-release": (self.release,),
+            "up-press": (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "up-hold": lambda: self.hold(
+            "up-hold": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            "up-hold-release": lambda: self.release(),
-            "down-press": lambda: self.click(
+            "up-hold-release": self.release,
+            "down-press": (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "down-hold": lambda: self.hold(
+            "down-hold": (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
             ),
-            "down-hold-release": lambda: self.release(),
-            "off-press": lambda: self.off(),
-            "off-hold": lambda: self.hold(
+            "down-hold-release": self.release,
+            "off-press": self.off,
+            "off-hold": (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
-            "off-hold-release": lambda: self.release(),
+            "off-hold-release": self.release,
         }
 
     def get_event_actions_mapping(self):
         return {
-            1000: lambda: self.on(),
-            1001: lambda: self.hold(
+            1000: self.on,
+            1001: (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
             ),
-            1003: lambda: self.release(),
-            2000: lambda: self.click(
+            1003: self.release,
+            2000: (self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            2001: lambda: self.hold(
+            2001: (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            2003: lambda: self.release(),
-            3000: lambda: self.click(
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
-            ),
-            3001: lambda: self.hold(
+            2003: self.release,
+            3000: (self.click,LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN),
+            3001: (self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
             ),
-            3003: lambda: self.release(),
-            4000: lambda: self.off(),
-            4001: lambda: self.hold(
+            3003: self.release,
+            4000: self.off,
+            4001: (self.hold,
                 LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
             ),
-            4003: lambda: self.release(),
+            4003: self.release,
         }

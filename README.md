@@ -2,6 +2,8 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
+:warning: This app has lost the support for AppDaemon 3.x, please migrate to AppDaemon 4.x. The hassio addon for it has been released recently.
+
 _Bring full functionality to light and media player controllers_
 
 This automation brings the following functionalities for different [devices](https://github.com/xaviml/z2m_ikea_controller/wiki/Supported-controllers):
