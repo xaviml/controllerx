@@ -102,7 +102,7 @@ class Controller(hass.Hass, abc.ABC):
         await self.handle_action(new)
 
     async def event_callback(self, event_name, data, kwargs):
-        self.handle_action(data["event"])
+        await self.handle_action(data["event"])
 
     async def handle_action(self, action_key):
         if action_key in self.actions_mapping:
