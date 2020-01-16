@@ -443,6 +443,14 @@ class MediaPlayerController(ReleaseHoldController):
         self.call_service("media_player/media_next_track", entity_id=self.media_player)
 
     @action
+    async def volume_up(self):
+        self.call_service("media_player/volume_up", entity_id=self.media_player)
+
+    @action
+    async def volume_down(self):
+        self.call_service("media_player/volume_down", entity_id=self.media_player)
+
+    @action
     async def hold(self, direction):
         # This variable is responsible to count how many times hold_loop has been called
         # so we don't fall in a infinite loop
@@ -577,6 +585,49 @@ class E1810Controller(LightController):
                 LightController.DIRECTION_UP,
             ),
             5003: self.release,
+        }
+
+
+class E1810MediaPlayerController(MediaPlayerController):
+    # Different states reported from the controller:
+    # toggle, brightness_up_click, brightness_down_click
+    # arrow_left_click, arrow_right_click, brightness_up_hold
+    # brightness_up_release, brightness_down_hold, brightness_down_release,
+    # arrow_left_hold, arrow_left_release, arrow_right_hold
+    # arrow_right_release
+
+    def get_state_actions_mapping(self):
+        return {
+            "toggle": self.play_pause,
+            "brightness_up_click": self.volume_up,
+            "brightness_down_click": self.volume_down,
+            "arrow_left_click": self.previous_track,
+            "arrow_right_click": self.next_track,
+            "brightness_up_hold": (self.hold, Controller.DIRECTION_UP),
+            "brightness_up_release": self.release,
+            "brightness_down_hold": (self.hold, Controller.DIRECTION_DOWN),
+            "brightness_down_release": self.release,
+            "arrow_left_hold": (),
+            "arrow_left_release": (),
+            "arrow_right_hold": (),
+            "arrow_right_release": (),
+        }
+
+    def get_event_actions_mapping(self):
+        return {
+            1002: self.play_pause,
+            2002: self.volume_up,
+            3002: self.volume_down,
+            4002: self.previous_track,
+            5002: self.next_track,
+            2001: (self.hold, Controller.DIRECTION_UP),
+            2003: self.release,
+            3001: (self.hold, Controller.DIRECTION_DOWN),
+            3003: self.release,
+            4001: (),
+            4003: (),
+            5001: (),
+            5003: (),
         }
 
 
