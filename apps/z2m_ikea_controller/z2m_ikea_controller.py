@@ -51,7 +51,7 @@ class Controller(hass.Hass, abc.ABC):
 
     def initialize(self):
         ad_version = self.get_ad_version()
-        major, minor, patch = ad_version.split('.')
+        major, minor, patch = ad_version.split(".")
         if int(major) < 4:
             raise ValueError("Please upgrade to AppDaemon 4.x")
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
@@ -126,9 +126,11 @@ class Controller(hass.Hass, abc.ABC):
         if type(action_value) == tuple or type(action_value) == list:
             return action_value
         elif callable(action_value):
-            return  (action_value,)
+            return (action_value,)
         else:
-            raise ValueError("The action value from the action mapping should be a list or a function")
+            raise ValueError(
+                "The action value from the action mapping should be a list or a function"
+            )
 
     def get_state_actions_mapping(self):
         """
@@ -170,7 +172,7 @@ class ReleaseHoldController(Controller, abc.ABC):
         stop = False
         while self.on_hold and not stop:
             stop = await self.hold_loop(*args)
-            await self.sleep(self.delay/1000)
+            await self.sleep(self.delay / 1000)
 
     async def before_action(self, action, *args, **kwargs):
         to_return = not (action == "hold" and self.on_hold)
@@ -285,7 +287,9 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on(self, **attributes):
-        self.call_service("homeassistant/turn_on", entity_id=self.light["name"], **attributes)
+        self.call_service(
+            "homeassistant/turn_on", entity_id=self.light["name"], **attributes
+        )
 
     @action
     async def off(self):
@@ -297,7 +301,7 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on_full(self, attribute):
-        self.change_light_state(
+        await self.change_light_state(
             self.attribute_minmax[attribute]["min"], attribute, self.DIRECTION_UP, 1
         )
 
@@ -480,65 +484,97 @@ class E1810Controller(LightController):
     def get_state_actions_mapping(self):
         return {
             "toggle": self.toggle,
-            "brightness_up_click": (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "brightness_up_click": (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
-            "brightness_down_click": (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "brightness_down_click": (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
-            "arrow_left_click": (self.click,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            "arrow_left_click": (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_DOWN,
             ),
-            "arrow_right_click": (self.click,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            "arrow_right_click": (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_UP,
             ),
-            "brightness_up_hold": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "brightness_up_hold": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             "brightness_up_release": self.release,
-            "brightness_down_hold": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "brightness_down_hold": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
             "brightness_down_release": self.release,
-            "arrow_left_hold": (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            "arrow_left_hold": (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_DOWN,
             ),
             "arrow_left_release": self.release,
-            "arrow_right_hold": (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            "arrow_right_hold": (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_UP,
             ),
             "arrow_right_release": self.release,
         }
-    
+
     def get_event_actions_mapping(self):
         return {
             1002: self.toggle,
-            2002: (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            2002: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
-            3002: (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            3002: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
-            4002: (self.click,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            4002: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_DOWN,
             ),
-            5002: (self.click,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            5002: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_UP,
             ),
-            2001: (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            2001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             2003: self.release,
-            3001: (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            3001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
             3003: self.release,
-            4001: (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            4001: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_DOWN,
             ),
             4003: self.release,
-            5001: (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            5001: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_UP,
             ),
             5003: self.release,
         }
@@ -552,11 +588,15 @@ class E1743Controller(LightController):
         return {
             "on": self.on,
             "off": self.off,
-            "brightness_up": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "brightness_up": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
-            "brightness_down": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "brightness_down": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
             "brightness_stop": self.release,
         }
@@ -580,12 +620,16 @@ class ICTCG1Controller(LightController):
 
     def get_state_actions_mapping(self):
         return {
-            "rotate_left": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "rotate_left": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
             "rotate_left_quick": self.rotate_left_quick,
-            "rotate_right": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "rotate_right": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             "rotate_right_quick": self.rotate_right_quick,
             "rotate_stop": self.release,
@@ -599,24 +643,32 @@ class E1744LightController(LightController):
 
     def get_state_actions_mapping(self):
         return {
-            "rotate_left": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "rotate_left": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
-            "rotate_right": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "rotate_right": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             "rotate_stop": self.release,
             "play_pause": self.toggle,
             "skip_forward": (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
         }
-    
+
     def get_event_actions_mapping(self):
         return {
-            2001: (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            2001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
-            3001: (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            3001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             2003: self.release,
             3003: self.release,
@@ -657,6 +709,7 @@ class E1744MediaPlayerController(MediaPlayerController):
     def default_delay(self):
         return 1000
 
+
 class HueDimmerController(LightController):
     # Different states reported from the controller:
     # on-press, on-hold, on-hold-release, up-press, up-hold,
@@ -666,27 +719,39 @@ class HueDimmerController(LightController):
     def get_state_actions_mapping(self):
         return {
             "on-press": self.on,
-            "on-hold": (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            "on-hold": (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_UP,
             ),
             "on-hold-release": (self.release,),
-            "up-press": (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "up-press": (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
-            "up-hold": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            "up-hold": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             "up-hold-release": self.release,
-            "down-press": (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "down-press": (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
-            "down-hold": (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN
+            "down-hold": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
             ),
             "down-hold-release": self.release,
             "off-press": self.off,
-            "off-hold": (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            "off-hold": (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_DOWN,
             ),
             "off-hold-release": self.release,
         }
@@ -694,25 +759,39 @@ class HueDimmerController(LightController):
     def get_event_actions_mapping(self):
         return {
             1000: self.on,
-            1001: (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_UP
+            1001: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_UP,
             ),
             1003: self.release,
-            2000: (self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            2000: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
-            2001: (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            2001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             2003: self.release,
-            3000: (self.click,LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_DOWN),
-            3001: (self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS, LightController.DIRECTION_UP
+            3000: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
+            ),
+            3001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
             ),
             3003: self.release,
             4000: self.off,
-            4001: (self.hold,
-                LightController.ATTRIBUTE_COLOR, LightController.DIRECTION_DOWN
+            4001: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                LightController.DIRECTION_DOWN,
             ),
             4003: self.release,
         }
