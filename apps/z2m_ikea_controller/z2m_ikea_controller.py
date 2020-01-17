@@ -607,10 +607,6 @@ class E1810MediaPlayerController(MediaPlayerController):
             "brightness_up_release": self.release,
             "brightness_down_hold": (self.hold, Controller.DIRECTION_DOWN),
             "brightness_down_release": self.release,
-            "arrow_left_hold": (),
-            "arrow_left_release": (),
-            "arrow_right_hold": (),
-            "arrow_right_release": (),
         }
 
     def get_event_actions_mapping(self):
@@ -624,10 +620,6 @@ class E1810MediaPlayerController(MediaPlayerController):
             2003: self.release,
             3001: (self.hold, Controller.DIRECTION_DOWN),
             3003: self.release,
-            4001: (),
-            4003: (),
-            5001: (),
-            5003: (),
         }
 
 
