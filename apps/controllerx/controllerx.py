@@ -1,7 +1,8 @@
 """
-Bring full functionality to light controllers
+Bring full functionality to light and media player controllers.
+From turning devices on/off to changing the color lights.
 
-https://github.com/xaviml/z2m_ikea_controller
+https://github.com/xaviml/controllerx
 """
 import abc
 import math
