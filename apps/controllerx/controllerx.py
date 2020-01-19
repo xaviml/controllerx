@@ -645,6 +645,24 @@ class E1743Controller(LightController):
             "brightness_stop": self.release,
         }
 
+    def get_event_actions_mapping(self):
+        return {
+            2002: self.on,
+            1002: self.off,
+            2001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
+            ),
+            1001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
+            ),
+            2003: self.release,
+            1003: self.release,
+        }
+
 
 class ICTCG1Controller(LightController):
     # Different states reported from the controller:
