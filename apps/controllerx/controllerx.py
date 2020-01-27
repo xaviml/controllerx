@@ -5,13 +5,14 @@ From turning devices on/off to changing the color lights.
 https://github.com/xaviml/controllerx
 """
 import abc
-import math
-import random
 import time
 from collections import defaultdict
 from functools import wraps
 
-import hassapi as hass
+try:
+    import hassapi as hass
+except:
+    import appdaemon.plugins.hass.hassapi as hass
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -469,6 +470,33 @@ class MediaPlayerController(ReleaseHoldController):
     def default_delay(self):
         return 500
 
+###############################################################
+###############################################################
+###  CUSTOM CONTROLLERS                                     ###
+###                                                         ###
+###  In this section, we will find the code for custom      ###
+###  controllers. They allow to customize different any     ###
+###  controller through yaml configuration                  ###
+###############################################################
+###############################################################
+
+# class CustomLightController(LightController):
+# 
+#     CUSTOM_LIGHT_ACTIONS = {
+#         "click_on", self.on,
+#         "click_off", self.off
+#         "click_brightness_up", self.
+#     }
+#     def initialize(self):
+#         self.custom_mapping = self.args["mapping"]
+#         self.log(self.custom_mapping)
+#         super().initialize()
+# 
+#     def get_state_actions_mapping(self):
+#         return {}
+# 
+#     def get_event_actions_mapping(self):
+#         return {}
 
 ###############################################################
 ###############################################################
