@@ -28,4 +28,4 @@ def hass_mock(monkeypatch, mocker):
 
     c = Controller()
     c.args = {}
-    return 
+    return

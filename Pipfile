@@ -7,8 +7,9 @@ verify_ssl = true
 black = "==19.10b0"
 pytest = "==5.3.4"
 pytest-asyncio = "==0.10.0"
-pytest-cov = "*"
-pytest-mock = "*"
+pytest-cov = "==2.8.1"
+pytest-mock = "==2.0.0"
+pre-commit = "==2.0.1"
 
 [packages]
 appdaemon = "==4.0.1"

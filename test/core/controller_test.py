@@ -257,4 +257,3 @@ async def test_get_attr_value(sut, mocker, monkeypatch, entity_input, expected_c
         stub_get_state.call_count == 2
         stub_get_state.assert_any_call(entity_input, attribute="entity_id")
         stub_get_state.assert_any_call("entity.test", attribute="attribute_test")
-
