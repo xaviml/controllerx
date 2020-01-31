@@ -36,8 +36,6 @@ class Controller(hass.Hass, abc.ABC):
     actions to the internal functions.
     """
 
-    DIRECTION_UP = "up"
-    DIRECTION_DOWN = "down"
     action_times = defaultdict(lambda: 0)
 
     def initialize(self):

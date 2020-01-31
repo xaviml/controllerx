@@ -1,4 +1,4 @@
-from core import Controller, LightController, MediaPlayerController, action
+from core import LightController, MediaPlayerController, Stepper, action
 
 
 class E1810Controller(LightController):
@@ -14,46 +14,34 @@ class E1810Controller(LightController):
             "toggle": self.toggle,
             "brightness_up_click": (
                 self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
+                Stepper.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
             ),
             "brightness_down_click": (
                 self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
             ),
-            "arrow_left_click": (
-                self.click,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_DOWN,
-            ),
-            "arrow_right_click": (
-                self.click,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_UP,
-            ),
+            "arrow_left_click": (self.click, Stepper.ATTRIBUTE_COLOR, Stepper.DOWN,),
+            "arrow_right_click": (self.click, Stepper.ATTRIBUTE_COLOR, Stepper.UP,),
             "brightness_up_hold": (
                 self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
+                Stepper.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
             ),
             "brightness_up_release": self.release,
             "brightness_down_hold": (
                 self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
             ),
             "brightness_down_release": self.release,
-            "arrow_left_hold": (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_DOWN,
-            ),
+            "arrow_left_hold": (self.hold, Stepper.ATTRIBUTE_COLOR, Stepper.DOWN,),
             "arrow_left_release": self.release,
             "arrow_right_hold": (
                 self.hold,
                 LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_UP,
+                Stepper.UP,
             ),
             "arrow_right_release": self.release,
         }
@@ -61,49 +49,17 @@ class E1810Controller(LightController):
     def get_deconz_actions_mapping(self):
         return {
             1002: self.toggle,
-            2002: (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
-            3002: (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
-            ),
-            4002: (
-                self.click,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_DOWN,
-            ),
-            5002: (
-                self.click,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_UP,
-            ),
-            2001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
+            2002: (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
+            3002: (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN,),
+            4002: (self.click, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
+            5002: (self.click, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
+            2001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
             2003: self.release,
-            3001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
-            ),
+            3001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN,),
             3003: self.release,
-            4001: (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_DOWN,
-            ),
+            4001: (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
             4003: self.release,
-            5001: (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_UP,
-            ),
+            5001: (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
             5003: self.release,
         }
 
@@ -123,9 +79,9 @@ class E1810MediaPlayerController(MediaPlayerController):
             "brightness_down_click": self.volume_down,
             "arrow_left_click": self.previous_track,
             "arrow_right_click": self.next_track,
-            "brightness_up_hold": (self.hold, Controller.DIRECTION_UP),
+            "brightness_up_hold": (self.hold, Controller.UP),
             "brightness_up_release": self.release,
-            "brightness_down_hold": (self.hold, Controller.DIRECTION_DOWN),
+            "brightness_down_hold": (self.hold, Controller.DOWN),
             "brightness_down_release": self.release,
         }
 
@@ -136,9 +92,9 @@ class E1810MediaPlayerController(MediaPlayerController):
             3002: self.volume_down,
             4002: self.previous_track,
             5002: self.next_track,
-            2001: (self.hold, Controller.DIRECTION_UP),
+            2001: (self.hold, Controller.UP),
             2003: self.release,
-            3001: (self.hold, Controller.DIRECTION_DOWN),
+            3001: (self.hold, Controller.DOWN),
             3003: self.release,
         }
 
@@ -154,12 +110,12 @@ class E1743Controller(LightController):
             "brightness_up": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
+                Stepper.UP,
             ),
             "brightness_down": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.DOWN,
             ),
             "brightness_stop": self.release,
         }
@@ -186,13 +142,13 @@ class ICTCG1Controller(LightController):
             "rotate_left": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.DOWN,
             ),
             "rotate_left_quick": self.rotate_left_quick,
             "rotate_right": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
+                Stepper.UP,
             ),
             "rotate_right_quick": self.rotate_right_quick,
             "rotate_stop": self.release,
@@ -209,12 +165,12 @@ class E1744LightController(LightController):
             "rotate_left": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.DOWN,
             ),
             "rotate_right": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
+                Stepper.UP,
             ),
             "rotate_stop": self.release,
             "play_pause": self.toggle,
@@ -223,16 +179,8 @@ class E1744LightController(LightController):
 
     def get_deconz_actions_mapping(self):
         return {
-            2001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
-            ),
-            3001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
+            2001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN,),
+            3001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
             2003: self.release,
             3003: self.release,
             1002: self.toggle,
@@ -250,8 +198,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_z2m_actions_mapping(self):
         return {
-            "rotate_left": (self.hold, Controller.DIRECTION_DOWN),
-            "rotate_right": (self.hold, Controller.DIRECTION_UP),
+            "rotate_left": (self.hold, Controller.DOWN),
+            "rotate_right": (self.hold, Controller.UP),
             "rotate_stop": self.release,
             "play_pause": self.play_pause,
             "skip_forward": self.next_track,
@@ -260,8 +208,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_deconz_actions_mapping(self):
         return {
-            2001: (self.hold, Controller.DIRECTION_DOWN),
-            3001: (self.hold, Controller.DIRECTION_UP),
+            2001: (self.hold, Controller.DOWN),
+            3001: (self.hold, Controller.UP),
             2003: self.release,
             3003: self.release,
             1002: self.play_pause,

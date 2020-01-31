@@ -1,4 +1,4 @@
-from core import Controller, LightController
+from core import LightController, Stepper
 
 
 class HueDimmerController(LightController):
@@ -10,80 +10,40 @@ class HueDimmerController(LightController):
     def get_z2m_actions_mapping(self):
         return {
             "on-press": self.on,
-            "on-hold": (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_UP,
-            ),
+            "on-hold": (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
             "on-hold-release": (self.release,),
-            "up-press": (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
-            "up-hold": (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
+            "up-press": (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
+            "up-hold": (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
             "up-hold-release": self.release,
             "down-press": (
                 self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.DOWN,
             ),
             "down-hold": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
+                Stepper.DOWN,
             ),
             "down-hold-release": self.release,
             "off-press": self.off,
-            "off-hold": (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_DOWN,
-            ),
+            "off-hold": (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
             "off-hold-release": self.release,
         }
 
     def get_deconz_actions_mapping(self):
         return {
             1000: self.on,
-            1001: (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_UP,
-            ),
+            1001: (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
             1003: self.release,
-            2000: (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
-            2001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
+            2000: (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
+            2001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
             2003: self.release,
-            3000: (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
-            ),
-            3001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
+            3000: (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN,),
+            3001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
             3003: self.release,
             4000: self.off,
-            4001: (
-                self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                LightController.DIRECTION_DOWN,
-            ),
+            4001: (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
             4003: self.release,
         }
 

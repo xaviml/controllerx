@@ -1,4 +1,5 @@
-from core.controller import Controller, ReleaseHoldController, action
+from core.controller import ReleaseHoldController, action
+from core.stepper import Stepper
 
 
 class MediaPlayerController(ReleaseHoldController):
@@ -36,7 +37,7 @@ class MediaPlayerController(ReleaseHoldController):
         await super().hold(direction)
 
     async def hold_loop(self, direction):
-        if direction == Controller.DIRECTION_UP:
+        if direction == Stepper.UP:
             self.call_service("media_player/volume_up", entity_id=self.media_player)
         else:
             self.call_service("media_player/volume_down", entity_id=self.media_player)

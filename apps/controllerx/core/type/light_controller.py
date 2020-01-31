@@ -1,4 +1,5 @@
-from core.controller import Controller, ReleaseHoldController, action
+from core.controller import ReleaseHoldController, action
+from core.stepper import Stepper, MinMax
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -54,20 +55,17 @@ class LightController(ReleaseHoldController):
         (0.677, 0.319),
     ]
 
-    attribute_minmax = {
-        "brightness": {"min": 1, "max": 255},
-        "color_temp": {"min": 153, "max": 500},
-    }
-
-    sign_mapping = {Controller.DIRECTION_UP: 1, Controller.DIRECTION_DOWN: -1}
+    attribute_minmax = {"brightness": MinMax(1, 255), "color_temp": MinMax(153, 500)}
+    index_color = 0
+    value_attribute = None
 
     def initialize(self):
         super().initialize()
         self.light = self.get_light(self.args["light"])
-        self.manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
-        self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
-        self.value_attribute = None
-        self.index_color = 0
+        manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
+        automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
+        self.manual_stepper = Stepper(attribute_minmax, manual_steps)
+        self.automatic_stepper = Stepper(attribute_minmax, automatic_steps)
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
@@ -99,7 +97,7 @@ class LightController(ReleaseHoldController):
     @action
     async def on_full(self, attribute):
         await self.change_light_state(
-            self.attribute_minmax[attribute]["min"], attribute, self.DIRECTION_UP, 1
+            self.attribute_minmax[attribute]["min"], attribute, Stepper.UP, 1
         )
 
     async def get_attribute(self, attribute):
@@ -128,7 +126,7 @@ class LightController(ReleaseHoldController):
 
     def check_smooth_power_on(self, attribute, direction, light_state):
         return (
-            direction == LightController.DIRECTION_UP
+            direction == Stepper.UP
             and attribute == self.ATTRIBUTE_BRIGHTNESS
             and self.smooth_power_on
             and light_state == "off"
@@ -149,7 +147,7 @@ class LightController(ReleaseHoldController):
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         await self.change_light_state(
-            self.value_attribute, attribute, direction, self.manual_steps
+            self.value_attribute, attribute, direction, self.manual_stepper
         )
 
     @action
@@ -160,18 +158,17 @@ class LightController(ReleaseHoldController):
 
     async def hold_loop(self, attribute, direction):
         return await self.change_light_state(
-            self.value_attribute, attribute, direction, self.automatic_steps
+            self.value_attribute, attribute, direction, self.automatic_stepper
         )
 
-    async def change_light_state(self, old, attribute, direction, steps):
+    async def change_light_state(self, old, attribute, direction, stepper):
         """
         This functions changes the state of the light depending on the previous
         value and attribute. It returns True when no more changes will need to be done.
         Otherwise, it returns False.
         """
-        sign = self.sign_mapping[direction]
         if attribute == "xy_color":
-            self.index_color += sign
+            self.index_color += Stepper.sign(direction)
             self.index_color = self.index_color % len(self.colors)
             new_state_attribute = self.colors[self.index_color]
             attributes = {
@@ -185,10 +182,7 @@ class LightController(ReleaseHoldController):
             # would be to force the loop to stop after 4 or 5 loops as a safety measure.
             return False
         self.log(f"Attribute: {attribute}; Current value: {old}", level="DEBUG")
-        max_ = self.attribute_minmax[attribute]["max"]
-        min_ = self.attribute_minmax[attribute]["min"]
-        step = (max_ - min_) // steps
-        new_state_attribute = old + sign * step
+        new_state_attribute, exceeded = stepper.step(old, attribute, direction)
         if self.check_smooth_power_on(
             attribute, direction, await self.get_state(self.light["name"])
         ):
@@ -198,16 +192,9 @@ class LightController(ReleaseHoldController):
             # the brightness state won't remain when turned of and on again.
             await self.on()
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
-        if min_ <= new_state_attribute <= max_:
-            await self.on(**attributes)
-            self.value_attribute = new_state_attribute
-            return False
-        else:
-            new_state_attribute = max(min_, min(new_state_attribute, max_))
-            attributes[attribute] = new_state_attribute
-            await self.on(**attributes)
-            self.value_attribute = new_state_attribute
-            return True
+        await self.on(**attributes)
+        self.value_attribute = new_state_attribute
+        return exceeded
 
     def supports_smooth_power_on(self):
         """
