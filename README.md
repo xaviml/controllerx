@@ -3,6 +3,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 
 ## Breaking changes
+
 :warning: This app has lost the support for AppDaemon 3.x, please migrate to AppDaemon 4.x. The hassio addon for it has been released recently.
 
 :warning: The module is called now controllerx.
@@ -87,4 +88,8 @@ These are the generic app parameters for all type of controllers. You can see th
 | `actions`      | True     | list           | All actions    |                                                                 | This is a list of actions to be included and controlled by the app. To see which actions has each controller check the [supported controllers](https://github.com/xaviml/controllerx/wiki/Supported-controllers) page                                                                                                  |
 | `action_delta` | True     | int            | 300            |                                                                 | This is the threshold time between the previous action and the next one (being the same action). If the time difference between the two actions is less than this attribute, then the action won't be called. I recommend changing this if you see the same action being called twice.                                 |
 
-_Note: This was tested with zigbee2mqtt, IKEA devices and the Philips Hue dimmer, but the code does not use any MQTT calls, just the Home Assistant API._
+## Contributing
+
+See [CONTRIBUTING.md](/CONTRIBUTING.md)
+
+_Note: The code does not use any MQTT calls, just the Home Assistant API from AppDaemon._
