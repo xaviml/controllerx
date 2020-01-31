@@ -126,7 +126,7 @@ class Controller(hass.Hass, abc.ABC):
         """
         Controllers can implement this function. It should return a dict
         with the states that a controller can take and the functions as values.
-        This is used for z2m support.
+        This is used for zigbee2mqtt support.
         """
         return None
 
@@ -135,6 +135,14 @@ class Controller(hass.Hass, abc.ABC):
         Controllers can implement this function. It should return a dict
         with the event id that a controller can take and the functions as values.
         This is used for deCONZ support.
+        """
+        return None
+
+    def get_zha_actions_mapping(self):
+        """
+        Controllers can implement this function. It should return a dict
+        with the command that a controller can take and the functions as values.
+        This is used for ZHA support.
         """
         return None
 

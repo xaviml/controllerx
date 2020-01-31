@@ -6,10 +6,12 @@ class ZHAIntegration(Integration):
         super().__init__("zha", controller)
 
     def get_actions_mapping(self):
-        return None
+        return self.controller.get_zha_actions_mapping()
 
     def listen_changes(self, controller_id):
-        pass
+        self.controller.listen_event(
+            self.callback, "zha_event", device_ieee=controller_id
+        )
 
     async def callback(self, event_name, data, kwargs):
-        await self.controller.handle_action(data["event"])
+        await self.controller.handle_action(data["command"])

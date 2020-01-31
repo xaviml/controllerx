@@ -86,3 +86,7 @@ class HueDimmerController(LightController):
             ),
             4003: self.release,
         }
+
+    def get_zha_actions_mapping(self):
+        # return {"on": self.on, "off_with_effect": self.off}
+        return None
