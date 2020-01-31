@@ -22,7 +22,6 @@ def sut(hass_mock):
 
 
 def test_initialize(sut, monkeypatch):
-
     monkeypatch.setattr(Controller, "initialize", lambda self: None)
     monkeypatch.setattr(sut, "default_delay", lambda: 500)
     monkeypatch.setattr(sut, "sleep", lambda time: None)

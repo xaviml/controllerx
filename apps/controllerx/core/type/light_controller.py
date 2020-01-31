@@ -64,8 +64,10 @@ class LightController(ReleaseHoldController):
         self.light = self.get_light(self.args["light"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
-        self.manual_stepper = Stepper(attribute_minmax, manual_steps)
-        self.automatic_stepper = Stepper(attribute_minmax, automatic_steps)
+        self.manual_stepper = Stepper(LightController.attribute_minmax, manual_steps)
+        self.automatic_stepper = Stepper(
+            LightController.attribute_minmax, automatic_steps
+        )
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
