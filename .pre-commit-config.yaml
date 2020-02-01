@@ -1,0 +1,24 @@
+repos:
+-   repo: https://github.com/psf/black
+    rev: 19.10b0
+    hooks:
+    - id: black
+      language_version: python3.8
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+    - id: check-json
+    - id: pretty-format-json
+      args:
+      - --autofix
+      - --indent
+      - "4"
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: pytest
+        entry: pipenv run pytest
+        language: system
+        pass_filenames: false
+        types: [python]
+        always_run: true
