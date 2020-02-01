@@ -1,6 +1,8 @@
 # ControllerX
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
+[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
 
 ## Breaking changes
 
@@ -33,6 +35,7 @@ The easiest way to add this to your Homeassistant installation is using HACS wit
 Download the `controllerx` directory from inside the `apps` directory here to your local `apps` directory, then add the configuration to enable the `controllerx` module.
 
 ## Update
+
 Note that AppDaemon will need to be restarted when installing a new version of ControllerX. This is due to AppDaemon not reimporting the modules again. If AppDaemon server is not restarted, then it will keep executing the old version.
 
 ## Configuration
