@@ -1,9 +1,7 @@
 import pytest
-import sys
 
-sys.path.append("apps/controllerx")
-
-from core.stepper import Stepper, MinMax
+from core.stepper.minmax_stepper import MinMaxStepper
+from core.stepper import Stepper
 
 
 @pytest.mark.parametrize(
@@ -21,11 +19,13 @@ from core.stepper import Stepper, MinMax
         ((0, 10), 4, 5, Stepper.UP, 6, False),
     ],
 )
-def test_stepper(minmax, value, steps, direction, expected_value, expected_exceeded):
-    stepper = Stepper({"test_attribute": MinMax(*minmax)}, steps)
+def test_minmax_stepper(
+    minmax, value, steps, direction, expected_value, expected_exceeded
+):
+    stepper = MinMaxStepper(*minmax, steps)
 
     # SUT
-    new_value, exceeded = stepper.step(value, "test_attribute", direction)
+    new_value, exceeded = stepper.step(value, direction)
 
     # Checks
     assert new_value == expected_value

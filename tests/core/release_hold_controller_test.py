@@ -1,11 +1,9 @@
 import pytest
-import sys
-
-sys.path.append("apps/controllerx")
 
 from core import integration as integration_module
 from core.controller import Controller, ReleaseHoldController
-from ..utils import hass_mock, IntegrationMock
+
+from tests.utils import IntegrationMock, hass_mock
 
 
 class FakeReleaseHoldController(ReleaseHoldController):

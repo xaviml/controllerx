@@ -14,29 +14,41 @@ class E1810Controller(LightController):
             "toggle": self.toggle,
             "brightness_up_click": (
                 self.click,
-                Stepper.ATTRIBUTE_BRIGHTNESS,
+                LightController.ATTRIBUTE_BRIGHTNESS,
                 Stepper.UP,
             ),
             "brightness_down_click": (
                 self.click,
-                Stepper.ATTRIBUTE_BRIGHTNESS,
+                LightController.ATTRIBUTE_BRIGHTNESS,
                 Stepper.DOWN,
             ),
-            "arrow_left_click": (self.click, Stepper.ATTRIBUTE_COLOR, Stepper.DOWN,),
-            "arrow_right_click": (self.click, Stepper.ATTRIBUTE_COLOR, Stepper.UP,),
+            "arrow_left_click": (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.DOWN,
+            ),
+            "arrow_right_click": (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.UP,
+            ),
             "brightness_up_hold": (
                 self.hold,
-                Stepper.ATTRIBUTE_BRIGHTNESS,
+                LightController.ATTRIBUTE_BRIGHTNESS,
                 Stepper.UP,
             ),
             "brightness_up_release": self.release,
             "brightness_down_hold": (
                 self.hold,
-                Stepper.ATTRIBUTE_BRIGHTNESS,
+                LightController.ATTRIBUTE_BRIGHTNESS,
                 Stepper.DOWN,
             ),
             "brightness_down_release": self.release,
-            "arrow_left_hold": (self.hold, Stepper.ATTRIBUTE_COLOR, Stepper.DOWN,),
+            "arrow_left_hold": (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.DOWN,
+            ),
             "arrow_left_release": self.release,
             "arrow_right_hold": (
                 self.hold,
@@ -118,6 +130,37 @@ class E1743Controller(LightController):
                 Stepper.DOWN,
             ),
             "brightness_stop": self.release,
+        }
+
+    def get_deconz_actions_mapping(self):
+        return {
+            1002: self.on,
+            2002: self.off,
+            1001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_UP,
+            ),
+            2001: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                LightController.DIRECTION_DOWN,
+            ),
+            1003: self.release,
+            2003: self.release,
+        }
+
+    def get_zha_actions_mapping(self):
+        return {
+            "on": self.on,
+            "off": self.off,
+            "move_with_on_off": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.TOGGLE,
+            ),
+            "move": (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN),
+            "stop": self.release,
         }
 
 

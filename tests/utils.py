@@ -21,10 +21,12 @@ def hass_mock(monkeypatch, mocker):
     """
     Fixture for set up the tests, mocking appdaemon functions
     """
-    monkeypatch.setattr(hass.Hass, "__init__", lambda self: None)
-    monkeypatch.setattr(hass.Hass, "listen_event", lambda self, callback, entity: None)
-    monkeypatch.setattr(hass.Hass, "listen_state", lambda self, callback, entity: None)
-    monkeypatch.setattr(hass.Hass, "log", lambda self, message, level: None)
+    fake_fn = lambda *args, **kwargs: None
+    monkeypatch.setattr(hass.Hass, "__init__", fake_fn)
+    monkeypatch.setattr(hass.Hass, "listen_event", fake_fn)
+    monkeypatch.setattr(hass.Hass, "listen_state", fake_fn)
+    monkeypatch.setattr(hass.Hass, "log", fake_fn)
+    monkeypatch.setattr(hass.Hass, "call_service", fake_fn)
 
     c = Controller()
     c.args = {}

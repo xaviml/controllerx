@@ -14,6 +14,7 @@ import abc
 import time
 from collections import defaultdict
 from core import integration as integration_module
+from core.stepper import Stepper
 
 
 DEFAULT_DELAY = 350  # In milliseconds

@@ -1,12 +1,9 @@
 import pytest
-import sys
-
-sys.path.append("apps/controllerx")
 
 from core import integration as integration_module
-from core.controller import action
-from core.controller import Controller
-from ..utils import hass_mock, IntegrationMock
+from core.controller import Controller, action
+
+from tests.utils import IntegrationMock, hass_mock
 
 
 @pytest.fixture
