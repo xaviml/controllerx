@@ -21,11 +21,9 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
-- script: python -m pipenv lock -r > requirements.txt
-  displayName: 'Create requirements.txt from Pipfile'
-- script: pip install -r requirements.txt
-  displayName: 'Install requirements.txt'
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest
+- script: pip install pipenv
+  displayName: 'Installing pipenv'
+- script: python -m pipenv install --dev
+  displayName: 'Installing dependencies'
+- script: pipenv run pytest --cov=apps
   displayName: 'pytest'
