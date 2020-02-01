@@ -30,5 +30,5 @@ steps:
   displayName: 'Installing dependencies'
 - script: pipenv run pre-commit run --all-files
   displayName: 'Format checker'
-- script: pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
+- script: pipenv run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
   displayName: 'Running tests'
