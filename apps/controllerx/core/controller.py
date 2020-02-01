@@ -145,7 +145,7 @@ class Controller(hass.Hass, abc.ABC):
         """
         return None
 
-    async def get_attr_value(self, entity, attribute):
+    async def get_entity_state(self, entity, attribute=None):
         if "group." in entity:
             entities = await self.get_state(entity, attribute="entity_id")
             entity = entities[0]

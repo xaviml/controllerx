@@ -65,11 +65,11 @@ async def test_get_attribute(
     attribute_expected,
     throws_error,
 ):
-    async def fake_get_state(entity, attribute=None):
+    async def fake_get_entity_state(entity, attribute=None):
         return {"attributes": set(light_attributes)}
 
     sut.light = {"name": "light", "color_mode": color_mode}
-    monkeypatch.setattr(sut, "get_state", fake_get_state)
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
     # SUT
     if throws_error:
         with pytest.raises(ValueError) as e:
@@ -85,16 +85,16 @@ async def test_get_attribute(
     "attribute_input, expected_output",
     [
         ("xy_color", None),
-        ("brightness", "return_from_fake_get_attr_value"),
-        ("color_temp", "return_from_fake_get_attr_value"),
+        ("brightness", "return_from_fake_get_entity_state"),
+        ("color_temp", "return_from_fake_get_entity_state"),
     ],
 )
 @pytest.mark.asyncio
 async def test_get_value_attribute(sut, monkeypatch, attribute_input, expected_output):
-    async def fake_get_attr_value(entity, attribute):
-        return "return_from_fake_get_attr_value"
+    async def fake_get_entity_state(entity, attribute):
+        return "return_from_fake_get_entity_state"
 
-    monkeypatch.setattr(sut, "get_attr_value", fake_get_attr_value)
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
     output = await sut.get_value_attribute(attribute_input)
@@ -152,13 +152,13 @@ async def test_change_light_state(
     expected_stop,
     expected_value_attribute,
 ):
-    async def fake_get_state(*args, **kwargs):
+    async def fake_get_entity_state(*args, **kwargs):
         return light_state
 
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.smooth_power_on = smooth_power_on
     sut.value_attribute = old
-    monkeypatch.setattr(sut, "get_state", fake_get_state)
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
     stop = await sut.change_light_state(old, attribute, direction, stepper)
@@ -231,7 +231,7 @@ async def test_click(
 ):
     value_attribute = 10
 
-    async def fake_get_state(*args, **kwargs):
+    async def fake_get_entity_state(*args, **kwargs):
         return light_state
 
     async def fake_get_value_attribute(*args, **kwargs):
@@ -240,7 +240,7 @@ async def test_click(
     async def fake_get_attribute(*args, **kwargs):
         return attribute_input
 
-    monkeypatch.setattr(sut, "get_state", fake_get_state)
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
     monkeypatch.setattr(sut, "get_value_attribute", fake_get_value_attribute)
     monkeypatch.setattr(sut, "get_attribute", fake_get_attribute)
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")
@@ -287,7 +287,7 @@ async def test_hold(
 ):
     value_attribute = 10
 
-    async def fake_get_state(*args, **kwargs):
+    async def fake_get_entity_state(*args, **kwargs):
         return light_state
 
     async def fake_get_value_attribute(*args, **kwargs):
@@ -296,7 +296,7 @@ async def test_hold(
     async def fake_get_attribute(*args, **kwargs):
         return attribute_input
 
-    monkeypatch.setattr(sut, "get_state", fake_get_state)
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
     monkeypatch.setattr(sut, "get_value_attribute", fake_get_value_attribute)
     monkeypatch.setattr(sut, "get_attribute", fake_get_attribute)
     sut.smooth_power_on = smooth_power_on

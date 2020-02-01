@@ -114,7 +114,9 @@ class LightController(ReleaseHoldController):
 
     async def get_attribute(self, attribute):
         if attribute == self.ATTRIBUTE_COLOR:
-            entity_states = await self.get_state(self.light["name"], attribute="all")
+            entity_states = await self.get_entity_state(
+                self.light["name"], attribute="all"
+            )
             entity_attributes = entity_states["attributes"]
             if self.light["color_mode"] == "auto":
                 if "xy_color" in entity_attributes:
@@ -134,7 +136,7 @@ class LightController(ReleaseHoldController):
         if attribute == "xy_color":
             return None
         else:
-            return await self.get_attr_value(self.light["name"], attribute)
+            return await self.get_entity_state(self.light["name"], attribute)
 
     def check_smooth_power_on(self, attribute, direction, light_state):
         return (
@@ -148,7 +150,7 @@ class LightController(ReleaseHoldController):
         to_return = True
         if action == "click" or action == "hold":
             attribute, direction = args
-            light_state = await self.get_state(self.light["name"])
+            light_state = await self.get_entity_state(self.light["name"])
             to_return = light_state == "on" or self.check_smooth_power_on(
                 attribute, direction, light_state
             )
@@ -199,7 +201,7 @@ class LightController(ReleaseHoldController):
         self.log(f"Attribute: {attribute}; Current value: {old}", level="DEBUG")
         new_state_attribute, exceeded = stepper.step(old, direction)
         if self.check_smooth_power_on(
-            attribute, direction, await self.get_state(self.light["name"])
+            attribute, direction, await self.get_entity_state(self.light["name"])
         ):
             new_state_attribute = stepper.minmax.min
             exceeded = False
@@ -221,22 +223,3 @@ class LightController(ReleaseHoldController):
         The behaviour can be overridden by the user with the 'smooth_power_on' option in app configuration.
         """
         return False
-
-
-# class CustomLightController(LightController):
-#
-#     CUSTOM_LIGHT_ACTIONS = {
-#         "click_on", self.on,
-#         "click_off", self.off
-#         "click_brightness_up", self.
-#     }
-#     def initialize(self):
-#         self.custom_mapping = self.args["mapping"]
-#         self.log(self.custom_mapping)
-#         super().initialize()
-#
-#     def get_state_actions_mapping(self):
-#         return {}
-#
-#     def get_event_actions_mapping(self):
-#         return {}

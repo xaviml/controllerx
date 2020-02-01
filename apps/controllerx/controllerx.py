@@ -6,3 +6,4 @@ https://github.com/xaviml/controllerx
 """
 from devices.ikea import *
 from devices.philips import *
+from devices.aqara import *

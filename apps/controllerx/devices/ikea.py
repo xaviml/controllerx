@@ -91,9 +91,9 @@ class E1810MediaPlayerController(MediaPlayerController):
             "brightness_down_click": self.volume_down,
             "arrow_left_click": self.previous_track,
             "arrow_right_click": self.next_track,
-            "brightness_up_hold": (self.hold, Controller.UP),
+            "brightness_up_hold": (self.hold, Stepper.UP),
             "brightness_up_release": self.release,
-            "brightness_down_hold": (self.hold, Controller.DOWN),
+            "brightness_down_hold": (self.hold, Stepper.DOWN),
             "brightness_down_release": self.release,
         }
 
@@ -104,9 +104,9 @@ class E1810MediaPlayerController(MediaPlayerController):
             3002: self.volume_down,
             4002: self.previous_track,
             5002: self.next_track,
-            2001: (self.hold, Controller.UP),
+            2001: (self.hold, Stepper.UP),
             2003: self.release,
-            3001: (self.hold, Controller.DOWN),
+            3001: (self.hold, Stepper.DOWN),
             3003: self.release,
         }
 
@@ -136,16 +136,8 @@ class E1743Controller(LightController):
         return {
             1002: self.on,
             2002: self.off,
-            1001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_UP,
-            ),
-            2001: (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                LightController.DIRECTION_DOWN,
-            ),
+            1001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP),
+            2001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN),
             1003: self.release,
             2003: self.release,
         }
@@ -241,8 +233,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_z2m_actions_mapping(self):
         return {
-            "rotate_left": (self.hold, Controller.DOWN),
-            "rotate_right": (self.hold, Controller.UP),
+            "rotate_left": (self.hold, Stepper.DOWN),
+            "rotate_right": (self.hold, Stepper.UP),
             "rotate_stop": self.release,
             "play_pause": self.play_pause,
             "skip_forward": self.next_track,
@@ -251,8 +243,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_deconz_actions_mapping(self):
         return {
-            2001: (self.hold, Controller.DOWN),
-            3001: (self.hold, Controller.UP),
+            2001: (self.hold, Stepper.DOWN),
+            3001: (self.hold, Stepper.UP),
             2003: self.release,
             3003: self.release,
             1002: self.play_pause,

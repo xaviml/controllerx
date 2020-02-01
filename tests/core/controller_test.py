@@ -1,8 +1,8 @@
+import appdaemon.plugins.hass.hassapi as hass
 import pytest
 
 from core import integration as integration_module
 from core.controller import Controller, action
-
 from tests.utils import IntegrationMock, hass_mock
 
 
@@ -235,7 +235,7 @@ def test_get_action(sut, test_input, expected):
     "entity_input, expected_calls", [("light.kitchen", 1), ("group.lights", 2),],
 )
 @pytest.mark.asyncio
-async def test_get_attr_value(sut, mocker, monkeypatch, entity_input, expected_calls):
+async def test_get_entity_state(sut, mocker, monkeypatch, entity_input, expected_calls):
     stub_get_state = mocker.stub()
 
     async def fake_get_state(entity, attribute=None):
@@ -245,7 +245,7 @@ async def test_get_attr_value(sut, mocker, monkeypatch, entity_input, expected_c
     monkeypatch.setattr(sut, "get_state", fake_get_state)
 
     # SUT
-    await sut.get_attr_value(entity_input, "attribute_test")
+    await sut.get_entity_state(entity_input, "attribute_test")
 
     # Checks
     if expected_calls == 1:
