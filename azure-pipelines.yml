@@ -23,7 +23,6 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
-
 - script: pip install pipenv
   displayName: 'Installing pipenv'
 - script: python -m pipenv install --dev
@@ -32,3 +31,8 @@ steps:
   displayName: 'Format checker'
 - script: pipenv run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
   displayName: 'Running tests'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
