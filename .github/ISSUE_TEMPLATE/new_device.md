@@ -2,7 +2,7 @@
 name: New device
 about: This template is meant to be used when a new device is added
 title: "[NEW DEVICE]"
-labels: enhancement
+labels: new-device
 assignees: xaviml
 
 ---
