@@ -201,7 +201,7 @@ class E1743Controller(LightController):
             "move_with_on_off_0_83": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.TOGGLE,
+                Stepper.UP,
             ),
             "move_1_83": (
                 self.hold,
