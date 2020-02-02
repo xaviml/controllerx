@@ -75,6 +75,45 @@ class E1810Controller(LightController):
             5003: self.release,
         }
 
+    def get_zha_actions_mapping(self):
+        return {
+            "toggle": self.toggle,
+            "step_with_on_off_0_43_5": (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
+            ),
+            "step_1_43_5": (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
+            "press_257_13_0": (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.DOWN,
+            ),
+            "press_256_13_0": (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.UP,
+            ),
+            "move_with_on_off_0_83": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
+            ),
+            "move_1_83": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
+            "hold_3329_0": (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
+            "hold_3328_0": (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
+            "stop": self.release,
+            "release": self.release,
+        }
+
 
 class E1810MediaPlayerController(MediaPlayerController):
     # Different states reported from the controller:
@@ -108,6 +147,19 @@ class E1810MediaPlayerController(MediaPlayerController):
             2003: self.release,
             3001: (self.hold, Stepper.DOWN),
             3003: self.release,
+        }
+
+    def get_zha_actions_mapping(self):
+        return {
+            "toggle": self.play_pause,
+            "step_with_on_off_0_43_5": self.volume_up,
+            "step_1_43_5": self.volume_down,
+            "press_257_13_0": self.previous_track,
+            "press_256_13_0": self.next_track,
+            "move_with_on_off_0_83": (self.hold, Stepper.UP),
+            "move_1_83": (self.hold, Stepper.DOWN),
+            "stop": self.release,
+            "release": self.release,
         }
 
 
@@ -146,12 +198,16 @@ class E1743Controller(LightController):
         return {
             "on": self.on,
             "off": self.off,
-            "move_with_on_off": (
+            "move_with_on_off_0_83": (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
                 Stepper.TOGGLE,
             ),
-            "move": (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN),
+            "move_1_83": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
             "stop": self.release,
         }
 
@@ -250,6 +306,17 @@ class E1744MediaPlayerController(MediaPlayerController):
             1002: self.play_pause,
             1004: self.next_track,
             1005: self.previous_track,
+        }
+
+    def get_zha_actions_mapping(self):
+        return {
+            "move_1_195": (self.hold, Stepper.DOWN),
+            "move_0_195": (self.hold, Stepper.UP),
+            "stop": self.release,
+            "stop": self.release,
+            "toggle": self.play_pause,
+            "step_0_1_0": self.next_track,
+            "step_1_1_0": self.previous_track,
         }
 
     def default_delay(self):
