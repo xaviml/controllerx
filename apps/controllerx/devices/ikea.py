@@ -278,6 +278,24 @@ class E1744LightController(LightController):
             1004: (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
         }
 
+    def get_zha_actions_mapping(self):
+        return {
+            "move_1_195": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
+            "move_0_195": (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
+            ),
+            "stop": self.release,
+            "stop": self.release,
+            "toggle": self.toggle,
+            "step_0_1_0": (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
+        }
+
     def default_delay(self):
         return 1200
 
