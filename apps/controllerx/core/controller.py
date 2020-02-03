@@ -33,8 +33,6 @@ def action(method):
 class Controller(hass.Hass, abc.ABC):
     """
     This is the parent Controller, all controllers must extend from this class.
-    It is mandatory to implement `get_z2m_actions_mapping` to map the controller 
-    actions to the internal functions.
     """
 
     action_times = defaultdict(lambda: 0)
@@ -46,8 +44,9 @@ class Controller(hass.Hass, abc.ABC):
         self.controllers_ids = self.get_list(self.args["controller"])
         integration = self.get_integration(self.args["integration"])
         self.actions_mapping = self.get_actions_mapping(integration)
+        type_actions_mapping = self.get_type_actions_mapping()
         included_actions = self.get_list(
-            self.args.get("actions", list(self.actions_mapping.keys()))
+            self.args.get("actions", list(self.actions_mapping.values()))
         )
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
 
@@ -55,7 +54,12 @@ class Controller(hass.Hass, abc.ABC):
         self.actions_mapping = {
             key: value
             for key, value in self.actions_mapping.items()
-            if key in included_actions
+            if value in included_actions
+        }
+
+        # Map the actions mapping with the real functions
+        self.actions_mapping = {
+            k: type_actions_mapping[v] for k, v in self.actions_mapping.items()
         }
 
         for controller_id in self.controllers_ids:
@@ -121,6 +125,13 @@ class Controller(hass.Hass, abc.ABC):
                 "The action value from the action mapping should be a list or a function"
             )
 
+    async def get_entity_state(self, entity, attribute=None):
+        if "group." in entity:
+            entities = await self.get_state(entity, attribute="entity_id")
+            entity = entities[0]
+        out = await self.get_state(entity, attribute=attribute)
+        return out
+
     def get_z2m_actions_mapping(self):
         """
         Controllers can implement this function. It should return a dict
@@ -145,12 +156,9 @@ class Controller(hass.Hass, abc.ABC):
         """
         return None
 
-    async def get_entity_state(self, entity, attribute=None):
-        if "group." in entity:
-            entities = await self.get_state(entity, attribute="entity_id")
-            entity = entities[0]
-        out = await self.get_state(entity, attribute=attribute)
-        return out
+    @abc.abstractmethod
+    def get_type_actions_mapping(self):
+        pass
 
 
 class ReleaseHoldController(Controller, abc.ABC):

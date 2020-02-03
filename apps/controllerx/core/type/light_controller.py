@@ -2,6 +2,7 @@ from core.controller import ReleaseHoldController, action
 from core.stepper import Stepper
 from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper
+from const import Light
 from collections import defaultdict
 
 DEFAULT_MANUAL_STEPS = 10
@@ -27,7 +28,10 @@ class LightController(ReleaseHoldController):
     """
 
     ATTRIBUTE_BRIGHTNESS = "brightness"
+    # With the following attribute, it will select color_temp or xy_color, depending on the light.
     ATTRIBUTE_COLOR = "color"
+    ATTRIBUTE_COLOR_TEMP = "color_temp"
+    ATTRIBUTE_XY_COLOR = "xy_color"
 
     # These are the 24 colors that appear in the circle color of home assistant
     colors = [
@@ -68,18 +72,158 @@ class LightController(ReleaseHoldController):
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         color_stepper = CircularStepper(0, len(self.colors) - 1, len(self.colors))
         self.manual_steppers = {
-            "brightness": MinMaxStepper(1, 255, manual_steps),
-            "color_temp": MinMaxStepper(153, 500, manual_steps),
-            "xy_color": color_stepper,
+            LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(1, 255, manual_steps),
+            LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(153, 500, manual_steps),
+            LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
         self.automatic_steppers = {
-            "brightness": MinMaxStepper(1, 255, automatic_steps),
-            "color_temp": MinMaxStepper(153, 500, automatic_steps),
-            "xy_color": color_stepper,
+            LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
+                1, 255, automatic_steps
+            ),
+            LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
+                153, 500, automatic_steps
+            ),
+            LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
+
+    def get_type_actions_mapping(self):
+        return {
+            Light.ON: self.on,
+            Light.OFF: self.off,
+            Light.TOGGLE: self.toggle,
+            Light.RELEASE: self.release,
+            Light.ON_FULL_BRIGHTNESS: (
+                self.on_full,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.ON_FULL_COLOR_TEMP: (
+                self.on_full,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
+            Light.CLICK_BRIGHTNESS_UP: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
+            ),
+            Light.CLICK_BRIGHTNESS_DOWN: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
+            Light.CLICK_BRIGHTNESS_TOGGLE: (
+                self.click,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.TOGGLE,
+            ),
+            Light.CLICK_COLOR_UP: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.UP,
+            ),
+            Light.CLICK_COLOR_DOWN: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.DOWN,
+            ),
+            Light.CLICK_COLOR_TOGGLE: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.TOGGLE,
+            ),
+            Light.CLICK_COLOR_TEMP_UP: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                Stepper.UP,
+            ),
+            Light.CLICK_COLOR_TEMP_DOWN: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                Stepper.DOWN,
+            ),
+            Light.CLICK_COLOR_TEMP_TOGGLE: (
+                self.click,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                Stepper.TOGGLE,
+            ),
+            Light.CLICK_XY_COLOR_UP: (
+                self.click,
+                LightController.ATTRIBUTE_XY_COLOR,
+                Stepper.UP,
+            ),
+            Light.CLICK_XY_COLOR_DOWN: (
+                self.click,
+                LightController.ATTRIBUTE_XY_COLOR,
+                Stepper.DOWN,
+            ),
+            Light.CLICK_XY_COLOR_TOGGLE: (
+                self.click,
+                LightController.ATTRIBUTE_XY_COLOR,
+                Stepper.TOGGLE,
+            ),
+            Light.HOLD_BRIGHTNESS_UP: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.UP,
+            ),
+            Light.HOLD_BRIGHTNESS_DOWN: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
+            Light.HOLD_BRIGHTNESS_TOGGLE: (
+                self.hold,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.TOGGLE,
+            ),
+            Light.HOLD_COLOR_UP: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.UP,
+            ),
+            Light.HOLD_COLOR_DOWN: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.DOWN,
+            ),
+            Light.HOLD_COLOR_TOGGLE: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR,
+                Stepper.TOGGLE,
+            ),
+            Light.HOLD_COLOR_TEMP_UP: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                Stepper.UP,
+            ),
+            Light.HOLD_COLOR_TEMP_DOWN: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                Stepper.DOWN,
+            ),
+            Light.HOLD_COLOR_TEMP_TOGGLE: (
+                self.hold,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                Stepper.TOGGLE,
+            ),
+            Light.HOLD_XY_COLOR_UP: (
+                self.hold,
+                LightController.ATTRIBUTE_XY_COLOR,
+                Stepper.UP,
+            ),
+            Light.HOLD_XY_COLOR_DOWN: (
+                self.hold,
+                LightController.ATTRIBUTE_XY_COLOR,
+                Stepper.DOWN,
+            ),
+            Light.HOLD_XY_COLOR_TOGGLE: (
+                self.hold,
+                LightController.ATTRIBUTE_XY_COLOR,
+                Stepper.TOGGLE,
+            ),
+        }
 
     def get_light(self, light):
         type_ = type(light)
@@ -107,22 +251,23 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on_full(self, attribute):
+        attribute = await self.get_attribute(attribute)
         stepper = self.manual_steppers[attribute]
         await self.change_light_state(
             stepper.minmax.min, attribute, Stepper.UP, stepper,
         )
 
     async def get_attribute(self, attribute):
-        if attribute == self.ATTRIBUTE_COLOR:
+        if attribute == LightController.ATTRIBUTE_COLOR:
             entity_states = await self.get_entity_state(
                 self.light["name"], attribute="all"
             )
             entity_attributes = entity_states["attributes"]
             if self.light["color_mode"] == "auto":
-                if "xy_color" in entity_attributes:
-                    return "xy_color"
-                elif "color_temp" in entity_attributes:
-                    return "color_temp"
+                if LightController.ATTRIBUTE_XY_COLOR in entity_attributes:
+                    return LightController.ATTRIBUTE_XY_COLOR
+                elif LightController.ATTRIBUTE_COLOR_TEMP in entity_attributes:
+                    return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(
                         "This light does not support xy_color or color_temp"
@@ -133,7 +278,7 @@ class LightController(ReleaseHoldController):
             return attribute
 
     async def get_value_attribute(self, attribute):
-        if attribute == "xy_color":
+        if attribute == LightController.ATTRIBUTE_XY_COLOR:
             return None
         else:
             return await self.get_entity_state(self.light["name"], attribute)
@@ -185,7 +330,7 @@ class LightController(ReleaseHoldController):
         value and attribute. It returns True when no more changes will need to be done.
         Otherwise, it returns False.
         """
-        if attribute == "xy_color":
+        if attribute == LightController.ATTRIBUTE_XY_COLOR:
             self.index_color, _ = stepper.step(self.index_color, direction)
             new_state_attribute = self.colors[self.index_color]
             attributes = {

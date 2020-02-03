@@ -3,14 +3,12 @@ import pytest
 
 from core import integration as integration_module
 from core.controller import Controller, action
-from tests.utils import IntegrationMock, hass_mock
+from tests.utils import IntegrationMock, fake_controller, hass_mock
 
 
 @pytest.fixture
-def sut(hass_mock):
-    c = Controller()
-    c.args = {}
-    return c
+def sut(fake_controller):
+    return fake_controller
 
 
 @pytest.mark.asyncio
@@ -74,18 +72,16 @@ def test_initialize(
     actions_filter,
     actions_ouput,
 ):
-    actions = {action: (lambda: None,) for action in actions_input}
+    actions = {action: action for action in actions_input}
+    type_actions = {action: lambda: None for action in actions_input}
     sut.args["controller"] = controller_input
     sut.args["integration"] = "test"
     if actions_filter:
         sut.args["actions"] = actions_filter
     integration_mock = IntegrationMock("test", sut, mocker)
-    monkeypatch.setattr(
-        Controller, "get_integration", lambda self, integration: integration_mock
-    )
-    monkeypatch.setattr(
-        Controller, "get_actions_mapping", lambda self, integration: actions
-    )
+    monkeypatch.setattr(sut, "get_integration", lambda integration: integration_mock)
+    monkeypatch.setattr(sut, "get_actions_mapping", lambda integration: actions)
+    monkeypatch.setattr(sut, "get_type_actions_mapping", lambda: type_actions)
     check_ad_version = mocker.patch.object(sut, "check_ad_version")
     get_actions_mapping = mocker.spy(sut, "get_actions_mapping")
 

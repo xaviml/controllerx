@@ -1,11 +1,24 @@
 from core.controller import ReleaseHoldController, action
 from core.stepper import Stepper
+from const import MediaPlayer
 
 
 class MediaPlayerController(ReleaseHoldController):
     def initialize(self):
         super().initialize()
         self.media_player = self.args["media_player"]
+
+    def get_type_actions_mapping(self):
+        return {
+            MediaPlayer.HOLD_DOWN: (self.hold, Stepper.DOWN),
+            MediaPlayer.HOLD_UP: (self.hold, Stepper.UP),
+            MediaPlayer.VOLUME_DOWN: self.volume_down,
+            MediaPlayer.VOLUME_UP: self.volume_up,
+            MediaPlayer.RELEASE: self.release,
+            MediaPlayer.PLAY_PAUSE: self.play_pause,
+            MediaPlayer.NEXT_TRACK: self.next_track,
+            MediaPlayer.PREVIOUS_TRACK: self.previous_track,
+        }
 
     @action
     async def play_pause(self):

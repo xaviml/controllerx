@@ -1,4 +1,5 @@
 from core import LightController, Stepper
+from const import Light
 
 
 class HueDimmerController(LightController):
@@ -9,44 +10,35 @@ class HueDimmerController(LightController):
 
     def get_z2m_actions_mapping(self):
         return {
-            "on-press": self.on,
-            "on-hold": (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
-            "on-hold-release": (self.release,),
-            "up-press": (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
-            "up-hold": (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
-            "up-hold-release": self.release,
-            "down-press": (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.DOWN,
-            ),
-            "down-hold": (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.DOWN,
-            ),
-            "down-hold-release": self.release,
-            "off-press": self.off,
-            "off-hold": (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
-            "off-hold-release": self.release,
+            "on-press": Light.ON,
+            "on-hold": Light.HOLD_COLOR_UP,
+            "on-hold-release": Light.RELEASE,
+            "up-press": Light.CLICK_BRIGHTNESS_UP,
+            "up-hold": Light.HOLD_BRIGHTNESS_UP,
+            "up-hold-release": Light.RELEASE,
+            "down-press": Light.CLICK_BRIGHTNESS_DOWN,
+            "down-hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "down-hold-release": Light.RELEASE,
+            "off-press": Light.OFF,
+            "off-hold": Light.HOLD_COLOR_DOWN,
+            "off-hold-release": Light.RELEASE,
         }
 
     def get_deconz_actions_mapping(self):
         return {
-            1000: self.on,
-            1001: (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.UP,),
-            1003: self.release,
-            2000: (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
-            2001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
-            2003: self.release,
-            3000: (self.click, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.DOWN,),
-            3001: (self.hold, LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP,),
-            3003: self.release,
-            4000: self.off,
-            4001: (self.hold, LightController.ATTRIBUTE_COLOR, Stepper.DOWN,),
-            4003: self.release,
+            1000: Light.ON,
+            1001: Light.HOLD_COLOR_UP,
+            1003: Light.RELEASE,
+            2000: Light.CLICK_BRIGHTNESS_UP,
+            2001: Light.HOLD_BRIGHTNESS_UP,
+            2003: Light.RELEASE,
+            3000: Light.CLICK_BRIGHTNESS_DOWN,
+            3001: Light.HOLD_BRIGHTNESS_DOWN,
+            3003: Light.RELEASE,
+            4000: Light.OFF,
+            4001: Light.HOLD_COLOR_DOWN,
+            4003: Light.RELEASE,
         }
 
     def get_zha_actions_mapping(self):
-        # return {"on": self.on, "off_with_effect": self.off}
         return None

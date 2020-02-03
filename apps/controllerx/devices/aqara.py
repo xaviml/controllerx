@@ -1,7 +1,8 @@
 from core import LightController, Stepper
+from const import Light
 
 
-class DoubleKeyWirelessController(LightController):
+class DoubleKeyWirelessAqaraController(LightController):
     """
     This controller allows click, double click, hold and release for
     both, left and the right button. All action will do the same for both, left 
@@ -10,33 +11,18 @@ class DoubleKeyWirelessController(LightController):
     """
 
     # Different states reported from the controller:
-    # both, both_double, both_hold, both_release, right, right_double
-    # right_hold, right_release left, left_double, left_hold, left_release
+    # both, both_double, both_long, right, right_double
+    # right_long, left, left_double, left_long
 
     def get_z2m_actions_mapping(self):
         return {
-            "both": self.toggle,
-            "both_double": (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
-            "both_hold": (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.TOGGLE,
-            ),
-            "both_release": self.release,
-            "left": self.toggle,
-            "left_double": (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
-            "left_hold": (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.TOGGLE,
-            ),
-            "left_release": self.release,
-            "right": self.toggle,
-            "right_double": (self.on_full, LightController.ATTRIBUTE_BRIGHTNESS),
-            "right_hold": (
-                self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.TOGGLE,
-            ),
-            "right_release": self.release,
+            "both": Light.TOGGLE,
+            "both_double": Light.CLICK_BRIGHTNESS_UP,
+            "both_long": Light.CLICK_BRIGHTNESS_DOWN,
+            "left": Light.TOGGLE,
+            "left_double": Light.CLICK_BRIGHTNESS_UP,
+            "left_long": Light.CLICK_BRIGHTNESS_DOWN,
+            "right": Light.TOGGLE,
+            "right_double": Light.CLICK_BRIGHTNESS_UP,
+            "right_long": Light.CLICK_BRIGHTNESS_DOWN,
         }

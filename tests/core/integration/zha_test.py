@@ -1,15 +1,8 @@
 import pytest
 
-from tests.utils import IntegrationMock, hass_mock
+from tests.utils import IntegrationMock, fake_controller, hass_mock
 from core.controller import Controller
 from core.integration.zha import ZHAIntegration
-
-
-@pytest.fixture
-def controller(hass_mock):
-    c = Controller()
-    c.args = {}
-    return c
 
 
 @pytest.mark.parametrize(
@@ -25,11 +18,11 @@ def controller(hass_mock):
 )
 @pytest.mark.asyncio
 async def test_get_integrations(
-    controller, mocker, command, args, expected_called_with
+    fake_controller, mocker, command, args, expected_called_with
 ):
     data = {"command": command, "args": args}
-    handle_action_patch = mocker.patch.object(controller, "handle_action")
-    zha_integration = ZHAIntegration(controller)
+    handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
+    zha_integration = ZHAIntegration(fake_controller)
     await zha_integration.callback("test", data, None)
 
     handle_action_patch.assert_called_once_with(expected_called_with)
