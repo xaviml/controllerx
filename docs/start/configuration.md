@@ -63,4 +63,4 @@ These are the generic app parameters for all type of controllers. You can see th
 
 ## What's next?
 
-# [Supported controllers](/controllers)
+# [Supported controllers](controllers)

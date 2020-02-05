@@ -7,7 +7,7 @@ layout: home
 
 _Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
 
-ControllerX brings the following functionalities for different [controllers](/controllers):
+ControllerX brings the following functionalities for different [controllers](controllers):
 
 - Turn on/Turn off light(s)
 - Toggle light(s)
@@ -36,6 +36,6 @@ livingroom_controller:
 
 ## How to start?
 
-- [Installation](/start/installation) or [Update](/start/update)
-- [Configuration](/start/configuration)
-- [Supported controllers](/controllers)
+- [Installation](start/installation) or [Update](start/update)
+- [Configuration](start/configuration)
+- [Supported controllers](controllers)
