@@ -7,4 +7,4 @@ Note that AppDaemon will need to be restarted when installing a new version of C
 
 ## Update from 2.1.X to 2.2.0
 
-sadf
+Nothing yet
