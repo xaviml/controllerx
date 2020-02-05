@@ -251,10 +251,11 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on_full(self, attribute):
+        await self.on()
         attribute = await self.get_attribute(attribute)
         stepper = self.manual_steppers[attribute]
         await self.change_light_state(
-            stepper.minmax.min, attribute, Stepper.UP, stepper,
+            stepper.minmax.max, attribute, Stepper.UP, stepper,
         )
 
     async def get_attribute(self, attribute):
