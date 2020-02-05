@@ -28,3 +28,11 @@ Once you have the code ready, pre-commit will run some checks to make sure the c
 ```
 pipenv run pre-commit run --all-files
 ```
+
+## Documentation
+Run the documentation locally with:
+```
+cd docs
+bundle install
+bundle exec jekyll serve
+```
