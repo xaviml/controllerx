@@ -13,4 +13,4 @@ Download the `controllerx` directory from inside the `apps` directory here to yo
 
 ## What's next?
 
-# [Configuration](start/configuration)
+# [Configuration](configuration)
