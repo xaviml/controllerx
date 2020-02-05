@@ -178,10 +178,10 @@ class ICTCG1Controller(LightController):
         return {
             "move_1_70": Light.HOLD_BRIGHTNESS_DOWN,
             "move_1_195": Light.HOLD_BRIGHTNESS_DOWN,
-            "move_to_level_with_on_off_0_1": Light.OFF,
+            "move_to_level_with_on_off_0_1": "rotate_left_quick",
             "move_with_on_off_0_70": Light.HOLD_BRIGHTNESS_UP,
-            "move_with_on_off_0_195": Light.HOLD_BRIGHTNESS_UP,
-            "move_to_level_with_on_off_255_1": Light.ON_FULL_BRIGHTNESS,
+            "move_with_on_off_0_195": Light.ON,
+            "move_to_level_with_on_off_255_1": "rotate_right_quick",
             "stop": Light.RELEASE,
         }
 
