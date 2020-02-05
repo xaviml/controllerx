@@ -20,8 +20,8 @@ email: xaviml.93@gmail.com
 description: >-
   Bring full functionality to light and media player controllers.
   From turning devices on/off to changing the color lights.
-baseurl: "controllerx" # the subpath of your site, e.g. /blog
-url: "https://xaviml.github.io/controllerx" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https://xaviml.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  xaviml
 
 # Build settings
