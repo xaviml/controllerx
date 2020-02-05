@@ -46,7 +46,7 @@ class Controller(hass.Hass, abc.ABC):
         self.actions_mapping = self.get_actions_mapping(integration)
         type_actions_mapping = self.get_type_actions_mapping()
         included_actions = self.get_list(
-            self.args.get("actions", list(self.actions_mapping.values()))
+            self.args.get("actions", list(self.actions_mapping.keys()))
         )
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
 
@@ -54,7 +54,7 @@ class Controller(hass.Hass, abc.ABC):
         self.actions_mapping = {
             key: value
             for key, value in self.actions_mapping.items()
-            if value in included_actions
+            if key in included_actions
         }
 
         # Map the actions mapping with the real functions
