@@ -1,45 +1,4 @@
-# ControllerX
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
-[![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
-[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
-[![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
-
-## Breaking changes
-
-:warning: `sensor` and `event_id` are removed from the parameters, now there is a unique parameter called `controller`. So from v2.2.0 you will need to replace `sensor` and `event_id` for `controller`
-
-:warning: You will also need to add a new parameter `integration` to state how the controller is connected with. These are the supported integration, z2m, deconz and zha. This does not mean that there is support for all three integration for all controllers, some controllers do not have some integration due to the lack of the device and being still in development. If you possess a device that is not integrated, you can freely open an issue and I will be glad to help :smiley:
-
-_Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
-
-This automation brings the following functionalities for different [devices](https://github.com/xaviml/controllerx/wiki/Supported-controllers):
-
-- Turn on/Turn off light(s)
-- Toggle light(s)
-- Manual increase/decrease of brightness and color temperature
-- Smooth increase/decrease (holding button) of brightness and color temperature
-- Color loop changing if the light supports xy color.
-- Play/pause music
-- Volume up/down for a media player.
-
-This project gives support now to controllers integrated with zigbee2mqtt, deCONZ and ZHA.
-
-## Installation
-
-### HACS
-
-The easiest way to add this to your Homeassistant installation is using HACS with Appdaemon enabled. And then follow the instructions under Configuration below.
-
-### Manual
-
-Download the `controllerx` directory from inside the `apps` directory here to your local `apps` directory, then add the configuration to enable the `controllerx` module.
-
-## Update
-
-Note that AppDaemon will need to be restarted when installing a new version of ControllerX. This is due to AppDaemon not reimporting the modules again. If AppDaemon server is not restarted, then it will keep executing the old version.
-
-## Configuration
+# Configuration
 
 This is an example configuration template:
 
@@ -97,9 +56,3 @@ These are the generic app parameters for all type of controllers. You can see th
 | `integration`  | False    | string         | -           | `z2m`, `deconz` or `zha`                          | This is the integration that the device was integrated.                                                                                                                                                                                                                                |
 | `actions`      | True     | list           | All actions |                                                   | This is a list of actions to be included and controlled by the app. To see which actions has each controller check the [supported controllers](https://github.com/xaviml/controllerx/wiki/Supported-controllers) page                                                                  |
 | `action_delta` | True     | int            | 300         |                                                   | This is the threshold time between the previous action and the next one (being the same action). If the time difference between the two actions is less than this attribute, then the action won't be called. I recommend changing this if you see the same action being called twice. |
-
-## Contributing
-
-See [CONTRIBUTING.md](/CONTRIBUTING.md)
-
-_Note: The code does not use any MQTT calls, just the Home Assistant API from AppDaemon._
