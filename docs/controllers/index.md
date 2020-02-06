@@ -9,7 +9,8 @@ title: Supported controllers
     <th>Integrations</th>
     <th>Picture</th>
   </tr>
-  {% for controller_obj in site.data.controllers %}
+  {% assign controllers = site.data.controllers | sort %}
+  {% for controller_obj in controllers %}
     {% assign key = controller_obj[0] %}
     {% assign controller = controller_obj[1] %}
     {% assign integration_names = controller.integrations | map: "codename" | join: ", " %}

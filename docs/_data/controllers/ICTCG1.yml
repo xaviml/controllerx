@@ -1,0 +1,23 @@
+name: ICTCG1 (IKEA)
+device_support: 
+  - Light (ICTCG1Controller; 350ms delay)
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "rotate_left 🠖 Left turn"
+      - "rotate_left_quick 🠖 Quick left turn"
+      - "rotate_right 🠖 Right turn"
+      - "rotate_right_quick 🠖 Quick right turn"
+      - "rotate_stop 🠖 Stop rotation"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "move_1_70 🠖 Slow left turn"
+      - "move_1_195 🠖 Faster left turn"
+      - "move_to_level_with_on_off_0_1 🠖 Quick left turn"
+      - "move_with_on_off_0_70 🠖 Slow right turn"
+      - "move_with_on_off_0_195 🠖 Faster right turn"
+      - "move_to_level_with_on_off_255_1 🠖 Quick right turn"
+      - "stop 🠖 Stop rotation, either direction (except after quick right/left turns)"
+img: https://www.zigbee2mqtt.io/images/devices/ICTC-G-1.jpg

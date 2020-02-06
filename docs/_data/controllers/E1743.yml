@@ -5,26 +5,26 @@ integrations:
   - name: Zigbee2mqtt
     codename: z2m
     actions:
-      - "on"
-      - "off"
-      - "brightness_up"
-      - "brightness_down"
-      - "brightness_stop"
+      - "on 🠖 Click \"I\""
+      - "off 🠖 Click \"O\""
+      - "brightness_up 🠖 Hold \"I\""
+      - "brightness_down 🠖 Hold \"O\""
+      - "brightness_stop 🠖 Release \"I\" or \"O\""
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002: Click \"I\""
-      - "2002: Click \"O\""
-      - "1001: Hold \"I\""
-      - "2001: Hold \"O\""
-      - "1003: Release \"I\""
-      - "2003: Release \"O\""
+      - "1002 🠖 Click \"I\""
+      - "2002 🠖 Click \"O\""
+      - "1001 🠖 Hold \"I\""
+      - "2001 🠖 Hold \"O\""
+      - "1003 🠖 Release \"I\""
+      - "2003 🠖 Release \"O\""
   - name: ZHA
     codename: zha
     actions:
-      - "on: Click \"I\""
-      - "off: Click \"O\""
-      - "move_with_on_off_0_83: Hold \"I\""
-      - "move_1_83: Hold \"O\""
-      - "stop: Release \"I\" or \"O\"" 
+      - "on 🠖 Click \"I\""
+      - "off 🠖 Click \"O\""
+      - "move_with_on_off_0_83 🠖 Hold \"I\""
+      - "move_1_83 🠖 Hold \"O\""
+      - "stop 🠖 Release \"I\" or \"O\"" 
 img: https://www.zigbee2mqtt.io/images/devices/E1743.jpg
