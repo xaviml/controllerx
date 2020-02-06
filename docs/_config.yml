@@ -28,7 +28,5 @@ github_username:  xaviml
 theme: minima
 
 header_pages:
-  - index.md
+  - controllers/index.md
 
-github:
-  repository_url: https://github.com/xaviml/controllerx

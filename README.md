@@ -100,6 +100,6 @@ These are the generic app parameters for all type of controllers. You can see th
 
 ## Contributing
 
-See [CONTRIBUTING.md](/CONTRIBUTING.md)
+If you want to contribute to this project, check [CONTRIBUTING.md](/CONTRIBUTING.md).
 
 _Note: The code does not use any MQTT calls, just the Home Assistant API from AppDaemon._

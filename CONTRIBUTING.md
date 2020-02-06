@@ -9,6 +9,7 @@ pipenv install --dev
 ```
 
 ## Adding a new controller
+
 New controllers need to be added into the `apps/controllerx/devices/` and you will need to define the mapping for the integration you are adding support to.
 
 Note that this project will only accept the mapping that the original controller would follow with its original hub.
@@ -30,7 +31,9 @@ pipenv run pre-commit run --all-files
 ```
 
 ## Documentation
-Run the documentation locally with:
+
+[Install Jekyll](https://jekyllrb.com/docs/) and run the documentation locally with:
+
 ```
 cd docs
 bundle install
