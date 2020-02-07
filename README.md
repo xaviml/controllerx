@@ -5,7 +5,7 @@
 [![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 
-## Breaking changes
+## Breaking changes for v2.2.0
 
 :warning: `sensor` and `event_id` are removed from the parameters, now there is a unique parameter called `controller`. So from v2.2.0 you will need to replace `sensor` and `event_id` for `controller`
 
