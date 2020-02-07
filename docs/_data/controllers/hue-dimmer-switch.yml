@@ -1,0 +1,34 @@
+name: Hue Dimmer switch (Philips)
+device_support: 
+  - Light (E1744LightController; 350ms delay)
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "on-press 🠖 Click \"I\""
+      - "on-hold 🠖 Hold \"I\""
+      - "on-hold-release 🠖 Release \"I\""
+      - "up-press 🠖 Click 🔆"
+      - "up-hold 🠖 Hold 🔆"
+      - "up-hold-release 🠖 Release 🔆"
+      - "down-press 🠖 Click 🔅"
+      - "down-hold 🠖 Hold 🔅"
+      - "down-hold-release 🠖 Release 🔅"
+      - "off-press 🠖 Click \"O\""
+      - "off-hold 🠖 Hold \"O\""
+      - "off-hold-release 🠖 Release \"O\""
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1000 🠖 Click \"I\""
+      - "1001 🠖 Hold \"I\""
+      - "1003 🠖 Release \"I\""
+      - "2000 🠖 Click 🔆"
+      - "2001 🠖 Hold 🔆"
+      - "2003 🠖 Release 🔆"
+      - "3000 🠖 Click 🔅"
+      - "3001 🠖 Hold 🔅"
+      - "3003 🠖 Release 🔅"
+      - "4000 🠖 Click \"O\""
+      - "4001 🠖 Hold \"O\""
+      - "4003 🠖 Release \"O\""

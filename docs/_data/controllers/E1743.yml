@@ -27,4 +27,3 @@ integrations:
       - "move_with_on_off_0_83 🠖 Hold \"I\""
       - "move_1_83 🠖 Hold \"O\""
       - "stop 🠖 Release \"I\" or \"O\"" 
-img: https://www.zigbee2mqtt.io/images/devices/E1743.jpg

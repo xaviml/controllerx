@@ -36,6 +36,14 @@ livingroom_controller:
 
 ## How to start?
 
-- [Installation](/controllerx/start/installation) or [Update](/controllerx/start/update)
+- [Installation](/controllerx/start/installation)
 - [Configuration](/controllerx/start/configuration)
 - [Supported controllers](/controllerx/controllers)
+
+## Others
+
+- [Update instructions](/controllerx/how-to/update)
+- [Controller types](/controllerx/start/type-configuration)
+- [Real examples](/controllerx/start/examples)
+- [How to extract the controller parameter](how-to/extract-controller-id)
+- [What's AppDaemon and why I need it](how-to/run-appdaemon)

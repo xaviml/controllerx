@@ -20,4 +20,3 @@ integrations:
       - "move_with_on_off_0_195 🠖 Faster right turn"
       - "move_to_level_with_on_off_255_1 🠖 Quick right turn"
       - "stop 🠖 Stop rotation, either direction (except after quick right/left turns)"
-img: https://www.zigbee2mqtt.io/images/devices/ICTC-G-1.jpg

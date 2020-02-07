@@ -17,7 +17,7 @@ title: Supported controllers
     <tr>
             <td><a href="/controllerx/controllers/{{key}}">{{ controller.name }}</a></td>
             <td>{{ integration_names }}</td>
-            <td><img src="{{controller.img}}"></td>
+            <td><img src="/controllerx/assets/img/{{ key }}.jpeg" /></td>
     </tr>
     {% endfor %}
 </table>
