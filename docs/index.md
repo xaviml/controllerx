@@ -1,8 +1,13 @@
-# ControllerX
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+---
 
 _Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
 
-This automation brings the following functionalities for different [devices](https://github.com/xaviml/controllerx/wiki/Supported-controllers):
+ControllerX brings the following functionalities for different [controllers](/controllerx/controllers):
 
 - Turn on/Turn off light(s)
 - Toggle light(s)
@@ -12,9 +17,13 @@ This automation brings the following functionalities for different [devices](htt
 - Play/pause music
 - Volume up/down for a media player.
 
-## Quick examples
+## Why ControllerX?
 
-This project gives support now to controllers integrated with zigbee2mqtt, deCONZ and ZHA.
+Solutions like zigbee2mqtt, deconz and zha have their pros and cons, but if there is something good about these solutions is that you remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Philips). However, there is a downside about removing this dependency and it is that not only the propietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. Home assistant is great and we love it, but when it comes to create complex automations it gets tricky. This is why I created ControllerX with AppDaemon and the Home Assistant plugin, to give the behaviour to the devices we lose when not having the original hub.
+
+## Quick example
+
+With just this configuration, you can have the E1810 controller from IKEA (5 buttons one) connected to the bedroom light and be able to change the brightness and color temperature or color.
 
 ```yaml
 livingroom_controller:
@@ -22,17 +31,19 @@ livingroom_controller:
   class: E1810Controller
   controller: sensor.livingroom_controller_action
   integration: z2m
-  light: group.livingroom_lights
+  light: light.bedroom
 ```
 
-This is a real example to control a media player with E1744 with deCONZ:
+## How to start?
 
-```yaml
-bedroom_speaker:
-  module: controllerx
-  class: E1744MediaPlayerController
-  controller: symfonisk_controller
-  integration: deconz
-  media_player: media_player.bedroom_speaker
-```
+- [Installation](/controllerx/start/installation)
+- [Configuration](/controllerx/start/configuration)
+- [Supported controllers](/controllerx/controllers)
 
+## Others
+
+- [Update instructions](/controllerx/how-to/update)
+- [Controller types](/controllerx/start/type-configuration)
+- [Real examples](/controllerx/start/examples)
+- [How to extract the controller parameter](how-to/extract-controller-id)
+- [What's AppDaemon and why I need it](how-to/run-appdaemon)
