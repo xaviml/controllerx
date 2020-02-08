@@ -1,8 +1,8 @@
 # ControllerX
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
-[![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
-[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/dev.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=dev)
+[![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
+[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 
 ## Breaking changes for v2.2.0

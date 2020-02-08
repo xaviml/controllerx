@@ -86,3 +86,31 @@ nameOfYourInstanceApp:
     - arrow_right_click
     - arrow_left_click
 ```
+
+Controlling different lights with the same controller depending where you are.
+
+```yaml
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: controller_id
+  integration: deconz
+  light: light.light1
+  constrain_input_select: input_select.where_am_i,livingroom
+
+controller_bedroom:
+  module: controllerx
+  class: E1810Controller
+  controller: controller_id
+  integration: deconz
+  light: light.light2
+  constrain_input_select: input_select.where_am_i,bedroom
+
+controller_bathroom:
+  module: controllerx
+  class: E1810Controller
+  controller: controller_id
+  integration: deconz
+  light: light.light3
+  constrain_input_select: input_select.where_am_i,bathroom
+```
