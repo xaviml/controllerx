@@ -3,7 +3,7 @@ title: Examples
 layout: page
 ---
 
-The purpose of this page is to show some real examples for the configuration.
+The purpose of this page is to show some real examples for the configuration. These are configurations placed in `/config/appdaemon/apps/apps.yaml`
 
 E1524/E1810 controller with z2m that controls all the livingroom lights.
 
