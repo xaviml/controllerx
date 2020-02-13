@@ -1,0 +1,21 @@
+name: Double key wireless (Aqara)
+device_support: 
+  - Light (E1810Controller; 350ms delay)
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "both 🠖 Click on both"
+      - "both_double 🠖 Double click on both"
+      - "both_long 🠖 Long click on both"
+      - "left 🠖 Click on left"
+      - "left_double 🠖 Double click on left"
+      - "left_long 🠖 Long click on left"
+      - "right 🠖 Click on right"
+      - "right_double 🠖 Double click on right"
+      - "right_long 🠖 Long click on right"
+note: >-
+  Note that all actions related to both, left and right, do the same. 
+  This is because ControllerX is design to control just one entity (light or media player).
+  So you can include the `actions` parameter to include the actions needed.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.

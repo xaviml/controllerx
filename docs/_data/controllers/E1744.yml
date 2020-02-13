@@ -1,0 +1,33 @@
+name: E1744 (IKEA)
+device_support: 
+  - Light (E1744LightController; 1200ms delay)
+  - Media Player (E1744MediaPlayerController; 1000ms delay)
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "rotate_left 🠖 Left turn"
+      - "rotate_right 🠖 Right turn"
+      - "rotate_stop 🠖 Stop rotation"
+      - "play_pause 🠖 1 click"
+      - "skip_forward 🠖 3 click"
+      - "skip_backward 🠖 3 click"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "2001 🠖 Left turn"
+      - "3001 🠖 Right turn"
+      - "2003 🠖 Stop left rotation"
+      - "3003 🠖 Stop right rotation"
+      - "1002 🠖 1 click"
+      - "1004 🠖 3 click"
+      - "1005 🠖 3 click"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "move_1_195 🠖 Left turn"
+      - "move_0_195 🠖 Right turn"
+      - "stop 🠖 Stop rotation"
+      - "toggle 🠖 1 click"
+      - "step_0_1_0 🠖 3 click"
+      - "step_1_1_0 🠖 3 click"

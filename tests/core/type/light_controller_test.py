@@ -200,13 +200,13 @@ async def test_toggle(sut, mocker):
 @pytest.mark.asyncio
 async def test_on_full(sut, mocker):
     attribute = "test_attribute"
-    min_ = 1
+    max_ = 10
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")
-    stepper = MinMaxStepper(min_, 10, 10)
+    stepper = MinMaxStepper(1, max_, 10)
     sut.manual_steppers = {attribute: stepper}
     await sut.on_full(attribute)
     change_light_state_patch.assert_called_once_with(
-        min_, attribute, Stepper.UP, stepper
+        max_, attribute, Stepper.UP, stepper
     )
 
 
