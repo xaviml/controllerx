@@ -3,7 +3,7 @@ layout: page
 title: Configuration
 ---
 
-This is an example configuration template:
+This is an example configuration template to place in `/config/appdaemon/apps/apps.yaml`:
 
 ```yaml
 nameOfYourInstanceApp:

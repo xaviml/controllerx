@@ -1,25 +1,26 @@
 import pytest
 
-from core import MediaPlayerController, ReleaseHoldController
 from tests.utils import hass_mock
+from core import MediaPlayerController, ReleaseHoldController
 from core.stepper import Stepper
-from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper
+from core.stepper.minmax_stepper import MinMaxStepper
 
 
 @pytest.fixture
-def sut(hass_mock):
+def sut(hass_mock, mocker):
     c = MediaPlayerController()
     c.args = {}
     c.delay = 0
     c.media_player = "test"
     c.on_hold = False
+    mocker.patch.object(ReleaseHoldController, "initialize")
+    c.args["media_player"] = "media_player.test"
+    c.initialize()
     return c
 
 
-def test_initialize(sut, mocker):
-    mocker.patch.object(ReleaseHoldController, "initialize")
-    sut.args["media_player"] = "media_player.test"
+def test_initialize(sut):
     sut.initialize()
     assert sut.media_player == "media_player.test"
 
@@ -52,49 +53,55 @@ async def test_next_track(sut, mocker):
 
 
 @pytest.mark.asyncio
-async def test_volume_up(sut, mocker):
+async def test_volume_up(sut, mocker, monkeypatch):
+    async def fake_get_entity_state(entity, attribute=None):
+        return 0.5
+
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
+
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.volume_up()
     called_service_patch.assert_called_once_with(
-        "media_player/volume_up", entity_id=sut.media_player
+        "media_player/volume_set", entity_id=sut.media_player, volume_level=0.6
     )
 
 
 @pytest.mark.asyncio
-async def test_volume_down(sut, mocker):
+async def test_volume_down(sut, mocker, monkeypatch):
+    async def fake_get_entity_state(entity, attribute=None):
+        return 0.5
+
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
+
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.volume_down()
     called_service_patch.assert_called_once_with(
-        "media_player/volume_down", entity_id=sut.media_player
+        "media_player/volume_set", entity_id=sut.media_player, volume_level=0.4
     )
 
 
 @pytest.mark.asyncio
 async def test_hold(sut, mocker):
     direction = "test_direction"
+    mocker.patch.object(sut, "prepare_volume_change")
     super_hold_patch = mocker.patch.object(ReleaseHoldController, "hold")
     await sut.hold(direction)
     super_hold_patch.assert_called_once_with(direction)
-    assert sut.hold_loop_times == 0
 
 
 @pytest.mark.parametrize(
-    "direction_input, hold_loop_times, expected_called_with, expected_output",
-    [
-        (Stepper.UP, 0, "media_player/volume_up", False),
-        (Stepper.DOWN, 0, "media_player/volume_down", False),
-        (Stepper.DOWN, 10, "media_player/volume_down", True),
-    ],
+    "direction_input, volume_level, expected_volume_level",
+    [(Stepper.UP, 0, 0.1), (Stepper.DOWN, 0.5, 0.4),],
 )
 @pytest.mark.asyncio
 async def test_hold_loop(
-    sut, mocker, direction_input, hold_loop_times, expected_called_with, expected_output
+    sut, mocker, monkeypatch, direction_input, volume_level, expected_volume_level
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
-    sut.hold_loop_times = hold_loop_times
+    sut.volume_level = volume_level
     output = await sut.hold_loop(direction_input)
     called_service_patch.assert_called_once_with(
-        expected_called_with, entity_id=sut.media_player
+        "media_player/volume_set",
+        entity_id=sut.media_player,
+        volume_level=expected_volume_level,
     )
-    assert sut.hold_loop_times == hold_loop_times + 1
-    assert output == expected_output

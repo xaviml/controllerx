@@ -16,7 +16,7 @@ class MinMaxStepper(Stepper):
         sign = self.sign(direction)
         max_ = self.minmax.max
         min_ = self.minmax.min
-        step = (max_ - min_) // self.steps
+        step = (max_ - min_) / self.steps
 
         new_value = value + sign * step
 
