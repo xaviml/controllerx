@@ -5,12 +5,6 @@
 [![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 
-## Breaking changes for v2.2.0
-
-:warning: `sensor` and `event_id` are removed from the parameters, now there is a unique parameter called `controller`. So from v2.2.0 you will need to replace `sensor` and `event_id` for `controller`
-
-:warning: You will also need to add a new parameter `integration` to state how the controller is connected with. These are the supported integration, z2m, deconz and zha. This does not mean that there is support for all three integration for all controllers, some controllers do not have some integration due to the lack of the device and being still in development. If you possess a device that is not integrated, you can freely open an issue and I will be glad to help :smiley:
-
 _Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
 
 ## Quick example

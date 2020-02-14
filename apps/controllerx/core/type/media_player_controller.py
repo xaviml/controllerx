@@ -1,12 +1,18 @@
+from const import MediaPlayer
 from core.controller import ReleaseHoldController, action
 from core.stepper import Stepper
-from const import MediaPlayer
+from core.stepper.minmax_stepper import MinMaxStepper
+
+DEFAULT_VOLUME_STEPS = 10
 
 
 class MediaPlayerController(ReleaseHoldController):
     def initialize(self):
         super().initialize()
         self.media_player = self.args["media_player"]
+        volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
+        self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
+        self.volume_level = 0
 
     def get_type_actions_mapping(self):
         return {
@@ -36,26 +42,39 @@ class MediaPlayerController(ReleaseHoldController):
 
     @action
     async def volume_up(self):
-        self.call_service("media_player/volume_up", entity_id=self.media_player)
+        await self.prepare_volume_change()
+        await self.volume_change(Stepper.UP)
 
     @action
     async def volume_down(self):
-        self.call_service("media_player/volume_down", entity_id=self.media_player)
+        await self.prepare_volume_change()
+        await self.volume_change(Stepper.DOWN)
 
     @action
     async def hold(self, direction):
-        # This variable is responsible to count how many times hold_loop has been called
-        # so we don't fall in a infinite loop
-        self.hold_loop_times = 0
+        await self.prepare_volume_change()
         await super().hold(direction)
 
+    async def prepare_volume_change(self):
+        volume_level = await self.get_entity_state(
+            self.media_player, attribute="volume_level"
+        )
+        if volume_level is not None:
+            self.volume_level = volume_level
+
+    async def volume_change(self, direction):
+        self.volume_level, exceeded = self.volume_stepper.step(
+            self.volume_level, direction
+        )
+        self.call_service(
+            "media_player/volume_set",
+            entity_id=self.media_player,
+            volume_level=self.volume_level,
+        )
+        return exceeded
+
     async def hold_loop(self, direction):
-        if direction == Stepper.UP:
-            self.call_service("media_player/volume_up", entity_id=self.media_player)
-        else:
-            self.call_service("media_player/volume_down", entity_id=self.media_player)
-        self.hold_loop_times += 1
-        return self.hold_loop_times > 10
+        return await self.volume_change(direction)
 
     def default_delay(self):
         return 500

@@ -43,6 +43,7 @@ This allows you to control media players. It supports volume, play/pause and ski
 | key              | type   | value                                                         | description                                                                                                                                                                 |
 | ---------------- | ------ | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `media_player`\* | string | `group.livingroom_speakers` or `media_player.bedroom_speaker` | The media player (or group of media players) you want to control                                                                                                            |
+| `volume_steps`   | int    | 10                                                            | Number of steps to go from min to max when clicking or holding. If the value is 2 with one click you will set the volume to 50% and with another one to 100%.               |
 | `delay`          | int    | [Controller specific](/controllerx/controllers)               | Delay in milliseconds that takes between sending the volume up/down instructions. Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior. |
 
 _\* Required fields_

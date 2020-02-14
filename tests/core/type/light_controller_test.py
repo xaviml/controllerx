@@ -133,7 +133,7 @@ async def test_get_value_attribute(sut, monkeypatch, attribute_input, expected_o
             MinMaxStepper(1, 255, 254),
             "off",
             True,
-            False,
+            True,
             1,
         ),
     ],

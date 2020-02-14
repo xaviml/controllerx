@@ -1,9 +1,10 @@
+from collections import defaultdict
+
+from const import Light
 from core.controller import ReleaseHoldController, action
 from core.stepper import Stepper
-from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper
-from const import Light
-from collections import defaultdict
+from core.stepper.minmax_stepper import MinMaxStepper
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -345,16 +346,14 @@ class LightController(ReleaseHoldController):
             # would be to force the loop to stop after 4 or 5 loops as a safety measure.
             return False
         self.log(f"Attribute: {attribute}; Current value: {old}", level="DEBUG")
-        new_state_attribute, exceeded = stepper.step(old, direction)
         if self.check_smooth_power_on(
             attribute, direction, await self.get_entity_state(self.light["name"])
         ):
             new_state_attribute = stepper.minmax.min
-            exceeded = False
-            # The light needs to be turned on since the current state is off
-            # and if the light is turned on with the brightness attribute,
-            # the brightness state won't remain when turned of and on again.
-            await self.on()
+            # After smooth power on, the light should not brighten up.
+            exceeded = True
+        else:
+            new_state_attribute, exceeded = stepper.step(old, direction)
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
         await self.on(**attributes)
         self.value_attribute = new_state_attribute
