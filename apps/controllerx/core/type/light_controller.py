@@ -350,11 +350,8 @@ class LightController(ReleaseHoldController):
             attribute, direction, await self.get_entity_state(self.light["name"])
         ):
             new_state_attribute = stepper.minmax.min
-            exceeded = False
-            # The light needs to be turned on since the current state is off
-            # and if the light is turned on with the brightness attribute,
-            # the brightness state won't remain when turned of and on again.
-            await self.on()
+            # After smooth power on, the light should not brighten up.
+            exceeded = True
         else:
             new_state_attribute, exceeded = stepper.step(old, direction)
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
