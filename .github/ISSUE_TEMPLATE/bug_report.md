@@ -4,12 +4,29 @@ about: Create a report to help us improve
 title: "[BUG]"
 labels: bug
 assignees: xaviml
-
 ---
 
-**Describe the bug**
-`Add here the bug`
+<!-- Make sure to read the FAQ before openning an issue. https://xaviml.github.io/controllerx/faq -->
 
-_Device_: 
-_Integration_: Choose from `z2m | deconz | zha`
-_Logs (if applicable)_:
+**Describe the bug**
+
+`Add here the bug description`
+
+_HASS core version_:
+
+_HACS (if installed from there)_:
+
+_Device_: (All devices involved - including controller, light and media player)
+
+
+_Integration_: `z2m | deconz | zha`
+
+_Configuration from `apps.yaml`_:
+```yaml
+Here
+```
+
+_Logs from AppDaemon_:
+```text
+Here
+```
