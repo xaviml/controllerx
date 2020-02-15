@@ -59,7 +59,8 @@ class Controller(hass.Hass, abc.ABC):
 
         # Map the actions mapping with the real functions
         self.actions_mapping = {
-            k: type_actions_mapping[v] for k, v in self.actions_mapping.items()
+            k: (type_actions_mapping[v] if type(v) == str else v)
+            for k, v in self.actions_mapping.items()
         }
 
         for controller_id in self.controllers_ids:
@@ -156,9 +157,8 @@ class Controller(hass.Hass, abc.ABC):
         """
         return None
 
-    @abc.abstractmethod
     def get_type_actions_mapping(self):
-        pass
+        return {}
 
 
 class ReleaseHoldController(Controller, abc.ABC):

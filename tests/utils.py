@@ -34,11 +34,7 @@ def hass_mock(monkeypatch, mocker):
 
 @pytest.fixture
 def fake_controller(hass_mock):
-    class FakeController(Controller):
-        def get_type_actions_mapping(self):
-            return None
-
-    c = FakeController()
+    c = Controller()
     c.args = {}
     return c
 

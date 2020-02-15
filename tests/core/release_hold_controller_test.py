@@ -10,9 +10,6 @@ class FakeReleaseHoldController(ReleaseHoldController):
     def hold_loop(self):
         pass
 
-    def get_type_actions_mapping(self):
-        return None
-
 
 @pytest.fixture
 def sut(hass_mock):
