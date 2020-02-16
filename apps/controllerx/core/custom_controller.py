@@ -45,7 +45,9 @@ class CustomMediaPlayerController(CustomController, MediaPlayerController):
 class CallServiceController(CustomController):
     def parse_action(self, action):
         service = action["service"].replace(".", "/")
-        data = action["data"]
+        data = action.get("data", {})
+        if data is None:
+            data = {}
         return (self.call_service, service, data)
 
     @action

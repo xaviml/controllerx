@@ -3,7 +3,7 @@ import pytest
 from core import integration as integration_module
 from core.controller import Controller, ReleaseHoldController
 
-from tests.utils import IntegrationMock, hass_mock
+from tests.utils import hass_mock
 
 
 class FakeReleaseHoldController(ReleaseHoldController):
