@@ -28,7 +28,7 @@ class DoubleKeyWirelessAqaraController(LightController):
         }
 
 
-class MFKZQ01LMController(LightController):
+class MFKZQ01LMLightController(LightController):
     """
     This controller allows movement actions for Xiaomi Aqara Smart Cube as
     shake, wakeup, fall, slide, flip180 or 90 and rotate_left or right. 
@@ -45,7 +45,7 @@ class MFKZQ01LMController(LightController):
             "shake": Light.TOGGLE,
             "wakeup": Light.RELEASE,
             "fall": Light.RELEASE,
-            "tap": Light.HOLD_COLOR_UP,
+            "tap": Light.TOGGLE,
             "slide": Light.ON_FULL_BRIGHTNESS,
             "flip180": Light.CLICK_COLOR_UP,
             "flip90": Light.CLICK_COLOR_DOWN,
