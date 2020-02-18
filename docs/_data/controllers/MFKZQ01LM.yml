@@ -1,0 +1,21 @@
+name: MFKZQ01LM Xiaomi Smart Cube (Aqara)
+device_support: 
+  - Light (MFKZQ01LMLightController; 350ms delay)
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "shake 🠖 Shake the cube"
+      - "wakeup 🠖 Cube automatically wakeup"
+      - "fall 🠖 From up to down acceleration"
+      - "tap 🠖 Doble tap in a surface"
+      - "slide 🠖 Swipe horizontal direction"
+      - "flip180 🠖 Flip cube 180 degrees"
+      - "flip90 🠖 Flip cube 90 degrees"
+      - "rotate_left 🠖 Rotate cube to left"
+      - "rotate_right 🠖 Rotate cube to right"
+note: >-
+  This controller does not have a self-explained way to use it since its main 
+  purpose is to customize it, this is why we recommend to customize it with 
+  <a href="/controllerx/how-to/custom-controllers">Custom controllers</a>. 
+  However, we gave a default behaviour to this controller.
