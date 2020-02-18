@@ -228,9 +228,15 @@ async def test_on_full(sut, mocker):
     max_ = 10
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(1, max_, 10)
+    stepper.previous_direction = Stepper.DOWN
     sut.manual_steppers = {attribute: stepper}
+
+    # SUT
     await sut.on_full(attribute)
+
+    # Checks
     on_patch.assert_called_once_with(**{attribute: max_})
+    assert stepper.previous_direction == Stepper.UP
 
 
 @pytest.mark.asyncio
@@ -239,9 +245,15 @@ async def test_on_min(sut, mocker):
     min_ = 1
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(min_, 10, 10)
+    stepper.previous_direction = Stepper.UP
     sut.manual_steppers = {attribute: stepper}
+
+    # SUT
     await sut.on_min(attribute)
+
+    # Checks
     on_patch.assert_called_once_with(**{attribute: min_})
+    assert stepper.previous_direction == Stepper.DOWN
 
 
 @pytest.mark.parametrize(
