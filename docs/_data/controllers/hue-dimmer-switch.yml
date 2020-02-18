@@ -1,6 +1,6 @@
 name: Hue Dimmer switch (Philips)
 device_support: 
-  - Light (E1744LightController; 350ms delay)
+  - Light (HueDimmerController; 350ms delay)
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
