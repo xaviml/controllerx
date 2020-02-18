@@ -1,0 +1,14 @@
+name: WXKG01LM (Aqara)
+device_support: 
+  - Light (WXKG01LMLightController; 350ms delay)
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "single 🠖 1 click"
+      - "double 🠖 2 clicks"
+      - "triple 🠖 3 clicks"
+      - "quadruple 🠖 4 clicks"
+      - "many 🠖 More than 4 clicks"
+      - "long 🠖 Hold the button"
+      - "long_release 🠖 Release the button"

@@ -34,11 +34,7 @@ def hass_mock(monkeypatch, mocker):
 
 @pytest.fixture
 def fake_controller(hass_mock):
-    class FakeController(Controller):
-        def get_type_actions_mapping(self):
-            return None
-
-    c = FakeController()
+    c = Controller()
     c.args = {}
     return c
 
@@ -65,5 +61,9 @@ def get_instances(file_, package_, class_):
         file_, package_,
     )
     subclasses = _all_subclasses(class_)
-    devices = [cls_() for cls_ in subclasses if len(cls_.__subclasses__()) == 0]
+    devices = [
+        cls_()
+        for cls_ in subclasses
+        if len(cls_.__subclasses__()) == 0 and package_ in cls_.__module__
+    ]
     return devices

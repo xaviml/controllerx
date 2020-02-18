@@ -104,6 +104,24 @@ class LightController(ReleaseHoldController):
                 self.on_full,
                 LightController.ATTRIBUTE_COLOR_TEMP,
             ),
+            Light.ON_MIN_BRIGHTNESS: (
+                self.on_min,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.ON_MIN_COLOR_TEMP: (
+                self.on_min,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
+            Light.SET_HALF_BRIGHTNESS: (
+                self.set_value,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+                0.5,
+            ),
+            Light.SET_HALF_COLOR_TEMP: (
+                self.set_value,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+                0.5,
+            ),
             Light.CLICK_BRIGHTNESS_UP: (
                 self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS,
@@ -251,13 +269,21 @@ class LightController(ReleaseHoldController):
         self.call_service("homeassistant/toggle", entity_id=self.light["name"])
 
     @action
-    async def on_full(self, attribute):
-        await self.on()
-        attribute = await self.get_attribute(attribute)
+    async def set_value(self, attribute, fraction):
+        fraction = max(0, min(fraction, 1))
         stepper = self.manual_steppers[attribute]
-        await self.change_light_state(
-            stepper.minmax.max, attribute, Stepper.UP, stepper,
-        )
+        min_ = stepper.minmax.min
+        max_ = stepper.minmax.max
+        value = (max_ - min_) * fraction + min_
+        await self.on(**{attribute: value})
+
+    @action
+    async def on_full(self, attribute):
+        await self.set_value(attribute, 1)
+
+    @action
+    async def on_min(self, attribute):
+        await self.set_value(attribute, 0)
 
     async def get_attribute(self, attribute):
         if attribute == LightController.ATTRIBUTE_COLOR:

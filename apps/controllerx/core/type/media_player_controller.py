@@ -16,10 +16,10 @@ class MediaPlayerController(ReleaseHoldController):
 
     def get_type_actions_mapping(self):
         return {
-            MediaPlayer.HOLD_DOWN: (self.hold, Stepper.DOWN),
-            MediaPlayer.HOLD_UP: (self.hold, Stepper.UP),
-            MediaPlayer.VOLUME_DOWN: self.volume_down,
-            MediaPlayer.VOLUME_UP: self.volume_up,
+            MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, Stepper.DOWN),
+            MediaPlayer.HOLD_VOLUME_UP: (self.hold, Stepper.UP),
+            MediaPlayer.CLICK_VOLUME_DOWN: self.volume_down,
+            MediaPlayer.CLICK_VOLUME_UP: self.volume_up,
             MediaPlayer.RELEASE: self.release,
             MediaPlayer.PLAY_PAUSE: self.play_pause,
             MediaPlayer.NEXT_TRACK: self.next_track,

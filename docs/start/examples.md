@@ -87,6 +87,8 @@ nameOfYourInstanceApp:
     - arrow_left_click
 ```
 
+## Advanced
+
 Controlling different lights with the same controller depending where you are.
 
 ```yaml
@@ -113,4 +115,34 @@ controller_bathroom:
   integration: deconz
   light: light.light3
   constrain_input_select: input_select.where_am_i,bathroom
+```
+
+Extending the functionality of the smooth power onfor the E1810, so when clicked or hold each button when the light is off, it sets the light to its minimum or maximum brightness or color, depending on the button pressed. This assumes you have a light with support to color temperature.
+
+```yaml
+livingroom_light_on:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.livingroom
+  constrain_input_boolean: light.livingroom,on
+  
+livingroom_light_off:
+  module: controllerx
+  class: CustomLightController
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.livingroom
+  mapping:
+    toggle: toggle
+    brightness_up_click: on_full_brightness
+    brightness_down_click: on_min_brightness
+    brightness_up_hold: on_full_brightness
+    brightness_down_hold: on_min_brightness
+    arrow_right_click: on_full_color_temp
+    arrow_left_click: on_min_color_temp
+    arrow_right_hold: on_full_color_temp
+    arrow_left_hold: on_min_color_temp
+  constrain_input_boolean: light.livingroom,off
 ```

@@ -36,7 +36,7 @@ Light dictionary for the `light` attribute:
 
 _\* Required fields_
 
-## Media player
+## Media player controller
 
 This allows you to control media players. It supports volume, play/pause and skipping forward/backward the track.
 

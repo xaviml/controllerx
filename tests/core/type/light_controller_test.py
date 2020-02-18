@@ -197,17 +197,51 @@ async def test_toggle(sut, mocker):
     )
 
 
+@pytest.mark.parametrize(
+    "min_max, fraction, expected_value",
+    [
+        ((1, 255), 0, 1),
+        ((1, 255), 1, 255),
+        ((0, 10), 0.5, 5),
+        ((0, 100), 0.2, 20),
+        ((0, 100), -1, 0),
+        ((0, 100), 1.5, 100),
+    ],
+)
+@pytest.mark.asyncio
+async def test_set_value(sut, mocker, min_max, fraction, expected_value):
+    attribute = "test_attribute"
+    on_patch = mocker.patch.object(sut, "on")
+    stepper = MinMaxStepper(min_max[0], min_max[1], 1)
+    sut.manual_steppers = {attribute: stepper}
+
+    # SUT
+    await sut.set_value(attribute, fraction)
+
+    # Checks
+    on_patch.assert_called_once_with(**{attribute: expected_value})
+
+
 @pytest.mark.asyncio
 async def test_on_full(sut, mocker):
     attribute = "test_attribute"
     max_ = 10
-    change_light_state_patch = mocker.patch.object(sut, "change_light_state")
+    on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(1, max_, 10)
     sut.manual_steppers = {attribute: stepper}
     await sut.on_full(attribute)
-    change_light_state_patch.assert_called_once_with(
-        max_, attribute, Stepper.UP, stepper
-    )
+    on_patch.assert_called_once_with(**{attribute: max_})
+
+
+@pytest.mark.asyncio
+async def test_on_min(sut, mocker):
+    attribute = "test_attribute"
+    min_ = 1
+    on_patch = mocker.patch.object(sut, "on")
+    stepper = MinMaxStepper(min_, 10, 10)
+    sut.manual_steppers = {attribute: stepper}
+    await sut.on_min(attribute)
+    on_patch.assert_called_once_with(**{attribute: min_})
 
 
 @pytest.mark.parametrize(
