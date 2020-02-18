@@ -279,10 +279,14 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on_full(self, attribute):
+        stepper = self.manual_steppers[attribute]
+        stepper.previous_direction = Stepper.UP
         await self.set_value(attribute, 1)
 
     @action
     async def on_min(self, attribute):
+        stepper = self.manual_steppers[attribute]
+        stepper.previous_direction = Stepper.DOWN
         await self.set_value(attribute, 0)
 
     async def get_attribute(self, attribute):
