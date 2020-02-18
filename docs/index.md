@@ -40,6 +40,10 @@ livingroom_controller:
 - [Configuration](/controllerx/start/configuration)
 - [Supported controllers](/controllerx/controllers)
 
+## Advanced
+
+- [Custom controllers](how-to/custom-controllers)
+
 ## Others
 
 - [Update instructions](/controllerx/how-to/update)

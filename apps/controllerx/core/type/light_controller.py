@@ -104,6 +104,14 @@ class LightController(ReleaseHoldController):
                 self.on_full,
                 LightController.ATTRIBUTE_COLOR_TEMP,
             ),
+            Light.ON_MIN_BRIGHTNESS: (
+                self.on_min,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.ON_MIN_COLOR_TEMP: (
+                self.on_min,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
             Light.CLICK_BRIGHTNESS_UP: (
                 self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS,
@@ -252,12 +260,13 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on_full(self, attribute):
-        await self.on()
-        attribute = await self.get_attribute(attribute)
         stepper = self.manual_steppers[attribute]
-        await self.change_light_state(
-            stepper.minmax.max, attribute, Stepper.UP, stepper,
-        )
+        await self.on(**{attribute: stepper.minmax.max})
+
+    @action
+    async def on_min(self, attribute):
+        stepper = self.manual_steppers[attribute]
+        await self.on(**{attribute: stepper.minmax.min})
 
     async def get_attribute(self, attribute):
         if attribute == LightController.ATTRIBUTE_COLOR:

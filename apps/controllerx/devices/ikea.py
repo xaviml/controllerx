@@ -71,39 +71,39 @@ class E1810MediaPlayerController(MediaPlayerController):
     def get_z2m_actions_mapping(self):
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
-            "brightness_up_click": MediaPlayer.VOLUME_UP,
-            "brightness_down_click": MediaPlayer.VOLUME_DOWN,
+            "brightness_up_click": MediaPlayer.CLICK_VOLUME_UP,
+            "brightness_down_click": MediaPlayer.CLICK_VOLUME_DOWN,
             "arrow_left_click": MediaPlayer.PREVIOUS_TRACK,
             "arrow_right_click": MediaPlayer.NEXT_TRACK,
-            "brightness_up_hold": MediaPlayer.HOLD_UP,
+            "brightness_up_hold": MediaPlayer.HOLD_VOLUME_UP,
             "brightness_up_release": MediaPlayer.RELEASE,
-            "brightness_down_hold": MediaPlayer.HOLD_DOWN,
+            "brightness_down_hold": MediaPlayer.HOLD_VOLUME_DOWN,
             "brightness_down_release": MediaPlayer.RELEASE,
         }
 
     def get_deconz_actions_mapping(self):
         return {
             1002: MediaPlayer.PLAY_PAUSE,
-            2002: MediaPlayer.VOLUME_UP,
-            3002: MediaPlayer.VOLUME_DOWN,
+            2002: MediaPlayer.CLICK_VOLUME_UP,
+            3002: MediaPlayer.CLICK_VOLUME_DOWN,
             4002: MediaPlayer.PREVIOUS_TRACK,
             5002: MediaPlayer.NEXT_TRACK,
-            2001: MediaPlayer.HOLD_UP,
+            2001: MediaPlayer.HOLD_VOLUME_UP,
             2003: MediaPlayer.RELEASE,
-            3001: MediaPlayer.HOLD_DOWN,
+            3001: MediaPlayer.HOLD_VOLUME_DOWN,
             3003: MediaPlayer.RELEASE,
         }
 
     def get_zha_actions_mapping(self):
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
-            "step_with_on_off_0_43_5": MediaPlayer.VOLUME_UP,
-            "step_1_43_5": MediaPlayer.VOLUME_DOWN,
+            "step_with_on_off_0_43_5": MediaPlayer.CLICK_VOLUME_UP,
+            "step_1_43_5": MediaPlayer.CLICK_VOLUME_DOWN,
             "press_257_13_0": MediaPlayer.PREVIOUS_TRACK,
             "press_256_13_0": MediaPlayer.NEXT_TRACK,
-            "move_with_on_off_0_83": MediaPlayer.HOLD_UP,
+            "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
             "stop": MediaPlayer.RELEASE,
-            "move_1_83": MediaPlayer.HOLD_DOWN,
+            "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
             "release": MediaPlayer.RELEASE,
         }
 
@@ -231,8 +231,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_z2m_actions_mapping(self):
         return {
-            "rotate_left": MediaPlayer.HOLD_DOWN,
-            "rotate_right": MediaPlayer.HOLD_UP,
+            "rotate_left": MediaPlayer.HOLD_VOLUME_DOWN,
+            "rotate_right": MediaPlayer.HOLD_VOLUME_UP,
             "rotate_stop": MediaPlayer.RELEASE,
             "play_pause": MediaPlayer.PLAY_PAUSE,
             "skip_forward": MediaPlayer.NEXT_TRACK,
@@ -241,8 +241,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_deconz_actions_mapping(self):
         return {
-            2001: MediaPlayer.HOLD_DOWN,
-            3001: MediaPlayer.HOLD_UP,
+            2001: MediaPlayer.HOLD_VOLUME_DOWN,
+            3001: MediaPlayer.HOLD_VOLUME_UP,
             2003: MediaPlayer.RELEASE,
             3003: MediaPlayer.RELEASE,
             1002: MediaPlayer.PLAY_PAUSE,
@@ -252,8 +252,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_zha_actions_mapping(self):
         return {
-            "move_1_195": MediaPlayer.HOLD_DOWN,
-            "move_0_195": MediaPlayer.HOLD_UP,
+            "move_1_195": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_0_195": MediaPlayer.HOLD_VOLUME_UP,
             "stop": MediaPlayer.RELEASE,
             "toggle": MediaPlayer.PLAY_PAUSE,
             "step_0_1_0": MediaPlayer.NEXT_TRACK,
