@@ -7,6 +7,8 @@ class Light:
     ON_FULL_COLOR_TEMP = "on_full_color_temp"
     ON_MIN_BRIGHTNESS = "on_min_brightness"
     ON_MIN_COLOR_TEMP = "on_min_color_temp"
+    SET_HALF_BRIGHTNESS = "set_half_brightness"
+    SET_HALF_COLOR_TEMP = "set_half_color_temp"
     CLICK_BRIGHTNESS_UP = "click_brightness_up"
     CLICK_BRIGHTNESS_DOWN = "click_brightness_down"
     CLICK_BRIGHTNESS_TOGGLE = "click_brightness_toggle"

@@ -21,6 +21,8 @@ This controller lets you map controller events with predefined light actions. Th
 | `on_full_color_temp`      | It puts the color temp to the maximum value                                                                                 |
 | `on_min_brightness`       | It puts the brightness to the minimum value                                                                                 |
 | `on_min_color_temp`       | It puts the color temp to the minimum value                                                                                 |
+| `set_half_brightness`     | It sets the brightness to 50%                                                                                               |
+| `set_half_color_temp`     | It sets the color temp to 50%                                                                                               |
 | `click_brightness_up`     | It brights up accordingly with the `manual_steps` attribute                                                                 |
 | `click_brightness_down`   | It brights down accordingly with the `manual_steps` attribute                                                               |
 | `click_brightness_toggle` | It brights up/down accordingly with the `manual_steps` attribute and alternates in each click                               |
@@ -139,5 +141,5 @@ custom_hue_dimmer_example:
     down-press:
       service: notify.telegram
       data:
-        message: Hey! Your abuelo is calling you, come and help him.
+        message: Hey! Your abuelo is calling you, come and help him out.
 ```

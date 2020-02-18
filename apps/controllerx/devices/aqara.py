@@ -26,3 +26,37 @@ class DoubleKeyWirelessAqaraController(LightController):
             "right_double": Light.CLICK_BRIGHTNESS_UP,
             "right_long": Light.CLICK_BRIGHTNESS_DOWN,
         }
+
+
+class WXKG01LMLightController(LightController):
+    """
+    Different states reported from the controller:
+    single, double, triple, quadruple, 
+    many, long, long_release
+    """
+
+    def get_z2m_actions_mapping(self):
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "triple": Light.ON_MIN_BRIGHTNESS,
+            "quadruple": Light.SET_HALF_BRIGHTNESS,
+            "long": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "long_release": Light.RELEASE,
+        }
+
+
+class WXKG12LMLightController(LightController):
+    """
+    Different states reported from the controller:
+    single, double, shake, hold, release
+    """
+
+    def get_z2m_actions_mapping(self):
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "shake": Light.ON_MIN_BRIGHTNESS,
+            "hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Light.RELEASE,
+        }
