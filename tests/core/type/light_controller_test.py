@@ -213,7 +213,7 @@ async def test_set_value(sut, mocker, min_max, fraction, expected_value):
     attribute = "test_attribute"
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(min_max[0], min_max[1], 1)
-    sut.manual_steppers = {attribute: stepper}
+    sut.automatic_steppers = {attribute: stepper}
 
     # SUT
     await sut.set_value(attribute, fraction)
@@ -229,7 +229,7 @@ async def test_on_full(sut, mocker):
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(1, max_, 10)
     stepper.previous_direction = Stepper.DOWN
-    sut.manual_steppers = {attribute: stepper}
+    sut.automatic_steppers = {attribute: stepper}
 
     # SUT
     await sut.on_full(attribute)
@@ -246,7 +246,7 @@ async def test_on_min(sut, mocker):
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(min_, 10, 10)
     stepper.previous_direction = Stepper.UP
-    sut.manual_steppers = {attribute: stepper}
+    sut.automatic_steppers = {attribute: stepper}
 
     # SUT
     await sut.on_min(attribute)

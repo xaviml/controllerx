@@ -132,11 +132,6 @@ class LightController(ReleaseHoldController):
                 LightController.ATTRIBUTE_BRIGHTNESS,
                 Stepper.DOWN,
             ),
-            Light.CLICK_BRIGHTNESS_TOGGLE: (
-                self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.TOGGLE,
-            ),
             Light.CLICK_COLOR_UP: (
                 self.click,
                 LightController.ATTRIBUTE_COLOR,
@@ -146,11 +141,6 @@ class LightController(ReleaseHoldController):
                 self.click,
                 LightController.ATTRIBUTE_COLOR,
                 Stepper.DOWN,
-            ),
-            Light.CLICK_COLOR_TOGGLE: (
-                self.click,
-                LightController.ATTRIBUTE_COLOR,
-                Stepper.TOGGLE,
             ),
             Light.CLICK_COLOR_TEMP_UP: (
                 self.click,
@@ -162,11 +152,6 @@ class LightController(ReleaseHoldController):
                 LightController.ATTRIBUTE_COLOR_TEMP,
                 Stepper.DOWN,
             ),
-            Light.CLICK_COLOR_TEMP_TOGGLE: (
-                self.click,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                Stepper.TOGGLE,
-            ),
             Light.CLICK_XY_COLOR_UP: (
                 self.click,
                 LightController.ATTRIBUTE_XY_COLOR,
@@ -176,11 +161,6 @@ class LightController(ReleaseHoldController):
                 self.click,
                 LightController.ATTRIBUTE_XY_COLOR,
                 Stepper.DOWN,
-            ),
-            Light.CLICK_XY_COLOR_TOGGLE: (
-                self.click,
-                LightController.ATTRIBUTE_XY_COLOR,
-                Stepper.TOGGLE,
             ),
             Light.HOLD_BRIGHTNESS_UP: (
                 self.hold,
@@ -271,7 +251,7 @@ class LightController(ReleaseHoldController):
     @action
     async def set_value(self, attribute, fraction):
         fraction = max(0, min(fraction, 1))
-        stepper = self.manual_steppers[attribute]
+        stepper = self.automatic_steppers[attribute]
         min_ = stepper.minmax.min
         max_ = stepper.minmax.max
         value = (max_ - min_) * fraction + min_
@@ -279,13 +259,13 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on_full(self, attribute):
-        stepper = self.manual_steppers[attribute]
+        stepper = self.automatic_steppers[attribute]
         stepper.previous_direction = Stepper.UP
         await self.set_value(attribute, 1)
 
     @action
     async def on_min(self, attribute):
-        stepper = self.manual_steppers[attribute]
+        stepper = self.automatic_steppers[attribute]
         stepper.previous_direction = Stepper.DOWN
         await self.set_value(attribute, 0)
 
