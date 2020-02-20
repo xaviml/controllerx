@@ -24,8 +24,12 @@ livingroom_controller:
 
 You can check the documentation in [here](https://xaviml.github.io/controllerx/).
 
+If you have any question, you can either [open an issue](https://github.com/xaviml/controllerx/issues/new/choose) or comment in [this topic](https://community.home-assistant.io/t/controllerx-bring-full-functionality-to-light-and-media-player-controllers/148855) from the Home Assistant community forum.
+
+If you like this project, don't forget to star it :)
+
 ## Contributing
 
-If you want to contribute to this project, check [CONTRIBUTING.md](/CONTRIBUTING.md).
+If you want to contribute to this project, check [CONTRIBUTING.md](https://github.com/xaviml/controllerx/blob/master/CONTRIBUTING.md).
 
 _Note: The code does not use any MQTT calls, just the Home Assistant plugin from AppDaemon._

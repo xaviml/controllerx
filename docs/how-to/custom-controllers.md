@@ -25,16 +25,12 @@ This controller lets you map controller events with predefined light actions. Th
 | `set_half_color_temp`     | It sets the color temp to 50%                                                                                               |
 | `click_brightness_up`     | It brights up accordingly with the `manual_steps` attribute                                                                 |
 | `click_brightness_down`   | It brights down accordingly with the `manual_steps` attribute                                                               |
-| `click_brightness_toggle` | It brights up/down accordingly with the `manual_steps` attribute and alternates in each click                               |
 | `click_color_up`          | It turns the color up accordingly with the `manual_steps` attribute                                                         |
 | `click_color_down`        | It turns the color down accordingly with the `manual_steps` attribute                                                       |
-| `click_color_toggle`      | It turns the color up/down accordingly with the `manual_steps` attribute and alternates in each click                       |
 | `click_colortemp_up`      | It turns the color temp up accordingly with the `manual_steps` attribute                                                    |
 | `click_colortemp_down`    | It turns the color temp down accordingly with the `manual_steps` attribute                                                  |
-| `click_colortemp_toggle`  | It turns the color temp up/down accordingly with the `manual_steps` attribute and alternates in each click                  |
 | `click_xycolor_up`        | It turns the xy color up accordingly with the `manual_steps` attribute                                                      |
 | `click_xycolor_down`      | It turns the xy color down accordingly with the `manual_steps` attribute                                                    |
-| `click_xycolor_toggle`    | It turns the xy color up/down accordingly with the `manual_steps` attribute and alternates in each click                    |
 | `hold_brightness_up`      | It brights up until release accordingly with the `automatic_steps` attribute                                                |
 | `hold_brightness_down`    | It brights down until release accordingly with the `automatic_steps` attribute                                              |
 | `hold_brightness_toggle`  | It brights up/down until release accordingly with the `automatic_steps` attribute and alternates in each click              |

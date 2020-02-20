@@ -15,8 +15,8 @@ class FakeStepper(Stepper):
         (Stepper.DOWN, Stepper.DOWN, Stepper.DOWN),
         (Stepper.UP, Stepper.DOWN, Stepper.UP),
         (Stepper.DOWN, Stepper.UP, Stepper.DOWN),
-        (Stepper.TOGGLE, Stepper.UP, Stepper.DOWN),
-        (Stepper.TOGGLE, Stepper.DOWN, Stepper.UP),
+        (Stepper.TOGGLE, Stepper.TOGGLE_UP, Stepper.TOGGLE_DOWN),
+        (Stepper.TOGGLE, Stepper.TOGGLE_DOWN, Stepper.TOGGLE_UP),
     ],
 )
 def test_get_direction(direction_input, previous_direction, expected_direction):
@@ -31,7 +31,13 @@ def test_get_direction(direction_input, previous_direction, expected_direction):
 
 
 @pytest.mark.parametrize(
-    "direction_input, expected_sign", [(Stepper.UP, 1), (Stepper.DOWN, -1),],
+    "direction_input, expected_sign",
+    [
+        (Stepper.UP, 1),
+        (Stepper.DOWN, -1),
+        (Stepper.TOGGLE_UP, 1),
+        (Stepper.TOGGLE_DOWN, -1),
+    ],
 )
 def test_sign(direction_input, expected_sign):
     stepper = FakeStepper()
