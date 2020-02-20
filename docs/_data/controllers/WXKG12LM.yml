@@ -4,6 +4,7 @@ device_support:
 note: >-
   For z2m integration, this controller has 2 sensors that need to be added to the configuration.
   One ends with `_action` and the other one with `_click`.
+  <a href="https://github.com/xaviml/controllerx/issues/28#issuecomment-587799277"> See here.</a>
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
