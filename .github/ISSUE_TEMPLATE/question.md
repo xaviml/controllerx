@@ -10,7 +10,7 @@ assignees: xaviml
 
 # Question
 
-`Add here your question.
+Add here your question.
 
 ## Additional information
 
