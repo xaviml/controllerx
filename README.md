@@ -26,6 +26,6 @@ You can check the documentation in [here](https://xaviml.github.io/controllerx/)
 
 ## Contributing
 
-If you want to contribute to this project, check [CONTRIBUTING.md](/CONTRIBUTING.md).
+If you want to contribute to this project, check [CONTRIBUTING.md](https://github.com/xaviml/controllerx/blob/master/CONTRIBUTING.md).
 
 _Note: The code does not use any MQTT calls, just the Home Assistant plugin from AppDaemon._
