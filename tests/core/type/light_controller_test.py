@@ -134,7 +134,7 @@ async def test_get_value_attribute(sut, monkeypatch, attribute_input, expected_o
             "off",
             True,
             True,
-            1,
+            0,
         ),
     ],
 )
@@ -158,6 +158,8 @@ async def test_change_light_state(
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.smooth_power_on = smooth_power_on
     sut.value_attribute = old
+    sut.manual_steppers = {attribute: stepper}
+    sut.automatic_steppers = {attribute: stepper}
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
@@ -228,7 +230,7 @@ async def test_on_full(sut, mocker):
     max_ = 10
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(1, max_, 10)
-    stepper.previous_direction = Stepper.DOWN
+    stepper.previous_direction = Stepper.TOGGLE_DOWN
     sut.automatic_steppers = {attribute: stepper}
 
     # SUT
@@ -236,7 +238,7 @@ async def test_on_full(sut, mocker):
 
     # Checks
     on_patch.assert_called_once_with(**{attribute: max_})
-    assert stepper.previous_direction == Stepper.UP
+    assert stepper.previous_direction == Stepper.TOGGLE_UP
 
 
 @pytest.mark.asyncio
@@ -245,7 +247,7 @@ async def test_on_min(sut, mocker):
     min_ = 1
     on_patch = mocker.patch.object(sut, "on")
     stepper = MinMaxStepper(min_, 10, 10)
-    stepper.previous_direction = Stepper.UP
+    stepper.previous_direction = Stepper.TOGGLE_UP
     sut.automatic_steppers = {attribute: stepper}
 
     # SUT
@@ -253,7 +255,7 @@ async def test_on_min(sut, mocker):
 
     # Checks
     on_patch.assert_called_once_with(**{attribute: min_})
-    assert stepper.previous_direction == Stepper.DOWN
+    assert stepper.previous_direction == Stepper.TOGGLE_DOWN
 
 
 @pytest.mark.parametrize(
@@ -315,7 +317,15 @@ async def test_click(
         ),
         ("color_temp", Stepper.UP, Stepper.UP, "off", True, 0, Stepper.UP),
         ("color_temp", Stepper.UP, Stepper.UP, "on", True, 1, Stepper.UP),
-        ("color_temp", Stepper.TOGGLE, Stepper.DOWN, "on", True, 1, Stepper.UP),
+        (
+            "color_temp",
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_DOWN,
+            "on",
+            True,
+            1,
+            Stepper.TOGGLE_UP,
+        ),
     ],
 )
 @pytest.mark.asyncio

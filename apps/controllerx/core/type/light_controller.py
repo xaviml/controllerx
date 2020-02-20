@@ -260,13 +260,13 @@ class LightController(ReleaseHoldController):
     @action
     async def on_full(self, attribute):
         stepper = self.automatic_steppers[attribute]
-        stepper.previous_direction = Stepper.UP
+        stepper.previous_direction = Stepper.TOGGLE_UP
         await self.set_value(attribute, 1)
 
     @action
     async def on_min(self, attribute):
         stepper = self.automatic_steppers[attribute]
-        stepper.previous_direction = Stepper.DOWN
+        stepper.previous_direction = Stepper.TOGGLE_DOWN
         await self.set_value(attribute, 0)
 
     async def get_attribute(self, attribute):
@@ -297,7 +297,7 @@ class LightController(ReleaseHoldController):
 
     def check_smooth_power_on(self, attribute, direction, light_state):
         return (
-            direction == Stepper.UP
+            direction != Stepper.DOWN
             and attribute == self.ATTRIBUTE_BRIGHTNESS
             and self.smooth_power_on
             and light_state == "off"
@@ -359,9 +359,9 @@ class LightController(ReleaseHoldController):
         if self.check_smooth_power_on(
             attribute, direction, await self.get_entity_state(self.light["name"])
         ):
-            new_state_attribute = stepper.minmax.min
-            # After smooth power on, the light should not brighten up.
-            exceeded = True
+            await self.on_min(attribute)
+            # # After smooth power on, the light should not brighten up.
+            return True
         else:
             new_state_attribute, exceeded = stepper.step(old, direction)
         attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
