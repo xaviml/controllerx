@@ -6,27 +6,38 @@ labels: bug
 assignees: xaviml
 ---
 
-<!-- Make sure to read the FAQ before openning an issue. https://xaviml.github.io/controllerx/faq -->
+<!-- Make sure to read the FAQ before opening an issue. https://xaviml.github.io/controllerx/faq -->
 
-**Describe the bug**
+# Bug report
 
-`Add here the bug description`
+## Description
 
-_HASS core version_:
+Add a description of the bug. Detail the expected behaviour in contrast with the behaviour you're observing.
 
-_HACS (if installed from there)_:
+## Additional information
 
-_Device_: (All devices involved - including controller, light and media player)
+* Devices involved:
+  * Model: [ eg. IKEA 1744 ] as [ Light | Media Player | Controller ]
+  * ...
+* Integration: Choose from `z2m | deconz | zha`
+* AppDaemon version: [ eg. v5.0.0 ]
+* ControllerX version: [ eg. v2.2.1 ]
+* HACS version (if installed from there): [ eg. v0.21.5 ]
+* Home Assistant Core version: [ eg. v0.105.4 ]
 
+## AppDaemon app configuration
 
-_Integration_: `z2m | deconz | zha`
-
-_Configuration from `apps.yaml`_:
-```yaml
-Here
+```
+Insert your appdaemon app configuration here (apps.yaml content).
+Insert only the configuration relative to the faulty controllerx app.
 ```
 
-_Logs from AppDaemon_:
-```text
-Here
+## Logs
+
 ```
+(optional) Add relevant AppDaemon / Home Assistant logs which could help tackle the problem.
+```
+
+## Additional Context
+
+Add any other context or screenshots about the bug here.

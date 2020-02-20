@@ -8,23 +8,35 @@ assignees: xaviml
 
 <!-- Make sure to read the FAQ before openning an issue. https://xaviml.github.io/controllerx/faq -->
 
-`Add here your question`
+# Question
 
-_HASS core version_:
+`Add here your question.
 
-_HACS (if installed from there)_:
+## Additional information
 
-_Device_: (All devices involved - including controller, light and media player)
+* Devices involved:
+  * Model: [ eg. IKEA 1744 ] as [ Light | Media Player | Controller ]
+  * ...
+* Integration: Choose from `z2m | deconz | zha`
+* AppDaemon version: [ eg. v5.0.0 ]
+* ControllerX version: [ eg. v2.2.1 ]
+* HACS version (if installed from there): [ eg. v0.21.5 ]
+* Home Assistant Core version: [ eg. v0.105.4 ]
 
+## AppDaemon app configuration
 
-_Integration_: `z2m | deconz | zha`
-
-_Configuration from `apps.yaml`_:
-```yaml
-Here
+```
+(optional) Insert your appdaemon app configuration here (apps.yaml content).
+Insert only the configuration relative to the controllerx app you're asking the question for.
 ```
 
-_Logs from AppDaemon_:
-```text
-Here
+## Logs
+
 ```
+(optional) Add relevant AppDaemon / Home Assistant logs which could help answering the question.
+```
+
+## Additional Context
+
+Add any other context or screenshots about the question here.
+
