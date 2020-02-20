@@ -9,40 +9,40 @@ Custom controllers let you map controller events to actions. There are 3 type of
 
 Class: `CustomLightController`
 
-This controller lets you map controller events with predefined light actions. This is a [Light controller](/controllerx/start/type-configuration/#light-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
+This controller lets you map controller events with predefined light actions. This is a [Light controller](/controllerx/start/type-configuration#light-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
 
-| value                     | description                                                                                                                 |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `on`                      | It turns on the light                                                                                                       |
-| `off`                     | It turns off the light                                                                                                      |
-| `toggle`                  | It toggles the light                                                                                                        |
-| `release`                 | It stops `hold` actions                                                                                                     |
-| `on_full_brightness`      | It puts the brightness to the maximum value                                                                                 |
-| `on_full_color_temp`      | It puts the color temp to the maximum value                                                                                 |
-| `on_min_brightness`       | It puts the brightness to the minimum value                                                                                 |
-| `on_min_color_temp`       | It puts the color temp to the minimum value                                                                                 |
-| `set_half_brightness`     | It sets the brightness to 50%                                                                                               |
-| `set_half_color_temp`     | It sets the color temp to 50%                                                                                               |
-| `click_brightness_up`     | It brights up accordingly with the `manual_steps` attribute                                                                 |
-| `click_brightness_down`   | It brights down accordingly with the `manual_steps` attribute                                                               |
-| `click_color_up`          | It turns the color up accordingly with the `manual_steps` attribute                                                         |
-| `click_color_down`        | It turns the color down accordingly with the `manual_steps` attribute                                                       |
-| `click_colortemp_up`      | It turns the color temp up accordingly with the `manual_steps` attribute                                                    |
-| `click_colortemp_down`    | It turns the color temp down accordingly with the `manual_steps` attribute                                                  |
-| `click_xycolor_up`        | It turns the xy color up accordingly with the `manual_steps` attribute                                                      |
-| `click_xycolor_down`      | It turns the xy color down accordingly with the `manual_steps` attribute                                                    |
-| `hold_brightness_up`      | It brights up until release accordingly with the `automatic_steps` attribute                                                |
-| `hold_brightness_down`    | It brights down until release accordingly with the `automatic_steps` attribute                                              |
-| `hold_brightness_toggle`  | It brights up/down until release accordingly with the `automatic_steps` attribute and alternates in each click              |
-| `hold_color_up`           | It turns the color up until release accordingly with the `automatic_steps` attribute                                        |
-| `hold_color_down`         | It turns the color down until release accordingly with the `automatic_steps` attribute                                      |
-| `hold_color_toggle`       | It turns the color up/down until release accordingly with the `automatic_steps` attribute and alternates in each click      |
-| `hold_colortemp_up`       | It turns the color temp up until release accordingly with the `automatic_steps` attribute                                   |
-| `hold_colortemp_down`     | It turns the color temp down until release accordingly with the `automatic_steps` attribute                                 |
-| `hold_colortemp_toggle`   | It turns the color temp up/down until release accordingly with the `automatic_steps` attribute and alternates in each click |
-| `hold_xycolor_up`         | It turns the xy color up until release accordingly with the `automatic_steps` attribute                                     |
-| `hold_xycolor_down`       | It turns the xy color down until release accordingly with the `automatic_steps` attribute                                   |
-| `hold_xycolor_toggle`     | It turns the xy color up/down until release accordingly with the `automatic_steps` attribute and alternates in each click   |
+| value                    | description                                                                                                                 |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `on`                     | It turns on the light                                                                                                       |
+| `off`                    | It turns off the light                                                                                                      |
+| `toggle`                 | It toggles the light                                                                                                        |
+| `release`                | It stops `hold` actions                                                                                                     |
+| `on_full_brightness`     | It puts the brightness to the maximum value                                                                                 |
+| `on_full_color_temp`     | It puts the color temp to the maximum value                                                                                 |
+| `on_min_brightness`      | It puts the brightness to the minimum value                                                                                 |
+| `on_min_color_temp`      | It puts the color temp to the minimum value                                                                                 |
+| `set_half_brightness`    | It sets the brightness to 50%                                                                                               |
+| `set_half_color_temp`    | It sets the color temp to 50%                                                                                               |
+| `click_brightness_up`    | It brights up accordingly with the `manual_steps` attribute                                                                 |
+| `click_brightness_down`  | It brights down accordingly with the `manual_steps` attribute                                                               |
+| `click_color_up`         | It turns the color up accordingly with the `manual_steps` attribute                                                         |
+| `click_color_down`       | It turns the color down accordingly with the `manual_steps` attribute                                                       |
+| `click_colortemp_up`     | It turns the color temp up accordingly with the `manual_steps` attribute                                                    |
+| `click_colortemp_down`   | It turns the color temp down accordingly with the `manual_steps` attribute                                                  |
+| `click_xycolor_up`       | It turns the xy color up accordingly with the `manual_steps` attribute                                                      |
+| `click_xycolor_down`     | It turns the xy color down accordingly with the `manual_steps` attribute                                                    |
+| `hold_brightness_up`     | It brights up until release accordingly with the `automatic_steps` attribute                                                |
+| `hold_brightness_down`   | It brights down until release accordingly with the `automatic_steps` attribute                                              |
+| `hold_brightness_toggle` | It brights up/down until release accordingly with the `automatic_steps` attribute and alternates in each click              |
+| `hold_color_up`          | It turns the color up until release accordingly with the `automatic_steps` attribute                                        |
+| `hold_color_down`        | It turns the color down until release accordingly with the `automatic_steps` attribute                                      |
+| `hold_color_toggle`      | It turns the color up/down until release accordingly with the `automatic_steps` attribute and alternates in each click      |
+| `hold_colortemp_up`      | It turns the color temp up until release accordingly with the `automatic_steps` attribute                                   |
+| `hold_colortemp_down`    | It turns the color temp down until release accordingly with the `automatic_steps` attribute                                 |
+| `hold_colortemp_toggle`  | It turns the color temp up/down until release accordingly with the `automatic_steps` attribute and alternates in each click |
+| `hold_xycolor_up`        | It turns the xy color up until release accordingly with the `automatic_steps` attribute                                     |
+| `hold_xycolor_down`      | It turns the xy color down until release accordingly with the `automatic_steps` attribute                                   |
+| `hold_xycolor_toggle`    | It turns the xy color up/down until release accordingly with the `automatic_steps` attribute and alternates in each click   |
 
 #### Example of CustomLightController
 
@@ -71,18 +71,18 @@ example_app:
 
 Class: `CustomMediaPlayerController`
 
-This controller lets you map controller events with predefined media player actions. This is a [Media player controller](/controllerx/start/type-configuration/#media-player-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
+This controller lets you map controller events with predefined media player actions. This is a [Media player controller](/controllerx/start/type-configuration#media-player-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
 
-| value             | description                                       |
-| ----------------- | ------------------------------------------------- |
-| hold_volume_down  | It puts the volume down until `release` is called |
-| hold_volume_up    | It puts the volume up until `release` is called   |
-| click_volume_down | It turns the volume down one step                 |
-| click_volume_up   | It turns the volume up one step                   |
-| release           | It calls `release` for `hold` actions             |
-| play_pause        | It toggles the play/pause media                   |
-| next_track        | It skips forward                                  |
-| previous_track    | It skips backward                                 |
+| value             | description                                        |
+| ----------------- | -------------------------------------------------- |
+| hold_volume_down  | It turns the volume down until `release` is called |
+| hold_volume_up    | It turns the volume up until `release` is called   |
+| click_volume_down | It turns the volume down one step                  |
+| click_volume_up   | It turns the volume up one step                    |
+| release           | It calls `release` for `hold` actions              |
+| play_pause        | It toggles the play/pause media                    |
+| next_track        | It skips forward                                   |
+| previous_track    | It skips backward                                  |
 
 #### Example of CustomMediaPlayerController
 
@@ -108,9 +108,9 @@ example_app:
 
 Class: `CallServiceController`
 
-This custom controller is the different one from the previous two. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service and its data. We will see it better in an example.
+This custom controller is the different one from the previous two. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service and its data. We will see it better with an example.
 
-Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and sometimes he needs helps. Here is custom controller comes, so we can for example call a HA script (that does something usefull for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
+Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and sometimes he needs helps. Here is custom controller comes, so we can for example call a HA script (that does something useful for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
 
 ```yaml
 # We first define a HueDimmerController to control the light
