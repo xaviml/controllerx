@@ -2,6 +2,7 @@ from const import MediaPlayer
 from core.controller import ReleaseHoldController, action
 from core.stepper import Stepper
 from core.stepper.minmax_stepper import MinMaxStepper
+from core.stepper.circular_stepper import CircularStepper
 
 DEFAULT_VOLUME_STEPS = 10
 
@@ -24,7 +25,34 @@ class MediaPlayerController(ReleaseHoldController):
             MediaPlayer.PLAY_PAUSE: self.play_pause,
             MediaPlayer.NEXT_TRACK: self.next_track,
             MediaPlayer.PREVIOUS_TRACK: self.previous_track,
+            MediaPlayer.NEXT_SOURCE: (self.change_source_list, Stepper.UP),
+            MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, Stepper.DOWN),
         }
+
+    @action
+    async def change_source_list(self, direction):
+        entity_states = await self.get_entity_state(self.media_player, attribute="all")
+        entity_attributes = entity_states["attributes"]
+        source_list = entity_attributes.get("source_list")
+        if source_list == "" or source_list is None:
+            self.log(
+                "There is no 'source_list' parameter in this media player",
+                level="WARNING",
+            )
+            return
+        source_list = source_list.split(",")
+        source = entity_attributes.get("source")
+        if source is None:
+            new_index_source = 0
+        else:
+            index_source = source_list.index(source)
+            source_stepper = CircularStepper(0, len(source_list) - 1, len(source_list))
+            new_index_source, _ = source_stepper.step(index_source, direction)
+        self.call_service(
+            "media_player/select_source",
+            entity_id=self.media_player,
+            source=source_list[new_index_source],
+        )
 
     @action
     async def play_pause(self):

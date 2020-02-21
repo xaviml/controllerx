@@ -40,3 +40,5 @@ class MediaPlayer:
     PLAY_PAUSE = "play_pause"
     NEXT_TRACK = "next_track"
     PREVIOUS_TRACK = "previous_track"
+    NEXT_SOURCE = "next_source"
+    PREVIOUS_SOURCE = "previous_source"

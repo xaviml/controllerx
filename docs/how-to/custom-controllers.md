@@ -108,9 +108,9 @@ example_app:
 
 Class: `CallServiceController`
 
-This custom controller is the different one from the previous two. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service and its data. We will see it better with an example.
+This custom controller is the different one from the previous two. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service (or services) and its data. We will see it better with an example.
 
-Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and sometimes he needs helps. Here is custom controller comes, so we can for example call a HA script (that does something useful for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
+Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and sometimes he needs helps. Here is custom controller comes, so we can for example call two HA script (that do something useful for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
 
 ```yaml
 # We first define a HueDimmerController to control the light
@@ -133,7 +133,10 @@ custom_hue_dimmer_example:
   light: light.office
   mapping:
     up-press:
-      service: script.my_script
+      - service: script.my_script
+      - service: script.my_script2
+        data:
+          attr1: value
     down-press:
       service: notify.telegram
       data:

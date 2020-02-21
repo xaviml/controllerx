@@ -74,40 +74,68 @@ async def test_custom_light_controller(
 
 
 @pytest.mark.parametrize(
-    "integration, called_service, data, expected_service_called",
+    "integration, services, expected_calls",
     [
         (
             "z2m",
-            "homeassistant/test_service",
-            {"attr1": "test", "attr2": "test"},
-            "homeassistant/test_service",
+            {
+                "service": "homeassistant/test_service",
+                "data": {"attr1": "test", "attr2": "test"},
+            },
+            [("homeassistant/test_service", {"attr1": "test", "attr2": "test"})],
         ),
         (
             "deconz",
-            "homeassistant.test_service",
-            {"attr1": "test", "attr2": "test"},
-            "homeassistant/test_service",
+            {
+                "service": "homeassistant.test_service",
+                "data": {"attr1": "test", "attr2": "test"},
+            },
+            [("homeassistant/test_service", {"attr1": "test", "attr2": "test"})],
         ),
-        ("zha", "homeassistant.test_service2", {}, "homeassistant/test_service2",),
-        ("z2m", "homeassistant/test_service2", None, "homeassistant/test_service2",),
+        (
+            "zha",
+            {"service": "homeassistant.test_service2", "data": {},},
+            [("homeassistant/test_service2", {})],
+        ),
+        (
+            "z2m",
+            {"service": "homeassistant/test_service2"},
+            [("homeassistant/test_service2", {})],
+        ),
+        (
+            "deconz",
+            [
+                {"service": "homeassistant/test_service1"},
+                {"service": "homeassistant.test_service2", "data": {"attr1": "test"}},
+            ],
+            [
+                ("homeassistant/test_service1", {}),
+                ("homeassistant/test_service2", {"attr1": "test"}),
+            ],
+        ),
     ],
 )
 @pytest.mark.asyncio
 async def test_call_service_controller(
-    hass_mock, mocker, integration, called_service, data, expected_service_called,
+    hass_mock, monkeypatch, mocker, integration, services, expected_calls,
 ):
     sut = CallServiceController()
     sut.args = {
         "controller": "test_controller",
         "integration": integration,
-        "mapping": {"action": {"service": called_service, "data": data}},
+        "mapping": {"action": services},
     }
-    mocked = mocker.patch.object(Controller, "call_service")
+    call_service_stub = mocker.stub()
+
+    async def fake_call_service(self, service, **data):
+        call_service_stub(service, **data)
+
+    monkeypatch.setattr(Controller, "call_service", fake_call_service)
+
     sut.initialize()
     sut.action_delta = 0
     await sut.handle_action("action")
 
-    if data is None:
-        mocked.assert_called_with(expected_service_called)
-    else:
-        mocked.assert_called_with(expected_service_called, **data)
+    assert call_service_stub.call_count == len(expected_calls)
+    for expected_service, expected_data in expected_calls:
+        call_service_stub.assert_any_call(expected_service, **expected_data)
