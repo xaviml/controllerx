@@ -18,25 +18,24 @@ Add here your question.
   * Model: [ eg. IKEA 1744 ] as [ Light | Media Player | Controller ]
   * ...
 * Integration: Choose from `z2m | deconz | zha`
-* AppDaemon version: [ eg. v5.0.0 ]
+* AppDaemon version: [ eg. v4.0.1 ]
 * ControllerX version: [ eg. v2.2.1 ]
 * HACS version (if installed from there): [ eg. v0.21.5 ]
 * Home Assistant Core version: [ eg. v0.105.4 ]
 
 ## AppDaemon app configuration
 
-```
+```yaml
 (optional) Insert your appdaemon app configuration here (apps.yaml content).
 Insert only the configuration relative to the controllerx app you're asking the question for.
 ```
 
 ## Logs
 
-```
+```text
 (optional) Add relevant AppDaemon / Home Assistant logs which could help answering the question.
 ```
 
 ## Additional Context
 
 Add any other context or screenshots about the question here.
-
