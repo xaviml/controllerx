@@ -28,7 +28,7 @@ class SamjinButtonController(LightController):
             "button_hold": Light.SET_HALF_BRIGHTNESS,
         }
 
-    class SamjinButtonMediaPlayerController(MediaPlayerController):
+class SamjinButtonMediaPlayerController(MediaPlayerController):
     """
     This controller sends click, double click, and hold commands.
     No release command is sent.
