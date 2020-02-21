@@ -105,3 +105,51 @@ async def test_hold_loop(
         entity_id=sut.media_player,
         volume_level=expected_volume_level,
     )
+
+
+@pytest.mark.parametrize(
+    "direction_input, source_list, active_source, expected_calls, expected_source",
+    [
+        (Stepper.UP, "radio1,radio2,radio3", "radio1", 1, "radio2"),
+        (Stepper.UP, "radio1,radio2,radio3", "radio3", 1, "radio1"),
+        (Stepper.DOWN, "radio1,radio2,radio3", "radio1", 1, "radio3"),
+        (Stepper.UP, "radio1", "radio1", 1, "radio1"),
+        (Stepper.DOWN, "radio1", "radio1", 1, "radio1"),
+        (Stepper.UP, "radio1,radio2,radio3", None, 1, "radio1"),
+        (Stepper.DOWN, "radio1,radio2,radio3", None, 1, "radio1"),
+        (Stepper.UP, "", None, 0, None),
+        (Stepper.DOWN, "", None, 0, None),
+    ],
+)
+@pytest.mark.asyncio
+async def test_change_source_list(
+    sut,
+    mocker,
+    monkeypatch,
+    direction_input,
+    source_list,
+    active_source,
+    expected_calls,
+    expected_source,
+):
+    called_service_patch = mocker.patch.object(sut, "call_service")
+
+    async def fake_get_entity_state(entity, attribute=None):
+        if active_source is None:
+            return {"attributes": {"source_list": source_list}}
+        else:
+            return {"attributes": {"source_list": source_list, "source": active_source}}
+
+    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
+
+    # SUT
+    output = await sut.change_source_list(direction_input)
+
+    # Checks
+    assert called_service_patch.call_count == expected_calls
+    if expected_calls > 0:
+        called_service_patch.assert_called_once_with(
+            "media_player/select_source",
+            entity_id=sut.media_player,
+            source=expected_source,
+        )

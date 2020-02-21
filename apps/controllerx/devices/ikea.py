@@ -75,6 +75,8 @@ class E1810MediaPlayerController(MediaPlayerController):
             "brightness_down_click": MediaPlayer.CLICK_VOLUME_DOWN,
             "arrow_left_click": MediaPlayer.PREVIOUS_TRACK,
             "arrow_right_click": MediaPlayer.NEXT_TRACK,
+            "arrow_left_hold": MediaPlayer.PREVIOUS_SOURCE,
+            "arrow_right_hold": MediaPlayer.NEXT_SOURCE,
             "brightness_up_hold": MediaPlayer.HOLD_VOLUME_UP,
             "brightness_up_release": MediaPlayer.RELEASE,
             "brightness_down_hold": MediaPlayer.HOLD_VOLUME_DOWN,
