@@ -81,8 +81,10 @@ This controller lets you map controller events with predefined media player acti
 | click_volume_up   | It turns the volume up one step                    |
 | release           | It calls `release` for `hold` actions              |
 | play_pause        | It toggles the play/pause media                    |
-| next_track        | It skips forward                                   |
-| previous_track    | It skips backward                                  |
+| next_track        | It skips the track forward                         |
+| previous_track    | It skips the track backward                        |
+| next_source       | It changes to the next source                      |
+| previous_source   | It changes to the previous source                  |
 
 #### Example of CustomMediaPlayerController
 
