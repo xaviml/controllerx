@@ -43,13 +43,17 @@ class CustomMediaPlayerController(CustomController, MediaPlayerController):
 
 
 class CallServiceController(CustomController):
-    def parse_action(self, action):
-        service = action["service"].replace(".", "/")
-        data = action.get("data", {})
-        if data is None:
-            data = {}
-        return (self.call_service, service, data)
+    def parse_action(self, actions):
+        services = []
+        if type(actions) == dict:
+            actions = [actions]
+        for action in actions:
+            service = action["service"].replace(".", "/")
+            data = action.get("data", {})
+            services.append((service, data))
+        return (self.call_service, services)
 
     @action
-    async def call_service(self, service, data):
-        super().call_service(service, **data)
+    async def call_service(self, services):
+        for service, data in services:
+            await super().call_service(service, **data)
