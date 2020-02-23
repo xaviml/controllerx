@@ -16,7 +16,7 @@ class ZHAIntegration(Integration):
     async def callback(self, event_name, data, kwargs):
         action = data["command"]
         args = list(map(str, data["args"]))
-        if not (action == "stop" or action == "release"):
+        if not (action == "stop" or action == "release" or action == "button_single" or action == "button_double" or action == "button_hold"):
             if len(args) > 0:
                 action += "_" + "_".join(args)
         await self.controller.handle_action(action)

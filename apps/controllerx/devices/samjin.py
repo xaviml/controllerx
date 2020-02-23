@@ -1,0 +1,56 @@
+from core import LightController, MediaPlayerController
+from const import Light, MediaPlayer
+
+class SamjinButtonController(LightController):
+    """
+    This controller sends click, double click, and hold commands.
+    No release command is sent.
+    """
+    
+    def get_z2m_actions_mapping(self):
+        return {
+            "single_click": Light.TOGGLE,
+            "double_click": Light.ON_FULL_BRIGHTNESS,
+            "hold": Light.SET_HALF_BRIGHTNESS,
+        }
+    
+    def get_deconz_actions_mapping(self):
+        return {
+            1002: Light.TOGGLE,
+            1004: Light.ON_FULL_BRIGHTNESS,
+            1001: Light.SET_HALF_BRIGHTNESS,
+        }
+    
+    def get_zha_actions_mapping(self):
+        return {
+            "button_single": Light.TOGGLE,
+            "button_double": Light.ON_FULL_BRIGHTNESS,
+            "button_hold": Light.SET_HALF_BRIGHTNESS,
+        }
+
+class SamjinButtonMediaPlayerController(MediaPlayerController):
+    """
+    This controller sends click, double click, and hold commands.
+    No release command is sent.
+    """
+    
+    def get_z2m_actions_mapping(self):
+        return {
+            "single_click": MediaPlayer.PLAY_PAUSE,
+            "double_click": MediaPlayer.NEXT_TRACK,
+            "hold": MediaPlayer.PREVIOUS_TRACK,
+        }
+    
+    def get_deconz_actions_mapping(self):
+        return {
+            1002: MediaPlayer.PLAY_PAUSE,
+            1004: MediaPlayer.NEXT_TRACK,
+            1001: MediaPlayer.PREVIOUS_TRACK,
+        }
+    
+    def get_zha_actions_mapping(self):
+        return {
+            "button_single": MediaPlayer.PLAY_PAUSE,
+            "button_double": MediaPlayer.NEXT_TRACK,
+            "button_hold": MediaPlayer.PREVIOUS_TRACK,
+        }
