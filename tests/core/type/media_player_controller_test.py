@@ -110,15 +110,15 @@ async def test_hold_loop(
 @pytest.mark.parametrize(
     "direction_input, source_list, active_source, expected_calls, expected_source",
     [
-        (Stepper.UP, "radio1,radio2,radio3", "radio1", 1, "radio2"),
-        (Stepper.UP, "radio1,radio2,radio3", "radio3", 1, "radio1"),
-        (Stepper.DOWN, "radio1,radio2,radio3", "radio1", 1, "radio3"),
-        (Stepper.UP, "radio1", "radio1", 1, "radio1"),
-        (Stepper.DOWN, "radio1", "radio1", 1, "radio1"),
-        (Stepper.UP, "radio1,radio2,radio3", None, 1, "radio1"),
-        (Stepper.DOWN, "radio1,radio2,radio3", None, 1, "radio1"),
-        (Stepper.UP, "", None, 0, None),
-        (Stepper.DOWN, "", None, 0, None),
+        (Stepper.UP, ["radio1", "radio2", "radio3"], "radio1", 1, "radio2"),
+        (Stepper.UP, ["radio1", "radio2", "radio3"], "radio3", 1, "radio1"),
+        (Stepper.DOWN, ["radio1", "radio2", "radio3"], "radio1", 1, "radio3"),
+        (Stepper.UP, ["radio1"], "radio1", 1, "radio1"),
+        (Stepper.DOWN, ["radio1"], "radio1", 1, "radio1"),
+        (Stepper.UP, ["radio1", "radio2", "radio3"], None, 1, "radio1"),
+        (Stepper.DOWN, ["radio1", "radio2", "radio3"], None, 1, "radio1"),
+        (Stepper.UP, [], None, 0, None),
+        (Stepper.DOWN, [], None, 0, None),
     ],
 )
 @pytest.mark.asyncio
