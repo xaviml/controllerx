@@ -34,13 +34,12 @@ class MediaPlayerController(ReleaseHoldController):
         entity_states = await self.get_entity_state(self.media_player, attribute="all")
         entity_attributes = entity_states["attributes"]
         source_list = entity_attributes.get("source_list")
-        if source_list == "" or source_list is None:
+        if len(source_list) == 0 or source_list is None:
             self.log(
                 "There is no 'source_list' parameter in this media player",
                 level="WARNING",
             )
             return
-        source_list = source_list.split(",")
         source = entity_attributes.get("source")
         if source is None:
             new_index_source = 0

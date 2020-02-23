@@ -10,3 +10,4 @@ from core import CustomMediaPlayerController
 from devices.aqara import *
 from devices.ikea import *
 from devices.philips import *
+from devices.smartthings import *

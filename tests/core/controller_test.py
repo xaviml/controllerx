@@ -1,9 +1,11 @@
+from collections import defaultdict
+
 import appdaemon.plugins.hass.hassapi as hass
 import pytest
+from tests.utils import IntegrationMock, fake_controller, hass_mock
 
 from core import integration as integration_module
 from core.controller import Controller, action
-from tests.utils import IntegrationMock, fake_controller, hass_mock
 
 
 @pytest.fixture
@@ -190,6 +192,7 @@ async def test_handle_action(
     expected_calls,
 ):
     sut.action_delta = action_delta
+    sut.action_times = defaultdict(lambda: 0)
     actions = {}
     mocked_actions = {}
     for action in actions_input:

@@ -1,0 +1,30 @@
+name: IM6001-BTP01 (SmartThings)
+device_support: 
+  - Light (SmartThingsButtonLightController; 350ms delay)
+  - Media Player (SmartThingsButtonMediaPlayerController; 500ms delay)
+note: >-
+  When using it as light controller and the button is click, it toggles the light.
+  When using it as light controller and the button is double-click, it sets the maximum brightness.
+  When using it as light controller and the button is held, it sets the brightness to 50%.
+  When using it as media player controller and the button is click, it plays/pauses.
+  When using it as media player controller and the button is double-click, it skips forwards.
+  When using it as media player controller and the button is held, it skips backwards.
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "single_click 🠖 1 click"
+      - "double_click 🠖 2 clicks"
+      - "hold  🠖 Hold the button"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 🠖 1 click"
+      - "1004 🠖 2 clicks"
+      - "1001 🠖 Hold the button"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "button_single_1_0_0_0 🠖 1 click"
+      - "button_double_2_0_0_0 🠖 2 clicks"
+      - "hold_3_0_0_0 🠖 Hold the button"
