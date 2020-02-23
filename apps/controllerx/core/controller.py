@@ -35,8 +35,6 @@ class Controller(hass.Hass, abc.ABC):
     This is the parent Controller, all controllers must extend from this class.
     """
 
-    action_times = defaultdict(lambda: 0)
-
     def initialize(self):
         self.check_ad_version()
 
@@ -49,6 +47,7 @@ class Controller(hass.Hass, abc.ABC):
             self.args.get("actions", list(self.actions_mapping.keys()))
         )
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.action_times = defaultdict(lambda: 0)
 
         # Filter the actions
         self.actions_mapping = {
