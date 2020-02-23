@@ -27,4 +27,4 @@ integrations:
     actions:
       - "button_single_1_0_0_0 🠖 1 click"
       - "button_double_2_0_0_0 🠖 2 clicks"
-      - "hold_3_0_0_0 🠖 Hold the button"
+      - "button_hold_3_0_0_0 🠖 Hold the button"
