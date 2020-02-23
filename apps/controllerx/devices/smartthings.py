@@ -26,7 +26,7 @@ class SmartThingsButtonLightController(LightController):
         return {
             "button_single_1_0_0_0": Light.TOGGLE,
             "button_double_2_0_0_0": Light.ON_FULL_BRIGHTNESS,
-            "hold_3_0_0_0": Light.SET_HALF_BRIGHTNESS,
+            "button_hold_3_0_0_0": Light.SET_HALF_BRIGHTNESS,
         }
 
 
@@ -54,5 +54,5 @@ class SmartThingsButtonMediaPlayerController(MediaPlayerController):
         return {
             "button_single_1_0_0_0": MediaPlayer.PLAY_PAUSE,
             "button_double_2_0_0_0": MediaPlayer.NEXT_TRACK,
-            "hold_3_0_0_0": MediaPlayer.PREVIOUS_TRACK,
+            "button_hold_3_0_0_0": MediaPlayer.PREVIOUS_TRACK,
         }
