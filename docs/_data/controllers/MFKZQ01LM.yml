@@ -14,6 +14,18 @@ integrations:
       - "flip90 🠖 Flip cube 90 degrees"
       - "rotate_left 🠖 Rotate cube to left"
       - "rotate_right 🠖 Rotate cube to right"
+  - name: DeConz
+    codename: deconz
+    actions:
+      - "1 🠖 Shake the cube"
+      - "0 🠖 Cube automatically wakeup"
+      - "2 🠖 From up to down acceleration"
+      - "6 🠖 Doble tap in a surface"
+      - "5 🠖 Swipe horizontal direction"
+      - "4 🠖 Flip cube 180 degrees"
+      - "3 🠖 Flip cube 90 degrees"
+      - "8 🠖 Rotate cube to left"
+      - "7 🠖 Rotate cube to right"
 note: >-
   This controller does not have a self-explained way to use it since its main 
   purpose is to customize it, this is why we recommend to customize it with 
@@ -21,3 +33,4 @@ note: >-
   However, we gave a default behaviour to this controller. When tapped, it toggles the light. 
   When shaked it turns the light to minium brightness. When slides it turns the light to maximum brigthness.
   When flipped 180/90 if changes the light color. When rotate, it changes the brightness.
+  DeConz integration should be added with type gesture.
