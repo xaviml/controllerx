@@ -74,7 +74,7 @@ class Controller(hass.Hass, abc.ABC):
     def parse_integration(self, integration):
         type_ = type(integration)
         if type_ == str:
-            return { "name": integration }
+            return {"name": integration}
         elif type_ == dict:
             if "name" in integration:
                 return integration
@@ -83,7 +83,7 @@ class Controller(hass.Hass, abc.ABC):
 
     def get_integration(self, integration):
         parsed_integration = self.parse_integration(integration)
-        kwargs = {k:v for k,v in parsed_integration.items() if k!="name"}
+        kwargs = {k: v for k, v in parsed_integration.items() if k != "name"}
         integrations = integration_module.get_integrations(self, kwargs)
         integration_argument = self.get_option(
             parsed_integration["name"], [i.name for i in integrations]
