@@ -1,15 +1,7 @@
 from core.integration import Integration
+from core.integration.state import StateIntegration
 
 
-class Z2MIntegration(Integration):
-    def __init__(self, controller, kwargs):
-        super().__init__("z2m", controller, kwargs)
-
-    def get_actions_mapping(self):
-        return self.controller.get_z2m_actions_mapping()
-
-    def listen_changes(self, controller_id):
-        self.controller.listen_state(self.callback, controller_id)
-
-    async def callback(self, entity, attribute, old, new, kwargs):
-        await self.controller.handle_action(new)
+class Z2MIntegration(StateIntegration):
+    def get_name(self):
+        return "z2m"

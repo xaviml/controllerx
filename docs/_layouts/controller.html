@@ -33,11 +33,13 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
     <h3>Integrations</h3>
     Here you will see the actions that the controller fires when pressing or
     holding the buttons. In case of z2m it shows the state that the sensor
-    takes. In case of deconz it shows the event id and for zha it shows the
-    command concatenated with the args.
+    takes. In case of deconz it shows the event id (or gesture) and for zha it
+    shows the command concatenated with the args.
     <br />
     {% for integration in controller.integrations %}
     <h4>{{integration.name}}</h4>
+    {% if integration.args %} Arguments needed for this integration:
+    {{integration.args}} {% endif %}
     <ul>
       {% for action in integration.actions %}
       <li>{{action}}</li>

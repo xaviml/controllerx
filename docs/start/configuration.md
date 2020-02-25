@@ -50,10 +50,18 @@ These are the generic app parameters for all type of controllers. You can see th
 | --------------- | -------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `module`\*      | string         | `controllerx`                                     | The Python module                                                                                                                                                                                                                                                                      |
 | `class`\*       | string         | `E1810Controller`                                 | The Python class. Check the classes for each controller on the [supported controllers](/controllerx/controllers) page.                                                                                                                                                                 |
-| `controller`\*  | string \| list | `sensor.controller` or `hue_switch1, hue_switch2` | This is the controller id, which will depend on the integration. See [here](/controllerx/how-to/extract-controller-id) to know how to get the controller id.                                                                                                                           |
-| `integration`\* | string         | `z2m`, `deconz` or `zha`                          | This is the integration that the device was integrated.                                                                                                                                                                                                                                |
+| `controller`\*  | string \| list | `sensor.controller` or `hue_switch1, hue_switch2` | This is the controller id, which will depend on the integration. See [here](/controllerx/others/extract-controller-id) to know how to get the controller id.                                                                                                                           |
+| `integration`\* | string \| dict | `z2m`, `deconz` or `zha`                          | This is the integration that the device was integrated.                                                                                                                                                                                                                                |
 | `actions`       | list           | All actions                                       | This is a list of actions to be included and controlled by the app. To see which actions has each controller check the individual controller pages in [here](/controllerx/controllers).                                                                                                |
 | `action_delta`  | int            | 300                                               | This is the threshold time between the previous action and the next one (being the same action). If the time difference between the two actions is less than this attribute, then the action won't be called. I recommend changing this if you see the same action being called twice. |
+
+Integration dictionary for `integration` attribute.
+
+| key      | type   | value                    | description                                             |
+| -------- | ------ | ------------------------ | ------------------------------------------------------- |
+| `name`\* | string | `z2m`, `deconz` or `zha` | This is the integration that the device was integrated. |
+
+In addition, you can add arguments. Each [integration](/controllerx/others/integrations) has its own arguments.
 
 _\* Required fields_
 

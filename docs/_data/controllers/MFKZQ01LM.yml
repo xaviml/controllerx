@@ -16,6 +16,8 @@ integrations:
       - "rotate_right 🠖 Rotate cube to right"
   - name: DeConz
     codename: deconz
+    args:
+      type: gesture
     actions:
       - "1 🠖 Shake the cube"
       - "0 🠖 Cube automatically wakeup"
@@ -29,8 +31,8 @@ integrations:
 note: >-
   This controller does not have a self-explained way to use it since its main 
   purpose is to customize it, this is why we recommend to customize it with 
-  <a href="/controllerx/how-to/custom-controllers">Custom controllers</a>. 
+  <a href="/controllerx/others/custom-controllers">Custom controllers</a>. 
   However, we gave a default behaviour to this controller. When tapped, it toggles the light. 
   When shaked it turns the light to minium brightness. When slides it turns the light to maximum brigthness.
   When flipped 180/90 if changes the light color. When rotate, it changes the brightness.
-  DeConz integration should be added with type gesture.
+  deCONZ integration should be added with <a href="/controllerx/others/integrations">type gesture</a>.

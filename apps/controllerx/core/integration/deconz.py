@@ -2,8 +2,8 @@ from core.integration import Integration
 
 
 class DeCONZIntegration(Integration):
-    def __init__(self, controller, kwargs):
-        super().__init__("deconz", controller, kwargs)
+    def get_name(self):
+        return "deconz"
 
     def get_actions_mapping(self):
         return self.controller.get_deconz_actions_mapping()
@@ -13,6 +13,4 @@ class DeCONZIntegration(Integration):
 
     async def callback(self, event_name, data, kwargs):
         type_ = self.kwargs.get("type", "event")
-        self.controller.log(f"{self.kwargs=}")
-        self.controller.log(f"{type_=}")
         await self.controller.handle_action(data[type_])
