@@ -42,13 +42,14 @@ livingroom_controller:
 
 ## Advanced
 
-- [Custom controllers](how-to/custom-controllers)
+- [Custom controllers](others/custom-controllers)
 
 ## Others
 
-- [Update instructions](/controllerx/how-to/update)
+- [Update instructions](/controllerx/others/update)
+- [Integrations](others/integrations)
 - [Controller types](/controllerx/start/type-configuration)
 - [Real examples](/controllerx/start/examples)
-- [How to extract the controller parameter](how-to/extract-controller-id)
-- [What's AppDaemon and why I need it](how-to/run-appdaemon)
+- [How to extract the controller parameter](others/extract-controller-id)
+- [What's AppDaemon and why I need it](others/run-appdaemon)
 - [FAQ](faq)

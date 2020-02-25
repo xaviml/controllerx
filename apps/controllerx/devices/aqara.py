@@ -84,3 +84,14 @@ class MFKZQ01LMLightController(LightController):
             "rotate_left": Light.CLICK_BRIGHTNESS_DOWN,
             "rotate_right": Light.CLICK_BRIGHTNESS_UP,
         }
+
+    def get_deconz_actions_mapping(self):
+        return {
+            1: Light.ON_MIN_BRIGHTNESS,
+            6: Light.TOGGLE,
+            5: Light.ON_FULL_BRIGHTNESS,
+            4: Light.CLICK_COLOR_UP,
+            3: Light.CLICK_COLOR_DOWN,
+            8: Light.CLICK_BRIGHTNESS_DOWN,
+            7: Light.CLICK_BRIGHTNESS_UP,
+        }

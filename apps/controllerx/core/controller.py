@@ -71,10 +71,22 @@ class Controller(hass.Hass, abc.ABC):
         else:
             raise ValueError(f"{value} is not an option. The options are {options}")
 
+    def parse_integration(self, integration):
+        type_ = type(integration)
+        if type_ == str:
+            return {"name": integration}
+        elif type_ == dict:
+            if "name" in integration:
+                return integration
+            else:
+                raise ValueError("'name' attribute is mandatory")
+
     def get_integration(self, integration):
-        integrations = integration_module.get_integrations(self)
+        parsed_integration = self.parse_integration(integration)
+        kwargs = {k: v for k, v in parsed_integration.items() if k != "name"}
+        integrations = integration_module.get_integrations(self, kwargs)
         integration_argument = self.get_option(
-            integration, [i.name for i in integrations]
+            parsed_integration["name"], [i.name for i in integrations]
         )
         return next(i for i in integrations if i.name == integration_argument)
 

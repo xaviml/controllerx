@@ -127,21 +127,29 @@ def test_get_option(sut, option, options, expect_an_error):
         sut.get_option(option, options)
 
 
-def test_get_integration(sut, monkeypatch, mocker):
-    integrations = [
-        IntegrationMock("test_integration", sut, mocker),
-        IntegrationMock("test_integration2", sut, mocker),
-        IntegrationMock("test_integration3", sut, mocker),
-    ]
-    monkeypatch.setattr(
-        integration_module, "get_integrations", lambda controller: integrations
-    )
+@pytest.mark.parametrize(
+    "integration_input, integration_name_expected, args_expected",
+    [
+        ("z2m", "z2m", {}),
+        ({"name": "zha"}, "zha", {}),
+        (
+            {"name": "deconz", "attr1": "value1", "attr2": "value2"},
+            "deconz",
+            {"attr1": "value1", "attr2": "value2"},
+        ),
+    ],
+)
+def test_get_integration(
+    sut, mocker, integration_input, integration_name_expected, args_expected
+):
+    get_integrations_spy = mocker.spy(integration_module, "get_integrations")
 
     # SUT
-    integration = sut.get_integration("test_integration2")
+    integration = sut.get_integration(integration_input)
 
     # Checks
-    assert integration.name == "test_integration2"
+    get_integrations_spy.assert_called_once_with(sut, args_expected)
+    assert integration.name == integration_name_expected
 
 
 def test_check_ad_version_throwing_error(sut, monkeypatch):
