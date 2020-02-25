@@ -165,3 +165,26 @@ example_app:
     3: next_track # Flip90
     4: previous_track # Flip180
 ```
+
+Customise the E1810 to invert the click and hold actions and control a group of sonos devices. By default it skips track when pressing, whit this it skips source by pressing.
+
+```yaml
+sonos_speaker:
+  module: controllerx
+  class: CustomMediaPlayerController
+  controller: sensor.0x90fd9ffffe0cbd69_action
+  integration: z2m
+  media_player: group.sonos_all
+  mapping:
+    toggle: play_pause
+    brightness_up_click: click_volume_up
+    brightness_down_click: click_volume_down
+    brightness_up_hold: hold_volume_up
+    brightness_down_hold: hold_volume_down
+    brightness_up_release: release
+    brightness_up_release: release
+    arrow_right_click: next_source
+    arrow_left_click: previous_source
+    arrow_right_hold: next_track
+    arrow_left_hold: previous_track
+```
