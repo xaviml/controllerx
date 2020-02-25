@@ -2,8 +2,8 @@ from core.integration import Integration
 
 
 class Z2MIntegration(Integration):
-    def __init__(self, controller):
-        super().__init__("z2m", controller)
+    def __init__(self, controller, kwargs):
+        super().__init__("z2m", controller, kwargs)
 
     def get_actions_mapping(self):
         return self.controller.get_z2m_actions_mapping()

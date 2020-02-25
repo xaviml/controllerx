@@ -2,8 +2,8 @@ from core.integration import Integration
 
 
 class ZHAIntegration(Integration):
-    def __init__(self, controller):
-        super().__init__("zha", controller)
+    def __init__(self, controller, kwargs):
+        super().__init__("zha", controller, kwargs)
 
     def get_actions_mapping(self):
         return self.controller.get_zha_actions_mapping()

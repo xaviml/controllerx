@@ -134,7 +134,7 @@ def test_get_integration(sut, monkeypatch, mocker):
         IntegrationMock("test_integration3", sut, mocker),
     ]
     monkeypatch.setattr(
-        integration_module, "get_integrations", lambda controller: integrations
+        integration_module, "get_integrations", lambda controller, kwargs: integrations
     )
 
     # SUT

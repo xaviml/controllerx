@@ -2,8 +2,8 @@ from core.integration import Integration
 
 
 class DeCONZIntegration(Integration):
-    def __init__(self, controller):
-        super().__init__("deconz", controller)
+    def __init__(self, controller, kwargs):
+        super().__init__("deconz", controller, kwargs)
 
     def get_actions_mapping(self):
         return self.controller.get_deconz_actions_mapping()
@@ -12,4 +12,7 @@ class DeCONZIntegration(Integration):
         self.controller.listen_event(self.callback, "deconz_event", id=controller_id)
 
     async def callback(self, event_name, data, kwargs):
-        await self.controller.handle_action(data["event"])
+        type_ = self.kwargs.get("type", "event")
+        self.controller.log(f"{self.kwargs=}")
+        self.controller.log(f"{type_=}")
+        await self.controller.handle_action(data[type_])
