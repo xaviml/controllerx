@@ -127,7 +127,7 @@ livingroom_light_on:
   integration: z2m
   light: light.livingroom
   constrain_input_boolean: light.livingroom,on
-  
+
 livingroom_light_off:
   module: controllerx
   class: CustomLightController
@@ -145,4 +145,23 @@ livingroom_light_off:
     arrow_right_hold: on_full_color_temp
     arrow_left_hold: on_min_color_temp
   constrain_input_boolean: light.livingroom,off
+```
+
+Customising Aqara magic cube with deCONZ. The key values were extracted from the deCONZ section in [here](controllerx/controllers/MFKZQ01LM) and the values were extracted from the [predefined media player action list](controllerx/others/custom-controllers#custom-media-player-controller)
+
+```yaml
+example_app:
+  module: controllerx
+  class: CustomMediaPlayerController
+  controller: my_magic_cube_id
+  integration:
+    name: deconz
+    type: gesture
+  media_player: media_player.livingroom_speaker
+  mapping:
+    1: play_pause # Shake
+    8: click_volume_down # Rotate left
+    7: click_volume_up # Rotate right
+    3: next_track # Flip90
+    4: previous_track # Flip180
 ```
