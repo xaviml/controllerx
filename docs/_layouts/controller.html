@@ -30,7 +30,7 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
     {% if controller.note %}
     <h3>Note</h3>
     {{controller.note}} {% endif %}
-    <h3>Integrations</h3>
+    <h3><a href="/controllerx/others/integrations">Integrations</a></h3>
     Here you will see the actions that the controller fires when pressing or
     holding the buttons. In case of z2m it shows the state that the sensor
     takes. In case of deconz it shows the event id (or gesture) and for zha it

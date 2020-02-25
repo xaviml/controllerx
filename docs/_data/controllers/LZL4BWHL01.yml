@@ -1,0 +1,21 @@
+name: LZL4BWHL01 (Lutron)
+device_support: 
+  - Light (LZL4BWHL01LightController; 350ms delay)
+integrations:
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 🠖 Top button pressed"
+      - "2001 🠖 Arrow up held"
+      - "2003 🠖 Arrow up released"
+      - "3001 🠖 Arrow down held"
+      - "3003 🠖 Arrow down released"
+      - "4002 🠖 Bottom button pressed"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "move_to_level_with_on_off_254_4 🠖 Top button pressed"
+      - "step_with_on_off_0_30_6 🠖 Arrow up held"
+      - "step_1_30_6 🠖 Arrow down held"
+      - "move_to_level_with_on_off_0_4 🠖 Bottom button pressed"
+      - "stop 🠖 Arrow released" 

@@ -9,18 +9,19 @@ class LutronCasetaProPicoLightController(LightController):
     # Pico remotes using this integration report 6 states from their sensor:
     # top button = "1", up button = "8", middle round = "2", down arrow = "16",
     # bottom button = "4", no button pressed = "0"
-    # Sensor states are similar to z2m so can use that integration 
+    # Sensor states are similar to z2m so can use that integration
     # and use "0" as release
 
     def get_z2m_actions_mapping(self):
         return {
-            "1": Light.ON_FULL_BRIGHTNESS,
+            "1": Light.ON,
             "8": Light.HOLD_BRIGHTNESS_UP,
             "2": Light.SET_HALF_BRIGHTNESS,
             "16": Light.HOLD_BRIGHTNESS_DOWN,
             "4": Light.OFF,
             "0": Light.RELEASE,
         }
+
 
 class LutronCasetaProPicoMediaPlayerController(MediaPlayerController):
     # This requires the LutronCasetaPro CUSTOM integration by upsert
@@ -29,7 +30,7 @@ class LutronCasetaProPicoMediaPlayerController(MediaPlayerController):
     # Pico remotes using this integration report 6 states from their sensor:
     # top button = "1", up button = "8", middle round = "2", down arrow = "16",
     # bottom button = "4", no button pressed = "0"
-    # Sensor states are similar to z2m so can use that integration 
+    # Sensor states are similar to z2m so can use that integration
     # and use "0" as release
 
     def get_z2m_actions_mapping(self):
@@ -42,26 +43,27 @@ class LutronCasetaProPicoMediaPlayerController(MediaPlayerController):
             "0": MediaPlayer.RELEASE,
         }
 
-class LZL4BWHL01Controller(LightController):
-    # Each button press fires an event but no separate 
+
+class LZL4BWHL01LightController(LightController):
+    # Each button press fires an event but no separate
     # hold event. Press of up or down generates a stop event
     # when released.
 
-    def get_zha_actions_mapping(self):
-        return {
-            "move_to_level_with_on_off_254_4": Light.ON_FULL_BRIGHTNESS,
-            "step_with_on_off_0_30_6": Light.HOLD_BRIGHTNESS_UP,
-            "step_1_30_6": Light.HOLD_BRIGHTNESS_DOWN,
-            "move_to_level_with_on_off_0_4": Light.OFF,
-            "stop": Light.RELEASE,
-        }
-        
     def get_deconz_actions_mapping(self):
         return {
-            1002: Light.ON_FULL_BRIGHTNESS,
+            1002: Light.ON,
             2001: Light.HOLD_BRIGHTNESS_UP,
             2003: Light.RELEASE,
             3001: Light.HOLD_BRIGHTNESS_DOWN,
             3003: Light.RELEASE,
             4002: Light.OFF,
+        }
+
+    def get_zha_actions_mapping(self):
+        return {
+            "move_to_level_with_on_off_254_4": Light.ON,
+            "step_with_on_off_0_30_6": Light.HOLD_BRIGHTNESS_UP,
+            "step_1_30_6": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_to_level_with_on_off_0_4": Light.OFF,
+            "stop": Light.RELEASE,
         }
