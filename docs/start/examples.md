@@ -147,7 +147,7 @@ livingroom_light_off:
   constrain_input_boolean: light.livingroom,off
 ```
 
-Customising Aqara magic cube with deCONZ. The key values were extracted from the deCONZ section in [here](controllerx/controllers/MFKZQ01LM) and the values were extracted from the [predefined media player action list](controllerx/others/custom-controllers#custom-media-player-controller)
+Customising Aqara magic cube with deCONZ. The key values were extracted from the deCONZ section in [here](/controllerx/controllers/MFKZQ01LM) and the values were extracted from the [predefined media player action list](/controllerx/others/custom-controllers#custom-media-player-controller)
 
 ```yaml
 example_app:
