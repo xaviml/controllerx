@@ -8,6 +8,10 @@ from core.stepper.minmax_stepper import MinMaxStepper
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
+DEFAULT_MIN_BRIGHTNESS = 1
+DEFAULT_MAX_BRIGHTNESS = 255
+DEFAULT_MIN_COLOR_TEMP = 153
+DEFAULT_MAX_COLOR_TEMP = 500
 
 
 class LightController(ReleaseHoldController):
@@ -71,18 +75,26 @@ class LightController(ReleaseHoldController):
         self.light = self.get_light(self.args["light"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
+        min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
+        max_brightness = self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS)
+        min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
+        max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
         color_stepper = CircularStepper(0, len(self.colors) - 1, len(self.colors))
         self.manual_steppers = {
-            LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(1, 255, manual_steps),
-            LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(153, 500, manual_steps),
+            LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
+                min_brightness, max_brightness, manual_steps
+            ),
+            LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
+                min_color_temp, max_color_temp, manual_steps
+            ),
             LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
         self.automatic_steppers = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
-                1, 255, automatic_steps
+                min_brightness, max_brightness, automatic_steps
             ),
             LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
-                153, 500, automatic_steps
+                min_color_temp, max_color_temp, automatic_steps
             ),
             LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
