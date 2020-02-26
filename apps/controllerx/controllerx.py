@@ -12,3 +12,4 @@ from devices.ikea import *
 from devices.lutron import *
 from devices.philips import *
 from devices.smartthings import *
+from devices.trust import *
