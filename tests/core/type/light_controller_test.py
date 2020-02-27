@@ -160,10 +160,11 @@ async def test_change_light_state(
     sut.value_attribute = old
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
+    sut.transition = 300
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
-    stop = await sut.change_light_state(old, attribute, direction, stepper)
+    stop = await sut.change_light_state(old, attribute, direction, stepper, "hold")
 
     # Checks
     assert stop == expected_stop
@@ -171,13 +172,21 @@ async def test_change_light_state(
     called_service_patch.assert_called()
 
 
+@pytest.mark.parametrize(
+    "attributes_input, transition, attributes_expected",
+    [
+        ({"test": "test"}, 300, {"test": "test", "transition": 0.3}),
+        ({"test": "test", "transition": 0.5}, 300, {"test": "test", "transition": 0.5}),
+        ({}, 1000, {"transition": 1}),
+    ],
+)
 @pytest.mark.asyncio
-async def test_on(sut, mocker):
+async def test_on(sut, mocker, attributes_input, transition, attributes_expected):
     called_service_patch = mocker.patch.object(sut, "call_service")
-    attributes = {"test": "test"}
-    await sut.on(**attributes)
+    sut.transition = transition
+    await sut.on(**attributes_input)
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_on", entity_id=sut.light["name"], **attributes
+        "homeassistant/turn_on", entity_id=sut.light["name"], **attributes_expected
     )
 
 
@@ -380,5 +389,5 @@ async def test_hold_loop(sut, mocker):
     sut.automatic_steppers = {attribute: stepper}
     await sut.hold_loop(attribute, direction)
     change_light_state_patch.assert_called_once_with(
-        sut.value_attribute, attribute, direction, stepper
+        sut.value_attribute, attribute, direction, stepper, "hold"
     )

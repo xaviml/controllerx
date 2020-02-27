@@ -12,6 +12,7 @@ DEFAULT_MIN_BRIGHTNESS = 1
 DEFAULT_MAX_BRIGHTNESS = 255
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
+DEFAULT_TRANSITION = 300
 
 
 class LightController(ReleaseHoldController):
@@ -79,6 +80,7 @@ class LightController(ReleaseHoldController):
         max_brightness = self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS)
         min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
         max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
+        self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         color_stepper = CircularStepper(0, len(self.colors) - 1, len(self.colors))
         self.manual_steppers = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
@@ -248,8 +250,10 @@ class LightController(ReleaseHoldController):
 
     @action
     async def on(self, **attributes):
+        if "transition" not in attributes:
+            attributes["transition"] = self.transition / 1000
         self.call_service(
-            "homeassistant/turn_on", entity_id=self.light["name"], **attributes
+            "homeassistant/turn_on", entity_id=self.light["name"], **attributes,
         )
 
     @action
@@ -330,7 +334,11 @@ class LightController(ReleaseHoldController):
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         await self.change_light_state(
-            self.value_attribute, attribute, direction, self.manual_steppers[attribute]
+            self.value_attribute,
+            attribute,
+            direction,
+            self.manual_steppers[attribute],
+            "click",
         )
 
     @action
@@ -346,9 +354,10 @@ class LightController(ReleaseHoldController):
             attribute,
             direction,
             self.automatic_steppers[attribute],
+            "hold",
         )
 
-    async def change_light_state(self, old, attribute, direction, stepper):
+    async def change_light_state(self, old, attribute, direction, stepper, action_type):
         """
         This functions changes the state of the light depending on the previous
         value and attribute. It returns True when no more changes will need to be done.
@@ -357,10 +366,9 @@ class LightController(ReleaseHoldController):
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
             self.index_color, _ = stepper.step(self.index_color, direction)
             new_state_attribute = self.colors[self.index_color]
-            attributes = {
-                attribute: new_state_attribute,
-                "transition": self.delay / 1000,
-            }
+            attributes = {attribute: new_state_attribute}
+            if action_type == "hold":
+                attributes["transition"] = self.delay / 1000
             await self.on(**attributes)
             # In case of xy_color mode it never finishes the loop, the hold loop
             # will only stop if the hold action is called when releasing the button.
@@ -376,7 +384,9 @@ class LightController(ReleaseHoldController):
             return True
         else:
             new_state_attribute, exceeded = stepper.step(old, direction)
-        attributes = {attribute: new_state_attribute, "transition": self.delay / 1000}
+        attributes = {attribute: new_state_attribute}
+        if action_type == "hold":
+            attributes["transition"] = self.delay / 1000
         await self.on(**attributes)
         self.value_attribute = new_state_attribute
         return exceeded
