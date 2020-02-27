@@ -14,7 +14,7 @@ class LutronCasetaProPicoLightController(LightController):
 
     def get_z2m_actions_mapping(self):
         return {
-            "1": Light.ON,
+            "1": Light.ON_FULL_BRIGHTNESS,
             "8": Light.HOLD_BRIGHTNESS_UP,
             "2": Light.SET_HALF_BRIGHTNESS,
             "16": Light.HOLD_BRIGHTNESS_DOWN,
@@ -51,7 +51,7 @@ class LZL4BWHL01LightController(LightController):
 
     def get_deconz_actions_mapping(self):
         return {
-            1002: Light.ON,
+            1002: Light.ON_FULL_BRIGHTNESS,
             2001: Light.HOLD_BRIGHTNESS_UP,
             2003: Light.RELEASE,
             3001: Light.HOLD_BRIGHTNESS_DOWN,
@@ -61,7 +61,7 @@ class LZL4BWHL01LightController(LightController):
 
     def get_zha_actions_mapping(self):
         return {
-            "move_to_level_with_on_off_254_4": Light.ON,
+            "move_to_level_with_on_off_254_4": Light.ON_FULL_BRIGHTNESS,
             "step_with_on_off_0_30_6": Light.HOLD_BRIGHTNESS_UP,
             "step_1_30_6": Light.HOLD_BRIGHTNESS_DOWN,
             "move_to_level_with_on_off_0_4": Light.OFF,
