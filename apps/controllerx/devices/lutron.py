@@ -75,6 +75,7 @@ class LutronCasetaProPJ24BMediaPlayerController(MediaPlayerController):
             "0": MediaPlayer.RELEASE,
         }
 
+
 class LZL4BWHL01LightController(LightController):
     # Each button press fires an event but no separate
     # hold event. Press of up or down generates a stop event
