@@ -9,8 +9,6 @@ class LutronCasetaProPicoLightController(LightController):
     # Pico remotes using this integration report 6 states from their sensor:
     # top button = "1", up button = "8", middle round = "2", down arrow = "16",
     # bottom button = "4", no button pressed = "0"
-    # Sensor states are similar to z2m so can use that integration
-    # and use "0" as release
 
     def get_z2m_actions_mapping(self):
         return {
@@ -30,8 +28,6 @@ class LutronCasetaProPicoMediaPlayerController(MediaPlayerController):
     # Pico remotes using this integration report 6 states from their sensor:
     # top button = "1", up button = "8", middle round = "2", down arrow = "16",
     # bottom button = "4", no button pressed = "0"
-    # Sensor states are similar to z2m so can use that integration
-    # and use "0" as release
 
     def get_z2m_actions_mapping(self):
         return {
@@ -43,6 +39,41 @@ class LutronCasetaProPicoMediaPlayerController(MediaPlayerController):
             "0": MediaPlayer.RELEASE,
         }
 
+
+class LutronCasetaProPJ24BLightController(LightController):
+    # This requires the LutronCasetaPro CUSTOM integration by upsert
+    # https://github.com/upsert/lutron-caseta-pro
+    # THIS WILL NOT WORK with the default Lutron Caseta integration
+    # Pico remotes using this integration report 5 states from their sensor:
+    # top button = "1", second button = "2", third button = "4",
+    # bottom button = "8", no button pressed = "0"
+
+    def get_z2m_actions_mapping(self):
+        return {
+            "1": Light.ON_FULL_BRIGHTNESS,
+            "2": Light.HOLD_BRIGHTNESS_UP,
+            "4": Light.HOLD_BRIGHTNESS_DOWN,
+            "8": Light.OFF,
+            "0": Light.RELEASE,
+        }
+
+
+class LutronCasetaProPJ24BMediaPlayerController(MediaPlayerController):
+    # This requires the LutronCasetaPro CUSTOM integration by upsert
+    # https://github.com/upsert/lutron-caseta-pro
+    # THIS WILL NOT WORK with the default Lutron Caseta integration
+    # Pico remotes using this integration report 5 states from their sensor:
+    # top button = "1", second button = "2", third button = "4",
+    # bottom button = "8", no button pressed = "0"
+
+    def get_z2m_actions_mapping(self):
+        return {
+            "1": MediaPlayer.PLAY_PAUSE,
+            "2": MediaPlayer.HOLD_VOLUME_UP,
+            "4": MediaPlayer.HOLD_VOLUME_DOWN,
+            "8": MediaPlayer.NEXT_TRACK,
+            "0": MediaPlayer.RELEASE,
+        }
 
 class LZL4BWHL01LightController(LightController):
     # Each button press fires an event but no separate
