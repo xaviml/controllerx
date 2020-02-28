@@ -28,7 +28,7 @@ ControllerX supports Sonos groups as well. If media_player in app is set to a gr
 
 This can easily be achieved by adding only one sensor and one small automation to your HA configuration.
 
-### HA configuration.yaml
+#### HA configuration.yaml
 
 {% assign special = "{{ state_attr('media_player.office', 'sonos_group') }}" %}
 
@@ -39,7 +39,7 @@ This can easily be achieved by adding only one sensor and one small automation t
         value_template: "{{ special }}" #MASTER speaker
 ```
 
-### HA automation.yaml
+#### HA automation.yaml
 
 {% assign special = "{{ state_attr('media_player.office', 'sonos_group') | join(',') }}" %}
 
@@ -56,7 +56,7 @@ action:
       entities: "{{ special }}" #MASTER speaker
 ```
 
-### HA groups.yaml
+#### HA groups.yaml
 
 ```yaml
 name: sonos_all
@@ -68,7 +68,7 @@ entities:
 
 And with the following ControllerX configuration, you will be able to control the dynamic group in HA, which will be changed immediately if group is altered eg. from Sonos app. This app version below, has 'flipped' the arrow functions. So click will change source and hold will change previous/next song in playlist. This behaviour will most likely fit better for users that primarily uses favourites (radio stations).
 
-### Appdeamon apps.yaml
+#### Appdeamon apps.yaml
 
 ```yaml
 sonos_group:
