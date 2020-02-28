@@ -49,7 +49,7 @@ livingroom_controller:
 - [Update instructions](/controllerx/others/update)
 - [Integrations](others/integrations)
 - [Controller types](/controllerx/start/type-configuration)
-- [Real examples](/controllerx/start/examples)
+- [Real examples](/controllerx/examples)
 - [How to extract the controller parameter](others/extract-controller-id)
 - [What's AppDaemon and why I need it](others/run-appdaemon)
 - [FAQ](faq)

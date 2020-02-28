@@ -40,7 +40,7 @@ nameOfYourInstanceApp:
 
 ## Real examples
 
-You can check real examples in [here](examples).
+You can check real examples in [here](/controllerx/examples).
 
 ## Parameters
 

@@ -30,3 +30,9 @@ theme: minima
 header_pages:
   - controllers/index.md
 
+plugins:
+  - jekyll-redirect-from
+
+whitelist:
+  - jekyll-redirect-from
+
