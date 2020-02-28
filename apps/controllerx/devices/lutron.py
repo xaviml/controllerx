@@ -58,6 +58,23 @@ class LutronCasetaProPJ24BLightController(LightController):
         }
 
 
+class LutronCasetaProPJ24BMediaPlayerController(MediaPlayerController):
+    # This requires the LutronCasetaPro CUSTOM integration by upsert
+    # https://github.com/upsert/lutron-caseta-pro
+    # THIS WILL NOT WORK with the default Lutron Caseta integration
+    # Pico remotes using this integration report 5 states from their sensor:
+    # top button = "1", second button = "2", third button = "4",
+    # bottom button = "8", no button pressed = "0"
+
+    def get_z2m_actions_mapping(self):
+        return {
+            "1": MediaPlayer.PLAY_PAUSE,
+            "2": MediaPlayer.HOLD_VOLUME_UP,
+            "4": MediaPlayer.HOLD_VOLUME_DOWN,
+            "8": MediaPlayer.NEXT_TRACK,
+            "0": MediaPlayer.RELEASE,
+        }
+
 class LZL4BWHL01LightController(LightController):
     # Each button press fires an event but no separate
     # hold event. Press of up or down generates a stop event
