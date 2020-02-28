@@ -103,7 +103,7 @@ example_app:
 
 These are examples that are quite extensive and were extracted in separated pages:
 
-- [Using Sonos media player(s) with ControllerX](sonos)
+- [Using Sonos/Symfonisk media player(s) with ControllerX](sonos)
 
 ## Advanced
 

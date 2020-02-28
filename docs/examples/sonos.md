@@ -1,5 +1,5 @@
 ---
-title: Sonos Examples
+title: SONOS/SYMFONISK Examples
 layout: page
 ---
 
