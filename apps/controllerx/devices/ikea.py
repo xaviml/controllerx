@@ -52,7 +52,9 @@ class E1810Controller(LightController):
             "press_257_13_0": Light.CLICK_COLOR_DOWN,
             "press_256_13_0": Light.CLICK_COLOR_UP,
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
+            "move_with_on_off_0_84": Light.HOLD_BRIGHTNESS_UP, # ZigBee 3.0 firmware
             "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_1_84": Light.HOLD_BRIGHTNESS_DOWN, # ZigBee 3.0 firmware
             "hold_3329_0": Light.HOLD_COLOR_DOWN,
             "hold_3328_0": Light.HOLD_COLOR_UP,
             "stop": Light.RELEASE,
@@ -104,8 +106,10 @@ class E1810MediaPlayerController(MediaPlayerController):
             "press_257_13_0": MediaPlayer.PREVIOUS_TRACK,
             "press_256_13_0": MediaPlayer.NEXT_TRACK,
             "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
+            "move_with_on_off_0_84": MediaPlayer.HOLD_VOLUME_UP, # ZigBee 3.0 firmware
             "stop": MediaPlayer.RELEASE,
             "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_1_84": MediaPlayer.HOLD_VOLUME_DOWN, # ZigBee 3.0 firmware
             "release": MediaPlayer.RELEASE,
         }
 
