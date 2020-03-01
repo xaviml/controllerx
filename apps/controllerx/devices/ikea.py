@@ -204,8 +204,8 @@ class E1744LightController(LightController):
 
     def get_deconz_actions_mapping(self):
         return {
-            2001: Light.HOLD_BRIGHTNESS_DOWN,
-            3001: Light.HOLD_BRIGHTNESS_UP,
+            3001: Light.HOLD_BRIGHTNESS_DOWN,
+            2001: Light.HOLD_BRIGHTNESS_UP,
             2003: Light.RELEASE,
             3003: Light.RELEASE,
             1002: Light.TOGGLE,
