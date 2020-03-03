@@ -99,6 +99,48 @@ example_app:
   transititon: 800
 ```
 
+Hue Bridge HA integration for the lights and z2m for E1810 IKEA controller.
+
+```yaml
+hallway_light_group_no_toggle:
+  # all actions, but toggle/hold for smooth operation with light groups on Hue Bridge
+  # use HA groups to control dimming and color/color temp change
+  # use Hue bridge light group for even and syncronized on/off function 
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.0x90fd9ffffe17d796_action
+  integration: z2m
+  # transition: 1000 # transition attribute works on Hue bridge
+  smooth_power_on: true
+  light: group.hallway # HA group. ControllerX syncs values from first group entity with remaining entities in group
+  actions:
+    - arrow_left_hold
+    - arrow_left_release
+    - arrow_right_hold
+    - arrow_right_release
+    - arrow_right_click
+    - arrow_left_click
+    - brightness_up_click
+    - brightness_down_click
+    - brightness_up_release
+    - brightness_down_release
+    - brightness_up_hold
+    - brightness_down_hold
+
+hallway_light_group_toggle:
+  # toggle/hold for smooth operation with light groups on Hue Bridge
+  # use Hue bridge light group for even and syncronized on/off function 
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.0x90fd9ffffe17d796_action
+  integration: z2m
+  # transition: 1000 # transition attribute works on Hue bridge
+  light: light.hallway # Hue light group. On/off completely in sync, as zigbee group commands are used by Hue bridge 
+  actions:
+    - toggle
+    - toggle_hold
+```
+
 ## Others
 
 These are examples that are quite extensive and were extracted in separated pages:
