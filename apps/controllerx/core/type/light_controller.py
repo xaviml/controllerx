@@ -53,7 +53,7 @@ class LightController(ReleaseHoldController):
         (0.137, 0.065),
         (0.141, 0.137),
         (0.146, 0.238),
-        (0.323, 0.329),  # white color middle
+        (0.323, 0.329),  # 12; white color middle
         (0.151, 0.343),
         (0.157, 0.457),
         (0.164, 0.591),
@@ -76,27 +76,27 @@ class LightController(ReleaseHoldController):
         self.light = self.get_light(self.args["light"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
-        min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
-        max_brightness = self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS)
-        min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
-        max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
+        self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
+        self.max_brightness = self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS)
+        self.min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
+        self.max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         color_stepper = CircularStepper(0, len(self.colors) - 1, len(self.colors))
         self.manual_steppers = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
-                min_brightness, max_brightness, manual_steps
+                self.min_brightness, self.max_brightness, manual_steps
             ),
             LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
-                min_color_temp, max_color_temp, manual_steps
+                self.min_color_temp, self.max_color_temp, manual_steps
             ),
             LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
         self.automatic_steppers = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
-                min_brightness, max_brightness, automatic_steps
+                self.min_brightness, self.max_brightness, automatic_steps
             ),
             LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
-                min_color_temp, max_color_temp, automatic_steps
+                self.min_color_temp, self.max_color_temp, automatic_steps
             ),
             LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
@@ -136,6 +136,7 @@ class LightController(ReleaseHoldController):
                 LightController.ATTRIBUTE_COLOR_TEMP,
                 0.5,
             ),
+            Light.SYNC: self.sync,
             Light.CLICK_BRIGHTNESS_UP: (
                 self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS,
@@ -284,6 +285,17 @@ class LightController(ReleaseHoldController):
         stepper = self.automatic_steppers[attribute]
         stepper.previous_direction = Stepper.TOGGLE_DOWN
         await self.set_value(attribute, 0)
+
+    @action
+    async def sync(self):
+        attributes = {LightController.ATTRIBUTE_BRIGHTNESS: self.max_brightness}
+        color_attribute = await self.get_attribute(LightController.ATTRIBUTE_COLOR)
+        if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
+            attributes[color_attribute] = 370  # 2700K light
+        else:
+            self.index_color = 12  # white colour
+            attributes[color_attribute] = self.colors[self.index_color]
+        await self.on(**attributes)
 
     async def get_attribute(self, attribute):
         if attribute == LightController.ATTRIBUTE_COLOR:

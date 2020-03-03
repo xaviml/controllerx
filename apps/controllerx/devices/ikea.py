@@ -13,7 +13,7 @@ class E1810Controller(LightController):
     def get_z2m_actions_mapping(self):
         return {
             "toggle": Light.TOGGLE,
-            "toggle_hold": Light.ON_FULL_BRIGHTNESS,
+            "toggle_hold": Light.SYNC,
             "brightness_up_click": Light.CLICK_BRIGHTNESS_UP,
             "brightness_down_click": Light.CLICK_BRIGHTNESS_DOWN,
             "arrow_left_click": Light.CLICK_COLOR_DOWN,
@@ -31,7 +31,7 @@ class E1810Controller(LightController):
     def get_deconz_actions_mapping(self):
         return {
             1002: Light.TOGGLE,
-            1001: Light.ON_FULL_BRIGHTNESS,
+            1001: Light.SYNC,
             2002: Light.CLICK_BRIGHTNESS_UP,
             3002: Light.CLICK_BRIGHTNESS_DOWN,
             4002: Light.CLICK_COLOR_DOWN,
@@ -49,16 +49,15 @@ class E1810Controller(LightController):
     def get_zha_actions_mapping(self):
         return {
             "toggle": Light.TOGGLE,
-            "move_to_level_with_on_off_254_0": Light.ON_FULL_BRIGHTNESS,
-###         "press_2_0_0": SET A DEFULT COLOR TEMP?
+            "press_2_0_0": Light.SYNC,
             "step_with_on_off_0_43_5": Light.CLICK_BRIGHTNESS_UP,
             "step_1_43_5": Light.CLICK_BRIGHTNESS_DOWN,
             "press_257_13_0": Light.CLICK_COLOR_DOWN,
             "press_256_13_0": Light.CLICK_COLOR_UP,
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
-            "move_with_on_off_0_84": Light.HOLD_BRIGHTNESS_UP, # ZigBee 3.0 firmware
+            "move_with_on_off_0_84": Light.HOLD_BRIGHTNESS_UP,  # ZigBee 3.0 firmware
             "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
-            "move_1_84": Light.HOLD_BRIGHTNESS_DOWN, # ZigBee 3.0 firmware
+            "move_1_84": Light.HOLD_BRIGHTNESS_DOWN,  # ZigBee 3.0 firmware
             "hold_3329_0": Light.HOLD_COLOR_DOWN,
             "hold_3328_0": Light.HOLD_COLOR_UP,
             "stop": Light.RELEASE,
@@ -110,10 +109,10 @@ class E1810MediaPlayerController(MediaPlayerController):
             "press_257_13_0": MediaPlayer.PREVIOUS_TRACK,
             "press_256_13_0": MediaPlayer.NEXT_TRACK,
             "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
-            "move_with_on_off_0_84": MediaPlayer.HOLD_VOLUME_UP, # ZigBee 3.0 firmware
+            "move_with_on_off_0_84": MediaPlayer.HOLD_VOLUME_UP,  # ZigBee 3.0 firmware
             "stop": MediaPlayer.RELEASE,
             "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
-            "move_1_84": MediaPlayer.HOLD_VOLUME_DOWN, # ZigBee 3.0 firmware
+            "move_1_84": MediaPlayer.HOLD_VOLUME_DOWN,  # ZigBee 3.0 firmware
             "release": MediaPlayer.RELEASE,
         }
 

@@ -23,6 +23,7 @@ This controller lets you map controller events with predefined light actions. Th
 | `on_min_color_temp`      | It puts the color temp to the minimum value                                                                                 |
 | `set_half_brightness`    | It sets the brightness to 50%                                                                                               |
 | `set_half_color_temp`    | It sets the color temp to 50%                                                                                               |
+| `sync`                   | It syncs the light(s) to full brightness and white colour or 2700K (370 mireds)                                             |
 | `click_brightness_up`    | It brights up accordingly with the `manual_steps` attribute                                                                 |
 | `click_brightness_down`  | It brights down accordingly with the `manual_steps` attribute                                                               |
 | `click_color_up`         | It turns the color up accordingly with the `manual_steps` attribute                                                         |
