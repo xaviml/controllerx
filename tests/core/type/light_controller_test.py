@@ -272,6 +272,7 @@ async def test_on_min(sut, mocker):
     [
         (255, "color_temp", {"brightness": 255, "color_temp": 370}),
         (255, "xy_color", {"brightness": 255, "xy_color": (0.323, 0.329)}),
+        (120, "error", {"brightness": 120}),
     ],
 )
 @pytest.mark.asyncio
@@ -283,6 +284,8 @@ async def test_sync(
     sut.transition = 300
 
     async def fake_get_attribute(*args, **kwargs):
+        if color_attribute == "error":
+            raise ValueError()
         return color_attribute
 
     monkeypatch.setattr(sut, "get_attribute", fake_get_attribute)
