@@ -281,7 +281,6 @@ async def test_sync(
 ):
     sut.max_brightness = max_brightness
     sut.light = {"name": "test_light"}
-    sut.transition = 300
 
     async def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":
@@ -294,9 +293,7 @@ async def test_sync(
     await sut.sync()
 
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_on",
-        entity_id="test_light",
-        **{**expected_attributes, "transition": 0.3}
+        "homeassistant/turn_on", entity_id="test_light", **{**expected_attributes}
     )
 
 

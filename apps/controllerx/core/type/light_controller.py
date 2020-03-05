@@ -250,8 +250,8 @@ class LightController(ReleaseHoldController):
                 return {"name": light["name"], "color_mode": "auto"}
 
     @action
-    async def on(self, **attributes):
-        if "transition" not in attributes:
+    async def on(self, add_transition=True, **attributes):
+        if add_transition and "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         self.call_service(
             "homeassistant/turn_on", entity_id=self.light["name"], **attributes,
@@ -298,7 +298,7 @@ class LightController(ReleaseHoldController):
                 attributes[color_attribute] = self.colors[self.index_color]
         except:
             self.log("sync action will only change brightness", level="DEBUG")
-        await self.on(**attributes)
+        await self.on(add_transition=False, **attributes)
 
     async def get_attribute(self, attribute):
         if attribute == LightController.ATTRIBUTE_COLOR:
