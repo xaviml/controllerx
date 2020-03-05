@@ -85,7 +85,7 @@ sonos_group:
     brightness_up_hold: hold_volume_up
     brightness_down_hold: hold_volume_down
     brightness_up_release: release
-    brightness_up_release: release
+    brightness_down_release: release
     arrow_right_click: next_source
     arrow_left_click: previous_source
     arrow_right_hold: next_track
