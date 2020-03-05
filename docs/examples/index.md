@@ -96,7 +96,7 @@ example_app:
   integration: state
   controller: sensor.controller_action
   light: light.example_light
-  transititon: 800
+  transition: 800
 ```
 
 Hue Bridge HA integration for the lights and z2m for E1810 IKEA controller.
