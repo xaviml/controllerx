@@ -268,32 +268,28 @@ async def test_on_min(sut, mocker):
 
 
 @pytest.mark.parametrize(
-    "max_brightness, color_attribute, expected_attributes",
+    "max_brightness, expected_attributes",
     [
-        (255, "color_temp", {"brightness": 255, "color_temp": 370}),
-        (255, "xy_color", {"brightness": 255, "xy_color": (0.323, 0.329)}),
-        (120, "error", {"brightness": 120}),
+        (255, {"brightness": 255}),
+        (255, {"brightness": 255}),
+        (120, {"brightness": 120}),
     ],
 )
 @pytest.mark.asyncio
-async def test_sync(
-    sut, monkeypatch, mocker, max_brightness, color_attribute, expected_attributes
-):
+async def test_sync(sut, monkeypatch, mocker, max_brightness, expected_attributes):
     sut.max_brightness = max_brightness
+    sut.automatic_steppers = {"brightness": MinMaxStepper(1, max_brightness, 10)}
     sut.light = {"name": "test_light"}
+    sut.transition = 300
 
-    async def fake_get_attribute(*args, **kwargs):
-        if color_attribute == "error":
-            raise ValueError()
-        return color_attribute
-
-    monkeypatch.setattr(sut, "get_attribute", fake_get_attribute)
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.sync()
 
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_on", entity_id="test_light", **{**expected_attributes}
+        "homeassistant/turn_on",
+        entity_id="test_light",
+        **{"transition": 0.3, **expected_attributes}
     )
 
 
