@@ -1,17 +1,20 @@
-name: Lutron Caseta Pro Pico (Lutron)
+name: PJ2-3BRL (Lutron Caseta Pro)
 device_support: 
   - Light (LutronCasetaProPicoLightController; 350ms delay)
   - Media Player (LutronCasetaProPicoMediaPlayerController; 500ms delay)
 note: >-
   This requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
+  All Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this
+  controller type except for the 4-button PJ2-4B remotes which is separate.
+
 integrations:
   - name: State
     codename: state
     actions:
       - "\"1\" 🠖 Top button"
-      - "\"8\" 🠖 Arrow up botton"
-      - "\"2\" 🠖 Middle round"
-      - "\"16\" 🠖 Arrow down botton"
+      - "\"8\" 🠖 Arrow up button"
+      - "\"2\" 🠖 Favourite/Middle round"
+      - "\"16\" 🠖 Arrow down button"
       - "\"4\" 🠖 Bottom button"
       - "\"0\" 🠖 Release/Idle state"

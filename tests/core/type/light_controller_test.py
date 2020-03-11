@@ -268,6 +268,32 @@ async def test_on_min(sut, mocker):
 
 
 @pytest.mark.parametrize(
+    "max_brightness, expected_attributes",
+    [
+        (255, {"brightness": 255}),
+        (255, {"brightness": 255}),
+        (120, {"brightness": 120}),
+    ],
+)
+@pytest.mark.asyncio
+async def test_sync(sut, monkeypatch, mocker, max_brightness, expected_attributes):
+    sut.max_brightness = max_brightness
+    sut.automatic_steppers = {"brightness": MinMaxStepper(1, max_brightness, 10)}
+    sut.light = {"name": "test_light"}
+    sut.transition = 300
+
+    called_service_patch = mocker.patch.object(sut, "call_service")
+
+    await sut.sync()
+
+    called_service_patch.assert_called_once_with(
+        "homeassistant/turn_on",
+        entity_id="test_light",
+        **{"transition": 0.3, **expected_attributes}
+    )
+
+
+@pytest.mark.parametrize(
     "attribute_input, direction_input, light_state, smooth_power_on, expected_calls",
     [
         (LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP, "off", True, 1),

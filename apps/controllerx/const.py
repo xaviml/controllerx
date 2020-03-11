@@ -9,6 +9,7 @@ class Light:
     ON_MIN_COLOR_TEMP = "on_min_color_temp"
     SET_HALF_BRIGHTNESS = "set_half_brightness"
     SET_HALF_COLOR_TEMP = "set_half_color_temp"
+    SYNC = "sync"
     CLICK_BRIGHTNESS_UP = "click_brightness_up"
     CLICK_BRIGHTNESS_DOWN = "click_brightness_down"
     CLICK_COLOR_UP = "click_color_up"

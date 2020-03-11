@@ -10,7 +10,7 @@ integrations:
       - "rotate_right 🠖 Right turn"
       - "rotate_stop 🠖 Stop rotation"
       - "play_pause 🠖 1 click"
-      - "skip_forward 🠖 3 click"
+      - "skip_forward 🠖 2 click"
       - "skip_backward 🠖 3 click"
   - name: deCONZ
     codename: deconz
@@ -20,7 +20,7 @@ integrations:
       - "2003 🠖 Stop left rotation"
       - "3003 🠖 Stop right rotation"
       - "1002 🠖 1 click"
-      - "1004 🠖 3 click"
+      - "1004 🠖 2 click"
       - "1005 🠖 3 click"
   - name: ZHA
     codename: zha
@@ -29,5 +29,5 @@ integrations:
       - "move_0_195 🠖 Right turn"
       - "stop 🠖 Stop rotation"
       - "toggle 🠖 1 click"
-      - "step_0_1_0 🠖 3 click"
+      - "step_0_1_0 🠖 2 click"
       - "step_1_1_0 🠖 3 click"

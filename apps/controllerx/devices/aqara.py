@@ -46,6 +46,21 @@ class WXKG01LMLightController(LightController):
         }
 
 
+class WXKG11LMLightController(LightController):
+    """
+    Different states reported from the controller:
+    single, double, shake, hold, release
+    """
+
+    def get_z2m_actions_mapping(self):
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Light.RELEASE,
+        }
+
+
 class WXKG12LMLightController(LightController):
     """
     Different states reported from the controller:
