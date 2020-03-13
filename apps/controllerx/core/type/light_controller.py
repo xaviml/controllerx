@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from const import Light
 from core.controller import ReleaseHoldController, action
+from core import light_features
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -250,8 +251,8 @@ class LightController(ReleaseHoldController):
                 return {"name": light["name"], "color_mode": "auto"}
 
     @action
-    async def on(self, add_transition=True, **attributes):
-        if add_transition and "transition" not in attributes:
+    async def on(self, **attributes):
+        if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         self.call_service(
             "homeassistant/turn_on", entity_id=self.light["name"], **attributes,
@@ -288,18 +289,30 @@ class LightController(ReleaseHoldController):
 
     @action
     async def sync(self):
-        await self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
+        await self.on(brightness=self.max_brightness, transition=0)
+        attributes = {}
+        try:
+            color_attribute = await self.get_attribute(LightController.ATTRIBUTE_COLOR)
+            if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
+                attributes[color_attribute] = 370  # 2700K light
+            else:
+                self.index_color = 12  # white colour
+                attributes[color_attribute] = self.colors[self.index_color]
+        except:
+            self.log("sync action will only change brightness", level="DEBUG")
+        if attributes != {}:
+            await self.on(**attributes)
 
     async def get_attribute(self, attribute):
         if attribute == LightController.ATTRIBUTE_COLOR:
-            entity_states = await self.get_entity_state(
-                self.light["name"], attribute="all"
+            bitfield = await self.get_entity_state(
+                self.light["name"], attribute="supported_features"
             )
-            entity_attributes = entity_states["attributes"]
+            supported_features = light_features.decode(bitfield)
             if self.light["color_mode"] == "auto":
-                if LightController.ATTRIBUTE_XY_COLOR in entity_attributes:
+                if light_features.SUPPORT_COLOR in supported_features:
                     return LightController.ATTRIBUTE_XY_COLOR
-                elif LightController.ATTRIBUTE_COLOR_TEMP in entity_attributes:
+                elif light_features.SUPPORT_COLOR_TEMP in supported_features:
                     return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(
