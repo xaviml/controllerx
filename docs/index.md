@@ -19,7 +19,7 @@ ControllerX brings the following functionalities for different [controllers](/co
 
 ## Why ControllerX?
 
-Solutions like zigbee2mqtt, deconz and zha have their pros and cons, but if there is something good about these solutions is that you remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Philips). However, there is a downside about removing this dependency and it is that not only the propietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. Home assistant is great and we love it, but when it comes to create complex automations it gets tricky. This is why I created ControllerX with AppDaemon and the Home Assistant plugin, to give the behaviour to the devices we lose when not having the original hub.
+Solutions like zigbee2mqtt, deconz and zha have their pros and cons, but if there is something good about these solutions is that you remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Philips). However, there is a downside about removing this dependency and it is that not only the propietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. Home Assistant is great and we love it, but when it comes to create complex automations, it gets tricky. This is why I created ControllerX with AppDaemon and the Home Assistant plugin, to give the behaviour to the devices we lose when not having the original hub.
 
 ## Quick example
 
