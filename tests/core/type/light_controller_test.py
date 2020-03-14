@@ -43,16 +43,16 @@ def test_initialize_and_get_light(sut, mocker, light_input, light_output):
 
 
 @pytest.mark.parametrize(
-    "attribute_input, color_mode, light_attributes, attribute_expected, throws_error",
+    "attribute_input, color_mode, supported_features, attribute_expected, throws_error",
     [
-        ("color", "auto", ("xy_color",), "xy_color", False),
-        ("color", "auto", ("color_temp",), "color_temp", False),
-        ("color", "auto", ("color_temp", "xy_color"), "xy_color", False),
-        ("brightness", "auto", (), "brightness", False),
-        ("brightness", "auto", ("xy_color",), "brightness", False),
-        ("color", "color_temp", ("color_temp", "xy_color"), "color_temp", False),
-        ("color", "xy_color", ("color_temp", "xy_color"), "xy_color", False),
-        ("color", "auto", (), "not_important", True),
+        ("color", "auto", "16", "xy_color", False),  # 16 = xy_color
+        ("color", "auto", "2", "color_temp", False),  # 2 = color_temp
+        ("color", "auto", "18", "xy_color", False),  # 18 = xy_color + color_temp
+        ("brightness", "auto", "0", "brightness", False),
+        ("brightness", "auto", "16", "brightness", False),
+        ("color", "color_temp", "18", "color_temp", False),
+        ("color", "xy_color", "18", "xy_color", False),
+        ("color", "auto", "0", "not_important", True),
     ],
 )
 @pytest.mark.asyncio
@@ -61,12 +61,13 @@ async def test_get_attribute(
     monkeypatch,
     attribute_input,
     color_mode,
-    light_attributes,
+    supported_features,
     attribute_expected,
     throws_error,
 ):
     async def fake_get_entity_state(entity, attribute=None):
-        return {"attributes": set(light_attributes)}
+
+        return supported_features
 
     sut.light = {"name": "light", "color_mode": color_mode}
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
@@ -268,29 +269,47 @@ async def test_on_min(sut, mocker):
 
 
 @pytest.mark.parametrize(
-    "max_brightness, expected_attributes",
+    "max_brightness, color_attribute, expected_color_attributes",
     [
-        (255, {"brightness": 255}),
-        (255, {"brightness": 255}),
-        (120, {"brightness": 120}),
+        (255, "color_temp", {"color_temp": 370}),
+        (255, "xy_color", {"xy_color": (0.323, 0.329)}),
+        (120, "error", {}),
     ],
 )
 @pytest.mark.asyncio
-async def test_sync(sut, monkeypatch, mocker, max_brightness, expected_attributes):
+async def test_sync(
+    sut, monkeypatch, mocker, max_brightness, color_attribute, expected_color_attributes
+):
     sut.max_brightness = max_brightness
-    sut.automatic_steppers = {"brightness": MinMaxStepper(1, max_brightness, 10)}
     sut.light = {"name": "test_light"}
     sut.transition = 300
 
+    async def fake_get_attribute(*args, **kwargs):
+        if color_attribute == "error":
+            raise ValueError()
+        return color_attribute
+
+    monkeypatch.setattr(sut, "get_attribute", fake_get_attribute)
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.sync()
 
-    called_service_patch.assert_called_once_with(
+    called_service_patch.assert_any_call(
         "homeassistant/turn_on",
         entity_id="test_light",
-        **{"transition": 0.3, **expected_attributes}
+        brightness=max_brightness,
+        transition=0,
     )
+
+    if color_attribute == "error":
+        assert called_service_patch.call_count == 1
+    else:
+        assert called_service_patch.call_count == 2
+        called_service_patch.assert_any_call(
+            "homeassistant/turn_on",
+            entity_id="test_light",
+            **{"transition": 0.3, **expected_color_attributes}
+        )
 
 
 @pytest.mark.parametrize(
