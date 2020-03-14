@@ -60,6 +60,14 @@ class WXKG11LMLightController(LightController):
             "release": Light.RELEASE,
         }
 
+    def get_deconz_actions_mapping(self):
+        return {
+            1002: Light.TOGGLE,
+            1004: Light.ON_FULL_BRIGHTNESS,
+            1001: Light.HOLD_BRIGHTNESS_TOGGLE,
+            1003: Light.RELEASE,
+        }
+
 
 class WXKG12LMLightController(LightController):
     """
