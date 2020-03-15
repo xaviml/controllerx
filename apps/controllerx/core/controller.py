@@ -15,6 +15,7 @@ import time
 from collections import defaultdict
 from core import integration as integration_module
 from core.stepper import Stepper
+import version
 
 
 DEFAULT_DELAY = 350  # In milliseconds
@@ -36,6 +37,7 @@ class Controller(hass.Hass, abc.ABC):
     """
 
     def initialize(self):
+        self.log(f"ControllerX {version.__version__}")
         self.check_ad_version()
 
         # Get arguments
