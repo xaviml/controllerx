@@ -255,16 +255,24 @@ class LightController(ReleaseHoldController):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         self.call_service(
-            "homeassistant/turn_on", entity_id=self.light["name"], **attributes,
+            "homeassistant/turn_on", entity_id=self.light["name"], **attributes
         )
 
     @action
-    async def off(self):
-        self.call_service("homeassistant/turn_off", entity_id=self.light["name"])
+    async def off(self, **attributes):
+        if "transition" not in attributes:
+            attributes["transition"] = self.transition / 1000
+        self.call_service(
+            "homeassistant/turn_off", entity_id=self.light["name"], **attributes
+        )
 
     @action
-    async def toggle(self):
-        self.call_service("homeassistant/toggle", entity_id=self.light["name"])
+    async def toggle(self, **attributes):
+        if "transition" not in attributes:
+            attributes["transition"] = self.transition / 1000
+        self.call_service(
+            "homeassistant/toggle", entity_id=self.light["name"], **attributes
+        )
 
     @action
     async def set_value(self, attribute, fraction):

@@ -191,21 +191,39 @@ async def test_on(sut, mocker, attributes_input, transition, attributes_expected
     )
 
 
+@pytest.mark.parametrize(
+    "attributes_input, transition, attributes_expected",
+    [
+        ({"test": "test"}, 300, {"test": "test", "transition": 0.3}),
+        ({"test": "test", "transition": 0.5}, 300, {"test": "test", "transition": 0.5}),
+        ({}, 1000, {"transition": 1}),
+    ],
+)
 @pytest.mark.asyncio
-async def test_off(sut, mocker):
+async def test_off(sut, mocker, attributes_input, transition, attributes_expected):
     called_service_patch = mocker.patch.object(sut, "call_service")
-    await sut.off()
+    sut.transition = transition
+    await sut.off(**attributes_input)
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_off", entity_id=sut.light["name"]
+        "homeassistant/turn_off", entity_id=sut.light["name"], **attributes_expected
     )
 
 
+@pytest.mark.parametrize(
+    "attributes_input, transition, attributes_expected",
+    [
+        ({"test": "test"}, 300, {"test": "test", "transition": 0.3}),
+        ({"test": "test", "transition": 0.5}, 300, {"test": "test", "transition": 0.5}),
+        ({}, 1000, {"transition": 1}),
+    ],
+)
 @pytest.mark.asyncio
-async def test_toggle(sut, mocker):
+async def test_toggle(sut, mocker, attributes_input, transition, attributes_expected):
     called_service_patch = mocker.patch.object(sut, "call_service")
-    await sut.toggle()
+    sut.transition = transition
+    await sut.toggle(**attributes_input)
     called_service_patch.assert_called_once_with(
-        "homeassistant/toggle", entity_id=sut.light["name"]
+        "homeassistant/toggle", entity_id=sut.light["name"], **attributes_expected
     )
 
 
