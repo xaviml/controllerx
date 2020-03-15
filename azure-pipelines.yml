@@ -6,6 +6,7 @@
 trigger:
 - master
 - dev
+- refs/tags/*
 
 pr:
 - master
@@ -22,16 +23,23 @@ steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+  displayName: 'Prepare Python $(python.version)'
 - script: pip install pipenv
-  displayName: 'Installing pipenv'
+  displayName: 'Install pipenv'
 - script: python -m pipenv install --dev
-  displayName: 'Installing dependencies'
+  displayName: 'Install dependencies'
 - script: pipenv run pre-commit run --all-files
   displayName: 'Format checker'
 - script: pipenv run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
-  displayName: 'Running tests'
+  displayName: 'Run tests'
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+- task: GithubRelease@0
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+  displayName: 'Create GitHub Release'      
+  inputs:
+    gitHubConnection: github.com_xaviml
+    repositoryName: xaviml/controllerx
+    isPreRelease: ${{ contains(variables['Build.SourceBranchName'], 'b') }}
