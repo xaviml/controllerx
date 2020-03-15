@@ -10,6 +10,7 @@ pytest-asyncio = "==0.10.0"
 pytest-cov = "==2.8.1"
 pytest-mock = "==2.0.0"
 pre-commit = "==2.0.1"
+commitizen = "==1.17.0"
 
 [packages]
 appdaemon = "==4.0.1"

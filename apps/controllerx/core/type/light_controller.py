@@ -299,7 +299,7 @@ class LightController(ReleaseHoldController):
                 self.index_color = 12  # white colour
                 attributes[color_attribute] = self.colors[self.index_color]
         except:
-            self.log("sync action will only change brightness", level="DEBUG")
+            self.log("sync action will only change brightness", level="WARNING")
         if attributes != {}:
             await self.on(**attributes)
 
