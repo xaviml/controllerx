@@ -1,6 +1,6 @@
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "2.4.2"
+version = "2.4.3"
 tag_format = "v$major.$minor.$patch$prerelease"
 version_files = [
     "apps/controllerx/version.py",
