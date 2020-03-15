@@ -2,11 +2,14 @@
 
 ## Installation
 
-This project uses pipenv as python management tool. Run the following command to install dependencies:
+This project uses pipenv as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
 
 ```
 pipenv install --dev
+pipenv shell
+pre-commit install
 ```
+
 
 ## Adding a new controller
 
