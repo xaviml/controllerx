@@ -117,7 +117,7 @@ class Controller(hass.Hass, abc.ABC):
             now = time.time() * 1000
             self.action_times[action_key] = now
             if now - previous_call_time > self.action_delta:
-                self.log(f"Button pressed: {action_key}", level="DEBUG")
+                self.log(f"Button pressed: {action_key}", level="INFO")
                 action, *args = self.get_action(self.actions_mapping[action_key])
                 await action(*args)
 

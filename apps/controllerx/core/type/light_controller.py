@@ -401,7 +401,7 @@ class LightController(ReleaseHoldController):
             # I haven't experimented any problems with it, but a future implementation
             # would be to force the loop to stop after 4 or 5 loops as a safety measure.
             return False
-        self.log(f"Attribute: {attribute}; Current value: {old}", level="DEBUG")
+        self.log(f"Attribute: {attribute}; Current value: {old}", level="INFO")
         if self.check_smooth_power_on(
             attribute, direction, await self.get_entity_state(self.light["name"])
         ):
