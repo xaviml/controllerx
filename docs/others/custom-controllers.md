@@ -133,7 +133,6 @@ custom_hue_dimmer_example:
   class: CallServiceController
   controller: sensor.office_controller_action
   integration: z2m
-  light: light.office
   mapping:
     up-press:
       - service: script.my_script
