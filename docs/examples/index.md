@@ -141,11 +141,18 @@ hallway_light_group_toggle:
     - toggle_hold
 ```
 
-## Others
+Regular use of E1743 controller for a light, but delaying the `off` action for 10 seconds. The use case could be for when we have a switch at the beginning of the corridor and we do not want the light to turn off until a certain period of time.
 
-These are examples that are quite extensive and were extracted in separated pages:
-
-- [Using Sonos/Symfonisk media player(s) with ControllerX](sonos)
+```yaml
+corridor_controller:
+  module: controllerx
+  class: E1743Controller
+  controller: sensor.corridor_controller_action
+  integration: z2m
+  light: light.corridor
+  action_delay:
+    "off": 10
+```
 
 ## Advanced
 
@@ -175,6 +182,47 @@ controller_bathroom:
   integration: deconz
   light: light.light3
   constrain_input_select: input_select.where_am_i,bathroom
+```
+
+Controlling different lights with the E1810 controller. Using brightness buttons for one light, arrows for another one and the center to turn off a group of lights.
+
+```yaml
+light1_controller:
+  module: controllerx
+  class: CustomLightController
+  controller: e1810_controller
+  integration: deconz
+  light: light.light1
+  mapping:
+    2002: "on"
+    3002: "off"
+    2001: hold_brightness_up
+    2003: release
+    3001: hold_brightness_down
+    3003: release
+
+light2_controller:
+  module: controllerx
+  class: CustomLightController
+  controller: e1810_controller
+  integration: deconz
+  light: light.light2
+  mapping:
+    4002: "on"
+    5002: "off"
+    4001: hold_brightness_down
+    4003: release
+    5001: hold_brightness_up
+    5003: release
+
+all_lights_controller:
+  module: controllerx
+  class: CustomLightController
+  controller: e1810_controller
+  integration: deconz
+  light: group.all_lights
+  mapping:
+    1002: "off"
 ```
 
 Extending the functionality of the smooth power onfor the E1810, so when clicked or hold each button when the light is off, it sets the light to its minimum or maximum brightness or color, depending on the button pressed. This assumes you have a light with support to color temperature.
@@ -271,3 +319,9 @@ sonos_speaker:
     arrow_right_hold: next_track
     arrow_left_hold: previous_track
 ```
+
+## Others
+
+These are examples that are quite extensive and were extracted in separated pages:
+
+- [Using Sonos/Symfonisk media player(s) with ControllerX](sonos)

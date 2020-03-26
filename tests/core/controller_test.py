@@ -2,10 +2,10 @@ from collections import defaultdict
 
 import appdaemon.plugins.hass.hassapi as hass
 import pytest
-from tests.utils import IntegrationMock, fake_controller, hass_mock
 
 from core import integration as integration_module
 from core.controller import Controller, action
+from tests.utils import IntegrationMock, fake_async_function, fake_controller, hass_mock
 
 
 @pytest.fixture
@@ -213,24 +213,59 @@ async def test_handle_action(
 ):
     sut.action_delta = action_delta
     sut.action_times = defaultdict(lambda: 0)
-    actions = {}
-    mocked_actions = {}
-    for action in actions_input:
-        mocked_action = mocker.stub(name=f"fake_action_{action}")
-
-        async def fake_action():
-            mocked_actions[action_called]()
-
-        actions[action] = fake_action
-        mocked_actions[action] = mocked_action
-    if action_called not in mocked_actions:
-        mocked_actions[action_called] = mocker.stub(name=f"fake_action_{action_called}")
-    sut.actions_mapping = actions
+    sut.actions_mapping = {action: None for action in actions_input}
+    call_action_patch = mocker.patch.object(sut, "call_action")
 
     # SUT
     for _ in range(action_called_times):
         await sut.handle_action(action_called)
-    assert mocked_actions[action_called].call_count == expected_calls
+
+    # Checks
+    assert call_action_patch.call_count == expected_calls
+
+
+@pytest.mark.parametrize(
+    "delay,handle,cancel_timer_called,run_in_called,action_timer_callback_called",
+    [
+        (0, None, False, False, True),
+        (1, None, False, True, False),
+        (1, 1234, True, True, False),
+    ],
+)
+@pytest.mark.asyncio
+async def test_call_action(
+    sut,
+    monkeypatch,
+    mocker,
+    delay,
+    handle,
+    cancel_timer_called,
+    run_in_called,
+    action_timer_callback_called,
+):
+    action_key = "test"
+    sut.action_delay = {action_key: delay}
+    sut.action_delay_handles = {action_key: handle}
+
+    monkeypatch.setattr(sut, "cancel_timer", fake_async_function())
+    monkeypatch.setattr(sut, "run_in", fake_async_function())
+    monkeypatch.setattr(sut, "action_timer_callback", fake_async_function())
+    cancel_timer_patch = mocker.patch.object(sut, "cancel_timer")
+    run_in_patch = mocker.patch.object(sut, "run_in")
+    action_timer_callback_patch = mocker.patch.object(sut, "action_timer_callback")
+
+    # SUT
+    await sut.call_action(action_key)
+
+    # Checks
+    if cancel_timer_called:
+        cancel_timer_patch.assert_called_once_with(handle)
+    if run_in_called:
+        run_in_patch.assert_called_once_with(
+            sut.action_timer_callback, delay, action_key=action_key
+        )
+    if action_timer_callback_called:
+        action_timer_callback_patch.assert_called_once_with({"action_key": action_key})
 
 
 def fake_action():

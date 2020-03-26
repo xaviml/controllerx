@@ -52,6 +52,12 @@ class Controller(hass.Hass, abc.ABC):
         )
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
         self.action_times = defaultdict(lambda: 0)
+        default_action_delay = {action_key: 0 for action_key in included_actions}
+        self.action_delay = {
+            **default_action_delay,
+            **self.args.get("action_delay", {}),
+        }
+        self.action_delay_handles = defaultdict(lambda: None)
 
         # Filter the actions
         self.actions_mapping = {
@@ -120,8 +126,27 @@ class Controller(hass.Hass, abc.ABC):
             self.action_times[action_key] = now
             if now - previous_call_time > self.action_delta:
                 self.log(f"Button pressed: {action_key}", level="INFO")
-                action, *args = self.get_action(self.actions_mapping[action_key])
-                await action(*args)
+                await self.call_action(action_key)
+
+    async def call_action(self, action_key):
+        delay = self.action_delay[action_key]
+        if delay > 0:
+            handle = self.action_delay_handles[action_key]
+            if handle is not None:
+                await self.cancel_timer(handle)
+            self.log(f"Running {action_key} in {delay} seconds", level="INFO")
+            new_handle = await self.run_in(
+                self.action_timer_callback, delay, action_key=action_key
+            )
+            self.action_delay_handles[action_key] = new_handle
+        else:
+            await self.action_timer_callback({"action_key": action_key})
+
+    async def action_timer_callback(self, kwargs):
+        action_key = kwargs["action_key"]
+        self.action_delay_handles[action_key] = None
+        action, *args = self.get_action(self.actions_mapping[action_key])
+        await action(*args)
 
     async def before_action(self, action, *args, **kwargs):
         """
