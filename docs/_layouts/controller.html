@@ -27,6 +27,17 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
   </table>
 
   <div>
+    <h3>Example configuration</h3>
+    <pre>
+      <code lang="yaml">
+  example_app:
+    module: controllerx
+    class: {{ controller.light_example }}
+    controller: < controller_id >
+    integration: < {{integration_names}} >
+    light: < light_entity >
+      </code>
+    </pre>
     {% if controller.note %}
     <h3>Note</h3>
     {{controller.note}} {% endif %}

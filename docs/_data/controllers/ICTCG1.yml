@@ -1,6 +1,7 @@
 name: ICTCG1 (IKEA)
 device_support: 
   - Light (ICTCG1Controller; 350ms delay)
+light_example: ICTCG1Controller
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

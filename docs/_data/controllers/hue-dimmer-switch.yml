@@ -1,6 +1,7 @@
 name: Hue Dimmer switch (Philips)
 device_support: 
   - Light (HueDimmerController; 350ms delay)
+light_example: HueDimmerController
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

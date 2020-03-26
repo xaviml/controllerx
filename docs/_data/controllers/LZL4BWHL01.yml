@@ -1,6 +1,7 @@
 name: LZL4BWHL01 (Lutron)
 device_support: 
   - Light (LZL4BWHL01LightController; 350ms delay)
+light_example: LZL4BWHL01LightController
 integrations:
   - name: deCONZ
     codename: deconz

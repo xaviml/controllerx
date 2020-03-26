@@ -1,6 +1,7 @@
 name: WXKG01LM (Aqara)
 device_support: 
   - Light (WXKG01LMLightController; 350ms delay)
+light_example: WXKG01LMLightController
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

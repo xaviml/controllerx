@@ -1,6 +1,7 @@
 name: WXKG11LM (Aqara)
 device_support: 
   - Light (WXKG11LMLightController; 350ms delay)
+light_example: WXKG11LMLightController
 note: >-
   For z2m integration, this controller has 2 sensors that need to be added to the configuration.
   One ends with `_action` and the other one with `_click`.

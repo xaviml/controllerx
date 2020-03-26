@@ -2,6 +2,7 @@ name: IM6001-BTP01 (SmartThings)
 device_support: 
   - Light (SmartThingsButtonLightController; 350ms delay)
   - Media Player (SmartThingsButtonMediaPlayerController; 500ms delay)
+light_example: SmartThingsButtonLightController
 note: >-
   When using it as light controller and the button is click, it toggles the light.
   When using it as light controller and the button is double-click, it sets the maximum brightness.

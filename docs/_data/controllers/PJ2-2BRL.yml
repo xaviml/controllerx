@@ -2,6 +2,7 @@ name: PJ2-2BRL (Lutron Caseta Pro)
 device_support: 
   - Light (LutronCasetaProPicoLightController; 350ms delay)
   - Media Player (LutronCasetaProPicoMediaPlayerController; 500ms delay)
+light_example: LutronCasetaProPicoLightController
 note: >-
   This requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.

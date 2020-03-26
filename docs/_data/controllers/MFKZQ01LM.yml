@@ -1,6 +1,7 @@
 name: MFKZQ01LM Xiaomi Smart Cube (Aqara)
 device_support: 
   - Light (MFKZQ01LMLightController; 350ms delay)
+light_example: MFKZQ01LMLightController
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

@@ -2,11 +2,13 @@ name: E1524/E1810 (IKEA)
 device_support: 
   - Light (E1810Controller; 350ms delay)
   - Media Player (E1810MediaPlayerController; 500ms delay)
+light_example: E1810Controller
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
     actions:
       - "toggle 🠖 Click ⏻"
+      - "toggle_hold 🠖 Hold ⏻"
       - "brightness_up_click 🠖 Click 🔆"
       - "brightness_down_click  🠖 Click 🔅"
       - "arrow_left_click 🠖 Click <"

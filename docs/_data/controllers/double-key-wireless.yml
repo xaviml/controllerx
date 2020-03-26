@@ -1,6 +1,7 @@
 name: Double key wireless (Aqara)
 device_support: 
-  - Light (E1810Controller; 350ms delay)
+  - Light (DoubleKeyWirelessAqaraController; 350ms delay)
+light_example: DoubleKeyWirelessAqaraController
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

@@ -1,6 +1,7 @@
 name: E1743 (IKEA)
 device_support: 
   - Light (E1743Controller; 350ms delay)
+light_example: E1743Controller
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
