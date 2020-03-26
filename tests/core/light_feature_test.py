@@ -6,6 +6,7 @@ from core import light_features
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
+        ("1", {light_features.SUPPORT_BRIGHTNESS,},),
         (
             "57",
             {

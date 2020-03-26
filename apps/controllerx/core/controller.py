@@ -139,13 +139,6 @@ class Controller(hass.Hass, abc.ABC):
                 "The action value from the action mapping should be a list or a function"
             )
 
-    async def get_entity_state(self, entity, attribute=None):
-        if "group." in entity:
-            entities = await self.get_state(entity, attribute="entity_id")
-            entity = entities[0]
-        out = await self.get_state(entity, attribute=attribute)
-        return out
-
     def get_z2m_actions_mapping(self):
         """
         Controllers can implement this function. It should return a dict
@@ -174,11 +167,38 @@ class Controller(hass.Hass, abc.ABC):
         return {}
 
 
+class TypeController(Controller, abc.ABC):
+    @abc.abstractmethod
+    def get_domain(self):
+        pass
+
+    def check_domain(self, entity):
+        domain = self.get_domain()
+        if entity.startswith("group."):
+            entities = self.get_state(entity, attribute="entity_id")
+            same_domain = all([elem.startswith(domain + ".") for elem in entities])
+            if not same_domain:
+                raise ValueError(
+                    f"All entities from '{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
+                )
+        elif not entity.startswith(domain + "."):
+            raise ValueError(
+                f"'{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
+            )
+
+    async def get_entity_state(self, entity, attribute=None):
+        if entity.startswith("group."):
+            entities = await self.get_state(entity, attribute="entity_id")
+            entity = entities[0]
+        out = await self.get_state(entity, attribute=attribute)
+        return out
+
+
 class ReleaseHoldController(Controller, abc.ABC):
     def initialize(self):
-        super().initialize()
         self.on_hold = False
         self.delay = self.args.get("delay", self.default_delay())
+        super().initialize()
 
     @action
     async def release(self):

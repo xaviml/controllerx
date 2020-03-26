@@ -1,8 +1,8 @@
 from collections import defaultdict
 
 from const import Light
-from core.controller import ReleaseHoldController, action
 from core import light_features
+from core.controller import ReleaseHoldController, TypeController, action
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -16,7 +16,7 @@ DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
 
 
-class LightController(ReleaseHoldController):
+class LightController(TypeController, ReleaseHoldController):
     """
     This is the main class that controls the lights for different devices.
     Type of actions:
@@ -73,8 +73,8 @@ class LightController(ReleaseHoldController):
     value_attribute = None
 
     def initialize(self):
-        super().initialize()
         self.light = self.get_light(self.args["light"])
+        self.check_domain(self.light["name"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
@@ -104,6 +104,10 @@ class LightController(ReleaseHoldController):
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
+        super().initialize()
+
+    def get_domain(self):
+        return "light"
 
     def get_type_actions_mapping(self):
         return {
@@ -401,7 +405,6 @@ class LightController(ReleaseHoldController):
             # I haven't experimented any problems with it, but a future implementation
             # would be to force the loop to stop after 4 or 5 loops as a safety measure.
             return False
-        self.log(f"Attribute: {attribute}; Current value: {old}", level="INFO")
         if self.check_smooth_power_on(
             attribute, direction, await self.get_entity_state(self.light["name"])
         ):
@@ -410,6 +413,10 @@ class LightController(ReleaseHoldController):
             return True
         else:
             new_state_attribute, exceeded = stepper.step(old, direction)
+        self.log(
+            f"Attribute: {attribute}; old: {old}; new: {new_state_attribute}",
+            level="INFO",
+        )
         attributes = {attribute: new_state_attribute}
         if action_type == "hold":
             attributes["transition"] = self.delay / 1000

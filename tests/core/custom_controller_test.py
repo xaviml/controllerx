@@ -61,8 +61,8 @@ async def test_custom_light_controller(
     sut.args = {
         "controller": "test_controller",
         "integration": "z2m",
-        "light": "test_light",
-        "media_player": "test_media_player",
+        "light": "light.test_light",
+        "media_player": "media_player.test_media_player",
         "mapping": mapping,
     }
     mocked = mocker.patch.object(sut, mock_function)

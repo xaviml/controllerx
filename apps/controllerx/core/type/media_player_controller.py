@@ -1,19 +1,23 @@
 from const import MediaPlayer
-from core.controller import ReleaseHoldController, action
+from core.controller import ReleaseHoldController, TypeController, action
 from core.stepper import Stepper
-from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper
+from core.stepper.minmax_stepper import MinMaxStepper
 
 DEFAULT_VOLUME_STEPS = 10
 
 
-class MediaPlayerController(ReleaseHoldController):
+class MediaPlayerController(TypeController, ReleaseHoldController):
     def initialize(self):
-        super().initialize()
         self.media_player = self.args["media_player"]
+        self.check_domain(self.media_player)
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0
+        super().initialize()
+
+    def get_domain(self):
+        return "media_player"
 
     def get_type_actions_mapping(self):
         return {
