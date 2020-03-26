@@ -1,19 +1,22 @@
 import pytest
 
 from core import LightController, ReleaseHoldController
-from tests.utils import hass_mock
+from tests.utils import hass_mock, fake_async_function
 from core.stepper import Stepper
 from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper
+from core import light_features
 
 
 @pytest.fixture
-def sut(hass_mock):
+def sut(hass_mock, monkeypatch):
     c = LightController()
     c.args = {}
     c.delay = 0
     c.light = {"name": "light"}
     c.on_hold = False
+
+    monkeypatch.setattr(c, "get_entity_state", fake_async_function("0"))
     return c
 
 
@@ -32,11 +35,19 @@ def sut(hass_mock):
         ),
     ],
 )
-def test_initialize_and_get_light(sut, mocker, light_input, light_output):
-    super_initialize_stub = mocker.patch.object(ReleaseHoldController, "initialize")
+@pytest.mark.asyncio
+async def test_initialize_and_get_light(
+    sut, monkeypatch, mocker, light_input, light_output
+):
+    super_initialize_stub = mocker.stub()
+
+    async def fake_super_initialize(self):
+        super_initialize_stub()
+
+    monkeypatch.setattr(ReleaseHoldController, "initialize", fake_super_initialize)
 
     sut.args["light"] = light_input
-    sut.initialize()
+    await sut.initialize()
 
     super_initialize_stub.assert_called_once()
     assert sut.light == light_output
@@ -162,6 +173,7 @@ async def test_change_light_state(
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.transition = 300
+    sut.supported_features = []
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
@@ -174,57 +186,63 @@ async def test_change_light_state(
 
 
 @pytest.mark.parametrize(
-    "attributes_input, transition, attributes_expected",
+    "attributes_input, transition_support, attributes_expected",
     [
-        ({"test": "test"}, 300, {"test": "test", "transition": 0.3}),
-        ({"test": "test", "transition": 0.5}, 300, {"test": "test", "transition": 0.5}),
-        ({}, 1000, {"transition": 1}),
+        ({"test": "test"}, True, {"test": "test", "transition": 0.3}),
+        ({"test": "test"}, False, {"test": "test"}),
+        (
+            {"test": "test", "transition": 0.5},
+            True,
+            {"test": "test", "transition": 0.5},
+        ),
+        ({"test": "test", "transition": 0.5}, False, {"test": "test"}),
+        ({}, True, {"transition": 0.3}),
+        ({}, False, {}),
     ],
 )
 @pytest.mark.asyncio
-async def test_on(sut, mocker, attributes_input, transition, attributes_expected):
+async def test_call_light_service(
+    sut, mocker, attributes_input, transition_support, attributes_expected
+):
     called_service_patch = mocker.patch.object(sut, "call_service")
-    sut.transition = transition
-    await sut.on(**attributes_input)
+    sut.transition = 300
+    sut.supported_features = (
+        [light_features.SUPPORT_TRANSITION] if transition_support else []
+    )
+    await sut.call_light_service("test_service", **attributes_input)
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_on", entity_id=sut.light["name"], **attributes_expected
+        "test_service", entity_id=sut.light["name"], **attributes_expected
     )
 
 
-@pytest.mark.parametrize(
-    "attributes_input, transition, attributes_expected",
-    [
-        ({"test": "test"}, 300, {"test": "test", "transition": 0.3}),
-        ({"test": "test", "transition": 0.5}, 300, {"test": "test", "transition": 0.5}),
-        ({}, 1000, {"transition": 1}),
-    ],
-)
 @pytest.mark.asyncio
-async def test_off(sut, mocker, attributes_input, transition, attributes_expected):
-    called_service_patch = mocker.patch.object(sut, "call_service")
-    sut.transition = transition
-    await sut.off(**attributes_input)
-    called_service_patch.assert_called_once_with(
-        "homeassistant/turn_off", entity_id=sut.light["name"], **attributes_expected
-    )
+async def test_on(sut, mocker, monkeypatch):
+    monkeypatch.setattr(sut, "call_light_service", fake_async_function())
+    call_light_service_patch = mocker.patch.object(sut, "call_light_service")
+    attributes = {"test": 0}
+
+    await sut.on(**attributes)
+    call_light_service_patch.assert_called_once_with("light/turn_on", **attributes)
 
 
-@pytest.mark.parametrize(
-    "attributes_input, transition, attributes_expected",
-    [
-        ({"test": "test"}, 300, {"test": "test", "transition": 0.3}),
-        ({"test": "test", "transition": 0.5}, 300, {"test": "test", "transition": 0.5}),
-        ({}, 1000, {"transition": 1}),
-    ],
-)
 @pytest.mark.asyncio
-async def test_toggle(sut, mocker, attributes_input, transition, attributes_expected):
-    called_service_patch = mocker.patch.object(sut, "call_service")
-    sut.transition = transition
-    await sut.toggle(**attributes_input)
-    called_service_patch.assert_called_once_with(
-        "homeassistant/toggle", entity_id=sut.light["name"], **attributes_expected
-    )
+async def test_off(sut, mocker, monkeypatch):
+    monkeypatch.setattr(sut, "call_light_service", fake_async_function())
+    call_light_service_patch = mocker.patch.object(sut, "call_light_service")
+    attributes = {"test": 0}
+
+    await sut.off(**attributes)
+    call_light_service_patch.assert_called_once_with("light/turn_off", **attributes)
+
+
+@pytest.mark.asyncio
+async def test_toggle(sut, mocker, monkeypatch):
+    monkeypatch.setattr(sut, "call_light_service", fake_async_function())
+    call_light_service_patch = mocker.patch.object(sut, "call_light_service")
+    attributes = {"test": 0}
+
+    await sut.toggle(**attributes)
+    call_light_service_patch.assert_called_once_with("light/toggle", **attributes)
 
 
 @pytest.mark.parametrize(
@@ -301,6 +319,7 @@ async def test_sync(
     sut.max_brightness = max_brightness
     sut.light = {"name": "test_light"}
     sut.transition = 300
+    sut.supported_features = [light_features.SUPPORT_TRANSITION]
 
     async def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":
@@ -313,7 +332,7 @@ async def test_sync(
     await sut.sync()
 
     called_service_patch.assert_any_call(
-        "homeassistant/turn_on",
+        "light/turn_on",
         entity_id="test_light",
         brightness=max_brightness,
         transition=0,
@@ -324,7 +343,7 @@ async def test_sync(
     else:
         assert called_service_patch.call_count == 2
         called_service_patch.assert_any_call(
-            "homeassistant/turn_on",
+            "light/turn_on",
             entity_id="test_light",
             **{"transition": 0.3, **expected_color_attributes}
         )

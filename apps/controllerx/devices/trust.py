@@ -17,7 +17,7 @@ class ZYCT202LightController(LightController):
         }
 
 
-class ZYCT202MediaPlayerController(MediaPlayer):
+class ZYCT202MediaPlayerController(MediaPlayerController):
     def get_z2m_actions_mapping(self):
         return {
             "on": MediaPlayer.PLAY_PAUSE,

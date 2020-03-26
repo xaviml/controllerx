@@ -34,7 +34,8 @@ def sut(hass_mock):
         ("group.all", "media_player", ["media_player.test", "light.test"], True),
     ],
 )
-def test_check_domain(
+@pytest.mark.asyncio
+async def test_check_domain(
     sut, mocker, monkeypatch, entity, domain, entities, error_expected
 ):
     if error_expected:
@@ -45,15 +46,18 @@ def test_check_domain(
         else:
             expected_error_message = f"All entities from '{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
 
-    monkeypatch.setattr(sut, "get_state", lambda *args, **kwargs: entities)
+    async def fake_get_state(*args, **kwargs):
+        return entities
+
+    monkeypatch.setattr(sut, "get_state", fake_get_state)
     monkeypatch.setattr(sut, "get_domain", lambda *args: domain)
 
     if error_expected:
         with pytest.raises(ValueError) as e:
-            sut.check_domain(entity)
+            await sut.check_domain(entity)
         assert str(e.value) == expected_error_message
     else:
-        sut.check_domain(entity)
+        await sut.check_domain(entity)
 
 
 @pytest.mark.parametrize(

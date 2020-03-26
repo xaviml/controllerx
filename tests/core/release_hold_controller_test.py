@@ -3,7 +3,7 @@ import pytest
 from core import integration as integration_module
 from core.controller import Controller, ReleaseHoldController
 
-from tests.utils import hass_mock
+from tests.utils import hass_mock, fake_async_function
 
 
 class FakeReleaseHoldController(ReleaseHoldController):
@@ -19,12 +19,13 @@ def sut(hass_mock):
     return c
 
 
-def test_initialize(sut, monkeypatch):
-    monkeypatch.setattr(Controller, "initialize", lambda self: None)
+@pytest.mark.asyncio
+async def test_initialize(sut, monkeypatch):
+    monkeypatch.setattr(Controller, "initialize", fake_async_function())
     monkeypatch.setattr(sut, "default_delay", lambda: 500)
     monkeypatch.setattr(sut, "sleep", lambda time: None)
     # SUT
-    sut.initialize()
+    await sut.initialize()
 
     assert sut.delay == 500
 

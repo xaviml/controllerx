@@ -13,10 +13,12 @@ except:
 import abc
 import time
 from collections import defaultdict
+
+from appdaemon.utils import sync_wrapper
+
+import version
 from core import integration as integration_module
 from core.stepper import Stepper
-import version
-
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
@@ -36,7 +38,7 @@ class Controller(hass.Hass, abc.ABC):
     This is the parent Controller, all controllers must extend from this class.
     """
 
-    def initialize(self):
+    async def initialize(self):
         self.log(f"ControllerX {version.__version__}")
         self.check_ad_version()
 
@@ -172,10 +174,10 @@ class TypeController(Controller, abc.ABC):
     def get_domain(self):
         pass
 
-    def check_domain(self, entity):
+    async def check_domain(self, entity):
         domain = self.get_domain()
         if entity.startswith("group."):
-            entities = self.get_state(entity, attribute="entity_id")
+            entities = await self.get_state(entity, attribute="entity_id")
             same_domain = all([elem.startswith(domain + ".") for elem in entities])
             if not same_domain:
                 raise ValueError(
@@ -195,10 +197,10 @@ class TypeController(Controller, abc.ABC):
 
 
 class ReleaseHoldController(Controller, abc.ABC):
-    def initialize(self):
+    async def initialize(self):
         self.on_hold = False
         self.delay = self.args.get("delay", self.default_delay())
-        super().initialize()
+        await super().initialize()
 
     @action
     async def release(self):

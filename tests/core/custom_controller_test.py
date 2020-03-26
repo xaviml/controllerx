@@ -6,7 +6,7 @@ from core import (
     CustomMediaPlayerController,
     Controller,
 )
-from tests.utils import hass_mock
+from tests.utils import hass_mock, fake_async_function
 
 
 @pytest.mark.parametrize(
@@ -55,7 +55,14 @@ from tests.utils import hass_mock
 )
 @pytest.mark.asyncio
 async def test_custom_light_controller(
-    hass_mock, mocker, custom_cls, mapping, action_input, mock_function, expected_calls
+    hass_mock,
+    monkeypatch,
+    mocker,
+    custom_cls,
+    mapping,
+    action_input,
+    mock_function,
+    expected_calls,
 ):
     sut = custom_cls()
     sut.args = {
@@ -66,7 +73,10 @@ async def test_custom_light_controller(
         "mapping": mapping,
     }
     mocked = mocker.patch.object(sut, mock_function)
-    sut.initialize()
+
+    monkeypatch.setattr(sut, "get_entity_state", fake_async_function("0"))
+
+    await sut.initialize()
     sut.action_delta = 0
     await sut.handle_action(action_input)
 
@@ -132,7 +142,7 @@ async def test_call_service_controller(
 
     monkeypatch.setattr(Controller, "call_service", fake_call_service)
 
-    sut.initialize()
+    await sut.initialize()
     sut.action_delta = 0
     await sut.handle_action("action")
 

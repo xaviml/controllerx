@@ -65,7 +65,8 @@ async def test_action_decorator(sut, mocker):
         ),
     ],
 )
-def test_initialize(
+@pytest.mark.asyncio
+async def test_initialize(
     sut,
     mocker,
     monkeypatch,
@@ -88,7 +89,7 @@ def test_initialize(
     get_actions_mapping = mocker.spy(sut, "get_actions_mapping")
 
     # SUT
-    sut.initialize()
+    await sut.initialize()
 
     # Checks
     check_ad_version.assert_called_once()
@@ -128,28 +129,39 @@ def test_get_option(sut, option, options, expect_an_error):
 
 
 @pytest.mark.parametrize(
-    "integration_input, integration_name_expected, args_expected",
+    "integration_input, integration_name_expected, args_expected, error_expected",
     [
-        ("z2m", "z2m", {}),
-        ({"name": "zha"}, "zha", {}),
+        ("z2m", "z2m", {}, False),
+        ({"name": "zha"}, "zha", {}, False),
         (
             {"name": "deconz", "attr1": "value1", "attr2": "value2"},
             "deconz",
             {"attr1": "value1", "attr2": "value2"},
+            False,
         ),
+        ({"test": "no name"}, "z2m", {}, True),
     ],
 )
 def test_get_integration(
-    sut, mocker, integration_input, integration_name_expected, args_expected
+    sut,
+    mocker,
+    integration_input,
+    integration_name_expected,
+    args_expected,
+    error_expected,
 ):
     get_integrations_spy = mocker.spy(integration_module, "get_integrations")
 
     # SUT
-    integration = sut.get_integration(integration_input)
+    if error_expected:
+        with pytest.raises(ValueError) as e:
+            integration = sut.get_integration(integration_input)
+    else:
+        integration = sut.get_integration(integration_input)
 
-    # Checks
-    get_integrations_spy.assert_called_once_with(sut, args_expected)
-    assert integration.name == integration_name_expected
+        # Checks
+        get_integrations_spy.assert_called_once_with(sut, args_expected)
+        assert integration.name == integration_name_expected
 
 
 def test_check_ad_version_throwing_error(sut, monkeypatch):
@@ -226,13 +238,22 @@ def fake_action():
 
 
 @pytest.mark.parametrize(
-    "test_input,expected",
+    "test_input, expected, error_expected",
     [
-        (fake_action, (fake_action,)),
-        ((fake_action,), (fake_action,)),
-        ((fake_action, "test"), (fake_action, "test")),
+        (fake_action, (fake_action,), False),
+        ((fake_action,), (fake_action,), False),
+        ((fake_action, "test"), (fake_action, "test"), False),
+        ("not-list-or-function", (), True),
     ],
 )
-def test_get_action(sut, test_input, expected):
-    output = sut.get_action(test_input)
-    assert output == expected
+def test_get_action(sut, test_input, expected, error_expected):
+    if error_expected:
+        with pytest.raises(ValueError) as e:
+            output = sut.get_action(test_input)
+        assert (
+            str(e.value)
+            == "The action value from the action mapping should be a list or a function"
+        )
+    else:
+        output = sut.get_action(test_input)
+        assert output == expected

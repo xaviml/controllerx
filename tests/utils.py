@@ -39,6 +39,13 @@ def fake_controller(hass_mock):
     return c
 
 
+def fake_async_function(to_return=None):
+    async def inner_fake_fn(*args, **kwargs):
+        return to_return
+
+    return inner_fake_fn
+
+
 def _import_modules(file_dir, package):
     pkg_dir = os.path.dirname(file_dir)
     for (module_loader, name, ispkg) in pkgutil.iter_modules([pkg_dir]):

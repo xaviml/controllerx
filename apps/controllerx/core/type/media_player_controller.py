@@ -8,13 +8,13 @@ DEFAULT_VOLUME_STEPS = 10
 
 
 class MediaPlayerController(TypeController, ReleaseHoldController):
-    def initialize(self):
+    async def initialize(self):
         self.media_player = self.args["media_player"]
-        self.check_domain(self.media_player)
+        await self.check_domain(self.media_player)
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0
-        super().initialize()
+        await super().initialize()
 
     def get_domain(self):
         return "media_player"

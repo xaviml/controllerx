@@ -1,3 +1,4 @@
+import asyncio
 from collections import defaultdict
 
 from const import Light
@@ -72,9 +73,9 @@ class LightController(TypeController, ReleaseHoldController):
     index_color = 0
     value_attribute = None
 
-    def initialize(self):
+    async def initialize(self):
         self.light = self.get_light(self.args["light"])
-        self.check_domain(self.light["name"])
+        await self.check_domain(self.light["name"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
@@ -104,7 +105,13 @@ class LightController(TypeController, ReleaseHoldController):
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
-        super().initialize()
+
+        bitfield = await self.get_entity_state(
+            self.light["name"], attribute="supported_features"
+        )
+
+        self.supported_features = light_features.decode(bitfield)
+        await super().initialize()
 
     def get_domain(self):
         return "light"
@@ -254,29 +261,24 @@ class LightController(TypeController, ReleaseHoldController):
             else:
                 return {"name": light["name"], "color_mode": "auto"}
 
-    @action
-    async def on(self, **attributes):
+    async def call_light_service(self, service, **attributes):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
-        self.call_service(
-            "homeassistant/turn_on", entity_id=self.light["name"], **attributes
-        )
+        if light_features.SUPPORT_TRANSITION not in self.supported_features:
+            del attributes["transition"]
+        self.call_service(service, entity_id=self.light["name"], **attributes)
+
+    @action
+    async def on(self, **attributes):
+        await self.call_light_service("light/turn_on", **attributes)
 
     @action
     async def off(self, **attributes):
-        if "transition" not in attributes:
-            attributes["transition"] = self.transition / 1000
-        self.call_service(
-            "homeassistant/turn_off", entity_id=self.light["name"], **attributes
-        )
+        await self.call_light_service("light/turn_off", **attributes)
 
     @action
     async def toggle(self, **attributes):
-        if "transition" not in attributes:
-            attributes["transition"] = self.transition / 1000
-        self.call_service(
-            "homeassistant/toggle", entity_id=self.light["name"], **attributes
-        )
+        await self.call_light_service("light/toggle", **attributes)
 
     @action
     async def set_value(self, attribute, fraction):

@@ -8,7 +8,8 @@ from core.stepper.minmax_stepper import MinMaxStepper
 
 
 @pytest.fixture
-def sut(hass_mock, mocker):
+@pytest.mark.asyncio
+async def sut(hass_mock, mocker):
     c = MediaPlayerController()
     c.args = {}
     c.delay = 0
@@ -16,12 +17,13 @@ def sut(hass_mock, mocker):
     c.on_hold = False
     mocker.patch.object(ReleaseHoldController, "initialize")
     c.args["media_player"] = "media_player.test"
-    c.initialize()
+    await c.initialize()
     return c
 
 
-def test_initialize(sut):
-    sut.initialize()
+@pytest.mark.asyncio
+async def test_initialize(sut):
+    await sut.initialize()
     assert sut.media_player == "media_player.test"
 
 
