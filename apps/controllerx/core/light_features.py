@@ -19,9 +19,4 @@ FEATURES = [
 
 def decode(number):
     number = int(number)
-    supported = []
-    for feature in FEATURES:
-        n = number & feature
-        if n != 0:
-            supported.append(n)
-    return supported
+    return [number & feature for feature in FEATURES if number & feature != 0]
