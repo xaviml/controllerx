@@ -25,6 +25,7 @@ integrations:
     codename: deconz
     actions:
       - "1002 🠖 Click ⏻"
+      - "1001 🠖 Hold ⏻"
       - "2002 🠖 Click 🔆"
       - "3002 🠖 Click 🔅"
       - "4002 🠖 Click <"
