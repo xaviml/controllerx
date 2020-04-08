@@ -186,26 +186,35 @@ async def test_change_light_state(
 
 
 @pytest.mark.parametrize(
-    "attributes_input, transition_support, attributes_expected",
+    "attributes_input, transition_support, add_transition, attributes_expected",
     [
-        ({"test": "test"}, True, {"test": "test", "transition": 0.3}),
-        ({"test": "test"}, False, {"test": "test"}),
+        ({"test": "test"}, True, True, {"test": "test", "transition": 0.3}),
+        ({"test": "test"}, False, True, {"test": "test"}),
         (
             {"test": "test", "transition": 0.5},
             True,
+            True,
             {"test": "test", "transition": 0.5},
         ),
-        ({"test": "test", "transition": 0.5}, False, {"test": "test"}),
-        ({}, True, {"transition": 0.3}),
-        ({}, False, {}),
+        ({"test": "test", "transition": 0.5}, False, True, {"test": "test"}),
+        ({}, True, True, {"transition": 0.3}),
+        ({}, False, True, {}),
+        ({}, False, True, {}),
+        ({}, False, False, {}),
     ],
 )
 @pytest.mark.asyncio
 async def test_call_light_service(
-    sut, mocker, attributes_input, transition_support, attributes_expected
+    sut,
+    mocker,
+    attributes_input,
+    transition_support,
+    add_transition,
+    attributes_expected,
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.transition = 300
+    sut.add_transition = add_transition
     sut.supported_features = (
         [light_features.SUPPORT_TRANSITION] if transition_support else []
     )
@@ -319,6 +328,7 @@ async def test_sync(
     sut.max_brightness = max_brightness
     sut.light = {"name": "test_light"}
     sut.transition = 300
+    sut.add_transition = True
     sut.supported_features = [light_features.SUPPORT_TRANSITION]
 
     async def fake_get_attribute(*args, **kwargs):

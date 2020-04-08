@@ -105,6 +105,7 @@ class LightController(TypeController, ReleaseHoldController):
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
+        self.add_transition = self.args.get("add_transition", True)
 
         bitfield = await self.get_entity_state(
             self.light["name"], attribute="supported_features"
@@ -264,7 +265,10 @@ class LightController(TypeController, ReleaseHoldController):
     async def call_light_service(self, service, **attributes):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
-        if light_features.SUPPORT_TRANSITION not in self.supported_features:
+        if (
+            light_features.SUPPORT_TRANSITION not in self.supported_features
+            or not self.add_transition
+        ):
             del attributes["transition"]
         self.call_service(service, entity_id=self.light["name"], **attributes)
 

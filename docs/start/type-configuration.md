@@ -29,6 +29,7 @@ This controller allows the devices to control light or group of lights. This all
 | `smooth_power_on` | boolean              | False                                           | If `True` the associated light will be set to minimum brightness when brightness up is clicked or hold ad light is off.                                                                                  |
 | `delay`           | int                  | [Controller specific](/controllerx/controllers) | Delay in milliseconds that takes between sending the instructions to the light (for the smooth functionality). Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior. |
 | `transition`      | int                  | 300                                             | Time in milliseconds that takes the light to transition from one state to another one.                                                                                                                   |
+| `add_transition`  | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                           |
 
 _\* Required fields_
 
