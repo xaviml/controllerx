@@ -314,16 +314,16 @@ async def test_on_min(sut, mocker):
 
 
 @pytest.mark.parametrize(
-    "max_brightness, color_attribute, expected_color_attributes",
+    "max_brightness, color_attribute, expected_attributes",
     [
-        (255, "color_temp", {"color_temp": 370}),
-        (255, "xy_color", {"xy_color": (0.323, 0.329)}),
-        (120, "error", {}),
+        (255, "color_temp", {"brightness": 255, "color_temp": 370}),
+        (255, "xy_color", {"brightness": 255, "xy_color": (0.323, 0.329)}),
+        (120, "error", {"brightness": 120}),
     ],
 )
 @pytest.mark.asyncio
 async def test_sync(
-    sut, monkeypatch, mocker, max_brightness, color_attribute, expected_color_attributes
+    sut, monkeypatch, mocker, max_brightness, color_attribute, expected_attributes
 ):
     sut.max_brightness = max_brightness
     sut.light = {"name": "test_light"}
@@ -341,22 +341,11 @@ async def test_sync(
 
     await sut.sync()
 
-    called_service_patch.assert_any_call(
+    called_service_patch.assert_called_once_with(
         "light/turn_on",
         entity_id="test_light",
-        brightness=max_brightness,
-        transition=0,
+        **{"transition": 0.3, **expected_attributes}
     )
-
-    if color_attribute == "error":
-        assert called_service_patch.call_count == 1
-    else:
-        assert called_service_patch.call_count == 2
-        called_service_patch.assert_any_call(
-            "light/turn_on",
-            entity_id="test_light",
-            **{"transition": 0.3, **expected_color_attributes}
-        )
 
 
 @pytest.mark.parametrize(

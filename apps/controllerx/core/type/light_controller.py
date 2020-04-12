@@ -317,8 +317,7 @@ class LightController(TypeController, ReleaseHoldController):
                 attributes[color_attribute] = self.colors[self.index_color]
         except:
             self.log("⚠️ `sync` action will only change brightness", level="WARNING")
-        if attributes != {}:
-            await self.on(**attributes, brightness=self.max_brightness)
+        await self.on(**attributes, brightness=self.max_brightness)
 
     async def get_attribute(self, attribute):
         if attribute == LightController.ATTRIBUTE_COLOR:
