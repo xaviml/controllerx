@@ -40,8 +40,9 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
         source_list = entity_attributes.get("source_list")
         if len(source_list) == 0 or source_list is None:
             self.log(
-                "There is no 'source_list' parameter in this media player",
+                f"⚠️ There is no `source_list` parameter in `{self.media_player}`",
                 level="WARNING",
+                ascii_encode=False,
             )
             return
         source = entity_attributes.get("source")

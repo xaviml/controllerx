@@ -293,6 +293,7 @@ async def test_call_action(
     action_timer_callback_called,
 ):
     action_key = "test"
+    sut.actions_key_mapping = {"test": "test_action"}
     sut.action_delay = {action_key: delay}
     sut.action_delay_handles = {action_key: handle}
 

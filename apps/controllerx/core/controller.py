@@ -39,18 +39,22 @@ class Controller(hass.Hass, abc.ABC):
     """
 
     async def initialize(self):
-        self.log(f"ControllerX {version.__version__}")
+        self.log(
+            f"🎮 ControllerX {version.__version__}", ascii_encode=False,
+        )
         self.check_ad_version()
 
         # Get arguments
         self.controllers_ids = self.get_list(self.args["controller"])
         integration = self.get_integration(self.args["integration"])
-        self.actions_mapping = self.get_actions_mapping(integration)
-        type_actions_mapping = self.get_type_actions_mapping()
+        self.actions_key_mapping = self.get_actions_mapping(integration)
+        self.type_actions_mapping = self.get_type_actions_mapping()
         if "actions" in self.args and "excluded_actions" in self.args:
             raise ValueError("`actions` and `excluded_actions` cannot be used together")
         included_actions = set(
-            self.get_list(self.args.get("actions", list(self.actions_mapping.keys())))
+            self.get_list(
+                self.args.get("actions", list(self.actions_key_mapping.keys()))
+            )
         )
         excluded_actions = set(self.get_list(self.args.get("excluded_actions", [])))
         included_actions = included_actions - excluded_actions
@@ -66,13 +70,13 @@ class Controller(hass.Hass, abc.ABC):
         # Filter the actions
         self.actions_mapping = {
             key: value
-            for key, value in self.actions_mapping.items()
+            for key, value in self.actions_key_mapping.items()
             if key in included_actions
         }
 
         # Map the actions mapping with the real functions
         self.actions_mapping = {
-            k: (type_actions_mapping[v] if type(v) == str else v)
+            k: (self.type_actions_mapping[v] if type(v) == str else v)
             for k, v in self.actions_mapping.items()
         }
 
@@ -129,7 +133,11 @@ class Controller(hass.Hass, abc.ABC):
             now = time.time() * 1000
             self.action_times[action_key] = now
             if now - previous_call_time > self.action_delta:
-                self.log(f"Button pressed: {action_key}", level="INFO")
+                self.log(
+                    f"🎮 Button event triggered: `{action_key}`",
+                    level="INFO",
+                    ascii_encode=False,
+                )
                 await self.call_action(action_key)
 
     async def call_action(self, action_key):
@@ -138,7 +146,11 @@ class Controller(hass.Hass, abc.ABC):
             handle = self.action_delay_handles[action_key]
             if handle is not None:
                 await self.cancel_timer(handle)
-            self.log(f"Running {action_key} in {delay} seconds", level="INFO")
+            self.log(
+                f"🕒 Running `{self.actions_key_mapping[action_key]}` in {delay} seconds",
+                level="INFO",
+                ascii_encode=False,
+            )
             new_handle = await self.run_in(
                 self.action_timer_callback, delay, action_key=action_key
             )
@@ -149,6 +161,11 @@ class Controller(hass.Hass, abc.ABC):
     async def action_timer_callback(self, kwargs):
         action_key = kwargs["action_key"]
         self.action_delay_handles[action_key] = None
+        self.log(
+            f"🏃 Running `{self.actions_key_mapping[action_key]}` now",
+            level="INFO",
+            ascii_encode=False,
+        )
         action, *args = self.get_action(self.actions_mapping[action_key])
         await action(*args)
 

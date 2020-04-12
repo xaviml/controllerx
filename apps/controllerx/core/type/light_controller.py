@@ -317,7 +317,7 @@ class LightController(TypeController, ReleaseHoldController):
                 self.index_color = 12  # white colour
                 attributes[color_attribute] = self.colors[self.index_color]
         except:
-            self.log("sync action will only change brightness", level="WARNING")
+            self.log("⚠️ `sync` action will only change brightness", level="WARNING")
         if attributes != {}:
             await self.on(**attributes)
 
@@ -420,8 +420,9 @@ class LightController(TypeController, ReleaseHoldController):
         else:
             new_state_attribute, exceeded = stepper.step(old, direction)
         self.log(
-            f"Attribute: {attribute}; old: {old}; new: {new_state_attribute}",
+            f"💡Light attribute: {attribute}; previous: {old:.0f}; new: {new_state_attribute:.0f}",
             level="INFO",
+            ascii_encode=False,
         )
         attributes = {attribute: new_state_attribute}
         if action_type == "hold":
