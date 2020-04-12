@@ -30,38 +30,79 @@ async def test_action_decorator(sut, mocker):
 
 
 @pytest.mark.parametrize(
-    "controller_input, actions_input, actions_filter, actions_ouput",
+    "controller_input, actions_input, included_actions, excluded_actions, actions_ouput, expect_an_error",
     [
-        (["controller_id"], ["action1", "action2"], ["action1"], ["action1"]),
+        (
+            ["controller_id"],
+            ["action1", "action2"],
+            ["action1"],
+            None,
+            ["action1"],
+            False,
+        ),
         (
             ["controller1", "controller2"],
             ["action1", "action2"],
             None,
+            None,
             ["action1", "action2"],
+            False,
         ),
         (
             ["controller"],
             ["action1", "action2"],
             ["action1", "action2"],
+            None,
             ["action1", "action2"],
+            False,
         ),
         (
             ["controller"],
             ["action1", "action2", "action3"],
             ["action1", "action2"],
+            None,
             ["action1", "action2"],
+            False,
         ),
         (
             ["controller"],
             ["action1", "action2", "action3"],
             ["action1", "non_existing_action"],
+            None,
             ["action1"],
+            False,
         ),
         (
             ["controller"],
             ["action1", "action2", "action3"],
             ["non_existing_action"],
+            None,
             [],
+            False,
+        ),
+        (
+            ["controller"],
+            ["action1", "action2", "action3"],
+            ["action1"],
+            ["action2"],
+            [],
+            True,
+        ),
+        (
+            ["controller"],
+            ["action1", "action2", "action3"],
+            None,
+            ["action2"],
+            ["action1", "action3"],
+            False,
+        ),
+        (
+            ["controller"],
+            ["action1", "action2", "action3"],
+            None,
+            ["action1", "action2", "action3"],
+            [],
+            False,
         ),
     ],
 )
@@ -72,15 +113,19 @@ async def test_initialize(
     monkeypatch,
     controller_input,
     actions_input,
-    actions_filter,
+    included_actions,
+    excluded_actions,
     actions_ouput,
+    expect_an_error,
 ):
     actions = {action: action for action in actions_input}
     type_actions = {action: lambda: None for action in actions_input}
     sut.args["controller"] = controller_input
     sut.args["integration"] = "test"
-    if actions_filter:
-        sut.args["actions"] = actions_filter
+    if included_actions:
+        sut.args["actions"] = included_actions
+    if excluded_actions:
+        sut.args["excluded_actions"] = excluded_actions
     integration_mock = IntegrationMock("test", sut, mocker)
     monkeypatch.setattr(sut, "get_integration", lambda integration: integration_mock)
     monkeypatch.setattr(sut, "get_actions_mapping", lambda integration: actions)
@@ -89,15 +134,19 @@ async def test_initialize(
     get_actions_mapping = mocker.spy(sut, "get_actions_mapping")
 
     # SUT
-    await sut.initialize()
+    if expect_an_error:
+        with pytest.raises(ValueError) as e:
+            await sut.initialize()
+    else:
+        await sut.initialize()
 
-    # Checks
-    check_ad_version.assert_called_once()
-    get_actions_mapping.assert_called_once()
-    for controller_id in controller_input:
-        integration_mock.listen_changes.assert_any_call(controller_id)
-    assert integration_mock.listen_changes.call_count == len(controller_input)
-    assert list(sut.actions_mapping.keys()) == actions_ouput
+        # Checks
+        check_ad_version.assert_called_once()
+        get_actions_mapping.assert_called_once()
+        for controller_id in controller_input:
+            integration_mock.listen_changes.assert_any_call(controller_id)
+        assert integration_mock.listen_changes.call_count == len(controller_input)
+        assert list(sut.actions_mapping.keys()) == actions_ouput
 
 
 @pytest.mark.parametrize(

@@ -47,16 +47,20 @@ class Controller(hass.Hass, abc.ABC):
         integration = self.get_integration(self.args["integration"])
         self.actions_mapping = self.get_actions_mapping(integration)
         type_actions_mapping = self.get_type_actions_mapping()
-        included_actions = self.get_list(
-            self.args.get("actions", list(self.actions_mapping.keys()))
+        if "actions" in self.args and "excluded_actions" in self.args:
+            raise ValueError("`actions` and `excluded_actions` cannot be used together")
+        included_actions = set(
+            self.get_list(self.args.get("actions", list(self.actions_mapping.keys())))
         )
-        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
-        self.action_times = defaultdict(lambda: 0)
+        excluded_actions = set(self.get_list(self.args.get("excluded_actions", [])))
+        included_actions = included_actions - excluded_actions
         default_action_delay = {action_key: 0 for action_key in included_actions}
         self.action_delay = {
             **default_action_delay,
             **self.args.get("action_delay", {}),
         }
+        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.action_times = defaultdict(lambda: 0)
         self.action_delay_handles = defaultdict(lambda: None)
 
         # Filter the actions
