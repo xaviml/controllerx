@@ -9,8 +9,8 @@ _Bring full functionality to light and media player controllers. From turning de
 
 ControllerX brings the following functionalities for different [controllers](/controllerx/controllers):
 
-- Turn on/Turn off light(s)
-- Toggle light(s)
+- Turn on/Turn off light(s) or switch(es)
+- Toggle light(s) or switch(es)
 - Manual increase/decrease of brightness and color temperature
 - Smooth increase/decrease (holding button) of brightness and color temperature
 - Color loop changing if the light supports xy color.
