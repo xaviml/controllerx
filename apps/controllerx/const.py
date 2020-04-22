@@ -43,3 +43,9 @@ class MediaPlayer:
     PREVIOUS_TRACK = "previous_track"
     NEXT_SOURCE = "next_source"
     PREVIOUS_SOURCE = "previous_source"
+
+
+class Switch:
+    ON = "on"
+    OFF = "off"
+    TOGGLE = "toggle"

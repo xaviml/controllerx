@@ -1,5 +1,6 @@
 from core import LightController, MediaPlayerController, Stepper, action
 from const import Light, MediaPlayer
+from core.type.switch_controller import SwitchController
 
 
 class E1810Controller(LightController):
@@ -148,6 +149,20 @@ class E1743Controller(LightController):
             "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
             "stop": Light.RELEASE,
         }
+
+
+class E1743SwitchController(SwitchController):
+    # Different states reported from the controller:
+    # on, off
+
+    def get_z2m_actions_mapping(self):
+        return {"on": Light.ON, "off": Light.OFF}
+
+    def get_deconz_actions_mapping(self):
+        return {1002: Light.ON, 2002: Light.OFF}
+
+    def get_zha_actions_mapping(self):
+        return {"on": Light.ON, "off": Light.OFF}
 
 
 class ICTCG1Controller(LightController):
