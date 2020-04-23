@@ -1,9 +1,7 @@
 import pytest
 
-from core import integration as integration_module
-from core.controller import Controller, TypeController
-
-from tests.utils import hass_mock
+from core.controller import TypeController
+from tests.test_utils import hass_mock
 
 
 class FakeTypeController(TypeController):
@@ -38,6 +36,7 @@ def sut(hass_mock):
 async def test_check_domain(
     sut, mocker, monkeypatch, entity, domain, entities, error_expected
 ):
+    expected_error_message = ""
     if error_expected:
         if entities == []:
             expected_error_message = (

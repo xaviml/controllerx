@@ -6,7 +6,7 @@ from core import (
     CustomMediaPlayerController,
     Controller,
 )
-from tests.utils import hass_mock, fake_async_function
+from tests.test_utils import hass_mock, fake_async_function
 
 
 @pytest.mark.parametrize(

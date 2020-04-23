@@ -4,8 +4,13 @@ import appdaemon.plugins.hass.hassapi as hass
 import pytest
 
 from core import integration as integration_module
-from core.controller import Controller, action
-from tests.utils import IntegrationMock, fake_async_function, fake_controller, hass_mock
+from core.controller import action
+from tests.test_utils import (
+    hass_mock,
+    fake_controller,
+    IntegrationMock,
+    fake_async_function,
+)
 
 
 @pytest.fixture

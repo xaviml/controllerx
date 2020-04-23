@@ -1,7 +1,6 @@
 import pytest
 
-from tests.utils import IntegrationMock, fake_controller, hass_mock
-from core.controller import Controller
+from tests.test_utils import hass_mock, fake_controller
 from core.integration.zha import ZHAIntegration
 
 

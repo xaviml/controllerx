@@ -1,7 +1,7 @@
 import pytest
 
 from core import LightController, ReleaseHoldController
-from tests.utils import hass_mock, fake_async_function
+from tests.test_utils import hass_mock, fake_async_function
 from core.stepper import Stepper
 from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper

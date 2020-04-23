@@ -6,19 +6,16 @@
 ###############################################################
 ###############################################################
 
-try:
-    import hassapi as hass
-except:
-    import appdaemon.plugins.hass.hassapi as hass
 import abc
 import time
 from collections import defaultdict
+from typing import List
 
-from appdaemon.utils import sync_wrapper
+import appdaemon.plugins.hass.hassapi as hass
 
 import version
 from core import integration as integration_module
-from core.stepper import Stepper
+
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
@@ -64,7 +61,7 @@ class Controller(hass.Hass, abc.ABC):
             **self.args.get("action_delay", {}),
         }
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
-        self.action_times = defaultdict(lambda: 0)
+        self.action_times = defaultdict(lambda: 0.0)
         self.action_delay_handles = defaultdict(lambda: None)
 
         # Filter the actions
@@ -120,12 +117,14 @@ class Controller(hass.Hass, abc.ABC):
             raise ValueError(f"This controller does not support {integration.name}.")
         return actions_mapping
 
-    def get_list(self, entities):
+    def get_list(self, entities) -> List[str]:
         type_ = type(entities)
         if type_ == str:
             return entities.replace(" ", "").split(",")
         elif type_ == list:
             return entities
+        else:
+            return []
 
     async def handle_action(self, action_key):
         if action_key in self.actions_mapping:
@@ -217,7 +216,7 @@ class Controller(hass.Hass, abc.ABC):
 
 class TypeController(Controller, abc.ABC):
     @abc.abstractmethod
-    def get_domain(self):
+    def get_domain(self) -> str:
         pass
 
     async def check_domain(self, entity):

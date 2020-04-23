@@ -1,12 +1,10 @@
 import importlib
 import os
 import pkgutil
-import sys
 
 import appdaemon.plugins.hass.hassapi as hass
 import pytest
 
-sys.path.append("apps/controllerx")
 from core.controller import Controller
 
 

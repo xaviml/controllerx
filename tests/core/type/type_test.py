@@ -1,4 +1,4 @@
-from tests.utils import hass_mock, get_instances
+from tests.test_utils import hass_mock, get_instances
 from core import type as type_module
 from core import Controller
 

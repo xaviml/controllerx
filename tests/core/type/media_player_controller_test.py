@@ -1,10 +1,8 @@
 import pytest
 
-from tests.utils import hass_mock
 from core import MediaPlayerController, ReleaseHoldController
 from core.stepper import Stepper
-from core.stepper.circular_stepper import CircularStepper
-from core.stepper.minmax_stepper import MinMaxStepper
+from tests.test_utils import hass_mock
 
 
 @pytest.fixture

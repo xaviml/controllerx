@@ -1,7 +1,6 @@
-from tests.utils import hass_mock, get_instances
+from tests.test_utils import hass_mock, get_instances
 import devices as devices_module
 from core import Controller
-from core import type as type_module
 
 
 def check_mapping(mapping, all_possible_actions, device):
