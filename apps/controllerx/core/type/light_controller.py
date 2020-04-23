@@ -1,6 +1,3 @@
-import asyncio
-from collections import defaultdict
-
 from const import Light
 from core import light_features
 from core.controller import ReleaseHoldController, TypeController, action
@@ -417,11 +414,6 @@ class LightController(TypeController, ReleaseHoldController):
             return True
         else:
             new_state_attribute, exceeded = stepper.step(old, direction)
-        self.log(
-            f"💡Light attribute: {attribute}; previous: {old:.0f}; new: {new_state_attribute:.0f}",
-            level="INFO",
-            ascii_encode=False,
-        )
         attributes = {attribute: new_state_attribute}
         if action_type == "hold":
             attributes["transition"] = self.delay / 1000

@@ -126,6 +126,20 @@ class Controller(hass.Hass, abc.ABC):
         else:
             return []
 
+    def call_service(self, service, **attributes):
+        self.log(
+            f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m",
+            level="INFO",
+            ascii_encode=False,
+        )
+        for attribute, value in attributes.items():
+            if isinstance(value, float):
+                value = f"{value:.2f}"
+            self.log(
+                f"  - {attribute}: {value}", level="INFO", ascii_encode=False,
+            )
+        super().call_service(service, **attributes)
+
     async def handle_action(self, action_key):
         if action_key in self.actions_mapping:
             previous_call_time = self.action_times[action_key]
