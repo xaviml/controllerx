@@ -38,6 +38,17 @@ nameOfYourInstanceApp:
   media_player: <media player, group entity id>
 ```
 
+or:
+
+```yaml
+nameOfYourInstanceApp:
+  module: controllerx
+  class: <class of your controller>
+  controller: <controller entity id>
+  integration: <z2m | deconz | zha>
+  switch: <switch, group entity id>
+```
+
 ## Real examples
 
 You can check real examples in [here](/controllerx/examples).
