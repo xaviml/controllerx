@@ -1,7 +1,7 @@
 import pytest
 
 from core.controller import TypeController
-from tests.utils import hass_mock
+from tests.test_utils import hass_mock
 from core.type.switch_controller import SwitchController
 
 
