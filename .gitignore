@@ -131,3 +131,6 @@ dmypy.json
 #VSCode
 .vscode/
 .idea
+
+# Ignoring Pipfile.lock since we support python 3.6, 3.7 and 3.8
+Pipfile.lock
