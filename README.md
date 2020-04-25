@@ -2,12 +2,13 @@
 
 <h1>ControllerX</h1>
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/542f29ab55a449099488601ec7400563)](https://app.codacy.com/manual/xaviml/controllerx?utm_source=github.com&utm_medium=referral&utm_content=xaviml/controllerx&utm_campaign=Badge_Grade_Dashboard)
 [![logo](https://github.com/xaviml/controllerx/raw/dev/docs/android-chrome-192x192.png)](https://github.com/xaviml/controllerx/releases)
+
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 [![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
-[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
+[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
+[![Codacy Badge](https://img.shields.io/codacy/grade/542f29ab55a449099488601ec7400563/master?style=for-the-badge)](https://app.codacy.com/manual/xaviml/controllerx?utm_source=github.com&utm_medium=referral&utm_content=xaviml/controllerx&utm_campaign=Badge_Grade_Dashboard)
 
 _Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
 
