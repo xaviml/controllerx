@@ -297,6 +297,30 @@ cube_bedroom:
         entity_id: scene.bedroom3
 ```
 
+Customising WXKG01LM de Aqara. We want to toggle the light and turn it on always to brightness 20 (min: 0, max: 255). For this we create one instance app configuration for the default behaviour of the controller, but excluding `single` which toggles the light. Then we create a custom controller with `CallServiceController` to give a behaviour to the `single` action.
+
+```yaml
+mando_aqara_salon:
+  module: controllerx
+  class: WXKG01LMLightController
+  controller: sensor.0x00158d00027b6d79_click
+  integration: z2m
+  light: light.0x000d6ffffec2620d_light
+  excluded_actions: [single] # Excluding `single` action that toggles the light
+
+mando_aqara_salon_single:
+  module: controllerx
+  class: CallServiceController
+  controller: sensor.0x00158d00027b6d79_click
+  integration: z2m
+  mapping:
+    single: # Give an action to `single` with CallServiceController
+      service: light.toggle
+      data:
+        entity_id: light.0x000d6ffffec2620d_light
+        brightness: 20
+```
+
 Customising the E1810 to invert the click and hold actions and control a group of sonos devices. By default it skips track when pressing, whit this it skips source by pressing.
 
 ```yaml
