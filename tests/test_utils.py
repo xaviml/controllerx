@@ -22,7 +22,10 @@ def hass_mock(monkeypatch, mocker):
     """
     Fixture for set up the tests, mocking appdaemon functions
     """
-    fake_fn = lambda *args, **kwargs: None
+
+    def fake_fn(*args, **kwargs):
+        return None
+
     monkeypatch.setattr(hass.Hass, "__init__", fake_fn)
     monkeypatch.setattr(hass.Hass, "listen_event", fake_fn)
     monkeypatch.setattr(hass.Hass, "listen_state", fake_fn)

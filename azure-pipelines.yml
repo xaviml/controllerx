@@ -30,16 +30,14 @@ steps:
   displayName: 'Prepare Python $(python.version)'
 - script: pip install pipenv
   displayName: 'Install pipenv'
-- script: python -m pipenv install --dev
-  displayName: 'Install dependencies'
-- script: pipenv run pre-commit run --all-files
-  displayName: 'Format checker'
+- script: pipenv run black apps/controllerx tests
+  displayName: Formatter (black)
 - script: pipenv run mypy apps/controllerx
-  displayName: Mypy
+  displayName: Typing (mypy)
 - script: pipenv run flake8 apps/controllerx
-  displayName: Flake8
+  displayName: Styling (flake8)
 - script: pipenv run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
-  displayName: 'Run tests'
+  displayName: 'Tests (pytest)'
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
