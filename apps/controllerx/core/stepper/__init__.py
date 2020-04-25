@@ -36,4 +36,4 @@ class Stepper(abc.ABC):
         that needs to take and returns the new value and True
         if the step exceeds the boundaries.
         """
-        ...
+        raise NotImplementedError

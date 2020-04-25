@@ -22,23 +22,30 @@ def sut(hass_mock, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "light_input, light_output",
+    "light_input, light_output, error_expected",
     [
-        ("light.kitchen", {"name": "light.kitchen", "color_mode": "auto"}),
+        ("light.kitchen", {"name": "light.kitchen", "color_mode": "auto"}, False),
         (
             {"name": "light.kitchen", "color_mode": "auto"},
             {"name": "light.kitchen", "color_mode": "auto"},
+            False,
         ),
-        ({"name": "light.kitchen"}, {"name": "light.kitchen", "color_mode": "auto"}),
+        (
+            {"name": "light.kitchen"},
+            {"name": "light.kitchen", "color_mode": "auto"},
+            False,
+        ),
         (
             {"name": "light.kitchen", "color_mode": "color_temp"},
             {"name": "light.kitchen", "color_mode": "color_temp"},
+            False,
         ),
+        (0.0, None, True),
     ],
 )
 @pytest.mark.asyncio
 async def test_initialize_and_get_light(
-    sut, monkeypatch, mocker, light_input, light_output
+    sut, monkeypatch, mocker, light_input, light_output, error_expected
 ):
     super_initialize_stub = mocker.stub()
 
@@ -48,10 +55,17 @@ async def test_initialize_and_get_light(
     monkeypatch.setattr(ReleaseHoldController, "initialize", fake_super_initialize)
 
     sut.args["light"] = light_input
-    await sut.initialize()
 
-    super_initialize_stub.assert_called_once()
-    assert sut.light == light_output
+    # SUT
+    if error_expected:
+        with pytest.raises(ValueError) as e:
+            await sut.initialize()
+    else:
+        await sut.initialize()
+
+        # Checks
+        super_initialize_stub.assert_called_once()
+        assert sut.light == light_output
 
 
 @pytest.mark.parametrize(
@@ -97,20 +111,34 @@ def test_get_attribute(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, expected_output",
-    [("xy_color", 0), ("brightness", 3.0), ("color_temp", 1),],
+    "attribute_input, expected_output, error_expected",
+    [
+        ("xy_color", 0, False),
+        ("brightness", 3.0, False),
+        ("color_temp", 1, False),
+        ("xy_color", 0, False),
+        ("brightness", None, True),
+        ("color_temp", None, True),
+    ],
 )
 @pytest.mark.asyncio
-async def test_get_value_attribute(sut, monkeypatch, attribute_input, expected_output):
+async def test_get_value_attribute(
+    sut, monkeypatch, attribute_input, expected_output, error_expected
+):
     async def fake_get_entity_state(entity, attribute):
         return expected_output
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
-    output = await sut.get_value_attribute(attribute_input)
+    if error_expected:
+        with pytest.raises(ValueError) as e:
+            await sut.get_value_attribute(attribute_input)
+    else:
+        output = await sut.get_value_attribute(attribute_input)
 
-    assert output == expected_output
+        # Checks
+        assert output == expected_output
 
 
 @pytest.mark.parametrize(
@@ -459,15 +487,24 @@ async def test_hold(
         super_hold_patch.assert_called_with(attribute_input, expected_direction)
 
 
+@pytest.mark.parametrize(
+    "value_attribute", [10, None],
+)
 @pytest.mark.asyncio
-async def test_hold_loop(sut, mocker):
+async def test_hold_loop(sut, mocker, value_attribute):
     attribute = "test_attribute"
     direction = Stepper.UP
-    sut.value_attribute = 10
+    sut.value_attribute = value_attribute
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")
     stepper = MinMaxStepper(1, 10, 10)
     sut.automatic_steppers = {attribute: stepper}
-    await sut.hold_loop(attribute, direction)
-    change_light_state_patch.assert_called_once_with(
-        sut.value_attribute, attribute, direction, stepper, "hold"
-    )
+
+    # SUT
+    exceeded = await sut.hold_loop(attribute, direction)
+
+    if value_attribute is None:
+        assert exceeded == True
+    else:
+        change_light_state_patch.assert_called_once_with(
+            sut.value_attribute, attribute, direction, stepper, "hold"
+        )

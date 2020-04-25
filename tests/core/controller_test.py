@@ -6,10 +6,10 @@ import pytest
 from core import integration as integration_module
 from core.controller import action
 from tests.test_utils import (
-    hass_mock,
-    fake_controller,
     IntegrationMock,
     fake_async_function,
+    fake_controller,
+    hass_mock,
 )
 
 
@@ -160,6 +160,7 @@ async def test_initialize(
         ("sensor1, sensor2", ["sensor1", "sensor2"]),
         ("sensor1,sensor2", ["sensor1", "sensor2"]),
         (["sensor1", "sensor2"], ["sensor1", "sensor2"]),
+        (0.0, []),
     ],
 )
 def test_get_list(sut, monkeypatch, test_input, expected):
@@ -194,6 +195,7 @@ def test_get_option(sut, option, options, expect_an_error):
             False,
         ),
         ({"test": "no name"}, "z2m", {}, True),
+        (0.0, None, {}, True),
     ],
 )
 def test_get_integration(
@@ -347,3 +349,19 @@ def test_get_action(sut, test_input, expected, error_expected):
     else:
         output = sut.get_action(test_input)
         assert output == expected
+
+
+@pytest.mark.parametrize(
+    "service, attributes",
+    [("test_service", {"attr1": 0.0, "attr2": "test"}), ("test_service", {}),],
+)
+@pytest.mark.asyncio
+async def test_call_service(sut, mocker, service, attributes):
+
+    call_service_stub = mocker.patch.object(hass.Hass, "call_service")
+
+    # SUT
+    await sut.call_service(service, **attributes)
+
+    # Checker
+    call_service_stub.assert_called_once_with(service, **attributes)

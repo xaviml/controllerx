@@ -15,15 +15,15 @@ class Integration(abc.ABC):
 
     @abc.abstractmethod
     def get_name(self) -> str:
-        ...
+        raise NotImplementedError
 
     @abc.abstractmethod
     def get_actions_mapping(self) -> Optional[TypeActionsMapping]:
-        ...
+        raise NotImplementedError
 
     @abc.abstractmethod
     def listen_changes(self, controller_id: str) -> None:
-        ...
+        raise NotImplementedError
 
 
 def _import_modules(file_dir: str, package: str) -> None:

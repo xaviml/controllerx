@@ -30,7 +30,7 @@ def hass_mock(monkeypatch, mocker):
     monkeypatch.setattr(hass.Hass, "listen_event", fake_fn)
     monkeypatch.setattr(hass.Hass, "listen_state", fake_fn)
     monkeypatch.setattr(hass.Hass, "log", fake_fn)
-    monkeypatch.setattr(hass.Hass, "call_service", fake_fn)
+    monkeypatch.setattr(hass.Hass, "call_service", fake_async_function())
 
 
 @pytest.fixture

@@ -231,7 +231,7 @@ class Controller(hass.Hass, abc.ABC):
 class TypeController(Controller, abc.ABC):
     @abc.abstractmethod
     def get_domain(self) -> str:
-        ...
+        raise NotImplementedError
 
     async def check_domain(self, entity: str) -> None:
         domain = self.get_domain()
@@ -277,13 +277,14 @@ class ReleaseHoldController(Controller, abc.ABC):
         to_return = not (action == "hold" and self.on_hold)
         return await super().before_action(action, *args, **kwargs) and to_return
 
+    @abc.abstractmethod
     async def hold_loop(self, *args) -> bool:
         """
         This function is called by the ReleaseHoldController depending on the settings.
         It stops calling the function once release action is called or when this function
         returns True.
         """
-        return True
+        raise NotImplementedError
 
     def default_delay(self) -> int:
         """

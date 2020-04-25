@@ -21,7 +21,7 @@ class CustomController(Controller, abc.ABC):
         It should eiter return a value parsed by 'get_type_actions_mapping' or
         a tuple with (function, arg1, arg2, ...).
         """
-        ...
+        raise NotImplementedError
 
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return self.get_custom_mapping()
