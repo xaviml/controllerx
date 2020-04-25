@@ -30,6 +30,8 @@ steps:
   displayName: 'Prepare Python $(python.version)'
 - script: pip install pipenv
   displayName: 'Install pipenv'
+- script: python -m pipenv install --dev
+  displayName: 'Install dependencies'
 - script: pipenv run black apps/controllerx tests
   displayName: Formatter (black)
 - script: pipenv run mypy apps/controllerx
