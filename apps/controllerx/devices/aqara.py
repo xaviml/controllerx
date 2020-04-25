@@ -1,11 +1,11 @@
-from core import LightController, Stepper
-from const import Light
+from core import LightController
+from const import Light, TypeActionsMapping
 
 
 class DoubleKeyWirelessAqaraController(LightController):
     """
     This controller allows click, double click, hold and release for
-    both, left and the right button. All action will do the same for both, left 
+    both, left and the right button. All action will do the same for both, left
     and right. Then from the apps.yaml the needed actions can be included and create
     different instances for different lights.
     """
@@ -14,7 +14,7 @@ class DoubleKeyWirelessAqaraController(LightController):
     # both, both_double, both_long, right, right_double
     # right_long, left, left_double, left_long
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "both": Light.TOGGLE,
             "both_double": Light.CLICK_BRIGHTNESS_UP,
@@ -31,11 +31,11 @@ class DoubleKeyWirelessAqaraController(LightController):
 class WXKG01LMLightController(LightController):
     """
     Different states reported from the controller:
-    single, double, triple, quadruple, 
+    single, double, triple, quadruple,
     many, long, long_release
     """
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
             "double": Light.ON_FULL_BRIGHTNESS,
@@ -52,7 +52,7 @@ class WXKG11LMLightController(LightController):
     single, double, shake, hold, release
     """
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
             "double": Light.ON_FULL_BRIGHTNESS,
@@ -60,7 +60,7 @@ class WXKG11LMLightController(LightController):
             "release": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: Light.TOGGLE,
             1004: Light.ON_FULL_BRIGHTNESS,
@@ -75,7 +75,7 @@ class WXKG12LMLightController(LightController):
     single, double, shake, hold, release
     """
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
             "double": Light.ON_FULL_BRIGHTNESS,
@@ -88,7 +88,7 @@ class WXKG12LMLightController(LightController):
 class MFKZQ01LMLightController(LightController):
     """
     This controller allows movement actions for Xiaomi Aqara Smart Cube as
-    shake, wakeup, fall, slide, flip180 or 90 and rotate_left or right. 
+    shake, wakeup, fall, slide, flip180 or 90 and rotate_left or right.
     Then from the apps.yaml the needed actions can be included and create
     different instances for different lights.
     """
@@ -97,7 +97,7 @@ class MFKZQ01LMLightController(LightController):
     # shake, wakeup, fall, tap, slide, flip180
     # flip90, rotate_left and rotate_right
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "shake": Light.ON_MIN_BRIGHTNESS,
             "tap": Light.TOGGLE,
@@ -108,7 +108,7 @@ class MFKZQ01LMLightController(LightController):
             "rotate_right": Light.CLICK_BRIGHTNESS_UP,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1: Light.ON_MIN_BRIGHTNESS,
             6: Light.TOGGLE,

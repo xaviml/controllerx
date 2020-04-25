@@ -1,5 +1,5 @@
 from core import LightController, MediaPlayerController
-from const import Light, MediaPlayer
+from const import Light, MediaPlayer, TypeActionsMapping
 
 
 class ZYCT202LightController(LightController):
@@ -7,7 +7,7 @@ class ZYCT202LightController(LightController):
     This controller does not send hold action for on/off
     """
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "on": Light.ON,
             "up-press": Light.HOLD_BRIGHTNESS_UP,
@@ -18,7 +18,7 @@ class ZYCT202LightController(LightController):
 
 
 class ZYCT202MediaPlayerController(MediaPlayerController):
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "on": MediaPlayer.PLAY_PAUSE,
             "up-press": MediaPlayer.HOLD_VOLUME_UP,

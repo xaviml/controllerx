@@ -1,4 +1,4 @@
-from const import Switch
+from const import Switch, TypeActionsMapping
 from core.controller import TypeController, action
 
 
@@ -13,16 +13,16 @@ class SwitchController(TypeController):
         - delay (optional): Inherited from ReleaseHoldController
     """
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         self.switch = self.args["switch"]
         await self.check_domain(self.switch)
 
         await super().initialize()
 
-    def get_domain(self):
+    def get_domain(self) -> str:
         return "switch"
 
-    def get_type_actions_mapping(self):
+    def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
             Switch.ON: self.on,
             Switch.OFF: self.off,
@@ -30,13 +30,13 @@ class SwitchController(TypeController):
         }
 
     @action
-    async def on(self):
-        self.call_service("switch/turn_on", entity_id=self.switch)
+    async def on(self) -> None:
+        await self.call_service("switch/turn_on", entity_id=self.switch)
 
     @action
-    async def off(self):
-        self.call_service("switch/turn_off", entity_id=self.switch)
+    async def off(self) -> None:
+        await self.call_service("switch/turn_off", entity_id=self.switch)
 
     @action
-    async def toggle(self):
-        self.call_service("switch/toggle", entity_id=self.switch)
+    async def toggle(self) -> None:
+        await self.call_service("switch/toggle", entity_id=self.switch)

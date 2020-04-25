@@ -20,3 +20,7 @@ From the zigbee2mqtt documentation is recommended to set the `debounce` attribut
 HA offers different ways to group lights, even each Light integration might have the option of grouping lights (like [Hue](https://www.home-assistant.io/integrations/hue/) integration). This is why ControllerX sticks to just one official way to group lights, which is the [Group](https://www.home-assistant.io/integrations/group/) integration. This means you will need to set up a group with your lights in your `configuration.yaml`. ControllerX will know is a group of lights because it will use the `group.XXXXX` domain. Furthermore, it will take the first light as a master light, so it will take its values (brightness, color) to change the group of lights.
 
 This does not mean that any other integration will not work, but they might not work as expected, this is why [Group](https://www.home-assistant.io/integrations/group/) integration should be used if you want the expected ControllerX behaviour.
+
+#### 5. Error: "Value for X attribute could not be retrieved"
+
+This error is shown when the light has support for the X attribute (e.g. brightness or color_temp) and the attribute is not in the state attribute of the entity. You can check whether the attribute X is shown in the state attributes from the "Developer Tools > States".

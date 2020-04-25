@@ -1,6 +1,11 @@
-from const import Light
+from typing import Any, Dict, List, Tuple, Union
+from const import Light, TypeActionsMapping
 from core import light_features
-from core.controller import ReleaseHoldController, TypeController, action
+from core.controller import (
+    ReleaseHoldController,
+    TypeController,
+    action,
+)
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -12,6 +17,8 @@ DEFAULT_MAX_BRIGHTNESS = 255
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
+
+LightEntity = Dict[str, str]
 
 
 class LightController(TypeController, ReleaseHoldController):
@@ -25,7 +32,7 @@ class LightController(TypeController, ReleaseHoldController):
     If a light supports xy_color and color_temperature, then xy_color will be the
     default functionality. Parameters taken:
         - sensor (required): Inherited from Controller
-        - light (required): This is either the light entity name or a dictionary as 
+        - light (required): This is either the light entity name or a dictionary as
           {name: string, color_mode: auto | xy_color | color_temp}
         - delay (optional): Inherited from ReleaseHoldController
         - manual_steps (optional): Number of steps to go from min to max when clicking.
@@ -39,7 +46,7 @@ class LightController(TypeController, ReleaseHoldController):
     ATTRIBUTE_XY_COLOR = "xy_color"
 
     # These are the 24 colors that appear in the circle color of home assistant
-    colors = [
+    colors: List[Tuple[float, float]] = [
         (0.701, 0.299),
         (0.667, 0.284),
         (0.581, 0.245),
@@ -70,7 +77,7 @@ class LightController(TypeController, ReleaseHoldController):
     index_color = 0
     value_attribute = None
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         self.light = self.get_light(self.args["light"])
         await self.check_domain(self.light["name"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
@@ -111,10 +118,10 @@ class LightController(TypeController, ReleaseHoldController):
         self.supported_features = light_features.decode(bitfield)
         await super().initialize()
 
-    def get_domain(self):
+    def get_domain(self) -> str:
         return "light"
 
-    def get_type_actions_mapping(self):
+    def get_type_actions_mapping(self,) -> TypeActionsMapping:
         return {
             Light.ON: self.on,
             Light.OFF: self.off,
@@ -249,17 +256,18 @@ class LightController(TypeController, ReleaseHoldController):
             ),
         }
 
-    def get_light(self, light):
-        type_ = type(light)
-        if type_ == str:
+    def get_light(self, light: Union[str, dict]) -> LightEntity:
+        if isinstance(light, str):
             return {"name": light, "color_mode": "auto"}
-        elif type_ == dict:
-            if "color_mode" in light:
-                return light
-            else:
-                return {"name": light["name"], "color_mode": "auto"}
+        elif isinstance(light, dict):
+            color_mode = light.get("color_mode", "auto")
+            return {"name": light["name"], "color_mode": color_mode}
+        else:
+            raise ValueError(
+                f"Type {type(light)} is not supported for `light` attribute"
+            )
 
-    async def call_light_service(self, service, **attributes):
+    async def call_light_service(self, service: str, **attributes) -> None:
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         if (
@@ -267,65 +275,62 @@ class LightController(TypeController, ReleaseHoldController):
             or not self.add_transition
         ):
             del attributes["transition"]
-        self.call_service(service, entity_id=self.light["name"], **attributes)
+        await self.call_service(service, entity_id=self.light["name"], **attributes)
 
     @action
-    async def on(self, **attributes):
+    async def on(self, **attributes) -> None:
         await self.call_light_service("light/turn_on", **attributes)
 
     @action
-    async def off(self, **attributes):
+    async def off(self, **attributes) -> None:
         await self.call_light_service("light/turn_off", **attributes)
 
     @action
-    async def toggle(self, **attributes):
+    async def toggle(self, **attributes) -> None:
         await self.call_light_service("light/toggle", **attributes)
 
     @action
-    async def set_value(self, attribute, fraction):
+    async def set_value(self, attribute: str, fraction: float) -> None:
         fraction = max(0, min(fraction, 1))
         stepper = self.automatic_steppers[attribute]
-        min_ = stepper.minmax.min
-        max_ = stepper.minmax.max
-        value = (max_ - min_) * fraction + min_
-        await self.on(**{attribute: value})
+        if isinstance(stepper, MinMaxStepper):
+            min_ = stepper.minmax.min
+            max_ = stepper.minmax.max
+            value = (max_ - min_) * fraction + min_
+            await self.on(**{attribute: value})
 
     @action
-    async def on_full(self, attribute):
+    async def on_full(self, attribute: str) -> None:
         stepper = self.automatic_steppers[attribute]
         stepper.previous_direction = Stepper.TOGGLE_UP
         await self.set_value(attribute, 1)
 
     @action
-    async def on_min(self, attribute):
+    async def on_min(self, attribute: str) -> None:
         stepper = self.automatic_steppers[attribute]
         stepper.previous_direction = Stepper.TOGGLE_DOWN
         await self.set_value(attribute, 0)
 
     @action
-    async def sync(self):
-        attributes = {}
+    async def sync(self) -> None:
+        attributes: Dict[Any, Any] = {}
         try:
-            color_attribute = await self.get_attribute(LightController.ATTRIBUTE_COLOR)
+            color_attribute = self.get_attribute(LightController.ATTRIBUTE_COLOR)
             if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
                 attributes[color_attribute] = 370  # 2700K light
             else:
                 self.index_color = 12  # white colour
                 attributes[color_attribute] = self.colors[self.index_color]
-        except:
+        except ValueError:
             self.log("⚠️ `sync` action will only change brightness", level="WARNING")
         await self.on(**attributes, brightness=self.max_brightness)
 
-    async def get_attribute(self, attribute):
+    def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
-            bitfield = await self.get_entity_state(
-                self.light["name"], attribute="supported_features"
-            )
-            supported_features = light_features.decode(bitfield)
             if self.light["color_mode"] == "auto":
-                if light_features.SUPPORT_COLOR in supported_features:
+                if light_features.SUPPORT_COLOR in self.supported_features:
                     return LightController.ATTRIBUTE_XY_COLOR
-                elif light_features.SUPPORT_COLOR_TEMP in supported_features:
+                elif light_features.SUPPORT_COLOR_TEMP in self.supported_features:
                     return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(
@@ -336,13 +341,21 @@ class LightController(TypeController, ReleaseHoldController):
         else:
             return attribute
 
-    async def get_value_attribute(self, attribute):
+    async def get_value_attribute(self, attribute: str) -> Union[float, int]:
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            return None
+            return 0
         else:
-            return await self.get_entity_state(self.light["name"], attribute)
+            value = await self.get_entity_state(self.light["name"], attribute)
+            if value is None:
+                raise ValueError(
+                    f"Value for `{attribute}` attribute could not be retrieved"
+                )
+            else:
+                return float(value)
 
-    def check_smooth_power_on(self, attribute, direction, light_state):
+    def check_smooth_power_on(
+        self, attribute: str, direction: str, light_state: str
+    ) -> bool:
         return (
             direction != Stepper.DOWN
             and attribute == self.ATTRIBUTE_BRIGHTNESS
@@ -350,7 +363,7 @@ class LightController(TypeController, ReleaseHoldController):
             and light_state == "off"
         )
 
-    async def before_action(self, action, *args, **kwargs):
+    async def before_action(self, action: str, *args, **kwargs) -> bool:
         to_return = True
         if action == "click" or action == "hold":
             attribute, direction = args
@@ -361,8 +374,8 @@ class LightController(TypeController, ReleaseHoldController):
         return await super().before_action(action, *args, **kwargs) and to_return
 
     @action
-    async def click(self, attribute, direction):
-        attribute = await self.get_attribute(attribute)
+    async def click(self, attribute: str, direction: str) -> None:
+        attribute = self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         await self.change_light_state(
             self.value_attribute,
@@ -373,13 +386,16 @@ class LightController(TypeController, ReleaseHoldController):
         )
 
     @action
-    async def hold(self, attribute, direction):
-        attribute = await self.get_attribute(attribute)
+    async def hold(self, attribute: str, direction: str) -> None:
+        attribute = self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         direction = self.automatic_steppers[attribute].get_direction(direction)
         await super().hold(attribute, direction)
 
-    async def hold_loop(self, attribute, direction):
+    async def hold_loop(self, attribute: str, direction: str) -> bool:  # type: ignore
+        # Is value_attribute is None, then we stop the loop
+        if self.value_attribute is None:
+            return True
         return await self.change_light_state(
             self.value_attribute,
             attribute,
@@ -388,16 +404,25 @@ class LightController(TypeController, ReleaseHoldController):
             "hold",
         )
 
-    async def change_light_state(self, old, attribute, direction, stepper, action_type):
+    async def change_light_state(
+        self,
+        old: float,
+        attribute: str,
+        direction: str,
+        stepper: Stepper,
+        action_type: str,
+    ) -> bool:
         """
         This functions changes the state of the light depending on the previous
         value and attribute. It returns True when no more changes will need to be done.
         Otherwise, it returns False.
         """
+        attributes: Dict[str, Any]
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            self.index_color, _ = stepper.step(self.index_color, direction)
-            new_state_attribute = self.colors[self.index_color]
-            attributes = {attribute: new_state_attribute}
+            index_color, _ = stepper.step(self.index_color, direction)
+            self.index_color = int(index_color)
+            xy_color = self.colors[self.index_color]
+            attributes = {attribute: xy_color}
             if action_type == "hold":
                 attributes["transition"] = self.delay / 1000
             await self.on(**attributes)
@@ -412,8 +437,7 @@ class LightController(TypeController, ReleaseHoldController):
             await self.on_min(attribute)
             # # After smooth power on, the light should not brighten up.
             return True
-        else:
-            new_state_attribute, exceeded = stepper.step(old, direction)
+        new_state_attribute, exceeded = stepper.step(old, direction)
         attributes = {attribute: new_state_attribute}
         if action_type == "hold":
             attributes["transition"] = self.delay / 1000
@@ -421,7 +445,7 @@ class LightController(TypeController, ReleaseHoldController):
         self.value_attribute = new_state_attribute
         return exceeded
 
-    def supports_smooth_power_on(self):
+    def supports_smooth_power_on(self) -> bool:
         """
         This function can be overrided for each device to indicate the default behaviour of the controller
         when the associated light is off and an event for incrementing brightness is received.

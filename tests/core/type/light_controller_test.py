@@ -1,3 +1,4 @@
+from core.light_features import FEATURES, SUPPORT_COLOR, SUPPORT_COLOR_TEMP
 import pytest
 
 from core import LightController, ReleaseHoldController
@@ -56,18 +57,23 @@ async def test_initialize_and_get_light(
 @pytest.mark.parametrize(
     "attribute_input, color_mode, supported_features, attribute_expected, throws_error",
     [
-        ("color", "auto", "16", "xy_color", False),  # 16 = xy_color
-        ("color", "auto", "2", "color_temp", False),  # 2 = color_temp
-        ("color", "auto", "18", "xy_color", False),  # 18 = xy_color + color_temp
-        ("brightness", "auto", "0", "brightness", False),
-        ("brightness", "auto", "16", "brightness", False),
-        ("color", "color_temp", "18", "color_temp", False),
-        ("color", "xy_color", "18", "xy_color", False),
-        ("color", "auto", "0", "not_important", True),
+        ("color", "auto", [SUPPORT_COLOR], "xy_color", False),
+        ("color", "auto", [SUPPORT_COLOR_TEMP], "color_temp", False),
+        ("color", "auto", [SUPPORT_COLOR, SUPPORT_COLOR_TEMP], "xy_color", False,),
+        ("brightness", "auto", [], "brightness", False),
+        ("brightness", "auto", [SUPPORT_COLOR], "brightness", False),
+        (
+            "color",
+            "color_temp",
+            [SUPPORT_COLOR, SUPPORT_COLOR_TEMP],
+            "color_temp",
+            False,
+        ),
+        ("color", "xy_color", [SUPPORT_COLOR, SUPPORT_COLOR_TEMP], "xy_color", False),
+        ("color", "auto", [], "not_important", True),
     ],
 )
-@pytest.mark.asyncio
-async def test_get_attribute(
+def test_get_attribute(
     sut,
     monkeypatch,
     attribute_input,
@@ -76,18 +82,15 @@ async def test_get_attribute(
     attribute_expected,
     throws_error,
 ):
-    async def fake_get_entity_state(entity, attribute=None):
-
-        return supported_features
-
+    sut.supported_features = supported_features
     sut.light = {"name": "light", "color_mode": color_mode}
-    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
+
     # SUT
     if throws_error:
         with pytest.raises(ValueError) as e:
-            await sut.get_attribute(attribute_input)
+            sut.get_attribute(attribute_input)
     else:
-        output = await sut.get_attribute(attribute_input)
+        output = sut.get_attribute(attribute_input)
 
         # Checks
         assert output == attribute_expected
@@ -95,16 +98,12 @@ async def test_get_attribute(
 
 @pytest.mark.parametrize(
     "attribute_input, expected_output",
-    [
-        ("xy_color", None),
-        ("brightness", "return_from_fake_get_entity_state"),
-        ("color_temp", "return_from_fake_get_entity_state"),
-    ],
+    [("xy_color", 0), ("brightness", 3.0), ("color_temp", 1),],
 )
 @pytest.mark.asyncio
 async def test_get_value_attribute(sut, monkeypatch, attribute_input, expected_output):
     async def fake_get_entity_state(entity, attribute):
-        return "return_from_fake_get_entity_state"
+        return expected_output
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
@@ -331,7 +330,7 @@ async def test_sync(
     sut.add_transition = True
     sut.supported_features = [light_features.SUPPORT_TRANSITION]
 
-    async def fake_get_attribute(*args, **kwargs):
+    def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":
             raise ValueError()
         return color_attribute
@@ -375,7 +374,7 @@ async def test_click(
     async def fake_get_value_attribute(*args, **kwargs):
         return value_attribute
 
-    async def fake_get_attribute(*args, **kwargs):
+    def fake_get_attribute(*args, **kwargs):
         return attribute_input
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
@@ -439,7 +438,7 @@ async def test_hold(
     async def fake_get_value_attribute(*args, **kwargs):
         return value_attribute
 
-    async def fake_get_attribute(*args, **kwargs):
+    def fake_get_attribute(*args, **kwargs):
         return attribute_input
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)

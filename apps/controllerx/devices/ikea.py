@@ -1,5 +1,5 @@
-from core import LightController, MediaPlayerController, Stepper, action
-from const import Light, MediaPlayer
+from core import LightController, MediaPlayerController, action
+from const import Light, MediaPlayer, TypeActionsMapping
 from core.type.switch_controller import SwitchController
 
 
@@ -11,7 +11,7 @@ class E1810Controller(LightController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "toggle": Light.TOGGLE,
             "toggle_hold": Light.SYNC,
@@ -29,7 +29,7 @@ class E1810Controller(LightController):
             "arrow_right_release": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: Light.TOGGLE,
             1001: Light.SYNC,
@@ -47,7 +47,7 @@ class E1810Controller(LightController):
             5003: Light.RELEASE,
         }
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "toggle": Light.TOGGLE,
             "press_2_0_0": Light.SYNC,
@@ -74,7 +74,7 @@ class E1810MediaPlayerController(MediaPlayerController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
             "brightness_up_click": MediaPlayer.CLICK_VOLUME_UP,
@@ -89,7 +89,7 @@ class E1810MediaPlayerController(MediaPlayerController):
             "brightness_down_release": MediaPlayer.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: MediaPlayer.PLAY_PAUSE,
             2002: MediaPlayer.CLICK_VOLUME_UP,
@@ -102,7 +102,7 @@ class E1810MediaPlayerController(MediaPlayerController):
             3003: MediaPlayer.RELEASE,
         }
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
             "step_with_on_off_0_43_5": MediaPlayer.CLICK_VOLUME_UP,
@@ -122,7 +122,7 @@ class E1743Controller(LightController):
     # Different states reported from the controller:
     # on, off, brightness_up, brightness_down, brightness_stop
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "on": Light.ON,
             "off": Light.OFF,
@@ -131,7 +131,7 @@ class E1743Controller(LightController):
             "brightness_stop": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: Light.ON,
             2002: Light.OFF,
@@ -141,7 +141,7 @@ class E1743Controller(LightController):
             2003: Light.RELEASE,
         }
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "on": Light.ON,
             "off": Light.OFF,
@@ -155,13 +155,13 @@ class E1743SwitchController(SwitchController):
     # Different states reported from the controller:
     # on, off
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {"on": Light.ON, "off": Light.OFF}
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {1002: Light.ON, 2002: Light.OFF}
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {"on": Light.ON, "off": Light.OFF}
 
 
@@ -172,24 +172,25 @@ class ICTCG1Controller(LightController):
     # rotate_stop
 
     @action
-    async def rotate_left_quick(self):
+    async def rotate_left_quick(self) -> None:
         await self.release()
         await self.off()
 
     @action
-    async def rotate_right_quick(self):
+    async def rotate_right_quick(self) -> None:
         await self.release()
         await self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
 
-    def get_type_actions_mapping(self):
+    def get_type_actions_mapping(self) -> TypeActionsMapping:
         parent_mapping = super().get_type_actions_mapping()
-        mapping = {
+        mapping: TypeActionsMapping = {
             "rotate_left_quick": self.rotate_left_quick,
             "rotate_right_quick": self.rotate_right_quick,
         }
-        return {**parent_mapping, **mapping}
+        mapping.update(parent_mapping)
+        return mapping
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "rotate_left": Light.HOLD_BRIGHTNESS_DOWN,
             "rotate_left_quick": "rotate_left_quick",
@@ -198,7 +199,7 @@ class ICTCG1Controller(LightController):
             "rotate_stop": Light.RELEASE,
         }
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "move_1_70": Light.HOLD_BRIGHTNESS_DOWN,
             "move_1_195": Light.HOLD_BRIGHTNESS_DOWN,
@@ -215,7 +216,7 @@ class E1744LightController(LightController):
     # rotate_left, rotate_right, rotate_stop,
     # play_pause, skip_forward, skip_backward
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "rotate_left": Light.HOLD_BRIGHTNESS_DOWN,
             "rotate_right": Light.HOLD_BRIGHTNESS_UP,
@@ -224,7 +225,7 @@ class E1744LightController(LightController):
             "skip_forward": Light.ON_FULL_BRIGHTNESS,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             3001: Light.HOLD_BRIGHTNESS_DOWN,
             2001: Light.HOLD_BRIGHTNESS_UP,
@@ -234,17 +235,16 @@ class E1744LightController(LightController):
             1004: Light.ON_FULL_BRIGHTNESS,
         }
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "move_1_195": Light.HOLD_BRIGHTNESS_DOWN,
             "move_0_195": Light.HOLD_BRIGHTNESS_UP,
-            "stop": Light.RELEASE,
             "stop": Light.RELEASE,
             "toggle": Light.TOGGLE,
             "step_0_1_0": Light.ON_FULL_BRIGHTNESS,
         }
 
-    def default_delay(self):
+    def default_delay(self) -> int:
         return 1200
 
 
@@ -253,7 +253,7 @@ class E1744MediaPlayerController(MediaPlayerController):
     # rotate_left, rotate_right, rotate_stop,
     # play_pause, skip_forward, skip_backward
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "rotate_left": MediaPlayer.HOLD_VOLUME_DOWN,
             "rotate_right": MediaPlayer.HOLD_VOLUME_UP,
@@ -263,7 +263,7 @@ class E1744MediaPlayerController(MediaPlayerController):
             "skip_backward": MediaPlayer.PREVIOUS_TRACK,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             2001: MediaPlayer.HOLD_VOLUME_DOWN,
             3001: MediaPlayer.HOLD_VOLUME_UP,
@@ -274,7 +274,7 @@ class E1744MediaPlayerController(MediaPlayerController):
             1005: MediaPlayer.PREVIOUS_TRACK,
         }
 
-    def get_zha_actions_mapping(self):
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "move_1_195": MediaPlayer.HOLD_VOLUME_DOWN,
             "move_0_195": MediaPlayer.HOLD_VOLUME_UP,
@@ -284,5 +284,5 @@ class E1744MediaPlayerController(MediaPlayerController):
             "step_1_1_0": MediaPlayer.PREVIOUS_TRACK,
         }
 
-    def default_delay(self):
+    def default_delay(self) -> int:
         return 1000

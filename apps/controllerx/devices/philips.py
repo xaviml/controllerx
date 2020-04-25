@@ -1,5 +1,5 @@
-from core import LightController, Stepper
-from const import Light
+from core import LightController
+from const import Light, TypeActionsMapping
 
 
 class HueDimmerController(LightController):
@@ -8,7 +8,7 @@ class HueDimmerController(LightController):
     # up-hold-release, down-press, down-hold, down-hold-release,
     # off-press, off-hold, off-hold-release
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "on-press": Light.ON,
             "on-hold": Light.HOLD_COLOR_UP,
@@ -24,7 +24,7 @@ class HueDimmerController(LightController):
             "off-hold-release": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1000: Light.ON,
             1001: Light.HOLD_COLOR_UP,
@@ -39,6 +39,3 @@ class HueDimmerController(LightController):
             4001: Light.HOLD_COLOR_DOWN,
             4003: Light.RELEASE,
         }
-
-    def get_zha_actions_mapping(self):
-        return None

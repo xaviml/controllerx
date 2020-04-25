@@ -1,13 +1,14 @@
-from core.stepper import Stepper, MinMax
+from typing import Tuple
+from core.stepper import MinMax, Stepper
 
 
 class MinMaxStepper(Stepper):
-    def __init__(self, min_, max_, steps):
+    def __init__(self, min_: int, max_: int, steps: int) -> None:
         super().__init__()
         self.minmax = MinMax(min_, max_)
         self.steps = steps
 
-    def step(self, value, direction):
+    def step(self, value: float, direction: str) -> Tuple[float, bool]:
         """
         This function updates the value according to the steps
         that needs to take and returns the new value and True

@@ -1,5 +1,9 @@
-from const import MediaPlayer
-from core.controller import ReleaseHoldController, TypeController, action
+from const import MediaPlayer, TypeActionsMapping
+from core.controller import (
+    ReleaseHoldController,
+    TypeController,
+    action,
+)
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -8,18 +12,18 @@ DEFAULT_VOLUME_STEPS = 10
 
 
 class MediaPlayerController(TypeController, ReleaseHoldController):
-    async def initialize(self):
+    async def initialize(self) -> None:
         self.media_player = self.args["media_player"]
         await self.check_domain(self.media_player)
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
-        self.volume_level = 0
+        self.volume_level = 0.0
         await super().initialize()
 
-    def get_domain(self):
+    def get_domain(self) -> str:
         return "media_player"
 
-    def get_type_actions_mapping(self):
+    def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
             MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, Stepper.DOWN),
             MediaPlayer.HOLD_VOLUME_UP: (self.hold, Stepper.UP),
@@ -34,7 +38,7 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
         }
 
     @action
-    async def change_source_list(self, direction):
+    async def change_source_list(self, direction: str) -> None:
         entity_states = await self.get_entity_state(self.media_player, attribute="all")
         entity_attributes = entity_states["attributes"]
         source_list = entity_attributes.get("source_list")
@@ -52,61 +56,65 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
             index_source = source_list.index(source)
             source_stepper = CircularStepper(0, len(source_list) - 1, len(source_list))
             new_index_source, _ = source_stepper.step(index_source, direction)
-        self.call_service(
+        await self.call_service(
             "media_player/select_source",
             entity_id=self.media_player,
             source=source_list[new_index_source],
         )
 
     @action
-    async def play_pause(self):
-        self.call_service("media_player/media_play_pause", entity_id=self.media_player)
+    async def play_pause(self) -> None:
+        await self.call_service(
+            "media_player/media_play_pause", entity_id=self.media_player
+        )
 
     @action
-    async def previous_track(self):
-        self.call_service(
+    async def previous_track(self) -> None:
+        await self.call_service(
             "media_player/media_previous_track", entity_id=self.media_player
         )
 
     @action
-    async def next_track(self):
-        self.call_service("media_player/media_next_track", entity_id=self.media_player)
+    async def next_track(self) -> None:
+        await self.call_service(
+            "media_player/media_next_track", entity_id=self.media_player
+        )
 
     @action
-    async def volume_up(self):
+    async def volume_up(self) -> None:
         await self.prepare_volume_change()
         await self.volume_change(Stepper.UP)
 
     @action
-    async def volume_down(self):
+    async def volume_down(self) -> None:
         await self.prepare_volume_change()
         await self.volume_change(Stepper.DOWN)
 
     @action
-    async def hold(self, direction):
+    async def hold(self, direction: str) -> None:
         await self.prepare_volume_change()
         await super().hold(direction)
 
-    async def prepare_volume_change(self):
+    async def prepare_volume_change(self) -> None:
         volume_level = await self.get_entity_state(
             self.media_player, attribute="volume_level"
         )
         if volume_level is not None:
             self.volume_level = volume_level
 
-    async def volume_change(self, direction):
+    async def volume_change(self, direction: str) -> bool:
         self.volume_level, exceeded = self.volume_stepper.step(
             self.volume_level, direction
         )
-        self.call_service(
+        await self.call_service(
             "media_player/volume_set",
             entity_id=self.media_player,
             volume_level=self.volume_level,
         )
         return exceeded
 
-    async def hold_loop(self, direction):
+    async def hold_loop(self, direction: str) -> bool:  # type: ignore
         return await self.volume_change(direction)
 
-    def default_delay(self):
+    def default_delay(self) -> int:
         return 500

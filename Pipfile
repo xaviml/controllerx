@@ -13,6 +13,8 @@ mock = "==4.0.2"
 pre-commit = "==2.0.1"
 commitizen = "==1.17.1"
 controllerx = {path = ".",editable = true}
+mypy = "==0.770"
+flake8 = "==3.7.9"
 
 [packages]
 appdaemon = "==4.0.3"

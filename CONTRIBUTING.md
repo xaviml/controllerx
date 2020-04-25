@@ -10,12 +10,27 @@ pipenv shell
 pre-commit install
 ```
 
-
 ## Adding a new controller
 
 New controllers need to be added into the `apps/controllerx/devices/` and you will need to define the mapping for the integration you are adding support to.
 
 Note that this project will only accept the mapping that the original controller would follow with its original hub.
+
+## Typing
+
+Run the following to check consistency in the typings:
+
+```
+pipenv run mypy apps/controllerx
+```
+
+## Linting
+
+Run the following to check for stylings:
+
+```
+pipenv run flake8 apps/controllerx
+```
 
 ## Test
 
@@ -33,6 +48,10 @@ Once you have the code ready, pre-commit will run some checks to make sure the c
 pipenv run pre-commit run --all-files
 ```
 
+## Commiting
+
+You can use the tool `commitizen` to commit based in a standard. If you are in the virtual environment, you can run `cz commit` and answer the questions to commit.
+
 ## Documentation
 
 [Install Jekyll](https://jekyllrb.com/docs/) and run the documentation locally with:
@@ -42,3 +61,11 @@ cd docs
 bundle install
 bundle exec jekyll serve
 ```
+
+## Pull request
+
+Feel free to open a PR on GitHub. When submitting the PR several points will be checked:
+- Testing (with pytest)
+- Linting (with flake8)
+- Typing (with mypy)
+- Formatting (with black)
