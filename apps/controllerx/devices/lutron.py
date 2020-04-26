@@ -1,5 +1,5 @@
-from core import LightController, MediaPlayerController
 from const import Light, MediaPlayer, TypeActionsMapping
+from core import LightController, MediaPlayerController
 
 
 class LutronCasetaProPicoLightController(LightController):

@@ -21,6 +21,6 @@ HA offers different ways to group lights, even each Light integration might have
 
 This does not mean that any other integration will not work, but they might not work as expected, this is why [Group](https://www.home-assistant.io/integrations/group/) integration should be used if you want the expected ControllerX behaviour.
 
-#### 5. Error: "Value for X attribute could not be retrieved"
+#### 5. Error: "Value for X attribute could not be retrieved from light Y"
 
 This error is shown when the light has support for the X attribute (e.g. brightness or color_temp) and the attribute is not in the state attribute of the entity. You can check whether the attribute X is shown in the state attributes from the "Developer Tools > States".

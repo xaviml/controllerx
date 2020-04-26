@@ -1,7 +1,7 @@
 import abc
 from typing import Dict, List, Tuple, Union
-from const import TypeAction, TypeActionsMapping
 
+from const import TypeAction, TypeActionsMapping
 from core.controller import Controller, action
 from core.type.light_controller import LightController
 from core.type.media_player_controller import MediaPlayerController

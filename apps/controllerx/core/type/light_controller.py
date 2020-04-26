@@ -1,11 +1,8 @@
 from typing import Any, Dict, List, Tuple, Union
+
 from const import Light, TypeActionsMapping
 from core import light_features
-from core.controller import (
-    ReleaseHoldController,
-    TypeController,
-    action,
-)
+from core.controller import ReleaseHoldController, TypeController, action
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -344,14 +341,28 @@ class LightController(TypeController, ReleaseHoldController):
     async def get_value_attribute(self, attribute: str) -> Union[float, int]:
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
             return 0
-        else:
+        elif (
+            attribute == LightController.ATTRIBUTE_BRIGHTNESS
+            or attribute == LightController.ATTRIBUTE_COLOR_TEMP
+        ):
             value = await self.get_entity_state(self.light["name"], attribute)
             if value is None:
                 raise ValueError(
-                    f"Value for `{attribute}` attribute could not be retrieved"
+                    f"Value for `{attribute}` attribute could not be retrieved "
+                    f"from `{self.light['name']}`. "
+                    "Check the FAQ to know more about this error: "
+                    "https://xaviml.github.io/controllerx/faq"
                 )
             else:
-                return float(value)
+                try:
+                    return float(value)
+                except ValueError:
+                    raise ValueError(
+                        f"Attribute `{attribute}` with `{value}` as a value "
+                        "could not be converted to float"
+                    )
+        else:
+            raise ValueError(f"Attribute `{attribute}` not expected")
 
     def check_smooth_power_on(
         self, attribute: str, direction: str, light_state: str

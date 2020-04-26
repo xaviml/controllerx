@@ -1,12 +1,11 @@
-from core.light_features import FEATURES, SUPPORT_COLOR, SUPPORT_COLOR_TEMP
 import pytest
 
-from core import LightController, ReleaseHoldController
-from tests.test_utils import hass_mock, fake_async_function
+from core import LightController, ReleaseHoldController, light_features
+from core.light_features import SUPPORT_COLOR, SUPPORT_COLOR_TEMP
 from core.stepper import Stepper
-from core.stepper.minmax_stepper import MinMaxStepper
 from core.stepper.circular_stepper import CircularStepper
-from core import light_features
+from core.stepper.minmax_stepper import MinMaxStepper
+from tests.test_utils import fake_async_function, hass_mock
 
 
 @pytest.fixture
@@ -115,10 +114,14 @@ def test_get_attribute(
     [
         ("xy_color", 0, False),
         ("brightness", 3.0, False),
+        ("brightness", "3.0", False),
+        ("brightness", "3", False),
+        ("brightness", "error", True),
         ("color_temp", 1, False),
         ("xy_color", 0, False),
         ("brightness", None, True),
         ("color_temp", None, True),
+        ("not_a_valid_attribute", None, True),
     ],
 )
 @pytest.mark.asyncio
@@ -138,7 +141,7 @@ async def test_get_value_attribute(
         output = await sut.get_value_attribute(attribute_input)
 
         # Checks
-        assert output == expected_output
+        assert output == float(expected_output)
 
 
 @pytest.mark.parametrize(
@@ -282,28 +285,33 @@ async def test_toggle(sut, mocker, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "min_max, fraction, expected_value",
+    "stepper_cls, min_max, fraction, expected_calls, expected_value",
     [
-        ((1, 255), 0, 1),
-        ((1, 255), 1, 255),
-        ((0, 10), 0.5, 5),
-        ((0, 100), 0.2, 20),
-        ((0, 100), -1, 0),
-        ((0, 100), 1.5, 100),
+        (MinMaxStepper, (1, 255), 0, 1, 1),
+        (MinMaxStepper, (1, 255), 1, 1, 255),
+        (MinMaxStepper, (0, 10), 0.5, 1, 5),
+        (MinMaxStepper, (0, 100), 0.2, 1, 20),
+        (MinMaxStepper, (0, 100), -1, 1, 0),
+        (MinMaxStepper, (0, 100), 1.5, 1, 100),
+        (CircularStepper, (0, 100), 0, 0, None),
     ],
 )
 @pytest.mark.asyncio
-async def test_set_value(sut, mocker, min_max, fraction, expected_value):
+async def test_set_value(
+    sut, mocker, stepper_cls, min_max, fraction, expected_calls, expected_value
+):
     attribute = "test_attribute"
     on_patch = mocker.patch.object(sut, "on")
-    stepper = MinMaxStepper(min_max[0], min_max[1], 1)
+    stepper = stepper_cls(min_max[0], min_max[1], 1)
     sut.automatic_steppers = {attribute: stepper}
 
     # SUT
     await sut.set_value(attribute, fraction)
 
     # Checks
-    on_patch.assert_called_once_with(**{attribute: expected_value})
+    assert on_patch.call_count == expected_calls
+    if expected_calls > 0:
+        on_patch.assert_called_with(**{attribute: expected_value})
 
 
 @pytest.mark.asyncio

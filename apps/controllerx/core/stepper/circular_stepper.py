@@ -1,5 +1,6 @@
 from typing import Tuple
-from core.stepper import Stepper, MinMax
+
+from core.stepper import MinMax, Stepper
 
 
 class CircularStepper(Stepper):

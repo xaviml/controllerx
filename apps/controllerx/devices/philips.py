@@ -1,5 +1,5 @@
-from core import LightController
 from const import Light, TypeActionsMapping
+from core import LightController
 
 
 class HueDimmerController(LightController):

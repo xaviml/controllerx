@@ -1,5 +1,5 @@
-from core import LightController, MediaPlayerController, action
 from const import Light, MediaPlayer, TypeActionsMapping
+from core import LightController, MediaPlayerController, action
 from core.type.switch_controller import SwitchController
 
 

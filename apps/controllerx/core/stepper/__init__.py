@@ -1,6 +1,6 @@
 import abc
-from typing import Tuple, Union
 from collections import namedtuple
+from typing import Tuple, Union
 
 MinMax = namedtuple("MinMax", "min max")
 

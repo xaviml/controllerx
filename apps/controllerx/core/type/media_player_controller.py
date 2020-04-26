@@ -1,9 +1,5 @@
 from const import MediaPlayer, TypeActionsMapping
-from core.controller import (
-    ReleaseHoldController,
-    TypeController,
-    action,
-)
+from core.controller import ReleaseHoldController, TypeController, action
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper

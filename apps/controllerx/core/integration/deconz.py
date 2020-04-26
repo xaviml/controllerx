@@ -1,4 +1,5 @@
 from typing import Optional
+
 from core.integration import Integration, TypeActionsMapping
 
 
