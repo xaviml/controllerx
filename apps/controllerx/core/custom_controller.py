@@ -15,7 +15,7 @@ class CustomController(Controller, abc.ABC):
         }
 
     @abc.abstractmethod
-    def parse_action(self, action: str) -> TypeAction:
+    def parse_action(self, action) -> TypeAction:
         """
         This function parse the value of the each action from the 'mapping'.
         It should eiter return a value parsed by 'get_type_actions_mapping' or
@@ -34,12 +34,12 @@ class CustomController(Controller, abc.ABC):
 
 
 class CustomLightController(CustomController, LightController):
-    def parse_action(self, action):
+    def parse_action(self, action) -> TypeAction:
         return action
 
 
 class CustomMediaPlayerController(CustomController, MediaPlayerController):
-    def parse_action(self, action):
+    def parse_action(self, action) -> TypeAction:
         return action
 
 
@@ -48,11 +48,11 @@ Services = List[Service]
 
 
 class CallServiceController(CustomController):
-    def parse_action(self, actions) -> TypeAction:
+    def parse_action(self, action) -> TypeAction:
         services: Services = []
-        if type(actions) == dict:
-            actions = [actions]
-        for act in actions:
+        if isinstance(action, dict):
+            action = [action]
+        for act in action:
             service = act["service"].replace(".", "/")
             data = act.get("data", {})
             services.append((service, data))

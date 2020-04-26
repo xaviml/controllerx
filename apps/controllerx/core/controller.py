@@ -15,16 +15,6 @@ DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
 
 
-def action(method) -> ActionFunction:
-    @wraps(method)
-    async def _action_impl(controller: Controller, *args, **kwargs):
-        continue_call = await controller.before_action(method.__name__, *args, **kwargs)
-        if continue_call:
-            await method(controller, *args, **kwargs)
-
-    return _action_impl
-
-
 class Controller(hass.Hass, abc.ABC):
     """
     This is the parent Controller, all controllers must extend from this class.
@@ -107,7 +97,7 @@ class Controller(hass.Hass, abc.ABC):
 
     def check_ad_version(self) -> None:
         ad_version = self.get_ad_version()
-        major, minor, patch = ad_version.split(".")
+        major, _, _ = ad_version.split(".")
         if int(major) < 4:
             raise ValueError("Please upgrade to AppDaemon 4.x")
 
@@ -226,6 +216,16 @@ class Controller(hass.Hass, abc.ABC):
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {}
+
+
+def action(method) -> ActionFunction:
+    @wraps(method)
+    async def _action_impl(controller: Controller, *args, **kwargs):
+        continue_call = await controller.before_action(method.__name__, *args, **kwargs)
+        if continue_call:
+            await method(controller, *args, **kwargs)
+
+    return _action_impl
 
 
 class TypeController(Controller, abc.ABC):
