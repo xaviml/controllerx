@@ -16,7 +16,6 @@ class SwitchController(TypeController):
     async def initialize(self) -> None:
         self.switch = self.args["switch"]
         await self.check_domain(self.switch)
-
         await super().initialize()
 
     def get_domain(self) -> str:

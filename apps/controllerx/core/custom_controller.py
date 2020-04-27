@@ -5,6 +5,7 @@ from const import TypeAction, TypeActionsMapping
 from core.controller import Controller, action
 from core.type.light_controller import LightController
 from core.type.media_player_controller import MediaPlayerController
+from core.type.switch_controller import SwitchController
 
 
 class CustomController(Controller, abc.ABC):
@@ -39,6 +40,11 @@ class CustomLightController(CustomController, LightController):
 
 
 class CustomMediaPlayerController(CustomController, MediaPlayerController):
+    def parse_action(self, action) -> TypeAction:
+        return action
+
+
+class CustomSwitchController(CustomController, SwitchController):
     def parse_action(self, action) -> TypeAction:
         return action
 

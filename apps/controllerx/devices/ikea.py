@@ -1,4 +1,4 @@
-from const import Light, MediaPlayer, TypeActionsMapping
+from const import Light, MediaPlayer, Switch, TypeActionsMapping
 from core import LightController, MediaPlayerController, action
 from core.type.switch_controller import SwitchController
 
@@ -156,13 +156,13 @@ class E1743SwitchController(SwitchController):
     # on, off
 
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
-        return {"on": Light.ON, "off": Light.OFF}
+        return {"on": Switch.ON, "off": Switch.OFF}
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
-        return {1002: Light.ON, 2002: Light.OFF}
+        return {1002: Switch.ON, 2002: Switch.OFF}
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
-        return {"on": Light.ON, "off": Light.OFF}
+        return {"on": Switch.ON, "off": Switch.OFF}
 
 
 class ICTCG1Controller(LightController):

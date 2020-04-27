@@ -107,6 +107,34 @@ example_app:
     2003: release
 ```
 
+## Custom switch controller
+
+Class: `CustomSwitchController`
+
+This controller lets you map controller events with predefined switch actions. This is a [Switch controller](/controllerx/start/type-configuration#switch-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
+
+| value  | description                        |
+| ------ | ---------------------------------- |
+| on     | It turns the switch on             |
+| off    | It turns the switch off            |
+| toggle | It toggles the state of the switch |
+
+#### Example of CustomSwitchController
+
+This is an example that uses the controller E1743 to toggle a switch with both, on and off states for ZHA. The mapping from the ZHA event ids can be found in [here](/controllerx/controllers/E1743) and the values are from the list under `ZHA`.
+
+```yaml
+example_app:
+  module: controllerx
+  class: CustomSwitchController
+  controller: 00:67:88:56:06:78:9b:3f
+  integration: zha
+  media_player: switch.kitchen_dishwasher
+  mapping:
+    "on": toggle
+    "off": toggle
+```
+
 ## Call service controller
 
 Class: `CallServiceController`
