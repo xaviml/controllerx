@@ -223,6 +223,7 @@ class E1744LightController(LightController):
             "rotate_stop": Light.RELEASE,
             "play_pause": Light.TOGGLE,
             "skip_forward": Light.ON_FULL_BRIGHTNESS,
+            "skip_backward": Light.ON_MIN_BRIGHTNESS,
         }
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
@@ -233,6 +234,7 @@ class E1744LightController(LightController):
             3003: Light.RELEASE,
             1002: Light.TOGGLE,
             1004: Light.ON_FULL_BRIGHTNESS,
+            1005: Light.ON_MIN_BRIGHTNESS,
         }
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
@@ -242,6 +244,7 @@ class E1744LightController(LightController):
             "stop": Light.RELEASE,
             "toggle": Light.TOGGLE,
             "step_0_1_0": Light.ON_FULL_BRIGHTNESS,
+            "step_1_1_0": Light.ON_MIN_BRIGHTNESS,
         }
 
     def default_delay(self) -> int:
@@ -265,8 +268,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
-            2001: MediaPlayer.HOLD_VOLUME_DOWN,
-            3001: MediaPlayer.HOLD_VOLUME_UP,
+            2001: MediaPlayer.HOLD_VOLUME_UP,
+            3001: MediaPlayer.HOLD_VOLUME_DOWN,
             2003: MediaPlayer.RELEASE,
             3003: MediaPlayer.RELEASE,
             1002: MediaPlayer.PLAY_PAUSE,

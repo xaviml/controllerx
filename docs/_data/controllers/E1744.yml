@@ -16,10 +16,10 @@ integrations:
   - name: deCONZ
     codename: deconz
     actions:
-      - "2001 🠖 Left turn"
-      - "3001 🠖 Right turn"
-      - "2003 🠖 Stop left rotation"
-      - "3003 🠖 Stop right rotation"
+      - "2001 🠖 Right turn"
+      - "3001 🠖 Left turn"
+      - "2003 🠖 Stop right rotation"
+      - "3003 🠖 Stop left rotation"
       - "1002 🠖 1 click"
       - "1004 🠖 2 click"
       - "1005 🠖 3 click"
