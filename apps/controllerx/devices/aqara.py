@@ -1,5 +1,5 @@
-from core import LightController
 from const import Light, TypeActionsMapping
+from core import LightController
 
 
 class DoubleKeyWirelessAqaraController(LightController):
@@ -117,4 +117,34 @@ class MFKZQ01LMLightController(LightController):
             3: Light.CLICK_COLOR_DOWN,
             8: Light.CLICK_BRIGHTNESS_DOWN,
             7: Light.CLICK_BRIGHTNESS_UP,
+        }
+
+
+class WXCJKG13LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "button_1_single": Light.OFF,
+            "button_1_double": Light.SYNC,
+            # "button_1_hold": "", # Nothing
+            # "button_1_release": "",
+            "button_2_single": Light.ON,
+            "button_2_double": Light.SYNC,
+            # "button_2_hold": "", # Nothing
+            # "button_2_release": "", # Nothing
+            "button_3_single": Light.CLICK_BRIGHTNESS_DOWN,
+            "button_3_double": Light.ON_MIN_BRIGHTNESS,
+            "button_3_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "button_3_release": Light.RELEASE,
+            "button_4_single": Light.CLICK_BRIGHTNESS_UP,
+            "button_4_double": Light.ON_FULL_BRIGHTNESS,
+            "button_4_hold": Light.HOLD_BRIGHTNESS_UP,
+            "button_4_release": Light.RELEASE,
+            "button_5_single": Light.CLICK_COLOR_DOWN,
+            "button_5_double": Light.ON_MIN_COLOR_TEMP,
+            "button_5_hold": Light.HOLD_COLOR_DOWN,
+            "button_5_release": Light.RELEASE,
+            "button_6_single": Light.CLICK_COLOR_UP,
+            "button_6_double": Light.ON_MIN_COLOR_TEMP,
+            "button_6_hold": Light.HOLD_COLOR_UP,
+            "button_6_release": Light.RELEASE,
         }

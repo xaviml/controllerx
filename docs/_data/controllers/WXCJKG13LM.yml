@@ -1,0 +1,50 @@
+name: WXCJKG13LM (Aqara)
+device_support:
+  - type: Light
+    controller: WXCJKG13LMLightController
+    delay: 350
+    mapping:
+      - "Single click top left button 🠖 Turn off"
+      - "Double click top left button 🠖 Sync"
+      - "Single click top right button 🠖 Turn on"
+      - "Double click top right button 🠖 Sync"
+      - "Single click middle left button 🠖 Dim down (1 step)"
+      - "Double click middle left button 🠖 Minimum brightness"
+      - "Hold middle left button 🠖 Dim down"
+      - "Single click middle right button 🠖 Brighten up (1 step)"
+      - "Double click middle right button 🠖 Full brightness"
+      - "Hold middle right button 🠖 Brighten up"
+      - "Single click bottom left button 🠖 Color temp down / Left color wheel (1 step)"
+      - "Double click bottom left button 🠖 Minimum color temp (if supported)"
+      - "Hold bottom left button 🠖 Color temp down / Left color wheel"
+      - "Single click bottom right button 🠖 Color temp up / Right color wheel (1 step)"
+      - "Double click bottom right button 🠖 Full color temp (if supported)"
+      - "Hold bottom right button 🠖 Color temp up / Right color wheel"
+integrations:
+  - name: Zigbee2mqtt
+    codename: z2m
+    actions:
+      - "button_1_single 🠖 Single click top left button"
+      - "button_1_double 🠖 Double click top left button"
+      - "button_1_hold 🠖 Hold top left button"
+      - "button_1_release 🠖 Release top left button"
+      - "button_2_single 🠖 Single click top right button"
+      - "button_2_double 🠖 Double click top right button"
+      - "button_2_hold 🠖 Hold top right button"
+      - "button_2_release 🠖 Release top right button"
+      - "button_3_single 🠖 Single click middle left button"
+      - "button_3_double 🠖 Double click middle left button"
+      - "button_3_hold 🠖 Hold middle left button"
+      - "button_3_release 🠖 Release middle left button"
+      - "button_4_single 🠖 Single click middle right button"
+      - "button_4_double 🠖 Double click middle right button"
+      - "button_4_hold 🠖 Hold middle right button"
+      - "button_4_release 🠖 Release middle right button"
+      - "button_5_single 🠖 Single click bottom left button"
+      - "button_5_double 🠖 Double click bottom left button"
+      - "button_5_hold 🠖 Hold bottom left button"
+      - "button_5_release Release bottom left button"
+      - "button_6_single 🠖 Single click bottom right button"
+      - "button_6_double 🠖 Double click bottom right button"
+      - "button_6_hold 🠖 Hold bottom right button"
+      - "button_6_release 🠖 Release bottom right button"
