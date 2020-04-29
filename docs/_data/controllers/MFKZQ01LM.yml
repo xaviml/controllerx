@@ -1,7 +1,16 @@
 name: MFKZQ01LM Xiaomi Smart Cube (Aqara)
-device_support: 
-  - Light (MFKZQ01LMLightController; 350ms delay)
-light_example: MFKZQ01LMLightController
+device_support:
+  - type: Light
+    controller: MFKZQ01LMLightController
+    delay: 350
+    mapping:
+      - "Shake the cube 🠖 Minimum brightness"
+      - "Doble tap in a surface 🠖 Toggle"
+      - "Swipe horizontal direction 🠖 Full brightness"
+      - "Flip cube 180 degrees 🠖 Color temp up / Right color wheel (1 step)"
+      - "Flip cube 90 degrees 🠖 Color temp down / Left color wheel (1 step)"
+      - "Rotate cube to left 🠖 Dim down (1 step)"
+      - "Rotate cube to right 🠖 Brighten up (1 step)"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

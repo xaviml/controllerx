@@ -17,8 +17,11 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
       <td><img src="/controllerx/assets/img/{{ page.device }}.jpeg" /></td>
       <td>
         <ul>
-          {% for device_support in controller.device_support %}
-          <li>{{ device_support }}</li>
+          {% for ds in controller.device_support %}
+          <li>
+            {{ ds.type }} ({{ds.controller}}{% if ds.delay %}; {{ds.delay}}ms
+            delay{% endif %})
+          </li>
           {% endfor %}
         </ul>
       </td>
@@ -27,21 +30,34 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
   </table>
 
   <div>
-    <h3>Example configuration</h3>
+    <h3 id="type-configuration">
+      <a href="/controllerx/start/type-configuration">Controller types</a>
+    </h3>
+    {% for ds in controller.device_support %}
+    <h4>{{ds.controller}} ({{ds.type}})</h4>
+    <p>This is the default mapping for this controller:</p>
+    <ul>
+      {% for map in ds.mapping %}
+      <li>{{map}}</li>
+      {% endfor %}
+    </ul>
+    <p>This is an example configuration:</p>
     <pre>
       <code lang="yaml">
   example_app:
     module: controllerx
-    class: {{ controller.light_example }}
+    class: {{ ds.controller }}
     controller: < controller_id >
     integration: < {{integration_names}} >
     light: < light_entity >
       </code>
     </pre>
-    {% if controller.note %}
+    {% endfor %} {% if controller.note %}
     <h3>Note</h3>
     {{controller.note}} {% endif %}
-    <h3><a href="/controllerx/others/integrations">Integrations</a></h3>
+    <h3 id="integrations">
+      <a href="/controllerx/others/integrations">Integrations</a>
+    </h3>
     Here you will see the actions that the controller fires when pressing or
     holding the buttons. In case of z2m it shows the state that the sensor
     takes. In case of deconz it shows the event id (or gesture) and for zha it

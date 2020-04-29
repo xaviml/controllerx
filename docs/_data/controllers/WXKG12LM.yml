@@ -1,7 +1,13 @@
 name: WXKG12LM (Aqara)
-device_support: 
-  - Light (WXKG12LMLightController; 350ms delay)
-light_example: WXKG12LMLightController
+device_support:
+  - type: Light
+    controller: WXKG12LMLightController
+    delay: 350
+    mapping:
+      - "1 click 🠖 Toggle"
+      - "2 clicks 🠖 Full brightness"
+      - "Shake the controller 🠖 Minimum brightness"
+      - "Hold the button 🠖 Brightness up/down with direction changes"
 note: >-
   For z2m integration, this controller has 2 sensors that need to be added to the configuration.
   One ends with `_action` and the other one with `_click`.

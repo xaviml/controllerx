@@ -1,8 +1,21 @@
 name: PJ2-4B (Lutron Caseta Pro)
-device_support: 
-  - Light (LutronCasetaProPJ24BLightController; 350ms delay)
-  - Media Player (LutronCasetaProPicoPJ24BMediaPlayerController; 500ms delay)
-light_example: LutronCasetaProPJ24BLightController
+device_support:
+  - type: Light
+    controller: LutronCasetaProPJ24BLightController
+    delay: 350
+    mapping:
+      - "Top button 🠖 Full brightness"
+      - "Second  button 🠖 Brighten up"
+      - "Third button 🠖 Dim down"
+      - "Bottom button 🠖 Turn off"
+  - type: Media Player
+    controller: LutronCasetaProPicoPJ24BMediaPlayerController
+    delay: 500
+    mapping:
+      - "Top button 🠖 Play/Pause"
+      - "Second  button 🠖 Volume up"
+      - "Third button 🠖 Volume down"
+      - "Bottom button 🠖 Next track"
 note: >-
   This requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.

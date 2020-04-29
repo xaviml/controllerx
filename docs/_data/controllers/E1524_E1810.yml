@@ -1,8 +1,32 @@
 name: E1524/E1810 (IKEA)
 device_support: 
-  - Light (E1810Controller; 350ms delay)
-  - Media Player (E1810MediaPlayerController; 500ms delay)
-light_example: E1810Controller
+  - type: Light
+    controller: E1810Controller
+    delay: 350
+    mapping:
+      - "Click ⏻ 🠖 Toggle"
+      - "Hold ⏻ 🠖 Sync"
+      - "Click 🔆 🠖 Brighten up (1 step)"
+      - "Click 🔅  🠖 Dim down (1 step)"
+      - "Click < 🠖 Color temp down / Left color wheel (1 step)"
+      - "Click > 🠖 Color temp up / Right color wheel (1 step)"
+      - "Hold 🔆 🠖 Brighten up"
+      - "Hold 🔅 🠖 Dim down"
+      - "Hold < 🠖 Color temp down / Left color wheel"
+      - "Hold > 🠖 Color temp up / Right color wheel"
+  - type: Media Player
+    controller: E1810MediaPlayerController
+    delay: 500
+    mapping:
+      - "Click ⏻ 🠖 Play/Pause"
+      - "Click 🔆 🠖 Volume up (1 step)"
+      - " Click 🔅  🠖 Volume down (1 step)"
+      - "Click < 🠖 Previous track"
+      - "Click > 🠖 Next track"
+      - "Hold 🔆 🠖 Volume up"
+      - "Hold 🔅 🠖 Volume down"
+      - "Hold < 🠖 Previous source"
+      - "Hold > 🠖 Next source"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
@@ -10,7 +34,7 @@ integrations:
       - "toggle 🠖 Click ⏻"
       - "toggle_hold 🠖 Hold ⏻"
       - "brightness_up_click 🠖 Click 🔆"
-      - "brightness_down_click  🠖 Click 🔅"
+      - "brightness_down_click 🠖 Click 🔅"
       - "arrow_left_click 🠖 Click <"
       - "arrow_right_click 🠖 Click >"
       - "brightness_up_hold 🠖 Hold 🔆"

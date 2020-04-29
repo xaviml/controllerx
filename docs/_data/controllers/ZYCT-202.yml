@@ -1,8 +1,21 @@
 name: ZYCT-202 (Trust)
-device_support: 
-  - Light (ZYCT202LightController; 350ms delay)
-  - Media Player (ZYCT202MediaPlayerController; 500ms delay)
-light_example: ZYCT202LightController
+device_support:
+  - type: Light
+    controller: ZYCT202LightController
+    delay: 350
+    mapping:
+      - "Click \"I\" 🠖 Turn on "
+      - "Hold brightness up 🠖 Brighten up"
+      - "Hold brightness down 🠖 Dim down"
+      - "Click \"O\" 🠖 Turn off"
+  - type: Media Player
+    controller: ZYCT202MediaPlayerController
+    delay: 500
+    mapping:
+      - "Click \"I\" 🠖 Play/Pause"
+      - "Hold brightness up 🠖 Volume up"
+      - "Hold brightness down 🠖 Volume down"
+      - "Click \"O\" 🠖 Play/Pause"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

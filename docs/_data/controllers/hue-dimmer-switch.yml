@@ -1,7 +1,17 @@
 name: Hue Dimmer switch (Philips)
-device_support: 
-  - Light (HueDimmerController; 350ms delay)
-light_example: HueDimmerController
+device_support:
+  - type: Light
+    controller: HueDimmerController
+    delay: 350
+    mapping:
+      - "Click \"I\" 🠖 Turn on"
+      - "Hold \"I\" 🠖 Color temp up / Right color wheel"
+      - "Click 🔆 🠖 Brighten up (1 step)"
+      - "Hold 🔆🠖 Brighten up"
+      - "Click 🔅 🠖 Dim down (1 step)"
+      - "Hold 🔅 🠖 Dim down"
+      - "Click \"O\" 🠖 Turn off"
+      - "Hold \"O\" 🠖 Color temp down / Left color wheel"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

@@ -1,7 +1,18 @@
 name: Double key wireless (Aqara)
 device_support: 
-  - Light (DoubleKeyWirelessAqaraController; 350ms delay)
-light_example: DoubleKeyWirelessAqaraController
+  - type: Light
+    controller: DoubleKeyWirelessAqaraController
+    delay: 350
+    mapping:
+      - "Click on both 🠖 Toggle"
+      - "Double click on both 🠖 Brighten up (1 step)"
+      - "Long click on both 🠖 Dim down (1 step)"
+      - "Click on left 🠖 Toggle"
+      - "Double click on left 🠖 Brighten up (1 step)"
+      - "Long click on left 🠖 Dim down (1 step)"
+      - "Click on right 🠖 Toggle"
+      - "Double click on right 🠖 Brighten up (1 step)"
+      - "Long click on right 🠖 Dim down (1 step)"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
@@ -20,3 +31,5 @@ note: >-
   This is because ControllerX is design to control just one entity (light or media player).
   So you can include the `actions` parameter to include the actions needed.
   You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+  Also, this controller support hold action, but not release. This means that there is not 
+  smooth brightness changes when holding, just step by step everytime is held.

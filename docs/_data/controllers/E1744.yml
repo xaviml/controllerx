@@ -1,8 +1,23 @@
 name: E1744 (IKEA)
 device_support: 
-  - Light (E1744LightController; 1200ms delay)
-  - Media Player (E1744MediaPlayerController; 1000ms delay)
-light_example: E1744LightController
+  - type: Light
+    controller: E1744LightController
+    delay: 1200
+    mapping:
+      - "Left turn 🠖 Dim down"
+      - "Right turn 🠖 Brighten up"
+      - "1 click 🠖 Toggle"
+      - "2 click 🠖 Full brightness"
+      - "3 click 🠖 Minimum brightness"
+  - type: Media Player
+    controller: E1744MediaPlayerController
+    delay: 1000
+    mapping:
+      - "Left turn 🠖 Volume down"
+      - "Right turn 🠖 Volume up"
+      - "1 click 🠖 Play/Pause"
+      - "2 click 🠖 Skip forward"
+      - "3 click 🠖 Skip backward"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

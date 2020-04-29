@@ -1,7 +1,13 @@
 name: LZL4BWHL01 (Lutron)
-device_support: 
-  - Light (LZL4BWHL01LightController; 350ms delay)
-light_example: LZL4BWHL01LightController
+device_support:
+  - type: Light
+    controller: LZL4BWHL01LightController
+    delay: 350
+    mapping:
+      - "Top button pressed 🠖 Full brightness"
+      - "Arrow up held 🠖 Brighten up"
+      - "Arrow down held 🠖 Dim down"
+      - "Bottom button pressed 🠖 Turn off"
 integrations:
   - name: deCONZ
     codename: deconz

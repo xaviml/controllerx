@@ -1,7 +1,13 @@
 name: ICTCG1 (IKEA)
 device_support: 
-  - Light (ICTCG1Controller; 350ms delay)
-light_example: ICTCG1Controller
+  - type: Light
+    controller: ICTCG1Controller
+    delay: 350
+    mapping:
+      - "Left turn 🠖 Dim down"
+      - "Quick left turn 🠖 Turn off"
+      - "Right turn 🠖 Brighten up"
+      - "Quick right turn 🠖 Full brightness"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m

@@ -1,8 +1,18 @@
 name: E1743 (IKEA)
-device_support: 
-  - Light (E1743Controller; 350ms delay)
-  - Switch (E1743SwitchController)
-light_example: E1743Controller
+device_support:
+  - type: Light
+    controller: E1743Controller
+    delay: 350
+    mapping:
+      - "Click \"I\" 🠖 Turn on"
+      - "Click \"O\" 🠖 Turn off"
+      - "Hold \"I\" 🠖 Brighten up"
+      - "Hold \"O\" 🠖 Brighten down"
+  - type: Switch
+    controller: E1743SwitchController
+    mapping:
+      - "Click \"I\" 🠖 Turn on"
+      - "Click \"O\" 🠖 Turn off"
 integrations:
   - name: Zigbee2mqtt
     codename: z2m
