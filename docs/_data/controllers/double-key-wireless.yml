@@ -14,7 +14,7 @@ device_support:
       - "Double click on right 🠖 Brighten up (1 step)"
       - "Long click on right 🠖 Dim down (1 step)"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "both 🠖 Click on both"

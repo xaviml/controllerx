@@ -9,7 +9,7 @@ device_support:
       - "Right turn 🠖 Brighten up"
       - "Quick right turn 🠖 Full brightness"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "rotate_left 🠖 Left turn"

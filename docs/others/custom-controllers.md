@@ -129,10 +129,44 @@ example_app:
   class: CustomSwitchController
   controller: 00:67:88:56:06:78:9b:3f
   integration: zha
-  media_player: switch.kitchen_dishwasher
+  switch: switch.kitchen_dishwasher
   mapping:
     "on": toggle
     "off": toggle
+```
+
+## Custom cover controller
+
+Class: `CustomCoverController`
+
+This controller lets you map controller events with predefined cover actions. This is a [Cover controller](/controllerx/start/type-configuration#cover-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
+
+| value        | description                                        |
+| ------------ | -------------------------------------------------- |
+| open         | It opens the cover                                 |
+| close        | It closes the cover                                |
+| stop         | It stops the cover                                 |
+| toggle_open  | It stops the cover if running and opens otherwise  |
+| toggle_close | It stops the cover if running and closes otherwise |
+
+#### Example of CustomCoverController
+
+This is an example that uses the controller E1810 to control a cover with Zigbee2MQTT. The mapping from the z2m event ids can be found in [here](/controllerx/controllers/E1524_E1810) and the values are from the list under `Zigbee2MQTT`.
+
+```yaml
+example_app:
+  module: controllerx
+  class: CustomCoverController
+  controller: sensor.e1810_controller
+  integration: z2m
+  cover: cover.kitchen
+  mapping:
+    brightness_up_click: toggle_open
+    brightness_down_click: toggle_close
+    brightness_up_hold: open
+    brightness_up_release: stop
+    brightness_down_hold: close
+    brightness_down_release: stop
 ```
 
 ## Call service controller

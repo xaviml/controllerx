@@ -3,7 +3,7 @@ title: How to extract the controller parameter
 layout: page
 ---
 
-### Zigbee2mqtt
+### Zigbee2MQTT
 
 The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action` or `_click`. The parameter you need is the entity id of the sensor.
 

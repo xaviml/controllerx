@@ -28,7 +28,7 @@ class LightController(TypeController, ReleaseHoldController):
         - xy color click and hold
     If a light supports xy_color and color_temperature, then xy_color will be the
     default functionality. Parameters taken:
-        - sensor (required): Inherited from Controller
+        - controller (required): Inherited from Controller
         - light (required): This is either the light entity name or a dictionary as
           {name: string, color_mode: auto | xy_color | color_temp}
         - delay (optional): Inherited from ReleaseHoldController

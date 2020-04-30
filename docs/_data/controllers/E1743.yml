@@ -13,8 +13,15 @@ device_support:
     mapping:
       - "Click \"I\" 🠖 Turn on"
       - "Click \"O\" 🠖 Turn off"
+  - type: Cover
+    controller: E1743CoverController
+    mapping:
+      - "Click \"I\" 🠖 Open/Stop cover"
+      - "Click \"O\" 🠖 Close/Stop cover"
+      - "Hold \"I\" 🠖 Open cover"
+      - "Hold \"O\" 🠖 Close cover"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "on 🠖 Click \"I\""

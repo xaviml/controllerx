@@ -15,7 +15,7 @@ device_support:
       - "2 clicks 🠖 Skip forwards"
       - "Hold the button 🠖 Skip backward"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "single_click 🠖 1 click"

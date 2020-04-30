@@ -28,7 +28,7 @@ device_support:
       - "Hold < 🠖 Previous source"
       - "Hold > 🠖 Next source"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "toggle 🠖 Click ⏻"

@@ -13,7 +13,7 @@ device_support:
       - "Click \"O\" 🠖 Turn off"
       - "Hold \"O\" 🠖 Color temp down / Left color wheel"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "on-press 🠖 Click \"I\""

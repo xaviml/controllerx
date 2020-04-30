@@ -19,7 +19,7 @@ device_support:
       - "2 click 🠖 Skip forward"
       - "3 click 🠖 Skip backward"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "rotate_left 🠖 Left turn"

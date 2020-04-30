@@ -57,3 +57,11 @@ class Switch:
     ON = "on"
     OFF = "off"
     TOGGLE = "toggle"
+
+
+class Cover:
+    OPEN = "open"
+    CLOSE = "close"
+    STOP = "stop"
+    TOGGLE_OPEN = "toggle_open"
+    TOGGLE_CLOSE = "toggle_close"

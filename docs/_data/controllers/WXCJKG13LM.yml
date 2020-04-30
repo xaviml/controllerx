@@ -21,7 +21,7 @@ device_support:
       - "Double click bottom right button 🠖 Full color temp (if supported)"
       - "Hold bottom right button 🠖 Color temp up / Right color wheel"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "button_1_single 🠖 Single click top left button"

@@ -17,7 +17,7 @@ device_support:
       - "Hold brightness down 🠖 Volume down"
       - "Click \"O\" 🠖 Play/Pause"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "on 🠖 Click \"I\""

@@ -1,4 +1,4 @@
-from core.custom_controller import CustomSwitchController
+from core.custom_controller import CustomCoverController, CustomSwitchController
 import pytest
 
 from core import (
@@ -53,6 +53,7 @@ from tests.test_utils import hass_mock, fake_async_function
         ),
         (CustomMediaPlayerController, {"action1": "release"}, "action1", "release", 1),
         (CustomSwitchController, {"action1": "toggle"}, "action1", "toggle", 1),
+        (CustomCoverController, {"action1": "open"}, "action2", "open", 0),
     ],
 )
 @pytest.mark.asyncio
@@ -73,6 +74,7 @@ async def test_custom_controllers(
         "light": "light.test_light",
         "media_player": "media_player.test_media_player",
         "switch": "switch.test_switch",
+        "cover": "cover.test_cover",
         "mapping": mapping,
     }
     mocked = mocker.patch.object(sut, mock_function)

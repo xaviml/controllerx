@@ -3,6 +3,7 @@ from typing import Dict, List, Tuple, Union
 
 from const import TypeAction, TypeActionsMapping
 from core.controller import Controller, action
+from core.type.cover_controller import CoverController
 from core.type.light_controller import LightController
 from core.type.media_player_controller import MediaPlayerController
 from core.type.switch_controller import SwitchController
@@ -45,6 +46,11 @@ class CustomMediaPlayerController(CustomController, MediaPlayerController):
 
 
 class CustomSwitchController(CustomController, SwitchController):
+    def parse_action(self, action) -> TypeAction:
+        return action
+
+
+class CustomCoverController(CustomController, CoverController):
     def parse_action(self, action) -> TypeAction:
         return action
 

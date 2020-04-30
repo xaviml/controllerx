@@ -10,7 +10,7 @@ device_support:
       - "4 clicks 🠖 50% brightness"
       - "Hold the button 🠖 Brightness up/down with direction changes"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "single 🠖 1 click"

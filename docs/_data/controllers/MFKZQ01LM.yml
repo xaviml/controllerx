@@ -12,7 +12,7 @@ device_support:
       - "Rotate cube to left 🠖 Dim down (1 step)"
       - "Rotate cube to right 🠖 Brighten up (1 step)"
 integrations:
-  - name: Zigbee2mqtt
+  - name: Zigbee2MQTT
     codename: z2m
     actions:
       - "shake 🠖 Shake the cube"

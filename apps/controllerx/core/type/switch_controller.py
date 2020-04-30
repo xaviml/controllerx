@@ -10,7 +10,6 @@ class SwitchController(TypeController):
     Parameters taken:
         - sensor (required): Inherited from Controller
         - switch (required): Switch entity name
-        - delay (optional): Inherited from ReleaseHoldController
     """
 
     async def initialize(self) -> None:

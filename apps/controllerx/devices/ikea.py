@@ -1,6 +1,11 @@
-from const import Light, MediaPlayer, Switch, TypeActionsMapping
-from core import LightController, MediaPlayerController, action
-from core.type.switch_controller import SwitchController
+from const import Cover, Light, MediaPlayer, Switch, TypeActionsMapping
+from core import (
+    CoverController,
+    LightController,
+    MediaPlayerController,
+    SwitchController,
+    action,
+)
 
 
 class E1810Controller(LightController):
@@ -163,6 +168,39 @@ class E1743SwitchController(SwitchController):
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {"on": Switch.ON, "off": Switch.OFF}
+
+
+class E1743CoverController(CoverController):
+    # Different states reported from the controller:
+    # on, off
+
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "on": Cover.TOGGLE_OPEN,
+            "off": Cover.TOGGLE_CLOSE,
+            "brightness_up": Cover.OPEN,
+            "brightness_down": Cover.CLOSE,
+            "brightness_stop": Cover.STOP,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Cover.TOGGLE_OPEN,
+            2002: Cover.TOGGLE_CLOSE,
+            1001: Cover.OPEN,
+            2001: Cover.CLOSE,
+            1003: Cover.STOP,
+            2003: Cover.STOP,
+        }
+
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "on": Cover.TOGGLE_OPEN,
+            "off": Cover.TOGGLE_CLOSE,
+            "move_with_on_off_0_83": Cover.OPEN,
+            "move_1_83": Cover.CLOSE,
+            "stop": Cover.STOP,
+        }
 
 
 class ICTCG1Controller(LightController):
