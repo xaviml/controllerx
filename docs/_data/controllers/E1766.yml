@@ -1,0 +1,30 @@
+name: E1766 (IKEA)
+device_support:
+  - type: Light
+    controller: E1766Controller
+    delay: 350
+    mapping:
+      - "Click up 🠖 Turn on"
+      - "Click down 🠖 Turn off"
+      - "Hold up 🠖 Full brightness"
+      - "Hold down 🠖 Minimum brightness"
+  - type: Switch
+    controller: E1766SwitchController
+    mapping:
+      - "Click up 🠖 Turn on"
+      - "Click down 🠖 Turn off"
+  - type: Cover
+    controller: E1766CoverController
+    mapping:
+      - "Click up 🠖 Open/Stop cover"
+      - "Click down 🠖 Close/Stop cover"
+      - "Hold up 🠖 Open cover"
+      - "Hold down 🠖 Close cover"
+integrations:
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 🠖 Click up"
+      - "2002 🠖 Click down"
+      - "1003 🠖 Hold up"
+      - "2003 🠖 Hold down"

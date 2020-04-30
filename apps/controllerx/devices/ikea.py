@@ -327,3 +327,26 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def default_delay(self) -> int:
         return 1000
+
+
+class E1766LightController(LightController):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.ON,
+            1003: Light.ON_FULL_BRIGHTNESS,
+            2002: Light.OFF,
+            2003: Light.ON_MIN_BRIGHTNESS,
+        }
+
+
+class E1766SwitchController(SwitchController):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {1002: Switch.ON, 2002: Switch.OFF}
+
+
+class E1766CoverController(CoverController):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Cover.TOGGLE_OPEN,
+            2002: Cover.TOGGLE_CLOSE,
+        }
