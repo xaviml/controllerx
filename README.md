@@ -9,6 +9,8 @@
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 [![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
 [![Codacy Badge](https://img.shields.io/codacy/grade/542f29ab55a449099488601ec7400563/master?style=for-the-badge)](https://app.codacy.com/manual/xaviml/controllerx?utm_source=github.com&utm_medium=referral&utm_content=xaviml/controllerx&utm_campaign=Badge_Grade_Dashboard)
+[![community-topic](https://img.shields.io/badge/community-topic-blue?style=for-the-badge)](https://community.home-assistant.io/t/controllerx-bring-full-functionality-to-light-and-media-player-controllers/148855)
+[![buy-me-a-beer](https://img.shields.io/badge/sponsor-Buy%20me%20a%20beer-orange?style=for-the-badge)](https://www.buymeacoffee.com/xaviml)
 
 _Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
 
