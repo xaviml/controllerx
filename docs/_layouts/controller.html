@@ -74,4 +74,10 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
     </ul>
     {% endfor %}
   </div>
+
+  <h4>💡 <b>NOTE</b></h4>
+
+  When using words like "on" and "off" in the YAML configuration, you will need
+  to wrap them up with quotation marks ("), otherwise they will be parsed as
+  boolean variables (True and False).
 </div>

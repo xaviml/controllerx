@@ -53,6 +53,12 @@ nameOfYourInstanceApp:
 
 You can check real examples in [here](/controllerx/examples).
 
+#### 💡 **NOTE**
+
+When using words like "on" and "off" in the YAML configuration,
+you will need to wrap them up with quotation marks ("),
+otherwise they will be parsed as boolean variables (True and False).
+
 ## Parameters
 
 These are the generic app parameters for all type of controllers. You can see the rest in [here](type-configuration).
