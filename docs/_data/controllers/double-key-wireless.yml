@@ -1,6 +1,7 @@
 name: Double key wireless (Aqara)
 device_support: 
   - type: Light
+    domain: light
     controller: DoubleKeyWirelessAqaraController
     delay: 350
     mapping:

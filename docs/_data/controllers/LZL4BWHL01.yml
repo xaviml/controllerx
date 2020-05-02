@@ -1,6 +1,7 @@
 name: LZL4BWHL01 (Lutron)
 device_support:
   - type: Light
+    domain: light
     controller: LZL4BWHL01LightController
     delay: 350
     mapping:

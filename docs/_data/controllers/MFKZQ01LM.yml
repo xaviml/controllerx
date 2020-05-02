@@ -1,6 +1,7 @@
 name: MFKZQ01LM Xiaomi Smart Cube (Aqara)
 device_support:
   - type: Light
+    domain: light
     controller: MFKZQ01LMLightController
     delay: 350
     mapping:

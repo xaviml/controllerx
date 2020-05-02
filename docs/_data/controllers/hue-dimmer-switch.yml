@@ -1,6 +1,7 @@
 name: Hue Dimmer switch (Philips)
 device_support:
   - type: Light
+    domain: light
     controller: HueDimmerController
     delay: 350
     mapping:

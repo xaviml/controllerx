@@ -1,6 +1,7 @@
 name: WXKG11LM (Aqara)
 device_support:
   - type: Light
+    domain: light
     controller: WXKG11LMLightController
     delay: 350
     mapping:

@@ -1,6 +1,7 @@
 name: PJ2-2BRL (Lutron Caseta Pro)
 device_support:
   - type: Light
+    domain: light
     controller: LutronCasetaProPicoLightController
     delay: 350
     mapping:
@@ -9,6 +10,7 @@ device_support:
       - "Arrow down button 🠖 Dim down"
       - "Bottom button 🠖 Turn off"
   - type: Media Player
+    domain: media_player
     controller: LutronCasetaProPicoMediaPlayerController
     delay: 500
     mapping:

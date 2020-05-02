@@ -1,6 +1,7 @@
 name: ICTCG1 (IKEA)
 device_support: 
   - type: Light
+    domain: light
     controller: ICTCG1Controller
     delay: 350
     mapping:

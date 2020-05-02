@@ -1,6 +1,7 @@
 name: ZYCT-202 (Trust)
 device_support:
   - type: Light
+    domain: light
     controller: ZYCT202LightController
     delay: 350
     mapping:
@@ -9,6 +10,7 @@ device_support:
       - "Hold brightness down 🠖 Dim down"
       - "Click \"O\" 🠖 Turn off"
   - type: Media Player
+    domain: media_player
     controller: ZYCT202MediaPlayerController
     delay: 500
     mapping:

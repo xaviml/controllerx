@@ -49,7 +49,7 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
     class: {{ ds.controller }}
     controller: < controller_id >
     integration: < {{integration_names}} >
-    light: < light_entity >
+    {{ds.domain}}: < {{ds.domain}} entity >
       </code>
     </pre>
     {% endfor %} {% if controller.note %}

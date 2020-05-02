@@ -1,6 +1,7 @@
 name: E1524/E1810 (IKEA)
 device_support: 
   - type: Light
+    domain: light
     controller: E1810Controller
     delay: 350
     mapping:
@@ -15,6 +16,7 @@ device_support:
       - "Hold < 🠖 Color temp down / Left color wheel"
       - "Hold > 🠖 Color temp up / Right color wheel"
   - type: Media Player
+    domain: media_player
     controller: E1810MediaPlayerController
     delay: 500
     mapping:

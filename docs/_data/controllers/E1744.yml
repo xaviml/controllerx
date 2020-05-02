@@ -1,6 +1,7 @@
 name: E1744 (IKEA)
 device_support: 
   - type: Light
+    domain: light
     controller: E1744LightController
     delay: 1200
     mapping:
@@ -10,6 +11,7 @@ device_support:
       - "2 click 🠖 Full brightness"
       - "3 click 🠖 Minimum brightness"
   - type: Media Player
+    domain: media_player
     controller: E1744MediaPlayerController
     delay: 1000
     mapping:

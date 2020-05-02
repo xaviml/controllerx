@@ -1,6 +1,7 @@
 name: E1766 (IKEA)
 device_support:
   - type: Light
+    domain: light
     controller: E1766Controller
     delay: 350
     mapping:
@@ -9,11 +10,13 @@ device_support:
       - "Hold up 🠖 Full brightness"
       - "Hold down 🠖 Minimum brightness"
   - type: Switch
+    domain: switch
     controller: E1766SwitchController
     mapping:
       - "Click up 🠖 Turn on"
       - "Click down 🠖 Turn off"
   - type: Cover
+    domain: cover
     controller: E1766CoverController
     mapping:
       - "Click up 🠖 Open/Stop cover"

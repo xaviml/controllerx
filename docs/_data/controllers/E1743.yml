@@ -1,6 +1,7 @@
 name: E1743 (IKEA)
 device_support:
   - type: Light
+    domain: light
     controller: E1743Controller
     delay: 350
     mapping:
@@ -9,11 +10,13 @@ device_support:
       - "Hold \"I\" 🠖 Brighten up"
       - "Hold \"O\" 🠖 Brighten down"
   - type: Switch
+    domain: switch
     controller: E1743SwitchController
     mapping:
       - "Click \"I\" 🠖 Turn on"
       - "Click \"O\" 🠖 Turn off"
   - type: Cover
+    domain: cover
     controller: E1743CoverController
     mapping:
       - "Click \"I\" 🠖 Open/Stop cover"
