@@ -3,7 +3,7 @@ title: Custom Controllers
 layout: page
 ---
 
-Custom controllers let you map controller events to actions. There are 3 type of custom controllers: `CustomLightController`, `CustomMediaPlayerController`, `CallServiceController`. All these controllers have in common the attribute `mapping`, which is a key-value map. The key defines the event fired from the controller (you can check these events in the individual pages from the [supported controllers](/controllerx/controllers)). The value is defined depending on each custom controller.
+Custom controllers let you map controller events to actions. There are 5 type of custom controllers: `CustomLightController`, `CustomMediaPlayerController`, `CustomSwitchController`, `CustomCoverController`, `CallServiceController`. All these controllers have in common the attribute `mapping`, which is a key-value map. The key defines the event fired from the controller (you can check these events in the individual pages from the [supported controllers](/controllerx/controllers)). The value is defined depending on each custom controller.
 
 ## Custom light controller
 
