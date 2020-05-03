@@ -99,3 +99,12 @@ class LZL4BWHL01LightController(LightController):
             "move_to_level_with_on_off_0_4": Light.OFF,
             "stop": Light.RELEASE,
         }
+
+
+class Z31BRLLightController(LightController):
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.TOGGLE,
+            2002: Light.CLICK_BRIGHTNESS_UP,
+            3002: Light.CLICK_BRIGHTNESS_DOWN,
+        }
