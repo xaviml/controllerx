@@ -1,0 +1,43 @@
+name: WXCJKG12LM (Aqara)
+device_support:
+  - type: Light
+    domain: light
+    controller: WXCJKG12LMLightController
+    delay: 350
+    mapping:
+      - "Single click top left button 🠖 Turn off"
+      - "Double click top left button 🠖 Minimum color temp (if supported)"
+      - "Hold top left button 🠖 Color temp down / Left color wheel"
+      - "Single click top right button 🠖 Turn on"
+      - "Double click top right button 🠖 Full color temp (if supported)"
+      - "Hold top right button 🠖 Color temp up / Right color wheel"
+      - "Single click bottom left button 🠖 Dim down (1 step)"
+      - "Double click bottom left button 🠖 Minimum brightness"
+      - "Hold bottom left button 🠖 Dim down"
+      - "Single click bottom right button 🠖 Brighten up (1 step)"
+      - "Double click bottom right button 🠖 Full brightness"
+      - "Hold bottom right button 🠖 Brighten up"
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "button_1_single 🠖 Single click top left button"
+      - "button_1_double 🠖 Double click top left button"
+      - "button_1_triple 🠖 Triple click top left button"
+      - "button_1_hold 🠖 Hold top left button"
+      - "button_1_release 🠖 Release top left button"
+      - "button_2_single 🠖 Single click top right button"
+      - "button_2_double 🠖 Double click top right button"
+      - "button_2_triple 🠖 Triple click top right button"
+      - "button_2_hold 🠖 Hold top right button"
+      - "button_2_release 🠖 Release top right button"
+      - "button_3_single 🠖 Single click bottom left button"
+      - "button_3_double 🠖 Double click bottom left button"
+      - "button_3_triple 🠖 Triple click bottom left button"
+      - "button_3_hold 🠖 Hold bottom left button"
+      - "button_3_release Release bottom left button"
+      - "button_4_single 🠖 Single click bottom right button"
+      - "button_4_double 🠖 Double click bottom right button"
+      - "button_4_triple 🠖 Triple click bottom right button"
+      - "button_4_hold 🠖 Hold bottom right button"
+      - "button_4_release 🠖 Release bottom right button"

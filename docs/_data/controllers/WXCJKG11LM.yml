@@ -1,0 +1,27 @@
+name: WXCJKG11LM (Aqara)
+device_support:
+  - type: Light
+    domain: light
+    controller: WXCJKG11LMLightController
+    delay: 350
+    mapping:
+      - "Single click left button 🠖 Turn off"
+      - "Double click left button 🠖 Minimum brightness"
+      - "Hold left button 🠖 Dim down"
+      - "Single click right button 🠖 Turn on"
+      - "Double click right button 🠖 Full brightness"
+      - "Hold top right button 🠖 Brighten up"
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "button_1_single 🠖 Single click left button"
+      - "button_1_double 🠖 Double click left button"
+      - "button_1_triple 🠖 Triple click left button"
+      - "button_1_hold 🠖 Hold left button"
+      - "button_1_release 🠖 Release left button"
+      - "button_2_single 🠖 Single click right button"
+      - "button_2_double 🠖 Double click right button"
+      - "button_2_triple 🠖 Triple click right button"
+      - "button_2_hold 🠖 Hold right button"
+      - "button_2_release 🠖 Release right button"

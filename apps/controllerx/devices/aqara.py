@@ -120,13 +120,49 @@ class MFKZQ01LMLightController(LightController):
         }
 
 
+class WXCJKG11LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "button_1_single": Light.OFF,
+            "button_1_double": Light.ON_MIN_BRIGHTNESS,
+            "button_1_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "button_1_release": Light.RELEASE,
+            "button_2_single": Light.ON,
+            "button_2_double": Light.ON_FULL_BRIGHTNESS,
+            "button_2_hold": Light.HOLD_BRIGHTNESS_UP,
+            "button_2_release": Light.RELEASE,
+        }
+
+
+class WXCJKG12LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "button_1_single": Light.OFF,
+            "button_1_double": Light.ON_MIN_COLOR_TEMP,
+            "button_1_hold": Light.HOLD_COLOR_DOWN,
+            "button_1_release": Light.RELEASE,
+            "button_2_single": Light.ON,
+            "button_2_double": Light.ON_FULL_COLOR_TEMP,
+            "button_2_hold": Light.HOLD_COLOR_UP,
+            "button_2_release": Light.RELEASE,
+            "button_3_single": Light.CLICK_BRIGHTNESS_DOWN,
+            "button_3_double": Light.ON_MIN_BRIGHTNESS,
+            "button_3_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "button_3_release": Light.RELEASE,
+            "button_4_single": Light.CLICK_BRIGHTNESS_UP,
+            "button_4_double": Light.ON_FULL_BRIGHTNESS,
+            "button_4_hold": Light.HOLD_BRIGHTNESS_UP,
+            "button_4_release": Light.RELEASE,
+        }
+
+
 class WXCJKG13LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "button_1_single": Light.OFF,
             "button_1_double": Light.SYNC,
             # "button_1_hold": "", # Nothing
-            # "button_1_release": "",
+            # "button_1_release": "", # Nothing
             "button_2_single": Light.ON,
             "button_2_double": Light.SYNC,
             # "button_2_hold": "", # Nothing
