@@ -1,3 +1,5 @@
+from core.feature_support import FeatureSupport
+from core.feature_support.cover import CoverSupport
 import pytest
 
 from core.controller import TypeController
@@ -10,33 +12,82 @@ from core import CoverController
 async def sut(hass_mock, mocker):
     c = CoverController()
     mocker.patch.object(TypeController, "initialize")
-    c.args = {"cover": "cover.test"}
-    await c.initialize()
+    c.cover = "cover.test"
+    c.open_position = 100
+    c.close_position = 0
     return c
 
 
 @pytest.mark.asyncio
-async def test_initialize(sut):
+async def test_initialize(sut, monkeypatch):
+    sut.args = {"cover": "cover.test2"}
+    monkeypatch.setattr(sut, "get_entity_state", fake_async_function("0"))
     await sut.initialize()
-    assert sut.cover == "cover.test"
+    assert sut.cover == "cover.test2"
 
 
+@pytest.mark.parametrize(
+    "supported_features, expected_service",
+    [
+        ({CoverSupport.OPEN}, "cover/open_cover"),
+        ({CoverSupport.SET_COVER_POSITION}, "cover/set_cover_position"),
+        (
+            {CoverSupport.OPEN, CoverSupport.SET_COVER_POSITION},
+            "cover/set_cover_position",
+        ),
+        ({CoverSupport.CLOSE}, None),
+        ({}, None),
+    ],
+)
 @pytest.mark.asyncio
-async def test_open(sut, mocker):
+async def test_open(sut, mocker, supported_features, expected_service):
+    sut.supported_features = CoverSupport(FeatureSupport.encode(supported_features))
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.open()
-    called_service_patch.assert_called_once_with(
-        "cover/open_cover", entity_id=sut.cover
-    )
+    if expected_service is not None:
+        if expected_service == "cover/open_cover":
+            expected_attributes = {"entity_id": "cover.test"}
+        elif expected_service == "cover/set_cover_position":
+            expected_attributes = {"entity_id": "cover.test", "position": 100}
+        else:
+            expected_attributes = {}
+        called_service_patch.assert_called_once_with(
+            expected_service, **expected_attributes
+        )
+    else:
+        assert called_service_patch.call_count == 0
 
 
+@pytest.mark.parametrize(
+    "supported_features, expected_service",
+    [
+        ({CoverSupport.CLOSE}, "cover/close_cover"),
+        ({CoverSupport.SET_COVER_POSITION}, "cover/set_cover_position"),
+        (
+            {CoverSupport.OPEN, CoverSupport.SET_COVER_POSITION},
+            "cover/set_cover_position",
+        ),
+        ({CoverSupport.OPEN}, None),
+        ({}, None),
+    ],
+)
 @pytest.mark.asyncio
-async def test_close(sut, mocker):
+async def test_close(sut, mocker, supported_features, expected_service):
+    sut.supported_features = CoverSupport(FeatureSupport.encode(supported_features))
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.close()
-    called_service_patch.assert_called_once_with(
-        "cover/close_cover", entity_id=sut.cover
-    )
+    if expected_service is not None:
+        if expected_service == "cover/close_cover":
+            expected_attributes = {"entity_id": "cover.test"}
+        elif expected_service == "cover/set_cover_position":
+            expected_attributes = {"entity_id": "cover.test", "position": 0}
+        else:
+            expected_attributes = {}
+        called_service_patch.assert_called_once_with(
+            expected_service, **expected_attributes
+        )
+    else:
+        assert called_service_patch.call_count == 0
 
 
 @pytest.mark.asyncio

@@ -1,7 +1,8 @@
 import pytest
 
-from core import LightController, ReleaseHoldController, light_features
-from core.light_features import SUPPORT_COLOR, SUPPORT_COLOR_TEMP
+from core import LightController, ReleaseHoldController
+from core.feature_support import FeatureSupport
+from core.feature_support.light import LightSupport
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -70,20 +71,32 @@ async def test_initialize_and_get_light(
 @pytest.mark.parametrize(
     "attribute_input, color_mode, supported_features, attribute_expected, throws_error",
     [
-        ("color", "auto", [SUPPORT_COLOR], "xy_color", False),
-        ("color", "auto", [SUPPORT_COLOR_TEMP], "color_temp", False),
-        ("color", "auto", [SUPPORT_COLOR, SUPPORT_COLOR_TEMP], "xy_color", False,),
-        ("brightness", "auto", [], "brightness", False),
-        ("brightness", "auto", [SUPPORT_COLOR], "brightness", False),
+        ("color", "auto", {LightSupport.COLOR}, "xy_color", False),
+        ("color", "auto", {LightSupport.COLOR_TEMP}, "color_temp", False),
+        (
+            "color",
+            "auto",
+            {LightSupport.COLOR, LightSupport.COLOR_TEMP},
+            "xy_color",
+            False,
+        ),
+        ("brightness", "auto", set(), "brightness", False),
+        ("brightness", "auto", {LightSupport.COLOR}, "brightness", False),
         (
             "color",
             "color_temp",
-            [SUPPORT_COLOR, SUPPORT_COLOR_TEMP],
+            {LightSupport.COLOR, LightSupport.COLOR_TEMP},
             "color_temp",
             False,
         ),
-        ("color", "xy_color", [SUPPORT_COLOR, SUPPORT_COLOR_TEMP], "xy_color", False),
-        ("color", "auto", [], "not_important", True),
+        (
+            "color",
+            "xy_color",
+            {LightSupport.COLOR, LightSupport.COLOR_TEMP},
+            "xy_color",
+            False,
+        ),
+        ("color", "auto", set(), "not_important", True),
     ],
 )
 def test_get_attribute(
@@ -95,7 +108,7 @@ def test_get_attribute(
     attribute_expected,
     throws_error,
 ):
-    sut.supported_features = supported_features
+    sut.supported_features = LightSupport(FeatureSupport.encode(supported_features))
     sut.light = {"name": "light", "color_mode": color_mode}
 
     # SUT
@@ -203,7 +216,7 @@ async def test_change_light_state(
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.transition = 300
-    sut.supported_features = []
+    sut.supported_features = LightSupport(0)
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
@@ -245,9 +258,8 @@ async def test_call_light_service(
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.transition = 300
     sut.add_transition = add_transition
-    sut.supported_features = (
-        [light_features.SUPPORT_TRANSITION] if transition_support else []
-    )
+    supported_features = {LightSupport.TRANSITION} if transition_support else set()
+    sut.supported_features = LightSupport(FeatureSupport.encode(supported_features))
     await sut.call_light_service("test_service", **attributes_input)
     called_service_patch.assert_called_once_with(
         "test_service", entity_id=sut.light["name"], **attributes_expected
@@ -364,7 +376,9 @@ async def test_sync(
     sut.light = {"name": "test_light"}
     sut.transition = 300
     sut.add_transition = True
-    sut.supported_features = [light_features.SUPPORT_TRANSITION]
+    sut.supported_features = LightSupport(
+        FeatureSupport.encode({LightSupport.TRANSITION})
+    )
 
     def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":

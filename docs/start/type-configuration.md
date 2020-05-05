@@ -58,9 +58,9 @@ _\* Required fields_
 
 This allows you to control switches. It supports turning on/off and toggling
 
-| key              | type   | value                                                         | description                                                                                                                                                                 |
-| ---------------- | ------ | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `switch`\* | string | `group.switches` or `switch.dishwasher` | The switch (or group of switches) you want to control                                                                                                            |
+| key        | type   | value                                   | description                                           |
+| ---------- | ------ | --------------------------------------- | ----------------------------------------------------- |
+| `switch`\* | string | `group.switches` or `switch.dishwasher` | The switch (or group of switches) you want to control |
 
 _\* Required fields_
 
@@ -68,8 +68,10 @@ _\* Required fields_
 
 This allows you to control covers. It supports opening/closing and stop covers.
 
-| key              | type   | value                                                         | description                                                                                                                                                                 |
-| ---------------- | ------ | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cover`\* | string | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control                                                                                                            |
+| key              | type   | value                                 | description                                        |
+| ---------------- | ------ | ------------------------------------- | -------------------------------------------------- |
+| `cover`\*        | string | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control |
+| `open_position`  | number | 100                                   | The open position (between 0 and 100)              |
+| `close_position` | number | 0                                     | The close position (between 0 and 100)             |
 
 _\* Required fields_

@@ -1,8 +1,8 @@
 from typing import Any, Dict, List, Tuple, Union
 
 from const import Light, TypeActionsMapping
-from core import light_features
 from core.controller import ReleaseHoldController, TypeController, action
+from core.feature_support.light import LightSupport
 from core.stepper import Stepper
 from core.stepper.circular_stepper import CircularStepper
 from core.stepper.minmax_stepper import MinMaxStepper
@@ -112,7 +112,7 @@ class LightController(TypeController, ReleaseHoldController):
             self.light["name"], attribute="supported_features"
         )
 
-        self.supported_features = light_features.decode(bitfield)
+        self.supported_features = LightSupport(bitfield)
         await super().initialize()
 
     def get_domain(self) -> str:
@@ -268,7 +268,7 @@ class LightController(TypeController, ReleaseHoldController):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         if (
-            light_features.SUPPORT_TRANSITION not in self.supported_features
+            self.supported_features.not_supported(LightSupport.TRANSITION)
             or not self.add_transition
         ):
             del attributes["transition"]
@@ -325,9 +325,9 @@ class LightController(TypeController, ReleaseHoldController):
     def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
             if self.light["color_mode"] == "auto":
-                if light_features.SUPPORT_COLOR in self.supported_features:
+                if self.supported_features.is_supported(LightSupport.COLOR):
                     return LightController.ATTRIBUTE_XY_COLOR
-                elif light_features.SUPPORT_COLOR_TEMP in self.supported_features:
+                elif self.supported_features.is_supported(LightSupport.COLOR_TEMP):
                     return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(

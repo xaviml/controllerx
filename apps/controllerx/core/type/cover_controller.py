@@ -1,6 +1,7 @@
 from typing import Callable
 from const import Cover, TypeActionsMapping
 from core.controller import TypeController, action
+from core.feature_support.cover import CoverSupport
 
 
 class CoverController(TypeController):
@@ -12,12 +13,23 @@ class CoverController(TypeController):
     Parameters taken:
         - controller (required): Inherited from Controller
         - cover (required): cover entity name
-        - delay (optional): Inherited from ReleaseHoldController
+        - open_position (optional): The open position. Default is 100
+        - close_position (optional): The close position. Default is 0
     """
 
     async def initialize(self) -> None:
         self.cover = self.args["cover"]
+        self.open_position = self.args.get("open_position", 100)
+        self.close_position = self.args.get("close_position", 0)
+        if self.open_position < self.close_position:
+            raise ValueError("`open_position` must be higher than `close_position`")
         await self.check_domain(self.cover)
+
+        bitfield = await self.get_entity_state(
+            self.cover, attribute="supported_features"
+        )
+        self.supported_features = CoverSupport(bitfield)
+
         await super().initialize()
 
     def get_domain(self) -> str:
@@ -34,11 +46,37 @@ class CoverController(TypeController):
 
     @action
     async def open(self) -> None:
-        await self.call_service("cover/open_cover", entity_id=self.cover)
+        if self.supported_features.is_supported(CoverSupport.SET_COVER_POSITION):
+            await self.call_service(
+                "cover/set_cover_position",
+                entity_id=self.cover,
+                position=self.open_position,
+            )
+        elif self.supported_features.is_supported(CoverSupport.OPEN):
+            await self.call_service("cover/open_cover", entity_id=self.cover)
+        else:
+            self.log(
+                f"⚠️ `{self.cover}` does not support SET_COVER_POSITION or OPEN",
+                level="WARNING",
+                ascii_encode=False,
+            )
 
     @action
     async def close(self) -> None:
-        await self.call_service("cover/close_cover", entity_id=self.cover)
+        if self.supported_features.is_supported(CoverSupport.SET_COVER_POSITION):
+            await self.call_service(
+                "cover/set_cover_position",
+                entity_id=self.cover,
+                position=self.close_position,
+            )
+        elif self.supported_features.is_supported(CoverSupport.CLOSE):
+            await self.call_service("cover/close_cover", entity_id=self.cover)
+        else:
+            self.log(
+                f"⚠️ `{self.cover}` does not support SET_COVER_POSITION or CLOSE",
+                level="WARNING",
+                ascii_encode=False,
+            )
 
     @action
     async def stop(self) -> None:
