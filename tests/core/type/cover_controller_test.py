@@ -18,12 +18,32 @@ async def sut(hass_mock, mocker):
     return c
 
 
+@pytest.mark.parametrize(
+    "open_position, close_position, error_expected",
+    [
+        (100, 0, False),
+        (50, 40, False),
+        (50, 50, False),
+        (40, 50, True),
+        (0, 100, True),
+    ],
+)
 @pytest.mark.asyncio
-async def test_initialize(sut, monkeypatch):
-    sut.args = {"cover": "cover.test2"}
+async def test_initialize(
+    sut, monkeypatch, open_position, close_position, error_expected
+):
+    sut.args = {
+        "cover": "cover.test2",
+        "open_position": open_position,
+        "close_position": close_position,
+    }
     monkeypatch.setattr(sut, "get_entity_state", fake_async_function("0"))
-    await sut.initialize()
-    assert sut.cover == "cover.test2"
+    if error_expected:
+        with pytest.raises(ValueError) as e:
+            await sut.initialize()
+    else:
+        await sut.initialize()
+        assert sut.cover == "cover.test2"
 
 
 @pytest.mark.parametrize(
