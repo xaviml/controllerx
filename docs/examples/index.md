@@ -348,4 +348,5 @@ sonos_speaker:
 
 These are examples that are quite extensive and were extracted in separated pages:
 
-- [Using Sonos/Symfonisk media player(s) with ControllerX](sonos)
+- [Sonos/Symfonisk media player(s)](sonos)
+- [Tasmota SwitchMode 11](tasmota-switchmode11)

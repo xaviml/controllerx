@@ -36,7 +36,7 @@ This can easily be achieved by adding only one sensor and one small automation t
 - platform: template
   sensors:
     sonos_master_group_entities:
-        value_template: "{{ special }}" #MASTER speaker
+      value_template: "{{ special }}" #MASTER speaker
 ```
 
 #### HA automation.yaml
@@ -91,3 +91,5 @@ sonos_group:
     arrow_right_hold: next_track
     arrow_left_hold: previous_track
 ```
+
+_This example was provided by [@htvekov](https://github.com/htvekov)_
