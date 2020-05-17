@@ -229,21 +229,42 @@ async def test_change_light_state(
 
 
 @pytest.mark.parametrize(
-    "attributes_input, transition_support, add_transition, attributes_expected",
+    "attributes_input, transition_support, turned_toggle, add_transition, add_transition_turn_toggle, attributes_expected",
     [
-        ({"test": "test"}, True, True, {"test": "test", "transition": 0.3}),
-        ({"test": "test"}, False, True, {"test": "test"}),
+        ({"test": "test"}, True, True, True, True, {"test": "test", "transition": 0.3}),
+        ({"test": "test"}, False, True, True, True, {"test": "test"}),
         (
             {"test": "test", "transition": 0.5},
             True,
             True,
+            True,
+            True,
             {"test": "test", "transition": 0.5},
         ),
-        ({"test": "test", "transition": 0.5}, False, True, {"test": "test"}),
-        ({}, True, True, {"transition": 0.3}),
-        ({}, False, True, {}),
-        ({}, False, True, {}),
-        ({}, False, False, {}),
+        (
+            {"test": "test", "transition": 0.5},
+            False,
+            True,
+            True,
+            True,
+            {"test": "test"},
+        ),
+        ({}, True, True, True, True, {"transition": 0.3}),
+        ({}, True, True, True, False, {}),
+        ({}, True, True, False, True, {}),
+        ({}, True, True, False, False, {}),
+        ({}, True, False, True, True, {"transition": 0.3}),
+        ({}, True, False, True, False, {"transition": 0.3}),
+        ({}, True, False, False, True, {}),
+        ({}, True, False, False, False, {}),
+        ({}, False, True, True, True, {}),
+        ({}, False, True, True, False, {}),
+        ({}, False, True, False, True, {}),
+        ({}, False, True, False, False, {}),
+        ({}, False, False, True, True, {}),
+        ({}, False, False, True, False, {}),
+        ({}, False, False, False, True, {}),
+        ({}, False, False, False, False, {}),
     ],
 )
 @pytest.mark.asyncio
@@ -252,28 +273,42 @@ async def test_call_light_service(
     mocker,
     attributes_input,
     transition_support,
+    turned_toggle,
     add_transition,
+    add_transition_turn_toggle,
     attributes_expected,
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.transition = 300
     sut.add_transition = add_transition
+    sut.add_transition_turn_toggle = add_transition_turn_toggle
     supported_features = {LightSupport.TRANSITION} if transition_support else set()
     sut.supported_features = LightSupport(FeatureSupport.encode(supported_features))
-    await sut.call_light_service("test_service", **attributes_input)
+    await sut.call_light_service(
+        "test_service", turned_toggle=turned_toggle, **attributes_input
+    )
     called_service_patch.assert_called_once_with(
         "test_service", entity_id=sut.light["name"], **attributes_expected
     )
 
 
+@pytest.mark.parametrize(
+    "light_on, light_state, expected_turned_toggle",
+    [(True, any, False), (False, any, True), (None, "on", False), (None, "off", True)],
+)
 @pytest.mark.asyncio
-async def test_on(sut, mocker, monkeypatch):
+async def test_on(
+    sut, mocker, monkeypatch, light_on, light_state, expected_turned_toggle
+):
     monkeypatch.setattr(sut, "call_light_service", fake_async_function())
+    mocker.patch.object(sut, "get_entity_state", fake_async_function(light_state))
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
     attributes = {"test": 0}
 
-    await sut.on(**attributes)
-    call_light_service_patch.assert_called_once_with("light/turn_on", **attributes)
+    await sut.on(light_on=light_on, **attributes)
+    call_light_service_patch.assert_called_once_with(
+        "light/turn_on", turned_toggle=expected_turned_toggle, **attributes
+    )
 
 
 @pytest.mark.asyncio
@@ -283,7 +318,9 @@ async def test_off(sut, mocker, monkeypatch):
     attributes = {"test": 0}
 
     await sut.off(**attributes)
-    call_light_service_patch.assert_called_once_with("light/turn_off", **attributes)
+    call_light_service_patch.assert_called_once_with(
+        "light/turn_off", turned_toggle=True, **attributes
+    )
 
 
 @pytest.mark.asyncio
@@ -293,7 +330,9 @@ async def test_toggle(sut, mocker, monkeypatch):
     attributes = {"test": 0}
 
     await sut.toggle(**attributes)
-    call_light_service_patch.assert_called_once_with("light/toggle", **attributes)
+    call_light_service_patch.assert_called_once_with(
+        "light/toggle", turned_toggle=True, **attributes
+    )
 
 
 @pytest.mark.parametrize(
@@ -318,12 +357,12 @@ async def test_set_value(
     sut.automatic_steppers = {attribute: stepper}
 
     # SUT
-    await sut.set_value(attribute, fraction)
+    await sut.set_value(attribute, fraction, light_on=False)
 
     # Checks
     assert on_patch.call_count == expected_calls
     if expected_calls > 0:
-        on_patch.assert_called_with(**{attribute: expected_value})
+        on_patch.assert_called_with(light_on=False, **{attribute: expected_value})
 
 
 @pytest.mark.asyncio
@@ -336,10 +375,10 @@ async def test_on_full(sut, mocker):
     sut.automatic_steppers = {attribute: stepper}
 
     # SUT
-    await sut.on_full(attribute)
+    await sut.on_full(attribute, light_on=False)
 
     # Checks
-    on_patch.assert_called_once_with(**{attribute: max_})
+    on_patch.assert_called_once_with(light_on=False, **{attribute: max_})
     assert stepper.previous_direction == Stepper.TOGGLE_UP
 
 
@@ -353,10 +392,10 @@ async def test_on_min(sut, mocker):
     sut.automatic_steppers = {attribute: stepper}
 
     # SUT
-    await sut.on_min(attribute)
+    await sut.on_min(attribute, light_on=False)
 
     # Checks
-    on_patch.assert_called_once_with(**{attribute: min_})
+    on_patch.assert_called_once_with(light_on=False, **{attribute: min_})
     assert stepper.previous_direction == Stepper.TOGGLE_DOWN
 
 
@@ -376,6 +415,7 @@ async def test_sync(
     sut.light = {"name": "test_light"}
     sut.transition = 300
     sut.add_transition = True
+    sut.add_transition_turn_toggle = True
     sut.supported_features = LightSupport(
         FeatureSupport.encode({LightSupport.TRANSITION})
     )

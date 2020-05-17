@@ -5,15 +5,15 @@ verify_ssl = true
 
 [dev-packages]
 black = "==19.10b0"
-pytest = "==5.4.1"
+pytest = "==5.4.2"
 pytest-asyncio = "==0.12.0"
 pytest-cov = "==2.8.1"
 pytest-mock = "==3.1.0"
 mock = "==4.0.2"
-pre-commit = "==2.3.0"
-commitizen = "==1.19.3"
+pre-commit = "==2.4.0"
+commitizen = "==1.22.0"
 mypy = "==0.770"
-flake8 = "==3.7.9"
+flake8 = "==3.8.1"
 controllerx = {path = ".",editable = true}
 
 [packages]

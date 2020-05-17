@@ -24,3 +24,24 @@ This does not mean that any other integration will not work, but they might not 
 #### 5. Error: "Value for X attribute could not be retrieved from light Y"
 
 This error is shown when the light has support for the X attribute (e.g. brightness or color_temp) and the attribute is not in the state attribute of the entity. You can check whether the attribute X is shown in the state attributes from the "Developer Tools > States".
+
+#### 6. Light is not turning on to the previous brightness
+
+Zigbee does not support transition natively to lights, so this attribute depends on the integration you have installed for your light. If you encountered this problem is because ControllerX, by default, sends the `transition` attribute to the light(s) through an HA call and the integration for your light does not support transition when turning on or off and it leads to an unexpected behaviour. In fact, if you go to AppDaemon logs, you will be able to see the service call that ControllerX does when pressing the buttons. You can then, replicate those calls on "Developer Tools > Services". These are the issues created related to this problem on the different integrations:
+
+- [Zigbee2MQTT](https://github.com/Koenkk/zigbee-herdsman-converters/issues/1073) (FIXED)
+- [Hue integration](https://github.com/home-assistant/core/issues/32894) (OPEN)
+
+However, while the problem is not in the scope of ControllerX, there is a workaround that will help you fix this problem while losing the transition when turning on/off or toggeling. For this, you could add `add_transition_turn_toggle: false` to your controller configuration. This is an example:
+
+```yaml
+problem_fixed:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.bedroom
+  add_transition_turn_toggle: false
+```
+
+This will keep using transition when changing brightness or color, but not when turning on/off the light.
