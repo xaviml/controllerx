@@ -65,7 +65,24 @@ bundle exec jekyll serve
 ## Pull request
 
 Feel free to open a PR on GitHub. When submitting the PR several points will be checked:
+
 - Testing (with pytest)
 - Linting (with flake8)
 - Typing (with mypy)
 - Formatting (with black)
+
+## Deployment
+
+Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. So first, we will need to bump version with `commitizen` by running the following line in the `master` branch:
+
+```
+cz bump --no-verify
+```
+
+Then, we can directly push the tags:
+
+```
+git push origin master --tags
+```
+
+This will automatically generate a GitHub release with the changes for that release.
