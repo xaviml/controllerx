@@ -24,7 +24,7 @@ def test_get_direction(direction_input, previous_direction, expected_direction):
     stepper.previous_direction = previous_direction
 
     # SUT
-    direction_output = stepper.get_direction(direction_input)
+    direction_output = stepper.get_direction(0, direction_input)
 
     # Checks
     assert direction_output == expected_direction

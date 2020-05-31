@@ -12,7 +12,7 @@ class CircularStepper(Stepper):
 
     def step(self, value: float, direction: str) -> Tuple[int, bool]:
         sign = self.sign(direction)
-        max_ = self.minmax.max
-        min_ = self.minmax.min
+        max_ = int(self.minmax.max)
+        min_ = int(self.minmax.min)
         step = (max_ - min_) // self.steps
-        return (value + step * sign) % (max_ - min_) + min_, False
+        return (int(value) + step * sign) % (max_ - min_) + min_, False

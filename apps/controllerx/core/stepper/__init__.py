@@ -1,8 +1,31 @@
 import abc
-from collections import namedtuple
 from typing import Tuple, Union
 
-MinMax = namedtuple("MinMax", "min max")
+
+class MinMax:
+    def __init__(self, _min: float, _max: float) -> None:
+        self._min = _min
+        self._max = _max
+
+    @property
+    def min(self) -> float:
+        return self._min
+
+    @property
+    def max(self) -> float:
+        return self._max
+
+    def is_min(self, value: float) -> bool:
+        return self._min == value
+
+    def is_max(self, value: float) -> bool:
+        return self._max == value
+
+    def is_between(self, value: float) -> bool:
+        return self._min < value < self._max
+
+    def clip(self, value: float) -> float:
+        return max(self._min, min(value, self._max))
 
 
 class Stepper(abc.ABC):
@@ -16,7 +39,7 @@ class Stepper(abc.ABC):
     def __init__(self) -> None:
         self.previous_direction = Stepper.TOGGLE_DOWN
 
-    def get_direction(self, direction: str) -> str:
+    def get_direction(self, value: float, direction: str) -> str:
         if direction == Stepper.TOGGLE:
             direction = (
                 Stepper.TOGGLE_UP

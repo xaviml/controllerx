@@ -85,7 +85,7 @@ class LightController(TypeController, ReleaseHoldController):
         self.max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         color_stepper = CircularStepper(0, len(self.colors) - 1, len(self.colors))
-        self.manual_steppers = {
+        self.manual_steppers: Dict[str, Stepper] = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
                 self.min_brightness, self.max_brightness, manual_steps
             ),
@@ -94,7 +94,7 @@ class LightController(TypeController, ReleaseHoldController):
             ),
             LightController.ATTRIBUTE_XY_COLOR: color_stepper,
         }
-        self.automatic_steppers = {
+        self.automatic_steppers: Dict[str, Stepper] = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
                 self.min_brightness, self.max_brightness, automatic_steps
             ),
@@ -314,14 +314,10 @@ class LightController(TypeController, ReleaseHoldController):
 
     @action
     async def on_full(self, attribute: str, light_on: bool = None) -> None:
-        stepper = self.automatic_steppers[attribute]
-        stepper.previous_direction = Stepper.TOGGLE_UP
         await self.set_value(attribute, 1, light_on=light_on)
 
     @action
     async def on_min(self, attribute: str, light_on: bool = None) -> None:
-        stepper = self.automatic_steppers[attribute]
-        stepper.previous_direction = Stepper.TOGGLE_DOWN
         await self.set_value(attribute, 0, light_on=light_on)
 
     @action
@@ -416,7 +412,9 @@ class LightController(TypeController, ReleaseHoldController):
     async def hold(self, attribute: str, direction: str) -> None:
         attribute = self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
-        direction = self.automatic_steppers[attribute].get_direction(direction)
+        direction = self.automatic_steppers[attribute].get_direction(
+            self.value_attribute, direction
+        )
         await super().hold(attribute, direction)
 
     async def hold_loop(self, attribute: str, direction: str) -> bool:  # type: ignore

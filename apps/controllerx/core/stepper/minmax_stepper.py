@@ -9,6 +9,19 @@ class MinMaxStepper(Stepper):
         self.minmax = MinMax(min_, max_)
         self.steps = steps
 
+    def get_direction(self, value: float, direction: str) -> str:
+        value = self.minmax.clip(value)
+        if self.minmax.is_between(value):
+            return super().get_direction(value, direction)
+
+        if direction == Stepper.TOGGLE:
+            if self.minmax.is_min(value):
+                return Stepper.TOGGLE_UP
+            elif self.minmax.is_max(value):  # Then is the max value
+                return Stepper.TOGGLE_DOWN
+
+        return direction
+
     def step(self, value: float, direction: str) -> Tuple[float, bool]:
         """
         This function updates the value according to the steps
@@ -25,5 +38,5 @@ class MinMaxStepper(Stepper):
         if min_ < new_value < max_:
             return new_value, False
         else:
-            new_value = max(min_, min(new_value, max_))
+            new_value = self.minmax.clip(new_value)
             return new_value, True
