@@ -1,5 +1,7 @@
 from typing import Optional
 
+from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+
 from const import TypeActionsMapping
 from core.integration import Integration
 
@@ -12,8 +14,8 @@ class ZHAIntegration(Integration):
         return self.controller.get_zha_actions_mapping()
 
     def listen_changes(self, controller_id: str) -> None:
-        self.controller.listen_event(
-            self.callback, "zha_event", device_ieee=controller_id
+        Hass.listen_event(
+            self.controller, self.callback, "zha_event", device_ieee=controller_id
         )
 
     async def callback(self, event_name: str, data: dict, kwargs: dict) -> None:

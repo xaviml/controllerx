@@ -364,4 +364,4 @@ async def test_call_service(sut, mocker, service, attributes):
     await sut.call_service(service, **attributes)
 
     # Checker
-    call_service_stub.assert_called_once_with(service, **attributes)
+    call_service_stub.assert_called_once_with(sut, service, **attributes)

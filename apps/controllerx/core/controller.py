@@ -4,7 +4,8 @@ from collections import defaultdict
 from functools import wraps
 from typing import Any, Callable, DefaultDict, Dict, List, Optional, Sequence, Union
 
-import appdaemon.plugins.hass.hassapi as hass  # type: ignore
+from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 
 import version
 from const import ActionFunction, TypeActionsMapping
@@ -15,7 +16,7 @@ DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
 
 
-class Controller(hass.Hass, abc.ABC):
+class Controller(Hass, Mqtt, abc.ABC):
     """
     This is the parent Controller, all controllers must extend from this class.
     """
@@ -127,7 +128,7 @@ class Controller(hass.Hass, abc.ABC):
             self.log(
                 f"  - {attribute}: {value}", level="INFO", ascii_encode=False,
             )
-        return await super().call_service(service, **attributes)
+        return await Hass.call_service(self, service, **attributes)
 
     async def handle_action(self, action_key: str) -> None:
         if action_key in self.actions_mapping:

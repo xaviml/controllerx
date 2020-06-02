@@ -1,5 +1,7 @@
 from typing import Optional
 
+from appdaemon.plugins.hass.hassapi import Hass  # type:ignore
+
 from core.integration import Integration, TypeActionsMapping
 
 
@@ -11,7 +13,9 @@ class DeCONZIntegration(Integration):
         return self.controller.get_deconz_actions_mapping()
 
     def listen_changes(self, controller_id: str) -> None:
-        self.controller.listen_event(self.callback, "deconz_event", id=controller_id)
+        Hass.listen_event(
+            self.controller, self.callback, "deconz_event", id=controller_id
+        )
 
     async def callback(self, event_name: str, data: dict, kwargs: dict) -> None:
         type_ = self.kwargs.get("type", "event")

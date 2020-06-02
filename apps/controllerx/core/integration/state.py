@@ -1,5 +1,7 @@
 from typing import Optional
 
+from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+
 from const import TypeActionsMapping
 from core.integration import Integration
 
@@ -12,7 +14,7 @@ class StateIntegration(Integration):
         return self.controller.get_z2m_actions_mapping()
 
     def listen_changes(self, controller_id: str) -> None:
-        self.controller.listen_state(self.callback, controller_id)
+        Hass.listen_state(self.controller, self.callback, controller_id)
 
     async def callback(
         self, entity: Optional[str], attribute: Optional[str], old, new, kwargs
