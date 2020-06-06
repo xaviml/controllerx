@@ -5,23 +5,70 @@ from core.stepper import Stepper
 
 
 @pytest.mark.parametrize(
-    "minmax, value, direction, previous_direction, expected_direction",
+    "minmax, value, direction, previous_direction, expected_direction, expected_new_previous_direction",
     [
-        ((0, 10), 10, Stepper.DOWN, None, Stepper.DOWN),
-        ((0, 10), 11, Stepper.DOWN, None, Stepper.DOWN),
-        ((0, 10), -1, Stepper.DOWN, None, Stepper.DOWN),
-        ((0, 10), 5, Stepper.UP, None, Stepper.UP),
-        ((0, 10), 5, Stepper.UP, None, Stepper.UP),
-        ((0, 10), 5, Stepper.TOGGLE, Stepper.TOGGLE_DOWN, Stepper.TOGGLE_UP),
-        ((0, 10), 5, Stepper.TOGGLE, Stepper.TOGGLE_UP, Stepper.TOGGLE_DOWN),
-        ((0, 10), 10, Stepper.TOGGLE, Stepper.TOGGLE_UP, Stepper.TOGGLE_DOWN),
-        ((0, 10), 10, Stepper.TOGGLE, Stepper.TOGGLE_DOWN, Stepper.TOGGLE_DOWN),
-        ((0, 10), 0, Stepper.TOGGLE, Stepper.TOGGLE_DOWN, Stepper.TOGGLE_UP),
-        ((0, 10), 0, Stepper.TOGGLE, Stepper.TOGGLE_UP, Stepper.TOGGLE_UP),
+        ((0, 10), 10, Stepper.DOWN, None, Stepper.DOWN, None),
+        ((0, 10), 11, Stepper.DOWN, None, Stepper.DOWN, None),
+        ((0, 10), -1, Stepper.DOWN, None, Stepper.DOWN, None),
+        ((0, 10), 5, Stepper.UP, None, Stepper.UP, None),
+        ((0, 10), 5, Stepper.UP, None, Stepper.UP, None),
+        (
+            (0, 10),
+            5,
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_DOWN,
+            Stepper.TOGGLE_UP,
+            Stepper.TOGGLE_UP,
+        ),
+        (
+            (0, 10),
+            5,
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_UP,
+            Stepper.TOGGLE_DOWN,
+            Stepper.TOGGLE_DOWN,
+        ),
+        (
+            (0, 10),
+            10,
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_UP,
+            Stepper.TOGGLE_DOWN,
+            Stepper.TOGGLE_DOWN,
+        ),
+        (
+            (0, 10),
+            10,
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_DOWN,
+            Stepper.TOGGLE_DOWN,
+            Stepper.TOGGLE_DOWN,
+        ),
+        (
+            (0, 10),
+            0,
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_DOWN,
+            Stepper.TOGGLE_UP,
+            Stepper.TOGGLE_UP,
+        ),
+        (
+            (0, 10),
+            0,
+            Stepper.TOGGLE,
+            Stepper.TOGGLE_UP,
+            Stepper.TOGGLE_UP,
+            Stepper.TOGGLE_UP,
+        ),
     ],
 )
 def test_minmax_stepper_get_direction(
-    minmax, value, direction, previous_direction, expected_direction
+    minmax,
+    value,
+    direction,
+    previous_direction,
+    expected_direction,
+    expected_new_previous_direction,
 ):
     stepper = MinMaxStepper(*minmax, 10)
     stepper.previous_direction = previous_direction
@@ -31,6 +78,7 @@ def test_minmax_stepper_get_direction(
 
     # Checks
     assert new_direction == expected_direction
+    assert stepper.previous_direction == expected_new_previous_direction
 
 
 @pytest.mark.parametrize(

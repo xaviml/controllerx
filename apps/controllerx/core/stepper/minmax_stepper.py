@@ -11,16 +11,13 @@ class MinMaxStepper(Stepper):
 
     def get_direction(self, value: float, direction: str) -> str:
         value = self.minmax.clip(value)
-        if self.minmax.is_between(value):
-            return super().get_direction(value, direction)
-
-        if direction == Stepper.TOGGLE:
-            if self.minmax.is_min(value):
-                return Stepper.TOGGLE_UP
-            elif self.minmax.is_max(value):  # Then is the max value
-                return Stepper.TOGGLE_DOWN
-
-        return direction
+        if direction == Stepper.TOGGLE and self.minmax.is_min(value):
+            self.previous_direction = Stepper.TOGGLE_UP
+            return self.previous_direction
+        if direction == Stepper.TOGGLE and self.minmax.is_max(value):
+            self.previous_direction = Stepper.TOGGLE_DOWN
+            return self.previous_direction
+        return super().get_direction(value, direction)
 
     def step(self, value: float, direction: str) -> Tuple[float, bool]:
         """
