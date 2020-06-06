@@ -25,8 +25,8 @@ class Z2MIntegration(Integration):
             Mqtt.listen_event(
                 self.controller,
                 self.event_callback,
-                "MQTT_MESSAGE",
-                topic=controller_id,
+                topic=f"zigbee2mqtt/{controller_id}/action",
+                namespace="mqtt",
             )
         else:
             self.controller.log(
@@ -36,7 +36,7 @@ class Z2MIntegration(Integration):
             )
 
     async def event_callback(self, event_name: str, data: dict, kwargs: dict) -> None:
-        pass
+        await self.controller.handle_action(data["payload"])
 
     async def state_callback(
         self, entity: Optional[str], attribute: Optional[str], old, new, kwargs

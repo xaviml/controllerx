@@ -5,7 +5,11 @@ layout: page
 
 ### Zigbee2MQTT
 
-The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action` or `_click`. The parameter you need is the entity id of the sensor.
+Depending on the `state` parameter of this [integration](/controllerx/others/integrations), extracting the controller will be different.
+
+If `state` is `ha` (the default option), the name will be the sensor entity. The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action` or `_click`. The parameter you need is the entity id of the sensor.
+
+Otherwise, if `state` is `mqtt`, then you will need to place in the `controller` attribute the z2m friendly name of the device. It is important to add the friendly name and not the ID. ControllerX will listen for the following topic: `zigbee2mqtt/<controller>/action`.
 
 ### deCONZ
 
