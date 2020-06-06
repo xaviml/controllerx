@@ -5,7 +5,11 @@ layout: page
 
 ### TASMOTA SWITCHMODE 11/12 WALL SWITCH IMPLEMENTATION WITH HOME ASSISTANT / CONTROLLERX
 
-Want to make your 'dumb' wall switches smart and at the same time improve installation of smart lights WAF 👩‍🦰 ?  Then the solution could be to 'Tasmotize' your wall switches, and use Home Asssistant with ControllerX app to control the smart light connected to that switch. With this setup, you'll be able to toggle and dim your lights directly from your wall switch. Today, many WIFI switches are so small, that they can fit behind wall outlets/switches or in ceiling outlets. Personally, I've used [Shelly One devices](https://shop.shelly.cloud/shelly-1-wifi-smart-home-automation#50) and [Itead Sonoff Mini's](https://www.itead.cc/sonoff-mini.html). Both are easy to flash with Tasmota using either USB-to-UART adapter or directly OTA. No soldering is actually needed these days. The flash part and build instructions are to comprehensive to elaborate on further in this documentation. Instructions are 'out there' - Google it! 😉
+Want to make your 'dumb' wall switches smart and at the same time improve installation of smart lights WAF 👩‍🦰 ? Then the solution could be to 'Tasmotize' your wall switches, and use Home Asssistant with ControllerX app to control the smart light connected to that switch. With this setup, you'll be able to toggle and dim your lights directly from your wall switch. Today, many WIFI switches are so small, that they can fit behind wall outlets/switches or in ceiling outlets. Personally, I've used [Shelly One devices](https://shop.shelly.cloud/shelly-1-wifi-smart-home-automation#50) and [Itead Sonoff Mini's](https://www.itead.cc/sonoff-mini.html). Both are easy to flash with Tasmota using either USB-to-UART adapter or directly OTA. No soldering is actually needed these days. The flash part and build instructions are to comprehensive to elaborate on further in this documentation. Instructions are 'out there' - Google it! 😉
+
+One of my Sonoff Mini installations behind a wall switch. Danish wall switch modules are typically not larger than appx. 50x50mm pr. module (outside measurements). I’ve LK Opus 66 installed, which is a slightly larger type measuring 66mm in width. Still I can squeeze a Sonoff Mini in behind a ‘typical’ double module wall switch. Shelly devices are a bit smaller, round in shape and in general easier to fit than the Sonoff Mini’s.
+
+![switchmode11-12.jpeg](/controllerx/assets/img/switchmode11-12.jpeg)
 
 One final warning: Using Shelly/Sonoff devices behind wall switches/outlets involves fiddling with HIGH VOLTAGE that could potentially INJURE OR KILL YOU, if not handled/installed correctly !! Furthermore, local building code might prohibit use of such devices in wall outlets and unauthorized installation will most likely be illegal in most countries. If you don't know EXACTLY what you're doing - then DON'T proceed with this project !! Now you've been warned !!
 
@@ -14,6 +18,7 @@ Following example is with a Shelly One device, placed in the wall socket behind 
 The Switchmode11/12 option in Tasmota gives the user five different switch commands to be used for automation. With ControllerX only three commands are needed, as ControllerX internally controls changes in dimming direction. These commands are via MQTT send to a HA sensor, which is used directly in ControllerX as a 'virtual' switch.
 
 #### Switchmode11/12 Tasmota output commands are:
+
 ```
 Switchstate=2: toggle (Normal TOGGLE function. One single press)
 Switchstate=4: inc-dec (HOLD function. Send after delay defined with Setoption32)
@@ -22,18 +27,17 @@ Switchstate=6: clear (Delayed RELEASE function. Send when button is released AFT
 Switchstate=7: clear (Normal RELEASE function. Send immediately after button is released
 ```
 
-
 #### Requirements:
+
 Tasmota: v8.3.1.2 or newer
 
-ControllerX: v2.7.2 or newer 
+ControllerX: v2.7.2 or newer
 
+#### Shelly device Tasmota setup:
 
-#### Shelly device Tasmota setup: 
 Module type: Shelly 1 (46)
 
 #### Use switchmode 11 !!
-
 
 #### Sonoff Mini device Tasmota setup:
 
@@ -43,7 +47,6 @@ GPIO4: Switch1 (9)
 
 #### Use switchmode 12 !!
 
-
 #### Setup MQTT sensor in HA's configuration.yaml:
 
 ```yaml
@@ -52,7 +55,6 @@ sensor:
       name: "tasmota"
       state_topic: "tasmota_topic"
 ```
-
 
 #### Setup ControllerX app:
 
