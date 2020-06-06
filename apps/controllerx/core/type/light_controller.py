@@ -350,7 +350,13 @@ class LightController(TypeController, ReleaseHoldController):
         else:
             return attribute
 
-    async def get_value_attribute(self, attribute: str) -> Union[float, int]:
+    async def get_value_attribute(
+        self, attribute: str, direction: str
+    ) -> Union[float, int]:
+        if self.check_smooth_power_on(
+            attribute, direction, await self.get_entity_state(self.light["name"])
+        ):
+            return 0
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
             return 0
         elif (
@@ -399,7 +405,7 @@ class LightController(TypeController, ReleaseHoldController):
     @action
     async def click(self, attribute: str, direction: str) -> None:
         attribute = self.get_attribute(attribute)
-        self.value_attribute = await self.get_value_attribute(attribute)
+        self.value_attribute = await self.get_value_attribute(attribute, direction)
         await self.change_light_state(
             self.value_attribute,
             attribute,
@@ -411,7 +417,7 @@ class LightController(TypeController, ReleaseHoldController):
     @action
     async def hold(self, attribute: str, direction: str) -> None:
         attribute = self.get_attribute(attribute)
-        self.value_attribute = await self.get_value_attribute(attribute)
+        self.value_attribute = await self.get_value_attribute(attribute, direction)
         direction = self.automatic_steppers[attribute].get_direction(
             self.value_attribute, direction
         )

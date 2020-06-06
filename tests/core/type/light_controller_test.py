@@ -123,25 +123,36 @@ def test_get_attribute(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, expected_output, error_expected",
+    "attribute_input, direction_input, light_state, expected_output, error_expected",
     [
-        ("xy_color", 0, False),
-        ("brightness", 3.0, False),
-        ("brightness", "3.0", False),
-        ("brightness", "3", False),
-        ("brightness", "error", True),
-        ("color_temp", 1, False),
-        ("xy_color", 0, False),
-        ("brightness", None, True),
-        ("color_temp", None, True),
-        ("not_a_valid_attribute", None, True),
+        ("xy_color", None, None, 0, False),
+        ("brightness", None, None, 3.0, False),
+        ("brightness", None, None, "3.0", False),
+        ("brightness", None, None, "3", False),
+        ("brightness", None, None, "error", True),
+        ("color_temp", None, None, 1, False),
+        ("xy_color", None, None, 0, False),
+        ("brightness", None, None, None, True),
+        ("color_temp", None, None, None, True),
+        ("not_a_valid_attribute", None, None, None, True),
+        ("brightness", Stepper.UP, "off", 0, False),
     ],
 )
 @pytest.mark.asyncio
 async def test_get_value_attribute(
-    sut, monkeypatch, attribute_input, expected_output, error_expected
+    sut,
+    monkeypatch,
+    attribute_input,
+    direction_input,
+    light_state,
+    expected_output,
+    error_expected,
 ):
-    async def fake_get_entity_state(entity, attribute):
+    sut.smooth_power_on = True
+
+    async def fake_get_entity_state(entity, attribute=None):
+        if entity == "light" and attribute is None:
+            return light_state
         return expected_output
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
@@ -149,9 +160,9 @@ async def test_get_value_attribute(
     # SUT
     if error_expected:
         with pytest.raises(ValueError) as e:
-            await sut.get_value_attribute(attribute_input)
+            await sut.get_value_attribute(attribute_input, direction_input)
     else:
-        output = await sut.get_value_attribute(attribute_input)
+        output = await sut.get_value_attribute(attribute_input, direction_input)
 
         # Checks
         assert output == float(expected_output)
