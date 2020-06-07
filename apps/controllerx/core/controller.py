@@ -257,6 +257,8 @@ class TypeController(Controller, abc.ABC):
 
 
 class ReleaseHoldController(Controller, abc.ABC):
+    MAX_LOOPS = 20
+
     async def initialize(self):
         self.on_hold = False
         self.delay = self.args.get("delay", self.default_delay())
@@ -268,11 +270,16 @@ class ReleaseHoldController(Controller, abc.ABC):
 
     @action
     async def hold(self, *args) -> None:
+        loops = 0
         self.on_hold = True
         stop = False
         while self.on_hold and not stop:
             stop = await self.hold_loop(*args)
+            # Stop the iteration if we either stop from the hold_loop
+            # or we reached the max loop number
+            stop = stop or loops >= ReleaseHoldController.MAX_LOOPS
             await self.sleep(self.delay / 1000)
+            loops += 1
 
     async def before_action(self, action: str, *args, **kwargs) -> bool:
         to_return = not (action == "hold" and self.on_hold)
