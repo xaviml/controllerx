@@ -9,6 +9,15 @@ device_support:
       - "Click \"O\" 🠖 Turn off"
       - "Hold \"I\" 🠖 Brighten up"
       - "Hold \"O\" 🠖 Brighten down"
+  - type: Media Player
+    domain: media_player
+    controller: E1743MediaPlayerController
+    delay: 500
+    mapping:
+      - "Click \"I\" 🠖 Play/Pause"
+      - "Click \"O\" 🠖 Next track"
+      - "Hold \"I\" 🠖 Volume up"
+      - "Hold \"O\" 🠖 Volume down"
   - type: Switch
     domain: switch
     controller: E1743SwitchController

@@ -156,6 +156,39 @@ class E1743Controller(LightController):
         }
 
 
+class E1743MediaPlayerController(MediaPlayerController):
+    # Different states reported from the controller:
+    # on, off, brightness_up, brightness_down, brightness_stop
+
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "on": MediaPlayer.PLAY_PAUSE,
+            "off": MediaPlayer.NEXT_TRACK,
+            "brightness_up": MediaPlayer.HOLD_VOLUME_UP,
+            "brightness_down": MediaPlayer.HOLD_VOLUME_DOWN,
+            "brightness_stop": MediaPlayer.RELEASE,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: MediaPlayer.PLAY_PAUSE,
+            2002: MediaPlayer.NEXT_TRACK,
+            1001: MediaPlayer.HOLD_VOLUME_UP,
+            2001: MediaPlayer.HOLD_VOLUME_DOWN,
+            1003: MediaPlayer.RELEASE,
+            2003: MediaPlayer.RELEASE,
+        }
+
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "on": MediaPlayer.PLAY_PAUSE,
+            "off": MediaPlayer.NEXT_TRACK,
+            "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
+            "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
+            "stop": MediaPlayer.RELEASE,
+        }
+
+
 class E1743SwitchController(SwitchController):
     # Different states reported from the controller:
     # on, off
