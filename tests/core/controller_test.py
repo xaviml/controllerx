@@ -157,9 +157,12 @@ async def test_initialize(
 @pytest.mark.parametrize(
     "test_input,expected",
     [
-        ("sensor1, sensor2", ["sensor1", "sensor2"]),
-        ("sensor1,sensor2", ["sensor1", "sensor2"]),
+        ("sensor1 ", ["sensor1 "]),
+        ("sensor1, sensor2", ["sensor1, sensor2"]),
+        ("sensor1,sensor2", ["sensor1,sensor2"]),
+        ("sensor number 1, sensor number 2", ["sensor number 1, sensor number 2"]),
         (["sensor1", "sensor2"], ["sensor1", "sensor2"]),
+        (["sensor 1", "sensor 2"], ["sensor 1", "sensor 2"]),
         (0.0, []),
     ],
 )

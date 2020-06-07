@@ -110,7 +110,7 @@ class Controller(Hass, Mqtt, abc.ABC):
 
     def get_list(self, entities: Union[Sequence[str], str]) -> List[str]:
         if isinstance(entities, str):
-            return entities.replace(" ", "").split(",")
+            return [entities]
         elif isinstance(entities, list):
             return entities
         else:
