@@ -3,18 +3,20 @@ title: How to extract the controller parameter
 layout: page
 ---
 
-### Zigbee2MQTT
+The purpose of this page is to indicate what value the `controller` attribute should have depending on the integration used. Click [here](integrations) to know more about the integrations.
 
-Depending on the `state` parameter of this [integration](/controllerx/others/integrations), extracting the controller will be different.
+#### Zigbee2MQTT
 
-If `state` is `ha` (the default option), the name will be the sensor entity. The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action` or `_click`. The parameter you need is the entity id of the sensor.
+The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action` or `_click`. The parameter you need is the entity id of the sensor.
 
-Otherwise, if `state` is `mqtt`, then you will need to place in the `controller` attribute the z2m friendly name of the device. It is important to add the friendly name and not the ID. ControllerX will listen for the following topic: `zigbee2mqtt/<controller>/action`.
-
-### deCONZ
+#### deCONZ
 
 In case of deCONZ, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `deconz_event` and start listening. Then press any button and you will see event of the button, you will need to copy the `id` inside the `data` object.
 
-### ZHA
+#### ZHA
 
 In case of ZHA, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `zha_event` and start listening. Then press any button and you will see event of the button, you will need to copy the `device_ieee` inside the `data` object. It is a number like the following 00:67:88:56:06:78:9b:3f.
+
+#### MQTT
+
+In case of using MQTT integration, the `controller` attribute must have the MQTT topic to listen from. It is important that the topic payload contains directly the action name and not a JSON. This means that in case of using the MQTT integration in fvour of z2m, then the topic to listen to must be `zigbee2mqtt/<friendly name>/action` or `zigbee2mqtt/<friendly name>/click`.

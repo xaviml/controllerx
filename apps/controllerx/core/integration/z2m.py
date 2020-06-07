@@ -1,13 +1,9 @@
 from typing import Optional
 
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
-from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 
 from const import TypeActionsMapping
 from core.integration import Integration
-
-STATE_HA = "ha"
-STATE_MQTT = "mqtt"
 
 
 class Z2MIntegration(Integration):
@@ -18,25 +14,7 @@ class Z2MIntegration(Integration):
         return self.controller.get_z2m_actions_mapping()
 
     def listen_changes(self, controller_id: str) -> None:
-        state = self.kwargs.get("state", "ha")
-        if state == STATE_HA:
-            Hass.listen_state(self.controller, self.state_callback, controller_id)
-        elif state == STATE_MQTT:
-            Mqtt.listen_event(
-                self.controller,
-                self.event_callback,
-                topic=f"zigbee2mqtt/{controller_id}/action",
-                namespace="mqtt",
-            )
-        else:
-            self.controller.log(
-                f"Option `{state}` does not exists for `state` attribute. "
-                'Options are: ["ha", "mqtt"]',
-                level="WARNING",
-            )
-
-    async def event_callback(self, event_name: str, data: dict, kwargs: dict) -> None:
-        await self.controller.handle_action(data["payload"])
+        Hass.listen_state(self.controller, self.state_callback, controller_id)
 
     async def state_callback(
         self, entity: Optional[str], attribute: Optional[str], old, new, kwargs
