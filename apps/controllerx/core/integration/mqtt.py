@@ -22,4 +22,6 @@ class MQTTIntegration(Integration):
         )
 
     async def event_callback(self, event_name: str, data: dict, kwargs: dict) -> None:
-        await self.controller.handle_action(data["payload"])
+        self.controller.log(f"MQTT data event: {data}", level="DEBUG")
+        if "payload" in data:
+            await self.controller.handle_action(data["payload"])
