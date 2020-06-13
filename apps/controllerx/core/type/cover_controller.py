@@ -25,10 +25,7 @@ class CoverController(TypeController):
             raise ValueError("`open_position` must be higher than `close_position`")
         await self.check_domain(self.cover)
 
-        bitfield = await self.get_entity_state(
-            self.cover, attribute="supported_features"
-        )
-        self.supported_features = CoverSupport(bitfield)
+        self.supported_features = CoverSupport(self.cover, self)
 
         await super().initialize()
 
@@ -46,13 +43,13 @@ class CoverController(TypeController):
 
     @action
     async def open(self) -> None:
-        if self.supported_features.is_supported(CoverSupport.SET_COVER_POSITION):
+        if await self.supported_features.is_supported(CoverSupport.SET_COVER_POSITION):
             await self.call_service(
                 "cover/set_cover_position",
                 entity_id=self.cover,
                 position=self.open_position,
             )
-        elif self.supported_features.is_supported(CoverSupport.OPEN):
+        elif await self.supported_features.is_supported(CoverSupport.OPEN):
             await self.call_service("cover/open_cover", entity_id=self.cover)
         else:
             self.log(
@@ -63,13 +60,13 @@ class CoverController(TypeController):
 
     @action
     async def close(self) -> None:
-        if self.supported_features.is_supported(CoverSupport.SET_COVER_POSITION):
+        if await self.supported_features.is_supported(CoverSupport.SET_COVER_POSITION):
             await self.call_service(
                 "cover/set_cover_position",
                 entity_id=self.cover,
                 position=self.close_position,
             )
-        elif self.supported_features.is_supported(CoverSupport.CLOSE):
+        elif await self.supported_features.is_supported(CoverSupport.CLOSE):
             await self.call_service("cover/close_cover", entity_id=self.cover)
         else:
             self.log(

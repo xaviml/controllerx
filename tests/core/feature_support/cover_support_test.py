@@ -1,13 +1,14 @@
 from core.feature_support.cover import CoverSupport
 import pytest
+from core.feature_support import FeatureSupport
 
 
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
-        ("1", {CoverSupport.OPEN,},),
+        (1, {CoverSupport.OPEN,},),
         (
-            "15",
+            15,
             {
                 CoverSupport.OPEN,
                 CoverSupport.CLOSE,
@@ -16,7 +17,7 @@ import pytest
             },
         ),
         (
-            "149",
+            149,
             {
                 CoverSupport.SET_TILT_POSITION,
                 CoverSupport.OPEN_TILT,
@@ -25,9 +26,11 @@ import pytest
             },
         ),
         (0, set()),
-        ("0", set()),
     ],
 )
 def test_init(number, expected_supported_features):
-    cover_support = CoverSupport(number)
-    assert cover_support.supported_features == expected_supported_features
+    cover_support = CoverSupport(None, None)
+    cover_support._supported_features = FeatureSupport.decode(
+        number, cover_support.features
+    )
+    assert cover_support._supported_features == expected_supported_features

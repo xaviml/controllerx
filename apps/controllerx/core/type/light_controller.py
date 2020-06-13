@@ -111,11 +111,7 @@ class LightController(TypeController, ReleaseHoldController):
             "add_transition_turn_toggle", True
         )
 
-        bitfield = await self.get_entity_state(
-            self.light["name"], attribute="supported_features"
-        )
-
-        self.supported_features = LightSupport(bitfield)
+        self.supported_features = LightSupport(self.light["name"], self)
         await super().initialize()
 
     def get_domain(self) -> str:
@@ -274,7 +270,7 @@ class LightController(TypeController, ReleaseHoldController):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         if (
-            self.supported_features.not_supported(LightSupport.TRANSITION)
+            await self.supported_features.not_supported(LightSupport.TRANSITION)
             or not self.add_transition
             or (turned_toggle and not self.add_transition_turn_toggle)
         ):
@@ -324,7 +320,7 @@ class LightController(TypeController, ReleaseHoldController):
     async def sync(self) -> None:
         attributes: Dict[Any, Any] = {}
         try:
-            color_attribute = self.get_attribute(LightController.ATTRIBUTE_COLOR)
+            color_attribute = await self.get_attribute(LightController.ATTRIBUTE_COLOR)
             if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
                 attributes[color_attribute] = 370  # 2700K light
             else:
@@ -334,12 +330,14 @@ class LightController(TypeController, ReleaseHoldController):
             self.log("⚠️ `sync` action will only change brightness", level="WARNING")
         await self.on(**attributes, brightness=self.max_brightness)
 
-    def get_attribute(self, attribute: str) -> str:
+    async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
             if self.light["color_mode"] == "auto":
-                if self.supported_features.is_supported(LightSupport.COLOR):
+                if await self.supported_features.is_supported(LightSupport.COLOR):
                     return LightController.ATTRIBUTE_XY_COLOR
-                elif self.supported_features.is_supported(LightSupport.COLOR_TEMP):
+                elif await self.supported_features.is_supported(
+                    LightSupport.COLOR_TEMP
+                ):
                     return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(
@@ -404,7 +402,7 @@ class LightController(TypeController, ReleaseHoldController):
 
     @action
     async def click(self, attribute: str, direction: str) -> None:
-        attribute = self.get_attribute(attribute)
+        attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute, direction)
         await self.change_light_state(
             self.value_attribute,
@@ -416,7 +414,7 @@ class LightController(TypeController, ReleaseHoldController):
 
     @action
     async def hold(self, attribute: str, direction: str) -> None:
-        attribute = self.get_attribute(attribute)
+        attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute, direction)
         direction = self.automatic_steppers[attribute].get_direction(
             self.value_attribute, direction

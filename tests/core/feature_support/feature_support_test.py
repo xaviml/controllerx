@@ -32,20 +32,6 @@ def test_encode(supported_features, expected_number):
 
 
 @pytest.mark.parametrize(
-    "number, features, expected_features",
-    [
-        ("15", [1, 2, 4, 8, 16, 32, 64], {1, 2, 4, 8}),
-        (16, [1, 2, 4, 8, 16, 32, 64], {16}),
-        ("31", [1, 2, 4, 8, 16, 64], {1, 2, 4, 8, 16}),
-        (70, [1, 2, 4, 8, 16, 64], {2, 4, 64}),
-    ],
-)
-def test_init(number, features, expected_features):
-    feature_support = FeatureSupport(number, features)
-    assert feature_support.supported_features == expected_features
-
-
-@pytest.mark.parametrize(
     "number, features, feature, is_supported",
     [
         (15, [1, 2, 4, 8, 16, 32, 64], 16, False),
@@ -55,9 +41,11 @@ def test_init(number, features, expected_features):
         (9, [1, 2, 4, 8, 16, 64], 8, True),
     ],
 )
-def test_is_supported(number, features, feature, is_supported):
-    feature_support = FeatureSupport(number, features)
-    is_supported = feature_support.is_supported(feature)
+@pytest.mark.asyncio
+async def test_is_supported(number, features, feature, is_supported):
+    feature_support = FeatureSupport(None, None, features)
+    feature_support._supported_features = FeatureSupport.decode(number, features)
+    is_supported = await feature_support.is_supported(feature)
     assert is_supported == is_supported
 
 
@@ -71,7 +59,9 @@ def test_is_supported(number, features, feature, is_supported):
         (9, [1, 2, 4, 8, 16, 64], 8, False),
     ],
 )
-def test_not_supported(number, features, feature, is_supported):
-    feature_support = FeatureSupport(number, features)
-    is_supported = feature_support.is_supported(feature)
+@pytest.mark.asyncio
+async def test_not_supported(number, features, feature, is_supported):
+    feature_support = FeatureSupport(None, None, features)
+    feature_support._supported_features = FeatureSupport.decode(number, features)
+    is_supported = await feature_support.not_supported(feature)
     assert is_supported == is_supported

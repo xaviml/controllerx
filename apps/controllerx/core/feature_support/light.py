@@ -1,4 +1,6 @@
-from core.feature_support import FeatureSupport, SupportedFeatureNumber
+from typing import Optional
+from core.controller import Controller
+from core.feature_support import FeatureSupport
 
 
 class LightSupport(FeatureSupport):
@@ -10,9 +12,10 @@ class LightSupport(FeatureSupport):
     TRANSITION = 32
     WHITE_VALUE = 128
 
-    def __init__(self, number: SupportedFeatureNumber) -> None:
+    def __init__(self, entity: Optional[str], controller: Optional[Controller]) -> None:
         super().__init__(
-            number,
+            entity,
+            controller,
             [
                 LightSupport.BRIGHTNESS,
                 LightSupport.COLOR_TEMP,

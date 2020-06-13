@@ -61,7 +61,8 @@ async def test_initialize(
 )
 @pytest.mark.asyncio
 async def test_open(sut, mocker, supported_features, expected_service):
-    sut.supported_features = CoverSupport(FeatureSupport.encode(supported_features))
+    sut.supported_features = CoverSupport(sut.cover, sut)
+    sut.supported_features._supported_features = list(supported_features)
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.open()
     if expected_service is not None:
@@ -93,7 +94,8 @@ async def test_open(sut, mocker, supported_features, expected_service):
 )
 @pytest.mark.asyncio
 async def test_close(sut, mocker, supported_features, expected_service):
-    sut.supported_features = CoverSupport(FeatureSupport.encode(supported_features))
+    sut.supported_features = CoverSupport(sut.cover, sut)
+    sut.supported_features._supported_features = list(supported_features)
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.close()
     if expected_service is not None:

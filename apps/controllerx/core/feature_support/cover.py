@@ -1,4 +1,6 @@
-from core.feature_support import FeatureSupport, SupportedFeatureNumber
+from typing import Optional
+from core.controller import Controller
+from core.feature_support import FeatureSupport
 
 SUPPORT_OPEN = 1
 SUPPORT_CLOSE = 2
@@ -21,9 +23,10 @@ class CoverSupport(FeatureSupport):
     STOP_TILT = 64
     SET_TILT_POSITION = 128
 
-    def __init__(self, number: SupportedFeatureNumber) -> None:
+    def __init__(self, entity: Optional[str], controller: Optional[Controller]) -> None:
         super().__init__(
-            number,
+            entity,
+            controller,
             [
                 CoverSupport.OPEN,
                 CoverSupport.CLOSE,

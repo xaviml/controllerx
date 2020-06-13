@@ -1,4 +1,6 @@
-from core.feature_support import FeatureSupport, SupportedFeatureNumber
+from typing import Optional
+from core.controller import Controller
+from core.feature_support import FeatureSupport
 
 
 class MediaPlayerSupport(FeatureSupport):
@@ -19,9 +21,10 @@ class MediaPlayerSupport(FeatureSupport):
     SHUFFLE_SET = 32768
     SELECT_SOUND_MODE = 65536
 
-    def __init__(self, number: SupportedFeatureNumber) -> None:
+    def __init__(self, entity: Optional[str], controller: Optional[Controller]) -> None:
         super().__init__(
-            number,
+            entity,
+            controller,
             [
                 MediaPlayerSupport.PAUSE,
                 MediaPlayerSupport.SEEK,

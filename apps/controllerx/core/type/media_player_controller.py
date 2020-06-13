@@ -16,10 +16,7 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0.0
 
-        bitfield = await self.get_entity_state(
-            self.media_player, attribute="supported_features"
-        )
-        self.supported_features = MediaPlayerSupport(bitfield)
+        self.supported_features = MediaPlayerSupport(self.media_player, self)
         await super().initialize()
 
     def get_domain(self) -> str:
@@ -105,8 +102,7 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
             self.volume_level = volume_level
 
     async def volume_change(self, direction: str) -> bool:
-
-        if self.supported_features.is_supported(MediaPlayerSupport.VOLUME_SET):
+        if await self.supported_features.is_supported(MediaPlayerSupport.VOLUME_SET):
             self.volume_level, exceeded = self.volume_stepper.step(
                 self.volume_level, direction
             )

@@ -99,7 +99,8 @@ async def test_initialize_and_get_light(
         ("color", "auto", set(), "not_important", True),
     ],
 )
-def test_get_attribute(
+@pytest.mark.asyncio
+async def test_get_attribute(
     sut,
     monkeypatch,
     attribute_input,
@@ -108,15 +109,16 @@ def test_get_attribute(
     attribute_expected,
     throws_error,
 ):
-    sut.supported_features = LightSupport(FeatureSupport.encode(supported_features))
+    sut.supported_features = LightSupport(None, None)
+    sut.supported_features._supported_features = supported_features
     sut.light = {"name": "light", "color_mode": color_mode}
 
     # SUT
     if throws_error:
         with pytest.raises(ValueError) as e:
-            sut.get_attribute(attribute_input)
+            await sut.get_attribute(attribute_input)
     else:
-        output = sut.get_attribute(attribute_input)
+        output = await sut.get_attribute(attribute_input)
 
         # Checks
         assert output == attribute_expected
@@ -227,7 +229,8 @@ async def test_change_light_state(
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.transition = 300
-    sut.supported_features = LightSupport(0)
+    sut.supported_features = LightSupport(None, None)
+    sut.supported_features._supported_features = set()
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
@@ -294,7 +297,8 @@ async def test_call_light_service(
     sut.add_transition = add_transition
     sut.add_transition_turn_toggle = add_transition_turn_toggle
     supported_features = {LightSupport.TRANSITION} if transition_support else set()
-    sut.supported_features = LightSupport(FeatureSupport.encode(supported_features))
+    sut.supported_features = LightSupport(None, None)
+    sut.supported_features._supported_features = supported_features
     await sut.call_light_service(
         "test_service", turned_toggle=turned_toggle, **attributes_input
     )
@@ -423,11 +427,10 @@ async def test_sync(
     sut.transition = 300
     sut.add_transition = True
     sut.add_transition_turn_toggle = True
-    sut.supported_features = LightSupport(
-        FeatureSupport.encode({LightSupport.TRANSITION})
-    )
+    sut.supported_features = LightSupport(None, None)
+    sut.supported_features._supported_features = [LightSupport.TRANSITION]
 
-    def fake_get_attribute(*args, **kwargs):
+    async def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":
             raise ValueError()
         return color_attribute
@@ -471,7 +474,7 @@ async def test_click(
     async def fake_get_value_attribute(*args, **kwargs):
         return value_attribute
 
-    def fake_get_attribute(*args, **kwargs):
+    async def fake_get_attribute(*args, **kwargs):
         return attribute_input
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
@@ -535,7 +538,7 @@ async def test_hold(
     async def fake_get_value_attribute(*args, **kwargs):
         return value_attribute
 
-    def fake_get_attribute(*args, **kwargs):
+    async def fake_get_attribute(*args, **kwargs):
         return attribute_input
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
