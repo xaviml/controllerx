@@ -270,6 +270,14 @@ class ICTCG1Controller(LightController):
             "rotate_stop": Light.RELEASE,
         }
 
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: "rotate_right_quick",
+            2002: Light.CLICK_BRIGHTNESS_UP,
+            3002: Light.CLICK_BRIGHTNESS_DOWN,
+            4002: "rotate_left_quick",
+        }
+
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "move_1_70": Light.HOLD_BRIGHTNESS_DOWN,

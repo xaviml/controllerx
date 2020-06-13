@@ -18,6 +18,13 @@ integrations:
       - "rotate_right 🠖 Right turn"
       - "rotate_right_quick 🠖 Quick right turn"
       - "rotate_stop 🠖 Stop rotation"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 🠖 Quick right turn"
+      - "2002 🠖 Right turn"
+      - "3002 🠖 Left turn"
+      - "4002 🠖 Quick left turn"
   - name: ZHA
     codename: zha
     actions:
