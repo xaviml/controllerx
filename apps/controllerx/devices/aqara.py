@@ -84,6 +84,15 @@ class WXKG12LMLightController(LightController):
             "release": Light.RELEASE,
         }
 
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.TOGGLE,  # button_1_press
+            1004: Light.ON_FULL_BRIGHTNESS,  # button_1_double_press
+            1006: Light.ON_MIN_BRIGHTNESS,  # button_1_shake
+            1001: Light.HOLD_BRIGHTNESS_TOGGLE,  # button_1_hold
+            1003: Light.RELEASE,  # button_1_release_after_hold
+        }
+
 
 class MFKZQ01LMLightController(LightController):
     """

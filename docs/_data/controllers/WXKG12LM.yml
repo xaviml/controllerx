@@ -22,3 +22,11 @@ integrations:
       - "shake 🠖 Shake the controller"
       - "hold 🠖 Hold the button"
       - "release 🠖 Release the button"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 🠖 1 click"
+      - "1004 🠖 2 clicks"
+      - "1006 🠖 Shake the controller"
+      - "1001 🠖 Hold the button"
+      - "1003 🠖 Release the button"
