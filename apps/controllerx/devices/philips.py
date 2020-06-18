@@ -26,16 +26,16 @@ class HueDimmerController(LightController):
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
-            1000: Light.ON,
+            1002: Light.ON,
             1001: Light.HOLD_COLOR_UP,
             1003: Light.RELEASE,
-            2000: Light.CLICK_BRIGHTNESS_UP,
+            2002: Light.CLICK_BRIGHTNESS_UP,
             2001: Light.HOLD_BRIGHTNESS_UP,
             2003: Light.RELEASE,
-            3000: Light.CLICK_BRIGHTNESS_DOWN,
+            3002: Light.CLICK_BRIGHTNESS_DOWN,
             3001: Light.HOLD_BRIGHTNESS_DOWN,
             3003: Light.RELEASE,
-            4000: Light.OFF,
+            4002: Light.OFF,
             4001: Light.HOLD_COLOR_DOWN,
             4003: Light.RELEASE,
         }
