@@ -40,6 +40,16 @@ class HueDimmerController(LightController):
             4003: Light.RELEASE,
         }
 
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "on": Light.ON,
+            "step_0_30_9": Light.CLICK_BRIGHTNESS_UP,
+            "step_0_56_9": Light.HOLD_BRIGHTNESS_UP,
+            "step_1_30_9": Light.CLICK_BRIGHTNESS_DOWN,
+            "step_1_56_9": Light.HOLD_BRIGHTNESS_DOWN,
+            "off_with_effect_0_0": Light.OFF,
+            "stop": Light.RELEASE,
+        }
 
 class Niko91004LightController(LightController):
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
