@@ -51,6 +51,7 @@ class HueDimmerController(LightController):
             "stop": Light.RELEASE,
         }
 
+
 class Niko91004LightController(LightController):
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
