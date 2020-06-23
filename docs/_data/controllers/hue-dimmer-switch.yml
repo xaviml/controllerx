@@ -48,3 +48,16 @@ integrations:
       - "4001 🠖 Hold \"O\""
       - "4002 🠖 Click release \"O\""
       - "4003 🠖 Hold release \"O\""
+  - name: ZHA
+    codename: zha
+    actions:
+      - "on 🠖 Click \"I\""
+      - "step_0_30_9 🠖 Click 🔆"
+      - "step_0_56_9 🠖 Hold 🔆"
+      - "step_1_30_9 🠖 Click 🔅"
+      - "step_1_56_9 🠖 Hold 🔅"
+      - "off_with_effect_0_0 🠖 Click \"O\""
+      - "stop 🠖 Release brightness buttons"
+note: >-
+  For ZHA integration, the hold events just work for the brightness buttons,
+  and they are fired right after the click events.
