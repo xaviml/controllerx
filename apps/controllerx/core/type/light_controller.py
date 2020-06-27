@@ -119,7 +119,7 @@ class LightController(TypeController, ReleaseHoldController):
         )
         self.add_transition = self.args.get("add_transition", True)
         self.add_transition_turn_toggle = self.args.get(
-            "add_transition_turn_toggle", True
+            "add_transition_turn_toggle", False
         )
 
         self.supported_features = LightSupport(self.light["name"], self)
