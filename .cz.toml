@@ -3,6 +3,6 @@ name = "cz_conventional_commits"
 version = "3.0.0b0"
 tag_format = "v$major.$minor.$patch$prerelease"
 version_files = [
-    "apps/controllerx/version.py",
+    "apps/controllerx/cx_version.py",
     ".cz.toml:version"
 ]

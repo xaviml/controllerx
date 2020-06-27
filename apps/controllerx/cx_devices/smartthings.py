@@ -1,5 +1,5 @@
-from const import Light, MediaPlayer, TypeActionsMapping
-from core import LightController, MediaPlayerController
+from cx_const import Light, MediaPlayer, TypeActionsMapping
+from cx_core import LightController, MediaPlayerController
 
 
 class SmartThingsButtonLightController(LightController):

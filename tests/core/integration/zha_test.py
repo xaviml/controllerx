@@ -1,7 +1,7 @@
 import pytest
 
 from tests.test_utils import hass_mock, fake_controller
-from core.integration.zha import ZHAIntegration
+from cx_core.integration.zha import ZHAIntegration
 
 
 @pytest.mark.parametrize(

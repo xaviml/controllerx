@@ -1,6 +1,6 @@
 import pytest
 
-from core.controller import TypeController
+from cx_core.controller import TypeController
 from tests.test_utils import hass_mock
 
 

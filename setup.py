@@ -5,5 +5,5 @@ setup(
     python_requires=">=3.6",
     package_dir={"": "apps/controllerx"},
     packages=find_packages(where="apps/controllerx"),
-    py_modules=["utils", "controllerx", "version", "const"],
+    py_modules=["controllerx", "version", "const"],
 )

@@ -1,5 +1,5 @@
-from const import Switch, TypeActionsMapping
-from core.controller import TypeController, action
+from cx_const import Switch, TypeActionsMapping
+from cx_core.controller import TypeController, action
 
 
 class SwitchController(TypeController):

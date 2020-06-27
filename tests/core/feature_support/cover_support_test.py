@@ -1,6 +1,6 @@
-from core.feature_support.cover import CoverSupport
+from cx_core.feature_support.cover import CoverSupport
 import pytest
-from core.feature_support import FeatureSupport
+from cx_core.feature_support import FeatureSupport
 
 
 @pytest.mark.parametrize(

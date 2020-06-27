@@ -1,6 +1,6 @@
-from tests.test_utils import hass_mock, get_instances
-from core import type as type_module
-from core import Controller
+from cx_core import Controller
+from cx_core import type as type_module
+from tests.test_utils import get_instances, hass_mock
 
 
 def check_mapping(mapping):

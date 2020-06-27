@@ -2,8 +2,8 @@ from typing import Optional
 
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 
-from const import TypeActionsMapping
-from core.integration import Integration
+from cx_const import TypeActionsMapping
+from cx_core.integration import Integration
 
 
 class StateIntegration(Integration):

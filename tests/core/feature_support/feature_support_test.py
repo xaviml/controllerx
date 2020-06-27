@@ -1,4 +1,4 @@
-from core.feature_support import FeatureSupport
+from cx_core.feature_support import FeatureSupport
 import pytest
 
 

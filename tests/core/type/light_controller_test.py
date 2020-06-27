@@ -1,11 +1,11 @@
 import pytest
 
-from core import LightController, ReleaseHoldController
-from core.feature_support import FeatureSupport
-from core.feature_support.light import LightSupport
-from core.stepper import Stepper
-from core.stepper.circular_stepper import CircularStepper
-from core.stepper.minmax_stepper import MinMaxStepper
+from cx_core import LightController, ReleaseHoldController
+from cx_core.feature_support import FeatureSupport
+from cx_core.feature_support.light import LightSupport
+from cx_core.stepper import Stepper
+from cx_core.stepper.circular_stepper import CircularStepper
+from cx_core.stepper.minmax_stepper import MinMaxStepper
 from tests.test_utils import fake_async_function, hass_mock
 
 

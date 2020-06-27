@@ -5,7 +5,7 @@ import pkgutil
 import appdaemon.plugins.hass.hassapi as hass
 import pytest
 
-from core.controller import Controller
+from cx_core.controller import Controller
 
 
 class IntegrationMock:

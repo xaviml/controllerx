@@ -1,6 +1,6 @@
 from typing import List, Optional, Set, Union
 
-from core.controller import Controller
+from cx_core.controller import Controller
 
 SupportedFeatureNumber = Union[int, str]
 Features = List[int]

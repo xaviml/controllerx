@@ -1,9 +1,9 @@
-from const import MediaPlayer, TypeActionsMapping
-from core.controller import ReleaseHoldController, TypeController, action
-from core.feature_support.media_player import MediaPlayerSupport
-from core.stepper import Stepper
-from core.stepper.circular_stepper import CircularStepper
-from core.stepper.minmax_stepper import MinMaxStepper
+from cx_const import MediaPlayer, TypeActionsMapping
+from cx_core.controller import ReleaseHoldController, TypeController, action
+from cx_core.feature_support.media_player import MediaPlayerSupport
+from cx_core.stepper import Stepper
+from cx_core.stepper.circular_stepper import CircularStepper
+from cx_core.stepper.minmax_stepper import MinMaxStepper
 
 DEFAULT_VOLUME_STEPS = 10
 

@@ -1,5 +1,5 @@
-from const import Cover, Light, MediaPlayer, Switch, TypeActionsMapping
-from core import (
+from cx_const import Cover, Light, MediaPlayer, Switch, TypeActionsMapping
+from cx_core import (
     CoverController,
     LightController,
     MediaPlayerController,

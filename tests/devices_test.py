@@ -1,7 +1,7 @@
-from core.controller import ReleaseHoldController
-from tests.test_utils import hass_mock, get_instances
-import devices as devices_module
-from core import Controller
+import cx_devices as devices_module
+from cx_core import Controller
+from cx_core.controller import ReleaseHoldController
+from tests.test_utils import get_instances, hass_mock
 
 
 def check_mapping(mapping, all_possible_actions, device):

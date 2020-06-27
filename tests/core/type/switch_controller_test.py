@@ -1,8 +1,8 @@
 import pytest
 
-from core.controller import TypeController
+from cx_core import SwitchController
+from cx_core.controller import TypeController
 from tests.test_utils import hass_mock
-from core import SwitchController
 
 
 @pytest.fixture

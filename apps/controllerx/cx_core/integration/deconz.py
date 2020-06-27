@@ -2,7 +2,7 @@ from typing import Optional
 
 from appdaemon.plugins.hass.hassapi import Hass  # type:ignore
 
-from core.integration import Integration, TypeActionsMapping
+from cx_core.integration import Integration, TypeActionsMapping
 
 
 class DeCONZIntegration(Integration):

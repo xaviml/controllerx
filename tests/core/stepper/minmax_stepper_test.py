@@ -1,7 +1,7 @@
 import pytest
 
-from core.stepper.minmax_stepper import MinMaxStepper
-from core.stepper import Stepper
+from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.stepper import Stepper
 
 
 @pytest.mark.parametrize(

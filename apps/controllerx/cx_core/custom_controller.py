@@ -1,12 +1,12 @@
 import abc
 from typing import Dict, List, Tuple, Union
 
-from const import TypeAction, TypeActionsMapping
-from core.controller import Controller, action
-from core.type.cover_controller import CoverController
-from core.type.light_controller import LightController
-from core.type.media_player_controller import MediaPlayerController
-from core.type.switch_controller import SwitchController
+from cx_const import TypeAction, TypeActionsMapping
+from cx_core.controller import Controller, action
+from cx_core.type.cover_controller import CoverController
+from cx_core.type.light_controller import LightController
+from cx_core.type.media_player_controller import MediaPlayerController
+from cx_core.type.switch_controller import SwitchController
 
 
 class CustomController(Controller, abc.ABC):

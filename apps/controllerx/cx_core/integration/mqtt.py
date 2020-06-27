@@ -2,8 +2,8 @@ from typing import Optional
 
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 
-from const import TypeActionsMapping
-from core.integration import Integration
+from cx_const import TypeActionsMapping
+from cx_core.integration import Integration
 
 STATE_HA = "ha"
 STATE_MQTT = "mqtt"

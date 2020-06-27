@@ -1,4 +1,4 @@
-from core import integration as integration_module
+from cx_core import integration as integration_module
 from tests.test_utils import hass_mock, fake_controller
 
 

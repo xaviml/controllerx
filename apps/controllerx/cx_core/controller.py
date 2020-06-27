@@ -7,10 +7,10 @@ from typing import Any, Callable, DefaultDict, Dict, List, Optional, Sequence, U
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 
-import version
-from const import ActionFunction, TypeActionsMapping
-from core import integration as integration_module
-from core.integration import Integration
+import cx_version
+from cx_const import ActionFunction, TypeActionsMapping
+from cx_core import integration as integration_module
+from cx_core.integration import Integration
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
@@ -23,7 +23,7 @@ class Controller(Hass, Mqtt, abc.ABC):
 
     async def initialize(self) -> None:
         self.log(
-            f"🎮 ControllerX {version.__version__}", ascii_encode=False,
+            f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False,
         )
         self.check_ad_version()
 

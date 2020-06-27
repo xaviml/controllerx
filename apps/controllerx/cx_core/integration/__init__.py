@@ -4,7 +4,7 @@ import os
 import pkgutil
 from typing import Any, Dict, List, NewType, Optional, Type, Union
 
-from const import TypeActionsMapping
+from cx_const import TypeActionsMapping
 
 
 class Integration(abc.ABC):

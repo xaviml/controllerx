@@ -1,6 +1,7 @@
-from core.feature_support import FeatureSupport
-from core.feature_support.media_player import MediaPlayerSupport
 import pytest
+
+from cx_core.feature_support import FeatureSupport
+from cx_core.feature_support.media_player import MediaPlayerSupport
 
 
 @pytest.mark.parametrize(

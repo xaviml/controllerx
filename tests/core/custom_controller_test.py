@@ -1,13 +1,13 @@
-from core.custom_controller import CustomCoverController, CustomSwitchController
 import pytest
 
-from core import (
+from cx_core import (
     CallServiceController,
+    Controller,
     CustomLightController,
     CustomMediaPlayerController,
-    Controller,
 )
-from tests.test_utils import hass_mock, fake_async_function
+from cx_core.custom_controller import CustomCoverController, CustomSwitchController
+from tests.test_utils import fake_async_function, hass_mock
 
 
 @pytest.mark.parametrize(

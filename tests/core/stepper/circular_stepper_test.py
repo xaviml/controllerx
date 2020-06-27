@@ -1,7 +1,7 @@
 import pytest
 
-from core.stepper.circular_stepper import CircularStepper
-from core.stepper import Stepper
+from cx_core.stepper.circular_stepper import CircularStepper
+from cx_core.stepper import Stepper
 
 
 @pytest.mark.parametrize(

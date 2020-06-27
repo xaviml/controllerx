@@ -1,11 +1,11 @@
 from typing import Any, Dict, List, Tuple, Union
 
-from const import Light, TypeActionsMapping
-from core.controller import ReleaseHoldController, TypeController, action
-from core.feature_support.light import LightSupport
-from core.stepper import Stepper
-from core.stepper.circular_stepper import CircularStepper
-from core.stepper.minmax_stepper import MinMaxStepper
+from cx_const import Light, TypeActionsMapping
+from cx_core.controller import ReleaseHoldController, TypeController, action
+from cx_core.feature_support.light import LightSupport
+from cx_core.stepper import Stepper
+from cx_core.stepper.circular_stepper import CircularStepper
+from cx_core.stepper.minmax_stepper import MinMaxStepper
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10

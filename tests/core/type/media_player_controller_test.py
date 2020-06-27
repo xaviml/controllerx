@@ -1,8 +1,8 @@
-from core.feature_support.media_player import MediaPlayerSupport
 import pytest
 
-from core import MediaPlayerController, ReleaseHoldController
-from core.stepper import Stepper
+from cx_core import MediaPlayerController, ReleaseHoldController
+from cx_core.feature_support.media_player import MediaPlayerSupport
+from cx_core.stepper import Stepper
 from tests.test_utils import fake_async_function, hass_mock
 
 

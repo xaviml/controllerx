@@ -1,7 +1,7 @@
 from typing import Callable
-from const import Cover, TypeActionsMapping
-from core.controller import TypeController, action
-from core.feature_support.cover import CoverSupport
+from cx_const import Cover, TypeActionsMapping
+from cx_core.controller import TypeController, action
+from cx_core.feature_support.cover import CoverSupport
 
 
 class CoverController(TypeController):

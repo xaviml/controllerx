@@ -1,5 +1,5 @@
-from const import Light, TypeActionsMapping
-from core import LightController
+from cx_const import Light, TypeActionsMapping
+from cx_core import LightController
 
 
 class DoubleKeyWirelessAqaraController(LightController):

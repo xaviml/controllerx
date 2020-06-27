@@ -1,10 +1,10 @@
-from core.feature_support import FeatureSupport
-from core.feature_support.cover import CoverSupport
+from cx_core.feature_support import FeatureSupport
+from cx_core.feature_support.cover import CoverSupport
 import pytest
 
-from core.controller import TypeController
+from cx_core.controller import TypeController
 from tests.test_utils import fake_async_function, hass_mock
-from core import CoverController
+from cx_core import CoverController
 
 
 @pytest.fixture

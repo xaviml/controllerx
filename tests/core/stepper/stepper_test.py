@@ -1,6 +1,6 @@
 import pytest
 
-from core.stepper import Stepper
+from cx_core.stepper import Stepper
 
 
 class FakeStepper(Stepper):

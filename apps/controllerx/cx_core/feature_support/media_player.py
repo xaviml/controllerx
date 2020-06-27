@@ -1,6 +1,6 @@
 from typing import Optional
-from core.controller import Controller
-from core.feature_support import FeatureSupport
+from cx_core.controller import Controller
+from cx_core.feature_support import FeatureSupport
 
 
 class MediaPlayerSupport(FeatureSupport):
