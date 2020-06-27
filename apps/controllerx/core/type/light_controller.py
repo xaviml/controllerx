@@ -11,6 +11,8 @@ DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_MIN_BRIGHTNESS = 1
 DEFAULT_MAX_BRIGHTNESS = 254
+DEFAULT_MIN_WHITE_VALUE = 1
+DEFAULT_MAX_WHITE_VALUE = 254
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
@@ -37,6 +39,7 @@ class LightController(TypeController, ReleaseHoldController):
     """
 
     ATTRIBUTE_BRIGHTNESS = "brightness"
+    ATTRIBUTE_WHITE_VALUE = "white_value"
     # With the following attribute, it will select color_temp or xy_color, depending on the light.
     ATTRIBUTE_COLOR = "color"
     ATTRIBUTE_COLOR_TEMP = "color_temp"
@@ -81,6 +84,8 @@ class LightController(TypeController, ReleaseHoldController):
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
         self.max_brightness = self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS)
+        self.min_white_value = self.args.get("min_white_value", DEFAULT_MIN_WHITE_VALUE)
+        self.max_white_value = self.args.get("max_white_value", DEFAULT_MAX_WHITE_VALUE)
         self.min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
         self.max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
@@ -88,6 +93,9 @@ class LightController(TypeController, ReleaseHoldController):
         self.manual_steppers: Dict[str, Stepper] = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
                 self.min_brightness, self.max_brightness, manual_steps
+            ),
+            LightController.ATTRIBUTE_WHITE_VALUE: MinMaxStepper(
+                self.min_white_value, self.max_white_value, manual_steps
             ),
             LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
                 self.min_color_temp, self.max_color_temp, manual_steps
@@ -97,6 +105,9 @@ class LightController(TypeController, ReleaseHoldController):
         self.automatic_steppers: Dict[str, Stepper] = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
                 self.min_brightness, self.max_brightness, automatic_steps
+            ),
+            LightController.ATTRIBUTE_WHITE_VALUE: MinMaxStepper(
+                self.min_white_value, self.max_white_value, automatic_steps
             ),
             LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
                 self.min_color_temp, self.max_color_temp, automatic_steps
@@ -127,6 +138,10 @@ class LightController(TypeController, ReleaseHoldController):
                 self.on_full,
                 LightController.ATTRIBUTE_BRIGHTNESS,
             ),
+            Light.ON_FULL_WHITE_VALUE: (
+                self.on_full,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+            ),
             Light.ON_FULL_COLOR_TEMP: (
                 self.on_full,
                 LightController.ATTRIBUTE_COLOR_TEMP,
@@ -135,6 +150,10 @@ class LightController(TypeController, ReleaseHoldController):
                 self.on_min,
                 LightController.ATTRIBUTE_BRIGHTNESS,
             ),
+            Light.ON_MIN_WHITE_VALUE: (
+                self.on_min,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+            ),
             Light.ON_MIN_COLOR_TEMP: (
                 self.on_min,
                 LightController.ATTRIBUTE_COLOR_TEMP,
@@ -142,6 +161,11 @@ class LightController(TypeController, ReleaseHoldController):
             Light.SET_HALF_BRIGHTNESS: (
                 self.set_value,
                 LightController.ATTRIBUTE_BRIGHTNESS,
+                0.5,
+            ),
+            Light.SET_HALF_WHITE_VALUE: (
+                self.set_value,
+                LightController.ATTRIBUTE_WHITE_VALUE,
                 0.5,
             ),
             Light.SET_HALF_COLOR_TEMP: (
@@ -158,6 +182,16 @@ class LightController(TypeController, ReleaseHoldController):
             Light.CLICK_BRIGHTNESS_DOWN: (
                 self.click,
                 LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.DOWN,
+            ),
+            Light.CLICK_WHITE_VALUE_UP: (
+                self.click,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+                Stepper.UP,
+            ),
+            Light.CLICK_WHITE_VALUE_DOWN: (
+                self.click,
+                LightController.ATTRIBUTE_WHITE_VALUE,
                 Stepper.DOWN,
             ),
             Light.CLICK_COLOR_UP: (
@@ -203,6 +237,21 @@ class LightController(TypeController, ReleaseHoldController):
             Light.HOLD_BRIGHTNESS_TOGGLE: (
                 self.hold,
                 LightController.ATTRIBUTE_BRIGHTNESS,
+                Stepper.TOGGLE,
+            ),
+            Light.HOLD_WHITE_VALUE_UP: (
+                self.hold,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+                Stepper.UP,
+            ),
+            Light.HOLD_WHITE_VALUE_DOWN: (
+                self.hold,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+                Stepper.DOWN,
+            ),
+            Light.HOLD_WHITE_VALUE_TOGGLE: (
+                self.hold,
+                LightController.ATTRIBUTE_WHITE_VALUE,
                 Stepper.TOGGLE,
             ),
             Light.HOLD_COLOR_UP: (
@@ -359,6 +408,7 @@ class LightController(TypeController, ReleaseHoldController):
             return 0
         elif (
             attribute == LightController.ATTRIBUTE_BRIGHTNESS
+            or attribute == LightController.ATTRIBUTE_WHITE_VALUE
             or attribute == LightController.ATTRIBUTE_COLOR_TEMP
         ):
             value = await self.get_entity_state(self.light["name"], attribute)
