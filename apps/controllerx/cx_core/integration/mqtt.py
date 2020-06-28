@@ -5,9 +5,6 @@ from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 from cx_const import TypeActionsMapping
 from cx_core.integration import Integration
 
-STATE_HA = "ha"
-STATE_MQTT = "mqtt"
-
 
 class MQTTIntegration(Integration):
     def get_name(self) -> str:
