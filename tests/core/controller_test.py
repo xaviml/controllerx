@@ -5,12 +5,7 @@ import pytest
 
 from cx_core import integration as integration_module
 from cx_core.controller import action
-from tests.test_utils import (
-    IntegrationMock,
-    fake_async_function,
-    fake_controller,
-    hass_mock,
-)
+from tests.test_utils import IntegrationMock, fake_async_function
 
 
 @pytest.fixture
@@ -140,7 +135,7 @@ async def test_initialize(
 
     # SUT
     if expect_an_error:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             await sut.initialize()
     else:
         await sut.initialize()
@@ -180,7 +175,7 @@ def test_get_list(sut, monkeypatch, test_input, expected):
 )
 def test_get_option(sut, option, options, expect_an_error):
     if expect_an_error:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             sut.get_option(option, options)
     else:
         sut.get_option(option, options)
@@ -213,7 +208,7 @@ def test_get_integration(
 
     # SUT
     if error_expected:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             integration = sut.get_integration(integration_input)
     else:
         integration = sut.get_integration(integration_input)
@@ -356,7 +351,7 @@ def test_get_action(sut, test_input, expected, error_expected):
 
 @pytest.mark.parametrize(
     "service, attributes",
-    [("test_service", {"attr1": 0.0, "attr2": "test"}), ("test_service", {}),],
+    [("test_service", {"attr1": 0.0, "attr2": "test"}), ("test_service", {})],
 )
 @pytest.mark.asyncio
 async def test_call_service(sut, mocker, service, attributes):

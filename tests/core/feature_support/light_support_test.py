@@ -7,7 +7,7 @@ from cx_core.feature_support.light import LightSupport
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
-        (1, {LightSupport.BRIGHTNESS,},),
+        (1, {LightSupport.BRIGHTNESS}),
         (
             57,
             {

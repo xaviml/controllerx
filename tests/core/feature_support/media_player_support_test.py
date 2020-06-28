@@ -7,8 +7,8 @@ from cx_core.feature_support.media_player import MediaPlayerSupport
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
-        (1, {MediaPlayerSupport.PAUSE,},),
-        (4, {MediaPlayerSupport.VOLUME_SET,},),
+        (1, {MediaPlayerSupport.PAUSE}),
+        (4, {MediaPlayerSupport.VOLUME_SET}),
         (
             57,
             {

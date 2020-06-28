@@ -1,7 +1,7 @@
 import pytest
 
 from cx_core.controller import Controller, ReleaseHoldController
-from tests.test_utils import fake_async_function, hass_mock
+from tests.test_utils import fake_async_function
 
 
 class FakeReleaseHoldController(ReleaseHoldController):
@@ -36,11 +36,11 @@ async def test_release(sut):
     await sut.release()
 
     # Checks
-    assert sut.on_hold == False
+    assert not sut.on_hold
 
 
 @pytest.mark.parametrize(
-    "on_hold_input,expected_calls", [(False, 1), (True, 1),],
+    "on_hold_input,expected_calls", [(False, 1), (True, 1)],
 )
 @pytest.mark.asyncio
 async def test_hold(sut, monkeypatch, mocker, on_hold_input, expected_calls):

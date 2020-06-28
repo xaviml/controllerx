@@ -1,5 +1,4 @@
 from cx_core import integration as integration_module
-from tests.test_utils import hass_mock, fake_controller
 
 
 def test_get_integrations(fake_controller):

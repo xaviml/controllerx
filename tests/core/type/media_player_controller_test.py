@@ -3,7 +3,7 @@ import pytest
 from cx_core import MediaPlayerController, ReleaseHoldController
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.stepper import Stepper
-from tests.test_utils import fake_async_function, hass_mock
+from tests.test_utils import fake_async_function
 
 
 @pytest.fixture
@@ -166,7 +166,7 @@ async def test_change_source_list(
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
-    output = await sut.change_source_list(direction_input)
+    await sut.change_source_list(direction_input)
 
     # Checks
     assert called_service_patch.call_count == expected_calls

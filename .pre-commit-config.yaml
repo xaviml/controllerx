@@ -18,7 +18,7 @@ repos:
     always_run: true
   - id: flake8
     name: flake8
-    entry: pipenv run flake8 apps/controllerx
+    entry: pipenv run flake8 apps/controllerx tests
     language: system
     pass_filenames: false
     always_run: true

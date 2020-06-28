@@ -1,6 +1,6 @@
 from cx_core import Controller
 from cx_core import type as type_module
-from tests.test_utils import get_instances, hass_mock
+from tests.test_utils import get_instances
 
 
 def check_mapping(mapping):

@@ -1,7 +1,6 @@
 import pytest
 
 from cx_core.controller import TypeController
-from tests.test_utils import hass_mock
 
 
 class FakeTypeController(TypeController):
@@ -60,7 +59,7 @@ async def test_check_domain(
 
 
 @pytest.mark.parametrize(
-    "entity_input, expected_calls", [("light.kitchen", 1), ("group.lights", 2),],
+    "entity_input, expected_calls", [("light.kitchen", 1), ("group.lights", 2)],
 )
 @pytest.mark.asyncio
 async def test_get_entity_state(sut, mocker, monkeypatch, entity_input, expected_calls):

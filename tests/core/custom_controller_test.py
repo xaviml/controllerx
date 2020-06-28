@@ -7,7 +7,7 @@ from cx_core import (
     CustomMediaPlayerController,
 )
 from cx_core.custom_controller import CustomCoverController, CustomSwitchController
-from tests.test_utils import fake_async_function, hass_mock
+from tests.test_utils import fake_async_function
 
 
 @pytest.mark.parametrize(
@@ -109,7 +109,7 @@ async def test_custom_controllers(
         ),
         (
             "zha",
-            {"service": "homeassistant.test_service2", "data": {},},
+            {"service": "homeassistant.test_service2", "data": {}},
             [("homeassistant/test_service2", {})],
         ),
         (

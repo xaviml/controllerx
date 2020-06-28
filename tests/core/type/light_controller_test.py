@@ -1,12 +1,12 @@
+from cx_core.color_helper import get_colors
 import pytest
 
 from cx_core import LightController, ReleaseHoldController
-from cx_core.feature_support import FeatureSupport
 from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
-from tests.test_utils import fake_async_function, hass_mock
+from tests.test_utils import fake_async_function
 
 
 @pytest.fixture
@@ -58,7 +58,7 @@ async def test_initialize_and_get_light(
 
     # SUT
     if error_expected:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             await sut.initialize()
     else:
         await sut.initialize()
@@ -115,7 +115,7 @@ async def test_get_attribute(
 
     # SUT
     if throws_error:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             await sut.get_attribute(attribute_input)
     else:
         output = await sut.get_attribute(attribute_input)
@@ -161,7 +161,7 @@ async def test_get_value_attribute(
 
     # SUT
     if error_expected:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             await sut.get_value_attribute(attribute_input, direction_input)
     else:
         output = await sut.get_value_attribute(attribute_input, direction_input)
@@ -231,6 +231,8 @@ async def test_change_light_state(
     sut.transition = 300
     sut.supported_features = LightSupport(None, None)
     sut.supported_features._supported_features = set()
+    sut.colors = get_colors("default_color_wheel")
+
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     # SUT
@@ -575,7 +577,7 @@ async def test_hold_loop(sut, mocker, value_attribute):
     exceeded = await sut.hold_loop(attribute, direction)
 
     if value_attribute is None:
-        assert exceeded == True
+        assert exceeded
     else:
         change_light_state_patch.assert_called_once_with(
             sut.value_attribute, attribute, direction, stepper, "hold"

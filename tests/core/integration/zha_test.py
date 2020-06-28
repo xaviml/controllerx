@@ -1,6 +1,5 @@
 import pytest
 
-from tests.test_utils import hass_mock, fake_controller
 from cx_core.integration.zha import ZHAIntegration
 
 
@@ -37,6 +36,6 @@ async def test_get_integrations(
     data = {"command": command, "args": args}
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     zha_integration = ZHAIntegration(fake_controller, {})
-    await zha_integration.callback("test", data, None)
+    await zha_integration.callback("test", data, {})
 
     handle_action_patch.assert_called_once_with(expected_called_with)

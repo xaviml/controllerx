@@ -1,10 +1,9 @@
-from cx_core.feature_support import FeatureSupport
 from cx_core.feature_support.cover import CoverSupport
 import pytest
 
 from cx_core.controller import TypeController
-from tests.test_utils import fake_async_function, hass_mock
 from cx_core import CoverController
+from tests.test_utils import fake_async_function
 
 
 @pytest.fixture
@@ -39,7 +38,7 @@ async def test_initialize(
     }
     monkeypatch.setattr(sut, "get_entity_state", fake_async_function("0"))
     if error_expected:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError):
             await sut.initialize()
     else:
         await sut.initialize()

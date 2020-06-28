@@ -6,7 +6,7 @@ from cx_core.feature_support import FeatureSupport
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
-        (1, {CoverSupport.OPEN,},),
+        (1, {CoverSupport.OPEN},),
         (
             15,
             {
