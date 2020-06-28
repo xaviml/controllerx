@@ -1,4 +1,4 @@
-from cx_core.color_helper import get_colors
+from cx_core.color_helper import get_color_wheel
 import pytest
 
 from cx_core import LightController, ReleaseHoldController
@@ -231,7 +231,7 @@ async def test_change_light_state(
     sut.transition = 300
     sut.supported_features = LightSupport(None, None)
     sut.supported_features._supported_features = set()
-    sut.colors = get_colors("default_color_wheel")
+    sut.color_wheel = get_color_wheel("default_color_wheel")
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 

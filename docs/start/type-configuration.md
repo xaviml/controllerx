@@ -34,10 +34,11 @@ This controller allows the devices to control light or group of lights. This all
 | `transition`                 | int                  | 300                                             | Time in milliseconds that takes the light to transition from one state to another one.                                                                                                                                                                                    |
 | `add_transition`             | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                                                                                            |
 | `add_transition_turn_toggle` | boolean              | True                                            | If `false` does not add transition when turning on/off or toggling, otherwise it adds the `transition` attribute to the call. See [FAQ #6](/controllerx/faq#6-light-is-not-turning-on-to-the-previous-brightness) for a further explanation on the use of this parameter. |
+| `color_wheel`                | string \| list       | `default_color_wheel`                           | It defines the color wheel used when changing the xy color either when click or hold actions are used. Check down to know more about the options.                                                                                                                         |
 
 _\* Required fields_
 
-Light dictionary for the `light` attribute:
+_Light dictionary for the `light` attribute:_
 
 | key          | type   | value           | description                                                                                                                                                                                                                                                                                                                                                         |
 | ------------ | ------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -45,6 +46,29 @@ Light dictionary for the `light` attribute:
 | `color_mode` | string | `auto`          | This attribute can take `auto`, `xy_color` or `color_temp` as value. `auto` will check first if the light supports `xy_color` and then `color_temp`. `xy_color` will cicle through different colors infinitely. `color_temp` will change the color temperature attribute of the light. If a light supports both, user can pick which action wants for the light(s). |
 
 _\* Required fields_
+
+_Information about `color_wheel` attribute:_
+
+This attribute can be either an string or a list. These are the possible string values:
+
+| value | description |
+| `default_color_wheel` | These are the 24 colors that appear in the circle color of home assistant. |
+| `color_temp_wheel` | These are the xy colors translated from color temperature (2000K to 6488K). They were extracted from [here](https://www.waveformlighting.com/files/blackBodyLocus_1.txt). |
+
+Otherwise, a custom xy color list can be defined like the following:
+
+```yaml
+example_app:
+  module: controllerx
+  class: < device class or CustomLightController >
+  controller: < your controller id >
+  integration: < your integration >
+  light: light.your_light
+  color_wheel:
+    - [0.525, 0.411]
+    - [0.167, 0.338]
+    - [0.324, 0.329]
+```
 
 ## Media player controller
 

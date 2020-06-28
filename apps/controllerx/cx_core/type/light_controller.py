@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, Union
 
 from cx_const import Light, TypeActionsMapping
 from cx_core.controller import ReleaseHoldController, TypeController, action
@@ -6,6 +6,7 @@ from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.color_helper import get_color_wheel
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -45,35 +46,6 @@ class LightController(TypeController, ReleaseHoldController):
     ATTRIBUTE_COLOR_TEMP = "color_temp"
     ATTRIBUTE_XY_COLOR = "xy_color"
 
-    # These are the 24 colors that appear in the circle color of home assistant
-    colors: List[Tuple[float, float]] = [
-        (0.701, 0.299),
-        (0.667, 0.284),
-        (0.581, 0.245),
-        (0.477, 0.196),
-        (0.385, 0.155),
-        (0.301, 0.116),
-        (0.217, 0.077),
-        (0.157, 0.05),
-        (0.136, 0.04),
-        (0.137, 0.065),
-        (0.141, 0.137),
-        (0.146, 0.238),
-        (0.323, 0.329),  # 12; white color middle
-        (0.151, 0.343),
-        (0.157, 0.457),
-        (0.164, 0.591),
-        (0.17, 0.703),
-        (0.172, 0.747),
-        (0.199, 0.724),
-        (0.269, 0.665),
-        (0.36, 0.588),
-        (0.444, 0.517),
-        (0.527, 0.447),
-        (0.612, 0.374),
-        (0.677, 0.319),
-    ]
-
     index_color = 0
     value_attribute = None
 
@@ -89,7 +61,13 @@ class LightController(TypeController, ReleaseHoldController):
         self.min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
         self.max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
-        color_stepper = CircularStepper(0, len(self.colors) - 1, len(self.colors))
+        self.color_wheel = get_color_wheel(
+            self.args.get("color_wheel", "default_color_wheel")
+        )
+
+        color_stepper = CircularStepper(
+            0, len(self.color_wheel) - 1, len(self.color_wheel)
+        )
         self.manual_steppers: Dict[str, Stepper] = {
             LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
                 self.min_brightness, self.max_brightness, manual_steps
@@ -373,8 +351,7 @@ class LightController(TypeController, ReleaseHoldController):
             if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
                 attributes[color_attribute] = 370  # 2700K light
             else:
-                self.index_color = 12  # white colour
-                attributes[color_attribute] = self.colors[self.index_color]
+                attributes[color_attribute] = (0.323, 0.329)  # white colour
         except ValueError:
             self.log("⚠️ `sync` action will only change brightness", level="WARNING")
         await self.on(**attributes, brightness=self.max_brightness)
@@ -500,7 +477,7 @@ class LightController(TypeController, ReleaseHoldController):
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
             index_color, _ = stepper.step(self.index_color, direction)
             self.index_color = int(index_color)
-            xy_color = self.colors[self.index_color]
+            xy_color = self.color_wheel[self.index_color]
             attributes = {attribute: xy_color}
             if action_type == "hold":
                 attributes["transition"] = self.delay / 1000

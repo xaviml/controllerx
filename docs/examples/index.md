@@ -16,6 +16,17 @@ livingroom_controller:
   light: group.livingroom_lights
 ```
 
+E1524/E1810 controller integrated with Zigbee2MQTT, but using `mqtt` directly instead of the `z2m` integration.
+
+```yaml
+office_light:
+  module: controllerx
+  class: E1810Controller
+  controller: zigbee2mqtt/office_controller/action
+  integration: mqtt
+  light: light.office
+```
+
 Controlling a media player with E1744 with deCONZ:
 
 ```yaml
@@ -152,6 +163,31 @@ corridor_controller:
   light: light.corridor
   action_delay:
     "off": 10
+```
+
+Using a xy color light bulb as a color temperature one when it does support it.
+
+```yaml
+office:
+  module: controllerx
+  class: E1810Controller
+  controller: zigbee2mqtt/office_controller/action
+  integration: mqtt
+  light:
+    name: light.office
+    color_mode: color_temp
+```
+
+Using a xy color light bulb as a color temperature one when it does NOT support it.
+
+```yaml
+office:
+  module: controllerx
+  class: E1810Controller
+  controller: zigbee2mqtt/office_controller/action
+  integration: mqtt
+  light: light.office
+  color_wheel: color_temp_wheel
 ```
 
 ## Advanced
