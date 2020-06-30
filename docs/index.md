@@ -34,6 +34,15 @@ livingroom_controller:
   light: light.bedroom
 ```
 
+## Videos
+
+- [Symfonisk controlling Chromecast volume](https://twitter.com/xaviml93/status/1278000379444240390)
+- [Magic Xiaomi Cube controlling a colour light](https://twitter.com/xaviml93/status/1231542785486049280)
+- [Ikea E1810 controlling a colour light with ZHA](https://twitter.com/xaviml93/status/1227573383489085440)
+- [Symfonisk controlling Google Home mini](https://twitter.com/xaviml93/status/1216124464901115905)
+- [Symfonisk controlling a light](https://twitter.com/xaviml93/status/1216297058581258240)
+- [Showing the colour wheel from HA](https://twitter.com/xaviml93/status/1213978663294787595)
+
 ### 💡 **NOTE**
 
 _ControllerX_ uses an async loop to make HA call services requests (e.g. to change the brightness, the color temperature, the xy color, the volume of a media player). This means that when a button is held, _ControllerX_ calls periodically HA services until a release action is fired.
