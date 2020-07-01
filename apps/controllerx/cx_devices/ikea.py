@@ -290,6 +290,60 @@ class ICTCG1Controller(LightController):
         }
 
 
+class ICTCG1MediaPlayerController(MediaPlayerController):
+    # Different states reported from the controller:
+    # rotate_left, rotate_left_quick
+    # rotate_right, rotate_right_quick
+    # rotate_stop
+
+    @action
+    async def rotate_left_quick(self) -> None:
+        await self.release()
+        await self.pause()
+
+    @action
+    async def rotate_right_quick(self) -> None:
+        await self.release()
+        await self.play()
+
+    def get_type_actions_mapping(self) -> TypeActionsMapping:
+        parent_mapping = super().get_type_actions_mapping()
+        mapping: TypeActionsMapping = {
+            "rotate_left_quick": self.rotate_left_quick,
+            "rotate_right_quick": self.rotate_right_quick,
+        }
+        mapping.update(parent_mapping)
+        return mapping
+
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "rotate_left": MediaPlayer.HOLD_VOLUME_DOWN,
+            "rotate_left_quick": "rotate_left_quick",
+            "rotate_right": MediaPlayer.HOLD_VOLUME_UP,
+            "rotate_right_quick": "rotate_right_quick",
+            "rotate_stop": MediaPlayer.RELEASE,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: "rotate_right_quick",
+            2002: MediaPlayer.CLICK_VOLUME_UP,
+            3002: MediaPlayer.CLICK_VOLUME_DOWN,
+            4002: "rotate_left_quick",
+        }
+
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "move_1_70": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_1_195": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_to_level_with_on_off_0_1": "rotate_left_quick",
+            "move_with_on_off_0_70": MediaPlayer.HOLD_VOLUME_UP,
+            "move_with_on_off_0_195": MediaPlayer.HOLD_VOLUME_UP,
+            "move_to_level_with_on_off_255_1": "rotate_right_quick",
+            "stop": MediaPlayer.RELEASE,
+        }
+
+
 class E1744LightController(LightController):
     # Different states reported from the controller:
     # rotate_left, rotate_right, rotate_stop,
@@ -327,7 +381,7 @@ class E1744LightController(LightController):
         }
 
     def default_delay(self) -> int:
-        return 1200
+        return 500
 
 
 class E1744MediaPlayerController(MediaPlayerController):
@@ -367,7 +421,7 @@ class E1744MediaPlayerController(MediaPlayerController):
         }
 
     def default_delay(self) -> int:
-        return 1000
+        return 500
 
 
 class E1766LightController(LightController):

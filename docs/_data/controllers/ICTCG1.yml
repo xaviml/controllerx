@@ -9,6 +9,15 @@ device_support:
       - "Quick left turn 🠖 Turn off"
       - "Right turn 🠖 Brighten up"
       - "Quick right turn 🠖 Full brightness"
+  - type: Media Player
+    domain: media_player
+    controller: ICTCG1MediaPlayerController
+    delay: 500
+    mapping:
+      - "Left turn 🠖 Volume down"
+      - "Quick left turn 🠖 Pause"
+      - "Right turn 🠖 Volume up"
+      - "Quick right turn 🠖 Play"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m

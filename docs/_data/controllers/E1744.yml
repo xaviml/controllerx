@@ -3,7 +3,7 @@ device_support:
   - type: Light
     domain: light
     controller: E1744LightController
-    delay: 1200
+    delay: 500
     mapping:
       - "Left turn 🠖 Dim down"
       - "Right turn 🠖 Brighten up"
@@ -13,7 +13,7 @@ device_support:
   - type: Media Player
     domain: media_player
     controller: E1744MediaPlayerController
-    delay: 1000
+    delay: 500
     mapping:
       - "Left turn 🠖 Volume down"
       - "Right turn 🠖 Volume up"

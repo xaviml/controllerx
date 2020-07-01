@@ -29,6 +29,8 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
             MediaPlayer.CLICK_VOLUME_DOWN: self.volume_down,
             MediaPlayer.CLICK_VOLUME_UP: self.volume_up,
             MediaPlayer.RELEASE: self.release,
+            MediaPlayer.PLAY: self.play,
+            MediaPlayer.PAUSE: self.pause,
             MediaPlayer.PLAY_PAUSE: self.play_pause,
             MediaPlayer.NEXT_TRACK: self.next_track,
             MediaPlayer.PREVIOUS_TRACK: self.previous_track,
@@ -60,6 +62,14 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
             entity_id=self.media_player,
             source=source_list[new_index_source],
         )
+
+    @action
+    async def play(self) -> None:
+        await self.call_service("media_player/media_play", entity_id=self.media_player)
+
+    @action
+    async def pause(self) -> None:
+        await self.call_service("media_player/media_pause", entity_id=self.media_player)
 
     @action
     async def play_pause(self) -> None:
