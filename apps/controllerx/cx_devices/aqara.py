@@ -189,7 +189,7 @@ class WXCJKG13LMLightController(LightController):
             "button_5_hold": Light.HOLD_COLOR_DOWN,
             "button_5_release": Light.RELEASE,
             "button_6_single": Light.CLICK_COLOR_UP,
-            "button_6_double": Light.ON_MIN_COLOR_TEMP,
+            "button_6_double": Light.ON_FULL_COLOR_TEMP,
             "button_6_hold": Light.HOLD_COLOR_UP,
             "button_6_release": Light.RELEASE,
         }
