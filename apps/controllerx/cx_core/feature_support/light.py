@@ -12,7 +12,12 @@ class LightSupport(FeatureSupport):
     TRANSITION = 32
     WHITE_VALUE = 128
 
-    def __init__(self, entity: Optional[str], controller: Optional[Controller]) -> None:
+    def __init__(
+        self,
+        entity: Optional[str],
+        controller: Optional[Controller],
+        update_supported_features: bool,
+    ) -> None:
         super().__init__(
             entity,
             controller,
@@ -25,4 +30,5 @@ class LightSupport(FeatureSupport):
                 LightSupport.TRANSITION,
                 LightSupport.WHITE_VALUE,
             ],
+            update_supported_features,
         )

@@ -23,7 +23,12 @@ class CoverSupport(FeatureSupport):
     STOP_TILT = 64
     SET_TILT_POSITION = 128
 
-    def __init__(self, entity: Optional[str], controller: Optional[Controller]) -> None:
+    def __init__(
+        self,
+        entity: Optional[str],
+        controller: Optional[Controller],
+        update_supported_features: bool,
+    ) -> None:
         super().__init__(
             entity,
             controller,
@@ -37,4 +42,5 @@ class CoverSupport(FeatureSupport):
                 CoverSupport.STOP_TILT,
                 CoverSupport.SET_TILT_POSITION,
             ],
+            update_supported_features,
         )

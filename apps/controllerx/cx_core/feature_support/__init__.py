@@ -24,14 +24,16 @@ class FeatureSupport:
         entity: Optional[str],
         controller: Optional[Controller],
         features: Features,
+        update_supported_features: bool,
     ) -> None:
         self.entity = entity
         self.controller = controller
         self._supported_features = None
         self.features = features
+        self.update_supported_features = update_supported_features
 
     async def supported_features(self):
-        if self._supported_features is None:
+        if self._supported_features is None or self.update_supported_features:
             bitfield = await self.controller.get_entity_state(
                 self.entity, attribute="supported_features"
             )

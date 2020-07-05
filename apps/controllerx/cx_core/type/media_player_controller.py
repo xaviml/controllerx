@@ -13,10 +13,13 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
         self.media_player = self.args["media_player"]
         await self.check_domain(self.media_player)
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
+        update_supported_features = self.args.get("update_supported_features", False)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0.0
 
-        self.supported_features = MediaPlayerSupport(self.media_player, self)
+        self.supported_features = MediaPlayerSupport(
+            self.media_player, self, update_supported_features
+        )
         await super().initialize()
 
     def get_domain(self) -> str:

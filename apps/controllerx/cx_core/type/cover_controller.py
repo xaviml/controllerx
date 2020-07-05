@@ -21,11 +21,14 @@ class CoverController(TypeController):
         self.cover = self.args["cover"]
         self.open_position = self.args.get("open_position", 100)
         self.close_position = self.args.get("close_position", 0)
+        update_supported_features = self.args.get("update_supported_features", False)
         if self.open_position < self.close_position:
             raise ValueError("`open_position` must be higher than `close_position`")
         await self.check_domain(self.cover)
 
-        self.supported_features = CoverSupport(self.cover, self)
+        self.supported_features = CoverSupport(
+            self.cover, self, update_supported_features
+        )
 
         await super().initialize()
 

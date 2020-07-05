@@ -29,7 +29,7 @@ from cx_core.feature_support import FeatureSupport
     ],
 )
 def test_init(number, expected_supported_features):
-    cover_support = CoverSupport(None, None)
+    cover_support = CoverSupport(None, None, False)
     cover_support._supported_features = FeatureSupport.decode(
         number, cover_support.features
     )

@@ -109,7 +109,7 @@ async def test_get_attribute(
     attribute_expected,
     throws_error,
 ):
-    sut.supported_features = LightSupport(None, None)
+    sut.supported_features = LightSupport(None, None, False)
     sut.supported_features._supported_features = supported_features
     sut.light = {"name": "light", "color_mode": color_mode}
 
@@ -229,7 +229,7 @@ async def test_change_light_state(
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.transition = 300
-    sut.supported_features = LightSupport(None, None)
+    sut.supported_features = LightSupport(None, None, False)
     sut.supported_features._supported_features = set()
     sut.color_wheel = get_color_wheel("default_color_wheel")
 
@@ -299,7 +299,7 @@ async def test_call_light_service(
     sut.add_transition = add_transition
     sut.add_transition_turn_toggle = add_transition_turn_toggle
     supported_features = {LightSupport.TRANSITION} if transition_support else set()
-    sut.supported_features = LightSupport(None, None)
+    sut.supported_features = LightSupport(None, None, False)
     sut.supported_features._supported_features = supported_features
     await sut.call_light_service(
         "test_service", turned_toggle=turned_toggle, **attributes_input
@@ -429,7 +429,7 @@ async def test_sync(
     sut.transition = 300
     sut.add_transition = True
     sut.add_transition_turn_toggle = True
-    sut.supported_features = LightSupport(None, None)
+    sut.supported_features = LightSupport(None, None, False)
     sut.supported_features._supported_features = [LightSupport.TRANSITION]
 
     async def fake_get_attribute(*args, **kwargs):

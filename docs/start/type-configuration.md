@@ -35,6 +35,7 @@ This controller allows the devices to control light or group of lights. This all
 | `add_transition`             | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                                                                                            |
 | `add_transition_turn_toggle` | boolean              | True                                            | If `false` does not add transition when turning on/off or toggling, otherwise it adds the `transition` attribute to the call. See [FAQ #6](/controllerx/faq#6-light-is-not-turning-on-to-the-previous-brightness) for a further explanation on the use of this parameter. |
 | `color_wheel`                | string \| list       | `default_color_wheel`                           | It defines the color wheel used when changing the xy color either when click or hold actions are used. Check down to know more about the options.                                                                                                                         |
+| `update_supported_features`  | boolean              | False                                           | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                                 |
 
 _\* Required fields_
 
@@ -74,12 +75,13 @@ example_app:
 
 This allows you to control media players. It supports volume, play/pause and skipping forward/backward the track and the source.
 
-| key              | type   | value                                                         | description                                                                                                                                                                 |
-| ---------------- | ------ | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `media_player`\* | string | `group.livingroom_speakers` or `media_player.bedroom_speaker` | The media player (or group of media players) you want to control                                                                                                            |
-| `volume_steps`   | int    | 10                                                            | Number of steps to go from min to max when clicking or holding. If the value is 2 with one click you will set the volume to 50% and with another one to 100%.               |
-| `delay`          | int    | [Controller specific](/controllerx/controllers)               | Delay in milliseconds that takes between sending the volume up/down instructions. Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior. |
-| `max_loops`      | int    | 50                                                            | Maximum number of loops when holding. The loop will stop either with a release action or reaching the `max_loops` value.                                                    |
+| key                         | type    | value                                                         | description                                                                                                                                                                               |
+| --------------------------- | ------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `media_player`\*            | string  | `group.livingroom_speakers` or `media_player.bedroom_speaker` | The media player (or group of media players) you want to control                                                                                                                          |
+| `volume_steps`              | int     | 10                                                            | Number of steps to go from min to max when clicking or holding. If the value is 2 with one click you will set the volume to 50% and with another one to 100%.                             |
+| `delay`                     | int     | [Controller specific](/controllerx/controllers)               | Delay in milliseconds that takes between sending the volume up/down instructions. Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior.               |
+| `max_loops`                 | int     | 50                                                            | Maximum number of loops when holding. The loop will stop either with a release action or reaching the `max_loops` value.                                                                  |
+| `update_supported_features` | boolean | False                                                         | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time. |
 
 _\* Required fields_
 
@@ -97,10 +99,11 @@ _\* Required fields_
 
 This allows you to control covers. It supports opening/closing and stop covers.
 
-| key              | type   | value                                 | description                                        |
-| ---------------- | ------ | ------------------------------------- | -------------------------------------------------- |
-| `cover`\*        | string | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control |
-| `open_position`  | number | 100                                   | The open position (between 0 and 100)              |
-| `close_position` | number | 0                                     | The close position (between 0 and 100)             |
+| key                         | type    | value                                 | description                                                                                                                                                                               |
+| --------------------------- | ------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cover`\*                   | string  | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control                                                                                                                                        |
+| `open_position`             | number  | 100                                   | The open position (between 0 and 100)                                                                                                                                                     |
+| `close_position`            | number  | 0                                     | The close position (between 0 and 100)                                                                                                                                                    |
+| `update_supported_features` | boolean | False                                 | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time. |
 
 _\* Required fields_

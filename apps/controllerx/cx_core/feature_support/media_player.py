@@ -21,7 +21,12 @@ class MediaPlayerSupport(FeatureSupport):
     SHUFFLE_SET = 32768
     SELECT_SOUND_MODE = 65536
 
-    def __init__(self, entity: Optional[str], controller: Optional[Controller]) -> None:
+    def __init__(
+        self,
+        entity: Optional[str],
+        controller: Optional[Controller],
+        update_supported_features: bool,
+    ) -> None:
         super().__init__(
             entity,
             controller,
@@ -43,4 +48,5 @@ class MediaPlayerSupport(FeatureSupport):
                 MediaPlayerSupport.SHUFFLE_SET,
                 MediaPlayerSupport.SELECT_SOUND_MODE,
             ],
+            update_supported_features,
         )

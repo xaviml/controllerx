@@ -30,7 +30,7 @@ from cx_core.feature_support.light import LightSupport
     ],
 )
 def test_init(number, expected_supported_features):
-    light_support = LightSupport(None, None)
+    light_support = LightSupport(None, None, False)
     light_support._supported_features = FeatureSupport.decode(
         number, light_support.features
     )

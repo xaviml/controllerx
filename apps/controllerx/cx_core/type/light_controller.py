@@ -99,8 +99,11 @@ class LightController(TypeController, ReleaseHoldController):
         self.add_transition_turn_toggle = self.args.get(
             "add_transition_turn_toggle", False
         )
+        update_supported_features = self.args.get("update_supported_features", False)
 
-        self.supported_features = LightSupport(self.light["name"], self)
+        self.supported_features = LightSupport(
+            self.light["name"], self, update_supported_features
+        )
         await super().initialize()
 
     def get_domain(self) -> str:
