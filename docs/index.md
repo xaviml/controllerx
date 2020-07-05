@@ -38,10 +38,12 @@ livingroom_controller:
 
 - [Symfonisk controlling Chromecast volume](https://twitter.com/xaviml93/status/1278000379444240390)
 - [Magic Xiaomi Cube controlling a colour light](https://twitter.com/xaviml93/status/1231542785486049280)
-- [Ikea E1810 controlling a colour light with ZHA](https://twitter.com/xaviml93/status/1227573383489085440)
+- [E1810 (IKEA) controlling a colour light with ZHA](https://twitter.com/xaviml93/status/1227573383489085440)
 - [Symfonisk controlling Google Home mini](https://twitter.com/xaviml93/status/1216124464901115905)
 - [Symfonisk controlling a light](https://twitter.com/xaviml93/status/1216297058581258240)
 - [Showing the colour wheel from HA](https://twitter.com/xaviml93/status/1213978663294787595)
+- [E1743 (IKEA) button as a cover controller](https://twitter.com/xaviml93/status/1279875564736741376)
+- [E1810 (IKEA) as a TV remote](https://twitter.com/xaviml93/status/1279874124026970115)
 
 ### 💡 **NOTE**
 
