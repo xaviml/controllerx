@@ -1,4 +1,3 @@
-from typing import Optional
 from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
 
@@ -45,6 +44,17 @@ class WXKG01LMLightController(LightController):
             "long": Light.HOLD_BRIGHTNESS_TOGGLE,
             "long_release": Light.RELEASE,
         }
+
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "triple": Light.ON_MIN_BRIGHTNESS,
+            "quadruple": Light.SET_HALF_BRIGHTNESS,
+        }
+
+    def get_zha_action(self, command: str, args) -> str:
+        return args["click_type"]
 
 
 class WXKG11LMLightController(LightController):
@@ -140,7 +150,7 @@ class MFKZQ01LMLightController(LightController):
             "rotate_right": Light.CLICK_BRIGHTNESS_UP,
         }
 
-    def get_zha_action(self, command: str, args) -> Optional[str]:
+    def get_zha_action(self, command: str, args) -> str:
         action = command
         if command == "flip":
             action = command + str(args["flip_degrees"])
