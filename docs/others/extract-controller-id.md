@@ -17,6 +17,6 @@ In case of deCONZ, you can go to `Developer Tools > Events` then down the bottom
 
 In case of ZHA, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `zha_event` and start listening. Then press any button and you will see event of the button, you will need to copy the `device_ieee` inside the `data` object. It is a number like the following 00:67:88:56:06:78:9b:3f.
 
-#### MQTT
+### MQTT
 
 In case of using MQTT integration, the `controller` attribute must have the MQTT topic to listen from. It is important that the topic payload contains directly the action name and not a JSON. This means that in case of using the MQTT integration in fvour of z2m, then the topic to listen to must be `zigbee2mqtt/<friendly name>/action` or `zigbee2mqtt/<friendly name>/click`.
