@@ -46,6 +46,10 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
 # We run the GitHub release only if it is a tag and the python version is 3.8
 # so we only execute this once.
+- task: DeleteFiles@1
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
+  inputs:
+    Contents: 'apps/controllerx/controllerx.egg-info/' 
 - task: ArchiveFiles@2
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
   inputs:
