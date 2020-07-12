@@ -21,3 +21,13 @@ integrations:
       - "many 🠖 More than 4 clicks"
       - "long 🠖 Hold the button"
       - "long_release 🠖 Release the button"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "single 🠖 1 click"
+      - "double 🠖 2 clicks"
+      - "triple 🠖 3 clicks"
+      - "quadruple 🠖 4 clicks"
+      - "furious 🠖 More than 4 clicks"
+note: >-
+  The ZHA implementation of this button does not yet support hold and release actions.

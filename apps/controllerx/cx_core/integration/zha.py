@@ -18,13 +18,22 @@ class ZHAIntegration(Integration):
             self.controller, self.callback, "zha_event", device_ieee=controller_id
         )
 
-    async def callback(self, event_name: str, data: dict, kwargs: dict) -> None:
-        action = data["command"]
-        args = data["args"]
-        if type(args) == dict:
+    def get_action(self, command: str, args):
+        if isinstance(args, dict):
             args = args["args"]
         args = list(map(str, args))
-        if not (action == "stop" or action == "release"):
+        action = command
+        if not (command == "stop" or command == "release"):
             if len(args) > 0:
                 action += "_" + "_".join(args)
+        return action
+
+    async def callback(self, event_name: str, data: dict, kwargs: dict) -> None:
+        command = data["command"]
+        args = data["args"]
+        action = self.controller.get_zha_action(command, args)
+        if action is None:
+            # If there is no action extracted from the controller then
+            # we extract with the standard function
+            action = self.get_action(command, args)
         await self.controller.handle_action(action)

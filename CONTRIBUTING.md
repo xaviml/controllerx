@@ -79,7 +79,7 @@ Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag 
 cz bump --no-verify
 ```
 
-Then, we can directly push the tags:
+`--prerelease` tag can be added to create a pre-release. Then, we can directly push the tags:
 
 ```
 git push origin master --tags

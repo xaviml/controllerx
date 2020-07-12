@@ -215,6 +215,13 @@ class Controller(Hass, Mqtt, abc.ABC):
         """
         return None
 
+    def get_zha_action(self, command: str, args) -> Optional[str]:
+        """
+        This method can be override for controllers that do not support
+        the standard extraction of the actions on cx_core/integration/zha.py
+        """
+        return None
+
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {}
 

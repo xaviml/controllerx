@@ -28,6 +28,14 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   displayName: 'Prepare Python $(python.version)'
+- task: ArchiveFiles@2
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
+  displayName: Zipping apps/controllerx folder
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/apps/controllerx' 
+    includeRootFolder: false 
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/controllerx.zip'
 - script: pip install pipenv
   displayName: 'Install pipenv'
 - script: python -m pipenv install --dev
@@ -41,6 +49,7 @@ steps:
 - script: pipenv run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
   displayName: 'Tests (pytest)'
 - task: PublishCodeCoverageResults@1
+  displayName: Publish code coverage
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
@@ -48,8 +57,9 @@ steps:
 # so we only execute this once.
 - task: GithubRelease@0
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
-  displayName: 'Create GitHub Release'      
+  displayName: Create GitHub Release
   inputs:
     gitHubConnection: github.com_xaviml
     repositoryName: xaviml/controllerx
     isPreRelease: ${{ contains(variables['Build.SourceBranchName'], 'b') }}
+    assets: '$(Build.ArtifactStagingDirectory)/controllerx.zip'

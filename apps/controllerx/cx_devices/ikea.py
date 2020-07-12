@@ -346,17 +346,17 @@ class ICTCG1MediaPlayerController(MediaPlayerController):
 
 class E1744LightController(LightController):
     # Different states reported from the controller:
-    # rotate_left, rotate_right, rotate_stop,
-    # play_pause, skip_forward, skip_backward
+    # brightness_move_down, brightness_move_up, brightness_stop,
+    # toggle, brightness_step_up, brightness_step_down
 
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
-            "rotate_left": Light.HOLD_BRIGHTNESS_DOWN,
-            "rotate_right": Light.HOLD_BRIGHTNESS_UP,
-            "rotate_stop": Light.RELEASE,
-            "play_pause": Light.TOGGLE,
-            "skip_forward": Light.ON_FULL_BRIGHTNESS,
-            "skip_backward": Light.ON_MIN_BRIGHTNESS,
+            "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_stop": Light.RELEASE,
+            "toggle": Light.TOGGLE,
+            "brightness_step_up": Light.ON_FULL_BRIGHTNESS,
+            "brightness_step_down": Light.ON_MIN_BRIGHTNESS,
         }
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
@@ -386,17 +386,17 @@ class E1744LightController(LightController):
 
 class E1744MediaPlayerController(MediaPlayerController):
     # Different states reported from the controller:
-    # rotate_left, rotate_right, rotate_stop,
-    # play_pause, skip_forward, skip_backward
+    # brightness_move_down, brightness_move_up, brightness_stop,
+    # toggle, brightness_step_up, brightness_step_down
 
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
-            "rotate_left": MediaPlayer.HOLD_VOLUME_DOWN,
-            "rotate_right": MediaPlayer.HOLD_VOLUME_UP,
-            "rotate_stop": MediaPlayer.RELEASE,
-            "play_pause": MediaPlayer.PLAY_PAUSE,
-            "skip_forward": MediaPlayer.NEXT_TRACK,
-            "skip_backward": MediaPlayer.PREVIOUS_TRACK,
+            "brightness_move_down": MediaPlayer.HOLD_VOLUME_DOWN,
+            "brightness_move_up": MediaPlayer.HOLD_VOLUME_UP,
+            "brightness_stop": MediaPlayer.RELEASE,
+            "toggle": MediaPlayer.PLAY_PAUSE,
+            "brightness_step_up": MediaPlayer.NEXT_TRACK,
+            "brightness_step_down": MediaPlayer.PREVIOUS_TRACK,
         }
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
