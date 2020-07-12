@@ -43,8 +43,7 @@ integrations:
     codename: zha
     actions:
       - "shake 🠖 Shake the cube"
-      - "wakeup 🠖 Cube automatically wakeup"
-      - "fall 🠖 From up to down acceleration"
+      - "drop 🠖 From up to down acceleration"
       - "knock 🠖 Doble tap in a surface"
       - "slide 🠖 Swipe horizontal direction"
       - "flip180 🠖 Flip cube 180 degrees"
