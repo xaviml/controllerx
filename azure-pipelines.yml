@@ -46,6 +46,13 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
 # We run the GitHub release only if it is a tag and the python version is 3.8
 # so we only execute this once.
+- task: ArchiveFiles@2
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/apps/controllerx' 
+    includeRootFolder: false 
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/controllerx.zip'
 - task: GithubRelease@0
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
   displayName: 'Create GitHub Release'      
@@ -53,3 +60,4 @@ steps:
     gitHubConnection: github.com_xaviml
     repositoryName: xaviml/controllerx
     isPreRelease: ${{ contains(variables['Build.SourceBranchName'], 'b') }}
+    assets: '$(Build.ArtifactStagingDirectory)/controllerx.zip'
