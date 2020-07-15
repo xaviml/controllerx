@@ -38,7 +38,9 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/controllerx.zip'
 - script: pip install pipenv
   displayName: 'Install pipenv'
-- script: pipenv install --dev --system
+- script: pipenv lock --dev
+  displayName: 'Lock dependencies'
+- script: pipenv install --system --deploy --dev
   displayName: 'Install dependencies'
 - script: black apps/controllerx tests --check
   displayName: Formatter (black)
