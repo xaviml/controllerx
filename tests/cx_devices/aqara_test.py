@@ -3,34 +3,34 @@ from cx_devices.aqara import MFKZQ01LMLightController, WXKG01LMLightController
 
 
 @pytest.mark.parametrize(
-    "command, args, expected_action",
+    "data, expected_action",
     [
-        ("shake", {}, "shake"),
-        ("knock", {}, "knock"),
-        ("slide", {}, "slide"),
-        ("flip", {"flip_degrees": 90}, "flip90"),
-        ("flip", {"flip_degrees": 180}, "flip180"),
-        ("rotate_left", {}, "rotate_left"),
-        ("rotate_right", {}, "rotate_right"),
+        ({"command": "shake"}, "shake"),
+        ({"command": "knock"}, "knock"),
+        ({"command": "slide"}, "slide"),
+        ({"command": "flip", "args": {"flip_degrees": 90}}, "flip90",),
+        ({"command": "flip", "args": {"flip_degrees": 180}}, "flip180"),
+        ({"command": "rotate_left"}, "rotate_left"),
+        ({"command": "rotate_right"}, "rotate_right"),
     ],
 )
-def test_zha_action_MFKZQ01LMLightController(command, args, expected_action):
+def test_zha_action_MFKZQ01LMLightController(data, expected_action):
     sut = MFKZQ01LMLightController()
-    action = sut.get_zha_action(command, args)
+    action = sut.get_zha_action(data)
     assert action == expected_action
 
 
 @pytest.mark.parametrize(
-    "command, args, expected_action",
+    "data, expected_action",
     [
-        ("click", {"click_type": "single"}, "single"),
-        ("click", {"click_type": "double"}, "double"),
-        ("click", {"click_type": "triple"}, "triple"),
-        ("click", {"click_type": "quadruple"}, "quadruple"),
-        ("click", {"click_type": "furious"}, "furious"),
+        ({"command": "click", "args": {"click_type": "single"}}, "single"),
+        ({"command": "click", "args": {"click_type": "double"}}, "double"),
+        ({"command": "click", "args": {"click_type": "triple"}}, "triple"),
+        ({"command": "click", "args": {"click_type": "quadruple"}}, "quadruple"),
+        ({"command": "click", "args": {"click_type": "furious"}}, "furious"),
     ],
 )
-def test_zha_action_WXKG01LMLightController(command, args, expected_action):
+def test_zha_action_WXKG01LMLightController(data, expected_action):
     sut = WXKG01LMLightController()
-    action = sut.get_zha_action(command, args)
+    action = sut.get_zha_action(data)
     assert action == expected_action
