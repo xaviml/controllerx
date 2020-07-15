@@ -38,15 +38,15 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/controllerx.zip'
 - script: pip install pipenv
   displayName: 'Install pipenv'
-- script: python -m pipenv install --dev
+- script: pipenv install --dev --system
   displayName: 'Install dependencies'
-- script: pipenv run black apps/controllerx tests --check
+- script: black apps/controllerx tests --check
   displayName: Formatter (black)
-- script: pipenv run flake8 apps/controllerx tests
+- script: flake8 apps/controllerx tests
   displayName: Styling (flake8)
-- script: pipenv run mypy apps/controllerx
+- script: mypy apps/controllerx
   displayName: Typing (mypy)
-- script: pipenv run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
+- script: pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
   displayName: 'Tests (pytest)'
 - task: PublishCodeCoverageResults@1
   displayName: Publish code coverage
