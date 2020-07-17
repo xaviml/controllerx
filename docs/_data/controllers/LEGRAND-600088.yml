@@ -1,0 +1,29 @@
+name: 600088 (LEGRAND)
+device_support:
+  - type: Light
+    domain: light
+    controller: Legrand600088LightController
+    delay: 350
+    mapping:
+      - press left top button 🠖 Turn on
+      - press left bottom button 🠖 Turn off
+      - hold left top button 🠖 Change color or color temperature up
+      - hold left bottom button 🠖 Change color or color temperature down
+      - press right top button 🠖 Full brightness
+      - press right bottom button 🠖 Minimum brightness
+      - hold right top button 🠖 Brighten up
+      - hold right bottom button 🠖 Dim down
+integrations:
+  - name: ZHA
+    codename: zha
+    actions:
+      - 1_on 🠖 press left top button
+      - 1_off 🠖 press left bottom button
+      - 1_move_up 🠖 hold left top button
+      - 1_move_down 🠖 hold left bottom button
+      - 1_stop 🠖 release any left button
+      - 2_on 🠖 press right top button
+      - 2_off 🠖 press right bottom button
+      - 2_move_up 🠖 hold right top button
+      - 2_move_down 🠖 hold right bottom button
+      - 2_stop 🠖 release any right button

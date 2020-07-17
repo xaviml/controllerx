@@ -15,3 +15,4 @@ from cx_devices.lutron import *
 from cx_devices.philips import *
 from cx_devices.smartthings import *
 from cx_devices.trust import *
+from cx_devices.legrand import *
