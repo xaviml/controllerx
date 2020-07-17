@@ -15,7 +15,7 @@ def get_zha_action_LegrandWallController(data: dict) -> Optional[str]:
     return action
 
 
-class LegrandSimpleWallLightController(LightController):
+class Legrand600083LightController(LightController):
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "1_on": Light.ON,
@@ -29,17 +29,16 @@ class LegrandSimpleWallLightController(LightController):
         return get_zha_action_LegrandWallController(data)
 
 
-class LegrandDoubleWallLightController(LightController):
-    # TODO: define the mapping for this controller
+class Legrand600088LightController(LightController):
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "1_on": Light.ON,
             "1_off": Light.OFF,
-            "1_move_up": Light.HOLD_BRIGHTNESS_UP,
-            "1_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "1_move_up": Light.HOLD_COLOR_UP,
+            "1_move_down": Light.HOLD_COLOR_DOWN,
             "1_stop": Light.RELEASE,
-            "2_on": Light.ON,
-            "2_off": Light.OFF,
+            "2_on": Light.ON_FULL_BRIGHTNESS,
+            "2_off": Light.ON_MIN_BRIGHTNESS,
             "2_move_up": Light.HOLD_BRIGHTNESS_UP,
             "2_move_down": Light.HOLD_BRIGHTNESS_DOWN,
             "2_stop": Light.RELEASE,
