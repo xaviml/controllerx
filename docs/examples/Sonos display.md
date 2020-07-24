@@ -49,7 +49,7 @@ If you experience some strange characters on the display, you probably need to e
 
 Calibri TTF fonts link: [https://www.fontdload.com/dl/calibri-font/](https://www.fontdload.com/dl/calibri-font/)
 
-Heydings Icons special file link: [https://github.com/htvekov/controllerx/tree/master/docs/assets/img/[HeydingsIconsSymbols.ttf](https://github.com/htvekov/controllerx/blob/master/docs/assets/img/HeydingsIconsSymbols.ttf)
+Heydings Icons special file link: [https://github.com/htvekov/controllerx/tree/master/docs/assets/img/HeydingsIconsSymbols.ttf](https://github.com/htvekov/controllerx/blob/master/docs/assets/img/HeydingsIconsSymbols.ttf)
 
 Copy Calibri Bold, Calibri Regular, Calibri Light fonts plus the special Heydings Icons font file to the ESPHome folder (/config/esphome/)
 
@@ -397,7 +397,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNTYzNDg2MzUsNjY5NzgzNjIzLDgwNz
-AxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwx
-MTM2NDI2MzMyLC0zMDAyNTQxODZdfQ==
+eyJoaXN0b3J5IjpbMjIxODkyOTUyLDY2OTc4MzYyMyw4MDcwMT
+A0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MTE5MjAzNzUsMTEz
+NjQyNjMzMiwtMzAwMjU0MTg2XX0=
 -->
