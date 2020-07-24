@@ -126,7 +126,7 @@ sonos_all:
   #	- media_player.livingroom # SLAVE speaker #2
 ```
 
-### Home assistant automations:
+### Home Assistant automations:
 First automation is identical with the one already used in my ControllerX Sonos group setup example: ([https://xaviml.github.io/controllerx/examples/sonos](https://xaviml.github.io/controllerx/examples/sonos))
 
 Second automation is purely optional and not really directly related to the display. It's just a quick shortcut to easily reset active speakers within group, volume and source playing to some defaults you've defined in the automation. Really nice when you have teenagers in the house, messing with active speaker entities in the group, playlists and volume all the time... 😉
@@ -397,6 +397,6 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2ND
-I2MzMyLC0zMDAyNTQxODZdfQ==
+eyJoaXN0b3J5IjpbLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOT
+IwMzc1LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
 -->
