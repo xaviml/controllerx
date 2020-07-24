@@ -5,7 +5,7 @@
 
 ![Three different Sonos displays](https://github.com/htvekov/controllerx/blob/dev/docs/assets/img/Sonos_displays_1.jpg)
 
-Using ControllerX - Controlling your Sonos speakers have never been easier 😎 But the occasional wish for visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there. Leaving you wita display integration as the obvious solution for this need.
+Using ControllerX - Controlling your Sonos speakers have never been easier 😎 But the occasional wish for visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there  Leaving you with no other choice than adding a display integration as the obvious solution for this need.
 
 All it takes is an ESP8266 with ESPHome software, an appropriate display, a handful of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
 
@@ -397,5 +397,5 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg4NzY4Mzg5NSwtMzAwMjU0MTg2XX0=
+eyJoaXN0b3J5IjpbNzQwNTQwMzQ5LC0zMDAyNTQxODZdfQ==
 -->
