@@ -383,7 +383,7 @@ display:
 
 ## Future improvement plans
 - Improve/simplify templates
-- Remove need for master entity so many places in configs
+- Remove need for master entity everywhere in config files
 - Display 'shuffle' and 'mute' sign
 - Implement brightness control on display
 - Implement display on/off (via local ESPHome PIR sensor)
@@ -397,7 +397,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODA3MDEwNDQsLTI2ODAxMjUyMyw2ODY5Mj
-M3NjUsODExOTIwMzc1LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
-
+eyJoaXN0b3J5IjpbOTY5MjczODk5LDgwNzAxMDQ0LC0yNjgwMT
+I1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMyLC0z
+MDAyNTQxODZdfQ==
 -->
