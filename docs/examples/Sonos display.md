@@ -59,7 +59,7 @@ Below you’ll find the HA template sensors needed in `configuration.yaml `for E
 Note: `media_artist` and `media_title` attributes from HA's Sonos integration *could* be swapped for some radio stations, as these attributes are split from one combined string in the stream. Some radio stations have artist - title order, others use title - artist. You really can't tell...
 My danish radio stations (source list) all use the 'swapped' version, so my templates below swap these two attributes for radio stations. 
 
-Enter your master speaker as trigger entity ID for all templates but the first two (search for `media_player.office` and replace with your master speaker entity). Without this specific hardcoded trigger entity, templates simply doesn't always update correctly. So unfortunately they're needed for now, until I hopefully find a more 'cleaner' and dynamic solution.
+Enter your master speaker as trigger entity ID for all templates but the first two (search for `media_player.office` and replace with your master speaker entity). Without this specific hardcoded trigger entity, templates simply doesn't always update correctly. So unfortunately they're needed for now, until I hopefully find a 'cleaner' and more dynamic solution.
 
 ```yaml
 # Sonos sensors
@@ -397,6 +397,6 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODExOTIwMzc1LDExMzY0MjYzMzIsLTMwMD
-I1NDE4Nl19
+eyJoaXN0b3J5IjpbNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2ND
+I2MzMyLC0zMDAyNTQxODZdfQ==
 -->
