@@ -162,9 +162,9 @@ The automation is written for an Ikea E1810 remote with z2m ControllerX HA integ
   - service: media_player.volume_set # Reset volume to 25 for all speakers
     data_template:
       entity_id:
-      - media_player.kokken
-      - media_player.alrum
-      - media_player.stue
+      - media_player.office
+      - media_player.kitchen
+      - media_player.livingroom
       volume_level: 0.25
   - service: media_player.select_source # Reset to your default choice of source
     data:
@@ -397,6 +397,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOT
-IwMzc1LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
+eyJoaXN0b3J5IjpbODA3MDEwNDQsLTI2ODAxMjUyMyw2ODY5Mj
+M3NjUsODExOTIwMzc1LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
+
 -->
