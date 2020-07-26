@@ -306,9 +306,9 @@ interval:
 display:
   - platform: ssd1306_i2c
     model: "SSD1306 128x64"
-    reset_pin: D0 # RST connection 
-    address: 0x3C
-    brightness: 100%
+    reset_pin: D0 # RST - SSD1306/1309. Used to ture
+    address: 0x3C # Default I2C adress
+    brightness: 100% # Select brightness
     id: sonos
     pages:
       - id: page1
@@ -411,9 +411,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTc4Mzg5OTgxLDEzNTQ3MTc2NjcsLTEyMD
-I4NDg0ODIsMTg2MTY3NzI0NywyMTM5NTUxNjA4LC0xOTk2NTU5
-NjI3LDIyMTg5Mjk1Miw2Njk3ODM2MjMsODA3MDEwNDQsLTI2OD
-AxMjUyMyw2ODY5MjM3NjUsODExOTIwMzc1LDExMzY0MjYzMzIs
-LTMwMDI1NDE4Nl19
+eyJoaXN0b3J5IjpbMjExNzcxNzIxOCwxMzU0NzE3NjY3LC0xMj
+AyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5NjU1
+OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0yNj
+gwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMy
+LC0zMDAyNTQxODZdfQ==
 -->
