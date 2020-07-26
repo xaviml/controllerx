@@ -136,12 +136,12 @@ sonos_all:
   name: sonos_all
   entities:
     - media_player.office     # This HAS to be your MASTER speaker
-  #	- media_player.kitchen    # SLAVE speaker #1 optional 
-  #	- media_player.livingroom # SLAVE speaker #2
+  #	- media_player.kitchen    # Optional - SLAVE speaker #1
+  #	- media_player.livingroom # Optional - SLAVE speaker #2
 ```
 
 ### Home Assistant automations:
-First automation is identical with the one already used in my ControllerX Sonos group setup example: ([https://xaviml.github.io/controllerx/examples/sonos](https://xaviml.github.io/controllerx/examples/sonos))
+First automation is identical with the one I've already used in my ControllerX Sonos group setup example: ([https://xaviml.github.io/controllerx/examples/sonos](https://xaviml.github.io/controllerx/examples/sonos))
 
 Second automation is purely optional and not really directly related to the display. It's just a quick shortcut to easily reset active speakers within group, volume and source playing to some defaults you've defined in the automation. Really nice when you have teenagers in the house, messing with active speaker entities in the group, playlists and volume all the time... 😉
 The automation is written for an Ikea E1810 remote with z2m ControllerX HA integration. Here `toggle_hold`(Press and hold center button for appx. 3.5 seconds) is used as trigger.
@@ -411,9 +411,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzNTQ5OTY4ODQsMTM1NDcxNzY2NywtMT
-IwMjg0ODQ4MiwxODYxNjc3MjQ3LDIxMzk1NTE2MDgsLTE5OTY1
-NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYyMyw4MDcwMTA0NCwtMj
-Y4MDEyNTIzLDY4NjkyMzc2NSw4MTE5MjAzNzUsMTEzNjQyNjMz
-MiwtMzAwMjU0MTg2XX0=
+eyJoaXN0b3J5IjpbMjgxMTA0MTk5LDEzNTQ3MTc2NjcsLTEyMD
+I4NDg0ODIsMTg2MTY3NzI0NywyMTM5NTUxNjA4LC0xOTk2NTU5
+NjI3LDIyMTg5Mjk1Miw2Njk3ODM2MjMsODA3MDEwNDQsLTI2OD
+AxMjUyMyw2ODY5MjM3NjUsODExOTIwMzc1LDExMzY0MjYzMzIs
+LTMwMDI1NDE4Nl19
 -->
