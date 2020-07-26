@@ -28,11 +28,14 @@ One note on the SSD1309 display. In order to get it to work as I2C instead of SP
 
 **Connections:**
 SSD1306/1309 --> Wemos D1 mini
-VCC: 3,3v !!!
-GND: GND
-SDA: D1
-SCL: D2
-RES: D0 or RST
+VCC: 	3,3v !!!
+GND: 	GND
+SDA: 	D1
+SCL: 	D2
+RES:	D0 or RST
+CS:		nc (no connection - flr
+DC:		nc (no connection - floating)
+
 
 ### Display setup:
 My current display setup consists of four pages that all are displayed for 5 seconds.
@@ -407,8 +410,8 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNTE5MzI5MSwxODYxNjc3MjQ3LDIxMz
-k1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYy
-Myw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MTE5Mj
-AzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2XX0=
+eyJoaXN0b3J5IjpbODUzMzUxNTY3LDE4NjE2NzcyNDcsMjEzOT
+U1MTYwOCwtMTk5NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIz
+LDgwNzAxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMD
+M3NSwxMTM2NDI2MzMyLC0zMDAyNTQxODZdfQ==
 -->
