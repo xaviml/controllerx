@@ -58,7 +58,7 @@ If you only need the Sonos playing details displayed, you can just remove page 3
 
 ### True Type Fonts:
 Three 'standard' Calibri TT fonts are used plus a 'special' version of Heydings Icons font in which I've included some Heydings Controls icons as well.
-If you experience some strange characters on the display, you probably need to edit the glyphs in ESPHome YAML and add whatever language specific characters that are missing. 
+If you experience some strange characters on the display, you probably need to edit the glyphs in ESPHome YAML and add whatever language specific characters you find are missing. 
 
 Calibri TTF fonts link: [https://www.fontdload.com/dl/calibri-font/](https://www.fontdload.com/dl/calibri-font/)
 
@@ -129,7 +129,8 @@ sensor:
 ### Home Assistant group:
 Here you define your Sonos speaker entities. Master speaker has to be entered as first entity and all that's actually needed. Active slave speakers will dynamically be added on HA restart or when group configuration is changed (via Sonos app/HA service calls eg.) If you're only using one speaker, you still need to create the group in `groups.yaml` and populate with that single master speaker entity, as the group entity is needed in the code.
 
-One note on master speaker, slaves and Sonos groups. You're defined master speaker actually doesn't need to be THE master speaker. As long as it's part of the group (master OR slave), then display will still show data for the group. But if defined master speaker is removed from the group, it will be a 'single speaker group' on it's own and display will reflect master speaker data. 
+**One note on master speaker, slaves and Sonos groups**
+You're defined master speaker actually doesn't need to be ther master speaker. As long as it's part of the group (master OR slave), then display will still show data for the group. But if defined master speaker is removed from the group, it will be a 'single speaker group' on it's own and display will reflect master speaker data. 
 ```yaml
 sonos_all:
   name: sonos_all
@@ -410,9 +411,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkzNjg1NTI2NSwxMzU0NzE3NjY3LC0xMj
-AyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5NjU1
-OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0yNj
-gwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMy
-LC0zMDAyNTQxODZdfQ==
+eyJoaXN0b3J5IjpbLTE2OTQyMzcyODQsMTM1NDcxNzY2NywtMT
+IwMjg0ODQ4MiwxODYxNjc3MjQ3LDIxMzk1NTE2MDgsLTE5OTY1
+NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYyMyw4MDcwMTA0NCwtMj
+Y4MDEyNTIzLDY4NjkyMzc2NSw4MTE5MjAzNzUsMTEzNjQyNjMz
+MiwtMzAwMjU0MTg2XX0=
 -->
