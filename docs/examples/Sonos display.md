@@ -18,13 +18,13 @@ Wemos D1 mini – ESP8266
 https://www.aliexpress.com/item/32845253497.html?spm=a2g0s.9042311.0.0.27424c4dFNzmlu
 
 0,96" 12864 SSD1306 OLED display
-[https://www.aliexpress.com/item/32896971385.html?spm=a2g0s.9042311.0.0.27424c4d7omJkq](https://www.aliexpress.com/item/32896971385.html?spm=a2g0s.9042311.0.0.27424c4d7omJkq)
+https://www.aliexpress.com/item/32896971385.html?spm=a2g0s.9042311.0.0.27424c4d7omJkq
 
 2,42” 12864 SSD1309 OLED display (direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
 https://www.aliexpress.com/item/33024448944.html?spm=a2g0s.9042311.0.0.27424c4d28nV4A
 
 Or alternatively you can use a Wemos NodeMCU ESP8266 with integrated 0,96" OLED display
-[https://www.aliexpress.com/item/4000287451981.html?spm=a2g0o.productlist.0.0.2d34c80dWlfO69](https://www.aliexpress.com/item/4000287451981.html?spm=a2g0o.productlist.0.0.2d34c80dWlfO69)
+https://www.aliexpress.com/item/4000287451981.html?spm=a2g0o.productlist.0.0.2d34c80dWlfO69(https://www.aliexpress.com/item/4000287451981.html?spm=a2g0o.productlist.0.0.2d34c80dWlfO69)
 
 
 **One note on the SSD1309 display**
@@ -416,10 +416,10 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTcyNjE4NTA0OCwxMDc4ODU0MzgxLDE2OT
-IzNTQxMCwtNjEyMDIyOTA5LDEzNTQ3MTc2NjcsLTEyMDI4NDg0
-ODIsMTg2MTY3NzI0NywyMTM5NTUxNjA4LC0xOTk2NTU5NjI3LD
-IyMTg5Mjk1Miw2Njk3ODM2MjMsODA3MDEwNDQsLTI2ODAxMjUy
-Myw2ODY5MjM3NjUsODExOTIwMzc1LDExMzY0MjYzMzIsLTMwMD
-I1NDE4Nl19
+eyJoaXN0b3J5IjpbOTAyODQ1NzQ1LC03MjYxODUwNDgsMTA3OD
+g1NDM4MSwxNjkyMzU0MTAsLTYxMjAyMjkwOSwxMzU0NzE3NjY3
+LC0xMjAyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMT
+k5NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0
+LC0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2ND
+I2MzMyLC0zMDAyNTQxODZdfQ==
 -->
