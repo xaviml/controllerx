@@ -26,10 +26,12 @@ Or alternatively you can use a Wemos NodeMCU ESP8266 with integrated 0,96" OLED 
 
 One note on the SSD1309 display. In order to get it to work as I2C instead of SPI, you need to do a bit of soldering. On the specific display type I bought, you need to bridge (short) R5 and move R4 to R3. Remember that display will NOT work unless RES is connected to RST on ESP8266 (or any available pin and controlled in ESPHome sw). Note: Display only supports 3,3v on VCC. Some have reported that display tolerates 5v. I wouldn’t take that risk, though! I’ve kept both CS and DS ‘floating’. Haven’t had any I2C address issues so far. Use pull-up/down resistors if you experience issues.
 
-Connections:
+**Connections:**
 VCC: 3,3v !!!
+GND: GND
 SDA: D1
 SCL: D2
+RES: 
 
 ### Display setup:
 My current display setup consists of four pages that all are displayed for 5 seconds.
@@ -404,7 +406,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTgxNzk4ODgzNCwxODYxNjc3MjQ3LDIxMz
+eyJoaXN0b3J5IjpbLTE5MTUyMTY3MiwxODYxNjc3MjQ3LDIxMz
 k1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYy
 Myw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MTE5Mj
 AzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2XX0=
