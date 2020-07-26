@@ -32,7 +32,7 @@ In order to get it to work as I2C instead of SPI, you need to do a bit of solder
 
 **Connections:**
 **SSD1306/1309 --> Wemos D1 mini**
-VCC: 	3,3v !!!
+VCC: 	3,3v !!! (SSD1306 only: 3,3v-5v)
 GND: 	GND
 SDA: 	D1
 SCL: 	D2
@@ -416,7 +416,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTM2NDY4Nzk4MiwxNjkyMzU0MTAsLTYxMj
+eyJoaXN0b3J5IjpbMTA3ODg1NDM4MSwxNjkyMzU0MTAsLTYxMj
 AyMjkwOSwxMzU0NzE3NjY3LC0xMjAyODQ4NDgyLDE4NjE2Nzcy
 NDcsMjEzOTU1MTYwOCwtMTk5NjU1OTYyNywyMjE4OTI5NTIsNj
 Y5NzgzNjIzLDgwNzAxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1
