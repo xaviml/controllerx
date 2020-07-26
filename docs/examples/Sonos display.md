@@ -31,7 +31,7 @@ VCC: 3,3v !!!
 GND: GND
 SDA: D1
 SCL: D2
-RES: 
+RES: RST
 
 ### Display setup:
 My current display setup consists of four pages that all are displayed for 5 seconds.
@@ -406,7 +406,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5MTUyMTY3MiwxODYxNjc3MjQ3LDIxMz
+eyJoaXN0b3J5IjpbMTI3OTEwMDI5NywxODYxNjc3MjQ3LDIxMz
 k1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYy
 Myw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MTE5Mj
 AzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2XX0=
