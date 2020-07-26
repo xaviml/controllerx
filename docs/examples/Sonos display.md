@@ -7,7 +7,7 @@
 
 Using ControllerX - Controlling your Sonos speakers have never been easier 😎 But the occasional wish for visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there 👀 Leaving you with no other choice than adding a display integration as the obvious solution for this need 😉
 
-All it takes is an ESP8266 with ESPHome software, an appropriate display, a handful of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
+All it takes is an ESP8266 with ESPHome software, an appropriate display, a handfull of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
 
 ### Hardware:
 I initially used the simple and inexpensive (less than 2 US$ ) SSD1306 0,96" OLED display for this build. Resolution is only 128x64. But still enough, when using several pages to be displayed continously. The SSD1306 has a 'big brother' in the SSD1309 display. This display has identical resolution, is priced at some 14 US$, can use same drivers/library as SSD1306 but is much, much larger at 2,42". I really like this good sized and simple I2C display and ended up using this display in the final build, as it's much easier to read from a distance 🙂
@@ -415,10 +415,10 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0OTQ1ODczODcsLTcyNjE4NTA0OCwxMD
-c4ODU0MzgxLDE2OTIzNTQxMCwtNjEyMDIyOTA5LDEzNTQ3MTc2
-NjcsLTEyMDI4NDg0ODIsMTg2MTY3NzI0NywyMTM5NTUxNjA4LC
-0xOTk2NTU5NjI3LDIyMTg5Mjk1Miw2Njk3ODM2MjMsODA3MDEw
-NDQsLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOTIwMzc1LDExMz
-Y0MjYzMzIsLTMwMDI1NDE4Nl19
+eyJoaXN0b3J5IjpbMTMwMjMzNzc2NywtMTQ5NDU4NzM4NywtNz
+I2MTg1MDQ4LDEwNzg4NTQzODEsMTY5MjM1NDEwLC02MTIwMjI5
+MDksMTM1NDcxNzY2NywtMTIwMjg0ODQ4MiwxODYxNjc3MjQ3LD
+IxMzk1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODkyOTUyLDY2OTc4
+MzYyMyw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MT
+E5MjAzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2XX0=
 -->
