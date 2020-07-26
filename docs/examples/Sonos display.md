@@ -17,7 +17,10 @@ Some links examples for hardware below. These are just some random sellers I've 
 Wemos D1 mini – ESP8266
 https://www.aliexpress.com/item/32845253497.html?spm=a2g0s.9042311.0.0.27424c4dFNzmlu
 
-2,42” 12864 SSD1309 display (direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
+0,96" 12864 SSD1306 OLED display
+[https://www.aliexpress.com/item/32896971385.html?spm=a2g0s.9042311.0.0.27424c4d7omJkq](https://www.aliexpress.com/item/32896971385.html?spm=a2g0s.9042311.0.0.27424c4d7omJkq)
+
+2,42” 12864 SSD1309 OLED display (direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
 https://www.aliexpress.com/item/33024448944.html?spm=a2g0s.9042311.0.0.27424c4d28nV4A
 
 Or alternatively you can use a Wemos NodeMCU ESP8266 with integrated 0,96" OLED display
@@ -412,9 +415,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg2NzQ4OTM1MywtNjEyMDIyOTA5LDEzNT
-Q3MTc2NjcsLTEyMDI4NDg0ODIsMTg2MTY3NzI0NywyMTM5NTUx
-NjA4LC0xOTk2NTU5NjI3LDIyMTg5Mjk1Miw2Njk3ODM2MjMsOD
-A3MDEwNDQsLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOTIwMzc1
-LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
+eyJoaXN0b3J5IjpbLTE2ODE5NDI5NTgsLTYxMjAyMjkwOSwxMz
+U0NzE3NjY3LC0xMjAyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1
+MTYwOCwtMTk5NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLD
+gwNzAxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3
+NSwxMTM2NDI2MzMyLC0zMDAyNTQxODZdfQ==
 -->
