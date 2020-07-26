@@ -33,7 +33,7 @@ GND: 	GND
 SDA: 	D1
 SCL: 	D2
 RES:	D0 or RST
-CS:		NC (No Connection - 'floating')
+CS:		NC (No Connection - 'floating'. Default I2C address 0x3c)
 DC:		NC (No Connection - 'floating')
 
 
@@ -410,8 +410,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMDI4NDg0ODIsMTg2MTY3NzI0NywyMT
-M5NTUxNjA4LC0xOTk2NTU5NjI3LDIyMTg5Mjk1Miw2Njk3ODM2
-MjMsODA3MDEwNDQsLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOT
-IwMzc1LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
+eyJoaXN0b3J5IjpbMTM1NDcxNzY2NywtMTIwMjg0ODQ4MiwxOD
+YxNjc3MjQ3LDIxMzk1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODky
+OTUyLDY2OTc4MzYyMyw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4Nj
+kyMzc2NSw4MTE5MjAzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2
+XX0=
 -->
