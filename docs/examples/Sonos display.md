@@ -31,10 +31,9 @@ In order to get it to work as I2C instead of SPI, you need to do a bit of solder
 
 **Connections:**
 **SSD1306/1309 --> Wemos D1 mini**
-VCC: 	3,3v !!! (SSD1306 only: 3,3v-5v)
-GND: 	GND
-SDA: 	D1
-SCL: 	D2
+
+ 1. VCC: 	3,3v !!! (SSD1306 only: 3,3v-5v) GND: 	GND SDA: 	D1 SCL: 	D2
+
 **SSD1309 only --> Wemos D1 mini**
 RES:	D0 or RST
 CS:		NC (No Connection - 'floating'. Default I2C address 0x3c)
@@ -415,10 +414,11 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMwMjMzNzc2NywtMTQ5NDU4NzM4NywtNz
-I2MTg1MDQ4LDEwNzg4NTQzODEsMTY5MjM1NDEwLC02MTIwMjI5
-MDksMTM1NDcxNzY2NywtMTIwMjg0ODQ4MiwxODYxNjc3MjQ3LD
-IxMzk1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODkyOTUyLDY2OTc4
-MzYyMyw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MT
-E5MjAzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2XX0=
+eyJoaXN0b3J5IjpbLTE4NDM3NTE4MjYsMTMwMjMzNzc2NywtMT
+Q5NDU4NzM4NywtNzI2MTg1MDQ4LDEwNzg4NTQzODEsMTY5MjM1
+NDEwLC02MTIwMjI5MDksMTM1NDcxNzY2NywtMTIwMjg0ODQ4Mi
+wxODYxNjc3MjQ3LDIxMzk1NTE2MDgsLTE5OTY1NTk2MjcsMjIx
+ODkyOTUyLDY2OTc4MzYyMyw4MDcwMTA0NCwtMjY4MDEyNTIzLD
+Y4NjkyMzc2NSw4MTE5MjAzNzUsMTEzNjQyNjMzMiwtMzAwMjU0
+MTg2XX0=
 -->
