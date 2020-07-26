@@ -71,7 +71,7 @@ Calibri TTF fonts link: [https://www.fontdload.com/dl/calibri-font/](https://www
 
 Heydings Icons special file link: [https://github.com/htvekov/controllerx/tree/master/docs/assets/img/HeydingsIconsSymbols.ttf](https://github.com/htvekov/controllerx/blob/master/docs/assets/img/HeydingsIconsSymbols.ttf)
 
-Copy Calibri Bold, Calibri Regular, Calibri Light fonts plus the special Heydings Icons font file to the ESPHome folder (/config/esphome/)
+Copy Calibri Bold, Calibri Regular, Calibri Light fonts plus the special Heydings Icons font file to the ESPHome folder `/config/esphome/`
 
 ### Home Assistant sensors:
 Below you’ll find the HA template sensors needed in `configuration.yaml `for ESPHome display to work.
@@ -418,7 +418,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM3MTk3MjUwMSwxMzAyMzM3NzY3LC0xND
+eyJoaXN0b3J5IjpbLTc5ODkwODA3NiwxMzAyMzM3NzY3LC0xND
 k0NTg3Mzg3LC03MjYxODUwNDgsMTA3ODg1NDM4MSwxNjkyMzU0
 MTAsLTYxMjAyMjkwOSwxMzU0NzE3NjY3LC0xMjAyODQ4NDgyLD
 E4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5NjU1OTYyNywyMjE4
