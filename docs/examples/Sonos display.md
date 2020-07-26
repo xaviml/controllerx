@@ -10,7 +10,7 @@ Using ControllerX - Controlling your Sonos speakers have never been easier 😎 
 All it takes is an ESP8266 with ESPHome software, an appropriate display, a handful of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
 
 ### Hardware:
-I initially used the simple and inexpensive SSD1306 0,96" OLED display for this build. Resolution is only 128x64. But still enough, when using several pages to be displayed continously. The SSD1306 has a 'big brother' in the SSD1309 display. This display has the same resolution, is priced at some 14 US$, can use same drivers/library as SSD1306 but is much, much larger at 2,42" 🙂 I really like this big and simple I2C display and ended up using this display in the final build, as it's much easier to read from a distance.
+I initially used the simple and inexpensive SSD1306 0,96" OLED display for this build. Resolution is only 128x64. But still enough, when using several pages to be displayed continously. The SSD1306 has a 'big brother' in the SSD1309 display. This display has identical resolution, is priced at some 14 US$, can use same drivers/library as SSD1306 but is much, much larger at 2,42". I really like this good sized and simple I2C display and ended up using this display in the final build, as it's much easier to read from a distance 🙂
 
 Some links examples for hardware below. These are just some random sellers I've picked. Not necessarily the cheapest or best sellers.
 
@@ -415,9 +415,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY5MTE0MjY0NCwtNjEyMDIyOTA5LDEzNT
-Q3MTc2NjcsLTEyMDI4NDg0ODIsMTg2MTY3NzI0NywyMTM5NTUx
-NjA4LC0xOTk2NTU5NjI3LDIyMTg5Mjk1Miw2Njk3ODM2MjMsOD
-A3MDEwNDQsLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOTIwMzc1
-LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
+eyJoaXN0b3J5IjpbLTE3Mzc1ODA4NzgsLTYxMjAyMjkwOSwxMz
+U0NzE3NjY3LC0xMjAyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1
+MTYwOCwtMTk5NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLD
+gwNzAxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3
+NSwxMTM2NDI2MzMyLC0zMDAyNTQxODZdfQ==
 -->
