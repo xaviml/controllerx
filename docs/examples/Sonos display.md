@@ -14,19 +14,19 @@ I initially used the simple and inexpensive (less than 2 US$ ) SSD1306 0,96" OLE
 
 Some links examples for hardware below. These are just some random sellers I've picked. Not necessarily the cheapest or best sellers.
 
-Wemos D1 mini – ESP8266
+Wemos D1 mini – ESP8266<br />
 https://www.aliexpress.com/item/32845253497.html?spm=a2g0s.9042311.0.0.27424c4dFNzmlu
 
-0,96" 12864 SSD1306 OLED display
+0,96" 12864 SSD1306 OLED display<br />
 https://www.aliexpress.com/item/32896971385.html?spm=a2g0s.9042311.0.0.27424c4d7omJkq
 
-2,42” 12864 SSD1309 OLED display (direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
+2,42” 12864 SSD1309 OLED display (direct replacement for the much smaller 0,96” SSD1306 display and can use same library)<br />
 https://www.aliexpress.com/item/33024448944.html?spm=a2g0s.9042311.0.0.27424c4d28nV4A
 
-Or alternatively you can use a Wemos NodeMCU ESP8266 with integrated 0,96" OLED display
+Or alternatively you can use a Wemos NodeMCU ESP8266 with integrated 0,96" OLED display<br />
 https://www.aliexpress.com/item/4000287451981.html?spm=a2g0o.productlist.0.0.2d34c80dWlfO69
 
-**One note on the SSD1309 display**
+**One note on the SSD1309 display**<br />
 In order to get it to work as I2C instead of SPI, you need to do a bit of soldering. On the specific display type I bought, you need to bridge (short) R5 and move R4 to R3. Remember that display will NOT work unless RES is connected to RST on ESP8266 (or any available pin and controlled in ESPHome sw). Note: Display only supports 3,3v on VCC. Some have reported that display tolerates 5v. I wouldn’t take that risk, though! I’ve kept both CS and DS ‘floating’. Haven’t had any I2C address issues so far. Use pull-up/down resistors if you experience issues.
 
 **Connections:**
@@ -136,7 +136,7 @@ sensor:
 ### Home Assistant group:
 Here you define your Sonos speaker entities. Master speaker has to be entered as first entity and all that's actually needed. Active slave speakers will dynamically be added on HA restart or when group configuration is changed (via Sonos app/HA service calls eg.) If you're only using one speaker, you still need to create the group in `groups.yaml` and populate with that single master speaker entity, as the group entity is needed in the code.
 
-**One note on master speaker, slaves and Sonos groups**
+**One note on master speaker, slaves and Sonos groups**<br />
 You're defined master speaker actually doesn't need to be ***the*** master speaker. As long as it's part of the group (master ***or*** slave), then display will still show data for the group. But if defined master speaker is removed from the group, it will be a 'single speaker group' on it's own, and display will reflect master speaker data only. 
 ```yaml
 sonos_all:
@@ -418,11 +418,11 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTc5ODkwODA3NiwxMzAyMzM3NzY3LC0xND
-k0NTg3Mzg3LC03MjYxODUwNDgsMTA3ODg1NDM4MSwxNjkyMzU0
-MTAsLTYxMjAyMjkwOSwxMzU0NzE3NjY3LC0xMjAyODQ4NDgyLD
-E4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5NjU1OTYyNywyMjE4
-OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0yNjgwMTI1MjMsNj
-g2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMyLC0zMDAyNTQx
-ODZdfQ==
+eyJoaXN0b3J5IjpbLTEyMzI1MzQ3MDYsLTc5ODkwODA3NiwxMz
+AyMzM3NzY3LC0xNDk0NTg3Mzg3LC03MjYxODUwNDgsMTA3ODg1
+NDM4MSwxNjkyMzU0MTAsLTYxMjAyMjkwOSwxMzU0NzE3NjY3LC
+0xMjAyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5
+NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC
+0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2
+MzMyXX0=
 -->
