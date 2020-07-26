@@ -33,8 +33,8 @@ GND: 	GND
 SDA: 	D1
 SCL: 	D2
 RES:	D0 or RST
-CS:		nc (no connection - flr
-DC:		nc (no connection - floating)
+CS:		NC (No Connection - 'floating')
+DC:		NC (No Connection - 'floating')
 
 
 ### Display setup:
@@ -410,8 +410,8 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODUzMzUxNTY3LDE4NjE2NzcyNDcsMjEzOT
-U1MTYwOCwtMTk5NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIz
-LDgwNzAxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMD
-M3NSwxMTM2NDI2MzMyLC0zMDAyNTQxODZdfQ==
+eyJoaXN0b3J5IjpbLTEyMDI4NDg0ODIsMTg2MTY3NzI0NywyMT
+M5NTUxNjA4LC0xOTk2NTU5NjI3LDIyMTg5Mjk1Miw2Njk3ODM2
+MjMsODA3MDEwNDQsLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOT
+IwMzc1LDExMzY0MjYzMzIsLTMwMDI1NDE4Nl19
 -->
