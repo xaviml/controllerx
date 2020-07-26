@@ -40,8 +40,8 @@ In order to get it to work as I2C instead of SPI, you need to do a bit of solder
 **SSD1309 only --> Wemos D1 mini**
 
     RES:	D0 or RST
-    CS:		NC (No Connection - 'floating'. Default I2C address 0x3c)
-    DC:		NC (No Connection - 'floating')
+    CS :	NC (No Connection - 'floating'. Default I2C address 0x3c)
+    DC :	NC (No Connection - 'floating')
 
 
 ### Display setup:
@@ -418,11 +418,11 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMzI1MzQ3MDYsLTc5ODkwODA3NiwxMz
-AyMzM3NzY3LC0xNDk0NTg3Mzg3LC03MjYxODUwNDgsMTA3ODg1
-NDM4MSwxNjkyMzU0MTAsLTYxMjAyMjkwOSwxMzU0NzE3NjY3LC
-0xMjAyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5
-NjU1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC
-0yNjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2
-MzMyXX0=
+eyJoaXN0b3J5IjpbLTcwMDA5NDc4NiwtMTIzMjUzNDcwNiwtNz
+k4OTA4MDc2LDEzMDIzMzc3NjcsLTE0OTQ1ODczODcsLTcyNjE4
+NTA0OCwxMDc4ODU0MzgxLDE2OTIzNTQxMCwtNjEyMDIyOTA5LD
+EzNTQ3MTc2NjcsLTEyMDI4NDg0ODIsMTg2MTY3NzI0NywyMTM5
+NTUxNjA4LC0xOTk2NTU5NjI3LDIyMTg5Mjk1Miw2Njk3ODM2Mj
+MsODA3MDEwNDQsLTI2ODAxMjUyMyw2ODY5MjM3NjUsODExOTIw
+Mzc1XX0=
 -->
