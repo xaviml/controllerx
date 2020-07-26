@@ -10,7 +10,7 @@ Using ControllerX - Controlling your Sonos speakers have never been easier 😎 
 All it takes is an ESP8266 with ESPHome software, an appropriate display, a handful of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
 
 ### Hardware:
-I've used the simple and inexpensive SSD1306 0,96" OLED display in this build. Resolution is only 128x64, but enough though when using several pages to be displayed continously. This display has a 'big brother' in the SSD1309 display. This display has the same resolution,  Some links examples for hardware below. These are just some random sellers I've picked. Not necessarily the cheapest or best sellers.
+I've used the simple and inexpensive SSD1306 0,96" OLED display in this build. Resolution is only 128x64, but enough though when using several pages to be displayed continously. This display has a 'big brother' in the SSD1309 display. This display has the same resolution, is priced at some 14 US$ but is much, much larger 2,42"  Some links examples for hardware below. These are just some random sellers I've picked. Not necessarily the cheapest or best sellers.
 
 Wemos D1 mini – ESP8266
 https://www.aliexpress.com/item/32845253497.html?spm=a2g0s.9042311.0.0.27424c4dFNzmlu
@@ -402,8 +402,8 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjEzOTU1MTYwOCwtMTk5NjU1OTYyNywyMj
-E4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0yNjgwMTI1MjMs
-Njg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMyLC0zMDAyNT
-QxODZdfQ==
+eyJoaXN0b3J5IjpbMTU4NzQ0NTcsMjEzOTU1MTYwOCwtMTk5Nj
+U1OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0y
+NjgwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2Mz
+MyLC0zMDAyNTQxODZdfQ==
 -->
