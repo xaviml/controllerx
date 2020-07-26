@@ -54,10 +54,10 @@ Following information is displayed on the screen:
 
 **Page 4:** Outdoor temperature sensor value
 
-If you only need the Sonos playing details on display, you can just remove page 3 & 4 from the ESPHome YAML configuration.
+If you only need the Sonos playing details displayed, you can just remove page 3 & 4 from the ESPHome YAML configuration.
 
 ### True Type Fonts:
-Three 'standard' Calibri TT fonts are used plus a special version of Heydings Icons font in which I've included some Heydings Controls icons as well.
+Three 'standard' Calibri TT fonts are used plus a 'special' version of Heydings Icons font in which I've included some Heydings Controls icons as well.
 If you experience some strange characters on the display, you probably need to edit the glyphs in ESPHome YAML and add whatever language specific characters that are missing. 
 
 Calibri TTF fonts link: [https://www.fontdload.com/dl/calibri-font/](https://www.fontdload.com/dl/calibri-font/)
@@ -410,9 +410,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM1NDcxNzY2NywtMTIwMjg0ODQ4MiwxOD
-YxNjc3MjQ3LDIxMzk1NTE2MDgsLTE5OTY1NTk2MjcsMjIxODky
-OTUyLDY2OTc4MzYyMyw4MDcwMTA0NCwtMjY4MDEyNTIzLDY4Nj
-kyMzc2NSw4MTE5MjAzNzUsMTEzNjQyNjMzMiwtMzAwMjU0MTg2
-XX0=
+eyJoaXN0b3J5IjpbLTkzNjg1NTI2NSwxMzU0NzE3NjY3LC0xMj
+AyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5NjU1
+OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0yNj
+gwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMy
+LC0zMDAyNTQxODZdfQ==
 -->
