@@ -130,13 +130,13 @@ sensor:
 Here you define your Sonos speaker entities. Master speaker has to be entered as first entity and all that's actually needed. Active slave speakers will dynamically be added on HA restart or when group configuration is changed (via Sonos app/HA service calls eg.) If you're only using one speaker, you still need to create the group in `groups.yaml` and populate with that single master speaker entity, as the group entity is needed in the code.
 
 **One note on master speaker, slaves and Sonos groups**
-You're defined master speaker actually doesn't need to be ther master speaker. As long as it's part of the group (master OR slave), then display will still show data for the group. But if defined master speaker is removed from the group, it will be a 'single speaker group' on it's own and display will reflect master speaker data. 
+You're defined master speaker actually doesn't need to be ***the*** master speaker. As long as it's part of the group (master ***or*** slave), then display will still show data for the group. But if defined master speaker is removed from the group, it will be a 'single speaker group' on it's own, and display will reflect master speaker data only. 
 ```yaml
 sonos_all:
   name: sonos_all
   entities:
     - media_player.office     # This HAS to be your MASTER speaker
-  #	- media_player.kitchen    # SLAVE speaker #1 
+  #	- media_player.kitchen    # SLAVE speaker #1 optional 
   #	- media_player.livingroom # SLAVE speaker #2
 ```
 
@@ -411,7 +411,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2OTQyMzcyODQsMTM1NDcxNzY2NywtMT
+eyJoaXN0b3J5IjpbLTEzNTQ5OTY4ODQsMTM1NDcxNzY2NywtMT
 IwMjg0ODQ4MiwxODYxNjc3MjQ3LDIxMzk1NTE2MDgsLTE5OTY1
 NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYyMyw4MDcwMTA0NCwtMj
 Y4MDEyNTIzLDY4NjkyMzc2NSw4MTE5MjAzNzUsMTEzNjQyNjMz
