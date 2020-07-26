@@ -299,9 +299,9 @@ font:
     glyphs: '067HADJabjsmx'
   
 i2c:
-  sda: D1 # SCL - SSD1306/1309
-  scl: D2 # SDA - SSD1306/1309
-
+  scl: D1 # SCL - SSD1306/1309
+  sda: D2 # SDA - SSD1306/1309
+  
 interval:
   - interval: 5s # Display period for each page
     then:
@@ -416,9 +416,9 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY5MjM1NDEwLC02MTIwMjI5MDksMTM1ND
-cxNzY2NywtMTIwMjg0ODQ4MiwxODYxNjc3MjQ3LDIxMzk1NTE2
-MDgsLTE5OTY1NTk2MjcsMjIxODkyOTUyLDY2OTc4MzYyMyw4MD
-cwMTA0NCwtMjY4MDEyNTIzLDY4NjkyMzc2NSw4MTE5MjAzNzUs
-MTEzNjQyNjMzMiwtMzAwMjU0MTg2XX0=
+eyJoaXN0b3J5IjpbLTM2NDY4Nzk4MiwxNjkyMzU0MTAsLTYxMj
+AyMjkwOSwxMzU0NzE3NjY3LC0xMjAyODQ4NDgyLDE4NjE2Nzcy
+NDcsMjEzOTU1MTYwOCwtMTk5NjU1OTYyNywyMjE4OTI5NTIsNj
+Y5NzgzNjIzLDgwNzAxMDQ0LC0yNjgwMTI1MjMsNjg2OTIzNzY1
+LDgxMTkyMDM3NSwxMTM2NDI2MzMyLC0zMDAyNTQxODZdfQ==
 -->
