@@ -295,7 +295,7 @@ font:
   
 i2c:
   sda: D1 # SCL - SSD1306/1309
-  scl: D2 # 
+  scl: D2 # SDA - SSD1306/1309
 
 interval:
   - interval: 5s # Display period for each page
@@ -411,7 +411,7 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkwNzA0NTIyOCwxMzU0NzE3NjY3LC0xMj
+eyJoaXN0b3J5IjpbLTYxMjAyMjkwOSwxMzU0NzE3NjY3LC0xMj
 AyODQ4NDgyLDE4NjE2NzcyNDcsMjEzOTU1MTYwOCwtMTk5NjU1
 OTYyNywyMjE4OTI5NTIsNjY5NzgzNjIzLDgwNzAxMDQ0LC0yNj
 gwMTI1MjMsNjg2OTIzNzY1LDgxMTkyMDM3NSwxMTM2NDI2MzMy
