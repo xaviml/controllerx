@@ -59,25 +59,38 @@ async def test_check_domain(
 
 
 @pytest.mark.parametrize(
-    "entity_input, expected_calls", [("light.kitchen", 1), ("group.lights", 2)],
+    "entity_input, entities, expected_calls",
+    [
+        ("light.kitchen", ["entity.test"], 1),
+        ("group.lights", ["entity.test"], 2),
+        ("group.lights", [], None),
+    ],
 )
 @pytest.mark.asyncio
-async def test_get_entity_state(sut, mocker, monkeypatch, entity_input, expected_calls):
+async def test_get_entity_state(
+    sut, mocker, monkeypatch, entity_input, entities, expected_calls
+):
     stub_get_state = mocker.stub()
 
     async def fake_get_state(entity, attribute=None):
         stub_get_state(entity, attribute=attribute)
-        return ["entity.test"]
+        return entities
 
     monkeypatch.setattr(sut, "get_state", fake_get_state)
 
     # SUT
-    await sut.get_entity_state(entity_input, "attribute_test")
+    if expected_calls is None:
+        with pytest.raises(ValueError):
+            await sut.get_entity_state(entity_input, "attribute_test")
+    else:
+        await sut.get_entity_state(entity_input, "attribute_test")
 
-    # Checks
-    if expected_calls == 1:
-        stub_get_state.assert_called_once_with(entity_input, attribute="attribute_test")
-    elif expected_calls == 2:
-        stub_get_state.call_count == 2
-        stub_get_state.assert_any_call(entity_input, attribute="entity_id")
-        stub_get_state.assert_any_call("entity.test", attribute="attribute_test")
+        # Checks
+        if expected_calls == 1:
+            stub_get_state.assert_called_once_with(
+                entity_input, attribute="attribute_test"
+            )
+        elif expected_calls == 2:
+            stub_get_state.call_count == 2
+            stub_get_state.assert_any_call(entity_input, attribute="entity_id")
+            stub_get_state.assert_any_call("entity.test", attribute="attribute_test")

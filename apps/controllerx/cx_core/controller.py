@@ -258,6 +258,10 @@ class TypeController(Controller, abc.ABC):
     async def get_entity_state(self, entity: str, attribute: str = None) -> Any:
         if entity.startswith("group."):
             entities = await self.get_state(entity, attribute="entity_id")
+            if len(entities) == 0:
+                raise ValueError(
+                    f"The group `{entity}` does not have any entities registered."
+                )
             entity = entities[0]
         out = await self.get_state(entity, attribute=attribute)
         return out
