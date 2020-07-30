@@ -7,7 +7,21 @@ Integrations is a way to abstract the logic from the event extraction in Control
 
 #### State
 
-This integration (**`state`**) listens for the state of a sensor and the action is fired with the changed event. It does not have any additional arguments.
+This integration (**`state`**) listens for the state of a sensor and the action is fired with the changed event. You can add `attribute` parameter if you want to listen to state change on the state attribute level. Read more about the options in [here](https://appdaemon.readthedocs.io/en/latest/AD_API_REFERENCE.html#appdaemon.adapi.ADAPI.listen_state). An example could be:
+
+```yaml
+example_app:
+  module: controllerx
+  class: LightController
+  controller: sensor.my_custom_button
+  integration:
+    name: state
+    attribute: click
+  light: light.example_light
+  mapping:
+    1_click: "on"
+    2_click: "off"
+```
 
 #### Zigbee2MQTT
 
