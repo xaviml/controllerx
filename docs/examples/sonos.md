@@ -3,6 +3,8 @@ title: SONOS/SYMFONISK Examples
 layout: page
 ---
 
+![Three different Sonos displays](/controllerx/assets/img/sonos_displays_2.jpg)
+
 ### SONOS/SYMFONISK single speaker
 
 ControllerX can 'out of the box' control single speakers with following small app setup.

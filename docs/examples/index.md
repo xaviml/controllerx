@@ -465,4 +465,5 @@ example_app5:
 These are examples that are quite extensive and were extracted in separated pages:
 
 - [Sonos/Symfonisk media player(s)](sonos)
+- [Sonos display](sonos-display)
 - [Tasmota SwitchMode 11](tasmota-switchmode11)
