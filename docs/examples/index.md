@@ -274,7 +274,7 @@ livingroom_light_on:
 
 livingroom_light_off:
   module: controllerx
-  class: E1810Controller
+  class: LightController
   controller: sensor.livingroom_controller_action
   integration: z2m
   light: light.livingroom
