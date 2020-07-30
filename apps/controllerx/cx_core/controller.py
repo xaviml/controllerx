@@ -2,18 +2,41 @@ import abc
 import time
 from collections import defaultdict
 from functools import wraps
-from typing import Any, Callable, DefaultDict, Dict, List, Optional, Sequence, Union
+from typing import (
+    Any,
+    Callable,
+    DefaultDict,
+    Dict,
+    List,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+)
 
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 
 import cx_version
-from cx_const import ActionFunction, TypeActionsMapping
+from cx_const import ActionFunction, TypeAction, TypeActionsMapping
 from cx_core import integration as integration_module
 from cx_core.integration import Integration
 
+Service = Tuple[str, Dict]
+Services = List[Service]
+
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
+
+
+def action(method) -> ActionFunction:
+    @wraps(method)
+    async def _action_impl(controller, *args, **kwargs):
+        continue_call = await controller.before_action(method.__name__, *args, **kwargs)
+        if continue_call:
+            await method(controller, *args, **kwargs)
+
+    return _action_impl
 
 
 class Controller(Hass, Mqtt, abc.ABC):
@@ -30,7 +53,17 @@ class Controller(Hass, Mqtt, abc.ABC):
         # Get arguments
         self.controllers_ids = self.get_list(self.args["controller"])
         integration = self.get_integration(self.args["integration"])
-        self.actions_key_mapping = self.get_actions_mapping(integration)
+
+        custom_mapping: Dict[Union[str, int], str] = self.args.get("mapping", None)
+        self.actions_key_mapping = (
+            self.get_actions_mapping(integration)
+            if custom_mapping is None
+            else {
+                event: self.parse_action(action)
+                for event, action in custom_mapping.items()
+            }
+        )
+
         self.type_actions_mapping = self.get_type_actions_mapping()
         if "actions" in self.args and "excluded_actions" in self.args:
             raise ValueError("`actions` and `excluded_actions` cannot be used together")
@@ -191,6 +224,28 @@ class Controller(Hass, Mqtt, abc.ABC):
                 "The action value from the action mapping should be a list or a function"
             )
 
+    def parse_action(self, action) -> TypeAction:
+        if isinstance(action, str):
+            return action
+        elif isinstance(action, dict) or isinstance(action, list):
+            services: Services = []
+            if isinstance(action, dict):
+                action = [action]
+            for act in action:
+                service = act["service"].replace(".", "/")
+                data = act.get("data", {})
+                services.append((service, data))
+            return (self.call_services, services)
+        else:
+            raise ValueError(
+                f"{type(action)} is not supported for the mapping value attributes"
+            )
+
+    @action
+    async def call_services(self, services: Services) -> None:
+        for service, data in services:
+            await self.call_service(service, **data)
+
     def get_z2m_actions_mapping(self) -> Optional[TypeActionsMapping]:
         """
         Controllers can implement this function. It should return a dict
@@ -224,16 +279,6 @@ class Controller(Hass, Mqtt, abc.ABC):
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {}
-
-
-def action(method) -> ActionFunction:
-    @wraps(method)
-    async def _action_impl(controller: Controller, *args, **kwargs):
-        continue_call = await controller.before_action(method.__name__, *args, **kwargs)
-        if continue_call:
-            await method(controller, *args, **kwargs)
-
-    return _action_impl
 
 
 class TypeController(Controller, abc.ABC):

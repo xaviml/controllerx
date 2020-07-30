@@ -73,7 +73,7 @@ And with the following ControllerX configuration, you will be able to control th
 ```yaml
 sonos_group:
   module: controllerx
-  class: CustomMediaPlayerController
+  class: MediaPlayerController
   controller: sensor.controller_action
   integration: z2m
   volume_steps: 20

@@ -356,7 +356,11 @@ class LightController(TypeController, ReleaseHoldController):
             else:
                 attributes[color_attribute] = (0.323, 0.329)  # white colour
         except ValueError:
-            self.log("⚠️ `sync` action will only change brightness", level="WARNING")
+            self.log(
+                "⚠️ `sync` action will only change brightness",
+                level="WARNING",
+                ascii_encode=False,
+            )
         await self.on(**attributes, brightness=self.max_brightness)
 
     async def get_attribute(self, attribute: str) -> str:

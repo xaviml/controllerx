@@ -3,11 +3,11 @@ title: Custom Controllers
 layout: page
 ---
 
-Custom controllers let you map controller events to actions. There are 5 type of custom controllers: `CustomLightController`, `CustomMediaPlayerController`, `CustomSwitchController`, `CustomCoverController`, `CallServiceController`. All these controllers have in common the attribute `mapping`, which is a key-value map. The key defines the event fired from the controller (you can check these events in the individual pages from the [supported controllers](/controllerx/controllers)). The value is defined depending on each custom controller.
+All controllers have the attribute `mapping`, which is a key-value map. The key defines the event fired from the controller (you can check these events in the individual pages from the [supported controllers](/controllerx/controllers)). The value is defined depending on each custom controller.
 
 ## Custom light controller
 
-Class: `CustomLightController`
+Class: `LightController` or any LightController specific from a device (e.g. `E1743Controller`)
 
 This controller lets you map controller events with predefined light actions. This is a [Light controller](/controllerx/start/type-configuration#light-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
 
@@ -53,14 +53,14 @@ This controller lets you map controller events with predefined light actions. Th
 | `hold_xycolor_down`       | It turns the xy color down until release accordingly with the `automatic_steps` attribute                                    |
 | `hold_xycolor_toggle`     | It turns the xy color up/down until release accordingly with the `automatic_steps` attribute and alternates in each click    |
 
-#### Example of CustomLightController
+#### Example of custom LightController
 
 This is an example that uses the controller E1810 to put the brightness and color temperature to maximum when pressing the top or right button and to minumum when pressing the bottom or left ones. The key values where extracted from zigbee2mqtt section found in [here](/controllerx/controllers/E1524_E1810) and the values are from the list beforementioned.
 
 ```yaml
 example_app:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: sensor.livingroom_controller_action
   integration: z2m
   light: light.livingroom
@@ -78,7 +78,7 @@ example_app:
 
 ## Custom media player controller
 
-Class: `CustomMediaPlayerController`
+Class: `MediaPlayerController` or any MediaPlayerController specific from a device (e.g. `E1743MediaPlayerController`)
 
 This controller lets you map controller events with predefined media player actions. This is a [Media player controller](/controllerx/start/type-configuration#media-player-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
 
@@ -95,14 +95,14 @@ This controller lets you map controller events with predefined media player acti
 | next_source       | It changes to the next source                      |
 | previous_source   | It changes to the previous source                  |
 
-#### Example of CustomMediaPlayerController
+#### Example of custom MediaPlayerController
 
 This is an example that uses the controller E1743 to control a media player using custom controller with deCONZ. The mapping from the deCONZ event ids can be found in [here](/controllerx/controllers/E1743) and the values are from the list beforementioned.
 
 ```yaml
 example_app:
   module: controllerx
-  class: CustomMediaPlayerController
+  class: E1743MediaPlayerController
   controller: livingroom-controller
   integration: deconz
   media_player: media_player.livingroom_speaker
@@ -117,7 +117,7 @@ example_app:
 
 ## Custom switch controller
 
-Class: `CustomSwitchController`
+Class: `SwitchController` or any MediaPlayerController specific from a device (e.g. `E1743SwitchController`)
 
 This controller lets you map controller events with predefined switch actions. This is a [Switch controller](/controllerx/start/type-configuration#switch-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
 
@@ -127,14 +127,14 @@ This controller lets you map controller events with predefined switch actions. T
 | off    | It turns the switch off            |
 | toggle | It toggles the state of the switch |
 
-#### Example of CustomSwitchController
+#### Example of custom SwitchController
 
 This is an example that uses the controller E1743 to toggle a switch with both, on and off states for ZHA. The mapping from the ZHA event ids can be found in [here](/controllerx/controllers/E1743) and the values are from the list under `ZHA`.
 
 ```yaml
 example_app:
   module: controllerx
-  class: CustomSwitchController
+  class: SwitchController
   controller: 00:67:88:56:06:78:9b:3f
   integration: zha
   switch: switch.kitchen_dishwasher
@@ -145,7 +145,7 @@ example_app:
 
 ## Custom cover controller
 
-Class: `CustomCoverController`
+Class: `CoverController` or any MediaPlayerController specific from a device (e.g. `E1743CoverController`)
 
 This controller lets you map controller events with predefined cover actions. This is a [Cover controller](/controllerx/start/type-configuration#cover-controller), so it inheritance all its parameters. This is the list of predefined actions that can be mapped as a value in the key-value map from the `mapping` attribute.
 
@@ -157,14 +157,14 @@ This controller lets you map controller events with predefined cover actions. Th
 | toggle_open  | It stops the cover if running and opens otherwise  |
 | toggle_close | It stops the cover if running and closes otherwise |
 
-#### Example of CustomCoverController
+#### Example of custom CoverController
 
 This is an example that uses the controller E1810 to control a cover with Zigbee2MQTT. The mapping from the z2m event ids can be found in [here](/controllerx/controllers/E1524_E1810) and the values are from the list under `Zigbee2MQTT`.
 
 ```yaml
 example_app:
   module: controllerx
-  class: CustomCoverController
+  class: CoverController
   controller: sensor.e1810_controller
   integration: z2m
   cover: cover.kitchen
@@ -179,11 +179,11 @@ example_app:
 
 ## Call service controller
 
-Class: `CallServiceController`
+Class: `Controller` or any type of Controller
 
-This custom controller is the different one from the previous two. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service (or services) and its data. We will see it better with an example.
+This custom controller is the different one from the previous ones. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service (or services) and its data. We will see it better with an example.
 
-Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and sometimes he needs helps. Here is custom controller comes, so we can for example call two HA script (that do something useful for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
+Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and he sometimes needs helps. Here is custom controller comes, so we can call two HA script (that do something useful for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
 
 ```yaml
 # We first define a HueDimmerController to control the light
@@ -200,7 +200,7 @@ hue_dimmer_example:
 
 custom_hue_dimmer_example:
   module: controllerx
-  class: CallServiceController
+  class: HueDimmerController
   controller: sensor.office_controller_action
   integration: z2m
   mapping:

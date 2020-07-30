@@ -65,7 +65,7 @@ First example is with two separate controllers. This will also handle HOLD FROM 
 ```yaml
 controller_switchmode11_on:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: sensor.tasmota
   integration: state
   light: light.your_light # define your own light entity
@@ -77,7 +77,7 @@ controller_switchmode11_on:
 
 controller_switchmode11_off:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: sensor.tasmota
   integration: state
   light: light.your_light # define your own light entity
@@ -94,7 +94,7 @@ Second example is a more simple setup, where smooth_power_on is enabled instead,
 ```yaml
 tasmota_switchmode11:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: sensor.tasmota
   integration: state
   smooth_power_on: true # enable 'smooth power on' feature when button is held from lights off

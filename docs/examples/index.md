@@ -225,7 +225,7 @@ Controlling different lights with the E1810 controller. Using brightness buttons
 ```yaml
 light1_controller:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: e1810_controller
   integration: deconz
   light: light.light1
@@ -239,7 +239,7 @@ light1_controller:
 
 light2_controller:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: e1810_controller
   integration: deconz
   light: light.light2
@@ -253,7 +253,7 @@ light2_controller:
 
 all_lights_controller:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: e1810_controller
   integration: deconz
   light: group.all_lights
@@ -274,7 +274,7 @@ livingroom_light_on:
 
 livingroom_light_off:
   module: controllerx
-  class: CustomLightController
+  class: LightController
   controller: sensor.livingroom_controller_action
   integration: z2m
   light: light.livingroom
@@ -296,7 +296,7 @@ Customising Aqara magic cube with deCONZ. The key values were extracted from the
 ```yaml
 example_app:
   module: controllerx
-  class: CustomMediaPlayerController
+  class: MediaPlayerController
   controller: my_magic_cube_id
   integration:
     name: deconz
@@ -362,7 +362,7 @@ Customising the E1810 to invert the click and hold actions and control a group o
 ```yaml
 sonos_speaker:
   module: controllerx
-  class: CustomMediaPlayerController
+  class: MediaPlayerController
   controller: sensor.0x90fd9ffffe0cbd69_action
   integration: z2m
   media_player: group.sonos_all

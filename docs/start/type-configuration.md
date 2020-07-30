@@ -61,7 +61,7 @@ Otherwise, a custom xy color list can be defined like the following:
 ```yaml
 example_app:
   module: controllerx
-  class: < device class or CustomLightController >
+  class: < device class or LightController >
   controller: < your controller id >
   integration: < your integration >
   light: light.your_light
