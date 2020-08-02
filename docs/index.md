@@ -49,7 +49,7 @@ livingroom_controller:
 
 _ControllerX_ uses an async loop to make HA call services requests (e.g. to change the brightness, the color temperature, the xy color, the volume of a media player). This means that when a button is held, _ControllerX_ calls periodically HA services until a release action is fired.
 
-If you use deCONZ integration and what you want is just to dim your lights smoothly, we recommend that you to use [this](https://github.com/Burningstone91/Hue_Dimmer_Deconz) AppDaemon app from [_@Burningstone91_](https://github.com/Burningstone91). It brighten/dim your lights with a deCONZ calls instead of an async loop, this means that deCONZ would handle the dimming for you. Furthermore, it allows you to customise the controller the same way you can do it with `CallServiceController` in _ControllerX_.
+If you use deCONZ integration and what you want is just to dim your lights smoothly, we recommend that you to use [this](https://github.com/Burningstone91/Hue_Dimmer_Deconz) AppDaemon app from [_@Burningstone91_](https://github.com/Burningstone91). It brighten/dim your lights with a deCONZ calls instead of an async loop, this means that deCONZ would handle the dimming for you. Furthermore, it allows you to customise the controller the same way you can do it with the `mapping` attribute in _ControllerX_.
 
 ## How to start?
 

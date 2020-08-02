@@ -274,7 +274,7 @@ livingroom_light_on:
 
 livingroom_light_off:
   module: controllerx
-  class: LightController
+  class: E1810Controller
   controller: sensor.livingroom_controller_action
   integration: z2m
   light: light.livingroom
@@ -310,12 +310,12 @@ example_app:
     4: previous_track # Flip180
 ```
 
-Customising Aqara magic cube with z2m. This makes use of the CallServiceController to turn on different HA scenes.
+Customising Aqara magic cube with z2m. This makes use of the `mapping` attribute to turn on different HA scenes.
 
 ```yaml
 cube_bedroom:
   module: controllerx
-  class: CallServiceController
+  class: Controller
   controller: sensor.cube_bedroom_action
   integration: z2m
   mapping:
@@ -333,7 +333,7 @@ cube_bedroom:
         entity_id: scene.bedroom3
 ```
 
-Customising WXKG01LM de Aqara. We want to toggle the light and turn it on always to brightness 20 (min: 0, max: 255). For this we create one instance app configuration for the default behaviour of the controller, but excluding `single` which toggles the light. Then we create a custom controller with `CallServiceController` to give a behaviour to the `single` action.
+Customising WXKG01LM de Aqara. We want to toggle the light and turn it on always to brightness 20 (min: 0, max: 255). For this we create one instance app configuration for the default behaviour of the controller, but excluding `single` which toggles the light. Then we create a custom controller with the `mapping` attribute to give a behaviour to the `single` action.
 
 ```yaml
 mando_aqara_salon:
@@ -346,11 +346,11 @@ mando_aqara_salon:
 
 mando_aqara_salon_single:
   module: controllerx
-  class: CallServiceController
+  class: WXKG01LMLightController
   controller: sensor.0x00158d00027b6d79_click
   integration: z2m
   mapping:
-    single: # Give an action to `single` with CallServiceController
+    single: # Give an action to `single`
       service: light.toggle
       data:
         entity_id: light.0x000d6ffffec2620d_light
@@ -378,6 +378,86 @@ sonos_speaker:
     arrow_left_click: previous_source
     arrow_right_hold: next_track
     arrow_left_hold: previous_track
+```
+
+The following configuration is a tricky one, but at the same time it also shows the power of ControllerX to adapt to any use case. Imagine we want the following for our Symfonisk controller (E1744) with deCONZ:
+
+- 1 click: Toggle light on/off.
+- 2 click: Toggle between (pre-defined) Warm - and Cold-White.
+- 3 click: "switch to alternate behavior" - instead of the default dimming-behavior when turning left/right - change color-temperature by turning turning left makes light colder (more blueish) and right make it warmer (more reds).
+- rotate left/right: This will depend on the state when clicking 3 times.
+
+Assuming you have created the following input_booleans in HA (`input_boolean.light_mode`, `input_boolean.light_colortemp_mode`) we can use the following configuration:
+
+```yaml
+example_app:
+  module: controllerx
+  class: E1744LightController
+  controller: symfonisk_controller
+  integration: deconz
+  light: light.livingroom_lamp
+  automatic_steps: 15
+  delay: 150
+  mapping:
+    2001: hold_brightness_up # Right turn
+    3001: hold_brightness_down # Left turn
+    2003: release # Stop right turn
+    3003: release # Stop left turn
+  constrain_input_boolean: input_boolean.light_mode,on
+
+example_app2:
+  module: controllerx
+  class: E1744LightController
+  controller: symfonisk_controller
+  integration: deconz
+  light: light.livingroom_lamp
+  automatic_steps: 15
+  delay: 150
+  mapping:
+    2001: hold_color_up # Right turn
+    3001: hold_color_down # Left turn
+    2003: release # Stop right turn
+    3003: release # Stop left turn
+  constrain_input_boolean: input_boolean.light_mode,off
+
+example_app3:
+  module: controllerx
+  class: E1744LightController
+  controller: symfonisk_controller
+  integration: deconz
+  light: light.livingroom_lamp
+  min_color_temp: 200
+  mapping:
+    1004: on_min_color_temp # 2 clicks
+  constrain_input_boolean: input_boolean.light_colortemp_mode,on
+
+example_app4:
+  module: controllerx
+  class: E1744LightController
+  controller: symfonisk_controller
+  integration: deconz
+  light: light.livingroom_lamp
+  max_color_temp: 400
+  mapping:
+    1004: on_full_color_temp # 2 clicks
+  constrain_input_boolean: input_boolean.light_colortemp_mode,off
+
+example_app5:
+  module: controllerx
+  class: E1744LightController
+  controller: symfonisk_controller
+  integration: deconz
+  light: light.livingroom_lamp
+  mapping:
+    1002: toggle # 1 clicks
+    1004: # 2 clicks
+      service: input_boolean.toggle
+      data:
+        entity_id: input_boolean.light_colortemp_mode
+    1005: # 3 clicks
+      service: input_boolean.toggle
+      data:
+        entity_id: input_boolean.light_mode
 ```
 
 ## Others
