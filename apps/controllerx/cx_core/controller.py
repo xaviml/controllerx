@@ -339,6 +339,7 @@ class ReleaseHoldController(Controller, abc.ABC):
             stop = stop or loops >= self.max_loops
             await self.sleep(self.delay / 1000)
             loops += 1
+        self.on_hold = False
 
     async def before_action(self, action: str, *args, **kwargs) -> bool:
         to_return = not (action == "hold" and self.on_hold)
