@@ -24,12 +24,12 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "rotate_left 🠖 Left turn"
-      - "rotate_right 🠖 Right turn"
-      - "rotate_stop 🠖 Stop rotation"
-      - "play_pause 🠖 1 click"
-      - "skip_forward 🠖 2 click"
-      - "skip_backward 🠖 3 click"
+      - "brightness_move_down 🠖 Left turn"
+      - "brightness_move_up 🠖 Right turn"
+      - "brightness_stop 🠖 Stop rotation"
+      - "toggle 🠖 1 click"
+      - "brightness_step_up 🠖 2 click"
+      - "brightness_step_down 🠖 3 click"
   - name: deCONZ
     codename: deconz
     actions:
