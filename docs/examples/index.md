@@ -46,7 +46,7 @@ bedroom_speaker:
   class: E1743Controller
   controller: 00:67:88:56:06:78:9b:3f
   integration: zha
-  media_player: light.simple_light
+  light: light.simple_light
   actions:
     - on
     - off
