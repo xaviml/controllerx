@@ -178,7 +178,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         else:
             self.log(
                 f"🎮 Button event triggered, but not registered: `{action_key}`",
-                level="INFO",
+                level="DEBUG",
                 ascii_encode=False,
             )
 

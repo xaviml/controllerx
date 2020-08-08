@@ -87,7 +87,7 @@ _\* Required fields_
 
 ## Switch controller
 
-This allows you to control switches. It supports turning on/off and toggling
+This allows you to control `switch` entities as well as `input_boolean` and `binary_sensor`. It supports turning on/off and toggling.
 
 | key        | type   | value                                   | description                                           |
 | ---------- | ------ | --------------------------------------- | ----------------------------------------------------- |

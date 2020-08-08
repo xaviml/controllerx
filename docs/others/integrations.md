@@ -25,7 +25,36 @@ example_app:
 
 #### Zigbee2MQTT
 
-This integration(**`z2m`**) is meant to be used for zigbee2mqtt. It listens the states from the HA sensor entities. It does not have any additional arguments.
+This integration(**`z2m`**) is meant to be used for zigbee2mqtt. It listens the states from the HA sensor entities. You can add `listen_to` attribute to indicate if it listens for HA states (`ha`) or MQTT topics (`mqtt`). Default is `ha`. If you want to use the `mqtt`, then you will need to change the `appdaemon.yaml` as it is stated in the `MQTT` integration section. Imagine we have the following configuration already created for a `z2m` controller listening to HA state:
+
+```yaml
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.bedroom
+```
+
+Then, if we want to listen to the MQTT topic directly (skipping the HA state machine), we will need to change to:
+
+```yaml
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
+    action_key: action # By default is `action` already
+  light: light.bedroom
+```
+
+Three things to clarify when using the `z2m` integration listening to MQTT:
+
+- `appdaemon.yaml` needs to be changed by adding the MQTT plugin (see `MQTT` section below).
+- The Zigbee2MQTT friendly name from the z2m needs to be specified in the `controller` attribute.
+- `action_key` is the key inside the topic payload that contains the fired action from the controller. It is normally `action` or `click`. By default will be `action`.
 
 #### deCONZ
 
