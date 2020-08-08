@@ -63,7 +63,6 @@ stages:
         displayName: Deploy job
         steps:
         - task: ArchiveFiles@2
-          condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
           displayName: Zipping apps/controllerx folder
           inputs:
             rootFolderOrFile: '$(System.DefaultWorkingDirectory)/apps/controllerx' 
@@ -71,7 +70,6 @@ stages:
             archiveType: 'zip'
             archiveFile: '$(Build.ArtifactStagingDirectory)/controllerx.zip'
         - task: GithubRelease@0
-          condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['python.version'], '3.8'))
           displayName: Create GitHub Release
           inputs:
             gitHubConnection: github.com_xaviml
