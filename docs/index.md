@@ -36,6 +36,7 @@ livingroom_controller:
 
 ## Videos
 
+- [E1810 (IKEA) controlling a light through MQTT](https://twitter.com/xaviml93/status/1292235973510733826)
 - [Symfonisk controlling Chromecast volume](https://twitter.com/xaviml93/status/1278000379444240390)
 - [Magic Xiaomi Cube controlling a colour light](https://twitter.com/xaviml93/status/1231542785486049280)
 - [E1810 (IKEA) controlling a colour light with ZHA](https://twitter.com/xaviml93/status/1227573383489085440)
