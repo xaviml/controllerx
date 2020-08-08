@@ -49,3 +49,6 @@ integrations:
       - "toggle 🠖 1 click"
       - "step_0_1_0 🠖 2 click"
       - "step_1_1_0 🠖 3 click"
+note: >-
+  If you want to use the default controller, you will need to set `legacy: false` in the Zigbee2MQTT configuration.
+  Read more in <a href="https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration">here</a>.

@@ -42,14 +42,22 @@ class HueDimmerController(LightController):
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
-            "on": Light.ON,
-            "step_0_30_9": Light.CLICK_BRIGHTNESS_UP,
-            "step_0_56_9": Light.HOLD_BRIGHTNESS_UP,
-            "step_1_30_9": Light.CLICK_BRIGHTNESS_DOWN,
-            "step_1_56_9": Light.HOLD_BRIGHTNESS_DOWN,
-            "off_with_effect_0_0": Light.OFF,
-            "stop": Light.RELEASE,
+            "off_long_release": Light.RELEASE,
+            "off_hold": Light.HOLD_COLOR_DOWN,
+            "off_short_release": Light.OFF,
+            "down_long_release": Light.RELEASE,
+            "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "down_short_release": Light.CLICK_BRIGHTNESS_DOWN,
+            "up_long_release": Light.RELEASE,
+            "up_hold": Light.HOLD_BRIGHTNESS_UP,
+            "up_short_release": Light.CLICK_BRIGHTNESS_UP,
+            "on_long_release": Light.RELEASE,
+            "on_hold": Light.HOLD_COLOR_UP,
+            "on_short_release": Light.ON,
         }
+
+    def get_zha_action(self, data: dict) -> str:
+        return data["command"]
 
 
 class Niko91004LightController(LightController):
