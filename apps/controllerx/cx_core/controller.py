@@ -175,6 +175,12 @@ class Controller(Hass, Mqtt, abc.ABC):
                     ascii_encode=False,
                 )
                 await self.call_action(action_key)
+        else:
+            self.log(
+                f"🎮 Button event triggered, but not registered: `{action_key}`",
+                level="INFO",
+                ascii_encode=False,
+            )
 
     async def call_action(self, action_key: str):
         delay = self.action_delay[action_key]
@@ -283,21 +289,28 @@ class Controller(Hass, Mqtt, abc.ABC):
 
 class TypeController(Controller, abc.ABC):
     @abc.abstractmethod
-    def get_domain(self) -> str:
+    def get_domain(self) -> List[str]:
         raise NotImplementedError
 
     async def check_domain(self, entity: str) -> None:
-        domain = self.get_domain()
+        domains = self.get_domain()
         if entity.startswith("group."):
             entities = await self.get_state(entity, attribute="entity_id")
-            same_domain = all([elem.startswith(domain + ".") for elem in entities])
+            same_domain = all(
+                (
+                    any(elem.startswith(domain + ".") for domain in domains)
+                    for elem in entities
+                )
+            )
             if not same_domain:
                 raise ValueError(
-                    f"All entities from '{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
+                    f"All entities from '{entity}' must be from one "
+                    f"of the following domains {domains} (e.g. {domains[0]}.bedroom)"
                 )
-        elif not entity.startswith(domain + "."):
+        elif not any(entity.startswith(domain + ".") for domain in domains):
             raise ValueError(
-                f"'{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
+                f"'{entity}' must be from one of the following domains "
+                f"{domains} (e.g. {domains[0]}.bedroom)"
             )
 
     async def get_entity_state(self, entity: str, attribute: str = None) -> Any:

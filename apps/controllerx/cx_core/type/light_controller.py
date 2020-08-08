@@ -1,12 +1,12 @@
-from typing import Any, Dict, Union
+from typing import Any, Dict, List, Union
 
 from cx_const import Light, TypeActionsMapping
+from cx_core.color_helper import get_color_wheel
 from cx_core.controller import ReleaseHoldController, TypeController, action
 from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
-from cx_core.color_helper import get_color_wheel
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -106,8 +106,8 @@ class LightController(TypeController, ReleaseHoldController):
         )
         await super().initialize()
 
-    def get_domain(self) -> str:
-        return "light"
+    def get_domain(self) -> List[str]:
+        return ["light"]
 
     def get_type_actions_mapping(self,) -> TypeActionsMapping:
         return {
