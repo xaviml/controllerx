@@ -27,7 +27,7 @@ Switchstate=4: inc-dec (HOLD function. Send after delay defined with Setoption32
 Switchstate=5: inv (INVERSE dim direction function. Not used in this implementation, as ControllerX handles this internally)
 Switchstate=6: clear (Delayed RELEASE function. Send when button is released AFTER delay defined with Setoption32. Not used in this implementation)
 Switchstate=7: clear (Normal RELEASE function. Send immediately after button is released
-Switchstate=8: double (DOUBLE press function. Two consequetive presses within time delay defined with SetOption32
+Switchstate=8: double (DOUBLE press function. Two consecutive presses within time delay defined with SetOption32
 ```
 
 #### Requirements:
