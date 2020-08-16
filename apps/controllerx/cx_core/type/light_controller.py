@@ -11,9 +11,9 @@ from cx_core.stepper.minmax_stepper import MinMaxStepper
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_MIN_BRIGHTNESS = 1
-DEFAULT_MAX_BRIGHTNESS = 254
+DEFAULT_MAX_BRIGHTNESS = 255
 DEFAULT_MIN_WHITE_VALUE = 1
-DEFAULT_MAX_WHITE_VALUE = 254
+DEFAULT_MAX_WHITE_VALUE = 255
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
@@ -450,9 +450,19 @@ class LightController(TypeController, ReleaseHoldController):
     async def hold(self, attribute: str, direction: str) -> None:
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute, direction)
+        self.log(
+            f"Attribute value before running the hold action: {self.value_attribute}",
+            level="DEBUG",
+        )
+        if direction == Stepper.TOGGLE:
+            self.log(
+                f"Previous direction: {self.automatic_steppers[attribute].previous_direction}",
+                level="DEBUG",
+            )
         direction = self.automatic_steppers[attribute].get_direction(
             self.value_attribute, direction
         )
+        self.log(f"Going direction: {direction}", level="DEBUG")
         await super().hold(attribute, direction)
 
     async def hold_loop(self, attribute: str, direction: str) -> bool:  # type: ignore

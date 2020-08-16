@@ -3,9 +3,10 @@ from typing import Tuple, Union
 
 
 class MinMax:
-    def __init__(self, _min: float, _max: float) -> None:
-        self._min = _min
-        self._max = _max
+    def __init__(self, min_: float, max_: float, margin=0.05) -> None:
+        self._min = min_
+        self._max = max_
+        self.margin_dist = (max_ - min_) * margin
 
     @property
     def min(self) -> float:
@@ -23,6 +24,12 @@ class MinMax:
 
     def is_between(self, value: float) -> bool:
         return self._min < value < self._max
+
+    def in_min_boundaries(self, value: float) -> bool:
+        return self._min <= value <= (self._min + self.margin_dist)
+
+    def in_max_boundaries(self, value: float) -> bool:
+        return (self._max - self.margin_dist) <= value <= self._max
 
     def clip(self, value: float) -> float:
         return max(self._min, min(value, self._max))
