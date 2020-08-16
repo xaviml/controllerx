@@ -14,6 +14,7 @@ def sut(hass_mock):
     c = FakeReleaseHoldController()
     c.args = {}
     c.delay = 0
+    c.hold_release_toggle = False
     return c
 
 
@@ -40,20 +41,24 @@ async def test_release(sut):
 
 
 @pytest.mark.parametrize(
-    "on_hold_input,expected_calls", [(False, 1), (True, 1)],
+    "on_hold_input, hold_release_toogle, expected_calls",
+    [(False, False, 1), (True, False, 0), (False, True, 1), (True, True, 0)],
 )
 @pytest.mark.asyncio
-async def test_hold(sut, monkeypatch, mocker, on_hold_input, expected_calls):
+async def test_hold(
+    sut, monkeypatch, mocker, on_hold_input, hold_release_toogle, expected_calls
+):
     sut.on_hold = on_hold_input
+    sut.hold_release_toggle = hold_release_toogle
 
     async def fake_hold_loop():
         return True
 
-    hold_loop_patch = mocker.patch.object(sut, "hold_loop")
     monkeypatch.setattr(sut, "hold_loop", fake_hold_loop)
+    hold_loop_patch = mocker.patch.object(sut, "hold_loop")
 
     # SUT
     await sut.hold()
 
     # Checks
-    hold_loop_patch.call_count == expected_calls
+    assert hold_loop_patch.call_count == expected_calls

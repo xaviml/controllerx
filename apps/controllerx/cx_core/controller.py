@@ -334,6 +334,7 @@ class ReleaseHoldController(Controller, abc.ABC):
         self.max_loops = self.args.get(
             "max_loops", ReleaseHoldController.DEFAULT_MAX_LOOPS
         )
+        self.hold_release_toggle: bool = self.args.get("hold_release_toggle", False)
         await super().initialize()
 
     @action
@@ -355,8 +356,11 @@ class ReleaseHoldController(Controller, abc.ABC):
         self.on_hold = False
 
     async def before_action(self, action: str, *args, **kwargs) -> bool:
+        super_before_action = await super().before_action(action, *args, **kwargs)
         to_return = not (action == "hold" and self.on_hold)
-        return await super().before_action(action, *args, **kwargs) and to_return
+        if action == "hold" and self.on_hold and self.hold_release_toggle:
+            self.on_hold = False
+        return super_before_action and to_return
 
     @abc.abstractmethod
     async def hold_loop(self, *args) -> bool:
