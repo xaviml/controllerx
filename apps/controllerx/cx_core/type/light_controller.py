@@ -1,19 +1,19 @@
-from typing import Any, Dict, Union
+from typing import Any, Dict, List, Union
 
 from cx_const import Light, TypeActionsMapping
+from cx_core.color_helper import get_color_wheel
 from cx_core.controller import ReleaseHoldController, TypeController, action
 from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
-from cx_core.color_helper import get_color_wheel
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
 DEFAULT_MIN_BRIGHTNESS = 1
-DEFAULT_MAX_BRIGHTNESS = 254
+DEFAULT_MAX_BRIGHTNESS = 255
 DEFAULT_MIN_WHITE_VALUE = 1
-DEFAULT_MAX_WHITE_VALUE = 254
+DEFAULT_MAX_WHITE_VALUE = 255
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
@@ -106,8 +106,8 @@ class LightController(TypeController, ReleaseHoldController):
         )
         await super().initialize()
 
-    def get_domain(self) -> str:
-        return "light"
+    def get_domain(self) -> List[str]:
+        return ["light"]
 
     def get_type_actions_mapping(self,) -> TypeActionsMapping:
         return {
@@ -356,7 +356,11 @@ class LightController(TypeController, ReleaseHoldController):
             else:
                 attributes[color_attribute] = (0.323, 0.329)  # white colour
         except ValueError:
-            self.log("⚠️ `sync` action will only change brightness", level="WARNING")
+            self.log(
+                "⚠️ `sync` action will only change brightness",
+                level="WARNING",
+                ascii_encode=False,
+            )
         await self.on(**attributes, brightness=self.max_brightness)
 
     async def get_attribute(self, attribute: str) -> str:
@@ -446,9 +450,19 @@ class LightController(TypeController, ReleaseHoldController):
     async def hold(self, attribute: str, direction: str) -> None:
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute, direction)
+        self.log(
+            f"Attribute value before running the hold action: {self.value_attribute}",
+            level="DEBUG",
+        )
+        if direction == Stepper.TOGGLE:
+            self.log(
+                f"Previous direction: {self.automatic_steppers[attribute].previous_direction}",
+                level="DEBUG",
+            )
         direction = self.automatic_steppers[attribute].get_direction(
             self.value_attribute, direction
         )
+        self.log(f"Going direction: {direction}", level="DEBUG")
         await super().hold(attribute, direction)
 
     async def hold_loop(self, attribute: str, direction: str) -> bool:  # type: ignore

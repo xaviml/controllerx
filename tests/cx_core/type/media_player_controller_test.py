@@ -37,6 +37,24 @@ async def test_play_pause(sut, mocker):
 
 
 @pytest.mark.asyncio
+async def test_play(sut, mocker):
+    called_service_patch = mocker.patch.object(sut, "call_service")
+    await sut.play()
+    called_service_patch.assert_called_once_with(
+        "media_player/media_play", entity_id=sut.media_player
+    )
+
+
+@pytest.mark.asyncio
+async def test_pause(sut, mocker):
+    called_service_patch = mocker.patch.object(sut, "call_service")
+    await sut.pause()
+    called_service_patch.assert_called_once_with(
+        "media_player/media_pause", entity_id=sut.media_player
+    )
+
+
+@pytest.mark.asyncio
 async def test_previous_track(sut, mocker):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.previous_track()

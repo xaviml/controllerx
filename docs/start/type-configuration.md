@@ -31,6 +31,7 @@ This controller allows the devices to control light or group of lights. This all
 | `smooth_power_on`            | boolean              | False                                           | If `True` the associated light will be set to minimum brightness when brightness up is clicked or hold ad light is off.                                                                                                                                                   |
 | `delay`                      | int                  | [Controller specific](/controllerx/controllers) | Delay in milliseconds that takes between sending the instructions to the light (for the smooth functionality). Note that if leaving to 0, you might get uncommon behavior.                                                                                                |
 | `max_loops`                  | int                  | 50                                              | Maximum number of loops when holding. The loop will stop either with a release action or reaching the `max_loops` value.                                                                                                                                                  |
+| `hold_release_toggle`        | boolean              | False                                           | If `true`, a `hold` action will work as a release when another `hold` is running. This is useful when you have a button with just one action event and you want to use the hold-release feature, then you just need to map that event to a `hold` action.                 |
 | `transition`                 | int                  | 300                                             | Time in milliseconds that takes the light to transition from one state to another one.                                                                                                                                                                                    |
 | `add_transition`             | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                                                                                            |
 | `add_transition_turn_toggle` | boolean              | True                                            | If `false` does not add transition when turning on/off or toggling, otherwise it adds the `transition` attribute to the call. See [FAQ #6](/controllerx/faq#6-light-is-not-turning-on-to-the-previous-brightness) for a further explanation on the use of this parameter. |
@@ -61,7 +62,7 @@ Otherwise, a custom xy color list can be defined like the following:
 ```yaml
 example_app:
   module: controllerx
-  class: < device class or CustomLightController >
+  class: < device class or LightController >
   controller: < your controller id >
   integration: < your integration >
   light: light.your_light
@@ -75,19 +76,20 @@ example_app:
 
 This allows you to control media players. It supports volume, play/pause and skipping forward/backward the track and the source.
 
-| key                         | type    | value                                                         | description                                                                                                                                                                               |
-| --------------------------- | ------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `media_player`\*            | string  | `group.livingroom_speakers` or `media_player.bedroom_speaker` | The media player (or group of media players) you want to control                                                                                                                          |
-| `volume_steps`              | int     | 10                                                            | Number of steps to go from min to max when clicking or holding. If the value is 2 with one click you will set the volume to 50% and with another one to 100%.                             |
-| `delay`                     | int     | [Controller specific](/controllerx/controllers)               | Delay in milliseconds that takes between sending the volume up/down instructions. Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior.               |
-| `max_loops`                 | int     | 50                                                            | Maximum number of loops when holding. The loop will stop either with a release action or reaching the `max_loops` value.                                                                  |
-| `update_supported_features` | boolean | False                                                         | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time. |
+| key                         | type    | value                                                         | description                                                                                                                                                                                                                                               |
+| --------------------------- | ------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `media_player`\*            | string  | `group.livingroom_speakers` or `media_player.bedroom_speaker` | The media player (or group of media players) you want to control                                                                                                                                                                                          |
+| `volume_steps`              | int     | 10                                                            | Number of steps to go from min to max when clicking or holding. If the value is 2 with one click you will set the volume to 50% and with another one to 100%.                                                                                             |
+| `delay`                     | int     | [Controller specific](/controllerx/controllers)               | Delay in milliseconds that takes between sending the volume up/down instructions. Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior.                                                                               |
+| `max_loops`                 | int     | 50                                                            | Maximum number of loops when holding. The loop will stop either with a release action or reaching the `max_loops` value.                                                                                                                                  |
+| `hold_release_toggle`       | boolean | False                                                         | If `true`, a `hold` action will work as a release when another `hold` is running. This is useful when you have a button with just one action event and you want to use the hold-release feature, then you just need to map that event to a `hold` action. |
+| `update_supported_features` | boolean | False                                                         | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                 |
 
 _\* Required fields_
 
 ## Switch controller
 
-This allows you to control switches. It supports turning on/off and toggling
+This allows you to control `switch` entities as well as `input_boolean` and `binary_sensor`. It supports turning on/off and toggling.
 
 | key        | type   | value                                   | description                                           |
 | ---------- | ------ | --------------------------------------- | ----------------------------------------------------- |
