@@ -306,7 +306,7 @@ text_sensor:
     # Sonos master speaker
   - platform: homeassistant  
     id: sonos_status
-    entity_id: media_player.kokken
+    entity_id: media_player.your_master_speaker
     internal: true
   
   - platform: homeassistant  
