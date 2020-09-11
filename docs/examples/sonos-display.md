@@ -31,7 +31,7 @@ I've collected some hardware link examples below. These are just some random sel
 
 [0,96" 12864 SSD1306 OLED display](https://www.aliexpress.com/item/32896971385.html)
 
-[2,42” 12864 SSD1309 OLED display](https://www.aliexpress.com/item/33024448944.html)
+[2,42” 12864 SSD1309 OLED display](https://www.aliexpress.com/item/33024448944.html)<BR>
 (direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
 
 Alternatively you can use a [Wemos NodeMCU ESP8266 with integrated 0,96" OLED display](https://www.aliexpress.com/item/4000287451981.html)
@@ -542,6 +542,6 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAyNjUxMTIzNCwxNTU0NDc4MTE3LDE0MD
-MxOTE2N119
+eyJoaXN0b3J5IjpbLTc5MTU3MjcyMCwxMDI2NTExMjM0LDE1NT
+Q0NzgxMTcsMTQwMzE5MTY3XX0=
 -->
