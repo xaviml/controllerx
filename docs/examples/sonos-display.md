@@ -7,9 +7,6 @@ layout: page
 
 ![Three different Sonos displays](/controllerx/assets/img/sonos_displays_1.jpg)
 
-### Sonos/Symfonisk display with ESPHome - v1.1
-**Changelog at last page**
-
 Using ControllerX - Controlling your Sonos speakers have never been easier 😎 But the occasional wish for a visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there 👀 Leaving you with no other choice than adding a display integration as the obvious solution for this need 😉
 
 All it takes is an ESP8266 with ESPHome software, an appropriate display, a handfull (well actually 2 handfulls and then some) of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
@@ -541,6 +538,6 @@ _[@htvekov](https://github.com/htvekov)_
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAyNjUxMTIzNCwxNTU0NDc4MTE3LDE0MD
-MxOTE2N119
+eyJoaXN0b3J5IjpbLTEzNjMwNDI3MDgsMTAyNjUxMTIzNCwxNT
+U0NDc4MTE3LDE0MDMxOTE2N119
 -->
