@@ -2,7 +2,7 @@ name: E1766 (IKEA)
 device_support:
   - type: Light
     domain: light
-    controller: E1766Controller
+    controller: E1766LightController
     delay: 350
     mapping:
       - "Click up 🠖 Turn on"
