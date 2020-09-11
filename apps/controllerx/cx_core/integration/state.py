@@ -14,7 +14,10 @@ class StateIntegration(Integration):
         return self.controller.get_z2m_actions_mapping()
 
     def listen_changes(self, controller_id: str) -> None:
-        Hass.listen_state(self.controller, self.callback, controller_id)
+        attribute = self.kwargs.get("attribute", None)
+        Hass.listen_state(
+            self.controller, self.callback, controller_id, attribute=attribute
+        )
 
     async def callback(
         self, entity: Optional[str], attribute: Optional[str], old, new, kwargs

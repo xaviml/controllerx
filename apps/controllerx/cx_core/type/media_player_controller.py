@@ -1,3 +1,5 @@
+from typing import List
+
 from cx_const import MediaPlayer, TypeActionsMapping
 from cx_core.controller import ReleaseHoldController, TypeController, action
 from cx_core.feature_support.media_player import MediaPlayerSupport
@@ -22,8 +24,8 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
         )
         await super().initialize()
 
-    def get_domain(self) -> str:
-        return "media_player"
+    def get_domain(self) -> List[str]:
+        return ["media_player"]
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {

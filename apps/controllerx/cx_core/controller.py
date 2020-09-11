@@ -2,18 +2,41 @@ import abc
 import time
 from collections import defaultdict
 from functools import wraps
-from typing import Any, Callable, DefaultDict, Dict, List, Optional, Sequence, Union
+from typing import (
+    Any,
+    Callable,
+    DefaultDict,
+    Dict,
+    List,
+    Optional,
+    Sequence,
+    Tuple,
+    Union,
+)
 
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 
 import cx_version
-from cx_const import ActionFunction, TypeActionsMapping
+from cx_const import ActionFunction, TypeAction, TypeActionsMapping
 from cx_core import integration as integration_module
 from cx_core.integration import Integration
 
+Service = Tuple[str, Dict]
+Services = List[Service]
+
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
+
+
+def action(method) -> ActionFunction:
+    @wraps(method)
+    async def _action_impl(controller, *args, **kwargs):
+        continue_call = await controller.before_action(method.__name__, *args, **kwargs)
+        if continue_call:
+            await method(controller, *args, **kwargs)
+
+    return _action_impl
 
 
 class Controller(Hass, Mqtt, abc.ABC):
@@ -30,7 +53,17 @@ class Controller(Hass, Mqtt, abc.ABC):
         # Get arguments
         self.controllers_ids = self.get_list(self.args["controller"])
         integration = self.get_integration(self.args["integration"])
-        self.actions_key_mapping = self.get_actions_mapping(integration)
+
+        custom_mapping: Dict[Union[str, int], str] = self.args.get("mapping", None)
+        self.actions_key_mapping = (
+            self.get_actions_mapping(integration)
+            if custom_mapping is None
+            else {
+                event: self.parse_action(action)
+                for event, action in custom_mapping.items()
+            }
+        )
+
         self.type_actions_mapping = self.get_type_actions_mapping()
         if "actions" in self.args and "excluded_actions" in self.args:
             raise ValueError("`actions` and `excluded_actions` cannot be used together")
@@ -142,6 +175,12 @@ class Controller(Hass, Mqtt, abc.ABC):
                     ascii_encode=False,
                 )
                 await self.call_action(action_key)
+        else:
+            self.log(
+                f"🎮 Button event triggered, but not registered: `{action_key}`",
+                level="DEBUG",
+                ascii_encode=False,
+            )
 
     async def call_action(self, action_key: str):
         delay = self.action_delay[action_key]
@@ -191,6 +230,28 @@ class Controller(Hass, Mqtt, abc.ABC):
                 "The action value from the action mapping should be a list or a function"
             )
 
+    def parse_action(self, action) -> TypeAction:
+        if isinstance(action, str):
+            return action
+        elif isinstance(action, dict) or isinstance(action, list):
+            services: Services = []
+            if isinstance(action, dict):
+                action = [action]
+            for act in action:
+                service = act["service"].replace(".", "/")
+                data = act.get("data", {})
+                services.append((service, data))
+            return (self.call_services, services)
+        else:
+            raise ValueError(
+                f"{type(action)} is not supported for the mapping value attributes"
+            )
+
+    @action
+    async def call_services(self, services: Services) -> None:
+        for service, data in services:
+            await self.call_service(service, **data)
+
     def get_z2m_actions_mapping(self) -> Optional[TypeActionsMapping]:
         """
         Controllers can implement this function. It should return a dict
@@ -226,38 +287,39 @@ class Controller(Hass, Mqtt, abc.ABC):
         return {}
 
 
-def action(method) -> ActionFunction:
-    @wraps(method)
-    async def _action_impl(controller: Controller, *args, **kwargs):
-        continue_call = await controller.before_action(method.__name__, *args, **kwargs)
-        if continue_call:
-            await method(controller, *args, **kwargs)
-
-    return _action_impl
-
-
 class TypeController(Controller, abc.ABC):
     @abc.abstractmethod
-    def get_domain(self) -> str:
+    def get_domain(self) -> List[str]:
         raise NotImplementedError
 
     async def check_domain(self, entity: str) -> None:
-        domain = self.get_domain()
+        domains = self.get_domain()
         if entity.startswith("group."):
             entities = await self.get_state(entity, attribute="entity_id")
-            same_domain = all([elem.startswith(domain + ".") for elem in entities])
+            same_domain = all(
+                (
+                    any(elem.startswith(domain + ".") for domain in domains)
+                    for elem in entities
+                )
+            )
             if not same_domain:
                 raise ValueError(
-                    f"All entities from '{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
+                    f"All entities from '{entity}' must be from one "
+                    f"of the following domains {domains} (e.g. {domains[0]}.bedroom)"
                 )
-        elif not entity.startswith(domain + "."):
+        elif not any(entity.startswith(domain + ".") for domain in domains):
             raise ValueError(
-                f"'{entity}' must be from {domain} domain (e.g. {domain}.bedroom)"
+                f"'{entity}' must be from one of the following domains "
+                f"{domains} (e.g. {domains[0]}.bedroom)"
             )
 
     async def get_entity_state(self, entity: str, attribute: str = None) -> Any:
         if entity.startswith("group."):
             entities = await self.get_state(entity, attribute="entity_id")
+            if len(entities) == 0:
+                raise ValueError(
+                    f"The group `{entity}` does not have any entities registered."
+                )
             entity = entities[0]
         out = await self.get_state(entity, attribute=attribute)
         return out
@@ -272,6 +334,7 @@ class ReleaseHoldController(Controller, abc.ABC):
         self.max_loops = self.args.get(
             "max_loops", ReleaseHoldController.DEFAULT_MAX_LOOPS
         )
+        self.hold_release_toggle: bool = self.args.get("hold_release_toggle", False)
         await super().initialize()
 
     @action
@@ -290,10 +353,14 @@ class ReleaseHoldController(Controller, abc.ABC):
             stop = stop or loops >= self.max_loops
             await self.sleep(self.delay / 1000)
             loops += 1
+        self.on_hold = False
 
     async def before_action(self, action: str, *args, **kwargs) -> bool:
+        super_before_action = await super().before_action(action, *args, **kwargs)
         to_return = not (action == "hold" and self.on_hold)
-        return await super().before_action(action, *args, **kwargs) and to_return
+        if action == "hold" and self.on_hold and self.hold_release_toggle:
+            self.on_hold = False
+        return super_before_action and to_return
 
     @abc.abstractmethod
     async def hold_loop(self, *args) -> bool:

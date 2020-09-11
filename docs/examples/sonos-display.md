@@ -2,7 +2,7 @@
 title: SONOS/SYMFONISK Display example
 layout: page
 ---
-
+{% raw %}
 ![Three different Sonos displays](/controllerx/assets/img/sonos_displays_2.jpg)
 
 ![Three different Sonos displays](/controllerx/assets/img/sonos_displays_1.jpg)
@@ -535,9 +535,3 @@ Thank you Xavi for providing the perfect solution for some of my templating issu
 
 September, 2020
 _[@htvekov](https://github.com/htvekov)_
-
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzNjMwNDI3MDgsMTAyNjUxMTIzNCwxNT
-U0NDc4MTE3LDE0MDMxOTE2N119
--->

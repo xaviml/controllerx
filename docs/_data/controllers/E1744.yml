@@ -24,12 +24,12 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "rotate_left 🠖 Left turn"
-      - "rotate_right 🠖 Right turn"
-      - "rotate_stop 🠖 Stop rotation"
-      - "play_pause 🠖 1 click"
-      - "skip_forward 🠖 2 click"
-      - "skip_backward 🠖 3 click"
+      - "brightness_move_down 🠖 Left turn"
+      - "brightness_move_up 🠖 Right turn"
+      - "brightness_stop 🠖 Stop rotation"
+      - "toggle 🠖 1 click"
+      - "brightness_step_up 🠖 2 click"
+      - "brightness_step_down 🠖 3 click"
   - name: deCONZ
     codename: deconz
     actions:
@@ -49,3 +49,6 @@ integrations:
       - "toggle 🠖 1 click"
       - "step_0_1_0 🠖 2 click"
       - "step_1_1_0 🠖 3 click"
+note: >-
+  If you want to use the default controller, you will need to set `legacy: false` in the Zigbee2MQTT configuration.
+  Read more in <a href="https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration">here</a>.

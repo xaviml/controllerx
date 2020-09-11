@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, List
 from cx_const import Cover, TypeActionsMapping
 from cx_core.controller import TypeController, action
 from cx_core.feature_support.cover import CoverSupport
@@ -32,8 +32,8 @@ class CoverController(TypeController):
 
         await super().initialize()
 
-    def get_domain(self) -> str:
-        return "cover"
+    def get_domain(self) -> List[str]:
+        return ["cover"]
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {

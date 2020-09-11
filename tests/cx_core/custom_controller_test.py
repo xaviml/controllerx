@@ -85,7 +85,7 @@ async def test_custom_controllers(
     sut.action_delta = 0
     await sut.handle_action(action_input)
 
-    mocked.call_count == expected_calls
+    assert mocked.call_count == expected_calls
 
 
 @pytest.mark.parametrize(

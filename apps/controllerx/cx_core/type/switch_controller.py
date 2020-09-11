@@ -1,3 +1,5 @@
+from typing import List
+
 from cx_const import Switch, TypeActionsMapping
 from cx_core.controller import TypeController, action
 
@@ -17,8 +19,8 @@ class SwitchController(TypeController):
         await self.check_domain(self.switch)
         await super().initialize()
 
-    def get_domain(self) -> str:
-        return "switch"
+    def get_domain(self) -> List[str]:
+        return ["switch", "input_boolean", "binary_sensor"]
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
