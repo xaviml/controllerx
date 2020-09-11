@@ -2,7 +2,7 @@
 title: SONOS/SYMFONISK Display example
 layout: page
 ---
-
+{% raw %}
 ![Three different Sonos displays](/controllerx/assets/img/sonos_displays_2.jpg)
 
 ### Sonos/Symfonisk display with ESPHome - v1.1
@@ -545,3 +545,4 @@ _[@htvekov](https://github.com/htvekov)_
 eyJoaXN0b3J5IjpbMTAyNjUxMTIzNCwxNTU0NDc4MTE3LDE0MD
 MxOTE2N119
 -->
+{% endraw %}
