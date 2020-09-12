@@ -5,9 +5,6 @@ layout: page
 {% raw %}
 ![Three different Sonos displays](/controllerx/assets/img/sonos_displays_2.jpg)
 
-### Sonos/Symfonisk display with ESPHome - v1.1
-**Changelog at last page**
-
 ![Three different Sonos displays](/controllerx/assets/img/sonos_displays_1.jpg)
 
 Using ControllerX - Controlling your Sonos speakers have never been easier 😎 But the occasional wish for a visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there 👀 Leaving you with no other choice than adding a display integration as the obvious solution for this need 😉
@@ -31,8 +28,7 @@ I've collected some hardware link examples below. These are just some random sel
 
 [0,96" 12864 SSD1306 OLED display](https://www.aliexpress.com/item/32896971385.html)
 
-[2,42” 12864 SSD1309 OLED display](https://www.aliexpress.com/item/33024448944.html)
-(direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
+[2,42” 12864 SSD1309 OLED display](https://www.aliexpress.com/item/33024448944.html)<BR />(direct replacement for the much smaller 0,96” SSD1306 display and can use same library)
 
 Alternatively you can use a [Wemos NodeMCU ESP8266 with integrated 0,96" OLED display](https://www.aliexpress.com/item/4000287451981.html)
 
@@ -83,7 +79,7 @@ If you experience some strange characters on the display, you probably need to e
 
 Calibri TTF fonts [link](https://www.fontdload.com/dl/calibri-font/)
 
-Heydings Icons special file [link](https://github.com/xaviml/controllerx/blob/dev/controllerx/assets/img/HeydingsIconsSymbols.ttf)
+Heydings Icons special file [link](https://github.com/xaviml/controllerx/blob/master/docs/assets/img/HeydingsIconsSymbols.ttf)
 
 Copy Calibri Bold, Calibri Regular, Calibri Light fonts plus the special Heydings Icons Symbols font file to the ESPHome folder `/config/esphome/`
 
@@ -540,9 +536,4 @@ Thank you Xavi for providing the perfect solution for some of my templating issu
 September, 2020
 _[@htvekov](https://github.com/htvekov)_
 
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAyNjUxMTIzNCwxNTU0NDc4MTE3LDE0MD
-MxOTE2N119
--->
 {% endraw %}
