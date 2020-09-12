@@ -535,3 +535,5 @@ Thank you Xavi for providing the perfect solution for some of my templating issu
 
 September, 2020
 _[@htvekov](https://github.com/htvekov)_
+
+{% endraw %}
