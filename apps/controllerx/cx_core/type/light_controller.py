@@ -114,6 +114,30 @@ class LightController(TypeController, ReleaseHoldController):
             Light.ON: self.on,
             Light.OFF: self.off,
             Light.TOGGLE: self.toggle,
+            Light.TOGGLE_FULL_BRIGHTNESS: (
+                self.toggle_full,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.TOGGLE_FULL_WHITE_VALUE: (
+                self.toggle_full,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+            ),
+            Light.TOGGLE_FULL_COLOR_TEMP: (
+                self.toggle_full,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
+            Light.TOGGLE_MIN_BRIGHTNESS: (
+                self.toggle_min,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.TOGGLE_MIN_WHITE_VALUE: (
+                self.toggle_min,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+            ),
+            Light.TOGGLE_MIN_COLOR_TEMP: (
+                self.toggle_min,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
             Light.RELEASE: self.release,
             Light.ON_FULL_BRIGHTNESS: (
                 self.on_full,
@@ -337,6 +361,24 @@ class LightController(TypeController, ReleaseHoldController):
             max_ = stepper.minmax.max
             value = (max_ - min_) * fraction + min_
             await self.on(light_on=light_on, **{attribute: value})
+
+    @action
+    async def toggle_full(self, attribute: str) -> None:
+        light_state = await self.get_entity_state(self.light["name"])
+        light_on = light_state == "on"
+        if light_on:
+            await self.off()
+        else:
+            await self.set_value(attribute, 1, light_on=light_on)
+
+    @action
+    async def toggle_min(self, attribute: str) -> None:
+        light_state = await self.get_entity_state(self.light["name"])
+        light_on = light_state == "on"
+        if light_on:
+            await self.off()
+        else:
+            await self.set_value(attribute, 0, light_on=light_on)
 
     @action
     async def on_full(self, attribute: str, light_on: bool = None) -> None:
