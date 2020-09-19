@@ -5,28 +5,28 @@ device_support:
     controller: DoubleKeyWirelessAqaraController
     delay: 350
     mapping:
-      - "Click on both 🠖 Toggle"
-      - "Double click on both 🠖 Brighten up (1 step)"
-      - "Long click on both 🠖 Dim down (1 step)"
-      - "Click on left 🠖 Toggle"
-      - "Double click on left 🠖 Brighten up (1 step)"
-      - "Long click on left 🠖 Dim down (1 step)"
-      - "Click on right 🠖 Toggle"
-      - "Double click on right 🠖 Brighten up (1 step)"
-      - "Long click on right 🠖 Dim down (1 step)"
+      - "Click on both → Toggle"
+      - "Double click on both → Brighten up (1 step)"
+      - "Long click on both → Dim down (1 step)"
+      - "Click on left → Toggle"
+      - "Double click on left → Brighten up (1 step)"
+      - "Long click on left → Dim down (1 step)"
+      - "Click on right → Toggle"
+      - "Double click on right → Brighten up (1 step)"
+      - "Long click on right → Dim down (1 step)"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "both 🠖 Click on both"
-      - "both_double 🠖 Double click on both"
-      - "both_long 🠖 Long click on both"
-      - "left 🠖 Click on left"
-      - "left_double 🠖 Double click on left"
-      - "left_long 🠖 Long click on left"
-      - "right 🠖 Click on right"
-      - "right_double 🠖 Double click on right"
-      - "right_long 🠖 Long click on right"
+      - "both → Click on both"
+      - "both_double → Double click on both"
+      - "both_long → Long click on both"
+      - "left → Click on left"
+      - "left_double → Double click on left"
+      - "left_long → Long click on left"
+      - "right → Click on right"
+      - "right_double → Double click on right"
+      - "right_long → Long click on right"
 note: >-
   Note that all actions related to both, left and right, do the same. 
   This is because ControllerX is design to control just one entity (light or media player).

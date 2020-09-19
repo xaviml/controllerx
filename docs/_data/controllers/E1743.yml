@@ -5,56 +5,56 @@ device_support:
     controller: E1743Controller
     delay: 350
     mapping:
-      - "Click \"I\" 🠖 Turn on"
-      - "Click \"O\" 🠖 Turn off"
-      - "Hold \"I\" 🠖 Brighten up"
-      - "Hold \"O\" 🠖 Brighten down"
+      - "Click \"I\" → Turn on"
+      - "Click \"O\" → Turn off"
+      - "Hold \"I\" → Brighten up"
+      - "Hold \"O\" → Brighten down"
   - type: Media Player
     domain: media_player
     controller: E1743MediaPlayerController
     delay: 500
     mapping:
-      - "Click \"I\" 🠖 Play/Pause"
-      - "Click \"O\" 🠖 Next track"
-      - "Hold \"I\" 🠖 Volume up"
-      - "Hold \"O\" 🠖 Volume down"
+      - "Click \"I\" → Play/Pause"
+      - "Click \"O\" → Next track"
+      - "Hold \"I\" → Volume up"
+      - "Hold \"O\" → Volume down"
   - type: Switch
     domain: switch
     controller: E1743SwitchController
     mapping:
-      - "Click \"I\" 🠖 Turn on"
-      - "Click \"O\" 🠖 Turn off"
+      - "Click \"I\" → Turn on"
+      - "Click \"O\" → Turn off"
   - type: Cover
     domain: cover
     controller: E1743CoverController
     mapping:
-      - "Click \"I\" 🠖 Open/Stop cover"
-      - "Click \"O\" 🠖 Close/Stop cover"
-      - "Hold \"I\" 🠖 Open cover"
-      - "Hold \"O\" 🠖 Close cover"
+      - "Click \"I\" → Open/Stop cover"
+      - "Click \"O\" → Close/Stop cover"
+      - "Hold \"I\" → Open cover"
+      - "Hold \"O\" → Close cover"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "on 🠖 Click \"I\""
-      - "off 🠖 Click \"O\""
-      - "brightness_up 🠖 Hold \"I\""
-      - "brightness_down 🠖 Hold \"O\""
-      - "brightness_stop 🠖 Release \"I\" or \"O\""
+      - "on → Click \"I\""
+      - "off → Click \"O\""
+      - "brightness_up → Hold \"I\""
+      - "brightness_down → Hold \"O\""
+      - "brightness_stop → Release \"I\" or \"O\""
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 🠖 Click \"I\""
-      - "2002 🠖 Click \"O\""
-      - "1001 🠖 Hold \"I\""
-      - "2001 🠖 Hold \"O\""
-      - "1003 🠖 Release \"I\""
-      - "2003 🠖 Release \"O\""
+      - "1002 → Click \"I\""
+      - "2002 → Click \"O\""
+      - "1001 → Hold \"I\""
+      - "2001 → Hold \"O\""
+      - "1003 → Release \"I\""
+      - "2003 → Release \"O\""
   - name: ZHA
     codename: zha
     actions:
-      - "on 🠖 Click \"I\""
-      - "off 🠖 Click \"O\""
-      - "move_with_on_off_0_83 🠖 Hold \"I\""
-      - "move_1_83 🠖 Hold \"O\""
-      - "stop 🠖 Release \"I\" or \"O\"" 
+      - "on → Click \"I\""
+      - "off → Click \"O\""
+      - "move_with_on_off_0_83 → Hold \"I\""
+      - "move_1_83 → Hold \"O\""
+      - "stop → Release \"I\" or \"O\"" 

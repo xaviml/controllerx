@@ -5,42 +5,42 @@ device_support:
     controller: ICTCG1Controller
     delay: 350
     mapping:
-      - "Left turn 🠖 Dim down"
-      - "Quick left turn 🠖 Turn off"
-      - "Right turn 🠖 Brighten up"
-      - "Quick right turn 🠖 Full brightness"
+      - "Left turn → Dim down"
+      - "Quick left turn → Turn off"
+      - "Right turn → Brighten up"
+      - "Quick right turn → Full brightness"
   - type: Media Player
     domain: media_player
     controller: ICTCG1MediaPlayerController
     delay: 500
     mapping:
-      - "Left turn 🠖 Volume down"
-      - "Quick left turn 🠖 Pause"
-      - "Right turn 🠖 Volume up"
-      - "Quick right turn 🠖 Play"
+      - "Left turn → Volume down"
+      - "Quick left turn → Pause"
+      - "Right turn → Volume up"
+      - "Quick right turn → Play"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "rotate_left 🠖 Left turn"
-      - "rotate_left_quick 🠖 Quick left turn"
-      - "rotate_right 🠖 Right turn"
-      - "rotate_right_quick 🠖 Quick right turn"
-      - "rotate_stop 🠖 Stop rotation"
+      - "rotate_left → Left turn"
+      - "rotate_left_quick → Quick left turn"
+      - "rotate_right → Right turn"
+      - "rotate_right_quick → Quick right turn"
+      - "rotate_stop → Stop rotation"
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 🠖 Quick right turn"
-      - "2002 🠖 Right turn"
-      - "3002 🠖 Left turn"
-      - "4002 🠖 Quick left turn"
+      - "1002 → Quick right turn"
+      - "2002 → Right turn"
+      - "3002 → Left turn"
+      - "4002 → Quick left turn"
   - name: ZHA
     codename: zha
     actions:
-      - "move_1_70 🠖 Slow left turn"
-      - "move_1_195 🠖 Faster left turn"
-      - "move_to_level_with_on_off_0_1 🠖 Quick left turn"
-      - "move_with_on_off_0_70 🠖 Slow right turn"
-      - "move_with_on_off_0_195 🠖 Faster right turn"
-      - "move_to_level_with_on_off_255_1 🠖 Quick right turn"
-      - "stop 🠖 Stop rotation, either direction (except after quick right/left turns)"
+      - "move_1_70 → Slow left turn"
+      - "move_1_195 → Faster left turn"
+      - "move_to_level_with_on_off_0_1 → Quick left turn"
+      - "move_with_on_off_0_70 → Slow right turn"
+      - "move_with_on_off_0_195 → Faster right turn"
+      - "move_to_level_with_on_off_255_1 → Quick right turn"
+      - "stop → Stop rotation, either direction (except after quick right/left turns)"

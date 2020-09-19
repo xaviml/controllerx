@@ -5,29 +5,29 @@ device_support:
     controller: WXKG01LMLightController
     delay: 350
     mapping:
-      - "1 click 🠖 Toggle"
-      - "2 clicks 🠖 Full brightness"
-      - "3 clicks 🠖 Minimum brightness"
-      - "4 clicks 🠖 50% brightness"
-      - "Hold the button 🠖 Brightness up/down with direction changes"
+      - "1 click → Toggle"
+      - "2 clicks → Full brightness"
+      - "3 clicks → Minimum brightness"
+      - "4 clicks → 50% brightness"
+      - "Hold the button → Brightness up/down with direction changes"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "single 🠖 1 click"
-      - "double 🠖 2 clicks"
-      - "triple 🠖 3 clicks"
-      - "quadruple 🠖 4 clicks"
-      - "many 🠖 More than 4 clicks"
-      - "long 🠖 Hold the button"
-      - "long_release 🠖 Release the button"
+      - "single → 1 click"
+      - "double → 2 clicks"
+      - "triple → 3 clicks"
+      - "quadruple → 4 clicks"
+      - "many → More than 4 clicks"
+      - "long → Hold the button"
+      - "long_release → Release the button"
   - name: ZHA
     codename: zha
     actions:
-      - "single 🠖 1 click"
-      - "double 🠖 2 clicks"
-      - "triple 🠖 3 clicks"
-      - "quadruple 🠖 4 clicks"
-      - "furious 🠖 More than 4 clicks"
+      - "single → 1 click"
+      - "double → 2 clicks"
+      - "triple → 3 clicks"
+      - "quadruple → 4 clicks"
+      - "furious → More than 4 clicks"
 note: >-
   The ZHA implementation of this button does not yet support hold and release actions.

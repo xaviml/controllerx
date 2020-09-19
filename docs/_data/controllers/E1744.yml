@@ -5,50 +5,50 @@ device_support:
     controller: E1744LightController
     delay: 500
     mapping:
-      - "Left turn 🠖 Dim down"
-      - "Right turn 🠖 Brighten up"
-      - "1 click 🠖 Toggle"
-      - "2 click 🠖 Full brightness"
-      - "3 click 🠖 Minimum brightness"
+      - "Left turn → Dim down"
+      - "Right turn → Brighten up"
+      - "1 click → Toggle"
+      - "2 click → Full brightness"
+      - "3 click → Minimum brightness"
   - type: Media Player
     domain: media_player
     controller: E1744MediaPlayerController
     delay: 500
     mapping:
-      - "Left turn 🠖 Volume down"
-      - "Right turn 🠖 Volume up"
-      - "1 click 🠖 Play/Pause"
-      - "2 click 🠖 Skip forward"
-      - "3 click 🠖 Skip backward"
+      - "Left turn → Volume down"
+      - "Right turn → Volume up"
+      - "1 click → Play/Pause"
+      - "2 click → Skip forward"
+      - "3 click → Skip backward"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "brightness_move_down 🠖 Left turn"
-      - "brightness_move_up 🠖 Right turn"
-      - "brightness_stop 🠖 Stop rotation"
-      - "toggle 🠖 1 click"
-      - "brightness_step_up 🠖 2 click"
-      - "brightness_step_down 🠖 3 click"
+      - "brightness_move_down → Left turn"
+      - "brightness_move_up → Right turn"
+      - "brightness_stop → Stop rotation"
+      - "toggle → 1 click"
+      - "brightness_step_up → 2 click"
+      - "brightness_step_down → 3 click"
   - name: deCONZ
     codename: deconz
     actions:
-      - "2001 🠖 Right turn"
-      - "3001 🠖 Left turn"
-      - "2003 🠖 Stop right rotation"
-      - "3003 🠖 Stop left rotation"
-      - "1002 🠖 1 click"
-      - "1004 🠖 2 click"
-      - "1005 🠖 3 click"
+      - "2001 → Right turn"
+      - "3001 → Left turn"
+      - "2003 → Stop right rotation"
+      - "3003 → Stop left rotation"
+      - "1002 → 1 click"
+      - "1004 → 2 click"
+      - "1005 → 3 click"
   - name: ZHA
     codename: zha
     actions:
-      - "move_1_195 🠖 Left turn"
-      - "move_0_195 🠖 Right turn"
-      - "stop 🠖 Stop rotation"
-      - "toggle 🠖 1 click"
-      - "step_0_1_0 🠖 2 click"
-      - "step_1_1_0 🠖 3 click"
+      - "move_1_195 → Left turn"
+      - "move_0_195 → Right turn"
+      - "stop → Stop rotation"
+      - "toggle → 1 click"
+      - "step_0_1_0 → 2 click"
+      - "step_1_1_0 → 3 click"
 note: >-
   If you want to use the default controller, you will need to set `legacy: false` in the Zigbee2MQTT configuration.
   Read more in <a href="https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration">here</a>.

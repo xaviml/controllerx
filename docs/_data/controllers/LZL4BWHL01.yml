@@ -5,25 +5,25 @@ device_support:
     controller: LZL4BWHL01LightController
     delay: 350
     mapping:
-      - "Top button pressed 🠖 Full brightness"
-      - "Arrow up held 🠖 Brighten up"
-      - "Arrow down held 🠖 Dim down"
-      - "Bottom button pressed 🠖 Turn off"
+      - "Top button pressed → Full brightness"
+      - "Arrow up held → Brighten up"
+      - "Arrow down held → Dim down"
+      - "Bottom button pressed → Turn off"
 integrations:
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 🠖 Top button pressed"
-      - "2001 🠖 Arrow up held"
-      - "2003 🠖 Arrow up released"
-      - "3001 🠖 Arrow down held"
-      - "3003 🠖 Arrow down released"
-      - "4002 🠖 Bottom button pressed"
+      - "1002 → Top button pressed"
+      - "2001 → Arrow up held"
+      - "2003 → Arrow up released"
+      - "3001 → Arrow down held"
+      - "3003 → Arrow down released"
+      - "4002 → Bottom button pressed"
   - name: ZHA
     codename: zha
     actions:
-      - "move_to_level_with_on_off_254_4 🠖 Top button pressed"
-      - "step_with_on_off_0_30_6 🠖 Arrow up held"
-      - "step_1_30_6 🠖 Arrow down held"
-      - "move_to_level_with_on_off_0_4 🠖 Bottom button pressed"
-      - "stop 🠖 Arrow released" 
+      - "move_to_level_with_on_off_254_4 → Top button pressed"
+      - "step_with_on_off_0_30_6 → Arrow up held"
+      - "step_1_30_6 → Arrow down held"
+      - "move_to_level_with_on_off_0_4 → Bottom button pressed"
+      - "stop → Arrow released" 

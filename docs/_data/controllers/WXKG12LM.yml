@@ -5,10 +5,10 @@ device_support:
     controller: WXKG12LMLightController
     delay: 350
     mapping:
-      - "1 click 🠖 Toggle"
-      - "2 clicks 🠖 Full brightness"
-      - "Shake the controller 🠖 Minimum brightness"
-      - "Hold the button 🠖 Brightness up/down with direction changes"
+      - "1 click → Toggle"
+      - "2 clicks → Full brightness"
+      - "Shake the controller → Minimum brightness"
+      - "Hold the button → Brightness up/down with direction changes"
 note: >-
   For z2m integration, this controller has 2 sensors that need to be added to the configuration.
   One ends with `_action` and the other one with `_click`.
@@ -17,16 +17,16 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "single 🠖 1 click"
-      - "double 🠖 2 clicks"
-      - "shake 🠖 Shake the controller"
-      - "hold 🠖 Hold the button"
-      - "release 🠖 Release the button"
+      - "single → 1 click"
+      - "double → 2 clicks"
+      - "shake → Shake the controller"
+      - "hold → Hold the button"
+      - "release → Release the button"
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 🠖 1 click"
-      - "1004 🠖 2 clicks"
-      - "1006 🠖 Shake the controller"
-      - "1001 🠖 Hold the button"
-      - "1003 🠖 Release the button"
+      - "1002 → 1 click"
+      - "1004 → 2 clicks"
+      - "1006 → Shake the controller"
+      - "1001 → Hold the button"
+      - "1003 → Release the button"

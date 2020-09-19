@@ -5,33 +5,33 @@ device_support:
     controller: SmartThingsButtonLightController
     delay: 350
     mapping:
-      - "1 click 🠖 Toggle"
-      - "2 clicks 🠖 Full brightness"
-      - "Hold the button 🠖 50% brightness"
+      - "1 click → Toggle"
+      - "2 clicks → Full brightness"
+      - "Hold the button → 50% brightness"
   - type: Media Player
     domain: media_player
     controller: SmartThingsButtonMediaPlayerController
     delay: 500
     mapping:
-      - "1 click 🠖 Play/Pause"
-      - "2 clicks 🠖 Skip forwards"
-      - "Hold the button 🠖 Skip backward"
+      - "1 click → Play/Pause"
+      - "2 clicks → Skip forwards"
+      - "Hold the button → Skip backward"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "single_click 🠖 1 click"
-      - "double_click 🠖 2 clicks"
-      - "hold  🠖 Hold the button"
+      - "single_click → 1 click"
+      - "double_click → 2 clicks"
+      - "hold  → Hold the button"
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 🠖 1 click"
-      - "1004 🠖 2 clicks"
-      - "1001 🠖 Hold the button"
+      - "1002 → 1 click"
+      - "1004 → 2 clicks"
+      - "1001 → Hold the button"
   - name: ZHA
     codename: zha
     actions:
-      - "button_single_1_0_0_0 🠖 1 click"
-      - "button_double_2_0_0_0 🠖 2 clicks"
-      - "button_hold_3_0_0_0 🠖 Hold the button"
+      - "button_single_1_0_0_0 → 1 click"
+      - "button_double_2_0_0_0 → 2 clicks"
+      - "button_hold_3_0_0_0 → Hold the button"

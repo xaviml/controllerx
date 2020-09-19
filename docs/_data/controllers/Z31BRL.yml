@@ -5,14 +5,14 @@ device_support:
     controller: Z31BRLLightController
     delay: 350
     mapping:
-      - "1 click 🠖 Toggle"
-      - "Right turn 🠖 Brighten up (1 step)"
-      - "Left turn 🠖 Dim down (1 step)"
+      - "1 click → Toggle"
+      - "Right turn → Brighten up (1 step)"
+      - "Left turn → Dim down (1 step)"
 integrations:
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 🠖 1 click"
-      - "2002 🠖 Right turn"
-      - "3002 🠖 Left turn"
+      - "1002 → 1 click"
+      - "2002 → Right turn"
+      - "3002 → Left turn"
       

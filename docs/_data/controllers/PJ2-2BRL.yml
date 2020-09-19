@@ -5,19 +5,19 @@ device_support:
     controller: LutronCasetaProPicoLightController
     delay: 350
     mapping:
-      - "Top button 🠖 Full brightness"
-      - "Arrow up button 🠖 Brighten up"
-      - "Arrow down button 🠖 Dim down"
-      - "Bottom button 🠖 Turn off"
+      - "Top button → Full brightness"
+      - "Arrow up button → Brighten up"
+      - "Arrow down button → Dim down"
+      - "Bottom button → Turn off"
   - type: Media Player
     domain: media_player
     controller: LutronCasetaProPicoMediaPlayerController
     delay: 500
     mapping:
-      - "Top button 🠖 Play/Pause"
-      - "Arrow up button 🠖 Volume up"
-      - "Arrow down button 🠖 Volume down"
-      - "Bottom button 🠖 Next track"
+      - "Top button → Play/Pause"
+      - "Arrow up button → Volume up"
+      - "Arrow down button → Volume down"
+      - "Bottom button → Next track"
 note: >-
   This requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
@@ -28,8 +28,8 @@ integrations:
   - name: State
     codename: state
     actions:
-      - "\"1\" 🠖 Top button"
-      - "\"8\" 🠖 Arrow up button"
-      - "\"16\" 🠖 Arrow down button"
-      - "\"4\" 🠖 Bottom button"
-      - "\"0\" 🠖 Release/Idle state"
+      - "\"1\" → Top button"
+      - "\"8\" → Arrow up button"
+      - "\"16\" → Arrow down button"
+      - "\"4\" → Bottom button"
+      - "\"0\" → Release/Idle state"

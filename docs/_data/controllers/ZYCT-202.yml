@@ -5,25 +5,25 @@ device_support:
     controller: ZYCT202LightController
     delay: 350
     mapping:
-      - "Click \"I\" 🠖 Turn on "
-      - "Hold brightness up 🠖 Brighten up"
-      - "Hold brightness down 🠖 Dim down"
-      - "Click \"O\" 🠖 Turn off"
+      - "Click \"I\" → Turn on "
+      - "Hold brightness up → Brighten up"
+      - "Hold brightness down → Dim down"
+      - "Click \"O\" → Turn off"
   - type: Media Player
     domain: media_player
     controller: ZYCT202MediaPlayerController
     delay: 500
     mapping:
-      - "Click \"I\" 🠖 Play/Pause"
-      - "Hold brightness up 🠖 Volume up"
-      - "Hold brightness down 🠖 Volume down"
-      - "Click \"O\" 🠖 Play/Pause"
+      - "Click \"I\" → Play/Pause"
+      - "Hold brightness up → Volume up"
+      - "Hold brightness down → Volume down"
+      - "Click \"O\" → Play/Pause"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "on 🠖 Click \"I\""
-      - "up-press 🠖 Hold brightness up"
-      - "down-press 🠖 Hold brightness down"
-      - "off 🠖 Click \"O\""
-      - "stop 🠖 Release the brightness buttons"
+      - "on → Click \"I\""
+      - "up-press → Hold brightness up"
+      - "down-press → Hold brightness down"
+      - "off → Click \"O\""
+      - "stop → Release the brightness buttons"
