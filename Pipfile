@@ -18,3 +18,6 @@ controllerx = {path = ".", editable = true}
 
 [packages]
 appdaemon = "~=4.0"
+
+[pipenv]
+allow_prereleases = true

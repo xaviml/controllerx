@@ -40,9 +40,11 @@ def test_devices(hass_mock):
         if type_actions_mapping is None:
             continue
         possible_actions = list(type_actions_mapping.keys())
-        mappings = device.get_z2m_actions_mapping()
-        check_mapping(mappings, possible_actions, device)
-        mappings = device.get_deconz_actions_mapping()
-        check_mapping(mappings, possible_actions, device)
-        mappings = device.get_zha_actions_mapping()
-        check_mapping(mappings, possible_actions, device)
+        integration_mappings_funcs = [
+            device.get_z2m_actions_mapping,
+            device.get_deconz_actions_mapping,
+            device.get_zha_actions_mapping,
+        ]
+        for func in integration_mappings_funcs:
+            mappings = func()
+            check_mapping(mappings, possible_actions, device)
