@@ -23,7 +23,7 @@ class Z2MIntegration(Integration):
         if listens_to == LISTENS_TO_HA:
             Hass.listen_state(self.controller, self.state_callback, controller_id)
         elif listens_to == LISTENS_TO_MQTT:
-            topic_prefix = self.kwargs.get('topic_prefix', 'zigbee2mqtt')
+            topic_prefix = self.kwargs.get("topic_prefix", "zigbee2mqtt")
             Mqtt.listen_event(
                 self.controller,
                 self.event_callback,
