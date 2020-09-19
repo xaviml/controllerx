@@ -41,7 +41,7 @@ class Z2MIntegration(Integration):
         if "payload" not in data:
             return
         payload = json.loads(data["payload"])
-        if action_key not in data["payload"]:
+        if action_key not in payload:
             self.controller.log(
                 f"⚠️ There is no `{action_key}` in the MQTT topic payload",
                 level="WARNING",
