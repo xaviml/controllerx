@@ -1,0 +1,37 @@
+name: MLI-404011 (Müller Licht)
+device_support: 
+  - type: Light
+    domain: light
+    controller: MLI404011LightController
+    delay: 500
+    mapping:
+      - "Toggle button 🠖 Toggle"
+      - "Click 🔆 🠖 Brighten up (1 step)"
+      - "Click 🔅  🠖 Dim down (1 step)"
+      - "Click cold 🠖 Color temp down / Left color wheel (1 step)"
+      - "Click warm 🠖 Color temp up / Right color wheel (1 step)"
+      - "Hold 🔆 🠖 Brighten up"
+      - "Hold  🠖 Dim down"
+integrations:
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - 1002 🠖 Toggle button
+      - 2001 🠖 Hold 🔆
+      - 2002 🠖 Click 🔆
+      - 2003 🠖 Release 🔆
+      - 3001 🠖 Hold 🔅 
+      - 3002 🠖 Click 🔅 
+      - 3003 🠖 Release 🔅 
+      - 4002 🠖 Click warm
+      - 5002 🠖 Click cold
+      - 6002 🠖 Click color circle (anywhere)
+      - 7002 🠖 Click reading button
+      - 8002 🠖 Click sunset button
+      - 9002 🠖 Click party button
+      - 10002 🠖 Click night button
+      - 11002 🠖 Click fire button
+      - 12002 🠖 Click heart button
+note: >-
+  Some buttons are left to be mapped for deCONZ integration.
+  Please read more about in <a href="https://github.com/xaviml/controllerx/issues/111">here</a>.
