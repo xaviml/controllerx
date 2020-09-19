@@ -11,6 +11,7 @@ from cx_core.integration.z2m import Z2MIntegration
         ({}, None, False, Any),
         ({"payload": '{"action": "action_1"}'}, None, True, "action_1"),
         ({"payload": '{"event_1": "action_1"}'}, "event_2", False, Any),
+        ({"payload": '{"action_rate": 195}'}, "action", False, Any),
     ],
 )
 @pytest.mark.asyncio
