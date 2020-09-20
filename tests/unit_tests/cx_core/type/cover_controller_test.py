@@ -3,7 +3,7 @@ import pytest
 
 from cx_core.controller import TypeController
 from cx_core import CoverController
-from tests.test_utils import fake_async_function
+from tests.test_utils import fake_fn
 
 
 @pytest.fixture
@@ -36,7 +36,7 @@ async def test_initialize(
         "open_position": open_position,
         "close_position": close_position,
     }
-    monkeypatch.setattr(sut, "get_entity_state", fake_async_function("0"))
+    monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
     if error_expected:
         with pytest.raises(ValueError):
             await sut.initialize()
@@ -128,7 +128,9 @@ async def test_stop(sut, mocker):
 async def test_toggle(sut, monkeypatch, mocker, cover_state, stop_expected):
     called_service_patch = mocker.patch.object(sut, "call_service")
     open_patch = mocker.patch.object(sut, "open")
-    monkeypatch.setattr(sut, "get_entity_state", fake_async_function(cover_state))
+    monkeypatch.setattr(
+        sut, "get_entity_state", fake_fn(async_=True, to_return=cover_state)
+    )
     await sut.toggle(open_patch)
     if stop_expected:
         called_service_patch.assert_called_once_with(

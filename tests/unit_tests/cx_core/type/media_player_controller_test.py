@@ -3,7 +3,7 @@ import pytest
 from cx_core import MediaPlayerController, ReleaseHoldController
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.stepper import Stepper
-from tests.test_utils import fake_async_function
+from tests.test_utils import fake_fn
 
 
 @pytest.fixture
@@ -16,7 +16,7 @@ async def sut(monkeypatch, hass_mock, mocker):
     c.on_hold = False
     mocker.patch.object(ReleaseHoldController, "initialize")
     c.args["media_player"] = "media_player.test"
-    monkeypatch.setattr(c, "get_entity_state", fake_async_function("0"))
+    monkeypatch.setattr(c, "get_entity_state", fake_fn(async_=True, to_return="0"))
     await c.initialize()
     return c
 

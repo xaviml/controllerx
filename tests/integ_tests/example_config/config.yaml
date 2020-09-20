@@ -1,0 +1,6 @@
+livingroom_controller:
+    module: controllerx
+    class: E1810Controller
+    controller: sensor.livingroom_controller_action
+    integration: z2m
+    light: light.bedroom

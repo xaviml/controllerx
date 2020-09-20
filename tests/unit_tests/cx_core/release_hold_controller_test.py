@@ -1,7 +1,7 @@
 import pytest
 
 from cx_core.controller import Controller, ReleaseHoldController
-from tests.test_utils import fake_async_function
+from tests.test_utils import fake_fn
 
 
 class FakeReleaseHoldController(ReleaseHoldController):
@@ -20,7 +20,7 @@ def sut(hass_mock):
 
 @pytest.mark.asyncio
 async def test_initialize(sut, monkeypatch):
-    monkeypatch.setattr(Controller, "initialize", fake_async_function())
+    monkeypatch.setattr(Controller, "initialize", fake_fn(async_=True))
     monkeypatch.setattr(sut, "default_delay", lambda: 500)
     monkeypatch.setattr(sut, "sleep", lambda time: None)
     # SUT

@@ -6,7 +6,7 @@ from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
-from tests.test_utils import fake_async_function
+from tests.test_utils import fake_fn
 
 
 @pytest.fixture
@@ -17,7 +17,7 @@ def sut(hass_mock, monkeypatch):
     c.light = {"name": "light"}
     c.on_hold = False
 
-    monkeypatch.setattr(c, "get_entity_state", fake_async_function("0"))
+    monkeypatch.setattr(c, "get_entity_state", fake_fn(async_=True, to_return="0"))
     return c
 
 
@@ -317,8 +317,10 @@ async def test_call_light_service(
 async def test_on(
     sut, mocker, monkeypatch, light_on, light_state, expected_turned_toggle
 ):
-    monkeypatch.setattr(sut, "call_light_service", fake_async_function())
-    mocker.patch.object(sut, "get_entity_state", fake_async_function(light_state))
+    monkeypatch.setattr(sut, "call_light_service", fake_fn(async_=True))
+    mocker.patch.object(
+        sut, "get_entity_state", fake_fn(async_=True, to_return=light_state)
+    )
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
     attributes = {"test": 0}
 
@@ -330,7 +332,7 @@ async def test_on(
 
 @pytest.mark.asyncio
 async def test_off(sut, mocker, monkeypatch):
-    monkeypatch.setattr(sut, "call_light_service", fake_async_function())
+    monkeypatch.setattr(sut, "call_light_service", fake_fn(async_=True))
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
     attributes = {"test": 0}
 
@@ -342,7 +344,7 @@ async def test_off(sut, mocker, monkeypatch):
 
 @pytest.mark.asyncio
 async def test_toggle(sut, mocker, monkeypatch):
-    monkeypatch.setattr(sut, "call_light_service", fake_async_function())
+    monkeypatch.setattr(sut, "call_light_service", fake_fn(async_=True))
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
     attributes = {"test": 0}
 

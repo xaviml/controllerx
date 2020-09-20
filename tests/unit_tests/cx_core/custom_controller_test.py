@@ -7,7 +7,7 @@ from cx_core import (
     CustomMediaPlayerController,
 )
 from cx_core.custom_controller import CustomCoverController, CustomSwitchController
-from tests.test_utils import fake_async_function
+from tests.test_utils import fake_fn
 
 
 @pytest.mark.parametrize(
@@ -79,7 +79,7 @@ async def test_custom_controllers(
     }
     mocked = mocker.patch.object(sut, mock_function)
 
-    monkeypatch.setattr(sut, "get_entity_state", fake_async_function("0"))
+    monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
 
     await sut.initialize()
     sut.action_delta = 0

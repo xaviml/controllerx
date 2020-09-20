@@ -511,6 +511,7 @@ class LightController(TypeController, ReleaseHoldController):
             # # After smooth power on, the light should not brighten up.
             return True
         new_state_attribute, exceeded = stepper.step(old, direction)
+        new_state_attribute = round(new_state_attribute, 3)
         attributes = {attribute: new_state_attribute}
         if action_type == "hold":
             attributes["transition"] = self.delay / 1000

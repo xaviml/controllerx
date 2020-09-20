@@ -5,7 +5,7 @@ import pytest
 
 from cx_core import integration as integration_module
 from cx_core.controller import action
-from tests.test_utils import IntegrationMock, fake_async_function
+from tests.test_utils import IntegrationMock, fake_fn
 
 
 @pytest.fixture
@@ -302,9 +302,9 @@ async def test_call_action(
     sut.action_delay = {action_key: delay}
     sut.action_delay_handles = {action_key: handle}
 
-    monkeypatch.setattr(sut, "cancel_timer", fake_async_function())
-    monkeypatch.setattr(sut, "run_in", fake_async_function())
-    monkeypatch.setattr(sut, "action_timer_callback", fake_async_function())
+    monkeypatch.setattr(sut, "cancel_timer", fake_fn(async_=True))
+    monkeypatch.setattr(sut, "run_in", fake_fn(async_=True))
+    monkeypatch.setattr(sut, "action_timer_callback", fake_fn(async_=True))
     cancel_timer_patch = mocker.patch.object(sut, "cancel_timer")
     run_in_patch = mocker.patch.object(sut, "run_in")
     action_timer_callback_patch = mocker.patch.object(sut, "action_timer_callback")

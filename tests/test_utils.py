@@ -12,11 +12,14 @@ class IntegrationMock:
         super().__init__()
 
 
-def fake_async_function(to_return=None):
-    async def inner_fake_fn(*args, **kwargs):
+def fake_fn(async_=False, to_return=None):
+    async def inner_fake_async_fn(*args, **kwargs):
         return to_return
 
-    return inner_fake_fn
+    def inner_fake_fn(*args, **kwargs):
+        return to_return
+
+    return inner_fake_async_fn if async_ else inner_fake_fn
 
 
 def _import_modules(file_dir, package):
