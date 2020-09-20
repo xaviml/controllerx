@@ -36,14 +36,14 @@ def _all_subclasses(cls):
     )
 
 
-def get_instances(file_, package_, class_):
+def get_classes(file_, package_, class_, instantiate=False):
     _import_modules(
         file_, package_,
     )
     subclasses = _all_subclasses(class_)
-    devices = [
-        cls_()
+    subclasses = [
+        cls_() if instantiate else cls_
         for cls_ in subclasses
         if len(cls_.__subclasses__()) == 0 and package_ in cls_.__module__
     ]
-    return devices
+    return subclasses

@@ -1,6 +1,6 @@
 from cx_core import Controller
 from cx_core import type as type_module
-from tests.test_utils import get_instances
+from tests.test_utils import get_classes
 
 
 def check_mapping(mapping):
@@ -20,8 +20,8 @@ def check_mapping(mapping):
 
 
 def test_devices(hass_mock):
-    controller_types = get_instances(
-        type_module.__file__, type_module.__package__, Controller
+    controller_types = get_classes(
+        type_module.__file__, type_module.__package__, Controller, instantiate=True
     )
     for controller_type in controller_types:
         mappings = controller_type.get_type_actions_mapping()

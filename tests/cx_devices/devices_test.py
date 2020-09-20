@@ -1,7 +1,9 @@
+import pytest
+from tests.test_utils import get_classes
+
 import cx_devices as devices_module
 from cx_core import Controller
 from cx_core.controller import ReleaseHoldController
-from tests.test_utils import get_instances
 
 
 def check_mapping(mapping, all_possible_actions, device):
@@ -31,20 +33,23 @@ def check_mapping(mapping, all_possible_actions, device):
             )
 
 
-def test_devices(hass_mock):
-    devices = get_instances(
-        devices_module.__file__, devices_module.__package__, Controller
-    )
-    for device in devices:
-        type_actions_mapping = device.get_type_actions_mapping()
-        if type_actions_mapping is None:
-            continue
-        possible_actions = list(type_actions_mapping.keys())
-        integration_mappings_funcs = [
-            device.get_z2m_actions_mapping,
-            device.get_deconz_actions_mapping,
-            device.get_zha_actions_mapping,
-        ]
-        for func in integration_mappings_funcs:
-            mappings = func()
-            check_mapping(mappings, possible_actions, device)
+devices_classes = get_classes(
+    devices_module.__file__, devices_module.__package__, Controller
+)
+
+
+@pytest.mark.parametrize("device_class", devices_classes)
+def test_devices(hass_mock, device_class):
+    device = device_class()
+    type_actions_mapping = device.get_type_actions_mapping()
+    if type_actions_mapping is None:
+        return
+    possible_actions = list(type_actions_mapping.keys())
+    integration_mappings_funcs = [
+        device.get_z2m_actions_mapping,
+        device.get_deconz_actions_mapping,
+        device.get_zha_actions_mapping,
+    ]
+    for func in integration_mappings_funcs:
+        mappings = func()
+        check_mapping(mappings, possible_actions, device)
