@@ -41,15 +41,15 @@ bedroom_speaker:
 Controlling a light (just on/off) with E1743 with ZHA:
 
 ```yaml
-bedroom_speaker:
+bedroom_light:
   module: controllerx
   class: E1743Controller
   controller: 00:67:88:56:06:78:9b:3f
   integration: zha
   light: light.simple_light
   actions:
-    - on
-    - off
+    - "on"
+    - "off"
 ```
 
 Controlling two lights with Aqara double key wireless switch (z2m):

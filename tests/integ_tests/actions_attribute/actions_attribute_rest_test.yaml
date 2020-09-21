@@ -1,0 +1,2 @@
+fired_actions: ["brightness_up", "brightness_down", "brightness_stop"]
+expected_calls_count: 0

@@ -24,32 +24,39 @@ def read_config_yaml(file_name):
     return list(data.values())[0]
 
 
+def get_controller(module_name, class_name):
+    module = importlib.import_module(module_name)
+    class_ = getattr(module, class_name)
+    return class_()
+
+
+def get_fake_entity_states(entity_state, entity_state_attributes):
+    async def inner(entity_id, attribute=None):
+        if attribute is not None and attribute in entity_state_attributes:
+            return entity_state_attributes[attribute]
+        return entity_state
+
+    return inner
+
+
 integration_tests = get_integ_tests()
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("config_file, data", integration_tests)
 async def test_example_config(hass_mock, mocker, config_file, data):
-    entity_state_attributes = data["entity_state_attributes"]
-    entity_state = data["entity_state"]
-    fired_actions = data["fired_actions"]
-    expected_calls = data["expected_calls"]
+    entity_state_attributes = data.get("entity_state_attributes", {})
+    entity_state = data.get("entity_state", None)
+    fired_actions = data.get("fired_actions", [])
+    expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
 
     config = read_config_yaml(config_file)
-    module_name = config["module"]
-    class_name = config["class"]
-    module = importlib.import_module(module_name)
-    class_ = getattr(module, class_name)
-    controller = class_()
+    controller = get_controller(config["module"], config["class"])
     controller.args = config
 
-    async def fake_supported_features(entity_id, attribute=None):
-        if attribute is not None and attribute in entity_state_attributes:
-            return entity_state_attributes[attribute]
-        return entity_state
-
-    mocker.patch.object(controller, "get_entity_state", fake_supported_features)
+    fake_entity_states = get_fake_entity_states(entity_state, entity_state_attributes)
+    mocker.patch.object(controller, "get_entity_state", fake_entity_states)
     call_service_stub = mocker.patch.object(controller, "call_service")
 
     await controller.initialize()
@@ -64,7 +71,8 @@ async def test_example_config(hass_mock, mocker, config_file, data):
         elif isinstance(action, int):
             await asyncio.sleep(action / 1000)
 
-    await asyncio.wait(tasks)  # Finish pending tasks
+    if tasks:  # Finish pending tasks if any
+        await asyncio.wait(tasks)
     assert call_service_stub.call_count == expected_calls_count
     calls = [mocker.call(call["service"], **call["data"]) for call in expected_calls]
     call_service_stub.assert_has_calls(calls)
