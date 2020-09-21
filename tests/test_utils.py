@@ -22,6 +22,12 @@ def fake_fn(async_=False, to_return=None):
     return inner_fake_async_fn if async_ else inner_fake_fn
 
 
+def get_controller(module_name, class_name):
+    module = importlib.import_module(module_name)
+    class_ = getattr(module, class_name, None)
+    return class_() if class_ is not None else class_
+
+
 def _import_modules(file_dir, package):
     pkg_dir = os.path.dirname(file_dir)
     for (_, name, ispkg) in pkgutil.iter_modules([pkg_dir]):

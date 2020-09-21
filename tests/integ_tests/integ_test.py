@@ -1,7 +1,7 @@
 import asyncio
 import glob
-import importlib
 from pathlib import Path
+from tests.test_utils import get_controller
 
 import pytest
 import yaml
@@ -22,12 +22,6 @@ def read_config_yaml(file_name):
     with open(file_name) as f:
         data = yaml.full_load(f)
     return list(data.values())[0]
-
-
-def get_controller(module_name, class_name):
-    module = importlib.import_module(module_name)
-    class_ = getattr(module, class_name)
-    return class_()
 
 
 def get_fake_entity_states(entity_state, entity_state_attributes):
