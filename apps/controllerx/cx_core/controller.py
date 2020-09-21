@@ -64,6 +64,13 @@ class Controller(Hass, Mqtt, abc.ABC):
             }
         )
 
+        merge_mapping: Dict[Union[str, int], str] = self.args.get("merge_mapping", None)
+        if merge_mapping:
+            self.actions_key_mapping.update({
+                event: self.parse_action(action)
+                for event, action in merge_mapping.items()
+            })
+
         self.type_actions_mapping = self.get_type_actions_mapping()
         if "actions" in self.args and "excluded_actions" in self.args:
             raise ValueError("`actions` and `excluded_actions` cannot be used together")
