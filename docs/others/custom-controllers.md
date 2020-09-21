@@ -16,6 +16,12 @@ This controller lets you map controller events with predefined light actions. Th
 | `on`                      | It turns on the light                                                                                                        |
 | `off`                     | It turns off the light                                                                                                       |
 | `toggle`                  | It toggles the light                                                                                                         |
+| `toggle_full_brightness`  | It toggles the light, setting the brightness to the maximum value when turning on.                                           |
+| `toggle_full_white_value` | It toggles the light, setting the white value to the maximum value when turning on.                                          |
+| `toggle_full_color_temp`  | It toggles the light, setting the color temperature to the maximum value when turning on.                                    |
+| `toggle_min_brightness`   | It toggles the light, setting the brightness to the minimum value when turning on.                                           |
+| `toggle_min_white_value`  | It toggles the light, setting the white value to the minimum value when turning on.                                          |
+| `toggle_min_color_temp`   | It toggles the light, setting the color temperature to the minimum value when turning on.                                    |
 | `release`                 | It stops `hold` actions                                                                                                      |
 | `on_full_brightness`      | It puts the brightness to the maximum value                                                                                  |
 | `on_full_white_value`     | It puts the white value to the maximum value                                                                                 |
