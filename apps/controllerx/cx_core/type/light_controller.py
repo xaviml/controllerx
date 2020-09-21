@@ -364,21 +364,15 @@ class LightController(TypeController, ReleaseHoldController):
 
     @action
     async def toggle_full(self, attribute: str) -> None:
-        light_state = await self.get_entity_state(self.light["name"])
-        light_on = light_state == "on"
-        if light_on:
-            await self.off()
-        else:
-            await self.set_value(attribute, 1, light_on=light_on)
+        stepper = self.automatic_steppers[attribute]
+        if isinstance(stepper, MinMaxStepper):
+            await self.toggle(**{attribute: stepper.minmax.max})
 
     @action
     async def toggle_min(self, attribute: str) -> None:
-        light_state = await self.get_entity_state(self.light["name"])
-        light_on = light_state == "on"
-        if light_on:
-            await self.off()
-        else:
-            await self.set_value(attribute, 0, light_on=light_on)
+        stepper = self.automatic_steppers[attribute]
+        if isinstance(stepper, MinMaxStepper):
+            await self.toggle(**{attribute: stepper.minmax.min})
 
     @action
     async def on_full(self, attribute: str, light_on: bool = None) -> None:
