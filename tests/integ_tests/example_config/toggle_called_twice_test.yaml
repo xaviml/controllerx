@@ -1,0 +1,10 @@
+# When the same action is called more than once within 300ms,
+# then we ignore the rest of the calls that fall between that time.
+entity_state_attributes:
+  supported_features: 191
+entity_state: "off"
+fired_actions: ["toggle", "toggle"]
+expected_calls: 
+  - service: light/toggle
+    data:
+      entity_id: light.bedroom
