@@ -79,6 +79,17 @@ class WXKG11LMLightController(LightController):
             1003: Light.RELEASE,
         }
 
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "1": Light.TOGGLE,
+            "2": Light.ON_FULL_BRIGHTNESS,
+            "3": Light.ON_MIN_BRIGHTNESS,
+            "4": Light.SET_HALF_BRIGHTNESS,
+        }
+
+    def get_zha_action(self, data: dict) -> str:
+        return str(data["args"]["value"])
+
 
 class WXKG12LMLightController(LightController):
     """
