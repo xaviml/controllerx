@@ -229,6 +229,8 @@ async def test_change_light_state(
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.transition = 300
+    sut.add_transition = True
+    sut.add_transition_turn_toggle = False
     sut.supported_features = LightSupport(None, None, False)
     sut.supported_features._supported_features = set()
     sut.color_wheel = get_color_wheel("default_color_wheel")
@@ -351,6 +353,52 @@ async def test_toggle(sut, mocker, monkeypatch):
     await sut.toggle(**attributes)
     call_light_service_patch.assert_called_once_with(
         "light/toggle", turned_toggle=True, **attributes
+    )
+
+
+@pytest.mark.parametrize(
+    "attribute, stepper, expected_attribute_value",
+    [
+        ("brightness", MinMaxStepper(1, 255, 1), 255),
+        ("color_temp", MinMaxStepper(153, 500, 1), 500),
+        ("test", MinMaxStepper(1, 10, 1), 10),
+    ],
+)
+@pytest.mark.asyncio
+async def test_toggle_full(sut, mocker, attribute, stepper, expected_attribute_value):
+    sut.light = {"name": "test_light"}
+    sut.transition = 300
+    sut.add_transition = False
+    call_service_patch = mocker.patch.object(sut, "call_service")
+    sut.automatic_steppers = {attribute: stepper}
+
+    await sut.toggle_full(attribute)
+    call_service_patch.assert_called_once_with(
+        "light/toggle",
+        **{"entity_id": "test_light", attribute: expected_attribute_value}
+    )
+
+
+@pytest.mark.parametrize(
+    "attribute, stepper, expected_attribute_value",
+    [
+        ("brightness", MinMaxStepper(1, 255, 1), 1),
+        ("color_temp", MinMaxStepper(153, 500, 1), 153),
+        ("test", MinMaxStepper(1, 10, 1), 1),
+    ],
+)
+@pytest.mark.asyncio
+async def test_toggle_min(sut, mocker, attribute, stepper, expected_attribute_value):
+    sut.light = {"name": "test_light"}
+    sut.transition = 300
+    sut.add_transition = False
+    call_service_patch = mocker.patch.object(sut, "call_service")
+    sut.automatic_steppers = {attribute: stepper}
+
+    await sut.toggle_min(attribute)
+    call_service_patch.assert_called_once_with(
+        "light/toggle",
+        **{"entity_id": "test_light", attribute: expected_attribute_value}
     )
 
 
