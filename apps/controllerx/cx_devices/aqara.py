@@ -2,7 +2,7 @@ from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
 
 
-class DoubleKeyWirelessAqaraController(LightController):
+class WXKG02LMLightController(LightController):
     """
     This controller allows click, double click, hold and release for
     both, left and the right button. All action will do the same for both, left
@@ -27,6 +27,19 @@ class DoubleKeyWirelessAqaraController(LightController):
             "right_long": Light.CLICK_BRIGHTNESS_DOWN,
         }
 
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.TOGGLE,  # single left
+            1001: Light.CLICK_BRIGHTNESS_DOWN,  # long left
+            1004: Light.CLICK_BRIGHTNESS_UP,  # double left
+            2002: Light.TOGGLE,  # single right
+            2001: Light.CLICK_BRIGHTNESS_DOWN,  # long right
+            2004: Light.CLICK_BRIGHTNESS_UP,  # double right
+            3002: Light.TOGGLE,  # single both
+            3001: Light.CLICK_BRIGHTNESS_DOWN,  # long both
+            3004: Light.CLICK_BRIGHTNESS_UP,  # double both
+        }
+
 
 class WXKG01LMLightController(LightController):
     """
@@ -41,8 +54,20 @@ class WXKG01LMLightController(LightController):
             "double": Light.ON_FULL_BRIGHTNESS,
             "triple": Light.ON_MIN_BRIGHTNESS,
             "quadruple": Light.SET_HALF_BRIGHTNESS,
+            # "many": "", # Nothing
             "long": Light.HOLD_BRIGHTNESS_TOGGLE,
             "long_release": Light.RELEASE,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.TOGGLE,  # single
+            1004: Light.ON_FULL_BRIGHTNESS,  # double
+            1005: Light.ON_MIN_BRIGHTNESS,  # triple
+            1006: Light.SET_HALF_BRIGHTNESS,  # quadruple
+            # 1010: "", # many
+            1003: Light.HOLD_BRIGHTNESS_TOGGLE,  # hold the button
+            1000: Light.RELEASE,  # release the button
         }
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:

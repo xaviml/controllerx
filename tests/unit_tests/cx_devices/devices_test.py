@@ -1,5 +1,5 @@
 import pytest
-from tests.test_utils import get_classes
+from tests.test_utils import get_classes, get_controller
 
 import cx_devices as devices_module
 from cx_core import Controller
@@ -41,6 +41,11 @@ devices_classes = get_classes(
 @pytest.mark.parametrize("device_class", devices_classes)
 def test_devices(hass_mock, device_class):
     device = device_class()
+
+    # We first check that all devices are importable from controllerx module
+    device_from_controllerx = get_controller("controllerx", device_class.__name__)
+    assert device_from_controllerx is not None
+
     type_actions_mapping = device.get_type_actions_mapping()
     if type_actions_mapping is None:
         return

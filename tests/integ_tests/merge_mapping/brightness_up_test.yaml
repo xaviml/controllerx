@@ -1,0 +1,7 @@
+entity_state_attributes:
+  supported_features: 191
+entity_state: "on"
+fired_actions: [step_with_on_off_0_43_5]
+expected_calls:
+- service: my_script
+    

@@ -10,6 +10,7 @@ from tests.test_utils import IntegrationMock, fake_fn
 
 @pytest.fixture
 def sut(fake_controller):
+    fake_controller.multiple_click_actions = set()
     return fake_controller
 
 
@@ -30,7 +31,7 @@ async def test_action_decorator(sut, mocker):
 
 
 @pytest.mark.parametrize(
-    "controller_input, actions_input, included_actions, excluded_actions, actions_ouput, expect_an_error",
+    "controller_input, actions_input, included_actions, excluded_actions, actions_output, expect_an_error",
     [
         (
             ["controller_id"],
@@ -115,7 +116,7 @@ async def test_initialize(
     actions_input,
     included_actions,
     excluded_actions,
-    actions_ouput,
+    actions_output,
     expect_an_error,
 ):
     actions = {action: action for action in actions_input}
@@ -146,7 +147,47 @@ async def test_initialize(
         for controller_id in controller_input:
             integration_mock.listen_changes.assert_any_call(controller_id)
         assert integration_mock.listen_changes.call_count == len(controller_input)
-        assert list(sut.actions_mapping.keys()) == actions_ouput
+        assert list(sut.actions_mapping.keys()) == actions_output
+
+
+@pytest.mark.parametrize(
+    "mapping, merge_mapping, actions_output, expected_error",
+    [
+        (["action1"], None, ["action1"], False),
+        (["action1", "action2"], None, ["action1", "action2"], False),
+        (None, ["action1"], ["action1", "action2", "action3"], False),
+        (None, ["action1", "action2"], ["action1", "action2", "action3"], False),
+        (None, None, ["action1", "action2", "action3"], False),
+        (["action1"], ["action1"], None, True),
+    ],
+)
+@pytest.mark.asyncio
+async def test_merge_mapping(
+    sut, monkeypatch, mocker, mapping, merge_mapping, actions_output, expected_error,
+):
+    actions_input = ["action1", "action2", "action3"]
+    actions = {action: action for action in actions_input}
+    type_actions = {action: lambda: None for action in actions_input}
+    sut.args["controller"] = "my_controller"
+    sut.args["integration"] = "test"
+    if mapping:
+        sut.args["mapping"] = {item: item for item in mapping}
+    if merge_mapping:
+        sut.args["merge_mapping"] = {item: item for item in merge_mapping}
+    integration_mock = IntegrationMock("test", sut, mocker)
+    monkeypatch.setattr(sut, "get_integration", lambda integration: integration_mock)
+    monkeypatch.setattr(sut, "get_actions_mapping", lambda integration: actions)
+    monkeypatch.setattr(sut, "get_type_actions_mapping", lambda: type_actions)
+
+    # SUT
+    if expected_error:
+        with pytest.raises(ValueError):
+            await sut.initialize()
+    else:
+        await sut.initialize()
+
+        # Checks
+        assert list(sut.actions_mapping.keys()) == actions_output
 
 
 @pytest.mark.parametrize(
@@ -164,6 +205,39 @@ async def test_initialize(
 def test_get_list(sut, monkeypatch, test_input, expected):
     output = sut.get_list(test_input)
     assert output == expected
+
+
+@pytest.mark.parametrize(
+    "mapping, expected",
+    [
+        (["toggle", "another", 1004], [("toggle", 1), ("another", 1), (1004, 1)]),
+        ([1003, "1003$2"], [(1003, 1), (1003, 2)]),
+        (["toggle$1"], [("toggle", 1)]),
+        (["toggle", "toggle$1"], [("toggle", 1)]),
+        (["toggle", "toggle$1", "toggle$2"], [("toggle", 1), ("toggle", 2)]),
+        (
+            ["toggle", "toggle$1", "toggle$2", "another$3"],
+            [("toggle", 1), ("toggle", 2), ("another", 3)],
+        ),
+    ],
+)
+def test_extract_click_actions(sut, mapping, expected):
+    actions = sut.extract_click_actions({key: None for key in mapping})
+    assert set(actions) == set(expected)
+
+
+@pytest.mark.parametrize(
+    "mapping, expected",
+    [
+        (["toggle", "another"], []),
+        (["toggle", "toggle$1"], []),
+        (["toggle", "toggle$1", "toggle$2"], ["toggle"]),
+        (["toggle", "toggle$1", "toggle$2", "another$3"], ["toggle", "another"]),
+    ],
+)
+def test_get_multiple_click_actions(sut, mapping, expected):
+    output = sut.get_multiple_click_actions({key: None for key in mapping})
+    assert output == set(expected)
 
 
 @pytest.mark.parametrize(

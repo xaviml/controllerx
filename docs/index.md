@@ -61,6 +61,7 @@ If you use deCONZ integration and what you want is just to dim your lights smoot
 ## Advanced
 
 - [Custom controllers](others/custom-controllers)
+- [Multiple clicks](others/multiple-clicks)
 
 ## Others
 
