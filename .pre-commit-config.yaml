@@ -7,7 +7,7 @@ repos:
     args:
     - --autofix
     - --indent
-    - "4"
+    - '4'
 - repo: local
   hooks:
   - id: black

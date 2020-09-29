@@ -1,9 +1,9 @@
 bedroom_light:
-    module: controllerx
-    class: E1743Controller
-    controller: 00:67:88:56:06:78:9b:3f
-    integration: zha
-    light: light.simple_light
-    actions:
-      - "on"
-      - "off"
+  module: controllerx
+  class: E1743Controller
+  controller: 00:67:88:56:06:78:9b:3f
+  integration: zha
+  light: light.simple_light
+  actions:
+  - "on"
+  - "off"

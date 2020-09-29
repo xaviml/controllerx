@@ -10,6 +10,7 @@ from tests.test_utils import IntegrationMock, fake_fn
 
 @pytest.fixture
 def sut(fake_controller):
+    fake_controller.multiple_click_actions = set()
     return fake_controller
 
 
@@ -164,6 +165,38 @@ async def test_initialize(
 def test_get_list(sut, monkeypatch, test_input, expected):
     output = sut.get_list(test_input)
     assert output == expected
+
+
+@pytest.mark.parametrize(
+    "mapping, expected",
+    [
+        (["toggle", "another", 1004], [("toggle", 1), ("another", 1), (1004, 1)]),
+        (["toggle$1"], [("toggle", 1)]),
+        (["toggle", "toggle$1"], [("toggle", 1)]),
+        (["toggle", "toggle$1", "toggle$2"], [("toggle", 1), ("toggle", 2)]),
+        (
+            ["toggle", "toggle$1", "toggle$2", "another$3"],
+            [("toggle", 1), ("toggle", 2), ("another", 3)],
+        ),
+    ],
+)
+def test_extract_click_actions(sut, mapping, expected):
+    actions = sut.extract_click_actions({key: None for key in mapping})
+    assert set(actions) == set(expected)
+
+
+@pytest.mark.parametrize(
+    "mapping, expected",
+    [
+        (["toggle", "another"], []),
+        (["toggle", "toggle$1"], []),
+        (["toggle", "toggle$1", "toggle$2"], ["toggle"]),
+        (["toggle", "toggle$1", "toggle$2", "another$3"], ["toggle", "another"]),
+    ],
+)
+def test_get_multiple_click_actions(sut, mapping, expected):
+    output = sut.get_multiple_click_actions({key: None for key in mapping})
+    assert output == set(expected)
 
 
 @pytest.mark.parametrize(

@@ -1,16 +1,16 @@
 entity_state_attributes:
   supported_features: 191
-  brightness:  50
+  brightness: 50
 entity_state: "on"
-fired_actions: ["brightness_up_hold", 450, "brightness_up_release"]
+fired_actions: [brightness_up_hold, 0.450, brightness_up_release]
 expected_calls:
-  - service: light/turn_on
-    data:
-      entity_id: light.bedroom
-      transition: 0.35
-      brightness: 75.4
-  - service: light/turn_on
-    data:
-      entity_id: light.bedroom
-      transition: 0.35
-      brightness: 100.8
+- service: light/turn_on
+  data:
+    entity_id: light.bedroom
+    transition: 0.35
+    brightness: 75.4
+- service: light/turn_on
+  data:
+    entity_id: light.bedroom
+    transition: 0.35
+    brightness: 100.8

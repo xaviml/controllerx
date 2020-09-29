@@ -3,7 +3,8 @@ from typing import Any, Awaitable, Callable, Dict, Tuple, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
 TypeAction = Union[ActionFunction, Tuple, str]
-TypeActionsMapping = Dict[Union[str, int], TypeAction]
+ActionEvent = Union[str, int]
+TypeActionsMapping = Dict[ActionEvent, TypeAction]
 
 
 class Light:

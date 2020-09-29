@@ -38,7 +38,7 @@ integration_tests = get_integ_tests()
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("config_file, data", integration_tests)
-async def test_example_config(hass_mock, mocker, config_file, data):
+async def test_integ_configs(hass_mock, mocker, config_file, data):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
     fired_actions = data.get("fired_actions", [])
@@ -54,19 +54,22 @@ async def test_example_config(hass_mock, mocker, config_file, data):
     call_service_stub = mocker.patch.object(controller, "call_service")
 
     await controller.initialize()
-    tasks = []
     for idx, action in enumerate(fired_actions):
-        if isinstance(action, str):
+        if any(isinstance(action, type_) for type_ in (str, int)):
             if idx == len(fired_actions) - 1:
                 await controller.handle_action(action)
             else:
-                task = asyncio.ensure_future(controller.handle_action(action))
-                tasks.append(task)
-        elif isinstance(action, int):
-            await asyncio.sleep(action / 1000)
+                asyncio.ensure_future(controller.handle_action(action))
+        elif isinstance(action, float):
+            await asyncio.sleep(action)
 
-    if tasks:  # Finish pending tasks if any
-        await asyncio.wait(tasks)
+    pending = asyncio.Task.all_tasks()
+    # We exclude the current function we are executing
+    pending = {task for task in pending if task._coro.__name__ != "test_integ_configs"}
+    if pending:  # Finish pending tasks if any
+        await asyncio.wait(pending)
     assert call_service_stub.call_count == expected_calls_count
-    calls = [mocker.call(call["service"], **call["data"]) for call in expected_calls]
+    calls = [
+        mocker.call(call["service"], **call.get("data", {})) for call in expected_calls
+    ]
     call_service_stub.assert_has_calls(calls)

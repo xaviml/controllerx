@@ -3,8 +3,8 @@
 entity_state_attributes:
   supported_features: 191
 entity_state: "off"
-fired_actions: ["toggle", "toggle"]
-expected_calls: 
-  - service: light/toggle
-    data:
-      entity_id: light.bedroom
+fired_actions: [toggle, toggle]
+expected_calls:
+- service: light/toggle
+  data:
+    entity_id: light.bedroom
