@@ -1,0 +1,6 @@
+entity_state_attributes:
+  supported_features: 191
+entity_state: "on"
+fired_actions: [1003, 0.05, 1003]
+expected_calls:
+- service: fake_service

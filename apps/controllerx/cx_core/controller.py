@@ -283,7 +283,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         )
         self.click_counter[action_key] = 0
         click_action_key = self.format_multiple_click_action(action_key, click_count)
-        if action_key in self.actions_mapping:
+        if action_key in self.actions_mapping and click_count == 1:
             await self.call_action(action_key)
         elif click_action_key in self.actions_mapping:
             await self.call_action(click_action_key)
