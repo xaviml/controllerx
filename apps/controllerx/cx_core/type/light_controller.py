@@ -114,6 +114,30 @@ class LightController(TypeController, ReleaseHoldController):
             Light.ON: self.on,
             Light.OFF: self.off,
             Light.TOGGLE: self.toggle,
+            Light.TOGGLE_FULL_BRIGHTNESS: (
+                self.toggle_full,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.TOGGLE_FULL_WHITE_VALUE: (
+                self.toggle_full,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+            ),
+            Light.TOGGLE_FULL_COLOR_TEMP: (
+                self.toggle_full,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
+            Light.TOGGLE_MIN_BRIGHTNESS: (
+                self.toggle_min,
+                LightController.ATTRIBUTE_BRIGHTNESS,
+            ),
+            Light.TOGGLE_MIN_WHITE_VALUE: (
+                self.toggle_min,
+                LightController.ATTRIBUTE_WHITE_VALUE,
+            ),
+            Light.TOGGLE_MIN_COLOR_TEMP: (
+                self.toggle_min,
+                LightController.ATTRIBUTE_COLOR_TEMP,
+            ),
             Light.RELEASE: self.release,
             Light.ON_FULL_BRIGHTNESS: (
                 self.on_full,
@@ -300,9 +324,9 @@ class LightController(TypeController, ReleaseHoldController):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         if (
-            await self.supported_features.not_supported(LightSupport.TRANSITION)
-            or not self.add_transition
+            not self.add_transition
             or (turned_toggle and not self.add_transition_turn_toggle)
+            or await self.supported_features.not_supported(LightSupport.TRANSITION)
         ):
             del attributes["transition"]
         await self.call_service(service, entity_id=self.light["name"], **attributes)
@@ -337,6 +361,18 @@ class LightController(TypeController, ReleaseHoldController):
             max_ = stepper.minmax.max
             value = (max_ - min_) * fraction + min_
             await self.on(light_on=light_on, **{attribute: value})
+
+    @action
+    async def toggle_full(self, attribute: str) -> None:
+        stepper = self.automatic_steppers[attribute]
+        if isinstance(stepper, MinMaxStepper):
+            await self.toggle(**{attribute: stepper.minmax.max})
+
+    @action
+    async def toggle_min(self, attribute: str) -> None:
+        stepper = self.automatic_steppers[attribute]
+        if isinstance(stepper, MinMaxStepper):
+            await self.toggle(**{attribute: stepper.minmax.min})
 
     @action
     async def on_full(self, attribute: str, light_on: bool = None) -> None:
