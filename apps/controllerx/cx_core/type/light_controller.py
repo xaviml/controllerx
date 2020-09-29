@@ -324,9 +324,9 @@ class LightController(TypeController, ReleaseHoldController):
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         if (
-            await self.supported_features.not_supported(LightSupport.TRANSITION)
-            or not self.add_transition
+            not self.add_transition
             or (turned_toggle and not self.add_transition_turn_toggle)
+            or await self.supported_features.not_supported(LightSupport.TRANSITION)
         ):
             del attributes["transition"]
         await self.call_service(service, entity_id=self.light["name"], **attributes)
