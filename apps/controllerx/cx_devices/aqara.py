@@ -54,8 +54,20 @@ class WXKG01LMLightController(LightController):
             "double": Light.ON_FULL_BRIGHTNESS,
             "triple": Light.ON_MIN_BRIGHTNESS,
             "quadruple": Light.SET_HALF_BRIGHTNESS,
+            # "many": "", # Nothing
             "long": Light.HOLD_BRIGHTNESS_TOGGLE,
             "long_release": Light.RELEASE,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.TOGGLE,  # single
+            1004: Light.ON_FULL_BRIGHTNESS,  # double
+            1005: Light.ON_MIN_BRIGHTNESS,  # triple
+            1006: Light.SET_HALF_BRIGHTNESS,  # quadruple
+            # 1010: "", # many
+            1003: Light.HOLD_BRIGHTNESS_TOGGLE,  # hold the button
+            1000: Light.RELEASE,  # release the button
         }
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
