@@ -8,6 +8,9 @@ example_app:
     1002: toggle  
     1002$1:
       service: never_called
+    1003: toggle  
+    1003$2:
+      service: fake_service
     toggle$1:
       service: fake_service1
     "toggle$2":
