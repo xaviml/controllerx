@@ -2,7 +2,7 @@ from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
 
 
-class DoubleKeyWirelessAqaraController(LightController):
+class WXKG02LMLightController(LightController):
     """
     This controller allows click, double click, hold and release for
     both, left and the right button. All action will do the same for both, left
@@ -25,6 +25,19 @@ class DoubleKeyWirelessAqaraController(LightController):
             "right": Light.TOGGLE,
             "right_double": Light.CLICK_BRIGHTNESS_UP,
             "right_long": Light.CLICK_BRIGHTNESS_DOWN,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Light.TOGGLE,  # single left
+            1001: Light.CLICK_BRIGHTNESS_DOWN,  # long left
+            1004: Light.CLICK_BRIGHTNESS_UP,  # double left
+            2002: Light.TOGGLE,  # single right
+            2001: Light.CLICK_BRIGHTNESS_DOWN,  # long right
+            2004: Light.CLICK_BRIGHTNESS_UP,  # double right
+            3002: Light.TOGGLE,  # single both
+            3001: Light.CLICK_BRIGHTNESS_DOWN,  # long both
+            3004: Light.CLICK_BRIGHTNESS_UP,  # double both
         }
 
 

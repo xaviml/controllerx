@@ -1,8 +1,8 @@
-name: Double key wireless (Aqara)
+name: WXKG02LM (Aqara)
 device_support: 
   - type: Light
     domain: light
-    controller: DoubleKeyWirelessAqaraController
+    controller: WXKG02LMLightController
     delay: 350
     mapping:
       - "Click on both → Toggle"
@@ -27,6 +27,18 @@ integrations:
       - "right → Click on right"
       - "right_double → Double click on right"
       - "right_long → Long click on right"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "3002 → Click on both"
+      - "3004 → Double click on both"
+      - "3001 → Long click on both"
+      - "1002 → Click on left"
+      - "1004 → Double click on left"
+      - "1001 → Long click on left"
+      - "2002 → Click on right"
+      - "2004 → Double click on right"
+      - "2001 → Long click on right"
 note: >-
   Note that all actions related to both, left and right, do the same. 
   This is because ControllerX is design to control just one entity (light or media player).
