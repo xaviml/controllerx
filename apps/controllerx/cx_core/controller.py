@@ -9,7 +9,6 @@ from typing import (
     Counter,
     DefaultDict,
     Dict,
-    Iterable,
     List,
     Optional,
     Sequence,
@@ -184,35 +183,21 @@ class Controller(Hass, Mqtt, abc.ABC):
     ) -> TypeActionsMapping:
         return {event: self.parse_action(action) for event, action in mapping.items()}
 
-    def extract_click_actions(
-        self, mapping: TypeActionsMapping
-    ) -> Iterable[Tuple[ActionEvent, int]]:
-        for key in mapping.keys():
-            if isinstance(key, int):
-                yield key, 1
-                continue
-            splitted = key.split(MULTIPLE_CLICK_TOKEN)
-            assert 1 <= len(splitted) <= 2
-            if len(splitted) == 1:
-                yield key, 1
-            else:
-                action_key, times_str = splitted
-                times = int(times_str)
-                if action_key in mapping and times == 1:
-                    # if `xyz` and `xyz$1` are present at the same time,
-                    # then `xyz$1` is ommited
-                    continue
-                try:
-                    yield int(action_key), times
-                except ValueError:
-                    yield action_key, times
-
     def get_multiple_click_actions(
         self, mapping: TypeActionsMapping
     ) -> Set[ActionEvent]:
-        return {
-            action for action, times in self.extract_click_actions(mapping) if times > 1
-        }
+        to_return: Set[ActionEvent] = set()
+        for key in mapping.keys():
+            if not isinstance(key, str) or MULTIPLE_CLICK_TOKEN not in key:
+                continue
+            splitted = key.split(MULTIPLE_CLICK_TOKEN)
+            assert 1 <= len(splitted) <= 2
+            action_key, _ = splitted
+            try:
+                to_return.add(int(action_key))
+            except ValueError:
+                to_return.add(action_key)
+        return to_return
 
     def format_multiple_click_action(
         self, action_key: ActionEvent, click_count: int
@@ -283,10 +268,10 @@ class Controller(Hass, Mqtt, abc.ABC):
         )
         self.click_counter[action_key] = 0
         click_action_key = self.format_multiple_click_action(action_key, click_count)
-        if action_key in self.actions_mapping and click_count == 1:
-            await self.call_action(action_key)
-        elif click_action_key in self.actions_mapping:
+        if click_action_key in self.actions_mapping:
             await self.call_action(click_action_key)
+        elif action_key in self.actions_mapping and click_count == 1:
+            await self.call_action(action_key)
 
     async def call_action(self, action_key: ActionEvent) -> None:
         self.log(

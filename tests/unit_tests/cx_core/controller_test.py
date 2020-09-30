@@ -209,27 +209,15 @@ def test_get_list(sut, monkeypatch, test_input, expected):
 @pytest.mark.parametrize(
     "mapping, expected",
     [
-        (["toggle", "another", 1004], [("toggle", 1), ("another", 1), (1004, 1)]),
-        ([1003, "1003$2"], [(1003, 1), (1003, 2)]),
-        (["toggle$1"], [("toggle", 1)]),
-        (["toggle", "toggle$1"], [("toggle", 1)]),
-        (["toggle", "toggle$1", "toggle$2"], [("toggle", 1), ("toggle", 2)]),
-        (
-            ["toggle", "toggle$1", "toggle$2", "another$3"],
-            [("toggle", 1), ("toggle", 2), ("another", 3)],
-        ),
-    ],
-)
-def test_extract_click_actions(sut, mapping, expected):
-    actions = sut.extract_click_actions({key: None for key in mapping})
-    assert set(actions) == set(expected)
-
-
-@pytest.mark.parametrize(
-    "mapping, expected",
-    [
         (["toggle", "another"], []),
-        (["toggle", "toggle$1"], []),
+        (["toggle$1"], ["toggle"]),
+        (["toggle", "toggle$1"], ["toggle"]),
+        (["toggle", "toggle$2"], ["toggle"]),
+        (["1001$1"], [1001]),
+        ([1001], []),
+        ([1001, "1001$1"], [1001]),
+        ([1001, "1001$2"], [1001]),
+        ([1001, "1001$2", 1002], [1001]),
         (["toggle", "toggle$1", "toggle$2"], ["toggle"]),
         (["toggle", "toggle$1", "toggle$2", "another$3"], ["toggle", "another"]),
     ],
