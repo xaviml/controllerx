@@ -34,13 +34,12 @@ class FeatureSupport:
 
     async def supported_features(self):
         if self._supported_features is None or self.update_supported_features:
-            bitfield = await self.controller.get_entity_state(
+            bitfield: str = await self.controller.get_entity_state(
                 self.entity, attribute="supported_features"
             )
             if bitfield is not None:
-                bitfield = int(bitfield)
                 self._supported_features = FeatureSupport.decode(
-                    bitfield, self.features
+                    int(bitfield), self.features
                 )
             else:
                 raise ValueError(

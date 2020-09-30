@@ -4,6 +4,7 @@ from collections import defaultdict
 from functools import wraps
 from typing import (
     Any,
+    Awaitable,
     Callable,
     Counter,
     DefaultDict,
@@ -37,9 +38,11 @@ MULTIPLE_CLICK_TOKEN = "$"
 T = TypeVar("T")
 
 
-def action(method) -> ActionFunction:
+def action(method: Callable[..., Awaitable]) -> ActionFunction:
     @wraps(method)
-    async def _action_impl(controller, *args, **kwargs):
+    async def _action_impl(
+        controller: "Controller", *args: Any, **kwargs: Dict[Any, Any]
+    ):
         continue_call = await controller.before_action(method.__name__, *args, **kwargs)
         if continue_call:
             await method(controller, *args, **kwargs)
@@ -93,12 +96,12 @@ class Controller(Hass, Mqtt, abc.ABC):
         )
         included_actions = included_actions - excluded_actions
         default_action_delay = {action_key: 0 for action_key in included_actions}
-        self.action_delay = {
+        self.action_delay: Dict[ActionEvent, int] = {
             **default_action_delay,
             **self.args.get("action_delay", {}),
         }
-        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
-        self.multiple_click_delay = self.args.get(
+        self.action_delta: int = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.multiple_click_delay: int = self.args.get(
             "multiple_click_delay", DEFAULT_MULTIPLE_CLICK_DELAY
         )
         self.action_times: DefaultDict[str, float] = defaultdict(lambda: 0.0)
@@ -135,7 +138,9 @@ class Controller(Hass, Mqtt, abc.ABC):
         else:
             raise ValueError(f"{value} is not an option. The options are {options}")
 
-    def parse_integration(self, integration: Union[str, dict]) -> Dict[str, str]:
+    def parse_integration(
+        self, integration: Union[str, Dict[str, Any], Any]
+    ) -> Dict[str, str]:
         if isinstance(integration, str):
             return {"name": integration}
         elif isinstance(integration, dict):
@@ -148,7 +153,7 @@ class Controller(Hass, Mqtt, abc.ABC):
                 f"Type {type(integration)} is not supported for `integration` attribute"
             )
 
-    def get_integration(self, integration: Union[str, dict]) -> Integration:
+    def get_integration(self, integration: Union[str, Dict[str, Any]]) -> Integration:
         parsed_integration = self.parse_integration(integration)
         kwargs = {k: v for k, v in parsed_integration.items() if k != "name"}
         integrations = integration_module.get_integrations(self, kwargs)
@@ -169,15 +174,10 @@ class Controller(Hass, Mqtt, abc.ABC):
             raise ValueError(f"This controller does not support {integration.name}.")
         return actions_mapping
 
-    def get_list(
-        self, entities: Union[Sequence[T], str]
-    ) -> Union[List[T], List[str], List]:
+    def get_list(self, entities: Union[List[T], str]) -> Union[List[T], List[str]]:
         if isinstance(entities, str):
             return [entities]
-        elif isinstance(entities, list):
-            return entities
-        else:
-            return []
+        return entities
 
     def parse_action_mapping(
         self, mapping: Dict[ActionEvent, str]
@@ -273,7 +273,7 @@ class Controller(Hass, Mqtt, abc.ABC):
                 ascii_encode=False,
             )
 
-    async def multiple_click_call_action(self, kwargs) -> None:
+    async def multiple_click_call_action(self, kwargs: Dict[str, Any]) -> None:
         action_key: ActionEvent = kwargs["action_key"]
         click_count: int = kwargs["click_count"]
         self.log(
@@ -311,7 +311,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         else:
             await self.action_timer_callback({"action_key": action_key})
 
-    async def action_timer_callback(self, kwargs):
+    async def action_timer_callback(self, kwargs: Dict[str, Any]):
         action_key: ActionEvent = kwargs["action_key"]
         self.action_delay_handles[action_key] = None
         self.log(
@@ -322,7 +322,9 @@ class Controller(Hass, Mqtt, abc.ABC):
         action, *args = self.get_action(self.actions_mapping[action_key])
         await action(*args)
 
-    async def before_action(self, action: str, *args, **kwargs) -> bool:
+    async def before_action(
+        self, action: str, *args: str, **kwargs: Dict[Any, Any]
+    ) -> bool:
         """
         Controllers have the option to implement this function, which is called
         everytime before an action is called and it has the check_before_action decorator.
@@ -387,7 +389,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         """
         return None
 
-    def get_zha_action(self, data: dict) -> Optional[str]:
+    def get_zha_action(self, data: Dict[Any, Any]) -> Optional[str]:
         """
         This method can be override for controllers that do not support
         the standard extraction of the actions on cx_core/integration/zha.py

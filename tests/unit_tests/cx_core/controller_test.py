@@ -199,7 +199,6 @@ async def test_merge_mapping(
         ("sensor number 1, sensor number 2", ["sensor number 1, sensor number 2"]),
         (["sensor1", "sensor2"], ["sensor1", "sensor2"]),
         (["sensor 1", "sensor 2"], ["sensor 1", "sensor 2"]),
-        (0.0, []),
     ],
 )
 def test_get_list(sut, monkeypatch, test_input, expected):

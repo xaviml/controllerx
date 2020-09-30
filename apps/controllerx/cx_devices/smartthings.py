@@ -8,7 +8,7 @@ class SmartThingsButtonLightController(LightController):
     No release command is sent.
     """
 
-    def get_z2m_actions_mapping(self):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single_click": Light.TOGGLE,
             "double_click": Light.ON_FULL_BRIGHTNESS,
