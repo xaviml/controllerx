@@ -39,6 +39,6 @@ def hass_mock(monkeypatch, mocker):
 
 @pytest.fixture(autouse=True)
 def fake_controller(hass_mock):
-    c = Controller()
+    c = Controller()  # type: ignore
     c.args = {}
     return c

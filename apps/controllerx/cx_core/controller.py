@@ -1,5 +1,7 @@
 import abc
+import asyncio
 import time
+from asyncio.futures import Future
 from collections import defaultdict
 from functools import wraps
 from typing import (
@@ -31,7 +33,7 @@ Services = List[Service]
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
-DEFAULT_MULTIPLE_CLICK_DELAY = 1000  # In milliseconds
+DEFAULT_MULTIPLE_CLICK_DELAY = 500  # In milliseconds
 MULTIPLE_CLICK_TOKEN = "$"
 
 T = TypeVar("T")
@@ -47,6 +49,21 @@ def action(method: Callable[..., Awaitable]) -> ActionFunction:
             await method(controller, *args, **kwargs)
 
     return _action_impl
+
+
+def run_in(fn: Callable, delay: float, **kwargs) -> Future:
+    """
+    It runs the function (fn) to running event loop in `delay` seconds.
+    This function has been created because the default run_in function
+    from AppDaemon does not accept microseconds.
+    """
+
+    async def inner() -> None:
+        await asyncio.sleep(delay)
+        await fn(kwargs)
+
+    task = asyncio.ensure_future(inner())
+    return task
 
 
 class Controller(Hass, Mqtt, abc.ABC):
@@ -111,8 +128,8 @@ class Controller(Hass, Mqtt, abc.ABC):
         self.action_delay_handles: DefaultDict[
             ActionEvent, Optional[float]
         ] = defaultdict(lambda: None)
-        self.multiple_click_action_delay_handles: DefaultDict[
-            ActionEvent, Optional[float]
+        self.multiple_click_action_delay_tasks: DefaultDict[
+            ActionEvent, Optional[Future]
         ] = defaultdict(lambda: None)
 
         # Filter the actions
@@ -237,20 +254,20 @@ class Controller(Hass, Mqtt, abc.ABC):
             if now - previous_call_time > self.multiple_click_delay:
                 pass
 
-            previous_handle = self.multiple_click_action_delay_handles[action_key]
-            if previous_handle is not None:
-                await self.cancel_timer(previous_handle)
+            previous_task = self.multiple_click_action_delay_tasks[action_key]
+            if previous_task is not None:
+                previous_task.cancel()
 
             self.click_counter[action_key] += 1
             click_count = self.click_counter[action_key]
 
-            new_handle = await self.run_in(
+            new_task = run_in(
                 self.multiple_click_call_action,
                 self.multiple_click_delay / 1000,
                 action_key=action_key,
                 click_count=click_count,
             )
-            self.multiple_click_action_delay_handles[action_key] = new_handle
+            self.multiple_click_action_delay_tasks[action_key] = new_task
         else:
             self.log(
                 f"🎮 Button event triggered, but not registered: `{action_key}`",

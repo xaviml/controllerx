@@ -18,7 +18,7 @@ example_app:
     name: z2m
     listen_to: mqtt
   light: light.my_light
-  multiple_click_delay: 1000 # default
+  multiple_click_delay: 500 # default
   mapping:
     brightness_up_click: "on"
     toggle: click_color_down
