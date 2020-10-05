@@ -31,3 +31,27 @@ This could be a silly example, but it is enough to remark some points about this
 - `toggle` is clicked once: The `click_color_up` action will be triggered after 1 second. Also noticed that `toggle` and `toggle$1` are basically the same, so if both are present, the one with the token (`$`) will be the prevalent. So `click_color_down` will never be called.
 - `toggle` is clicked twice (with less than 1s between clicks): The `off` action will be triggered after 1 second.
 
+This next example will show a real use of this feature with the E1810 controller from IKEA.
+
+```yaml
+livingroom:
+  module: controllerx
+  class: E1810Controller
+  controller: livingroom_controller
+  integration: 
+    name: z2m
+    listen_to: mqtt
+  light: light.livingroom_lamp
+  smooth_power_on: true
+  merge_mapping:
+    toggle$2:
+      service: light.toggle
+      data:
+        entity_id: light.livingroom_fairylights
+    toggle$3:
+      service: light.toggle
+      data:
+        entity_id: light.bedroom
+```
+
+This will keep the default mapping for the E1810 controller by using `merge_mapping` and add a new action when clicking 2 and 3 times the middle button to toggle the fairylights and the bedroom lamp.
