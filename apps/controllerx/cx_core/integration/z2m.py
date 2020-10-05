@@ -38,6 +38,7 @@ class Z2MIntegration(Integration):
     async def event_callback(self, event_name: str, data: dict, kwargs: dict) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
         action_key = self.kwargs.get("action_key", "action")
+        action_group_key = self.kwargs.get("action_group_key", "action_group")
         if "payload" not in data:
             return
         payload = json.loads(data["payload"])
@@ -48,6 +49,17 @@ class Z2MIntegration(Integration):
                 ascii_encode=False,
             )
             return
+        if action_group_key in payload and "action_group" in self.kwargs:
+            action_group = self.kwargs["action_group"]
+            if isinstance(action_group, str):
+                action_group = [action_group]
+            if payload["action_group"] not in action_group:
+                self.controller.log(
+                    f"Action group {payload['action_group']} not found in "
+                    f"action groups: {action_group}",
+                    level="DEBUG",
+                )
+                return
         await self.controller.handle_action(payload[action_key])
 
     async def state_callback(
