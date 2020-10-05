@@ -22,15 +22,15 @@ integrations:
       - "long → Hold the button"
       - "long_release → Release the button"
   - name: deCONZ
-      codename: deconz
-      actions:
-        - "1002 → 1 click"
-        - "1004 → 2 clicks"
-        - "1005 → 3 clicks"
-        - "1006 → 4 clicks"
-        - "1010 → More than 4 clicks"
-        - "1003 → Hold the button"
-        - "1000 → Release the button"
+    codename: deconz
+    actions:
+      - "1002 → 1 click"
+      - "1004 → 2 clicks"
+      - "1005 → 3 clicks"
+      - "1006 → 4 clicks"
+      - "1010 → More than 4 clicks"
+      - "1003 → Hold the button"
+      - "1000 → Release the button"
   - name: ZHA
     codename: zha
     actions:

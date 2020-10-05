@@ -380,6 +380,32 @@ sonos_speaker:
     arrow_left_hold: previous_track
 ```
 
+This next configuration shows the use of multiple click functionality, and `merge_mapping`. We want to use the E1810 for a light (`light.light1`) and toggle another light (`light.light2`) when clicking twice the toggle button. We could do this in one application configuration as you can see in the [multiple click page](/controllerx/others/multiple-clicks), but we will do it separatelly to show that the first config needs to change the toggle for `toggle$1` to be detected as a multiple-clickable action, otherwise when the center button is clicked twice, it will also toggle `light.light1`.
+
+```yaml
+example_app_1:
+  module: controllerx
+  class: E1810Controller
+  controller: my_controller
+  integration: 
+    name: z2m
+    listen_to: mqtt
+  light: light.light1
+  merge_mapping:
+    toggle$1: toggle
+
+example_app_2:
+  module: controllerx
+  class: E1810Controller
+  controller: my_controller
+  integration: 
+    name: z2m
+    listen_to: mqtt
+  light: light.light2
+  mapping:
+    toggle$2: toggle
+```
+
 The following configuration is a tricky one, but at the same time it also shows the power of ControllerX to adapt to any use case. Imagine we want the following for our Symfonisk controller (E1744) with deCONZ:
 
 - 1 click: Toggle light on/off.
