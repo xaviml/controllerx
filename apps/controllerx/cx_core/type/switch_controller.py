@@ -10,7 +10,7 @@ class SwitchController(TypeController):
     Type of actions:
         - On/Off/Toggle
     Parameters taken:
-        - sensor (required): Inherited from Controller
+        - controller (required): Inherited from Controller
         - switch (required): Switch entity name
     """
 
@@ -20,7 +20,16 @@ class SwitchController(TypeController):
         await super().initialize()
 
     def get_domain(self) -> List[str]:
-        return ["switch", "input_boolean", "binary_sensor"]
+        return [
+            "alert",
+            "automation",
+            "cover",
+            "input_boolean",
+            "light",
+            "media_player",
+            "script",
+            "switch",
+        ]
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
@@ -31,12 +40,12 @@ class SwitchController(TypeController):
 
     @action
     async def on(self) -> None:
-        await self.call_service("switch/turn_on", entity_id=self.switch)
+        await self.call_service("homeassistant/turn_on", entity_id=self.switch)
 
     @action
     async def off(self) -> None:
-        await self.call_service("switch/turn_off", entity_id=self.switch)
+        await self.call_service("homeassistant/turn_off", entity_id=self.switch)
 
     @action
     async def toggle(self) -> None:
-        await self.call_service("switch/toggle", entity_id=self.switch)
+        await self.call_service("homeassistant/toggle", entity_id=self.switch)

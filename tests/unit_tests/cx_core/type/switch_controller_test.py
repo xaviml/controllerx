@@ -24,7 +24,9 @@ async def test_initialize(sut):
 async def test_turn_on(sut, mocker):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.on()
-    called_service_patch.assert_called_once_with("switch/turn_on", entity_id=sut.switch)
+    called_service_patch.assert_called_once_with(
+        "homeassistant/turn_on", entity_id=sut.switch
+    )
 
 
 @pytest.mark.asyncio
@@ -32,7 +34,7 @@ async def test_turn_off(sut, mocker):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.off()
     called_service_patch.assert_called_once_with(
-        "switch/turn_off", entity_id=sut.switch
+        "homeassistant/turn_off", entity_id=sut.switch
     )
 
 
@@ -40,4 +42,6 @@ async def test_turn_off(sut, mocker):
 async def test_toggle(sut, mocker):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.toggle()
-    called_service_patch.assert_called_once_with("switch/toggle", entity_id=sut.switch)
+    called_service_patch.assert_called_once_with(
+        "homeassistant/toggle", entity_id=sut.switch
+    )
