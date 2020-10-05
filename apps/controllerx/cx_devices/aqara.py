@@ -16,15 +16,15 @@ class WXKG02LMLightController(LightController):
 
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
-            "both": Light.TOGGLE,
-            "both_double": Light.CLICK_BRIGHTNESS_UP,
-            "both_long": Light.CLICK_BRIGHTNESS_DOWN,
-            "left": Light.TOGGLE,
-            "left_double": Light.CLICK_BRIGHTNESS_UP,
-            "left_long": Light.CLICK_BRIGHTNESS_DOWN,
-            "right": Light.TOGGLE,
-            "right_double": Light.CLICK_BRIGHTNESS_UP,
-            "right_long": Light.CLICK_BRIGHTNESS_DOWN,
+            "single_both": Light.TOGGLE,
+            "double_both": Light.CLICK_BRIGHTNESS_UP,
+            "hold_both": Light.CLICK_BRIGHTNESS_DOWN,
+            "single_left": Light.TOGGLE,
+            "double_left": Light.CLICK_BRIGHTNESS_UP,
+            "hold_left": Light.CLICK_BRIGHTNESS_DOWN,
+            "single_right": Light.TOGGLE,
+            "double_right": Light.CLICK_BRIGHTNESS_UP,
+            "hold_right": Light.CLICK_BRIGHTNESS_DOWN,
         }
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
