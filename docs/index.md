@@ -45,6 +45,7 @@ livingroom_controller:
 - [Showing the colour wheel from HA](https://twitter.com/xaviml93/status/1213978663294787595)
 - [E1743 (IKEA) button as a cover controller](https://twitter.com/xaviml93/status/1279875564736741376)
 - [E1810 (IKEA) as a TV remote](https://twitter.com/xaviml93/status/1279874124026970115)
+- [Double click for the middle button for E1810 (IKEA)](https://twitter.com/xaviml93/status/1313238350913040384)
 
 ### 💡 **NOTE**
 
