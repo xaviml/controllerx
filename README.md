@@ -13,7 +13,7 @@
 [![community-topic](https://img.shields.io/badge/community-topic-blue?style=for-the-badge)](https://community.home-assistant.io/t/controllerx-bring-full-functionality-to-light-and-media-player-controllers/148855)
 [![buy-me-a-beer](https://img.shields.io/badge/sponsor-Buy%20me%20a%20beer-orange?style=for-the-badge)](https://www.buymeacoffee.com/xaviml)
 
-_Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
+_Create controller-based automations with ease to control your home devices and scenes._
 
 </div>
 

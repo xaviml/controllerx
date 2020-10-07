@@ -1,5 +1,5 @@
 ---
-title: Custom Controllers
+title: Custom mapping
 layout: page
 ---
 

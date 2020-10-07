@@ -5,21 +5,20 @@
 layout: home
 ---
 
-_Bring full functionality to light and media player controllers. From turning devices on/off to changing the color lights._
+_Create controller-based automations with ease to control your home devices and scenes._
 
 _ControllerX_ brings the following functionalities for different [controllers](/controllerx/controllers):
 
-- Turn on/Turn off light(s) or switch(es)
-- Toggle light(s) or switch(es)
+- Turn on/Turn off any home device (light, switch, media player, etc.)
 - Manual increase/decrease of brightness and color temperature
-- Smooth increase/decrease (holding button) of brightness and color temperature
-- Color loop changing if the light supports xy color.
+- Smooth increase/decrease (holding button) of brightness, color temperature, volume, etc.
+- Color loop changing if the light supports xy color
 - Play/pause music
-- Volume up/down for a media player.
+- Open/close covers
 
 ## Why _ControllerX_?
 
-Solutions like zigbee2mqtt, deconz and zha have their pros and cons, but if there is something good about these solutions is that you remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Philips). However, there is a downside about removing this dependency and it is that not only the propietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. Home Assistant is great and we love it, but when it comes to create complex automations, it gets tricky. This is why I created _ControllerX_ with AppDaemon and the Home Assistant plugin, to give the behaviour to the devices we lose when not having the original hub.
+Solutions like Zigbee2MQTT, deCONZ and ZHA have their pros and cons, but if there is something good about these solutions is that we can remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Phillips). However, there is a downside about removing this dependency and it is that not only the propietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. This is why we end up using Home Assistant automations, however when it comes to create complex automations like this kind, it gets tricky and difficult to maintain. This is where _ControllerX_ comes in together with AppDaemon, to give the behaviour to the devices we lose when not having the original hub as well as easily create automation focus on button events.
 
 ## Quick example
 
@@ -51,8 +50,6 @@ livingroom_controller:
 
 _ControllerX_ uses an async loop to make HA call services requests (e.g. to change the brightness, the color temperature, the xy color, the volume of a media player). This means that when a button is held, _ControllerX_ calls periodically HA services until a release action is fired.
 
-If you use deCONZ integration and what you want is just to dim your lights smoothly, we recommend that you to use [this](https://github.com/Burningstone91/Hue_Dimmer_Deconz) AppDaemon app from [_@Burningstone91_](https://github.com/Burningstone91). It brighten/dim your lights with a deCONZ calls instead of an async loop, this means that deCONZ would handle the dimming for you. Furthermore, it allows you to customise the controller the same way you can do it with the `mapping` attribute in _ControllerX_.
-
 ## How to start?
 
 - [Installation](/controllerx/start/installation)
@@ -61,7 +58,7 @@ If you use deCONZ integration and what you want is just to dim your lights smoot
 
 ## Advanced
 
-- [Custom controllers](others/custom-controllers)
+- [Custom mapping](others/custom-controllers)
 - [Multiple clicks](others/multiple-clicks)
 
 ## Others

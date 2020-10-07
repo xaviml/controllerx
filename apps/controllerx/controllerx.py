@@ -1,6 +1,5 @@
 """
-Bring full functionality to light and media player controllers.
-From turning devices on/off to changing the color lights.
+Create controller-based automations with ease to control your home devices and scenes.
 
 https://github.com/xaviml/controllerx
 """

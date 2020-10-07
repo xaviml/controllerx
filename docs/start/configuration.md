@@ -72,7 +72,7 @@ These are the generic app parameters for all type of controllers. You can see th
 | `actions`              | list           | All actions                                       | This is a list of actions to be included and controlled by the app. To see which actions has each controller check the individual controller pages in [here](/controllerx/controllers). This attribute cannot be used together with `excluded_actions`.                                                                      |
 | `excluded_actions`     | list           | Empty list                                        | This is a list of actions to be excluded. To see which actions has each controller check the individual controller pages in [here](/controllerx/controllers). This attribute cannot be used together with `actions`.                                                                                                         |
 | `action_delta`         | int            | 300                                               | This is the threshold time between the previous action and the next one (being the same action). If the time difference between the two actions is less than this attribute, then the action won't be called. I recommend changing this if you see the same action being called twice.                                       |
-| `multiple_click_delay` | int            | 500                                              | Indicates the delay (in milliseconds) when a multiple click action should be trigger. The higher the number, the more time there can be between clicks, but there will be more delay for the action to be triggered.                                                                                                         |
+| `multiple_click_delay` | int            | 500                                               | Indicates the delay (in milliseconds) when a multiple click action should be trigger. The higher the number, the more time there can be between clicks, but there will be more delay for the action to be triggered.                                                                                                         |
 | `action_delay`         | dict           | -                                                 | This can be used to set a delay to each action. By default, the delay for all actions is 0. The key for the map is the action and the value is the delay in seconds.                                                                                                                                                         |
 | `mapping`              | dict           | -                                                 | This can be used to replace the behaviour of the controller and manually select what each button should be doing. By default it will ignore this parameter. Read more about it in [here](/controllerx/others/custom-controllers). The functionality included in this attribute will remove the default mapping.              |
 | `merge_mapping`        | dict           | -                                                 | This can be used to merge the default mapping from the controller and manually select what each button should be doing. By default it will ignore this parameter. Read more about it in [here](/controllerx/others/custom-controllers). The functionality included in this attribute is added on top of the default mapping. |
@@ -86,6 +86,57 @@ Integration dictionary for `integration` attribute.
 In addition, you can add arguments. Each [integration](/controllerx/others/integrations) has its own arguments.
 
 _\* Required fields_
+
+#### Explained with YAML
+```yaml
+example_app: # It can be anything
+  module: controllerx
+  # `class` value depends on the controller you want to use
+  # Check the classes for each controller on the supported controllers page
+  # Supported controller page: https://xaviml.github.io/controllerx/controllers/
+  class: Controller # or E1810Controller, LightController, HueDimmerController, etc.
+  # `controller` value depends on the integration used (z2m, deconz, zha).
+  # Check https://xaviml.github.io/controllerx/others/extract-controller-id for more info
+  controller: sensor.my_controller_action # or my_controller_id or 00:67:88:56:06:78:9b:3f
+  # `integration` is the integration used for your controller
+  # It can be used as object like:
+  # integration:
+  #   name: z2m
+  #   listen_to: mqtt
+  # Check https://xaviml.github.io/controllerx/others/integrations for more info
+  integration: z2m # or deconz, mqtt, zha, state
+  # `actions` and `excluded_actions` can be used to indicate which actions from the default mapping
+  # will be used or not. These 2 attributes cannot be used at the same time.
+  actions: # or excluded_actions. This is optional.
+    - toggle
+    - brightness_up_click
+  # `action_delta` is the threshold to avoid firing the same action twice
+  action_delta: 300 # default. This is optional.
+  # `multiple_click_delay` is used for the multiclick functionality
+  # Check https://xaviml.github.io/controllerx/others/multiple-clicks for more info
+  multiple_click_delay: 500 # default. This is optional.
+  # `action_delay` lets you configure delays to existing actions
+  action_delay: # This is optional.
+    toggle: 10 # This will fire `toggle` action in 10 seconds after pressed.
+  # `mapping` and `merge_mapping` let you override the default behaviour of your controller.
+  # `merge_mapping` updates the default mapping, and `mapping` overrides it completely.
+  # Check https://xaviml.github.io/controllerx/others/custom-controllers for more info
+  merge_mapping: # or `mapping`. This is optional.
+    brightness_up_click: toggle_full_brightness # use predefined actions
+    toggle: # or HA service calls
+      service: scene.turn_on
+      data:
+        entity_id: scene.my_scene
+    toggle$2: # This scripts will be called when toggle is fired twice within 500ms (multiple_click_delay)
+      - service: script.my_script
+      - service: script.my_script_with_arguments
+        data:
+          my_attr: test
+  # From here on, we can include specific attribute from type controllers like
+  # Light, MediaPlayer, Switch or Cover controller for example
+  # Check https://xaviml.github.io/controllerx/start/type-configuration for more info
+  light: light.my_light # or media_player, switch, cover
+```
 
 ## What's next?
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Frequently asked questions
+title: Frequently asked questions (FAQ)
 ---
 
 #### 1. I placed the configuration in configuration.yaml and it doesn't work
@@ -27,21 +27,25 @@ This error is shown when the light has support for the X attribute (e.g. brightn
 
 #### 6. Light is not turning on to the previous brightness
 
-Zigbee does not support transition natively to lights, so this attribute depends on the integration you have installed for your light. If you encountered this problem is because ControllerX, by default, sends the `transition` attribute to the light(s) through an HA call and the integration for your light does not support transition when turning on or off and it leads to an unexpected behaviour. In fact, if you go to AppDaemon logs, you will be able to see the service call that ControllerX does when pressing the buttons. You can then, replicate those calls on "Developer Tools > Services". These are the issues created related to this problem on the different integrations:
+Zigbee does not support transition natively to lights, so this attribute depends on the integration you have installed for your light. ControllerX by default adds transition when changing brightness or color, but not when turning on/off the light. So if this is happening to you it might be because `add_transition_turn_toggle: true` is added in your controller configuration. These are the issues created related to this problem on the different integrations:
 
 - [Zigbee2MQTT](https://github.com/Koenkk/zigbee-herdsman-converters/issues/1073) (FIXED)
 - [Hue integration](https://github.com/home-assistant/core/issues/32894) (OPEN)
 
-However, while the problem is not in the scope of ControllerX, there is a workaround that will help you fix this problem while losing the transition when turning on/off or toggeling. For this, you could add `add_transition_turn_toggle: false` to your controller configuration. This is an example:
+#### 7. When holding or rotating the controller (especially the Symfonisk - E1744), it doesn't stop changing the brightness or volume
 
-```yaml
-problem_fixed:
-  module: controllerx
-  class: E1810Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
-  light: light.bedroom
-  add_transition_turn_toggle: false
-```
+This is a known issue that cannot be fixed in the code. Controllers with holding-release functionality fire 2 events, one when the holding/rotation starts and another when it stops rotating or is released. What ControllerX does for you is send periodically requests to HA via call services to update your brightness, volume, etc.
 
-This will keep using transition when changing brightness or color, but not when turning on/off the light.
+This is probably happenning to you sometimes and is because the stop/release action has not been fired. This can happen due to:
+
+- A rotation is too fast and confusing to know if it stopped or not.
+- The network is overloaded.
+- The server cannot handle the requests on time.
+- The controller and the light are far distanced from the coordinator.
+
+However, these are some actions you can take to overcome this problem and reduce the number of times that this happens:
+
+- If using z2m, change the integration to listen MQTT directly, this way it will avoid the HA state machine layer. Read more about in [here](https://xaviml.github.io/controllerx/others/integrations#zigbee2mqtt).
+- If using deCONZ and you just want to dim your lights smoothly, then you can consider using [this AppDaemon app](https://github.com/Burningstone91/Hue_Dimmer_Deconz) from [_@Burningstone91_](https://github.com/Burningstone91). It brightens/dims your lights with a deCONZ calls instead of calling HA periodically, this means that deCONZ would handle the dimming for you.
+- Play around with delay (default is 350ms) and automatic_steps (default is 10) attributes. You can read more about them in [here](https://xaviml.github.io/controllerx/start/type-configuration#light-controller). The lower the delay is, the more requests will go to HA. The more automatic_steps, the more steps it will take to get from min to max, and vice versa.
+- Add more Zigbee routers to the network.
