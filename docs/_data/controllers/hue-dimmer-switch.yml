@@ -61,3 +61,6 @@ integrations:
 note: >-
   For ZHA integration, the hold events just work for the brightness buttons,
   and they are fired right after the click events.
+  In case of working with z2m and wanting to use the multiclick functionality, then
+  you need to make sure to remove from the device specific (devices.yaml) the 
+  `multiple_press_timeout` option.
