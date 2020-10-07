@@ -55,6 +55,7 @@ Three things to clarify when using the `z2m` integration listening to MQTT:
 - `appdaemon.yaml` needs to be changed by adding the MQTT plugin (see `MQTT` section below).
 - The Zigbee2MQTT friendly name from the z2m needs to be specified in the `controller` attribute.
 - `action_key` is the key inside the topic payload that contains the fired action from the controller. It is normally `action` or `click`. By default will be `action`.
+- `action_group` is a list of allowed action groups for the controller configuration. Read more about it [here](https://github.com/xaviml/controllerx/pull/150).
 
 #### deCONZ
 
