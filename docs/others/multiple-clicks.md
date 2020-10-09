@@ -28,8 +28,8 @@ example_app:
 
 This could be a silly example, but it is enough to remark some points about this feature. In this configuration we see 2 actions: `brightness_up_click` (not "multi-clickable") and `toggle` ("multi-clickable"). We also see an attribute called `multiple_click_delay`, which indicates the delay (in milliseconds and 500 by default) when a multiple click action should be trigger. Let's go over the next scenarios:
 - `brightness_up_click` is clicked once: The `on` action will be triggered immidiately, with no delay.
-- `toggle` is clicked once: The `click_color_up` action will be triggered after 1 second. Also noticed that `toggle` and `toggle$1` are basically the same, so if both are present, the one with the token (`$`) will be the prevalent. So `click_color_down` will never be called.
-- `toggle` is clicked twice (with less than 1s between clicks): The `off` action will be triggered after 1 second.
+- `toggle` is clicked once: The `click_color_up` action will be triggered after 500ms. Also noticed that `toggle` and `toggle$1` are basically the same, so if both are present, the one with the token (`$`) will be the prevalent. So `click_color_down` will never be called.
+- `toggle` is clicked twice (with less than 500ms between clicks): The `off` action will be triggered in 500ms after the second click.
 
 This next example will show a real use of this feature with the E1810 controller from IKEA.
 
