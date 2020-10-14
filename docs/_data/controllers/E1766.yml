@@ -31,3 +31,9 @@ integrations:
       - "2002 → Click down"
       - "1003 → Hold up"
       - "2003 → Hold down"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "up_open → Click up"
+      - "down_close → Click down"
+      - "stop → Release up or down" 
