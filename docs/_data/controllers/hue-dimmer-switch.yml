@@ -51,18 +51,18 @@ integrations:
   - name: ZHA
     codename: zha
     actions: # CHANGE THIS
-      - on_short_release → Click \"I\""
-      - on_hold → Hold \"I\""
-      - on_long_release → Release \"I\""
-      - up_short_release → Click 🔆"
-      - up_hold → Hold 🔆"
-      - up_long_release → Release 🔆"
-      - down_short_release → Click 🔅"
-      - down_hold → Hold 🔅"
-      - down_long_release → Release 🔅"
-      - off_short_release → Click \"O\""
-      - off_hold → Hold \"O\""
-      - off_long_release → Release \"O\""
+      - "on_short_release → Click \"I\""
+      - "on_hold → Hold \"I\""
+      - "on_long_release → Release \"I\""
+      - "up_short_release → Click 🔆"
+      - "up_hold → Hold 🔆"
+      - "up_long_release → Release 🔆"
+      - "down_short_release → Click 🔅"
+      - "down_hold → Hold 🔅"
+      - "down_long_release → Release 🔅"
+      - "off_short_release → Click \"O\""
+      - "off_hold → Hold \"O\""
+      - "off_long_release → Release \"O\""
       
 note: >-
   For ZHA integration, the hold events just work for the brightness buttons,
