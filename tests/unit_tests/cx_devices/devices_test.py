@@ -44,7 +44,9 @@ def test_devices(hass_mock, device_class):
 
     # We first check that all devices are importable from controllerx module
     device_from_controllerx = get_controller("controllerx", device_class.__name__)
-    assert device_from_controllerx is not None
+    assert (
+        device_from_controllerx is not None
+    ), f"'{device_class.__name__}' not importable from controllerx.py"
 
     type_actions_mapping = device.get_type_actions_mapping()
     if type_actions_mapping is None:
