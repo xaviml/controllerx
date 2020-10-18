@@ -65,7 +65,9 @@ async def test_integ_configs(hass_mock, mocker, config_file, data):
 
     pending = asyncio.Task.all_tasks()
     # We exclude the current function we are executing
-    pending = {task for task in pending if task._coro.__name__ != "test_integ_configs"}
+    pending = {
+        task for task in pending if task._coro.__name__ != "test_integ_configs"  # type: ignore
+    }
     if pending:  # Finish pending tasks if any
         await asyncio.wait(pending)
     assert call_service_stub.call_count == expected_calls_count

@@ -11,7 +11,7 @@ class FakeReleaseHoldController(ReleaseHoldController):
 
 @pytest.fixture
 def sut(hass_mock):
-    c = FakeReleaseHoldController()
+    c = FakeReleaseHoldController()  # type: ignore
     c.args = {}
     c.delay = 0
     c.hold_release_toggle = False

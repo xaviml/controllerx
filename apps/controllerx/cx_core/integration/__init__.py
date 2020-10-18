@@ -2,13 +2,16 @@ import abc
 import importlib
 import os
 import pkgutil
-from typing import Any, Dict, List, NewType, Optional, Type, Union
+from typing import TYPE_CHECKING, Any, Dict, List, NewType, Optional, Type, Union
 
 from cx_const import TypeActionsMapping
 
+if TYPE_CHECKING:
+    from cx_core.controller import Controller
+
 
 class Integration(abc.ABC):
-    def __init__(self, controller, kwargs: Dict[str, Any]):
+    def __init__(self, controller: "Controller", kwargs: Dict[str, Any]):
         self.name = self.get_name()
         self.controller = controller
         self.kwargs = kwargs
@@ -41,7 +44,7 @@ def _all_integration_subclasses(
     subclasses = set(cls_.__subclasses__()).union(
         [s for c in cls_.__subclasses__() for s in _all_integration_subclasses(c)]
     )
-    return list(subclasses)
+    return list(subclasses)  # type: ignore
 
 
 def get_integrations(controller, kwargs) -> List[Integration]:

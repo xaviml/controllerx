@@ -10,7 +10,7 @@ class FakeTypeController(TypeController):
 
 @pytest.fixture
 def sut(hass_mock):
-    c = FakeTypeController()
+    c = FakeTypeController()  # type: ignore
     c.args = {}
     return c
 

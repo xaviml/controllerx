@@ -43,7 +43,7 @@ def test_encode(supported_features, expected_number):
 )
 @pytest.mark.asyncio
 async def test_is_supported(number, features, feature, is_supported):
-    feature_support = FeatureSupport(None, None, features, False)
+    feature_support = FeatureSupport("fake_entity", None, features, False)  # type: ignore
     feature_support._supported_features = FeatureSupport.decode(number, features)
     is_supported = await feature_support.is_supported(feature)
     assert is_supported == is_supported
@@ -61,7 +61,7 @@ async def test_is_supported(number, features, feature, is_supported):
 )
 @pytest.mark.asyncio
 async def test_not_supported(number, features, feature, is_supported):
-    feature_support = FeatureSupport(None, None, features, False)
+    feature_support = FeatureSupport("fake_entity", None, features, False)  # type: ignore
     feature_support._supported_features = FeatureSupport.decode(number, features)
     is_supported = await feature_support.not_supported(feature)
     assert is_supported == is_supported

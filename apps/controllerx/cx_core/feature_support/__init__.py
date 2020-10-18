@@ -1,6 +1,6 @@
-from typing import List, Optional, Set, Union
+from typing import List, Set, Union
 
-from cx_core.controller import Controller
+from cx_core.controller import TypeController
 
 SupportedFeatureNumber = Union[int, str]
 Features = List[int]
@@ -21,8 +21,8 @@ class FeatureSupport:
 
     def __init__(
         self,
-        entity: Optional[str],
-        controller: Optional[Controller],
+        entity: str,
+        controller: TypeController,
         features: Features,
         update_supported_features: bool,
     ) -> None:

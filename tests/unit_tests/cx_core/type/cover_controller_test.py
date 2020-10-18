@@ -9,7 +9,7 @@ from tests.test_utils import fake_fn
 @pytest.fixture
 @pytest.mark.asyncio
 async def sut(hass_mock, mocker):
-    c = CoverController()
+    c = CoverController()  # type: ignore
     mocker.patch.object(TypeController, "initialize")
     c.cover = "cover.test"
     c.open_position = 100

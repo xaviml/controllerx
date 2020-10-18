@@ -11,6 +11,6 @@ from cx_devices.phillips import HueDimmerController
     ],
 )
 def test_zha_action_HueDimmerController(data, expected_action):
-    sut = HueDimmerController()
+    sut = HueDimmerController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action

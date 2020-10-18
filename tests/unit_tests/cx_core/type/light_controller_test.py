@@ -11,7 +11,7 @@ from tests.test_utils import fake_fn
 
 @pytest.fixture
 def sut(hass_mock, monkeypatch):
-    c = LightController()
+    c = LightController()  # type: ignore
     c.args = {}
     c.delay = 0
     c.light = {"name": "light"}
@@ -101,7 +101,7 @@ async def test_initialize_and_get_light(
 )
 @pytest.mark.asyncio
 async def test_get_attribute(
-    sut,
+    sut: LightController,
     monkeypatch,
     attribute_input,
     color_mode,
@@ -109,7 +109,7 @@ async def test_get_attribute(
     attribute_expected,
     throws_error,
 ):
-    sut.supported_features = LightSupport(None, None, False)
+    sut.supported_features = LightSupport("fake_entity", sut, False)
     sut.supported_features._supported_features = supported_features
     sut.light = {"name": "light", "color_mode": color_mode}
 
@@ -208,7 +208,7 @@ async def test_get_value_attribute(
 )
 @pytest.mark.asyncio
 async def test_change_light_state(
-    sut,
+    sut: LightController,
     mocker,
     monkeypatch,
     old,
@@ -231,7 +231,7 @@ async def test_change_light_state(
     sut.transition = 300
     sut.add_transition = True
     sut.add_transition_turn_toggle = False
-    sut.supported_features = LightSupport(None, None, False)
+    sut.supported_features = LightSupport("fake_entity", sut, False)
     sut.supported_features._supported_features = set()
     sut.color_wheel = get_color_wheel("default_color_wheel")
 
@@ -287,7 +287,7 @@ async def test_change_light_state(
 )
 @pytest.mark.asyncio
 async def test_call_light_service(
-    sut,
+    sut: LightController,
     mocker,
     attributes_input,
     transition_support,
@@ -301,7 +301,7 @@ async def test_call_light_service(
     sut.add_transition = add_transition
     sut.add_transition_turn_toggle = add_transition_turn_toggle
     supported_features = {LightSupport.TRANSITION} if transition_support else set()
-    sut.supported_features = LightSupport(None, None, False)
+    sut.supported_features = LightSupport("fake_entity", sut, False)
     sut.supported_features._supported_features = supported_features
     await sut.call_light_service(
         "test_service", turned_toggle=turned_toggle, **attributes_input
@@ -472,15 +472,20 @@ async def test_on_min(sut, mocker):
 )
 @pytest.mark.asyncio
 async def test_sync(
-    sut, monkeypatch, mocker, max_brightness, color_attribute, expected_attributes
+    sut: LightController,
+    monkeypatch,
+    mocker,
+    max_brightness,
+    color_attribute,
+    expected_attributes,
 ):
     sut.max_brightness = max_brightness
     sut.light = {"name": "test_light"}
     sut.transition = 300
     sut.add_transition = True
     sut.add_transition_turn_toggle = True
-    sut.supported_features = LightSupport(None, None, False)
-    sut.supported_features._supported_features = [LightSupport.TRANSITION]
+    sut.supported_features = LightSupport("fake_entity", sut, False)
+    sut.supported_features._supported_features = {LightSupport.TRANSITION}
 
     async def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":

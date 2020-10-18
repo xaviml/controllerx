@@ -9,7 +9,7 @@ from tests.test_utils import fake_fn
 @pytest.fixture
 @pytest.mark.asyncio
 async def sut(monkeypatch, hass_mock, mocker):
-    c = MediaPlayerController()
+    c = MediaPlayerController()  # type: ignore
     c.args = {}
     c.delay = 0
     c.media_player = "test"

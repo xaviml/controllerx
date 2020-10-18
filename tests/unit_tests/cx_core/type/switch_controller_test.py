@@ -7,7 +7,7 @@ from cx_core.controller import TypeController
 @pytest.fixture
 @pytest.mark.asyncio
 async def sut(hass_mock, mocker):
-    c = SwitchController()
+    c = SwitchController()  # type: ignore
     mocker.patch.object(TypeController, "initialize")
     c.args = {"switch": "switch.test"}
     await c.initialize()

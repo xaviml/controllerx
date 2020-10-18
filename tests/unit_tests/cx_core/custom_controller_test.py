@@ -134,7 +134,7 @@ async def test_custom_controllers(
 async def test_call_service_controller(
     hass_mock, monkeypatch, mocker, integration, services, expected_calls,
 ):
-    sut = CallServiceController()
+    sut = CallServiceController()  # type: ignore
     sut.args = {
         "controller": "test_controller",
         "integration": integration,

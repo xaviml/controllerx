@@ -15,7 +15,7 @@ from cx_devices.aqara import MFKZQ01LMLightController, WXKG01LMLightController
     ],
 )
 def test_zha_action_MFKZQ01LMLightController(data, expected_action):
-    sut = MFKZQ01LMLightController()
+    sut = MFKZQ01LMLightController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action
 
@@ -31,6 +31,6 @@ def test_zha_action_MFKZQ01LMLightController(data, expected_action):
     ],
 )
 def test_zha_action_WXKG01LMLightController(data, expected_action):
-    sut = WXKG01LMLightController()
+    sut = WXKG01LMLightController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action

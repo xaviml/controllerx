@@ -31,7 +31,7 @@ from cx_core.feature_support.media_player import MediaPlayerSupport
     ],
 )
 def test_init(number, expected_supported_features):
-    media_player_support = MediaPlayerSupport(None, None, False)
+    media_player_support = MediaPlayerSupport("fake_entity", None, False)  # type: ignore
     media_player_support._supported_features = FeatureSupport.decode(
         number, media_player_support.features
     )
