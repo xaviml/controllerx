@@ -1,4 +1,4 @@
-name: AC02511XXNJ (OSRAM)
+name: AC025XX00NJ (OSRAM)
 device_support:
   - type: Light
     domain: light
