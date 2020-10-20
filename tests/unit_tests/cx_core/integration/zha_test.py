@@ -31,7 +31,7 @@ from cx_core.integration.zha import ZHAIntegration
 )
 @pytest.mark.asyncio
 async def test_get_integrations(
-    fake_controller, mocker, command, args, expected_called_with,
+    fake_controller, mocker, command, args, expected_called_with
 ):
     data = {"command": command, "args": args}
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")

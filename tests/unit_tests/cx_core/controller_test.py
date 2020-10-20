@@ -163,7 +163,7 @@ async def test_initialize(
 )
 @pytest.mark.asyncio
 async def test_merge_mapping(
-    sut, monkeypatch, mocker, mapping, merge_mapping, actions_output, expected_error,
+    sut, monkeypatch, mocker, mapping, merge_mapping, actions_output, expected_error
 ):
     actions_input = ["action1", "action2", "action3"]
     actions = {action: action for action in actions_input}

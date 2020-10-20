@@ -8,7 +8,7 @@ from cx_devices.aqara import MFKZQ01LMLightController, WXKG01LMLightController
         ({"command": "shake"}, "shake"),
         ({"command": "knock"}, "knock"),
         ({"command": "slide"}, "slide"),
-        ({"command": "flip", "args": {"flip_degrees": 90}}, "flip90",),
+        ({"command": "flip", "args": {"flip_degrees": 90}}, "flip90"),
         ({"command": "flip", "args": {"flip_degrees": 180}}, "flip180"),
         ({"command": "rotate_left"}, "rotate_left"),
         ({"command": "rotate_right"}, "rotate_right"),

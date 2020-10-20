@@ -12,7 +12,7 @@ class LightSupport(FeatureSupport):
     WHITE_VALUE = 128
 
     def __init__(
-        self, entity: str, controller: TypeController, update_supported_features: bool,
+        self, entity: str, controller: TypeController, update_supported_features: bool
     ) -> None:
         super().__init__(
             entity,

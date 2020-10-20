@@ -72,9 +72,7 @@ class Controller(Hass, Mqtt, abc.ABC):
     """
 
     async def initialize(self) -> None:
-        self.log(
-            f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False,
-        )
+        self.log(f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False)
         self.check_ad_version()
 
         # Get arguments
@@ -232,9 +230,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         for attribute, value in attributes.items():
             if isinstance(value, float):
                 value = f"{value:.2f}"
-            self.log(
-                f"  - {attribute}: {value}", level="INFO", ascii_encode=False,
-            )
+            self.log(f"  - {attribute}: {value}", level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)
 
     async def handle_action(self, action_key: str) -> None:

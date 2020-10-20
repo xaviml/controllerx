@@ -15,7 +15,7 @@ class MQTTIntegration(Integration):
 
     def listen_changes(self, controller_id: str) -> None:
         Mqtt.listen_event(
-            self.controller, self.event_callback, topic=controller_id, namespace="mqtt",
+            self.controller, self.event_callback, topic=controller_id, namespace="mqtt"
         )
 
     async def event_callback(self, event_name: str, data: dict, kwargs: dict) -> None:

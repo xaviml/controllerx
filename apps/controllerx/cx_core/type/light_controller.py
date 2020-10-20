@@ -109,7 +109,7 @@ class LightController(TypeController, ReleaseHoldController):
     def get_domain(self) -> List[str]:
         return ["light"]
 
-    def get_type_actions_mapping(self,) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
             Light.ON: self.on,
             Light.OFF: self.off,

@@ -183,7 +183,7 @@ async def test_get_value_attribute(
             False,
             51,
         ),
-        (0, "xy_color", Stepper.UP, CircularStepper(0, 30, 30), "on", False, False, 0,),
+        (0, "xy_color", Stepper.UP, CircularStepper(0, 30, 30), "on", False, False, 0),
         (
             499,
             "color_temp",
@@ -616,9 +616,7 @@ async def test_hold(
         super_hold_patch.assert_called_with(attribute_input, expected_direction)
 
 
-@pytest.mark.parametrize(
-    "value_attribute", [10, None],
-)
+@pytest.mark.parametrize("value_attribute", [10, None])
 @pytest.mark.asyncio
 async def test_hold_loop(sut, mocker, value_attribute):
     attribute = "test_attribute"

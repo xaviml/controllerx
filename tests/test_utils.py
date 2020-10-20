@@ -46,9 +46,7 @@ def _all_subclasses(cls):
 
 
 def get_classes(file_, package_, class_, instantiate=False):
-    _import_modules(
-        file_, package_,
-    )
+    _import_modules(file_, package_)
     subclasses = _all_subclasses(class_)
     subclasses = [
         cls_() if instantiate else cls_

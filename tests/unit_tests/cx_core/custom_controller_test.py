@@ -132,7 +132,7 @@ async def test_custom_controllers(
 )
 @pytest.mark.asyncio
 async def test_call_service_controller(
-    hass_mock, monkeypatch, mocker, integration, services, expected_calls,
+    hass_mock, monkeypatch, mocker, integration, services, expected_calls
 ):
     sut = CallServiceController()  # type: ignore
     sut.args = {

@@ -23,8 +23,8 @@ def sut(hass_mock):
     "entity, domains, entities, error_expected",
     [
         ("light.kitchen", ["light"], [], False),
-        ("light1.kitchen", ["light"], [], True,),
-        ("media_player.kitchen", ["light"], [], True,),
+        ("light1.kitchen", ["light"], [], True),
+        ("media_player.kitchen", ["light"], [], True),
         ("media_player.bedroom", ["media_player"], [], False),
         ("group.all_lights", ["light"], ["light.light1", "light.light2"], False),
         ("group.all_lights", ["light"], ["light1.light1", "light2.light2"], True),

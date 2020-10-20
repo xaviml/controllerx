@@ -144,7 +144,7 @@ async def test_hold_loop(
         )
     else:
         called_service_patch.assert_called_once_with(
-            f"media_player/volume_{direction_input}", entity_id=sut.media_player,
+            f"media_player/volume_{direction_input}", entity_id=sut.media_player
         )
 
 

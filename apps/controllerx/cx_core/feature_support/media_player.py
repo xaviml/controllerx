@@ -21,7 +21,7 @@ class MediaPlayerSupport(FeatureSupport):
     SELECT_SOUND_MODE = 65536
 
     def __init__(
-        self, entity: str, controller: TypeController, update_supported_features: bool,
+        self, entity: str, controller: TypeController, update_supported_features: bool
     ) -> None:
         super().__init__(
             entity,
