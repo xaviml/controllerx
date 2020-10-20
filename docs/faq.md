@@ -45,7 +45,28 @@ This is probably happenning to you sometimes and is because the stop/release act
 
 However, these are some actions you can take to overcome this problem and reduce the number of times that this happens:
 
-- If using z2m, change the integration to listen MQTT directly, this way it will avoid the HA state machine layer. Read more about in [here](https://xaviml.github.io/controllerx/others/integrations#zigbee2mqtt).
+- If using z2m, change the integration to listen MQTT directly, this way it will avoid the HA state machine layer. Read more about in [here](/controllerx/others/integrations#zigbee2mqtt).
 - If using deCONZ and you just want to dim your lights smoothly, then you can consider using [this AppDaemon app](https://github.com/Burningstone91/Hue_Dimmer_Deconz) from [_@Burningstone91_](https://github.com/Burningstone91). It brightens/dims your lights with a deCONZ calls instead of calling HA periodically, this means that deCONZ would handle the dimming for you.
-- Play around with delay (default is 350ms) and automatic_steps (default is 10) attributes. You can read more about them in [here](https://xaviml.github.io/controllerx/start/type-configuration#light-controller). The lower the delay is, the more requests will go to HA. The more automatic_steps, the more steps it will take to get from min to max, and vice versa.
+- Play around with delay (default is 350ms) and automatic_steps (default is 10) attributes. You can read more about them in [here](/controllerx/start/type-configuration#light-controller). The lower the delay is, the more requests will go to HA. The more automatic_steps, the more steps it will take to get from min to max, and vice versa.
 - Add more Zigbee routers to the network.
+
+#### 8. Symfonisk controller (E1744) is not working with Zigbee2MQTT integration
+
+Do you have a configuration that seems to be right, but is not working? Well, the default mapping for E1744 has the actions of the new implementation in Zigbee2MQTT for this controller. For this, you will need to [deactivate the legacy mode](https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration) for this controller in Zigbee2MQTT. If you have the Zigbee2MQTT addon, you will have a file in `/share/zigbee2mqtt/devices.yaml` with the device-specific configuration. You will need to add `legacy: false` to your E1744 controller as shown in the Zigbee2MQTT documentation. With this the problem will be solved once Zigbee2MQTT is restarted. While I have you here reading this, I strongly recommend to you to check the FAQ#9 if you are having slowness issues with your controller.
+
+#### 9. Symfonisk controller (E1744) works, but pretty laggy
+
+If you are using the `sensor` entity as your controller, then I recommend you to change this configuration to listen from MQTT directly instead of HA. For this, you will need to change your controller configuration (`apps.yaml`) and your AppDaemon configuration (`appdaemon.yaml`). Your new controller configurtion will look like this:
+
+```yaml
+example_app:
+  module: controllerx
+  class: E1744MediaPlayerController
+  controller: my_z2m_friendly_name # This is the Zigbee2MQTT friendly name
+  integration:
+    name: z2m
+    listen_to: mqtt
+  media_player: media_player.my_media_player
+```
+
+Notice how we added the `listen_to` attribute and change the `controller` to the Zigbee2MQTT friendly name. Then, you will also need to add the MQTT broker and the credentials in the `appdaemon.yaml` as described in the [MQTT section](/controllerx/others/integrations#mqtt) from the integrations page. Then you can just restart the AppDaemon addon/server.
