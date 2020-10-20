@@ -5,19 +5,19 @@ verify_ssl = true
 
 [dev-packages]
 black = "==19.10b0"
-pytest = "~=6.0"
-pytest-asyncio = "~=0.12"
-pytest-cov = "~=2.8"
-pytest-mock = "~=3.1"
-mock = "~=4.0"
-pre-commit = "~=2.4"
-commitizen = "~=1.22"
-mypy = "~=0.770"
-flake8 = "~=3.8"
+pytest = "==6.1.1"
+pytest-asyncio = "==0.14.0"
+pytest-cov = "==2.10.1"
+pytest-mock = "==3.3.1"
+mock = "==4.0.2"
+pre-commit = "==2.7.1"
+commitizen = "==2.4.1"
+mypy = "==0.790"
+flake8 = "==3.8.4"
 controllerx = {path = ".", editable = true}
 
 [packages]
-appdaemon = "~=4.0"
+appdaemon = "==4.0.5"
 
 [pipenv]
 allow_prereleases = true
