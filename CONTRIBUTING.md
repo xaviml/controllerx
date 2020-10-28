@@ -70,7 +70,7 @@ bundle install
 bundle exec jekyll serve
 ```
 
-## Pull request
+## Pull Request
 
 Feel free to open a PR on GitHub. When submitting the PR several points will be checked:
 
@@ -78,6 +78,21 @@ Feel free to open a PR on GitHub. When submitting the PR several points will be 
 - Linting (with flake8)
 - Typing (with mypy)
 - Formatting (with black)
+
+## How to change someone else's PR code
+
+If you have the permission to change code from the source branch of the PR, then you can do the following to change it. First, you will need to add the remote:
+
+```shell
+git remote add <username> git@github.com:<username>/controllerx.git
+```
+
+Then you will need to fetch, create and checkout the branch:
+
+```shell
+git fetch <username> <remote-branch>
+git checkout -b <username>-<remote-branch> <username>/<remote-branch>
+```
 
 ## Deployment
 
