@@ -1,5 +1,9 @@
 import pytest
-from cx_devices.aqara import MFKZQ01LMLightController, WXKG01LMLightController
+from cx_devices.aqara import (
+    MFKZQ01LMLightController,
+    WXKG01LMLightController,
+    WXKG11LMLightController,
+)
 
 
 @pytest.mark.parametrize(
@@ -32,5 +36,21 @@ def test_zha_action_MFKZQ01LMLightController(data, expected_action):
 )
 def test_zha_action_WXKG01LMLightController(data, expected_action):
     sut = WXKG01LMLightController()
+    action = sut.get_zha_action(data)
+    assert action == expected_action
+
+
+@pytest.mark.parametrize(
+    "data, expected_action",
+    [
+        ({"args": {"value": 0}}, ""),
+        ({"args": {"value": 1}}, "single"),
+        ({"args": {"value": 2}}, "double"),
+        ({"args": {"value": 3}}, "triple"),
+        ({"args": {"value": 4}}, "quadruple"),
+    ],
+)
+def test_zha_action_WXKG11LMLightController(data, expected_action):
+    sut = WXKG11LMLightController()
     action = sut.get_zha_action(data)
     assert action == expected_action

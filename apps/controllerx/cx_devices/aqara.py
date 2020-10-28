@@ -90,7 +90,7 @@ class WXKG11LMLightController(LightController):
             4: "quadruple",
         }
         clicks = data["args"]["value"]
-        return mapping[clicks]
+        return mapping.get(clicks, "")
 
 
 class WXKG12LMLightController(LightController):
