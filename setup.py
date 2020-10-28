@@ -1,9 +1,3 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
-setup(
-    name="controllerx",
-    python_requires=">=3.6",
-    package_dir={"": "apps/controllerx"},
-    packages=find_packages(where="apps/controllerx"),
-    py_modules=["controllerx", "version", "const"],
-)
+setup(package_dir={"": "apps/controllerx"})
