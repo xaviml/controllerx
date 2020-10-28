@@ -58,11 +58,6 @@ class WXKG01LMLightController(LightController):
 
 
 class WXKG11LMLightController(LightController):
-    """
-    Different states reported from the controller:
-    single, double, shake, hold, release
-    """
-
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
@@ -81,14 +76,21 @@ class WXKG11LMLightController(LightController):
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
-            "1": Light.TOGGLE,
-            "2": Light.ON_FULL_BRIGHTNESS,
-            "3": Light.ON_MIN_BRIGHTNESS,
-            "4": Light.SET_HALF_BRIGHTNESS,
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "triple": Light.ON_MIN_BRIGHTNESS,
+            "quadruple": Light.SET_HALF_BRIGHTNESS,
         }
 
     def get_zha_action(self, data: dict) -> str:
-        return str(data["args"]["value"])
+        mapping = {
+            1: "single",
+            2: "double",
+            3: "triple",
+            4: "quadruple",
+        }
+        clicks = data["args"]["value"]
+        return mapping[clicks]
 
 
 class WXKG12LMLightController(LightController):
