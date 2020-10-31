@@ -1,19 +1,8 @@
-from cx_const import Light, TypeActionsMapping
-from cx_core import LightController
+from cx_const import Light, Switch, TypeActionsMapping
+from cx_core import LightController, SwitchController
 
 
 class WXKG02LMLightController(LightController):
-    """
-    This controller allows click, double click, hold and release for
-    both, left and the right button. All action will do the same for both, left
-    and right. Then from the apps.yaml the needed actions can be included and create
-    different instances for different lights.
-    """
-
-    # Different states reported from the controller:
-    # both, both_double, both_long, right, right_double
-    # right_long, left, left_double, left_long
-
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single_both": Light.TOGGLE,
@@ -38,6 +27,22 @@ class WXKG02LMLightController(LightController):
             3002: Light.TOGGLE,  # single both
             3001: Light.CLICK_BRIGHTNESS_DOWN,  # long both
             3004: Light.CLICK_BRIGHTNESS_UP,  # double both
+        }
+
+
+class WXKG02LMSwitchController(SwitchController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "single_both": Switch.TOGGLE,
+            "single_left": Switch.TOGGLE,
+            "single_right": Switch.TOGGLE,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Switch.TOGGLE,
+            2002: Switch.TOGGLE,
+            3002: Switch.TOGGLE,
         }
 
 

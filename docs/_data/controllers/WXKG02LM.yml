@@ -14,6 +14,13 @@ device_support:
       - "Click on right → Toggle"
       - "Double click on right → Brighten up (1 step)"
       - "Long click on right → Dim down (1 step)"
+  - type: Switch
+    domain: switch
+    controller: WXKG02LMSwitchController
+    mapping:
+      - "Click on both → Toggle"
+      - "Click on left → Toggle"
+      - "Click on right → Toggle"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
