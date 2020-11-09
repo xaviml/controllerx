@@ -13,7 +13,7 @@ title: Supported controllers
   {% for controller_obj in controllers %}
     {% assign key = controller_obj[0] %}
     {% assign controller = controller_obj[1] %}
-    {% assign integration_names = controller.integrations | map: "codename" | join: ", " %}
+    {% assign integration_names = controller.integrations | map: "codename" | uniq | join: ", " %}
     <tr>
             <td><a href="/controllerx/controllers/{{key}}">{{ controller.name }}</a></td>
             <td>{{ integration_names }}</td>

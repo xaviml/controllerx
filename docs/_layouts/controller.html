@@ -3,7 +3,7 @@ layout: page
 ---
 
 {% assign controller = site.data.controllers[page.device] %} {% assign
-integration_names = controller.integrations | map: "codename" | join: ", " %}
+integration_names = controller.integrations | map: "codename" | uniq | join: ", " %}
 <div>
   <table>
     <tr>

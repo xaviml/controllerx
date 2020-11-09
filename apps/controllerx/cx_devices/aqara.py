@@ -6,6 +6,7 @@ from cx_core.integration import EventData
 class WXKG02LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
+            # WXKG02LM
             "single_both": Light.TOGGLE,
             "double_both": Light.CLICK_BRIGHTNESS_UP,
             "hold_both": Light.CLICK_BRIGHTNESS_DOWN,
@@ -15,6 +16,16 @@ class WXKG02LMLightController(LightController):
             "single_right": Light.TOGGLE,
             "double_right": Light.CLICK_BRIGHTNESS_UP,
             "hold_right": Light.CLICK_BRIGHTNESS_DOWN,
+            # WXKG07LM
+            "both": Light.TOGGLE,
+            "both_double": Light.CLICK_BRIGHTNESS_UP,
+            "both_long": Light.CLICK_BRIGHTNESS_UP,
+            "left": Light.TOGGLE,
+            "left_double": Light.CLICK_BRIGHTNESS_UP,
+            "left_long": Light.CLICK_BRIGHTNESS_UP,
+            "right": Light.TOGGLE,
+            "right_double": Light.CLICK_BRIGHTNESS_UP,
+            "right_long": Light.CLICK_BRIGHTNESS_UP,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
@@ -30,13 +41,34 @@ class WXKG02LMLightController(LightController):
             3004: Light.CLICK_BRIGHTNESS_UP,  # double both
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both_single": Light.TOGGLE,
+            "both_double": Light.CLICK_BRIGHTNESS_UP,
+            "both_long press": Light.CLICK_BRIGHTNESS_DOWN,
+            "left_single": Light.TOGGLE,
+            "left_double": Light.CLICK_BRIGHTNESS_UP,
+            "left_long press": Light.CLICK_BRIGHTNESS_DOWN,
+            "right_single": Light.TOGGLE,
+            "right_double": Light.CLICK_BRIGHTNESS_UP,
+            "right_long press": Light.CLICK_BRIGHTNESS_DOWN,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
+
 
 class WXKG02LMSwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
+            # WXKG02LM
             "single_both": Switch.TOGGLE,
             "single_left": Switch.TOGGLE,
             "single_right": Switch.TOGGLE,
+            # WXKG07LM
+            "both": Switch.TOGGLE,
+            "left": Switch.TOGGLE,
+            "right": Switch.TOGGLE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
@@ -44,6 +76,13 @@ class WXKG02LMSwitchController(SwitchController):
             1002: Switch.TOGGLE,
             2002: Switch.TOGGLE,
             3002: Switch.TOGGLE,
+        }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both_single": Switch.TOGGLE,
+            "left_single": Switch.TOGGLE,
+            "right_single": Switch.TOGGLE,
         }
 
 

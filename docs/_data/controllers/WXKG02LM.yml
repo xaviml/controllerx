@@ -1,4 +1,4 @@
-name: WXKG02LM (Aqara)
+name: WXKG02LM/WXKG07LM (Aqara)
 device_support: 
   - type: Light
     domain: light
@@ -22,7 +22,7 @@ device_support:
       - "Click on left → Toggle"
       - "Click on right → Toggle"
 integrations:
-  - name: Zigbee2MQTT
+  - name: Zigbee2MQTT (WXKG02LM)
     codename: z2m
     actions:
       - "single_both → Click on both"
@@ -34,6 +34,18 @@ integrations:
       - "single_right → Click on right"
       - "double_right → Double click on right"
       - "hold_right → Long click on right"
+  - name: Zigbee2MQTT (WXKG07LM)
+    codename: z2m
+    actions:
+      - "both → Click on both"
+      - "both_double → Double click on both"
+      - "both_long → Long click on both"
+      - "left → Click on left"
+      - "left_double → Double click on left"
+      - "left_long → Long click on left"
+      - "right → Click on right"
+      - "right_double → Double click on right"
+      - "right_long → Long click on right"
   - name: deCONZ
     codename: deconz
     actions:
@@ -46,6 +58,18 @@ integrations:
       - "2002 → Click on right"
       - "2004 → Double click on right"
       - "2001 → Long click on right"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "both_single → Click on both"
+      - "both_double → Double click on both"
+      - "both_long → Long click on both"
+      - "left_single → Click on left"
+      - "left_long press → Double click on left"
+      - "hold_left → Long click on left"
+      - "right_single → Click on right"
+      - "right_double → Double click on right"
+      - "right_long press → Long click on right"
 note: >-
   Note that all actions related to both, left and right, do the same. 
   This is because ControllerX is design to control just one entity (light or media player).
