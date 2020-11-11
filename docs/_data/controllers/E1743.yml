@@ -38,8 +38,8 @@ integrations:
     actions:
       - "on → Click \"I\""
       - "off → Click \"O\""
-      - "brightness_up → Hold \"I\""
-      - "brightness_down → Hold \"O\""
+      - "brightness_move_up → Hold \"I\""
+      - "brightness_move_down → Hold \"O\""
       - "brightness_stop → Release \"I\" or \"O\""
   - name: deCONZ
     codename: deconz
