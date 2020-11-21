@@ -1,10 +1,9 @@
-from typing import Optional
-
 from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
+from cx_core.integration import EventData
 
 
-def get_zha_action_LegrandWallController(data: dict) -> Optional[str]:
+def get_zha_action_LegrandWallController(data: dict) -> str:
     endpoint_id = data.get("endpoint_id", 1)
     command = action = data["command"]
     args = data.get("args", {})
@@ -25,7 +24,7 @@ class Legrand600083LightController(LightController):
             "1_stop": Light.RELEASE,
         }
 
-    def get_zha_action(self, data: dict) -> Optional[str]:
+    def get_zha_action(self, data: EventData) -> str:
         return get_zha_action_LegrandWallController(data)
 
 
@@ -44,5 +43,5 @@ class Legrand600088LightController(LightController):
             "2_stop": Light.RELEASE,
         }
 
-    def get_zha_action(self, data: dict) -> Optional[str]:
+    def get_zha_action(self, data: EventData) -> str:
         return get_zha_action_LegrandWallController(data)

@@ -1,6 +1,6 @@
-from typing import Optional
 from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
+from cx_core.integration import EventData
 
 
 class OsramAC025XX00NJLightController(LightController):
@@ -20,7 +20,7 @@ class OsramAC025XX00NJLightController(LightController):
             "2_stop": Light.RELEASE,
         }
 
-    def get_zha_action(self, data: dict) -> Optional[str]:
+    def get_zha_action(self, data: EventData) -> str:
         return f"{data['endpoint_id']}_{data['command']}"
 
 

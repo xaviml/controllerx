@@ -1,5 +1,6 @@
 from cx_const import Light, Switch, TypeActionsMapping
 from cx_core import LightController, SwitchController
+from cx_core.integration import EventData
 
 
 class WXKG02LMLightController(LightController):
@@ -83,7 +84,7 @@ class WXKG01LMLightController(LightController):
             "quadruple": Light.SET_HALF_BRIGHTNESS,
         }
 
-    def get_zha_action(self, data: dict) -> str:
+    def get_zha_action(self, data: EventData) -> str:
         return data["args"]["click_type"]
 
 
@@ -112,7 +113,7 @@ class WXKG11LMLightController(LightController):
             "quadruple": Light.SET_HALF_BRIGHTNESS,
         }
 
-    def get_zha_action(self, data: dict) -> str:
+    def get_zha_action(self, data: EventData) -> str:
         mapping = {
             1: "single",
             2: "double",
@@ -193,7 +194,7 @@ class MFKZQ01LMLightController(LightController):
             "rotate_right": Light.CLICK_BRIGHTNESS_UP,
         }
 
-    def get_zha_action(self, data: dict) -> str:
+    def get_zha_action(self, data: EventData) -> str:
         command = action = data["command"]
         args = data.get("args", {})
         if command == "flip":

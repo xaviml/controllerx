@@ -1,4 +1,3 @@
-from cx_core.controller import TypeController
 from cx_core.feature_support import FeatureSupport
 
 
@@ -11,20 +10,12 @@ class LightSupport(FeatureSupport):
     TRANSITION = 32
     WHITE_VALUE = 128
 
-    def __init__(
-        self, entity: str, controller: TypeController, update_supported_features: bool
-    ) -> None:
-        super().__init__(
-            entity,
-            controller,
-            [
-                LightSupport.BRIGHTNESS,
-                LightSupport.COLOR_TEMP,
-                LightSupport.EFFECT,
-                LightSupport.FLASH,
-                LightSupport.COLOR,
-                LightSupport.TRANSITION,
-                LightSupport.WHITE_VALUE,
-            ],
-            update_supported_features,
-        )
+    features = [
+        BRIGHTNESS,
+        COLOR_TEMP,
+        EFFECT,
+        FLASH,
+        COLOR,
+        TRANSITION,
+        WHITE_VALUE,
+    ]

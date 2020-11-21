@@ -1,6 +1,9 @@
-import pytest
+from typing import Dict
 
+import pytest
+from cx_core.controller import Controller
 from cx_core.integration.zha import ZHAIntegration
+from pytest_mock.plugin import MockerFixture
 
 
 @pytest.mark.parametrize(
@@ -31,7 +34,11 @@ from cx_core.integration.zha import ZHAIntegration
 )
 @pytest.mark.asyncio
 async def test_get_integrations(
-    fake_controller, mocker, command, args, expected_called_with
+    fake_controller: Controller,
+    mocker: MockerFixture,
+    command: str,
+    args: Dict,
+    expected_called_with: str,
 ):
     data = {"command": command, "args": args}
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")

@@ -1,6 +1,5 @@
 import pytest
-
-from cx_core.feature_support import FeatureSupport
+from cx_core.feature_support import FeatureSupport, SupportedFeatures
 from cx_core.feature_support.light import LightSupport
 
 
@@ -29,9 +28,6 @@ from cx_core.feature_support.light import LightSupport
         (0, set()),
     ],
 )
-def test_init(number, expected_supported_features):
-    light_support = LightSupport("fake_entity", None, False)  # type: ignore
-    light_support._supported_features = FeatureSupport.decode(
-        number, light_support.features
-    )
-    assert light_support._supported_features == expected_supported_features
+def test_decode(number: int, expected_supported_features: SupportedFeatures):
+    supported_features = FeatureSupport.decode(number, LightSupport.features)
+    assert supported_features == expected_supported_features

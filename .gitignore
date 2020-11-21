@@ -129,7 +129,8 @@ dmypy.json
 .pyre/
 
 #VSCode
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .idea
 
 # Ignoring Pipfile.lock since we support python 3.6, 3.7 and 3.8

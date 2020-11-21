@@ -1,6 +1,5 @@
 from typing import Any, Awaitable, Callable, Dict, Tuple, Union
 
-
 ActionFunction = Callable[..., Awaitable[Any]]
 TypeAction = Union[ActionFunction, Tuple, str]
 ActionEvent = Union[str, int]

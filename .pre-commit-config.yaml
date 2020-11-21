@@ -1,36 +1,33 @@
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
-  hooks:
-  - id: check-json
-  - id: pretty-format-json
-    args:
-    - --autofix
-    - --indent
-    - '4'
 - repo: local
   hooks:
+  - id: isort
+    name: isort
+    entry: pipenv run isort
+    language: python
+    types: [python]
+    args: []
+    require_serial: false
   - id: black
     name: black
-    entry: pipenv run black apps/controllerx tests
-    language: system
-    pass_filenames: false
-    always_run: true
+    entry: pipenv run black
+    language: python
+    types: [python]
   - id: flake8
     name: flake8
-    entry: pipenv run flake8 apps/controllerx tests
-    language: system
-    pass_filenames: false
-    always_run: true
+    entry: pipenv run flake8
+    language: python
+    types: [python]
   - id: mypy
     name: mypy
-    entry: pipenv run mypy apps/controllerx
-    language: system
+    entry: pipenv run mypy apps/controllerx/ tests/
+    language: python
+    types: [python]
     pass_filenames: false
-    always_run: true
   - id: pytest
     name: pytest
     entry: pipenv run pytest
-    language: system
+    language: python
+    types: [python]
     pass_filenames: false
     always_run: true

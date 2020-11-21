@@ -21,7 +21,6 @@ stages:
   jobs:
   - job: Build
     displayName: Build job
-
     strategy:
       matrix:
         Python36:
@@ -41,11 +40,13 @@ stages:
       displayName: Lock dependencies
     - script: pipenv install --system --deploy --dev
       displayName: Install dependencies
-    - script: black apps/controllerx tests --check
+    - script: isort apps/controllerx/ tests/ --check
+      displayName: Organize imports (isort)
+    - script: black apps/controllerx/ tests/ --check
       displayName: Formatter (black)
-    - script: flake8 apps/controllerx tests
+    - script: flake8 apps/controllerx/ tests/
       displayName: Styling (flake8)
-    - script: mypy apps/controllerx
+    - script: mypy apps/controllerx/ tests/
       displayName: Typing (mypy)
     - script: pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
       displayName: Tests (pytest)
