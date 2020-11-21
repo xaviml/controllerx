@@ -1,3 +1,4 @@
+import sys
 from typing import Any, Dict, Optional, Type, Union
 
 from cx_const import Light, TypeActionsMapping
@@ -8,7 +9,12 @@ from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
 from cx_core.type_controller import Entity, TypeController
-from typing_extensions import Literal
+
+if sys.version_info[1] < 8:
+    from typing_extensions import Literal
+else:
+    from typing import Literal
+
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
