@@ -1,6 +1,9 @@
 import asyncio
 import glob
 from pathlib import Path
+from typing import Any, Dict
+
+from pytest_mock.plugin import MockerFixture
 from tests.test_utils import get_controller
 
 import pytest
@@ -38,7 +41,9 @@ integration_tests = get_integ_tests()
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("config_file, data", integration_tests)
-async def test_integ_configs(hass_mock, mocker, config_file, data):
+async def test_integ_configs(
+    mocker: MockerFixture, config_file: str, data: Dict[str, Any]
+):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
     fired_actions = data.get("fired_actions", [])

@@ -1,6 +1,6 @@
-from cx_core.feature_support.cover import CoverSupport
 import pytest
-from cx_core.feature_support import FeatureSupport
+from cx_core.feature_support import FeatureSupport, SupportedFeatures
+from cx_core.feature_support.cover import CoverSupport
 
 
 @pytest.mark.parametrize(
@@ -28,9 +28,6 @@ from cx_core.feature_support import FeatureSupport
         (0, set()),
     ],
 )
-def test_init(number, expected_supported_features):
-    cover_support = CoverSupport("fake_entity", None, False)  # type: ignore
-    cover_support._supported_features = FeatureSupport.decode(
-        number, cover_support.features
-    )
-    assert cover_support._supported_features == expected_supported_features
+def test_decode(number: int, expected_supported_features: SupportedFeatures):
+    supported_features = FeatureSupport.decode(number, CoverSupport.features)
+    assert supported_features == expected_supported_features

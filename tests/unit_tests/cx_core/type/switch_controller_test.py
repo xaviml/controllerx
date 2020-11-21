@@ -1,47 +1,42 @@
 import pytest
-
 from cx_core import SwitchController
-from cx_core.controller import TypeController
+from cx_core.type_controller import Entity
+from pytest_mock.plugin import MockerFixture
+
+
+ENTITY_NAME = "switch.test"
 
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def sut(hass_mock, mocker):
+async def sut():
     c = SwitchController()  # type: ignore
-    mocker.patch.object(TypeController, "initialize")
-    c.args = {"switch": "switch.test"}
-    await c.initialize()
+    c.entity = Entity(ENTITY_NAME)
     return c
 
 
 @pytest.mark.asyncio
-async def test_initialize(sut):
-    await sut.initialize()
-    assert sut.switch == "switch.test"
-
-
-@pytest.mark.asyncio
-async def test_turn_on(sut, mocker):
+async def test_turn_on(sut: SwitchController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.on()
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_on", entity_id=sut.switch
+        "homeassistant/turn_on", entity_id=ENTITY_NAME
     )
 
 
 @pytest.mark.asyncio
-async def test_turn_off(sut, mocker):
+async def test_turn_off(sut: SwitchController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.off()
     called_service_patch.assert_called_once_with(
-        "homeassistant/turn_off", entity_id=sut.switch
+        "homeassistant/turn_off", entity_id=ENTITY_NAME
     )
 
 
 @pytest.mark.asyncio
-async def test_toggle(sut, mocker):
+async def test_toggle(sut: SwitchController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.toggle()
     called_service_patch.assert_called_once_with(
-        "homeassistant/toggle", entity_id=sut.switch
+        "homeassistant/toggle", entity_id=ENTITY_NAME
     )

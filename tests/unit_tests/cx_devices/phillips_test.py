@@ -1,4 +1,6 @@
 import pytest
+from cx_core.integration import EventData
+
 from cx_devices.phillips import HueDimmerController
 
 
@@ -10,7 +12,7 @@ from cx_devices.phillips import HueDimmerController
         ({"command": "off_hold"}, "off_hold"),
     ],
 )
-def test_zha_action_HueDimmerController(data, expected_action):
+def test_zha_action_HueDimmerController(data: EventData, expected_action: str):
     sut = HueDimmerController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action

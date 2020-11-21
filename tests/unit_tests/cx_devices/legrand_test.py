@@ -1,4 +1,5 @@
 import pytest
+from cx_core.integration import EventData
 
 from cx_devices.legrand import get_zha_action_LegrandWallController
 
@@ -16,6 +17,6 @@ from cx_devices.legrand import get_zha_action_LegrandWallController
         ({"endpoint_id": 2, "command": "stop"}, "2_stop"),
     ],
 )
-def test_get_zha_action_LegrandWallController(data, expected_action):
+def test_get_zha_action_LegrandWallController(data: EventData, expected_action: str):
     action = get_zha_action_LegrandWallController(data)
     assert action == expected_action

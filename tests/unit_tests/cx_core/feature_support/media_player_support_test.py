@@ -1,6 +1,5 @@
 import pytest
-
-from cx_core.feature_support import FeatureSupport
+from cx_core.feature_support import FeatureSupport, SupportedFeatures
 from cx_core.feature_support.media_player import MediaPlayerSupport
 
 
@@ -30,9 +29,6 @@ from cx_core.feature_support.media_player import MediaPlayerSupport
         (0, set()),
     ],
 )
-def test_init(number, expected_supported_features):
-    media_player_support = MediaPlayerSupport("fake_entity", None, False)  # type: ignore
-    media_player_support._supported_features = FeatureSupport.decode(
-        number, media_player_support.features
-    )
-    assert media_player_support._supported_features == expected_supported_features
+def test_decode(number: int, expected_supported_features: SupportedFeatures):
+    supported_features = FeatureSupport.decode(number, MediaPlayerSupport.features)
+    assert supported_features == expected_supported_features

@@ -1,42 +1,47 @@
+from _pytest.monkeypatch import MonkeyPatch
 import pytest
+from pytest_mock import MockerFixture
+from tests.test_utils import fake_fn
 
 from cx_core.controller import Controller, ReleaseHoldController
-from tests.test_utils import fake_fn
 
 
 class FakeReleaseHoldController(ReleaseHoldController):
     def hold_loop(self):
         pass
 
+    def default_delay(self) -> int:
+        return 500
+
 
 @pytest.fixture
-def sut(hass_mock):
-    c = FakeReleaseHoldController()  # type: ignore
-    c.args = {}
-    c.delay = 0
-    c.hold_release_toggle = False
-    return c
+def sut_before_init(mocker: MockerFixture) -> FakeReleaseHoldController:
+    controller = FakeReleaseHoldController()  # type: ignore
+    controller.args = {}
+    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(controller, "sleep")
+    return controller
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def sut(sut_before_init: FakeReleaseHoldController) -> FakeReleaseHoldController:
+    await sut_before_init.initialize()
+    return sut_before_init
 
 
 @pytest.mark.asyncio
-async def test_initialize(sut, monkeypatch):
-    monkeypatch.setattr(Controller, "initialize", fake_fn(async_=True))
-    monkeypatch.setattr(sut, "default_delay", lambda: 500)
-    monkeypatch.setattr(sut, "sleep", lambda time: None)
-    # SUT
-    await sut.initialize()
-
-    assert sut.delay == 500
+async def test_initialize(
+    sut_before_init: FakeReleaseHoldController, mocker: MockerFixture
+):
+    await sut_before_init.initialize()
+    assert sut_before_init.delay == 500
 
 
 @pytest.mark.asyncio
-async def test_release(sut):
+async def test_release(sut: FakeReleaseHoldController):
     sut.on_hold = True
-
-    # SUT
     await sut.release()
-
-    # Checks
     assert not sut.on_hold
 
 
@@ -46,19 +51,18 @@ async def test_release(sut):
 )
 @pytest.mark.asyncio
 async def test_hold(
-    sut, monkeypatch, mocker, on_hold_input, hold_release_toogle, expected_calls
+    sut: FakeReleaseHoldController,
+    monkeypatch: MonkeyPatch,
+    mocker: MockerFixture,
+    on_hold_input: bool,
+    hold_release_toogle: bool,
+    expected_calls: int,
 ):
     sut.on_hold = on_hold_input
     sut.hold_release_toggle = hold_release_toogle
-
-    async def fake_hold_loop():
-        return True
-
-    monkeypatch.setattr(sut, "hold_loop", fake_hold_loop)
+    monkeypatch.setattr(sut, "hold_loop", fake_fn(to_return=True, async_=True))
     hold_loop_patch = mocker.patch.object(sut, "hold_loop")
 
-    # SUT
     await sut.hold()
 
-    # Checks
     assert hold_loop_patch.call_count == expected_calls

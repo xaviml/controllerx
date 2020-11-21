@@ -1,31 +1,34 @@
-from typing import List
+from typing import Type
 
 from cx_const import MediaPlayer, TypeActionsMapping
-from cx_core.controller import ReleaseHoldController, TypeController, action
+from cx_core.controller import ReleaseHoldController, action
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.type_controller import Entity, TypeController
 
 DEFAULT_VOLUME_STEPS = 10
 
 
-class MediaPlayerController(TypeController, ReleaseHoldController):
+class MediaPlayerController(
+    TypeController[Entity, MediaPlayerSupport], ReleaseHoldController
+):
+
+    domains = ["media_player"]
+    entity_arg = "media_player"
+
     async def initialize(self) -> None:
-        self.media_player = self.args["media_player"]
-        await self.check_domain(self.media_player)
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
-        update_supported_features = self.args.get("update_supported_features", False)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0.0
-
-        self.supported_features = MediaPlayerSupport(
-            self.media_player, self, update_supported_features
-        )
         await super().initialize()
 
-    def get_domain(self) -> List[str]:
-        return ["media_player"]
+    def _get_entity_type(self) -> Type[Entity]:
+        return Entity
+
+    def _get_feature_support_type(self) -> Type[MediaPlayerSupport]:
+        return MediaPlayerSupport
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
@@ -45,12 +48,12 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
 
     @action
     async def change_source_list(self, direction: str) -> None:
-        entity_states = await self.get_entity_state(self.media_player, attribute="all")
+        entity_states = await self.get_entity_state(self.entity.name, attribute="all")
         entity_attributes = entity_states["attributes"]
         source_list = entity_attributes.get("source_list")
         if len(source_list) == 0 or source_list is None:
             self.log(
-                f"⚠️ There is no `source_list` parameter in `{self.media_player}`",
+                f"⚠️ There is no `source_list` parameter in `{self.entity.name}`",
                 level="WARNING",
                 ascii_encode=False,
             )
@@ -64,34 +67,34 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
             new_index_source, _ = source_stepper.step(index_source, direction)
         await self.call_service(
             "media_player/select_source",
-            entity_id=self.media_player,
+            entity_id=self.entity.name,
             source=source_list[new_index_source],
         )
 
     @action
     async def play(self) -> None:
-        await self.call_service("media_player/media_play", entity_id=self.media_player)
+        await self.call_service("media_player/media_play", entity_id=self.entity.name)
 
     @action
     async def pause(self) -> None:
-        await self.call_service("media_player/media_pause", entity_id=self.media_player)
+        await self.call_service("media_player/media_pause", entity_id=self.entity.name)
 
     @action
     async def play_pause(self) -> None:
         await self.call_service(
-            "media_player/media_play_pause", entity_id=self.media_player
+            "media_player/media_play_pause", entity_id=self.entity.name
         )
 
     @action
     async def previous_track(self) -> None:
         await self.call_service(
-            "media_player/media_previous_track", entity_id=self.media_player
+            "media_player/media_previous_track", entity_id=self.entity.name
         )
 
     @action
     async def next_track(self) -> None:
         await self.call_service(
-            "media_player/media_next_track", entity_id=self.media_player
+            "media_player/media_next_track", entity_id=self.entity.name
         )
 
     @action
@@ -111,30 +114,30 @@ class MediaPlayerController(TypeController, ReleaseHoldController):
 
     async def prepare_volume_change(self) -> None:
         volume_level = await self.get_entity_state(
-            self.media_player, attribute="volume_level"
+            self.entity.name, attribute="volume_level"
         )
         if volume_level is not None:
             self.volume_level = volume_level
 
     async def volume_change(self, direction: str) -> bool:
-        if await self.supported_features.is_supported(MediaPlayerSupport.VOLUME_SET):
+        if await self.feature_support.is_supported(MediaPlayerSupport.VOLUME_SET):
             self.volume_level, exceeded = self.volume_stepper.step(
                 self.volume_level, direction
             )
             await self.call_service(
                 "media_player/volume_set",
-                entity_id=self.media_player,
+                entity_id=self.entity.name,
                 volume_level=self.volume_level,
             )
             return exceeded
         else:
             if direction == Stepper.UP:
                 await self.call_service(
-                    "media_player/volume_up", entity_id=self.media_player
+                    "media_player/volume_up", entity_id=self.entity.name
                 )
             else:
                 await self.call_service(
-                    "media_player/volume_down", entity_id=self.media_player
+                    "media_player/volume_down", entity_id=self.entity.name
                 )
             return False
 

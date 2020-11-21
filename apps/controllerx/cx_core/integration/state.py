@@ -7,8 +7,7 @@ from cx_core.integration import Integration
 
 
 class StateIntegration(Integration):
-    def get_name(self) -> str:
-        return "state"
+    name = "state"
 
     def get_actions_mapping(self) -> Optional[TypeActionsMapping]:
         return self.controller.get_z2m_actions_mapping()
@@ -16,10 +15,10 @@ class StateIntegration(Integration):
     def listen_changes(self, controller_id: str) -> None:
         attribute = self.kwargs.get("attribute", None)
         Hass.listen_state(
-            self.controller, self.callback, controller_id, attribute=attribute
+            self.controller, self.state_callback, controller_id, attribute=attribute
         )
 
-    async def callback(
+    async def state_callback(
         self, entity: Optional[str], attribute: Optional[str], old, new, kwargs
     ) -> None:
         await self.controller.handle_action(new)

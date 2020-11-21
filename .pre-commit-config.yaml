@@ -24,7 +24,7 @@ repos:
     always_run: true
   - id: mypy
     name: mypy
-    entry: pipenv run mypy apps/controllerx
+    entry: pipenv run mypy apps/controllerx tests/ --no-implicit-optional
     language: system
     pass_filenames: false
     always_run: true

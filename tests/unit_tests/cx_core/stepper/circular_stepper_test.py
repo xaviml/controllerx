@@ -1,7 +1,9 @@
+from typing import Tuple
 import pytest
 
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper import Stepper
+from typing_extensions import Literal
 
 
 @pytest.mark.parametrize(
@@ -19,11 +21,13 @@ from cx_core.stepper import Stepper
         ((0, 10), 4, 5, Stepper.UP, 6),
     ],
 )
-def test_minmax_stepper(minmax, value, steps, direction, expected_value):
+def test_minmax_stepper(
+    minmax: Tuple[int, int],
+    value: int,
+    steps: int,
+    direction: Literal["up", "down"],
+    expected_value: int,
+):
     stepper = CircularStepper(*minmax, steps)
-
-    # SUT
     new_value, _ = stepper.step(value, direction)
-
-    # Checks
     assert new_value == expected_value

@@ -1,20 +1,33 @@
-from cx_core.feature_support.cover import CoverSupport
-import pytest
+from typing import Any, Dict, Set
 
-from cx_core.controller import TypeController
+import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from cx_core import CoverController
-from tests.test_utils import fake_fn
+from cx_core.controller import Controller
+from cx_core.feature_support.cover import CoverSupport
+from cx_core.type_controller import TypeController
+from pytest_mock.plugin import MockerFixture
+from tests.test_utils import fake_fn, wrap_exetuction
+
+ENTITY_NAME = "cover.test"
 
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def sut(hass_mock, mocker):
-    c = CoverController()  # type: ignore
+async def sut_before_init(mocker: MockerFixture) -> CoverController:
+    controller = CoverController()  # type: ignore
     mocker.patch.object(TypeController, "initialize")
-    c.cover = "cover.test"
-    c.open_position = 100
-    c.close_position = 0
-    return c
+    return controller
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def sut(mocker: MockerFixture) -> CoverController:
+    controller = CoverController()  # type: ignore
+    mocker.patch.object(Controller, "initialize")
+    controller.args = {"cover": ENTITY_NAME}
+    await controller.initialize()
+    return controller
 
 
 @pytest.mark.parametrize(
@@ -29,20 +42,22 @@ async def sut(hass_mock, mocker):
 )
 @pytest.mark.asyncio
 async def test_initialize(
-    sut, monkeypatch, open_position, close_position, error_expected
+    sut_before_init: CoverController,
+    open_position: int,
+    close_position: int,
+    error_expected: bool,
 ):
-    sut.args = {
-        "cover": "cover.test2",
+    sut_before_init.args = {
         "open_position": open_position,
         "close_position": close_position,
     }
-    monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
-    if error_expected:
-        with pytest.raises(ValueError):
-            await sut.initialize()
-    else:
-        await sut.initialize()
-        assert sut.cover == "cover.test2"
+
+    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+        await sut_before_init.initialize()
+
+    if not error_expected:
+        assert sut_before_init.open_position == open_position
+        assert sut_before_init.close_position == close_position
 
 
 @pytest.mark.parametrize(
@@ -59,12 +74,19 @@ async def test_initialize(
     ],
 )
 @pytest.mark.asyncio
-async def test_open(sut, mocker, supported_features, expected_service):
-    sut.supported_features = CoverSupport(sut.cover, sut, False)
-    sut.supported_features._supported_features = set(supported_features)
+async def test_open(
+    sut: CoverController,
+    mocker: MockerFixture,
+    supported_features: Set[int],
+    expected_service: str,
+):
+    sut.feature_support._supported_features = set(supported_features)
     called_service_patch = mocker.patch.object(sut, "call_service")
+
     await sut.open()
+
     if expected_service is not None:
+        expected_attributes: Dict[str, Any]
         if expected_service == "cover/open_cover":
             expected_attributes = {"entity_id": "cover.test"}
         elif expected_service == "cover/set_cover_position":
@@ -92,12 +114,19 @@ async def test_open(sut, mocker, supported_features, expected_service):
     ],
 )
 @pytest.mark.asyncio
-async def test_close(sut, mocker, supported_features, expected_service):
-    sut.supported_features = CoverSupport(sut.cover, sut, False)
-    sut.supported_features._supported_features = set(supported_features)
+async def test_close(
+    sut: CoverController,
+    mocker: MockerFixture,
+    supported_features: Set[int],
+    expected_service: str,
+):
+    sut.feature_support._supported_features = set(supported_features)
     called_service_patch = mocker.patch.object(sut, "call_service")
+
     await sut.close()
+
     if expected_service is not None:
+        expected_attributes: Dict[str, Any]
         if expected_service == "cover/close_cover":
             expected_attributes = {"entity_id": "cover.test"}
         elif expected_service == "cover/set_cover_position":
@@ -112,11 +141,13 @@ async def test_close(sut, mocker, supported_features, expected_service):
 
 
 @pytest.mark.asyncio
-async def test_stop(sut, mocker):
+async def test_stop(sut: CoverController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
+
     await sut.stop()
+
     called_service_patch.assert_called_once_with(
-        "cover/stop_cover", entity_id=sut.cover
+        "cover/stop_cover", entity_id=ENTITY_NAME
     )
 
 
@@ -125,16 +156,25 @@ async def test_stop(sut, mocker):
     [("opening", True), ("closing", True), ("open", False), ("close", False)],
 )
 @pytest.mark.asyncio
-async def test_toggle(sut, monkeypatch, mocker, cover_state, stop_expected):
+async def test_toggle(
+    sut: CoverController,
+    monkeypatch: MonkeyPatch,
+    mocker: MockerFixture,
+    cover_state: str,
+    stop_expected: bool,
+):
     called_service_patch = mocker.patch.object(sut, "call_service")
     open_patch = mocker.patch.object(sut, "open")
     monkeypatch.setattr(
         sut, "get_entity_state", fake_fn(async_=True, to_return=cover_state)
     )
+
     await sut.toggle(open_patch)
+
     if stop_expected:
         called_service_patch.assert_called_once_with(
-            "cover/stop_cover", entity_id=sut.cover
+            "cover/stop_cover", entity_id=ENTITY_NAME
         )
+        open_patch.assert_not_called()
     else:
         open_patch.assert_called_once()

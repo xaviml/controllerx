@@ -1,22 +1,81 @@
+from tests.test_utils import fake_fn, wrap_exetuction
+from typing import Any, Dict, List, Type
+
 import pytest
+from cx_core.controller import Controller
+from cx_core.feature_support import FeatureSupport
+from cx_core.type_controller import Entity, TypeController
+from pytest_mock.plugin import MockerFixture
+from _pytest.monkeypatch import MonkeyPatch
 
-from cx_core.controller import TypeController
+ENTITY_ARG = "my_entity"
+ENTITY_NAME = "domain_1.test"
+DEFAULT_ATTR_TEST = "my_default"
 
 
-class FakeTypeController(TypeController):
-    def get_domain(self):
-        return "domain"
+class MyEntity(Entity):
+    attr_test: str
+
+    def __init__(self, name: str, attr_test: str = DEFAULT_ATTR_TEST) -> None:
+        super().__init__(name)
+        self.attr_test = attr_test
+
+
+class MyFeatureSupport(FeatureSupport):
+    features = [1, 2, 3, 4]
+
+
+class MyTypeController(TypeController[MyEntity, MyFeatureSupport]):
+
+    domains = ["domain_1", "domain_2"]
+    entity_arg = ENTITY_ARG
+
+    def _get_entity_type(self) -> Type[MyEntity]:
+        return MyEntity
+
+    def _get_feature_support_type(self) -> Type[MyFeatureSupport]:
+        return MyFeatureSupport
 
 
 @pytest.fixture
-def sut(hass_mock):
-    c = FakeTypeController()  # type: ignore
-    c.args = {}
-    return c
+def sut_before_init(mocker: MockerFixture) -> MyTypeController:
+    controller = MyTypeController()  # type: ignore
+    controller.args = {ENTITY_ARG: ENTITY_NAME}
+    mocker.patch.object(Controller, "initialize")
+    return controller
 
 
-# All entities from '{entity}' must be from {domain} domain (e.g. {domain}.bedroom)
-# '{entity}' must be from {domain} domain (e.g. {domain}.bedroom)
+@pytest.fixture
+@pytest.mark.asyncio
+async def sut(sut_before_init: MyTypeController) -> MyTypeController:
+    await sut_before_init.initialize()
+    return sut_before_init
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "args, error_expected",
+    [
+        ({ENTITY_ARG: ENTITY_NAME}, False),
+        ({ENTITY_ARG: {"name": ENTITY_NAME, "attr_test": "my_attr"}}, False),
+        ({ENTITY_ARG: {"name": ENTITY_NAME}}, False),
+        ({ENTITY_ARG: "non_existing_domain.my_entity"}, True),
+    ],
+)
+async def test_initialize(
+    sut_before_init: MyTypeController, args: Dict[str, Any], error_expected: bool
+):
+    sut_before_init.args = args
+
+    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+        await sut_before_init.initialize()
+
+    if not error_expected:
+        assert sut_before_init.entity.name == ENTITY_NAME
+        if isinstance(args[ENTITY_ARG], dict):
+            assert sut_before_init.entity.attr_test == args[ENTITY_ARG].get(
+                "attr_test", DEFAULT_ATTR_TEST
+            )
 
 
 @pytest.mark.parametrize(
@@ -47,8 +106,14 @@ def sut(hass_mock):
 )
 @pytest.mark.asyncio
 async def test_check_domain(
-    sut, monkeypatch, entity, domains, entities, error_expected
+    sut: MyTypeController,
+    monkeypatch: MonkeyPatch,
+    entity: str,
+    domains: List[str],
+    entities: List[str],
+    error_expected: bool,
 ):
+    sut.domains = domains
     expected_error_message = ""
     if error_expected:
         if entities == []:
@@ -63,18 +128,15 @@ async def test_check_domain(
                 f"following domains {domains} (e.g. {domains[0]}.bedroom)"
             )
 
-    async def fake_get_state(*args, **kwargs):
-        return entities
+    monkeypatch.setattr(sut, "get_state", fake_fn(to_return=entities, async_=True))
 
-    monkeypatch.setattr(sut, "get_state", fake_get_state)
-    monkeypatch.setattr(sut, "get_domain", lambda *args: domains)
-
-    if error_expected:
-        with pytest.raises(ValueError) as e:
-            await sut.check_domain(entity)
-        assert str(e.value) == expected_error_message
-    else:
+    with wrap_exetuction(
+        error_expected=error_expected, exception=ValueError
+    ) as err_info:
         await sut.check_domain(entity)
+
+    if err_info is not None:
+        assert str(err_info.value) == expected_error_message
 
 
 @pytest.mark.parametrize(
@@ -87,7 +149,12 @@ async def test_check_domain(
 )
 @pytest.mark.asyncio
 async def test_get_entity_state(
-    sut, mocker, monkeypatch, entity_input, entities, expected_calls
+    sut: MyTypeController,
+    mocker: MockerFixture,
+    monkeypatch: MonkeyPatch,
+    entity_input: str,
+    entities: List[str],
+    expected_calls: int,
 ):
     stub_get_state = mocker.stub()
 
@@ -97,14 +164,10 @@ async def test_get_entity_state(
 
     monkeypatch.setattr(sut, "get_state", fake_get_state)
 
-    # SUT
-    if expected_calls is None:
-        with pytest.raises(ValueError):
-            await sut.get_entity_state(entity_input, "attribute_test")
-    else:
+    with wrap_exetuction(error_expected=expected_calls is None, exception=ValueError):
         await sut.get_entity_state(entity_input, "attribute_test")
 
-        # Checks
+    if expected_calls is not None:
         if expected_calls == 1:
             stub_get_state.assert_called_once_with(
                 entity_input, attribute="attribute_test"

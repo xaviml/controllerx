@@ -1,4 +1,6 @@
 import pytest
+from cx_core.integration import EventData
+
 from cx_devices.aqara import (
     MFKZQ01LMLightController,
     WXKG01LMLightController,
@@ -18,7 +20,7 @@ from cx_devices.aqara import (
         ({"command": "rotate_right"}, "rotate_right"),
     ],
 )
-def test_zha_action_MFKZQ01LMLightController(data, expected_action):
+def test_zha_action_MFKZQ01LMLightController(data: EventData, expected_action: str):
     sut = MFKZQ01LMLightController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action
@@ -34,7 +36,7 @@ def test_zha_action_MFKZQ01LMLightController(data, expected_action):
         ({"command": "click", "args": {"click_type": "furious"}}, "furious"),
     ],
 )
-def test_zha_action_WXKG01LMLightController(data, expected_action):
+def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: str):
     sut = WXKG01LMLightController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action
@@ -50,7 +52,7 @@ def test_zha_action_WXKG01LMLightController(data, expected_action):
         ({"args": {"value": 4}}, "quadruple"),
     ],
 )
-def test_zha_action_WXKG11LMLightController(data, expected_action):
-    sut = WXKG11LMLightController()
+def test_zha_action_WXKG11LMLightController(data: EventData, expected_action: str):
+    sut = WXKG11LMLightController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action

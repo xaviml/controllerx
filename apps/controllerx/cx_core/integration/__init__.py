@@ -9,16 +9,18 @@ from cx_const import TypeActionsMapping
 if TYPE_CHECKING:
     from cx_core.controller import Controller
 
+EventData = Dict[str, Any]
+
 
 class Integration(abc.ABC):
+
+    name: str
+    controller: "Controller"
+    kwargs: Dict[str, Any]
+
     def __init__(self, controller: "Controller", kwargs: Dict[str, Any]):
-        self.name = self.get_name()
         self.controller = controller
         self.kwargs = kwargs
-
-    @abc.abstractmethod
-    def get_name(self) -> str:
-        raise NotImplementedError
 
     @abc.abstractmethod
     def get_actions_mapping(self) -> Optional[TypeActionsMapping]:

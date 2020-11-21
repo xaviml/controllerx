@@ -1,9 +1,12 @@
 import asyncio
-import appdaemon.plugins.hass.hassapi as hass
-import appdaemon.plugins.mqtt.mqttapi as mqtt
-import pytest
 
+import appdaemon.plugins.hass.hassapi as hass  # type: ignore
+import appdaemon.plugins.mqtt.mqttapi as mqtt  # type: ignore
+import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from cx_core.controller import Controller
+from cx_core import LightController
+
 from tests.test_utils import fake_fn
 
 
@@ -21,7 +24,7 @@ async def fake_cancel_timer(self, task):
 
 
 @pytest.fixture(autouse=True)
-def hass_mock(monkeypatch, mocker):
+def hass_mock(monkeypatch: MonkeyPatch):
     """
     Fixture for set up the tests, mocking appdaemon functions
     """
@@ -37,8 +40,15 @@ def hass_mock(monkeypatch, mocker):
     monkeypatch.setattr(hass.Hass, "cancel_timer", fake_cancel_timer)
 
 
-@pytest.fixture(autouse=True)
-def fake_controller(hass_mock):
+@pytest.fixture
+def fake_controller() -> Controller:
     c = Controller()  # type: ignore
+    c.args = {}
+    return c
+
+
+@pytest.fixture
+def fake_type_controller() -> LightController:
+    c = LightController()  # type: ignore
     c.args = {}
     return c

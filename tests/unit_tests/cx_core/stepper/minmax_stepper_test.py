@@ -1,7 +1,9 @@
+from typing import Tuple
 import pytest
 
 from cx_core.stepper.minmax_stepper import MinMaxStepper
 from cx_core.stepper import Stepper
+from typing_extensions import Literal
 
 
 @pytest.mark.parametrize(
@@ -103,12 +105,12 @@ from cx_core.stepper import Stepper
     ],
 )
 def test_minmax_stepper_get_direction(
-    minmax,
-    value,
-    direction,
-    previous_direction,
-    expected_direction,
-    expected_new_previous_direction,
+    minmax: Tuple[int, int],
+    value: int,
+    direction: str,
+    previous_direction: str,
+    expected_direction: str,
+    expected_new_previous_direction: str,
 ):
     stepper = MinMaxStepper(*minmax, 10)
     stepper.previous_direction = previous_direction
@@ -137,13 +139,16 @@ def test_minmax_stepper_get_direction(
     ],
 )
 def test_minmax_stepper_step(
-    minmax, value, steps, direction, expected_value, expected_exceeded
+    minmax: Tuple[int, int],
+    value: int,
+    steps: int,
+    direction: Literal["up", "down"],
+    expected_value: int,
+    expected_exceeded: bool,
 ):
     stepper = MinMaxStepper(*minmax, steps)
 
-    # SUT
     new_value, exceeded = stepper.step(value, direction)
 
-    # Checks
     assert new_value == expected_value
     assert exceeded == expected_exceeded
