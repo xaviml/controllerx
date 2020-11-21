@@ -2,11 +2,11 @@ import importlib
 import os
 import pkgutil
 from contextlib import contextmanager
-from typing import Callable, TYPE_CHECKING, Generator, Optional
-from mock import MagicMock
+from typing import TYPE_CHECKING, Callable, Generator, Optional
 
 import pytest
 from _pytest._code.code import ExceptionInfo
+from mock import MagicMock
 from pytest_mock.plugin import MockerFixture
 
 if TYPE_CHECKING:

@@ -1,6 +1,5 @@
 import pytest
 from cx_core.integration import EventData
-
 from cx_devices.aqara import (
     MFKZQ01LMLightController,
     WXKG01LMLightController,

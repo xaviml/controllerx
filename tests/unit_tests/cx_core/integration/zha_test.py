@@ -1,7 +1,7 @@
 from typing import Dict
-from cx_core.controller import Controller
-import pytest
 
+import pytest
+from cx_core.controller import Controller
 from cx_core.integration.zha import ZHAIntegration
 from pytest_mock.plugin import MockerFixture
 

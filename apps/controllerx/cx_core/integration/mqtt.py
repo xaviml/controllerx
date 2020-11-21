@@ -1,9 +1,8 @@
 from typing import Optional
 
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
-
 from cx_const import TypeActionsMapping
-from cx_core.integration import Integration, EventData
+from cx_core.integration import EventData, Integration
 
 
 class MQTTIntegration(Integration):

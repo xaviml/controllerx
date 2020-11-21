@@ -4,8 +4,8 @@ import appdaemon.plugins.hass.hassapi as hass  # type: ignore
 import appdaemon.plugins.mqtt.mqttapi as mqtt  # type: ignore
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from cx_core.controller import Controller
 from cx_core import LightController
+from cx_core.controller import Controller
 
 from tests.test_utils import fake_fn
 

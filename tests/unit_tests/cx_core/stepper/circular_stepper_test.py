@@ -1,8 +1,8 @@
 from typing import Tuple
-import pytest
 
-from cx_core.stepper.circular_stepper import CircularStepper
+import pytest
 from cx_core.stepper import Stepper
+from cx_core.stepper.circular_stepper import CircularStepper
 from typing_extensions import Literal
 
 

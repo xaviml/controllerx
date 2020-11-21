@@ -1,12 +1,13 @@
-from tests.test_utils import fake_fn, wrap_exetuction
 from typing import Any, Dict, List, Type
 
 import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from cx_core.controller import Controller
 from cx_core.feature_support import FeatureSupport
 from cx_core.type_controller import Entity, TypeController
 from pytest_mock.plugin import MockerFixture
-from _pytest.monkeypatch import MonkeyPatch
+
+from tests.test_utils import fake_fn, wrap_exetuction
 
 ENTITY_ARG = "my_entity"
 ENTITY_NAME = "domain_1.test"

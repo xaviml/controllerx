@@ -1,6 +1,5 @@
 import pytest
 from cx_core.integration import EventData
-
 from cx_devices.legrand import get_zha_action_LegrandWallController
 
 

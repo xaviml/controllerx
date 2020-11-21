@@ -1,13 +1,14 @@
 from typing import List
-from _pytest.monkeypatch import MonkeyPatch
-from cx_core.controller import Controller
-import pytest
 
+import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from cx_core import MediaPlayerController, ReleaseHoldController
+from cx_core.controller import Controller
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.stepper import Stepper
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
+
 from tests.test_utils import fake_fn
 
 ENTITY_NAME = "media_player.test"

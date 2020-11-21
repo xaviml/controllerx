@@ -3,7 +3,6 @@ from cx_core import SwitchController
 from cx_core.type_controller import Entity
 from pytest_mock.plugin import MockerFixture
 
-
 ENTITY_NAME = "switch.test"
 
 

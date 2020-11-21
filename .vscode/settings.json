@@ -1,0 +1,22 @@
+{
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100,
+    "python.testing.pytestEnabled": true,
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.stubPath": "apps/controllerx",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.languageServer": "Pylance",
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyCategorySeverity.note": "Error",
+    "python.linting.flake8Enabled": true,
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+}

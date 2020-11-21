@@ -1,4 +1,4 @@
-from typing import List, Optional, Set, TYPE_CHECKING, Type, TypeVar
+from typing import TYPE_CHECKING, List, Optional, Set, Type, TypeVar
 
 if TYPE_CHECKING:
     from cx_core.type_controller import TypeController

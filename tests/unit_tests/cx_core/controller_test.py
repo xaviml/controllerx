@@ -4,11 +4,11 @@ from typing import Any, Dict, List, Optional, Union
 import appdaemon.plugins.hass.hassapi as hass  # type: ignore
 import pytest
 from cx_const import ActionEvent, ActionFunction, TypeAction, TypeActionsMapping
-from pytest_mock.plugin import MockerFixture
-from tests.test_utils import IntegrationMock, fake_fn, wrap_exetuction
-
 from cx_core import integration as integration_module
 from cx_core.controller import Controller, action
+from pytest_mock.plugin import MockerFixture
+
+from tests.test_utils import IntegrationMock, fake_fn, wrap_exetuction
 
 INTEGRATION_TEST_NAME = "test"
 CONTROLLER_NAME = "test_controller"

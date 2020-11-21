@@ -1,6 +1,6 @@
-from cx_core.type_controller import TypeController
 import pytest
 from cx_core.feature_support import Features, FeatureSupport, SupportedFeatures
+from cx_core.type_controller import TypeController
 
 
 @pytest.mark.parametrize(

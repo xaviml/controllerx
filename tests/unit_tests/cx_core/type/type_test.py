@@ -1,10 +1,11 @@
 from typing import Type
 
+import pytest
 from cx_const import TypeActionsMapping
 from cx_core import type as type_module
 from cx_core.type_controller import TypeController
-import pytest
 from pytest_mock.plugin import MockerFixture
+
 from tests.test_utils import get_classes
 
 

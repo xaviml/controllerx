@@ -1,7 +1,7 @@
 import pytest
-from tests.test_utils import wrap_exetuction
-
 from cx_core.color_helper import Colors, get_color_wheel
+
+from tests.test_utils import wrap_exetuction
 
 
 @pytest.mark.parametrize(

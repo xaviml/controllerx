@@ -3,9 +3,6 @@ from typing import Any, Dict, List, Tuple, Type
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from cx_const import TypeActionsMapping
-from pytest_mock.plugin import MockerFixture
-from tests.test_utils import fake_fn
-
 from cx_core import (
     CallServiceController,
     Controller,
@@ -15,6 +12,9 @@ from cx_core import (
     SwitchController,
 )
 from cx_core.type_controller import TypeController
+from pytest_mock.plugin import MockerFixture
+
+from tests.test_utils import fake_fn
 
 
 @pytest.mark.parametrize(

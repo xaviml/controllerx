@@ -1,17 +1,18 @@
 from typing import Any, Dict, Set, Tuple, Type, Union
-from _pytest.monkeypatch import MonkeyPatch
-from cx_core.controller import Controller
+
 import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from cx_core import LightController, ReleaseHoldController
+from cx_core.controller import Controller
 from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.type.light_controller import ColorMode, LightEntity
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
-from tests.test_utils import fake_fn, wrap_exetuction
-from cx_core.type.light_controller import ColorMode, LightEntity
 
+from tests.test_utils import fake_fn, wrap_exetuction
 
 ENTITY_NAME = "light.test"
 

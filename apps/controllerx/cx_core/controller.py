@@ -23,12 +23,12 @@ import cx_version
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 from cx_const import ActionEvent, ActionFunction, TypeAction, TypeActionsMapping
-
 from cx_core import integration as integration_module
 from cx_core.integration import EventData, Integration
 
 Service = Tuple[str, Dict]
 Services = List[Service]
+
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds

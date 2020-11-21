@@ -3,11 +3,11 @@ import glob
 from pathlib import Path
 from typing import Any, Dict
 
-from pytest_mock.plugin import MockerFixture
-from tests.test_utils import get_controller
-
 import pytest
 import yaml
+from pytest_mock.plugin import MockerFixture
+
+from tests.test_utils import get_controller
 
 
 def get_integ_tests():

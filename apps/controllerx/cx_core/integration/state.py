@@ -1,7 +1,6 @@
 from typing import Optional
 
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
-
 from cx_const import TypeActionsMapping
 from cx_core.integration import Integration
 

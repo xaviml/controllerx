@@ -1,9 +1,9 @@
-from _pytest.monkeypatch import MonkeyPatch
 import pytest
-from pytest_mock import MockerFixture
-from tests.test_utils import fake_fn
-
+from _pytest.monkeypatch import MonkeyPatch
 from cx_core.controller import Controller, ReleaseHoldController
+from pytest_mock import MockerFixture
+
+from tests.test_utils import fake_fn
 
 
 class FakeReleaseHoldController(ReleaseHoldController):

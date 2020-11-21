@@ -1,8 +1,8 @@
 from typing import Tuple
-import pytest
 
-from cx_core.stepper.minmax_stepper import MinMaxStepper
+import pytest
 from cx_core.stepper import Stepper
+from cx_core.stepper.minmax_stepper import MinMaxStepper
 from typing_extensions import Literal
 
 
