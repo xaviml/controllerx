@@ -52,6 +52,8 @@ async def test_integ_configs(
 
     config = read_config_yaml(config_file)
     controller = get_controller(config["module"], config["class"])
+    if controller is None:
+        raise ValueError(f"`{config['class']}` class controller does not exist")
     controller.args = config
 
     fake_entity_states = get_fake_entity_states(entity_state, entity_state_attributes)
