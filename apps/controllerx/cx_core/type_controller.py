@@ -26,6 +26,10 @@ class TypeController(Controller, abc.ABC, Generic[EntityType, FeatureSupportType
     feature_support: FeatureSupportType
 
     async def initialize(self) -> None:
+        if self.entity_arg not in self.args:
+            raise ValueError(
+                f"{self.__class__.__name__} class needs the `{self.entity_arg}` attribute"
+            )
         self.entity = self.get_entity(self.args[self.entity_arg])
         await self.check_domain(self.entity.name)
         update_supported_features = self.args.get("update_supported_features", False)

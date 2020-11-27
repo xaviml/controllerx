@@ -61,6 +61,7 @@ async def sut(sut_before_init: MyTypeController) -> MyTypeController:
         ({ENTITY_ARG: {"name": ENTITY_NAME, "attr_test": "my_attr"}}, False),
         ({ENTITY_ARG: {"name": ENTITY_NAME}}, False),
         ({ENTITY_ARG: "non_existing_domain.my_entity"}, True),
+        ({}, True),
     ],
 )
 async def test_initialize(
