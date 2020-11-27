@@ -189,27 +189,16 @@ Class: `Controller` or any type of Controller
 
 This custom controller is the different one from the previous ones. This one allows you to freely call Home Assistant services when events are triggered. We can use `mapping` attribute like others and the use of the key value is the same, it defines the trigger event. However, the value changes since there are not predefined actions, you will need to specify the service (or services) and its data. We will see it better with an example.
 
-Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and he sometimes needs helps. Here is custom controller comes, so we can call two HA script (that do something useful for my grandfather) with the brightness up button and send a notification to Telegram with brightness down one.
+Imagine I have a Hue dimmer switch and a normal light that only have on/off states (no brightness, no colors). Then I will be having two buttons that will be doing nothing. However, this controller will be used by my grandfather and he sometimes needs helps. Here is where custom controller comes, so we can call two HA script (that do something useful for my grandpa) with the brightness up button and send a notification to Telegram with brightness down one.
 
 ```yaml
-# We first define a HueDimmerController to control the light
-# and just giving permission to the "on" and "off" buttons
 hue_dimmer_example:
   module: controllerx
   class: HueDimmerController
   controller: sensor.office_controller_action
   integration: z2m
   light: light.office
-  actions:
-    - on-press
-    - off-press
-
-custom_hue_dimmer_example:
-  module: controllerx
-  class: HueDimmerController
-  controller: sensor.office_controller_action
-  integration: z2m
-  mapping:
+  merge_mapping:
     up-press:
       - service: script.my_script
       - service: script.my_script2
