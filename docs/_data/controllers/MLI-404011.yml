@@ -1,5 +1,5 @@
 name: MLI-404011 (Müller Licht)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: MLI404011LightController
@@ -8,11 +8,30 @@ device_support:
       - "Toggle button → Toggle"
       - "Click 🔆 → Brighten up (1 step)"
       - "Click 🔅  → Dim down (1 step)"
-      - "Click cold → Color temp down / Left color wheel (1 step)"
-      - "Click warm → Color temp up / Right color wheel (1 step)"
+      - "Click cold → Color temp down / Left color wheel (1 step) (not for z2m)"
+      - "Click warm → Color temp up / Right color wheel (1 step) (not for z2m)"
       - "Hold 🔆 → Brighten up"
-      - "Hold  → Dim down"
+      - "Hold 🔅→ Dim down"
 integrations:
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - on → Toggle button
+      - off → Toggle button
+      - brightness_down_click → Click 🔅
+      - brightness_down_hold → Hold 🔅
+      - brightness_down_release → Release 🔅
+      - brightness_up_click → Click 🔆
+      - brightness_up_hold → Hold 🔆
+      - brightness_up_release → Release 🔆
+      - color_temp → Click warm or cold
+      - color_wheel → Click color circle (anywhere)
+      - scene_3 → Click reading button
+      - scene_1 → Click sunset button
+      - scene_2 → Click party button
+      - scene_6 → Click night button
+      - scene_4 → Click fire button
+      - scene_5 → Click heart button
   - name: deCONZ
     codename: deconz
     actions:
@@ -20,9 +39,9 @@ integrations:
       - 2001 → Hold 🔆
       - 2002 → Click 🔆
       - 2003 → Release 🔆
-      - 3001 → Hold 🔅 
-      - 3002 → Click 🔅 
-      - 3003 → Release 🔅 
+      - 3001 → Hold 🔅
+      - 3002 → Click 🔅
+      - 3003 → Release 🔅
       - 4002 → Click warm
       - 5002 → Click cold
       - 6002 → Click color circle (anywhere)
@@ -33,5 +52,6 @@ integrations:
       - 11002 → Click fire button
       - 12002 → Click heart button
 note: >-
-  Some buttons are left to be mapped for deCONZ integration.
-  Please read more about in <a href="https://github.com/xaviml/controllerx/issues/111">here</a>.
+  Some buttons are left to be mapped for both integrations.
+  Please read more about in <a href="https://github.com/xaviml/controllerx/issues/111">here (deconz)</a>
+  and <a href="https://github.com/xaviml/controllerx/issues/176">here (z2m)</a>.
