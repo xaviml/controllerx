@@ -13,7 +13,7 @@ from cx_core.type_controller import Entity, TypeController
 if sys.version_info[1] < 8:
     from typing_extensions import Literal
 else:
-    from typing import Literal
+    from typing import Literal  # type: ignore
 
 
 DEFAULT_MANUAL_STEPS = 10
