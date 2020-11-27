@@ -1,0 +1,17 @@
+name: SNZB-01 (Sonoff)
+device_support:
+  - type: Light
+    domain: light
+    controller: SNZB01LightController
+    delay: 350
+    mapping:
+      - "1 click → Toggle"
+      - "2 clicks → Full brightness"
+      - "After 2s holding the button → Minimum brightness"
+integrations:
+  - name: ZHA
+    codename: zha
+    actions:
+      - "toggle → 1 click"
+      - "on → 2 clicks"
+      - "off → After 2s holding the button"

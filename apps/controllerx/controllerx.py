@@ -23,4 +23,5 @@ from cx_devices.muller_licht import *
 from cx_devices.osram import *
 from cx_devices.phillips import *
 from cx_devices.smartthings import *
+from cx_devices.sonoff import *
 from cx_devices.trust import *
