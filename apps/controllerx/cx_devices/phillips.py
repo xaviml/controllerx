@@ -1,6 +1,6 @@
-from typing import Any, Dict
 from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
+from cx_core.integration import EventData
 
 
 class HueDimmerController(LightController):
@@ -57,7 +57,7 @@ class HueDimmerController(LightController):
             "on_short_release": Light.ON,
         }
 
-    def get_zha_action(self, data: Dict[Any, Any]) -> str:
+    def get_zha_action(self, data: EventData) -> str:
         return data["command"]
 
 

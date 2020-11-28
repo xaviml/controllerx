@@ -1,0 +1,17 @@
+light_chambre_chevet:
+  module: controllerx
+  class: HueDimmerController
+  controller: 00:17:88:01:10:5e:5a:f6
+  integration: zha
+  light: light.chevet
+  smooth_power_on: true
+  action_delta: 500
+  merge_mapping:
+    on_hold:
+      - service: cover.open_cover
+        data:
+          entity_id: cover.chambre
+    off_hold:
+      - service: cover.open_cover
+        data:
+          entity_id: cover.chambre

@@ -1,0 +1,2 @@
+fired_actions: ["on_hold", 0.4, "on_hold", 0.4, "on_hold"]
+expected_calls_count: 1

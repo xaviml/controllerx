@@ -7,6 +7,8 @@ device_support:
     mapping:
       - "1 click → Toggle"
       - "2 clicks → Full brightness"
+      - "3 clicks → Minimum brightness (just ZHA integration)"
+      - "4 clicks → 50% brightness (just ZHA integration)"
       - "Hold the button → Brightness up/down with direction changes"
 note: >-
   For z2m integration, this controller has 2 sensors that need to be added to the configuration.
@@ -27,3 +29,10 @@ integrations:
       - "1004 → 2 clicks"
       - "1001 → Hold the button"
       - "1003 → Release the button"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "single → 1 click"
+      - "double → 2 clicks"
+      - "triple → 3 clicks"
+      - "quadruple → 4 clicks"

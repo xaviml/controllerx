@@ -1,4 +1,3 @@
-from cx_core.controller import TypeController
 from cx_core.feature_support import FeatureSupport
 
 
@@ -20,29 +19,21 @@ class MediaPlayerSupport(FeatureSupport):
     SHUFFLE_SET = 32768
     SELECT_SOUND_MODE = 65536
 
-    def __init__(
-        self, entity: str, controller: TypeController, update_supported_features: bool,
-    ) -> None:
-        super().__init__(
-            entity,
-            controller,
-            [
-                MediaPlayerSupport.PAUSE,
-                MediaPlayerSupport.SEEK,
-                MediaPlayerSupport.VOLUME_SET,
-                MediaPlayerSupport.VOLUME_MUTE,
-                MediaPlayerSupport.PREVIOUS_TRACK,
-                MediaPlayerSupport.NEXT_TRACK,
-                MediaPlayerSupport.TURN_ON,
-                MediaPlayerSupport.TURN_OFF,
-                MediaPlayerSupport.PLAY_MEDIA,
-                MediaPlayerSupport.VOLUME_STEP,
-                MediaPlayerSupport.SELECT_SOURCE,
-                MediaPlayerSupport.STOP,
-                MediaPlayerSupport.CLEAR_PLAYLIST,
-                MediaPlayerSupport.PLAY,
-                MediaPlayerSupport.SHUFFLE_SET,
-                MediaPlayerSupport.SELECT_SOUND_MODE,
-            ],
-            update_supported_features,
-        )
+    features = [
+        PAUSE,
+        SEEK,
+        VOLUME_SET,
+        VOLUME_MUTE,
+        PREVIOUS_TRACK,
+        NEXT_TRACK,
+        TURN_ON,
+        TURN_OFF,
+        PLAY_MEDIA,
+        VOLUME_STEP,
+        SELECT_SOURCE,
+        STOP,
+        CLEAR_PLAYLIST,
+        PLAY,
+        SHUFFLE_SET,
+        SELECT_SOUND_MODE,
+    ]

@@ -3,17 +3,15 @@ from typing import Optional
 
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
-
 from cx_const import TypeActionsMapping
-from cx_core.integration import Integration
+from cx_core.integration import EventData, Integration
 
 LISTENS_TO_HA = "ha"
 LISTENS_TO_MQTT = "mqtt"
 
 
 class Z2MIntegration(Integration):
-    def get_name(self) -> str:
-        return "z2m"
+    name = "z2m"
 
     def get_actions_mapping(self) -> Optional[TypeActionsMapping]:
         return self.controller.get_z2m_actions_mapping()
@@ -35,7 +33,9 @@ class Z2MIntegration(Integration):
                 "`listen_to` has to be either `ha` or `mqtt`. Default is `ha`."
             )
 
-    async def event_callback(self, event_name: str, data: dict, kwargs: dict) -> None:
+    async def event_callback(
+        self, event_name: str, data: EventData, kwargs: dict
+    ) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
         action_key = self.kwargs.get("action_key", "action")
         action_group_key = self.kwargs.get("action_group_key", "action_group")

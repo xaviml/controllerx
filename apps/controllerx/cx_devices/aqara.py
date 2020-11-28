@@ -1,19 +1,9 @@
-from cx_const import Light, TypeActionsMapping
-from cx_core import LightController
+from cx_const import Light, Switch, TypeActionsMapping
+from cx_core import LightController, SwitchController
+from cx_core.integration import EventData
 
 
 class WXKG02LMLightController(LightController):
-    """
-    This controller allows click, double click, hold and release for
-    both, left and the right button. All action will do the same for both, left
-    and right. Then from the apps.yaml the needed actions can be included and create
-    different instances for different lights.
-    """
-
-    # Different states reported from the controller:
-    # both, both_double, both_long, right, right_double
-    # right_long, left, left_double, left_long
-
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single_both": Light.TOGGLE,
@@ -38,6 +28,22 @@ class WXKG02LMLightController(LightController):
             3002: Light.TOGGLE,  # single both
             3001: Light.CLICK_BRIGHTNESS_DOWN,  # long both
             3004: Light.CLICK_BRIGHTNESS_UP,  # double both
+        }
+
+
+class WXKG02LMSwitchController(SwitchController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "single_both": Switch.TOGGLE,
+            "single_left": Switch.TOGGLE,
+            "single_right": Switch.TOGGLE,
+        }
+
+    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            1002: Switch.TOGGLE,
+            2002: Switch.TOGGLE,
+            3002: Switch.TOGGLE,
         }
 
 
@@ -78,16 +84,11 @@ class WXKG01LMLightController(LightController):
             "quadruple": Light.SET_HALF_BRIGHTNESS,
         }
 
-    def get_zha_action(self, data: dict) -> str:
+    def get_zha_action(self, data: EventData) -> str:
         return data["args"]["click_type"]
 
 
 class WXKG11LMLightController(LightController):
-    """
-    Different states reported from the controller:
-    single, double, shake, hold, release
-    """
-
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
@@ -103,6 +104,24 @@ class WXKG11LMLightController(LightController):
             1001: Light.HOLD_BRIGHTNESS_TOGGLE,
             1003: Light.RELEASE,
         }
+
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "triple": Light.ON_MIN_BRIGHTNESS,
+            "quadruple": Light.SET_HALF_BRIGHTNESS,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        mapping = {
+            1: "single",
+            2: "double",
+            3: "triple",
+            4: "quadruple",
+        }
+        clicks = data["args"]["value"]
+        return mapping.get(clicks, "")
 
 
 class WXKG12LMLightController(LightController):
@@ -124,7 +143,7 @@ class WXKG12LMLightController(LightController):
         return {
             1002: Light.TOGGLE,  # button_1_press
             1004: Light.ON_FULL_BRIGHTNESS,  # button_1_double_press
-            1006: Light.ON_MIN_BRIGHTNESS,  # button_1_shake
+            1007: Light.ON_MIN_BRIGHTNESS,  # button_1_shake
             1001: Light.HOLD_BRIGHTNESS_TOGGLE,  # button_1_hold
             1003: Light.RELEASE,  # button_1_release_after_hold
         }
@@ -175,7 +194,7 @@ class MFKZQ01LMLightController(LightController):
             "rotate_right": Light.CLICK_BRIGHTNESS_UP,
         }
 
-    def get_zha_action(self, data: dict) -> str:
+    def get_zha_action(self, data: EventData) -> str:
         command = action = data["command"]
         args = data.get("args", {})
         if command == "flip":

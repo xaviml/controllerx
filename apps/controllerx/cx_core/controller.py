@@ -9,7 +9,6 @@ from typing import (
     Awaitable,
     Callable,
     Counter,
-    DefaultDict,
     Dict,
     List,
     Optional,
@@ -24,12 +23,12 @@ import cx_version
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
 from cx_const import ActionEvent, ActionFunction, TypeAction, TypeActionsMapping
-
 from cx_core import integration as integration_module
-from cx_core.integration import Integration
+from cx_core.integration import EventData, Integration
 
 Service = Tuple[str, Dict]
 Services = List[Service]
+
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
@@ -72,9 +71,7 @@ class Controller(Hass, Mqtt, abc.ABC):
     """
 
     async def initialize(self) -> None:
-        self.log(
-            f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False,
-        )
+        self.log(f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False)
         self.check_ad_version()
 
         # Get arguments
@@ -120,15 +117,13 @@ class Controller(Hass, Mqtt, abc.ABC):
         self.multiple_click_delay: int = self.args.get(
             "multiple_click_delay", DEFAULT_MULTIPLE_CLICK_DELAY
         )
-        self.action_times: DefaultDict[str, float] = defaultdict(lambda: 0.0)
-        self.multiple_click_action_times: DefaultDict[str, float] = defaultdict(
-            lambda: 0.0
-        )
+        self.action_times: Dict[str, float] = defaultdict(lambda: 0.0)
+        self.multiple_click_action_times: Dict[str, float] = defaultdict(lambda: 0.0)
         self.click_counter: Counter[ActionEvent] = Counter()
-        self.action_delay_handles: DefaultDict[
-            ActionEvent, Optional[float]
-        ] = defaultdict(lambda: None)
-        self.multiple_click_action_delay_tasks: DefaultDict[
+        self.action_delay_handles: Dict[ActionEvent, Optional[float]] = defaultdict(
+            lambda: None
+        )
+        self.multiple_click_action_delay_tasks: Dict[
             ActionEvent, Optional[Future]
         ] = defaultdict(lambda: None)
 
@@ -190,7 +185,7 @@ class Controller(Hass, Mqtt, abc.ABC):
             raise ValueError(f"This controller does not support {integration.name}.")
         return actions_mapping
 
-    def get_list(self, entities: Union[List[T], str]) -> Union[List[T], List[str]]:
+    def get_list(self, entities: Union[List[str], str]) -> List[str]:
         if isinstance(entities, str):
             return [entities]
         return entities
@@ -232,9 +227,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         for attribute, value in attributes.items():
             if isinstance(value, float):
                 value = f"{value:.2f}"
-            self.log(
-                f"  - {attribute}: {value}", level="INFO", ascii_encode=False,
-            )
+            self.log(f"  - {attribute}: {value}", level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)
 
     async def handle_action(self, action_key: str) -> None:
@@ -391,7 +384,7 @@ class Controller(Hass, Mqtt, abc.ABC):
         """
         return None
 
-    def get_zha_action(self, data: Dict[Any, Any]) -> Optional[str]:
+    def get_zha_action(self, data: EventData) -> Optional[str]:
         """
         This method can be override for controllers that do not support
         the standard extraction of the actions on cx_core/integration/zha.py
@@ -400,44 +393,6 @@ class Controller(Hass, Mqtt, abc.ABC):
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {}
-
-
-class TypeController(Controller, abc.ABC):
-    @abc.abstractmethod
-    def get_domain(self) -> List[str]:
-        raise NotImplementedError
-
-    async def check_domain(self, entity: str) -> None:
-        domains = self.get_domain()
-        if entity.startswith("group."):
-            entities = await self.get_state(entity, attribute="entity_id")
-            same_domain = all(
-                (
-                    any(elem.startswith(domain + ".") for domain in domains)
-                    for elem in entities
-                )
-            )
-            if not same_domain:
-                raise ValueError(
-                    f"All entities from '{entity}' must be from one "
-                    f"of the following domains {domains} (e.g. {domains[0]}.bedroom)"
-                )
-        elif not any(entity.startswith(domain + ".") for domain in domains):
-            raise ValueError(
-                f"'{entity}' must be from one of the following domains "
-                f"{domains} (e.g. {domains[0]}.bedroom)"
-            )
-
-    async def get_entity_state(self, entity: str, attribute: str = None) -> Any:
-        if entity.startswith("group."):
-            entities = await self.get_state(entity, attribute="entity_id")
-            if len(entities) == 0:
-                raise ValueError(
-                    f"The group `{entity}` does not have any entities registered."
-                )
-            entity = entities[0]
-        out = await self.get_state(entity, attribute=attribute)
-        return out
 
 
 class ReleaseHoldController(Controller, abc.ABC):

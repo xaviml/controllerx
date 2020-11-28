@@ -1,73 +1,79 @@
-import pytest
+from typing import Any, Dict, List, Tuple, Type
 
+import pytest
+from _pytest.monkeypatch import MonkeyPatch
+from cx_const import TypeActionsMapping
 from cx_core import (
     CallServiceController,
     Controller,
-    CustomLightController,
-    CustomMediaPlayerController,
+    CoverController,
+    LightController,
+    MediaPlayerController,
+    SwitchController,
 )
-from cx_core.custom_controller import CustomCoverController, CustomSwitchController
+from cx_core.type_controller import TypeController
+from pytest_mock.plugin import MockerFixture
+
 from tests.test_utils import fake_fn
 
 
 @pytest.mark.parametrize(
     "custom_cls, mapping, action_input, mock_function, expected_calls",
     [
-        (CustomLightController, {"action1": "on"}, "action1", "on", 1),
-        (CustomLightController, {"action1": "toggle"}, "action1", "toggle", 1),
-        (CustomLightController, {"action1": "off"}, "action1", "off", 1),
+        (LightController, {"action1": "on"}, "action1", "on", 1),
+        (LightController, {"action1": "toggle"}, "action1", "toggle", 1),
+        (LightController, {"action1": "off"}, "action1", "off", 1),
         (
-            CustomLightController,
+            LightController,
             {"action1": "on_min_brightness"},
             "action1",
             "on_min",
             1,
         ),
         (
-            CustomLightController,
+            LightController,
             {"action1": "hold_brightness_up"},
             "action1",
             "hold",
             1,
         ),
         (
-            CustomLightController,
+            LightController,
             {"action1": "hold_brightness_up"},
             "action2",
             "hold",
             0,
         ),
         (
-            CustomMediaPlayerController,
+            MediaPlayerController,
             {"action1": "play_pause"},
             "action1",
             "play_pause",
             1,
         ),
         (
-            CustomMediaPlayerController,
+            MediaPlayerController,
             {"action1": "hold_volume_up"},
             "action1",
             "hold",
             1,
         ),
-        (CustomMediaPlayerController, {"action1": "release"}, "action1", "release", 1),
-        (CustomSwitchController, {"action1": "toggle"}, "action1", "toggle", 1),
-        (CustomCoverController, {"action1": "open"}, "action2", "open", 0),
+        (MediaPlayerController, {"action1": "release"}, "action1", "release", 1),
+        (SwitchController, {"action1": "toggle"}, "action1", "toggle", 1),
+        (CoverController, {"action1": "open"}, "action2", "open", 0),
     ],
 )
 @pytest.mark.asyncio
 async def test_custom_controllers(
-    hass_mock,
-    monkeypatch,
-    mocker,
-    custom_cls,
-    mapping,
-    action_input,
-    mock_function,
-    expected_calls,
+    monkeypatch: MonkeyPatch,
+    mocker: MockerFixture,
+    custom_cls: Type[TypeController],
+    mapping: TypeActionsMapping,
+    action_input: str,
+    mock_function: str,
+    expected_calls: int,
 ):
-    sut = custom_cls()
+    sut = custom_cls()  # type: ignore
     sut.args = {
         "controller": "test_controller",
         "integration": "z2m",
@@ -78,13 +84,14 @@ async def test_custom_controllers(
         "mapping": mapping,
     }
     mocked = mocker.patch.object(sut, mock_function)
-
     monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
 
+    # SUT
     await sut.initialize()
     sut.action_delta = 0
     await sut.handle_action(action_input)
 
+    # Check
     assert mocked.call_count == expected_calls
 
 
@@ -132,7 +139,11 @@ async def test_custom_controllers(
 )
 @pytest.mark.asyncio
 async def test_call_service_controller(
-    hass_mock, monkeypatch, mocker, integration, services, expected_calls,
+    monkeypatch: MonkeyPatch,
+    mocker: MockerFixture,
+    integration: str,
+    services: List[Dict[str, Any]],
+    expected_calls: List[Tuple[str, Dict[str, Any]]],
 ):
     sut = CallServiceController()  # type: ignore
     sut.args = {
@@ -147,10 +158,12 @@ async def test_call_service_controller(
 
     monkeypatch.setattr(Controller, "call_service", fake_call_service)
 
+    # SUT
     await sut.initialize()
     sut.action_delta = 0
     await sut.handle_action("action")
 
+    # Checks
     assert call_service_stub.call_count == len(expected_calls)
     for expected_service, expected_data in expected_calls:
         call_service_stub.assert_any_call(expected_service, **expected_data)

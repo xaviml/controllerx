@@ -5,10 +5,12 @@
 This project uses pipenv as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
 
 ```
-pipenv install --dev
+pipenv install --dev --python python3.6
 pipenv shell
 pre-commit install
 ```
+
+_Note: I recommend working with Python 3.6 since is the minimum version supported_
 
 ## Adding a new controller
 
@@ -16,33 +18,49 @@ New controllers need to be added into the `apps/controllerx/devices/` and you wi
 
 Note that this project will only accept the mapping that the original controller would follow with its original hub.
 
+## Imports
+
+Run the following to fix imports order:
+
+```shell
+pipenv run isort apps/controllerx/ tests/
+```
+
+## Format
+
+Run the following to fix formatting:
+
+```shell
+pipenv run black apps/controllerx/ tests/
+```
+
 ## Typing
 
 Run the following to check consistency in the typings:
 
-```
-pipenv run mypy apps/controllerx
+```shell
+pipenv run mypy apps/controllerx/ tests/
 ```
 
 ## Linting
 
 Run the following to check for stylings:
 
-```
-pipenv run flake8 apps/controllerx
+```shell
+pipenv run flake8 apps/controllerx/ tests/
 ```
 
 ## Test
 
 Run the following command for the tests:
 
-```
+```shell
 pipenv run pytest --cov=apps
 ```
 
 or the following to get a report of the missing lines to be tested:
 
-```
+```shell
 pytest --cov-report term-missing --cov=apps
 ```
 
@@ -50,7 +68,7 @@ pytest --cov-report term-missing --cov=apps
 
 Once you have the code ready, pre-commit will run some checks to make sure the code follows the format and the tests did not break. If you want to run the check for all files at any point, run:
 
-```
+```shell
 pipenv run pre-commit run --all-files
 ```
 
@@ -62,13 +80,13 @@ You can use the tool `commitizen` to commit based in a standard. If you are in t
 
 [Install Jekyll](https://jekyllrb.com/docs/) and run the documentation locally with:
 
-```
+```shell
 cd docs
 bundle install
 bundle exec jekyll serve
 ```
 
-## Pull request
+## Pull Request
 
 Feel free to open a PR on GitHub. When submitting the PR several points will be checked:
 
@@ -77,17 +95,32 @@ Feel free to open a PR on GitHub. When submitting the PR several points will be 
 - Typing (with mypy)
 - Formatting (with black)
 
+## How to change someone else's PR code
+
+If you have the permission to change code from the source branch of the PR, then you can do the following to change it. First, you will need to add the remote:
+
+```shell
+git remote add <username> git@github.com:<username>/controllerx.git
+```
+
+Then you will need to fetch, create and checkout the branch:
+
+```shell
+git fetch <username> <remote-branch>
+git checkout -b <username>-<remote-branch> <username>/<remote-branch>
+```
+
 ## Deployment
 
 Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. So first, we will need to bump version with `commitizen` by running the following line in the `master` branch:
 
-```
+```shell
 cz bump --no-verify
 ```
 
 `--prerelease beta` tag can be added to create a pre-release. Note that you can also add `--dry-run` to see which version will bump without commiting anything. Then, we can directly push the tags:
 
-```
+```shell
 git push origin master --tags
 ```
 

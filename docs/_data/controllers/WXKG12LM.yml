@@ -27,6 +27,6 @@ integrations:
     actions:
       - "1002 → 1 click"
       - "1004 → 2 clicks"
-      - "1006 → Shake the controller"
+      - "1007 → Shake the controller"
       - "1001 → Hold the button"
       - "1003 → Release the button"

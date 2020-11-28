@@ -1,12 +1,20 @@
-from typing import Any, Dict, List, Union
+import sys
+from typing import Any, Dict, Optional, Type, Union
 
 from cx_const import Light, TypeActionsMapping
 from cx_core.color_helper import get_color_wheel
-from cx_core.controller import ReleaseHoldController, TypeController, action
+from cx_core.controller import ReleaseHoldController, action
 from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.type_controller import Entity, TypeController
+
+if sys.version_info[1] < 8:
+    from typing_extensions import Literal
+else:
+    from typing import Literal  # type: ignore
+
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -17,11 +25,21 @@ DEFAULT_MAX_WHITE_VALUE = 255
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
+DEFAULT_ADD_TRANSITION = True
+DEFAULT_TRANSITION_TURN_TOGGLE = False
 
-LightEntity = Dict[str, str]
+ColorMode = Literal["auto", "xy_color", "color_temp"]
 
 
-class LightController(TypeController, ReleaseHoldController):
+class LightEntity(Entity):
+    color_mode: ColorMode
+
+    def __init__(self, name: str, color_mode: ColorMode = "auto") -> None:
+        super().__init__(name)
+        self.color_mode = color_mode
+
+
+class LightController(TypeController[LightEntity, LightSupport], ReleaseHoldController):
     """
     This is the main class that controls the lights for different devices.
     Type of actions:
@@ -49,9 +67,10 @@ class LightController(TypeController, ReleaseHoldController):
     index_color = 0
     value_attribute = None
 
+    domains = ["light"]
+    entity_arg = "light"
+
     async def initialize(self) -> None:
-        self.light = self.get_light(self.args["light"])
-        await self.check_domain(self.light["name"])
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
@@ -95,21 +114,19 @@ class LightController(TypeController, ReleaseHoldController):
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
-        self.add_transition = self.args.get("add_transition", True)
+        self.add_transition = self.args.get("add_transition", DEFAULT_ADD_TRANSITION)
         self.add_transition_turn_toggle = self.args.get(
-            "add_transition_turn_toggle", False
-        )
-        update_supported_features = self.args.get("update_supported_features", False)
-
-        self.supported_features = LightSupport(
-            self.light["name"], self, update_supported_features
+            "add_transition_turn_toggle", DEFAULT_TRANSITION_TURN_TOGGLE
         )
         await super().initialize()
 
-    def get_domain(self) -> List[str]:
-        return ["light"]
+    def _get_entity_type(self) -> Type[LightEntity]:
+        return LightEntity
 
-    def get_type_actions_mapping(self,) -> TypeActionsMapping:
+    def _get_feature_support_type(self) -> Type[LightSupport]:
+        return LightSupport
+
+    def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {
             Light.ON: self.on,
             Light.OFF: self.off,
@@ -306,17 +323,6 @@ class LightController(TypeController, ReleaseHoldController):
             ),
         }
 
-    def get_light(self, light: Union[str, dict]) -> LightEntity:
-        if isinstance(light, str):
-            return {"name": light, "color_mode": "auto"}
-        elif isinstance(light, dict):
-            color_mode = light.get("color_mode", "auto")
-            return {"name": light["name"], "color_mode": color_mode}
-        else:
-            raise ValueError(
-                f"Type {type(light)} is not supported for `light` attribute"
-            )
-
     async def call_light_service(
         self, service: str, turned_toggle: bool, **attributes
     ) -> None:
@@ -326,15 +332,15 @@ class LightController(TypeController, ReleaseHoldController):
         if (
             not self.add_transition
             or (turned_toggle and not self.add_transition_turn_toggle)
-            or await self.supported_features.not_supported(LightSupport.TRANSITION)
+            or await self.feature_support.not_supported(LightSupport.TRANSITION)
         ):
             del attributes["transition"]
-        await self.call_service(service, entity_id=self.light["name"], **attributes)
+        await self.call_service(service, entity_id=self.entity.name, **attributes)
 
     @action
-    async def on(self, light_on: bool = None, **attributes) -> None:
+    async def on(self, light_on: Optional[bool] = None, **attributes) -> None:
         if light_on is None:
-            light_state = await self.get_entity_state(self.light["name"])
+            light_state = await self.get_entity_state(self.entity.name)
             light_on = light_state == "on"
         await self.call_light_service(
             "light/turn_on", turned_toggle=not light_on, **attributes
@@ -352,7 +358,7 @@ class LightController(TypeController, ReleaseHoldController):
 
     @action
     async def set_value(
-        self, attribute: str, fraction: float, light_on: bool = None
+        self, attribute: str, fraction: float, light_on: Optional[bool] = None
     ) -> None:
         fraction = max(0, min(fraction, 1))
         stepper = self.automatic_steppers[attribute]
@@ -375,11 +381,11 @@ class LightController(TypeController, ReleaseHoldController):
             await self.toggle(**{attribute: stepper.minmax.min})
 
     @action
-    async def on_full(self, attribute: str, light_on: bool = None) -> None:
+    async def on_full(self, attribute: str, light_on: Optional[bool] = None) -> None:
         await self.set_value(attribute, 1, light_on=light_on)
 
     @action
-    async def on_min(self, attribute: str, light_on: bool = None) -> None:
+    async def on_min(self, attribute: str, light_on: Optional[bool] = None) -> None:
         await self.set_value(attribute, 0, light_on=light_on)
 
     @action
@@ -401,19 +407,17 @@ class LightController(TypeController, ReleaseHoldController):
 
     async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
-            if self.light["color_mode"] == "auto":
-                if await self.supported_features.is_supported(LightSupport.COLOR):
+            if self.entity.color_mode == "auto":
+                if await self.feature_support.is_supported(LightSupport.COLOR):
                     return LightController.ATTRIBUTE_XY_COLOR
-                elif await self.supported_features.is_supported(
-                    LightSupport.COLOR_TEMP
-                ):
+                elif await self.feature_support.is_supported(LightSupport.COLOR_TEMP):
                     return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(
                         "This light does not support xy_color or color_temp"
                     )
             else:
-                return self.light["color_mode"]
+                return self.entity.color_mode
         else:
             return attribute
 
@@ -421,7 +425,7 @@ class LightController(TypeController, ReleaseHoldController):
         self, attribute: str, direction: str
     ) -> Union[float, int]:
         if self.check_smooth_power_on(
-            attribute, direction, await self.get_entity_state(self.light["name"])
+            attribute, direction, await self.get_entity_state(self.entity.name)
         ):
             return 0
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
@@ -431,11 +435,11 @@ class LightController(TypeController, ReleaseHoldController):
             or attribute == LightController.ATTRIBUTE_WHITE_VALUE
             or attribute == LightController.ATTRIBUTE_COLOR_TEMP
         ):
-            value = await self.get_entity_state(self.light["name"], attribute)
+            value = await self.get_entity_state(self.entity.name, attribute)
             if value is None:
                 raise ValueError(
                     f"Value for `{attribute}` attribute could not be retrieved "
-                    f"from `{self.light['name']}`. "
+                    f"from `{self.entity.name}`. "
                     "Check the FAQ to know more about this error: "
                     "https://xaviml.github.io/controllerx/faq"
                 )
@@ -464,7 +468,7 @@ class LightController(TypeController, ReleaseHoldController):
         to_return = True
         if action == "click" or action == "hold":
             attribute, direction = args
-            light_state = await self.get_entity_state(self.light["name"])
+            light_state = await self.get_entity_state(self.entity.name)
             to_return = light_state == "on" or self.check_smooth_power_on(
                 attribute, direction, light_state
             )
@@ -541,7 +545,7 @@ class LightController(TypeController, ReleaseHoldController):
             # would be to force the loop to stop after 4 or 5 loops as a safety measure.
             return False
         if self.check_smooth_power_on(
-            attribute, direction, await self.get_entity_state(self.light["name"])
+            attribute, direction, await self.get_entity_state(self.entity.name)
         ):
             await self.on_min(attribute, light_on=False)
             # # After smooth power on, the light should not brighten up.
