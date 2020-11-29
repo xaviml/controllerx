@@ -1,4 +1,3 @@
-import sys
 from typing import Any, Dict, Optional, Type, Union
 
 from cx_const import Light, TypeActionsMapping
@@ -9,12 +8,6 @@ from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
 from cx_core.type_controller import Entity, TypeController
-
-if sys.version_info[1] < 8:
-    from typing_extensions import Literal
-else:
-    from typing import Literal  # type: ignore
-
 
 DEFAULT_MANUAL_STEPS = 10
 DEFAULT_AUTOMATIC_STEPS = 10
@@ -28,7 +21,10 @@ DEFAULT_TRANSITION = 300
 DEFAULT_ADD_TRANSITION = True
 DEFAULT_TRANSITION_TURN_TOGGLE = False
 
-ColorMode = Literal["auto", "xy_color", "color_temp"]
+ColorMode = str
+# Once the minimum supported version of Python is 3.8,
+# we can declare the ColorMode as a Literal
+# ColorMode = Literal["auto", "xy_color", "color_temp"]
 
 
 class LightEntity(Entity):
