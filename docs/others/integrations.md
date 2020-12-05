@@ -101,16 +101,31 @@ livingroom_controller:
   light: light.bedroom
 ```
 
-By doing this, ControllerX will be listening directly from MQTT rather than Home Assistant (which listens from MQTT). Not only can you use this with zigbee2mqtt, but also with any other MQTT integration. However, it comes with the limitation that it expects the payload from the topic to be the action and not a JSON, this is why the example above we use `zigbee2mqtt/livingroom_controller/action` and not `zigbee2mqtt/livingroom_controller`. Last but not least, MQTT needs to be configured on `appdaemon.yaml` by adding the `MQTT` plugin, apart from the `HASS` plugin:
+By doing this, ControllerX will be listening directly from MQTT rather than Home Assistant (which listens from MQTT). Not only can you use this with zigbee2mqtt, but also with any other MQTT integration. However, it comes with the limitation that it expects the payload from the topic to be the action and not a JSON, this is why the example above we use `zigbee2mqtt/livingroom_controller/action` and not `zigbee2mqtt/livingroom_controller`. Last but not least, MQTT needs to be configured on `appdaemon.yaml` by adding the `MQTT` plugin, apart from the `HASS` plugin. The whole file should look like the following:
 
 ```yaml
-plugins:
-  HASS:
-    type: hass
-  MQTT:
-    type: mqtt
-    namespace: mqtt # This is important
-    client_host: <Host without indicating the port (e.g. 192.168.1.10)>
-    client_user: XXXXX
-    client_password: XXXXX
+---
+secrets: /config/secrets.yaml
+appdaemon:
+  latitude: X.XXXXXXX
+  longitude: X.XXXXXXX
+  elevation: XXXX
+  time_zone: XXXXXXXX
+  # You can add `missing_app_warnings` if you don't want any
+  # warning spam from ControllerX when starting AppDaemon
+  missing_app_warnings: 1
+  plugins:
+    HASS:
+      type: hass
+    MQTT:
+      type: mqtt
+      namespace: mqtt # This is important
+      client_host: <Host without indicating the port (e.g. 192.168.1.10)>
+      client_user: XXXXX
+      client_password: XXXXX
+http:
+  url: http://127.0.0.1:5050
+admin:
+api:
+hadashboard:
 ```
