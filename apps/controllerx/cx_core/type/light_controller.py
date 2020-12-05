@@ -2,8 +2,9 @@ from typing import Any, Dict, Optional, Type, Union
 
 from cx_const import Light, TypeActionsMapping
 from cx_core.color_helper import get_color_wheel
-from cx_core.controller import ReleaseHoldController, action
+from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
+from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper

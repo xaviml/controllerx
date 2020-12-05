@@ -1,8 +1,9 @@
 from typing import Type
 
 from cx_const import MediaPlayer, TypeActionsMapping
-from cx_core.controller import ReleaseHoldController, action
+from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
+from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
