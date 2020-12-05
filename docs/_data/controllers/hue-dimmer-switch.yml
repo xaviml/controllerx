@@ -65,6 +65,9 @@ integrations:
       - "off_long_release → Release \"O\""
       
 note: >-
-  In case of working with z2m and wanting to use the multiclick functionality, then
+  In case of working with <strong>z2m</strong> and wanting to use the multiclick functionality, then
   you need to make sure to remove from the device specific (devices.yaml) the 
   `multiple_press_timeout` option.
+
+  In case of <strong>deCONZ</strong>, all the click actions are mapped with X002 actions, so when the 
+  button is released after being clicked.
