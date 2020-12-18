@@ -221,21 +221,52 @@ class WXCJKG12LMLightController(LightController):
         return {
             "button_1_single": Light.OFF,
             "button_1_double": Light.ON_MIN_COLOR_TEMP,
+            # "button_1_triple": "",
             "button_1_hold": Light.HOLD_COLOR_DOWN,
             "button_1_release": Light.RELEASE,
             "button_2_single": Light.ON,
             "button_2_double": Light.ON_FULL_COLOR_TEMP,
+            # "button_2_triple": "",
             "button_2_hold": Light.HOLD_COLOR_UP,
             "button_2_release": Light.RELEASE,
             "button_3_single": Light.CLICK_BRIGHTNESS_DOWN,
             "button_3_double": Light.ON_MIN_BRIGHTNESS,
+            # "button_3_triple": "",
             "button_3_hold": Light.HOLD_BRIGHTNESS_DOWN,
             "button_3_release": Light.RELEASE,
             "button_4_single": Light.CLICK_BRIGHTNESS_UP,
             "button_4_double": Light.ON_FULL_BRIGHTNESS,
+            # "button_4_triple": "",
             "button_4_hold": Light.HOLD_BRIGHTNESS_UP,
             "button_4_release": Light.RELEASE,
         }
+
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "1_single": Light.OFF,
+            "1_double": Light.ON_MIN_COLOR_TEMP,
+            # "1_triple": "", # Nothing
+            "1_long press": Light.HOLD_COLOR_DOWN,
+            "1_release": Light.RELEASE,
+            "2_single": Light.ON,
+            "2_double": Light.ON_FULL_COLOR_TEMP,
+            # "2_triple": "", # Nothing
+            "2_long press": Light.HOLD_COLOR_UP,
+            "2_release": Light.RELEASE,
+            "3_single": Light.CLICK_BRIGHTNESS_DOWN,
+            "3_double": Light.ON_MIN_BRIGHTNESS,
+            # "3_triple": "", # Nothing
+            "3_long press": Light.HOLD_BRIGHTNESS_DOWN,
+            "3_release": Light.RELEASE,
+            "4_single": Light.CLICK_BRIGHTNESS_UP,
+            "4_double": Light.ON_FULL_BRIGHTNESS,
+            # "4_triple": "", # Nothing
+            "4_long press": Light.HOLD_BRIGHTNESS_UP,
+            "4_release": Light.RELEASE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
 
 
 class WXCJKG13LMLightController(LightController):
