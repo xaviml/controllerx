@@ -22,8 +22,10 @@ E1524/E1810 controller integrated with Zigbee2MQTT, but using `mqtt` directly in
 office_light:
   module: controllerx
   class: E1810Controller
-  controller: zigbee2mqtt/office_controller/action
-  integration: mqtt
+  controller: office_controller # This is the Z2M friendly name of the device
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.office
 ```
 
@@ -83,7 +85,7 @@ controller_right_switch:
 Controlling just the color with E1810 and z2m because toggle and brightness is controlled with zigbee groups.
 
 ```yaml
-nameOfYourInstanceApp:
+example_app:
   module: controllerx
   class: E1810Controller
   controller: sensor.controller_action
@@ -158,11 +160,11 @@ Regular use of E1743 controller for a light, but delaying the `off` action for 1
 corridor_controller:
   module: controllerx
   class: E1743Controller
-  controller: sensor.corridor_controller_action
-  integration: z2m
+  controller: corridor_controller
+  integration: deconz
   light: light.corridor
   action_delay:
-    "off": 10
+    2002: 10
 ```
 
 Using a xy color light bulb as a color temperature one when it does support it.
@@ -171,8 +173,10 @@ Using a xy color light bulb as a color temperature one when it does support it.
 office:
   module: controllerx
   class: E1810Controller
-  controller: zigbee2mqtt/office_controller/action
-  integration: mqtt
+  controller: office_controller # This is the Z2M friendly name of the device
+  integration:
+    name: z2m
+    listen_to: mqtt
   light:
     name: light.office
     color_mode: color_temp
@@ -342,15 +346,8 @@ mando_aqara_salon:
   controller: sensor.0x00158d00027b6d79_click
   integration: z2m
   light: light.0x000d6ffffec2620d_light
-  excluded_actions: [single] # Excluding `single` action that toggles the light
-
-mando_aqara_salon_single:
-  module: controllerx
-  class: WXKG01LMLightController
-  controller: sensor.0x00158d00027b6d79_click
-  integration: z2m
-  mapping:
-    single: # Give an action to `single`
+  merge_mapping:
+    single: # Give an action to the `single` event
       service: light.toggle
       data:
         entity_id: light.0x000d6ffffec2620d_light
