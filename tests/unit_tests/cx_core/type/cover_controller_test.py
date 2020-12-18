@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set
+from typing import Any, Dict
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
@@ -64,24 +64,24 @@ async def test_initialize(
 @pytest.mark.parametrize(
     "supported_features, expected_service",
     [
-        ({CoverSupport.OPEN}, "cover/open_cover"),
-        ({CoverSupport.SET_COVER_POSITION}, "cover/set_cover_position"),
+        (CoverSupport.OPEN, "cover/open_cover"),
+        (CoverSupport.SET_COVER_POSITION, "cover/set_cover_position"),
         (
-            {CoverSupport.OPEN, CoverSupport.SET_COVER_POSITION},
+            CoverSupport.OPEN | CoverSupport.SET_COVER_POSITION,
             "cover/set_cover_position",
         ),
-        ({CoverSupport.CLOSE}, None),
-        ({}, None),
+        (CoverSupport.CLOSE, None),
+        (0, None),
     ],
 )
 @pytest.mark.asyncio
 async def test_open(
     sut: CoverController,
     mocker: MockerFixture,
-    supported_features: Set[int],
+    supported_features: int,
     expected_service: str,
 ):
-    sut.feature_support._supported_features = set(supported_features)
+    sut.feature_support._supported_features = supported_features
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.open()
@@ -104,24 +104,24 @@ async def test_open(
 @pytest.mark.parametrize(
     "supported_features, expected_service",
     [
-        ({CoverSupport.CLOSE}, "cover/close_cover"),
-        ({CoverSupport.SET_COVER_POSITION}, "cover/set_cover_position"),
+        (CoverSupport.CLOSE, "cover/close_cover"),
+        (CoverSupport.SET_COVER_POSITION, "cover/set_cover_position"),
         (
-            {CoverSupport.OPEN, CoverSupport.SET_COVER_POSITION},
+            CoverSupport.OPEN | CoverSupport.SET_COVER_POSITION,
             "cover/set_cover_position",
         ),
-        ({CoverSupport.OPEN}, None),
-        ({}, None),
+        (CoverSupport.OPEN, None),
+        (0, None),
     ],
 )
 @pytest.mark.asyncio
 async def test_close(
     sut: CoverController,
     mocker: MockerFixture,
-    supported_features: Set[int],
+    supported_features: int,
     expected_service: str,
 ):
-    sut.feature_support._supported_features = set(supported_features)
+    sut.feature_support._supported_features = supported_features
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.close()

@@ -12,9 +12,7 @@ from cx_core.type_controller import Entity, TypeController
 DEFAULT_VOLUME_STEPS = 10
 
 
-class MediaPlayerController(
-    TypeController[Entity, MediaPlayerSupport], ReleaseHoldController
-):
+class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     domains = ["media_player"]
     entity_arg = "media_player"
@@ -27,9 +25,6 @@ class MediaPlayerController(
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
-
-    def _get_feature_support_type(self) -> Type[MediaPlayerSupport]:
-        return MediaPlayerSupport
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {

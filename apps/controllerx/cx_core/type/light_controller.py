@@ -36,7 +36,7 @@ class LightEntity(Entity):
         self.color_mode = color_mode
 
 
-class LightController(TypeController[LightEntity, LightSupport], ReleaseHoldController):
+class LightController(TypeController[LightEntity], ReleaseHoldController):
     """
     This is the main class that controls the lights for different devices.
     Type of actions:
@@ -119,9 +119,6 @@ class LightController(TypeController[LightEntity, LightSupport], ReleaseHoldCont
 
     def _get_entity_type(self) -> Type[LightEntity]:
         return LightEntity
-
-    def _get_feature_support_type(self) -> Type[LightSupport]:
-        return LightSupport
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {

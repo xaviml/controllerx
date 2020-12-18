@@ -2,11 +2,10 @@ from typing import Type
 
 from cx_const import Switch, TypeActionsMapping
 from cx_core.controller import action
-from cx_core.feature_support import FeatureSupport
 from cx_core.type_controller import Entity, TypeController
 
 
-class SwitchController(TypeController[Entity, FeatureSupport]):
+class SwitchController(TypeController[Entity]):
     """
     This is the main class that controls the switches for different devices.
     Type of actions:
@@ -37,9 +36,6 @@ class SwitchController(TypeController[Entity, FeatureSupport]):
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
-
-    def _get_feature_support_type(self) -> Type[FeatureSupport]:
-        return FeatureSupport
 
     @action
     async def on(self) -> None:

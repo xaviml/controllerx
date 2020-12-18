@@ -1,7 +1,4 @@
-from cx_core.feature_support import FeatureSupport
-
-
-class MediaPlayerSupport(FeatureSupport):
+class MediaPlayerSupport:
     PAUSE = 1
     SEEK = 2
     VOLUME_SET = 4
@@ -18,22 +15,5 @@ class MediaPlayerSupport(FeatureSupport):
     PLAY = 16384
     SHUFFLE_SET = 32768
     SELECT_SOUND_MODE = 65536
-
-    features = [
-        PAUSE,
-        SEEK,
-        VOLUME_SET,
-        VOLUME_MUTE,
-        PREVIOUS_TRACK,
-        NEXT_TRACK,
-        TURN_ON,
-        TURN_OFF,
-        PLAY_MEDIA,
-        VOLUME_STEP,
-        SELECT_SOURCE,
-        STOP,
-        CLEAR_PLAYLIST,
-        PLAY,
-        SHUFFLE_SET,
-        SELECT_SOUND_MODE,
-    ]
+    SUPPORT_BROWSE_MEDIA = 131072
+    SUPPORT_REPEAT_SET = 262144

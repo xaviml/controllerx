@@ -226,7 +226,7 @@ class Controller(Hass, Mqtt):
             if isinstance(value, float):
                 value = f"{value:.2f}"
             self.log(f"  - {attribute}: {value}", level="INFO", ascii_encode=False)
-        return await Hass.call_service(self, service, **attributes)
+        return await Hass.call_service(self, service, **attributes)  # type: ignore
 
     async def handle_action(self, action_key: str) -> None:
         if (
@@ -291,7 +291,7 @@ class Controller(Hass, Mqtt):
         if delay > 0:
             handle = self.action_delay_handles[action_key]
             if handle is not None:
-                await self.cancel_timer(handle)
+                await self.cancel_timer(handle)  # type: ignore
             self.log(
                 f"🕒 Running `{self.actions_key_mapping[action_key]}` in {delay} seconds",
                 level="INFO",
@@ -299,7 +299,7 @@ class Controller(Hass, Mqtt):
             )
             new_handle = await self.run_in(
                 self.action_timer_callback, delay, action_key=action_key
-            )
+            )  # type: ignore
             self.action_delay_handles[action_key] = new_handle
         else:
             await self.action_timer_callback({"action_key": action_key})
