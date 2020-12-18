@@ -16,7 +16,12 @@ _Note: I recommend working with Python 3.6 since is the minimum version supporte
 
 New controllers need to be added into the `apps/controllerx/devices/` and you will need to define the mapping for the integration you are adding support to.
 
-Note that this project will only accept the mapping that the original controller would follow with its original hub.
+Also, the controller will need to be added to the documentation. You will need to create:
+- YAML file in `docs/_data/controllers`
+- MarkDown file in `docs/controllers`
+- JPEG image in `docs/assets/img`
+
+Note that this project will only accept the mapping that the original controller would follow with its original hub, or the closest behaviour we can get.
 
 ## Imports
 
