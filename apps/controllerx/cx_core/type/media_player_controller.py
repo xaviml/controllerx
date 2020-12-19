@@ -1,8 +1,9 @@
 from typing import Type
 
 from cx_const import MediaPlayer, TypeActionsMapping
-from cx_core.controller import ReleaseHoldController, action
+from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
+from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
 from cx_core.stepper.minmax_stepper import MinMaxStepper
@@ -11,9 +12,7 @@ from cx_core.type_controller import Entity, TypeController
 DEFAULT_VOLUME_STEPS = 10
 
 
-class MediaPlayerController(
-    TypeController[Entity, MediaPlayerSupport], ReleaseHoldController
-):
+class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     domains = ["media_player"]
     entity_arg = "media_player"
@@ -26,9 +25,6 @@ class MediaPlayerController(
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
-
-    def _get_feature_support_type(self) -> Type[MediaPlayerSupport]:
-        return MediaPlayerSupport
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {

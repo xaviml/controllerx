@@ -1,7 +1,4 @@
-from cx_core.feature_support import FeatureSupport
-
-
-class LightSupport(FeatureSupport):
+class LightSupport:
     BRIGHTNESS = 1
     COLOR_TEMP = 2
     EFFECT = 4
@@ -9,13 +6,3 @@ class LightSupport(FeatureSupport):
     COLOR = 16
     TRANSITION = 32
     WHITE_VALUE = 128
-
-    features = [
-        BRIGHTNESS,
-        COLOR_TEMP,
-        EFFECT,
-        FLASH,
-        COLOR,
-        TRANSITION,
-        WHITE_VALUE,
-    ]

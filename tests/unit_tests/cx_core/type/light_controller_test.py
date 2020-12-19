@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set, Tuple, Type, Union
+from typing import Any, Dict, Tuple, Type, Union
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
@@ -84,32 +84,32 @@ async def test_initialize(
 @pytest.mark.parametrize(
     "attribute_input, color_mode, supported_features, expected_attribute, error_expected",
     [
-        ("color", "auto", {LightSupport.COLOR}, "xy_color", False),
-        ("color", "auto", {LightSupport.COLOR_TEMP}, "color_temp", False),
+        ("color", "auto", LightSupport.COLOR, "xy_color", False),
+        ("color", "auto", LightSupport.COLOR_TEMP, "color_temp", False),
         (
             "color",
             "auto",
-            {LightSupport.COLOR, LightSupport.COLOR_TEMP},
+            LightSupport.COLOR | LightSupport.COLOR_TEMP,
             "xy_color",
             False,
         ),
-        ("brightness", "auto", set(), "brightness", False),
-        ("brightness", "auto", {LightSupport.COLOR}, "brightness", False),
+        ("brightness", "auto", 0, "brightness", False),
+        ("brightness", "auto", LightSupport.COLOR, "brightness", False),
         (
             "color",
             "color_temp",
-            {LightSupport.COLOR, LightSupport.COLOR_TEMP},
+            LightSupport.COLOR | LightSupport.COLOR_TEMP,
             "color_temp",
             False,
         ),
         (
             "color",
             "xy_color",
-            {LightSupport.COLOR, LightSupport.COLOR_TEMP},
+            LightSupport.COLOR | LightSupport.COLOR_TEMP,
             "xy_color",
             False,
         ),
-        ("color", "auto", set(), "not_important", True),
+        ("color", "auto", 0, "not_important", True),
     ],
 )
 @pytest.mark.asyncio
@@ -117,7 +117,7 @@ async def test_get_attribute(
     sut: LightController,
     attribute_input: str,
     color_mode: ColorMode,
-    supported_features: Set[int],
+    supported_features: int,
     expected_attribute: str,
     error_expected: bool,
 ):
@@ -228,7 +228,7 @@ async def test_change_light_state(
     sut.value_attribute = old
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
-    sut.feature_support._supported_features = set()
+    sut.feature_support._supported_features = 0
     monkeypatch.setattr(
         sut, "get_entity_state", fake_fn(to_return=light_state, async_=True)
     )
@@ -294,8 +294,9 @@ async def test_call_light_service(
     sut.transition = 300
     sut.add_transition = add_transition
     sut.add_transition_turn_toggle = add_transition_turn_toggle
-    supported_features = {LightSupport.TRANSITION} if transition_support else set()
-    sut.feature_support._supported_features = supported_features
+    sut.feature_support._supported_features = (
+        LightSupport.TRANSITION if transition_support else 0
+    )
     await sut.call_light_service(
         "test_service", turned_toggle=turned_toggle, **attributes_input
     )
@@ -486,7 +487,7 @@ async def test_sync(
 ):
     sut.max_brightness = max_brightness
     sut.add_transition_turn_toggle = True
-    sut.feature_support._supported_features = {LightSupport.TRANSITION}
+    sut.feature_support._supported_features = LightSupport.TRANSITION
 
     async def fake_get_attribute(*args, **kwargs):
         if color_attribute == "error":

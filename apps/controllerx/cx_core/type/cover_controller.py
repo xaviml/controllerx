@@ -6,7 +6,7 @@ from cx_core.feature_support.cover import CoverSupport
 from cx_core.type_controller import Entity, TypeController
 
 
-class CoverController(TypeController[Entity, CoverSupport]):
+class CoverController(TypeController[Entity]):
     """
     This is the main class that controls the coveres for different devices.
     Type of actions:
@@ -34,9 +34,6 @@ class CoverController(TypeController[Entity, CoverSupport]):
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
-
-    def _get_feature_support_type(self) -> Type[CoverSupport]:
-        return CoverSupport
 
     def get_type_actions_mapping(self) -> TypeActionsMapping:
         return {

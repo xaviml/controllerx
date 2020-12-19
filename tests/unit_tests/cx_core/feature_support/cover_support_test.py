@@ -1,33 +1,42 @@
+from typing import List
+
 import pytest
-from cx_core.feature_support import FeatureSupport, SupportedFeatures
+from cx_core.feature_support import FeatureSupport
 from cx_core.feature_support.cover import CoverSupport
+from cx_core.type_controller import TypeController
 
 
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
-        (1, {CoverSupport.OPEN}),
+        (1, [CoverSupport.OPEN]),
         (
             15,
-            {
+            [
                 CoverSupport.OPEN,
                 CoverSupport.CLOSE,
                 CoverSupport.SET_COVER_POSITION,
                 CoverSupport.STOP,
-            },
+            ],
         ),
         (
             149,
-            {
+            [
                 CoverSupport.SET_TILT_POSITION,
                 CoverSupport.OPEN_TILT,
                 CoverSupport.SET_COVER_POSITION,
                 CoverSupport.OPEN,
-            },
+            ],
         ),
-        (0, set()),
     ],
 )
-def test_decode(number: int, expected_supported_features: SupportedFeatures):
-    supported_features = FeatureSupport.decode(number, CoverSupport.features)
-    assert supported_features == expected_supported_features
+@pytest.mark.asyncio
+async def test_is_supported(
+    fake_type_controller: TypeController,
+    number: int,
+    expected_supported_features: List[int],
+):
+    feature_support = FeatureSupport("fake_entity", fake_type_controller, False)
+    feature_support._supported_features = number
+    for expected_supported_feature in expected_supported_features:
+        assert await feature_support.is_supported(expected_supported_feature)

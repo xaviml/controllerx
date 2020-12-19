@@ -3,8 +3,7 @@ from typing import Callable, KeysView, List, Optional, Type
 import cx_devices as devices_module
 import pytest
 from cx_const import ActionEvent, TypeActionsMapping
-from cx_core import Controller
-from cx_core.controller import ReleaseHoldController
+from cx_core import Controller, ReleaseHoldController
 
 from tests.test_utils import get_classes, get_controller
 

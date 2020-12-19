@@ -3,7 +3,6 @@ from typing import Any, Dict, List, Type
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from cx_core.controller import Controller
-from cx_core.feature_support import FeatureSupport
 from cx_core.type_controller import Entity, TypeController
 from pytest_mock.plugin import MockerFixture
 
@@ -22,20 +21,13 @@ class MyEntity(Entity):
         self.attr_test = attr_test
 
 
-class MyFeatureSupport(FeatureSupport):
-    features = [1, 2, 3, 4]
-
-
-class MyTypeController(TypeController[MyEntity, MyFeatureSupport]):
+class MyTypeController(TypeController[MyEntity]):
 
     domains = ["domain_1", "domain_2"]
     entity_arg = ENTITY_ARG
 
     def _get_entity_type(self) -> Type[MyEntity]:
         return MyEntity
-
-    def _get_feature_support_type(self) -> Type[MyFeatureSupport]:
-        return MyFeatureSupport
 
 
 @pytest.fixture

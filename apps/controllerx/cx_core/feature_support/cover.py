@@ -1,8 +1,4 @@
-from cx_core.feature_support import FeatureSupport
-
-
-class CoverSupport(FeatureSupport):
-
+class CoverSupport:
     OPEN = 1
     CLOSE = 2
     SET_COVER_POSITION = 4
@@ -11,14 +7,3 @@ class CoverSupport(FeatureSupport):
     CLOSE_TILT = 32
     STOP_TILT = 64
     SET_TILT_POSITION = 128
-
-    features = [
-        OPEN,
-        CLOSE,
-        SET_COVER_POSITION,
-        STOP,
-        OPEN_TILT,
-        CLOSE_TILT,
-        STOP_TILT,
-        SET_TILT_POSITION,
-    ]

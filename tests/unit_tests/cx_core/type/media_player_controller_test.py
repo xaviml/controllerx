@@ -84,7 +84,7 @@ async def test_volume_up(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
 ):
     monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return=0.5))
-    sut.feature_support._supported_features = {MediaPlayerSupport.VOLUME_SET}
+    sut.feature_support._supported_features = MediaPlayerSupport.VOLUME_SET
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.volume_up()
@@ -99,7 +99,7 @@ async def test_volume_down(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
 ):
     monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return=0.5))
-    sut.feature_support._supported_features = {MediaPlayerSupport.VOLUME_SET}
+    sut.feature_support._supported_features = MediaPlayerSupport.VOLUME_SET
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.volume_down()
@@ -141,7 +141,7 @@ async def test_hold_loop(
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.feature_support._supported_features = (
-        {MediaPlayerSupport.VOLUME_SET} if volume_set_support else set()
+        MediaPlayerSupport.VOLUME_SET if volume_set_support else 0
     )
     sut.volume_level = volume_level
 
