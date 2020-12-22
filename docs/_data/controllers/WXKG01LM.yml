@@ -19,8 +19,8 @@ integrations:
       - "triple → 3 clicks"
       - "quadruple → 4 clicks"
       - "many → More than 4 clicks"
-      - "long → Hold the button"
-      - "long_release → Release the button"
+      - "hold → Hold the button"
+      - "release → Release the button"
   - name: deCONZ
     codename: deconz
     actions:
