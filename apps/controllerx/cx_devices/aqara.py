@@ -51,7 +51,7 @@ class WXKG01LMLightController(LightController):
     """
     Different states reported from the controller:
     single, double, triple, quadruple,
-    many, long, long_release
+    many, hold, release
     """
 
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
@@ -61,8 +61,8 @@ class WXKG01LMLightController(LightController):
             "triple": Light.ON_MIN_BRIGHTNESS,
             "quadruple": Light.SET_HALF_BRIGHTNESS,
             # "many": "", # Nothing
-            "long": Light.HOLD_BRIGHTNESS_TOGGLE,
-            "long_release": Light.RELEASE,
+            "hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Light.RELEASE,
         }
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
