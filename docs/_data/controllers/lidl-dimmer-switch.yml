@@ -1,0 +1,34 @@
+name: Lidl Dimmer Switch (Livarno)
+device_support:
+  - type: Light
+    domain: light
+    controller: HG06323Controller
+    delay: 350
+    mapping:
+      - "Click \"I\" → Turn on"
+      - "Click 🔆 → Brighten up (1 step)"
+      - "Hold 🔆→ Brighten up"
+      - "Click 🔅 → Dim down (1 step)"
+      - "Hold 🔅 → Dim down"
+      - "Click \"O\" → Turn off"
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "on-press → Click \"I\""
+      - "on-hold-release → Release \"I\""
+      - "up-press → Click 🔆"
+      - "up-hold-release → Release 🔆"
+      - "down-press → Click 🔅"
+      - "down-hold → Hold 🔅"
+      - "down-hold-release → Release 🔅"
+      - "off-press → Click \"O\""
+      - "off-hold → Hold \"O\""
+      - "off-hold-release → Release \"O\""
+note: >-
+  In case of working with <strong>z2m</strong> and wanting to use the multiclick functionality, then
+  you need to make sure to remove from the device specific (devices.yaml) the
+  `multiple_press_timeout` option.
+
+  In case of <strong>deCONZ</strong>, all the click actions are mapped with X002 actions, so when the
+  button is released after being clicked.
