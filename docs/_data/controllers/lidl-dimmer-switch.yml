@@ -15,20 +15,10 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "on-press → Click \"I\""
-      - "on-hold-release → Release \"I\""
-      - "up-press → Click 🔆"
-      - "up-hold-release → Release 🔆"
-      - "down-press → Click 🔅"
-      - "down-hold → Hold 🔅"
-      - "down-hold-release → Release 🔅"
-      - "off-press → Click \"O\""
-      - "off-hold → Hold \"O\""
-      - "off-hold-release → Release \"O\""
-note: >-
-  In case of working with <strong>z2m</strong> and wanting to use the multiclick functionality, then
-  you need to make sure to remove from the device specific (devices.yaml) the
-  `multiple_press_timeout` option.
-
-  In case of <strong>deCONZ</strong>, all the click actions are mapped with X002 actions, so when the
-  button is released after being clicked.
+      - "on → Click \"I\""
+      - "brightness_step_up → Click 🔆"
+      - "brightness_move_up → Hold 🔆"
+      - "brightness_step_down → Click 🔅"
+      - "brightness_move_down → Hold 🔅"
+      - "brightness_stop → Release 🔆 or 🔅"
+      - "off → Click \"O\""
