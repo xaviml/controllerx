@@ -1,8 +1,8 @@
-name: Lidl Dimmer Switch (Livarno)
+name: HG06323 (Lidl/Livarno)
 device_support:
   - type: Light
     domain: light
-    controller: HG06323Controller
+    controller: HG06323LightController
     delay: 350
     mapping:
       - "Click \"I\" → Turn on"

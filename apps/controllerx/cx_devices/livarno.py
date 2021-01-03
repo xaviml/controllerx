@@ -2,7 +2,7 @@ from cx_const import Light, TypeActionsMapping
 from cx_core import LightController
 
 
-class HG06323Controller(LightController):
+class HG06323LightController(LightController):
     # Different states reported from the controller:
     # on, off, brightness_step_up, brightness_move_up,
     # brightness_step_down, brightness_move_down, brightness_stop
