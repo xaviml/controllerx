@@ -1,34 +1,19 @@
-name: WXKG11LM (Aqara)
+name: WXKG11LM (lumi.sensor_switch.aq2 - Aqara)
 device_support:
   - type: Light
     domain: light
-    controller: WXKG11LMLightController
+    controller: WXKG11LMSensorSwitchLightController
     delay: 350
     mapping:
       - "1 click → Toggle"
       - "2 clicks → Full brightness"
       - "3 clicks → Minimum brightness (just ZHA integration)"
       - "4 clicks → 50% brightness (just ZHA integration)"
-      - "Hold the button → Brightness up/down with direction changes"
 note: >-
   For z2m integration, this controller has 2 sensors that need to be added to the configuration.
   One ends with `_action` and the other one with `_click`.
   <a href="https://github.com/xaviml/controllerx/issues/28#issuecomment-587799277"> See here.</a>
 integrations:
-  - name: Zigbee2MQTT
-    codename: z2m
-    actions:
-      - "single → 1 click"
-      - "double → 2 clicks"
-      - "hold → Hold the button"
-      - "release → Release the button"
-  - name: deCONZ
-    codename: deconz
-    actions:
-      - "1002 → 1 click"
-      - "1004 → 2 clicks"
-      - "1001 → Hold the button"
-      - "1003 → Release the button"
   - name: ZHA
     codename: zha
     actions:

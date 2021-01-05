@@ -88,7 +88,7 @@ class WXKG01LMLightController(LightController):
         return data["args"]["click_type"]
 
 
-class WXKG11LMLightController(LightController):
+class WXKG11LMRemoteLightController(LightController):
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
@@ -105,6 +105,19 @@ class WXKG11LMLightController(LightController):
             1003: Light.RELEASE,
         }
 
+    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Light.RELEASE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
+
+
+class WXKG11LMSensorSwitchLightController(LightController):
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
         return {
             "single": Light.TOGGLE,
