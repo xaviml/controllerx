@@ -19,4 +19,4 @@ class DeCONZIntegration(Integration):
         self, event_name: str, data: EventData, kwargs: dict
     ) -> None:
         type_ = self.kwargs.get("type", "event")
-        await self.controller.handle_action(data[type_])
+        await self.controller.handle_action(data[type_], extra=data)

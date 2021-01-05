@@ -47,6 +47,7 @@ async def test_integ_configs(
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
     fired_actions = data.get("fired_actions", [])
+    extra = data.get("extra")
     expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
 
@@ -63,10 +64,11 @@ async def test_integ_configs(
     await controller.initialize()
     for idx, action in enumerate(fired_actions):
         if any(isinstance(action, type_) for type_ in (str, int)):
+            coroutine = controller.handle_action(action, extra=extra)
             if idx == len(fired_actions) - 1:
-                await controller.handle_action(action)
+                await coroutine
             else:
-                asyncio.ensure_future(controller.handle_action(action))
+                asyncio.ensure_future(coroutine)
         elif isinstance(action, float):
             await asyncio.sleep(action)
 

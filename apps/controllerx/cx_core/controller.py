@@ -1,4 +1,5 @@
 import asyncio
+import inspect
 import time
 from asyncio.futures import Future
 from collections import defaultdict
@@ -68,13 +69,28 @@ class Controller(Hass, Mqtt):
     This is the parent Controller, all controllers must extend from this class.
     """
 
+    integration: Integration
+    controllers_ids: List[str]
+    actions_key_mapping: TypeActionsMapping
+    multiple_click_actions: Set[ActionEvent]
+    type_actions_mapping: TypeActionsMapping
+    action_delay: Dict[ActionEvent, int]
+    action_delta: int
+    action_times: Dict[str, float]
+    multiple_click_action_times: Dict[str, float]
+    click_counter: Counter[ActionEvent]
+    action_delay_handles: Dict[ActionEvent, Optional[float]]
+    multiple_click_action_delay_tasks: Dict[ActionEvent, Optional[Future]]
+    multiple_click_delay: int
+    actions_mapping: TypeActionsMapping
+
     async def initialize(self) -> None:
         self.log(f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False)
         self.check_ad_version()
 
         # Get arguments
-        self.controllers_ids: List[str] = self.get_list(self.args["controller"])
-        integration = self.get_integration(self.args["integration"])
+        self.controllers_ids = self.get_list(self.args["controller"])
+        self.integration = self.get_integration(self.args["integration"])
 
         if "mapping" in self.args and "merge_mapping" in self.args:
             raise ValueError("`mapping` and `merge_mapping` cannot be used together")
@@ -82,8 +98,8 @@ class Controller(Hass, Mqtt):
         custom_mapping: Dict[ActionEvent, str] = self.args.get("mapping", None)
         merge_mapping: Dict[ActionEvent, str] = self.args.get("merge_mapping", None)
 
-        self.actions_key_mapping: TypeActionsMapping = (
-            self.get_actions_mapping(integration)
+        self.actions_key_mapping = (
+            self.get_actions_mapping(self.integration)
             if custom_mapping is None
             else self.parse_action_mapping(custom_mapping)
         )
@@ -107,23 +123,19 @@ class Controller(Hass, Mqtt):
         )
         included_actions = included_actions - excluded_actions
         default_action_delay = {action_key: 0 for action_key in included_actions}
-        self.action_delay: Dict[ActionEvent, int] = {
+        self.action_delay = {
             **default_action_delay,
             **self.args.get("action_delay", {}),
         }
-        self.action_delta: int = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
-        self.multiple_click_delay: int = self.args.get(
+        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.multiple_click_delay = self.args.get(
             "multiple_click_delay", DEFAULT_MULTIPLE_CLICK_DELAY
         )
-        self.action_times: Dict[str, float] = defaultdict(lambda: 0.0)
-        self.multiple_click_action_times: Dict[str, float] = defaultdict(lambda: 0.0)
-        self.click_counter: Counter[ActionEvent] = Counter()
-        self.action_delay_handles: Dict[ActionEvent, Optional[float]] = defaultdict(
-            lambda: None
-        )
-        self.multiple_click_action_delay_tasks: Dict[
-            ActionEvent, Optional[Future]
-        ] = defaultdict(lambda: None)
+        self.action_times = defaultdict(lambda: 0.0)
+        self.multiple_click_action_times = defaultdict(lambda: 0.0)
+        self.click_counter = Counter()
+        self.action_delay_handles = defaultdict(lambda: None)
+        self.multiple_click_action_delay_tasks = defaultdict(lambda: None)
 
         # Filter the actions
         filter_actions_mapping: TypeActionsMapping = {
@@ -139,7 +151,7 @@ class Controller(Hass, Mqtt):
         }
 
         for controller_id in self.controllers_ids:
-            integration.listen_changes(controller_id)
+            self.integration.listen_changes(controller_id)
 
     def get_option(self, value: str, options: List[str]) -> str:
         if value in options:
@@ -228,7 +240,9 @@ class Controller(Hass, Mqtt):
             self.log(f"  - {attribute}: {value}", level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)  # type: ignore
 
-    async def handle_action(self, action_key: str) -> None:
+    async def handle_action(
+        self, action_key: str, extra: Optional[EventData] = None
+    ) -> None:
         if (
             action_key in self.actions_mapping
             and action_key not in self.multiple_click_actions
@@ -237,7 +251,7 @@ class Controller(Hass, Mqtt):
             now = time.time() * 1000
             self.action_times[action_key] = now
             if now - previous_call_time > self.action_delta:
-                await self.call_action(action_key)
+                await self.call_action(action_key, extra=extra)
         elif action_key in self.multiple_click_actions:
             now = time.time() * 1000
             previous_call_time = self.multiple_click_action_times.get(action_key, now)
@@ -256,6 +270,7 @@ class Controller(Hass, Mqtt):
                 self.multiple_click_call_action,
                 self.multiple_click_delay / 1000,
                 action_key=action_key,
+                extra=extra,
                 click_count=click_count,
             )
             self.multiple_click_action_delay_tasks[action_key] = new_task
@@ -268,6 +283,7 @@ class Controller(Hass, Mqtt):
 
     async def multiple_click_call_action(self, kwargs: Dict[str, Any]) -> None:
         action_key: ActionEvent = kwargs["action_key"]
+        extra: EventData = kwargs["extra"]
         click_count: int = kwargs["click_count"]
         self.log(
             f"🎮 {action_key} clicked `{click_count}` time(s)",
@@ -277,11 +293,13 @@ class Controller(Hass, Mqtt):
         self.click_counter[action_key] = 0
         click_action_key = self.format_multiple_click_action(action_key, click_count)
         if click_action_key in self.actions_mapping:
-            await self.call_action(click_action_key)
+            await self.call_action(click_action_key, extra=extra)
         elif action_key in self.actions_mapping and click_count == 1:
-            await self.call_action(action_key)
+            await self.call_action(action_key, extra=extra)
 
-    async def call_action(self, action_key: ActionEvent) -> None:
+    async def call_action(
+        self, action_key: ActionEvent, extra: Optional[EventData] = None
+    ) -> None:
         self.log(
             f"🎮 Button event triggered: `{action_key}`",
             level="INFO",
@@ -298,14 +316,15 @@ class Controller(Hass, Mqtt):
                 ascii_encode=False,
             )
             new_handle = await self.run_in(
-                self.action_timer_callback, delay, action_key=action_key
+                self.action_timer_callback, delay, action_key=action_key, extra=extra
             )  # type: ignore
             self.action_delay_handles[action_key] = new_handle
         else:
-            await self.action_timer_callback({"action_key": action_key})
+            await self.action_timer_callback({"action_key": action_key, "extra": extra})
 
     async def action_timer_callback(self, kwargs: Dict[str, Any]):
         action_key: ActionEvent = kwargs["action_key"]
+        extra: EventData = kwargs["extra"]
         self.action_delay_handles[action_key] = None
         self.log(
             f"🏃 Running `{self.actions_key_mapping[action_key]}` now",
@@ -313,7 +332,10 @@ class Controller(Hass, Mqtt):
             ascii_encode=False,
         )
         action, *args = self.get_action(self.actions_mapping[action_key])
-        await action(*args)
+        if "extra" in set(inspect.signature(action).parameters):
+            await action(*args, extra=extra)
+        else:
+            await action(*args)
 
     async def before_action(
         self, action: str, *args: str, **kwargs: Dict[Any, Any]

@@ -399,10 +399,12 @@ async def test_call_action(
         cancel_timer_patch.assert_called_once_with(handle)
     if run_in_called:
         run_in_patch.assert_called_once_with(
-            sut.action_timer_callback, delay, action_key=action_key
+            sut.action_timer_callback, delay, action_key=action_key, extra=None
         )
     if action_timer_callback_called:
-        action_timer_callback_patch.assert_called_once_with({"action_key": action_key})
+        action_timer_callback_patch.assert_called_once_with(
+            {"action_key": action_key, "extra": None}
+        )
 
 
 @pytest.mark.parametrize(
