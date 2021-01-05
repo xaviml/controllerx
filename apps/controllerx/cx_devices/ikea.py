@@ -105,6 +105,8 @@ class E1810MediaPlayerController(MediaPlayerController):
             2003: MediaPlayer.RELEASE,
             3001: MediaPlayer.HOLD_VOLUME_DOWN,
             3003: MediaPlayer.RELEASE,
+            4001: MediaPlayer.PREVIOUS_SOURCE,
+            5001: MediaPlayer.NEXT_SOURCE,
         }
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
@@ -119,6 +121,8 @@ class E1810MediaPlayerController(MediaPlayerController):
             "stop": MediaPlayer.RELEASE,
             "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
             "move_1_84": MediaPlayer.HOLD_VOLUME_DOWN,  # ZigBee 3.0 firmware
+            "hold_3329_0": MediaPlayer.PREVIOUS_SOURCE,
+            "hold_3328_0": MediaPlayer.NEXT_SOURCE,
             "release": MediaPlayer.RELEASE,
         }
 
