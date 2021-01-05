@@ -425,6 +425,9 @@ class E1744MediaPlayerController(MediaPlayerController):
 
 
 class E1766LightController(LightController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {"open": Light.ON, "close": Light.OFF}
+
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: Light.ON,
@@ -441,6 +444,9 @@ class E1766LightController(LightController):
 
 
 class E1766SwitchController(SwitchController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {"open": Switch.ON, "close": Switch.OFF}
+
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {1002: Switch.ON, 2002: Switch.OFF}
 
@@ -449,6 +455,9 @@ class E1766SwitchController(SwitchController):
 
 
 class E1766CoverController(CoverController):
+    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+        return {"open": Cover.TOGGLE_OPEN, "close": Cover.TOGGLE_CLOSE}
+
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: Cover.TOGGLE_OPEN,

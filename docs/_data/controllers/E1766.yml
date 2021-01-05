@@ -24,6 +24,11 @@ device_support:
       - "Hold up → Open cover"
       - "Hold down → Close cover"
 integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "open → Click up"
+      - "close → Click down"
   - name: deCONZ
     codename: deconz
     actions:
