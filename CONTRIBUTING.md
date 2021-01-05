@@ -21,6 +21,10 @@ Also, the controller will need to be added to the documentation. You will need t
 - MarkDown file in `docs/controllers`
 - JPEG image in `docs/assets/img`
 
+The name of the files should be the model of the controller. For example, if the device model is `E1743`, then the name of the files should be: `E1743.{yaml, md, jpeg}`. You can easily find the model in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html).
+
+The class name convention should be `Device Model + Type + Controller`. For example, for a new light controller for E1743, the class name should be `E1743LightController`. Take into account that there are some old controllers that do not follow this convention.
+
 Note that this project will only accept the mapping that the original controller would follow with its original hub, or the closest behaviour we can get.
 
 ## Imports
