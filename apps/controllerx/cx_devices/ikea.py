@@ -437,7 +437,6 @@ class E1766LightController(LightController):
             1002: Light.ON,
             1003: Light.ON_FULL_BRIGHTNESS,
             2002: Light.OFF,
-            2003: Light.ON_MIN_BRIGHTNESS,
         }
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:
@@ -465,7 +464,9 @@ class E1766CoverController(CoverController):
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
             1002: Cover.TOGGLE_OPEN,
+            1003: Cover.STOP,
             2002: Cover.TOGGLE_CLOSE,
+            2003: Cover.STOP,
         }
 
     def get_zha_actions_mapping(self) -> TypeActionsMapping:

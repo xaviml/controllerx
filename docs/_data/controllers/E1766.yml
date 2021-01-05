@@ -7,8 +7,7 @@ device_support:
     mapping:
       - "Click up → Turn on"
       - "Click down → Turn off"
-      - "Hold up → Full brightness"
-      - "Hold down → Minimum brightness"
+      - "Released (after being held) up → Full brightness"
   - type: Switch
     domain: switch
     controller: E1766SwitchController
@@ -21,8 +20,7 @@ device_support:
     mapping:
       - "Click up → Open/Stop cover"
       - "Click down → Close/Stop cover"
-      - "Hold up → Open cover"
-      - "Hold down → Close cover"
+      - "Released (after being held) up/down → Stop cover"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
@@ -34,11 +32,11 @@ integrations:
     actions:
       - "1002 → Click up"
       - "2002 → Click down"
-      - "1003 → Hold up"
-      - "2003 → Hold down"
+      - "1003 → Released (after being held) up"
+      - "2003 → Released (after being held) down"
   - name: ZHA
     codename: zha
     actions:
       - "up_open → Click up"
       - "down_close → Click down"
-      - "stop → Release up or down" 
+      - "stop → Released (after being held) up/down"
