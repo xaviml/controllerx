@@ -27,6 +27,7 @@ integrations:
     actions:
       - "open → Click up"
       - "close → Click down"
+      - "stop → Released (after being held) up/down"
   - name: deCONZ
     codename: deconz
     actions:

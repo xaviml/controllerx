@@ -459,7 +459,11 @@ class E1766SwitchController(SwitchController):
 
 class E1766CoverController(CoverController):
     def get_z2m_actions_mapping(self) -> TypeActionsMapping:
-        return {"open": Cover.TOGGLE_OPEN, "close": Cover.TOGGLE_CLOSE}
+        return {
+            "open": Cover.TOGGLE_OPEN,
+            "close": Cover.TOGGLE_CLOSE,
+            "stop": Cover.STOP,
+        }
 
     def get_deconz_actions_mapping(self) -> TypeActionsMapping:
         return {
