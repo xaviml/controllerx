@@ -1,9 +1,10 @@
 from typing import Any, Awaitable, Callable, Dict, Tuple, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
-TypeAction = Union[ActionFunction, Tuple, str]
+TypeAction = Union[ActionFunction, Tuple[Any, ...], str]
 ActionEvent = Union[str, int]
 TypeActionsMapping = Dict[ActionEvent, TypeAction]
+ActionsMapping = Dict[ActionEvent, Union[ActionFunction, Tuple[Any, ...]]]
 
 
 class Light:

@@ -1,4 +1,11 @@
-from cx_const import Cover, Light, MediaPlayer, Switch, TypeActionsMapping
+from cx_const import (
+    ActionsMapping,
+    Cover,
+    Light,
+    MediaPlayer,
+    Switch,
+    TypeActionsMapping,
+)
 from cx_core import (
     CoverController,
     LightController,
@@ -252,9 +259,9 @@ class ICTCG1Controller(LightController):
         await self.release()
         await self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> ActionsMapping:
         parent_mapping = super().get_type_actions_mapping()
-        mapping: TypeActionsMapping = {
+        mapping: ActionsMapping = {
             "rotate_left_quick": self.rotate_left_quick,
             "rotate_right_quick": self.rotate_right_quick,
         }
@@ -306,9 +313,9 @@ class ICTCG1MediaPlayerController(MediaPlayerController):
         await self.release()
         await self.play()
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> ActionsMapping:
         parent_mapping = super().get_type_actions_mapping()
-        mapping: TypeActionsMapping = {
+        mapping: ActionsMapping = {
             "rotate_left_quick": self.rotate_left_quick,
             "rotate_right_quick": self.rotate_right_quick,
         }

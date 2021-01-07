@@ -22,7 +22,13 @@ from typing import (
 import cx_version
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
-from cx_const import ActionEvent, ActionFunction, TypeAction, TypeActionsMapping
+from cx_const import (
+    ActionEvent,
+    ActionFunction,
+    ActionsMapping,
+    TypeAction,
+    TypeActionsMapping,
+)
 from cx_core import integration as integration_module
 from cx_core.integration import EventData, Integration
 
@@ -72,8 +78,9 @@ class Controller(Hass, Mqtt):
     integration: Integration
     controllers_ids: List[str]
     actions_key_mapping: TypeActionsMapping
+    actions_mapping: ActionsMapping
     multiple_click_actions: Set[ActionEvent]
-    type_actions_mapping: TypeActionsMapping
+    type_actions_mapping: ActionsMapping
     action_delay: Dict[ActionEvent, int]
     action_delta: int
     action_times: Dict[str, float]
@@ -82,7 +89,6 @@ class Controller(Hass, Mqtt):
     action_delay_handles: Dict[ActionEvent, Optional[float]]
     multiple_click_action_delay_tasks: Dict[ActionEvent, Optional[Future]]
     multiple_click_delay: int
-    actions_mapping: TypeActionsMapping
 
     async def initialize(self) -> None:
         self.log(f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False)
@@ -331,6 +337,10 @@ class Controller(Hass, Mqtt):
             level="INFO",
             ascii_encode=False,
         )
+        self.log(
+            f"Extra:\n{extra}",
+            level="DEBUG",
+        )
         action, *args = self.get_action(self.actions_mapping[action_key])
         if "extra" in set(inspect.signature(action).parameters):
             await action(*args, extra=extra)
@@ -411,5 +421,5 @@ class Controller(Hass, Mqtt):
         """
         return None
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> ActionsMapping:
         return {}

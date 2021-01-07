@@ -1,4 +1,4 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import ActionsMapping, Light, TypeActionsMapping
 from cx_core import LightController
 from cx_core.controller import action
 from cx_core.integration import EventData
@@ -14,9 +14,9 @@ class MLI404011LightController(LightController):
         if isinstance(self.integration, DeCONZIntegration):
             await self.on(xy_color=extra["xy"])
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> ActionsMapping:
         parent_mapping = super().get_type_actions_mapping()
-        mapping: TypeActionsMapping = {
+        mapping: ActionsMapping = {
             MLI404011LightController.CHANGE_XY_COLOR: self.change_xy_color,
         }
         parent_mapping.update(mapping)

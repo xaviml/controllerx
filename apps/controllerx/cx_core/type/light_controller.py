@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional, Type, Union
 
-from cx_const import Light, TypeActionsMapping
+from cx_const import ActionsMapping, Light
 from cx_core.color_helper import get_color_wheel
 from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
@@ -120,7 +120,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     def _get_entity_type(self) -> Type[LightEntity]:
         return LightEntity
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> ActionsMapping:
         return {
             Light.ON: self.on,
             Light.OFF: self.off,

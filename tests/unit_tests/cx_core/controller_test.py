@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Union
 
 import appdaemon.plugins.hass.hassapi as hass  # type: ignore
 import pytest
-from cx_const import ActionEvent, ActionFunction, TypeAction, TypeActionsMapping
+from cx_const import ActionEvent, ActionFunction, ActionsMapping, TypeAction
 from cx_core import integration as integration_module
 from cx_core.controller import Controller, action
 from pytest_mock.plugin import MockerFixture
@@ -347,7 +347,8 @@ async def test_handle_action(
 ):
     sut.action_delta = action_delta
     sut.action_times = defaultdict(lambda: 0)
-    actions_mapping: TypeActionsMapping = {action: "test" for action in actions_input}
+
+    actions_mapping: ActionsMapping = {action: fake_fn() for action in actions_input}
     sut.actions_mapping = actions_mapping
     call_action_patch = mocker.patch.object(sut, "call_action")
 

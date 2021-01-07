@@ -1,6 +1,6 @@
 from typing import Type
 
-from cx_const import MediaPlayer, TypeActionsMapping
+from cx_const import ActionsMapping, MediaPlayer
 from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.release_hold_controller import ReleaseHoldController
@@ -26,7 +26,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_type_actions_mapping(self) -> ActionsMapping:
         return {
             MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, Stepper.DOWN),
             MediaPlayer.HOLD_VOLUME_UP: (self.hold, Stepper.UP),
