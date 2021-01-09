@@ -465,7 +465,6 @@ class E1766SwitchController(SwitchController):
 
 
 class E1766CoverController(CoverController):
-
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "open": Cover.TOGGLE_OPEN,
