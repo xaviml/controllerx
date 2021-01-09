@@ -112,6 +112,8 @@ class E1810MediaPlayerController(MediaPlayerController):
             2003: MediaPlayer.RELEASE,
             3001: MediaPlayer.HOLD_VOLUME_DOWN,
             3003: MediaPlayer.RELEASE,
+            4001: MediaPlayer.PREVIOUS_SOURCE,
+            5001: MediaPlayer.NEXT_SOURCE,
         }
 
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
@@ -126,6 +128,8 @@ class E1810MediaPlayerController(MediaPlayerController):
             "stop": MediaPlayer.RELEASE,
             "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
             "move_1_84": MediaPlayer.HOLD_VOLUME_DOWN,  # ZigBee 3.0 firmware
+            "hold_3329_0": MediaPlayer.PREVIOUS_SOURCE,
+            "hold_3328_0": MediaPlayer.NEXT_SOURCE,
             "release": MediaPlayer.RELEASE,
         }
 
@@ -440,7 +444,6 @@ class E1766LightController(LightController):
             1002: Light.ON,
             1003: Light.ON_FULL_BRIGHTNESS,
             2002: Light.OFF,
-            2003: Light.ON_MIN_BRIGHTNESS,
         }
 
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
@@ -462,13 +465,20 @@ class E1766SwitchController(SwitchController):
 
 
 class E1766CoverController(CoverController):
+
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
-        return {"open": Cover.TOGGLE_OPEN, "close": Cover.TOGGLE_CLOSE}
+        return {
+            "open": Cover.TOGGLE_OPEN,
+            "close": Cover.TOGGLE_CLOSE,
+            "stop": Cover.STOP,
+        }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Cover.TOGGLE_OPEN,
+            1003: Cover.STOP,
             2002: Cover.TOGGLE_CLOSE,
+            2003: Cover.STOP,
         }
 
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
