@@ -1,10 +1,15 @@
-from typing import Any, Awaitable, Callable, Dict, Tuple, Union
+from typing import Any, Awaitable, Callable, Dict, List, Mapping, Tuple, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
-TypeAction = Union[ActionFunction, Tuple[Any, ...], str]
+ActionFunctionWithParams = Tuple[ActionFunction, Tuple]
+TypeAction = Union[ActionFunction, ActionFunctionWithParams]
 ActionEvent = Union[str, int]
-TypeActionsMapping = Dict[ActionEvent, TypeAction]
-ActionsMapping = Dict[ActionEvent, Union[ActionFunction, Tuple[Any, ...]]]
+PredefinedActionsMapping = Dict[str, TypeAction]
+DefaultActionsMapping = Mapping[ActionEvent, str]
+
+CustomAction = Union[str, Dict[str, Any]]
+CustomActions = Union[List[CustomAction], CustomAction]
+CustomActionsMapping = Mapping[ActionEvent, CustomActions]
 
 
 class Light:

@@ -1,4 +1,4 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 
 
@@ -7,7 +7,7 @@ class HG06323LightController(LightController):
     # on, off, brightness_step_up, brightness_move_up,
     # brightness_step_down, brightness_move_down, brightness_stop
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
             "brightness_step_up": Light.CLICK_BRIGHTNESS_UP,

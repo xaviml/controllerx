@@ -1,10 +1,10 @@
 from cx_const import (
-    ActionsMapping,
     Cover,
+    DefaultActionsMapping,
     Light,
     MediaPlayer,
+    PredefinedActionsMapping,
     Switch,
-    TypeActionsMapping,
 )
 from cx_core import (
     CoverController,
@@ -23,7 +23,7 @@ class E1810Controller(LightController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "toggle": Light.TOGGLE,
             "toggle_hold": Light.SYNC,
@@ -41,7 +41,7 @@ class E1810Controller(LightController):
             "arrow_right_release": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.TOGGLE,
             1001: Light.SYNC,
@@ -59,7 +59,7 @@ class E1810Controller(LightController):
             5003: Light.RELEASE,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "toggle": Light.TOGGLE,
             "press_2_0_0": Light.SYNC,
@@ -86,7 +86,7 @@ class E1810MediaPlayerController(MediaPlayerController):
     # arrow_left_hold, arrow_left_release, arrow_right_hold
     # arrow_right_release
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
             "brightness_up_click": MediaPlayer.CLICK_VOLUME_UP,
@@ -101,7 +101,7 @@ class E1810MediaPlayerController(MediaPlayerController):
             "brightness_down_release": MediaPlayer.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: MediaPlayer.PLAY_PAUSE,
             2002: MediaPlayer.CLICK_VOLUME_UP,
@@ -114,7 +114,7 @@ class E1810MediaPlayerController(MediaPlayerController):
             3003: MediaPlayer.RELEASE,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
             "step_with_on_off_0_43_5": MediaPlayer.CLICK_VOLUME_UP,
@@ -134,7 +134,7 @@ class E1743Controller(LightController):
     # Different states reported from the controller:
     # on, off, brightness_up, brightness_down, brightness_stop
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
             "off": Light.OFF,
@@ -143,7 +143,7 @@ class E1743Controller(LightController):
             "brightness_stop": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.ON,
             2002: Light.OFF,
@@ -153,7 +153,7 @@ class E1743Controller(LightController):
             2003: Light.RELEASE,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
             "off": Light.OFF,
@@ -167,7 +167,7 @@ class E1743MediaPlayerController(MediaPlayerController):
     # Different states reported from the controller:
     # on, off, brightness_up, brightness_down, brightness_stop
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": MediaPlayer.PLAY_PAUSE,
             "off": MediaPlayer.NEXT_TRACK,
@@ -176,7 +176,7 @@ class E1743MediaPlayerController(MediaPlayerController):
             "brightness_stop": MediaPlayer.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: MediaPlayer.PLAY_PAUSE,
             2002: MediaPlayer.NEXT_TRACK,
@@ -186,7 +186,7 @@ class E1743MediaPlayerController(MediaPlayerController):
             2003: MediaPlayer.RELEASE,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": MediaPlayer.PLAY_PAUSE,
             "off": MediaPlayer.NEXT_TRACK,
@@ -200,13 +200,13 @@ class E1743SwitchController(SwitchController):
     # Different states reported from the controller:
     # on, off
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"on": Switch.ON, "off": Switch.OFF}
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {1002: Switch.ON, 2002: Switch.OFF}
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {"on": Switch.ON, "off": Switch.OFF}
 
 
@@ -214,7 +214,7 @@ class E1743CoverController(CoverController):
     # Different states reported from the controller:
     # on, off
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Cover.TOGGLE_OPEN,
             "off": Cover.TOGGLE_CLOSE,
@@ -223,7 +223,7 @@ class E1743CoverController(CoverController):
             "brightness_stop": Cover.STOP,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Cover.TOGGLE_OPEN,
             2002: Cover.TOGGLE_CLOSE,
@@ -233,7 +233,7 @@ class E1743CoverController(CoverController):
             2003: Cover.STOP,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Cover.TOGGLE_OPEN,
             "off": Cover.TOGGLE_CLOSE,
@@ -259,16 +259,16 @@ class ICTCG1Controller(LightController):
         await self.release()
         await self.on_full(LightController.ATTRIBUTE_BRIGHTNESS)
 
-    def get_type_actions_mapping(self) -> ActionsMapping:
-        parent_mapping = super().get_type_actions_mapping()
-        mapping: ActionsMapping = {
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
+        parent_mapping = super().get_predefined_actions_mapping()
+        mapping: PredefinedActionsMapping = {
             "rotate_left_quick": self.rotate_left_quick,
             "rotate_right_quick": self.rotate_right_quick,
         }
         mapping.update(parent_mapping)
         return mapping
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "rotate_left": Light.HOLD_BRIGHTNESS_DOWN,
             "rotate_left_quick": "rotate_left_quick",
@@ -277,7 +277,7 @@ class ICTCG1Controller(LightController):
             "rotate_stop": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: "rotate_right_quick",
             2002: Light.CLICK_BRIGHTNESS_UP,
@@ -285,7 +285,7 @@ class ICTCG1Controller(LightController):
             4002: "rotate_left_quick",
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "move_1_70": Light.HOLD_BRIGHTNESS_DOWN,
             "move_1_195": Light.HOLD_BRIGHTNESS_DOWN,
@@ -313,16 +313,16 @@ class ICTCG1MediaPlayerController(MediaPlayerController):
         await self.release()
         await self.play()
 
-    def get_type_actions_mapping(self) -> ActionsMapping:
-        parent_mapping = super().get_type_actions_mapping()
-        mapping: ActionsMapping = {
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
+        parent_mapping = super().get_predefined_actions_mapping()
+        mapping: PredefinedActionsMapping = {
             "rotate_left_quick": self.rotate_left_quick,
             "rotate_right_quick": self.rotate_right_quick,
         }
         mapping.update(parent_mapping)
         return mapping
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "rotate_left": MediaPlayer.HOLD_VOLUME_DOWN,
             "rotate_left_quick": "rotate_left_quick",
@@ -331,7 +331,7 @@ class ICTCG1MediaPlayerController(MediaPlayerController):
             "rotate_stop": MediaPlayer.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: "rotate_right_quick",
             2002: MediaPlayer.CLICK_VOLUME_UP,
@@ -339,7 +339,7 @@ class ICTCG1MediaPlayerController(MediaPlayerController):
             4002: "rotate_left_quick",
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "move_1_70": MediaPlayer.HOLD_VOLUME_DOWN,
             "move_1_195": MediaPlayer.HOLD_VOLUME_DOWN,
@@ -356,7 +356,7 @@ class E1744LightController(LightController):
     # brightness_move_down, brightness_move_up, brightness_stop,
     # toggle, brightness_step_up, brightness_step_down
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
             "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
@@ -366,7 +366,7 @@ class E1744LightController(LightController):
             "brightness_step_down": Light.ON_MIN_BRIGHTNESS,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             3001: Light.HOLD_BRIGHTNESS_DOWN,
             2001: Light.HOLD_BRIGHTNESS_UP,
@@ -377,7 +377,7 @@ class E1744LightController(LightController):
             1005: Light.ON_MIN_BRIGHTNESS,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "move_1_195": Light.HOLD_BRIGHTNESS_DOWN,
             "move_0_195": Light.HOLD_BRIGHTNESS_UP,
@@ -396,7 +396,7 @@ class E1744MediaPlayerController(MediaPlayerController):
     # brightness_move_down, brightness_move_up, brightness_stop,
     # toggle, brightness_step_up, brightness_step_down
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "brightness_move_down": MediaPlayer.HOLD_VOLUME_DOWN,
             "brightness_move_up": MediaPlayer.HOLD_VOLUME_UP,
@@ -406,7 +406,7 @@ class E1744MediaPlayerController(MediaPlayerController):
             "brightness_step_down": MediaPlayer.PREVIOUS_TRACK,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             2001: MediaPlayer.HOLD_VOLUME_UP,
             3001: MediaPlayer.HOLD_VOLUME_DOWN,
@@ -417,7 +417,7 @@ class E1744MediaPlayerController(MediaPlayerController):
             1005: MediaPlayer.PREVIOUS_TRACK,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "move_1_195": MediaPlayer.HOLD_VOLUME_DOWN,
             "move_0_195": MediaPlayer.HOLD_VOLUME_UP,
@@ -432,10 +432,10 @@ class E1744MediaPlayerController(MediaPlayerController):
 
 
 class E1766LightController(LightController):
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"open": Light.ON, "close": Light.OFF}
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.ON,
             1003: Light.ON_FULL_BRIGHTNESS,
@@ -443,7 +443,7 @@ class E1766LightController(LightController):
             2003: Light.ON_MIN_BRIGHTNESS,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "up_open": Light.ON,
             "down_close": Light.OFF,
@@ -451,27 +451,27 @@ class E1766LightController(LightController):
 
 
 class E1766SwitchController(SwitchController):
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"open": Switch.ON, "close": Switch.OFF}
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {1002: Switch.ON, 2002: Switch.OFF}
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {"up_open": Switch.ON, "down_close": Switch.OFF}
 
 
 class E1766CoverController(CoverController):
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"open": Cover.TOGGLE_OPEN, "close": Cover.TOGGLE_CLOSE}
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Cover.TOGGLE_OPEN,
             2002: Cover.TOGGLE_CLOSE,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "up_open": Cover.TOGGLE_OPEN,
             "down_close": Cover.TOGGLE_CLOSE,

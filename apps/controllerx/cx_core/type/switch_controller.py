@@ -1,6 +1,6 @@
 from typing import Type
 
-from cx_const import ActionsMapping, Switch
+from cx_const import PredefinedActionsMapping, Switch
 from cx_core.controller import action
 from cx_core.type_controller import Entity, TypeController
 
@@ -27,7 +27,7 @@ class SwitchController(TypeController[Entity]):
     ]
     entity_arg = "switch"
 
-    def get_type_actions_mapping(self) -> ActionsMapping:
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
             Switch.ON: self.on,
             Switch.OFF: self.off,

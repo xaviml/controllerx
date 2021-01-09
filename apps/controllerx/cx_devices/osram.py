@@ -1,4 +1,4 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 from cx_core.integration import EventData
 
@@ -6,7 +6,7 @@ from cx_core.integration import EventData
 class OsramAC025XX00NJLightController(LightController):
     # This mapping works for: AC0251100NJ / AC0251400NJ / AC0251600NJ / AC0251700NJ
     # (different models are just different colours)
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_on": Light.ON,
             "1_move_with_on_off": Light.HOLD_BRIGHTNESS_UP,

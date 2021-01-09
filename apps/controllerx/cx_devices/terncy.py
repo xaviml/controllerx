@@ -1,10 +1,10 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 from cx_core.integration import EventData
 
 
 class TerncyPP01LightController(LightController):
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "button_single": Light.TOGGLE,
             "button_double": Light.ON_FULL_BRIGHTNESS,
@@ -18,7 +18,7 @@ class TerncyPP01LightController(LightController):
 
 
 class TerncySD01LightController(LightController):
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "button_single": Light.TOGGLE,
             "button_double": Light.ON_FULL_BRIGHTNESS,

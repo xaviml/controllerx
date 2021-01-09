@@ -1,14 +1,14 @@
 from typing import Optional
 
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
-from cx_const import TypeActionsMapping
+from cx_const import DefaultActionsMapping
 from cx_core.integration import EventData, Integration
 
 
 class MQTTIntegration(Integration):
     name = "mqtt"
 
-    def get_actions_mapping(self) -> Optional[TypeActionsMapping]:
+    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
         return self.controller.get_z2m_actions_mapping()
 
     def listen_changes(self, controller_id: str) -> None:

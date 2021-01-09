@@ -1,6 +1,6 @@
 from typing import Callable, Type
 
-from cx_const import ActionsMapping, Cover
+from cx_const import Cover, PredefinedActionsMapping
 from cx_core.controller import action
 from cx_core.feature_support.cover import CoverSupport
 from cx_core.type_controller import Entity, TypeController
@@ -35,13 +35,13 @@ class CoverController(TypeController[Entity]):
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
 
-    def get_type_actions_mapping(self) -> ActionsMapping:
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
             Cover.OPEN: self.open,
             Cover.CLOSE: self.close,
             Cover.STOP: self.stop,
-            Cover.TOGGLE_OPEN: (self.toggle, self.open),
-            Cover.TOGGLE_CLOSE: (self.toggle, self.close),
+            Cover.TOGGLE_OPEN: (self.toggle, (self.open,)),
+            Cover.TOGGLE_CLOSE: (self.toggle, (self.close,)),
         }
 
     @action
