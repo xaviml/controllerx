@@ -22,10 +22,15 @@ class PredefinedActionType(ActionType):
         self.predefined_actions_mapping = (
             self.controller.get_predefined_actions_mapping()
         )
+        if not self.predefined_actions_mapping:
+            raise ValueError(
+                f"Cannot use predefined actions for `{self.controller.__class__.__name__}` class."
+            )
         if self.action_key not in self.predefined_actions_mapping:
             raise ValueError(
-                f"`{self.action_key}` is not one of the predefined actions."
-                f"Available actions are: {list(self.predefined_actions_mapping.keys())}"
+                f"`{self.action_key}` is not one of the predefined actions. "
+                f"Available actions are: {list(self.predefined_actions_mapping.keys())}."
+                "See more in: https://xaviml.github.io/controllerx/others/custom-controllers"
             )
 
     async def run(self, extra: Optional[EventData] = None) -> None:

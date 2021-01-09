@@ -151,12 +151,7 @@ async def test_call_service_controller(
         "integration": integration,
         "mapping": {"action": services},
     }
-    call_service_stub = mocker.stub()
-
-    async def fake_call_service(self, service, **data):
-        call_service_stub(service, **data)
-
-    monkeypatch.setattr(Hass, "call_service", fake_call_service)
+    call_service_stub = mocker.patch.object(Hass, "call_service")
 
     # SUT
     await sut.initialize()
@@ -166,4 +161,4 @@ async def test_call_service_controller(
     # Checks
     assert call_service_stub.call_count == len(expected_calls)
     for expected_service, expected_data in expected_calls:
-        call_service_stub.assert_any_call(expected_service, **expected_data)
+        call_service_stub.assert_any_call(sut, expected_service, **expected_data)

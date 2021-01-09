@@ -1,5 +1,6 @@
 import asyncio
 import time
+from asyncio import CancelledError
 from asyncio.futures import Future
 from collections import defaultdict
 from functools import wraps
@@ -29,6 +30,7 @@ from cx_const import (
 )
 from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping, parse_actions
+from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData, Integration
 
 Service = Tuple[str, Dict]
@@ -76,13 +78,14 @@ class Controller(Hass, Mqtt):
 
     integration: Integration
     actions_mapping: ActionsMapping
+    action_handles: Dict[ActionEvent, Optional[Future]]
+    action_delay_handles: Dict[ActionEvent, Optional[float]]
     multiple_click_actions: Set[ActionEvent]
     action_delay: Dict[ActionEvent, int]
     action_delta: int
     action_times: Dict[str, float]
     multiple_click_action_times: Dict[str, float]
     click_counter: Counter[ActionEvent]
-    action_delay_handles: Dict[ActionEvent, Optional[float]]
     multiple_click_action_delay_tasks: Dict[ActionEvent, Optional[Future]]
     multiple_click_delay: int
 
@@ -129,6 +132,7 @@ class Controller(Hass, Mqtt):
             **self.args.get("action_delay", {}),
         }
         self.action_delay_handles = defaultdict(lambda: None)
+        self.action_handles = defaultdict(lambda: None)
 
         # Action delta
         self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
@@ -333,6 +337,24 @@ class Controller(Hass, Mqtt):
         extra: EventData = kwargs["extra"]
         self.action_delay_handles[action_key] = None
         action_types = self.actions_mapping[action_key]
+        previous_task = self.action_handles[action_key]
+        if previous_task is not None:
+            previous_task.cancel()
+        task = asyncio.ensure_future(self.call_action_types(action_types, extra))
+        self.action_handles[action_key] = task
+        try:
+            await task
+        except CancelledError:
+            self.log(
+                f"Task(s) from `{action_key}` was/were cancelled and executed again",
+                level="DEBUG",
+            )
+        else:
+            self.action_handles[action_key] = None
+
+    async def call_action_types(
+        self, action_types: List[ActionType], extra: Optional[EventData] = None
+    ) -> None:
         for action_type in action_types:
             self.log(
                 f"🏃 Running `{action_type}` now",
