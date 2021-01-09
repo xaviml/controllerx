@@ -314,13 +314,6 @@ def test_get_integration(
         assert integration.name == integration_name_expected
 
 
-def test_check_ad_version_throwing_error(sut: Controller, mocker: MockerFixture):
-    mocker.patch.object(sut, "get_ad_version", return_value="3.0.0")
-    with pytest.raises(ValueError) as e:
-        sut.check_ad_version()
-    assert str(e.value) == "Please upgrade to AppDaemon 4.x"
-
-
 def test_get_default_actions_mapping_happyflow(sut, monkeypatch, mocker):
     integration_mock = IntegrationMock("integration-test", sut, mocker)
     monkeypatch.setattr(

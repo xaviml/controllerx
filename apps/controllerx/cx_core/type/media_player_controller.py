@@ -17,11 +17,11 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     domains = ["media_player"]
     entity_arg = "media_player"
 
-    async def initialize(self) -> None:
+    async def init(self) -> None:
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0.0
-        await super().initialize()
+        await super().init()
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity

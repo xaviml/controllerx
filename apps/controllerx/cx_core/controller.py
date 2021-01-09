@@ -88,9 +88,9 @@ class Controller(Hass, Mqtt):
 
     async def initialize(self) -> None:
         self.log(f"🎮 ControllerX {cx_version.__version__}", ascii_encode=False)
-        self.check_ad_version()
+        await self.init()
 
-        # Get arguments
+    async def init(self) -> None:
         controllers_ids: List[str] = self.get_list(self.args["controller"])
         self.integration = self.get_integration(self.args["integration"])
 
@@ -191,12 +191,6 @@ class Controller(Hass, Mqtt):
             parsed_integration["name"], [i.name for i in integrations]
         )
         return next(i for i in integrations if i.name == integration_argument)
-
-    def check_ad_version(self) -> None:
-        ad_version = self.get_ad_version()
-        major, _, _ = ad_version.split(".")
-        if int(major) < 4:
-            raise ValueError("Please upgrade to AppDaemon 4.x")
 
     def get_default_actions_mapping(
         self, integration: Integration

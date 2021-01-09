@@ -8,14 +8,14 @@ DEFAULT_DELAY = 350  # In milliseconds
 class ReleaseHoldController(Controller, abc.ABC):
     DEFAULT_MAX_LOOPS = 50
 
-    async def initialize(self):
+    async def init(self):
         self.on_hold = False
         self.delay = self.args.get("delay", self.default_delay())
         self.max_loops = self.args.get(
             "max_loops", ReleaseHoldController.DEFAULT_MAX_LOOPS
         )
         self.hold_release_toggle: bool = self.args.get("hold_release_toggle", False)
-        await super().initialize()
+        await super().init()
 
     @action
     async def release(self) -> None:

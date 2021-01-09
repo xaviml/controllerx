@@ -67,7 +67,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     domains = ["light"]
     entity_arg = "light"
 
-    async def initialize(self) -> None:
+    async def init(self) -> None:
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
@@ -115,7 +115,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self.add_transition_turn_toggle = self.args.get(
             "add_transition_turn_toggle", DEFAULT_TRANSITION_TURN_TOGGLE
         )
-        await super().initialize()
+        await super().init()
 
     def _get_entity_type(self) -> Type[LightEntity]:
         return LightEntity

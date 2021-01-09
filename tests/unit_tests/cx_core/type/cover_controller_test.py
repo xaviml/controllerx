@@ -17,7 +17,7 @@ ENTITY_NAME = "cover.test"
 @pytest.mark.asyncio
 async def sut_before_init(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
-    mocker.patch.object(TypeController, "initialize")
+    mocker.patch.object(TypeController, "init")
     return controller
 
 
@@ -25,9 +25,9 @@ async def sut_before_init(mocker: MockerFixture) -> CoverController:
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
-    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(Controller, "init")
     controller.args = {"cover": ENTITY_NAME}
-    await controller.initialize()
+    await controller.init()
     return controller
 
 
@@ -42,7 +42,7 @@ async def sut(mocker: MockerFixture) -> CoverController:
     ],
 )
 @pytest.mark.asyncio
-async def test_initialize(
+async def test_init(
     sut_before_init: CoverController,
     open_position: int,
     close_position: int,
@@ -54,7 +54,7 @@ async def test_initialize(
     }
 
     with wrap_exetuction(error_expected=error_expected, exception=ValueError):
-        await sut_before_init.initialize()
+        await sut_before_init.init()
 
     if not error_expected:
         assert sut_before_init.open_position == open_position

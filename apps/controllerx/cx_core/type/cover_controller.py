@@ -25,12 +25,12 @@ class CoverController(TypeController[Entity]):
     open_position: int
     close_position: int
 
-    async def initialize(self) -> None:
+    async def init(self) -> None:
         self.open_position = self.args.get("open_position", 100)
         self.close_position = self.args.get("close_position", 0)
         if self.open_position < self.close_position:
             raise ValueError("`open_position` must be higher than `close_position`")
-        await super().initialize()
+        await super().init()
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity

@@ -34,14 +34,14 @@ class MyTypeController(TypeController[MyEntity]):
 def sut_before_init(mocker: MockerFixture) -> MyTypeController:
     controller = MyTypeController()  # type: ignore
     controller.args = {ENTITY_ARG: ENTITY_NAME}
-    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(Controller, "init")
     return controller
 
 
 @pytest.fixture
 @pytest.mark.asyncio
 async def sut(sut_before_init: MyTypeController) -> MyTypeController:
-    await sut_before_init.initialize()
+    await sut_before_init.init()
     return sut_before_init
 
 
@@ -56,13 +56,13 @@ async def sut(sut_before_init: MyTypeController) -> MyTypeController:
         ({}, True),
     ],
 )
-async def test_initialize(
+async def test_init(
     sut_before_init: MyTypeController, args: Dict[str, Any], error_expected: bool
 ):
     sut_before_init.args = args
 
     with wrap_exetuction(error_expected=error_expected, exception=ValueError):
-        await sut_before_init.initialize()
+        await sut_before_init.init()
 
     if not error_expected:
         assert sut_before_init.entity.name == ENTITY_NAME
