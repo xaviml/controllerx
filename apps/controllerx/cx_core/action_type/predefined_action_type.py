@@ -30,7 +30,7 @@ class PredefinedActionType(ActionType):
             raise ValueError(
                 f"`{self.action_key}` is not one of the predefined actions. "
                 f"Available actions are: {list(self.predefined_actions_mapping.keys())}."
-                "See more in: https://xaviml.github.io/controllerx/others/custom-controllers"
+                "See more in: https://xaviml.github.io/controllerx/advanced/custom-controllers"
             )
 
     async def run(self, extra: Optional[EventData] = None) -> None:

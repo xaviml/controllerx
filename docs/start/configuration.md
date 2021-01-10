@@ -74,8 +74,8 @@ These are the generic app parameters for all type of controllers. You can see th
 | `action_delta`         | int            | 300                                               | This is the threshold time between the previous action and the next one (being the same action). If the time difference between the two actions is less than this attribute, then the action won't be called. I recommend changing this if you see the same action being called twice.                                       |
 | `multiple_click_delay` | int            | 500                                               | Indicates the delay (in milliseconds) when a multiple click action should be trigger. The higher the number, the more time there can be between clicks, but there will be more delay for the action to be triggered.                                                                                                         |
 | `action_delay`         | dict           | -                                                 | This can be used to set a delay to each action. By default, the delay for all actions is 0. The key for the map is the action and the value is the delay in seconds.                                                                                                                                                         |
-| `mapping`              | dict           | -                                                 | This can be used to replace the behaviour of the controller and manually select what each button should be doing. By default it will ignore this parameter. Read more about it in [here](/controllerx/others/custom-controllers). The functionality included in this attribute will remove the default mapping.              |
-| `merge_mapping`        | dict           | -                                                 | This can be used to merge the default mapping from the controller and manually select what each button should be doing. By default it will ignore this parameter. Read more about it in [here](/controllerx/others/custom-controllers). The functionality included in this attribute is added on top of the default mapping. |
+| `mapping`              | dict           | -                                                 | This can be used to replace the behaviour of the controller and manually select what each button should be doing. By default it will ignore this parameter. Read more about it in [here](/controllerx/advanced/custom-controllers). The functionality included in this attribute will remove the default mapping.              |
+| `merge_mapping`        | dict           | -                                                 | This can be used to merge the default mapping from the controller and manually select what each button should be doing. By default it will ignore this parameter. Read more about it in [here](/controllerx/advanced/custom-controllers). The functionality included in this attribute is added on top of the default mapping. |
 
 Integration dictionary for `integration` attribute.
 
@@ -113,14 +113,14 @@ example_app: # It can be anything
   # `action_delta` is the threshold to avoid firing the same action twice
   action_delta: 300 # default. This is optional.
   # `multiple_click_delay` is used for the multiclick functionality
-  # Check https://xaviml.github.io/controllerx/others/multiple-clicks for more info
+  # Check https://xaviml.github.io/controllerx/advanced/multiple-clicks for more info
   multiple_click_delay: 500 # default. This is optional.
   # `action_delay` lets you configure delays to existing actions
   action_delay: # This is optional.
     toggle: 10 # This will fire `toggle` action in 10 seconds after pressed.
   # `mapping` and `merge_mapping` let you override the default behaviour of your controller.
   # `merge_mapping` updates the default mapping, and `mapping` overrides it completely.
-  # Check https://xaviml.github.io/controllerx/others/custom-controllers for more info
+  # Check https://xaviml.github.io/controllerx/advanced/custom-controllers for more info
   merge_mapping: # or `mapping`. This is optional.
     brightness_up_click: toggle_full_brightness # use predefined actions
     toggle: # or HA service calls
