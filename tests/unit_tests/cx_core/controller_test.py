@@ -231,6 +231,8 @@ async def test_merge_mapping(
         ("sensor number 1, sensor number 2", ["sensor number 1, sensor number 2"]),
         (["sensor1", "sensor2"], ["sensor1", "sensor2"]),
         (["sensor 1", "sensor 2"], ["sensor 1", "sensor 2"]),
+        (1002, [1002]),
+        ([1002, 2002], [1002, 2002]),
     ],
 )
 def test_get_list(
