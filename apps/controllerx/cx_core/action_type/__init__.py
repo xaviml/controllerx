@@ -42,5 +42,5 @@ def _parse_action(controller: "Controller", action: CustomAction) -> ActionType:
         )
     except StopIteration:
         raise ValueError(
-            f"Not able to parse `{action}`. Available keys are: {action_type_mapping.keys()}"
+            f"Not able to parse `{action}`. Available keys are: {list(action_type_mapping.keys())}"
         )

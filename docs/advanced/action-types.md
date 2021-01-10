@@ -19,20 +19,20 @@ mapping: # or merge_mapping
   event: toggle
 
   ## Call services
-  # You can call any Home Assistant service as you can do from `Developer Tools > Services`
+  # Call any service the same way as it is done through `Developer Tools > Services` in HA
   event:
     service: script.my_script
     data:
       attr1: 42
       attr2: foo
 
-  # You can pass the `entity_id` directly like this or through `data`
+  # `entity_id` can be passed directly like this or through `data`
   event:
     service: light.turn_on
     entity_id: light.my_light 
 
   ## Scene activation
-  # You can activate any Home Assistant Scene you have already created
+  # Activate any HA Scene
   event:
     scene: scene.my_scene
 
@@ -48,4 +48,6 @@ mapping: # or merge_mapping
 
 _The `event` key is the event from your controller and integration._
 
-If an action is still executing (most likely because of a `delay` in place), and another of the same type gets fired, the previous one will be cancelled and a new one will be executed. This is not configurable and it works the same as [`mode: restart`](https://www.home-assistant.io/docs/automation/modes) for Home Assistant automations.
+If an action is still executing (most likely because of a `delay` in place), and another of the same type gets fired, the previous one will be cancelled and a new one will be executed. This is not configurable and it works the same as [`mode: restart`](https://www.home-assistant.io/docs/automation/modes) from Home Assistant automations.
+
+Actions will be executed sequentially, so keep in mind that if using predefined actions, it is not recommended to use a list of `hold` actions since they will be executed sequentially, and it will not result in an expected behaviour. This is because the `hold` actions are blocking operations and they will not be finished until a `release` action is fired.
