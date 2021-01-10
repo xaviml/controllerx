@@ -2,10 +2,10 @@ from typing import Any, Dict, List, Tuple, Type
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from cx_const import TypeActionsMapping
+from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+from cx_const import PredefinedActionsMapping
 from cx_core import (
     CallServiceController,
-    Controller,
     CoverController,
     LightController,
     MediaPlayerController,
@@ -68,7 +68,7 @@ async def test_custom_controllers(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
     custom_cls: Type[TypeController],
-    mapping: TypeActionsMapping,
+    mapping: PredefinedActionsMapping,
     action_input: str,
     mock_function: str,
     expected_calls: int,
@@ -151,12 +151,7 @@ async def test_call_service_controller(
         "integration": integration,
         "mapping": {"action": services},
     }
-    call_service_stub = mocker.stub()
-
-    async def fake_call_service(self, service, **data):
-        call_service_stub(service, **data)
-
-    monkeypatch.setattr(Controller, "call_service", fake_call_service)
+    call_service_stub = mocker.patch.object(Hass, "call_service")
 
     # SUT
     await sut.initialize()
@@ -166,4 +161,4 @@ async def test_call_service_controller(
     # Checks
     assert call_service_stub.call_count == len(expected_calls)
     for expected_service, expected_data in expected_calls:
-        call_service_stub.assert_any_call(expected_service, **expected_data)
+        call_service_stub.assert_any_call(sut, expected_service, **expected_data)

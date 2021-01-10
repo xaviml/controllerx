@@ -2,14 +2,14 @@ from typing import Callable, KeysView, List, Optional, Type
 
 import cx_devices as devices_module
 import pytest
-from cx_const import ActionEvent, TypeActionsMapping
+from cx_const import ActionEvent, DefaultActionsMapping
 from cx_core import Controller, ReleaseHoldController
 
 from tests.test_utils import get_classes, get_controller
 
 
 def check_mapping(
-    mapping: Optional[TypeActionsMapping],
+    mapping: Optional[DefaultActionsMapping],
     all_possible_actions: KeysView[ActionEvent],
     device: Controller,
 ) -> None:
@@ -54,9 +54,9 @@ def test_devices(device_class: Type[Controller]):
         device_from_controllerx is not None
     ), f"'{device_class.__name__}' not importable from controllerx.py"
 
-    type_actions_mapping = device.get_type_actions_mapping()
-    possible_actions = type_actions_mapping.keys()
-    integration_mappings_funcs: List[Callable[[], Optional[TypeActionsMapping]]] = [
+    predefined_actions_mapping = device.get_predefined_actions_mapping()
+    possible_actions = predefined_actions_mapping.keys()
+    integration_mappings_funcs: List[Callable[[], Optional[DefaultActionsMapping]]] = [
         device.get_z2m_actions_mapping,
         device.get_deconz_actions_mapping,
         device.get_zha_actions_mapping,

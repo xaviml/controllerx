@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional, Type, Union
 
-from cx_const import Light, TypeActionsMapping
+from cx_const import Light, PredefinedActionsMapping
 from cx_core.color_helper import get_color_wheel
 from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
@@ -67,7 +67,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     domains = ["light"]
     entity_arg = "light"
 
-    async def initialize(self) -> None:
+    async def init(self) -> None:
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
         self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
@@ -115,205 +115,261 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self.add_transition_turn_toggle = self.args.get(
             "add_transition_turn_toggle", DEFAULT_TRANSITION_TURN_TOGGLE
         )
-        await super().initialize()
+        await super().init()
 
     def _get_entity_type(self) -> Type[LightEntity]:
         return LightEntity
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
             Light.ON: self.on,
             Light.OFF: self.off,
             Light.TOGGLE: self.toggle,
             Light.TOGGLE_FULL_BRIGHTNESS: (
                 self.toggle_full,
-                LightController.ATTRIBUTE_BRIGHTNESS,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
             ),
             Light.TOGGLE_FULL_WHITE_VALUE: (
                 self.toggle_full,
-                LightController.ATTRIBUTE_WHITE_VALUE,
+                (LightController.ATTRIBUTE_WHITE_VALUE,),
             ),
             Light.TOGGLE_FULL_COLOR_TEMP: (
                 self.toggle_full,
-                LightController.ATTRIBUTE_COLOR_TEMP,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.TOGGLE_MIN_BRIGHTNESS: (
                 self.toggle_min,
-                LightController.ATTRIBUTE_BRIGHTNESS,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
             ),
             Light.TOGGLE_MIN_WHITE_VALUE: (
                 self.toggle_min,
-                LightController.ATTRIBUTE_WHITE_VALUE,
+                (LightController.ATTRIBUTE_WHITE_VALUE,),
             ),
             Light.TOGGLE_MIN_COLOR_TEMP: (
                 self.toggle_min,
-                LightController.ATTRIBUTE_COLOR_TEMP,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.RELEASE: self.release,
             Light.ON_FULL_BRIGHTNESS: (
                 self.on_full,
-                LightController.ATTRIBUTE_BRIGHTNESS,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
             ),
             Light.ON_FULL_WHITE_VALUE: (
                 self.on_full,
-                LightController.ATTRIBUTE_WHITE_VALUE,
+                (LightController.ATTRIBUTE_WHITE_VALUE,),
             ),
             Light.ON_FULL_COLOR_TEMP: (
                 self.on_full,
-                LightController.ATTRIBUTE_COLOR_TEMP,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.ON_MIN_BRIGHTNESS: (
                 self.on_min,
-                LightController.ATTRIBUTE_BRIGHTNESS,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
             ),
             Light.ON_MIN_WHITE_VALUE: (
                 self.on_min,
-                LightController.ATTRIBUTE_WHITE_VALUE,
+                (LightController.ATTRIBUTE_WHITE_VALUE,),
             ),
             Light.ON_MIN_COLOR_TEMP: (
                 self.on_min,
-                LightController.ATTRIBUTE_COLOR_TEMP,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.SET_HALF_BRIGHTNESS: (
                 self.set_value,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                0.5,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    0.5,
+                ),
             ),
             Light.SET_HALF_WHITE_VALUE: (
                 self.set_value,
-                LightController.ATTRIBUTE_WHITE_VALUE,
-                0.5,
+                (
+                    LightController.ATTRIBUTE_WHITE_VALUE,
+                    0.5,
+                ),
             ),
             Light.SET_HALF_COLOR_TEMP: (
                 self.set_value,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                0.5,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    0.5,
+                ),
             ),
             Light.SYNC: self.sync,
             Light.CLICK_BRIGHTNESS_UP: (
                 self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    Stepper.UP,
+                ),
             ),
             Light.CLICK_BRIGHTNESS_DOWN: (
                 self.click,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    Stepper.DOWN,
+                ),
             ),
             Light.CLICK_WHITE_VALUE_UP: (
                 self.click,
-                LightController.ATTRIBUTE_WHITE_VALUE,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_WHITE_VALUE,
+                    Stepper.UP,
+                ),
             ),
             Light.CLICK_WHITE_VALUE_DOWN: (
                 self.click,
-                LightController.ATTRIBUTE_WHITE_VALUE,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_WHITE_VALUE,
+                    Stepper.DOWN,
+                ),
             ),
             Light.CLICK_COLOR_UP: (
                 self.click,
-                LightController.ATTRIBUTE_COLOR,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_COLOR,
+                    Stepper.UP,
+                ),
             ),
             Light.CLICK_COLOR_DOWN: (
                 self.click,
-                LightController.ATTRIBUTE_COLOR,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_COLOR,
+                    Stepper.DOWN,
+                ),
             ),
             Light.CLICK_COLOR_TEMP_UP: (
                 self.click,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    Stepper.UP,
+                ),
             ),
             Light.CLICK_COLOR_TEMP_DOWN: (
                 self.click,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    Stepper.DOWN,
+                ),
             ),
             Light.CLICK_XY_COLOR_UP: (
                 self.click,
-                LightController.ATTRIBUTE_XY_COLOR,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_XY_COLOR,
+                    Stepper.UP,
+                ),
             ),
             Light.CLICK_XY_COLOR_DOWN: (
                 self.click,
-                LightController.ATTRIBUTE_XY_COLOR,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_XY_COLOR,
+                    Stepper.DOWN,
+                ),
             ),
             Light.HOLD_BRIGHTNESS_UP: (
                 self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    Stepper.UP,
+                ),
             ),
             Light.HOLD_BRIGHTNESS_DOWN: (
                 self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    Stepper.DOWN,
+                ),
             ),
             Light.HOLD_BRIGHTNESS_TOGGLE: (
                 self.hold,
-                LightController.ATTRIBUTE_BRIGHTNESS,
-                Stepper.TOGGLE,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    Stepper.TOGGLE,
+                ),
             ),
             Light.HOLD_WHITE_VALUE_UP: (
                 self.hold,
-                LightController.ATTRIBUTE_WHITE_VALUE,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_WHITE_VALUE,
+                    Stepper.UP,
+                ),
             ),
             Light.HOLD_WHITE_VALUE_DOWN: (
                 self.hold,
-                LightController.ATTRIBUTE_WHITE_VALUE,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_WHITE_VALUE,
+                    Stepper.DOWN,
+                ),
             ),
             Light.HOLD_WHITE_VALUE_TOGGLE: (
                 self.hold,
-                LightController.ATTRIBUTE_WHITE_VALUE,
-                Stepper.TOGGLE,
+                (
+                    LightController.ATTRIBUTE_WHITE_VALUE,
+                    Stepper.TOGGLE,
+                ),
             ),
             Light.HOLD_COLOR_UP: (
                 self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_COLOR,
+                    Stepper.UP,
+                ),
             ),
             Light.HOLD_COLOR_DOWN: (
                 self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_COLOR,
+                    Stepper.DOWN,
+                ),
             ),
             Light.HOLD_COLOR_TOGGLE: (
                 self.hold,
-                LightController.ATTRIBUTE_COLOR,
-                Stepper.TOGGLE,
+                (
+                    LightController.ATTRIBUTE_COLOR,
+                    Stepper.TOGGLE,
+                ),
             ),
             Light.HOLD_COLOR_TEMP_UP: (
                 self.hold,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    Stepper.UP,
+                ),
             ),
             Light.HOLD_COLOR_TEMP_DOWN: (
                 self.hold,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    Stepper.DOWN,
+                ),
             ),
             Light.HOLD_COLOR_TEMP_TOGGLE: (
                 self.hold,
-                LightController.ATTRIBUTE_COLOR_TEMP,
-                Stepper.TOGGLE,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    Stepper.TOGGLE,
+                ),
             ),
             Light.HOLD_XY_COLOR_UP: (
                 self.hold,
-                LightController.ATTRIBUTE_XY_COLOR,
-                Stepper.UP,
+                (
+                    LightController.ATTRIBUTE_XY_COLOR,
+                    Stepper.UP,
+                ),
             ),
             Light.HOLD_XY_COLOR_DOWN: (
                 self.hold,
-                LightController.ATTRIBUTE_XY_COLOR,
-                Stepper.DOWN,
+                (
+                    LightController.ATTRIBUTE_XY_COLOR,
+                    Stepper.DOWN,
+                ),
             ),
             Light.HOLD_XY_COLOR_TOGGLE: (
                 self.hold,
-                LightController.ATTRIBUTE_XY_COLOR,
-                Stepper.TOGGLE,
+                (
+                    LightController.ATTRIBUTE_XY_COLOR,
+                    Stepper.TOGGLE,
+                ),
             ),
         }
 

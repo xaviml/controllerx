@@ -1,7 +1,7 @@
 from typing import Type
 
 import pytest
-from cx_const import TypeActionsMapping
+from cx_const import PredefinedActionsMapping
 from cx_core import type as type_module
 from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
@@ -9,7 +9,7 @@ from pytest_mock.plugin import MockerFixture
 from tests.test_utils import get_classes
 
 
-def check_mapping(mapping: TypeActionsMapping) -> None:
+def check_mapping(mapping: PredefinedActionsMapping) -> None:
     if mapping is None:
         return
     for v in mapping.values():
@@ -31,10 +31,9 @@ controller_types = get_classes(
 
 
 @pytest.mark.parametrize("controller_type", controller_types)
-def test_type_actions_mapping(
+def test_predefined_actions_mapping(
     mocker: MockerFixture, controller_type: Type[TypeController]
 ):
     controller = controller_type()  # type: ignore
-    # mocker.patch.object(TypeController, "initialize")
-    mappings = controller.get_type_actions_mapping()
+    mappings = controller.get_predefined_actions_mapping()
     check_mapping(mappings)

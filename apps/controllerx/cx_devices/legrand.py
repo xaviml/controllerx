@@ -1,4 +1,4 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 from cx_core.integration import EventData
 
@@ -15,7 +15,7 @@ def get_zha_action_LegrandWallController(data: dict) -> str:
 
 
 class Legrand600083LightController(LightController):
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_on": Light.ON,
             "1_off": Light.OFF,
@@ -29,7 +29,7 @@ class Legrand600083LightController(LightController):
 
 
 class Legrand600088LightController(LightController):
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_on": Light.ON,
             "1_off": Light.OFF,

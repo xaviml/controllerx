@@ -1,6 +1,6 @@
 from typing import Callable, Type
 
-from cx_const import Cover, TypeActionsMapping
+from cx_const import Cover, PredefinedActionsMapping
 from cx_core.controller import action
 from cx_core.feature_support.cover import CoverSupport
 from cx_core.type_controller import Entity, TypeController
@@ -25,23 +25,23 @@ class CoverController(TypeController[Entity]):
     open_position: int
     close_position: int
 
-    async def initialize(self) -> None:
+    async def init(self) -> None:
         self.open_position = self.args.get("open_position", 100)
         self.close_position = self.args.get("close_position", 0)
         if self.open_position < self.close_position:
             raise ValueError("`open_position` must be higher than `close_position`")
-        await super().initialize()
+        await super().init()
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
             Cover.OPEN: self.open,
             Cover.CLOSE: self.close,
             Cover.STOP: self.stop,
-            Cover.TOGGLE_OPEN: (self.toggle, self.open),
-            Cover.TOGGLE_CLOSE: (self.toggle, self.close),
+            Cover.TOGGLE_OPEN: (self.toggle, (self.open,)),
+            Cover.TOGGLE_CLOSE: (self.toggle, (self.close,)),
         }
 
     @action

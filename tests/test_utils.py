@@ -17,8 +17,8 @@ class IntegrationMock:
     def __init__(self, name: str, controller: "Controller", mocker: MockerFixture):
         self.name = name
         self.controller = controller
-        self.get_actions_mapping = MagicMock(
-            name="get_actions_mapping", return_value={}
+        self.get_default_actions_mapping = MagicMock(
+            name="get_default_actions_mapping", return_value={}
         )
         self.listen_changes = mocker.stub(name="listen_changes")
 

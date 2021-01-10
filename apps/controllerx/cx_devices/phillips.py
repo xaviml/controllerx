@@ -1,4 +1,4 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 from cx_core.integration import EventData
 
@@ -9,7 +9,7 @@ class HueDimmerController(LightController):
     # up-hold-release, down-press, down-hold, down-hold-release,
     # off-press, off-hold, off-hold-release
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on-press": Light.ON,
             "on-hold": Light.HOLD_COLOR_UP,
@@ -25,7 +25,7 @@ class HueDimmerController(LightController):
             "off-hold-release": Light.RELEASE,
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.ON,
             1001: Light.HOLD_COLOR_UP,
@@ -41,7 +41,7 @@ class HueDimmerController(LightController):
             4003: Light.RELEASE,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "off_long_release": Light.RELEASE,
             "off_hold": Light.HOLD_COLOR_DOWN,
@@ -62,7 +62,7 @@ class HueDimmerController(LightController):
 
 
 class Niko91004LightController(LightController):
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.ON,  # button_1_release
             1001: Light.SYNC,  # button_1_hold

@@ -58,8 +58,10 @@ _ControllerX_ uses an async loop to make HA call services requests (e.g. to chan
 
 ## Advanced
 
-- [Custom mapping](others/custom-controllers)
-- [Multiple clicks](others/multiple-clicks)
+- [Custom mapping](advanced/custom-controllers)
+  - [Action types](advanced/action-types)
+  - [Predefined actions](advanced/predefined-actions)
+  - [Multiple clicks](advanced/multiple-clicks)
 
 ## Others
 

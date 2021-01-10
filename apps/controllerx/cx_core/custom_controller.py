@@ -6,50 +6,50 @@ from cx_core.type.switch_controller import SwitchController
 
 
 class CustomLightController(LightController):
-    async def initialize(self) -> None:
-        await super().initialize()
+    async def init(self) -> None:
         self.log(
             "⚠️ `CustomLightController` is deprecated and will be removed. Use `LightController` instead",
             level="WARNING",
             ascii_encode=False,
         )
+        await super().init()
 
 
 class CustomMediaPlayerController(MediaPlayerController):
-    async def initialize(self) -> None:
-        await super().initialize()
+    async def init(self) -> None:
         self.log(
             "⚠️ `CustomMediaPlayerController` is deprecated and will be removed. Use `MediaPlayerController` instead",
             level="WARNING",
             ascii_encode=False,
         )
+        await super().init()
 
 
 class CustomSwitchController(SwitchController):
-    async def initialize(self) -> None:
-        await super().initialize()
+    async def init(self) -> None:
         self.log(
             "⚠️ `CustomSwitchController` is deprecated and will be removed. Use `SwitchController` instead",
             level="WARNING",
             ascii_encode=False,
         )
+        await super().init()
 
 
 class CustomCoverController(CoverController):
-    async def initialize(self) -> None:
-        await super().initialize()
+    async def init(self) -> None:
         self.log(
             "⚠️ `CustomCoverController` is deprecated and will be removed. Use `CoverController` instead",
             level="WARNING",
             ascii_encode=False,
         )
+        await super().init()
 
 
 class CallServiceController(Controller):
-    async def initialize(self) -> None:
-        await super().initialize()
+    async def init(self) -> None:
         self.log(
             "⚠️ `CallServiceController` is deprecated and will be removed. Use `Controller` instead",
             level="WARNING",
             ascii_encode=False,
         )
+        await super().init()

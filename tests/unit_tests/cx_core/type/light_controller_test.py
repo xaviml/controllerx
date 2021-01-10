@@ -22,7 +22,7 @@ ENTITY_NAME = "light.test"
 async def sut_before_init(mocker: MockerFixture) -> LightController:
     controller = LightController()  # type: ignore
     controller.args = {}
-    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(Controller, "init")
     return controller
 
 
@@ -30,9 +30,9 @@ async def sut_before_init(mocker: MockerFixture) -> LightController:
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> LightController:
     controller = LightController()  # type: ignore
-    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(Controller, "init")
     controller.args = {"light": ENTITY_NAME}
-    await controller.initialize()
+    await controller.init()
     return controller
 
 
@@ -62,7 +62,7 @@ async def sut(mocker: MockerFixture) -> LightController:
     ],
 )
 @pytest.mark.asyncio
-async def test_initialize(
+async def test_init(
     sut_before_init: LightController,
     light_input: Union[str, Dict[str, str]],
     expected_name: str,
@@ -73,7 +73,7 @@ async def test_initialize(
 
     # SUT
     with wrap_exetuction(error_expected=error_expected, exception=ValueError):
-        await sut_before_init.initialize()
+        await sut_before_init.init()
 
     # Checks
     if not error_expected:

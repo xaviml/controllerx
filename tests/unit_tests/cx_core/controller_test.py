@@ -1,10 +1,12 @@
 from collections import defaultdict
 from typing import Any, Dict, List, Optional, Union
 
-import appdaemon.plugins.hass.hassapi as hass  # type: ignore
+import appdaemon.plugins.hass.hassapi as hass
 import pytest
-from cx_const import ActionEvent, ActionFunction, TypeAction, TypeActionsMapping
+from cx_const import ActionEvent
 from cx_core import integration as integration_module
+from cx_core.action_type import ActionsMapping
+from cx_core.action_type.base import ActionType  # type: ignore
 from cx_core.controller import Controller, action
 from pytest_mock.plugin import MockerFixture
 
@@ -139,7 +141,7 @@ async def test_initialize(
     error_expected: bool,
 ):
     actions = {action: action for action in actions_input}
-    type_actions = {action: lambda: None for action in actions_input}
+    predefined_actions = {action: lambda: None for action in actions_input}
     sut_before_init.args["controller"] = controller_input
     integration_mock = IntegrationMock(INTEGRATION_TEST_NAME, sut_before_init, mocker)
     mocker.patch.object(
@@ -149,11 +151,17 @@ async def test_initialize(
         sut_before_init.args["actions"] = included_actions
     if excluded_actions:
         sut_before_init.args["excluded_actions"] = excluded_actions
-    mocker.patch.object(sut_before_init, "get_actions_mapping", return_value=actions)
     mocker.patch.object(
-        sut_before_init, "get_type_actions_mapping", return_value=type_actions
+        sut_before_init, "get_default_actions_mapping", return_value=actions
     )
-    get_actions_mapping = mocker.spy(sut_before_init, "get_actions_mapping")
+    mocker.patch.object(
+        sut_before_init,
+        "get_predefined_actions_mapping",
+        return_value=predefined_actions,
+    )
+    get_default_actions_mapping = mocker.spy(
+        sut_before_init, "get_default_actions_mapping"
+    )
 
     # SUT
     with wrap_exetuction(error_expected=error_expected, exception=ValueError):
@@ -161,7 +169,7 @@ async def test_initialize(
 
     # Checks
     if not error_expected:
-        get_actions_mapping.assert_called_once()
+        get_default_actions_mapping.assert_called_once()
         for controller_id in controller_input:
             integration_mock.listen_changes.assert_any_call(controller_id)
         assert integration_mock.listen_changes.call_count == len(controller_input)
@@ -190,15 +198,19 @@ async def test_merge_mapping(
 ):
     actions_input = ["action1", "action2", "action3"]
     actions = {action: action for action in actions_input}
-    type_actions = {action: lambda: None for action in actions_input}
+    predefined_actions = {action: lambda: None for action in actions_input}
     if mapping:
         sut_before_init.args["mapping"] = {item: item for item in mapping}
     if merge_mapping:
         sut_before_init.args["merge_mapping"] = {item: item for item in merge_mapping}
 
-    mocker.patch.object(sut_before_init, "get_actions_mapping", return_value=actions)
     mocker.patch.object(
-        sut_before_init, "get_type_actions_mapping", return_value=type_actions
+        sut_before_init, "get_default_actions_mapping", return_value=actions
+    )
+    mocker.patch.object(
+        sut_before_init,
+        "get_predefined_actions_mapping",
+        return_value=predefined_actions,
     )
 
     # SUT
@@ -219,6 +231,8 @@ async def test_merge_mapping(
         ("sensor number 1, sensor number 2", ["sensor number 1, sensor number 2"]),
         (["sensor1", "sensor2"], ["sensor1", "sensor2"]),
         (["sensor 1", "sensor 2"], ["sensor 1", "sensor 2"]),
+        (1002, [1002]),
+        ([1002, 2002], [1002, 2002]),
     ],
 )
 def test_get_list(
@@ -245,9 +259,13 @@ def test_get_list(
     ],
 )
 def test_get_multiple_click_actions(
-    sut: Controller, mapping: List[ActionEvent], expected: List[str]
+    fake_action_type: ActionType,
+    sut: Controller,
+    mapping: List[ActionEvent],
+    expected: List[str],
 ):
-    output = sut.get_multiple_click_actions({key: "action" for key in mapping})
+    actions_mapping: ActionsMapping = {key: [fake_action_type] for key in mapping}
+    output = sut.get_multiple_click_actions(actions_mapping)
     assert output == set(expected)
 
 
@@ -298,30 +316,27 @@ def test_get_integration(
         assert integration.name == integration_name_expected
 
 
-def test_check_ad_version_throwing_error(sut: Controller, mocker: MockerFixture):
-    mocker.patch.object(sut, "get_ad_version", return_value="3.0.0")
-    with pytest.raises(ValueError) as e:
-        sut.check_ad_version()
-    assert str(e.value) == "Please upgrade to AppDaemon 4.x"
-
-
-def test_get_actions_mapping_happyflow(sut, monkeypatch, mocker):
+def test_get_default_actions_mapping_happyflow(sut, monkeypatch, mocker):
     integration_mock = IntegrationMock("integration-test", sut, mocker)
     monkeypatch.setattr(
-        integration_mock, "get_actions_mapping", lambda: "this_is_a_mapping"
+        integration_mock, "get_default_actions_mapping", lambda: "this_is_a_mapping"
     )
 
-    mapping = sut.get_actions_mapping(integration_mock)
+    mapping = sut.get_default_actions_mapping(integration_mock)
 
     assert mapping == "this_is_a_mapping"
 
 
-def test_get_actions_mapping_throwing_error(sut: Controller, mocker: MockerFixture):
+def test_get_default_actions_mapping_throwing_error(
+    sut: Controller, mocker: MockerFixture
+):
     integration_mock = IntegrationMock("integration-test", sut, mocker)
-    mocker.patch.object(integration_mock, "get_actions_mapping", return_value=None)
+    mocker.patch.object(
+        integration_mock, "get_default_actions_mapping", return_value=None
+    )
 
     with pytest.raises(ValueError) as e:
-        sut.get_actions_mapping(integration_mock)  # type: ignore
+        sut.get_default_actions_mapping(integration_mock)  # type: ignore
 
     assert str(e.value) == "This controller does not support integration-test."
 
@@ -344,10 +359,14 @@ async def test_handle_action(
     action_called_times: int,
     action_delta: int,
     expected_calls: int,
+    fake_action_type: ActionType,
 ):
     sut.action_delta = action_delta
     sut.action_times = defaultdict(lambda: 0)
-    actions_mapping: TypeActionsMapping = {action: "test" for action in actions_input}
+
+    actions_mapping: ActionsMapping = {
+        action: [fake_action_type] for action in actions_input
+    }
     sut.actions_mapping = actions_mapping
     call_action_patch = mocker.patch.object(sut, "call_action")
 
@@ -379,7 +398,6 @@ async def test_call_action(
     action_timer_callback_called: bool,
 ):
     action_key = "test"
-    sut.actions_key_mapping = {"test": "test_action"}
     sut.action_delay = {action_key: delay}
     action_delay_handles: Dict[ActionEvent, Optional[float]] = {action_key: handle}
     sut.action_delay_handles = action_delay_handles
@@ -405,35 +423,6 @@ async def test_call_action(
         action_timer_callback_patch.assert_called_once_with(
             {"action_key": action_key, "extra": None}
         )
-
-
-@pytest.mark.parametrize(
-    "test_input, expected, error_expected",
-    [
-        (fake_fn, (fake_fn,), False),
-        ((fake_fn,), (fake_fn,), False),
-        ((fake_fn, "test"), (fake_fn, "test"), False),
-        ("not-list-or-function", (), True),
-    ],
-)
-def test_get_action(
-    sut: Controller,
-    test_input: TypeAction,
-    expected: ActionFunction,
-    error_expected: bool,
-):
-    with wrap_exetuction(
-        error_expected=error_expected, exception=ValueError
-    ) as err_info:
-        output = sut.get_action(test_input)
-
-    if err_info is not None:
-        assert (
-            str(err_info.value)
-            == "The action value from the action mapping should be a list or a function"
-        )
-    else:
-        assert output == expected
 
 
 @pytest.mark.parametrize(

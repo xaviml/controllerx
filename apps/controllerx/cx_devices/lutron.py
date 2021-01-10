@@ -1,4 +1,4 @@
-from cx_const import Light, MediaPlayer, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light, MediaPlayer
 from cx_core import LightController, MediaPlayerController
 
 
@@ -10,7 +10,7 @@ class LutronCasetaProPicoLightController(LightController):
     # top button = "1", up button = "8", middle round = "2", down arrow = "16",
     # bottom button = "4", no button pressed = "0"
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": Light.ON_FULL_BRIGHTNESS,
             "8": Light.HOLD_BRIGHTNESS_UP,
@@ -29,7 +29,7 @@ class LutronCasetaProPicoMediaPlayerController(MediaPlayerController):
     # top button = "1", up button = "8", middle round = "2", down arrow = "16",
     # bottom button = "4", no button pressed = "0"
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": MediaPlayer.PLAY_PAUSE,
             "8": MediaPlayer.HOLD_VOLUME_UP,
@@ -48,7 +48,7 @@ class LutronCasetaProPJ24BLightController(LightController):
     # top button = "1", second button = "2", third button = "4",
     # bottom button = "8", no button pressed = "0"
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": Light.ON_FULL_BRIGHTNESS,
             "2": Light.HOLD_BRIGHTNESS_UP,
@@ -66,7 +66,7 @@ class LutronCasetaProPJ24BMediaPlayerController(MediaPlayerController):
     # top button = "1", second button = "2", third button = "4",
     # bottom button = "8", no button pressed = "0"
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": MediaPlayer.PLAY_PAUSE,
             "2": MediaPlayer.HOLD_VOLUME_UP,
@@ -81,7 +81,7 @@ class LZL4BWHL01LightController(LightController):
     # hold event. Press of up or down generates a stop event
     # when released.
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.ON_FULL_BRIGHTNESS,
             2001: Light.HOLD_BRIGHTNESS_UP,
@@ -91,7 +91,7 @@ class LZL4BWHL01LightController(LightController):
             4002: Light.OFF,
         }
 
-    def get_zha_actions_mapping(self) -> TypeActionsMapping:
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "move_to_level_with_on_off_254_4": Light.ON_FULL_BRIGHTNESS,
             "step_with_on_off_0_30_6": Light.HOLD_BRIGHTNESS_UP,
@@ -102,7 +102,7 @@ class LZL4BWHL01LightController(LightController):
 
 
 class Z31BRLLightController(LightController):
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.TOGGLE,
             2002: Light.CLICK_BRIGHTNESS_UP,

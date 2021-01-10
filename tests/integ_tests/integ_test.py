@@ -5,6 +5,7 @@ from typing import Any, Dict
 
 import pytest
 import yaml
+from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import get_controller
@@ -59,7 +60,7 @@ async def test_integ_configs(
 
     fake_entity_states = get_fake_entity_states(entity_state, entity_state_attributes)
     mocker.patch.object(controller, "get_entity_state", fake_entity_states)
-    call_service_stub = mocker.patch.object(controller, "call_service")
+    call_service_stub = mocker.patch.object(Hass, "call_service")
 
     await controller.initialize()
     for idx, action in enumerate(fired_actions):
@@ -81,6 +82,7 @@ async def test_integ_configs(
         await asyncio.wait(pending)
     assert call_service_stub.call_count == expected_calls_count
     calls = [
-        mocker.call(call["service"], **call.get("data", {})) for call in expected_calls
+        mocker.call(controller, call["service"], **call.get("data", {}))
+        for call in expected_calls
     ]
     call_service_stub.assert_has_calls(calls)

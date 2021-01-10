@@ -5,7 +5,7 @@
 # yourself editing this file very often, consider using Jekyll's data files
 # feature for the data you need to update frequently.
 #
-# If you need help with YAML syntax, here are some quick references for you: 
+# If you need help with YAML syntax, here are some quick references for you:
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 #
@@ -19,19 +19,12 @@ title: ControllerX
 email: xaviml.93@gmail.com
 description: >-
   Create controller-based automations with ease to control your home devices and scenes.
-baseurl: /controllerx   # the subpath of your site, e.g. /blog
-url: https://xaviml.github.io   # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: /controllerx # the subpath of your site, e.g. /blog
+url: https://xaviml.github.io # the base hostname & protocol for your site, e.g. http://example.com
 github_username: xaviml
 
 # Build settings
 theme: minima
 
 header_pages:
-- controllers/index.md
-
-plugins:
-- jekyll-redirect-from
-
-whitelist:
-- jekyll-redirect-from
-
+  - controllers/index.md

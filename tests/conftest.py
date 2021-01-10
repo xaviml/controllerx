@@ -1,11 +1,14 @@
 import asyncio
+from typing import Optional
 
 import appdaemon.plugins.hass.hassapi as hass  # type: ignore
-import appdaemon.plugins.mqtt.mqttapi as mqtt  # type: ignore
+import appdaemon.plugins.mqtt.mqttapi as mqtt
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from cx_core import LightController
+from cx_core.action_type.base import ActionType  # type: ignore
 from cx_core.controller import Controller
+from cx_core.integration import EventData
 
 from tests.test_utils import fake_fn
 
@@ -52,3 +55,13 @@ def fake_type_controller() -> LightController:
     c = LightController()  # type: ignore
     c.args = {}
     return c
+
+
+class FakeActionType(ActionType):
+    async def run(self, extra: Optional[EventData] = None) -> None:
+        return None
+
+
+@pytest.fixture
+def fake_action_type(fake_controller: Controller) -> ActionType:
+    return FakeActionType(fake_controller, {})

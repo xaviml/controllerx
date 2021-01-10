@@ -1,4 +1,4 @@
-from cx_const import Light, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light, PredefinedActionsMapping
 from cx_core import LightController
 from cx_core.controller import action
 from cx_core.integration import EventData
@@ -14,15 +14,15 @@ class MLI404011LightController(LightController):
         if isinstance(self.integration, DeCONZIntegration):
             await self.on(xy_color=extra["xy"])
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
-        parent_mapping = super().get_type_actions_mapping()
-        mapping: TypeActionsMapping = {
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
+        parent_mapping = super().get_predefined_actions_mapping()
+        mapping: PredefinedActionsMapping = {
             MLI404011LightController.CHANGE_XY_COLOR: self.change_xy_color,
         }
         parent_mapping.update(mapping)
         return parent_mapping
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.TOGGLE,
             "off": Light.TOGGLE,
@@ -42,7 +42,7 @@ class MLI404011LightController(LightController):
             # "scene_5": "",  # heart button
         }
 
-    def get_deconz_actions_mapping(self) -> TypeActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.TOGGLE,
             2001: Light.HOLD_BRIGHTNESS_UP,

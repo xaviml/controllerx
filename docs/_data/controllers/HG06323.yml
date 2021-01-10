@@ -5,20 +5,20 @@ device_support:
     controller: HG06323LightController
     delay: 350
     mapping:
-      - "Click \"I\" → Turn on"
+      - 'Click "I" → Turn on'
       - "Click 🔆 → Brighten up (1 step)"
       - "Hold 🔆→ Brighten up"
       - "Click 🔅 → Dim down (1 step)"
       - "Hold 🔅 → Dim down"
-      - "Click \"O\" → Turn off"
+      - 'Click "O" → Turn off'
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "on → Click \"I\""
+      - '"on" → Click "I"'
       - "brightness_step_up → Click 🔆"
       - "brightness_move_up → Hold 🔆"
       - "brightness_step_down → Click 🔅"
       - "brightness_move_down → Hold 🔅"
       - "brightness_stop → Release 🔆 or 🔅"
-      - "off → Click \"O\""
+      - '"off" → Click "O"'

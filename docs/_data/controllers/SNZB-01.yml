@@ -13,5 +13,5 @@ integrations:
     codename: zha
     actions:
       - "toggle → 1 click"
-      - "on → 2 clicks"
-      - "off → After 2s holding the button"
+      - '"on" → 2 clicks'
+      - '"off" → After 2s holding the button'

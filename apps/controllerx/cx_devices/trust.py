@@ -1,4 +1,4 @@
-from cx_const import Light, MediaPlayer, TypeActionsMapping
+from cx_const import DefaultActionsMapping, Light, MediaPlayer
 from cx_core import LightController, MediaPlayerController
 
 
@@ -7,7 +7,7 @@ class ZYCT202LightController(LightController):
     This controller does not send hold action for on/off
     """
 
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
             "up-press": Light.HOLD_BRIGHTNESS_UP,
@@ -18,7 +18,7 @@ class ZYCT202LightController(LightController):
 
 
 class ZYCT202MediaPlayerController(MediaPlayerController):
-    def get_z2m_actions_mapping(self) -> TypeActionsMapping:
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": MediaPlayer.PLAY_PAUSE,
             "up-press": MediaPlayer.HOLD_VOLUME_UP,
