@@ -1,0 +1,7 @@
+example_app:
+  module: controllerx
+  class: MLI404011LightController
+  integration: deconz
+  controller: my_controller
+  light: light.my_light
+  

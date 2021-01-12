@@ -1,6 +1,7 @@
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from cx_core import Controller, ReleaseHoldController
+from cx_core import ReleaseHoldController
+from cx_core.controller import Controller
 from pytest_mock import MockerFixture
 
 from tests.test_utils import fake_fn
@@ -18,7 +19,7 @@ class FakeReleaseHoldController(ReleaseHoldController):
 def sut_before_init(mocker: MockerFixture) -> FakeReleaseHoldController:
     controller = FakeReleaseHoldController()  # type: ignore
     controller.args = {}
-    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(Controller, "init")
     mocker.patch.object(controller, "sleep")
     return controller
 
@@ -26,15 +27,13 @@ def sut_before_init(mocker: MockerFixture) -> FakeReleaseHoldController:
 @pytest.fixture
 @pytest.mark.asyncio
 async def sut(sut_before_init: FakeReleaseHoldController) -> FakeReleaseHoldController:
-    await sut_before_init.initialize()
+    await sut_before_init.init()
     return sut_before_init
 
 
 @pytest.mark.asyncio
-async def test_initialize(
-    sut_before_init: FakeReleaseHoldController, mocker: MockerFixture
-):
-    await sut_before_init.initialize()
+async def test_init(sut_before_init: FakeReleaseHoldController, mocker: MockerFixture):
+    await sut_before_init.init()
     assert sut_before_init.delay == 500
 
 

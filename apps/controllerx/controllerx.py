@@ -18,6 +18,7 @@ from cx_core import (
 from cx_devices.aqara import *
 from cx_devices.ikea import *
 from cx_devices.legrand import *
+from cx_devices.livarno import *
 from cx_devices.lutron import *
 from cx_devices.muller_licht import *
 from cx_devices.osram import *

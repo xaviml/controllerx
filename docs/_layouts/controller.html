@@ -34,7 +34,7 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
       <a href="/controllerx/start/type-configuration">Controller types</a>
     </h3>
     {% for ds in controller.device_support %}
-    <h4>{{ds.controller}} ({{ds.type}})</h4>
+    <h4 id="{{ds.domain}}">{{ds.controller}} ({{ds.type}})</h4>
     <p>This is the default mapping for this controller:</p>
     <ul>
       {% for map in ds.mapping %}
@@ -64,7 +64,7 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
     shows the command concatenated with the args.
     <br />
     {% for integration in controller.integrations %}
-    <h4>{{integration.name}}</h4>
+    <h4 id="{{integration.codename}}">{{integration.name}}</h4>
     {% if integration.args %} Arguments needed for this integration:
     {{integration.args}} {% endif %}
     <ul>

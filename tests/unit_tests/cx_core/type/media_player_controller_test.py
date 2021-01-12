@@ -18,9 +18,9 @@ ENTITY_NAME = "media_player.test"
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> MediaPlayerController:
     controller = MediaPlayerController()  # type: ignore
-    mocker.patch.object(Controller, "initialize")
+    mocker.patch.object(Controller, "init")
     controller.args = {"media_player": ENTITY_NAME}
-    await controller.initialize()
+    await controller.init()
     return controller
 
 

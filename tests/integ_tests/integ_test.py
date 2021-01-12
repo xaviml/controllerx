@@ -5,6 +5,7 @@ from typing import Any, Dict
 
 import pytest
 import yaml
+from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import get_controller
@@ -47,6 +48,7 @@ async def test_integ_configs(
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
     fired_actions = data.get("fired_actions", [])
+    extra = data.get("extra")
     expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
 
@@ -58,15 +60,16 @@ async def test_integ_configs(
 
     fake_entity_states = get_fake_entity_states(entity_state, entity_state_attributes)
     mocker.patch.object(controller, "get_entity_state", fake_entity_states)
-    call_service_stub = mocker.patch.object(controller, "call_service")
+    call_service_stub = mocker.patch.object(Hass, "call_service")
 
     await controller.initialize()
     for idx, action in enumerate(fired_actions):
         if any(isinstance(action, type_) for type_ in (str, int)):
+            coroutine = controller.handle_action(action, extra=extra)
             if idx == len(fired_actions) - 1:
-                await controller.handle_action(action)
+                await coroutine
             else:
-                asyncio.ensure_future(controller.handle_action(action))
+                asyncio.ensure_future(coroutine)
         elif isinstance(action, float):
             await asyncio.sleep(action)
 
@@ -79,6 +82,7 @@ async def test_integ_configs(
         await asyncio.wait(pending)
     assert call_service_stub.call_count == expected_calls_count
     calls = [
-        mocker.call(call["service"], **call.get("data", {})) for call in expected_calls
+        mocker.call(controller, call["service"], **call.get("data", {}))
+        for call in expected_calls
     ]
     call_service_stub.assert_has_calls(calls)

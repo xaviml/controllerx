@@ -3,7 +3,8 @@ from cx_core.integration import EventData
 from cx_devices.aqara import (
     MFKZQ01LMLightController,
     WXKG01LMLightController,
-    WXKG11LMLightController,
+    WXKG11LMRemoteLightController,
+    WXKG11LMSensorSwitchLightController,
 )
 
 
@@ -44,6 +45,23 @@ def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: st
 @pytest.mark.parametrize(
     "data, expected_action",
     [
+        ({"command": "single"}, "single"),
+        ({"command": "double"}, "double"),
+        ({"command": "hold"}, "hold"),
+        ({"command": "release"}, "release"),
+    ],
+)
+def test_zha_action_WXKG11LMRemoteLightController(
+    data: EventData, expected_action: str
+):
+    sut = WXKG11LMRemoteLightController()  # type: ignore
+    action = sut.get_zha_action(data)
+    assert action == expected_action
+
+
+@pytest.mark.parametrize(
+    "data, expected_action",
+    [
         ({"args": {"value": 0}}, ""),
         ({"args": {"value": 1}}, "single"),
         ({"args": {"value": 2}}, "double"),
@@ -51,7 +69,9 @@ def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: st
         ({"args": {"value": 4}}, "quadruple"),
     ],
 )
-def test_zha_action_WXKG11LMLightController(data: EventData, expected_action: str):
-    sut = WXKG11LMLightController()  # type: ignore
+def test_zha_action_WXKG11LMSensorSwitchLightController(
+    data: EventData, expected_action: str
+):
+    sut = WXKG11LMSensorSwitchLightController()  # type: ignore
     action = sut.get_zha_action(data)
     assert action == expected_action

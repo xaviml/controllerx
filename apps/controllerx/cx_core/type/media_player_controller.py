@@ -1,6 +1,6 @@
 from typing import Type
 
-from cx_const import MediaPlayer, TypeActionsMapping
+from cx_const import MediaPlayer, PredefinedActionsMapping
 from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.release_hold_controller import ReleaseHoldController
@@ -17,19 +17,19 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     domains = ["media_player"]
     entity_arg = "media_player"
 
-    async def initialize(self) -> None:
+    async def init(self) -> None:
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
         self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
         self.volume_level = 0.0
-        await super().initialize()
+        await super().init()
 
     def _get_entity_type(self) -> Type[Entity]:
         return Entity
 
-    def get_type_actions_mapping(self) -> TypeActionsMapping:
+    def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
-            MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, Stepper.DOWN),
-            MediaPlayer.HOLD_VOLUME_UP: (self.hold, Stepper.UP),
+            MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, (Stepper.DOWN,)),
+            MediaPlayer.HOLD_VOLUME_UP: (self.hold, (Stepper.UP,)),
             MediaPlayer.CLICK_VOLUME_DOWN: self.volume_down,
             MediaPlayer.CLICK_VOLUME_UP: self.volume_up,
             MediaPlayer.RELEASE: self.release,
@@ -38,8 +38,8 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             MediaPlayer.PLAY_PAUSE: self.play_pause,
             MediaPlayer.NEXT_TRACK: self.next_track,
             MediaPlayer.PREVIOUS_TRACK: self.previous_track,
-            MediaPlayer.NEXT_SOURCE: (self.change_source_list, Stepper.UP),
-            MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, Stepper.DOWN),
+            MediaPlayer.NEXT_SOURCE: (self.change_source_list, (Stepper.UP,)),
+            MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, (Stepper.DOWN,)),
         }
 
     @action

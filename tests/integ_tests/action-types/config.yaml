@@ -1,0 +1,32 @@
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.bedroom
+  mapping:
+    toggle: toggle
+    brightness_up_click:
+      action: toggle
+    arrow_left_click:
+      scene: scene.my_scene
+    arrow_left_click$2:
+      service: scene.turn_on
+      entity_id: scene.my_other_scene
+      data:
+        entity_id: scene.not_called
+    arrow_right_click:
+      service: my_service
+      data:
+        attr1: 42
+        attr2: foo
+    brightness_down_click:
+      - toggle
+      - action: toggle
+      - delay: 1
+      - scene: scene.my_other_scene
+      - service: my_other_service
+    brightness_down_hold:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service

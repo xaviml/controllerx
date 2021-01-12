@@ -74,7 +74,7 @@ def get_color_wheel(colors: Union[str, Colors]) -> Colors:
                 f"`{colors}` is not an option for `color_wheel`. Options are: {list(COLOR_WHEELS.keys())}"
             )
         return COLOR_WHEELS[colors]
-    elif isinstance(colors, list):
+    elif isinstance(colors, (list, tuple)):
         return colors
     else:
         raise ValueError(

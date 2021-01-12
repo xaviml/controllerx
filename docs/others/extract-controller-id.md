@@ -7,7 +7,7 @@ The purpose of this page is to indicate what value the `controller` attribute sh
 
 #### Zigbee2MQTT
 
-The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action` or `_click`. The parameter you need is the entity id of the sensor.
+The name you need to add to the `controller` parameter can be found in `Configuration > Integrations > MQTT` and then select the controller. Then you will see the action sensor that by default finishes in `_action`. The parameter you need is the entity id of the sensor.
 
 #### deCONZ
 

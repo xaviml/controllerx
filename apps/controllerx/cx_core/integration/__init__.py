@@ -4,7 +4,7 @@ import os
 import pkgutil
 from typing import TYPE_CHECKING, Any, Dict, List, NewType, Optional, Type, Union
 
-from cx_const import TypeActionsMapping
+from cx_const import DefaultActionsMapping
 
 if TYPE_CHECKING:
     from cx_core.controller import Controller
@@ -23,7 +23,7 @@ class Integration(abc.ABC):
         self.kwargs = kwargs
 
     @abc.abstractmethod
-    def get_actions_mapping(self) -> Optional[TypeActionsMapping]:
+    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
         raise NotImplementedError
 
     @abc.abstractmethod
