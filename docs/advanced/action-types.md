@@ -12,41 +12,41 @@ An action type is reduced version of [Script Syntax](https://www.home-assistant.
 mapping: # or merge_mapping
   ## Predefined actions
   # `toogle` is a light predefined action
-  event:
+  <event>:
     action: toggle 
 
   # The previous action type can be reduced as:
-  event: toggle
+  <event>: toggle
 
   ## Call services
   # Call any service the same way as it is done through `Developer Tools > Services` in HA
-  event:
+  <event>:
     service: script.my_script
     data:
       attr1: 42
       attr2: foo
 
   # `entity_id` can be passed directly like this or through `data`
-  event:
+  <event>:
     service: light.turn_on
     entity_id: light.my_light 
 
   ## Scene activation
   # Activate any HA Scene
-  event:
+  <event>:
     scene: scene.my_scene
 
   ## Delay
   # `delay` is usefull when defining a list of actions, and you want
   # an action to be triggered after some defined time.
   # The value of the attribute only accepts seconds.
-  event:
+  <event>:
     - on_min_brightness # predefined action
     - delay: 5 # wait 5 seconds
     - on_full_brightness # predefined action
 ```
 
-_The `event` key is the event from your controller and integration._
+_The `<event>` key is the event from your controller and integration._
 
 If an action is still executing (most likely because of a `delay` in place), and another of the same type gets fired, the previous one will be cancelled and a new one will be executed. This is not configurable and it works the same as [`mode: restart`](https://www.home-assistant.io/docs/automation/modes) from Home Assistant automations.
 
