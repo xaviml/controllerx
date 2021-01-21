@@ -10,6 +10,14 @@ device_support:
       - hold top button → Brighten up
       - hold bottom button → Dim down
 integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "on" → press bottom button
+      - "off" → press top button
+      - brightness_move_up → hold bottom button
+      - brightness_move_down → hold top button
+      - brightness_stop → release any button
   - name: ZHA
     codename: zha
     actions:
