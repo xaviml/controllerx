@@ -346,7 +346,7 @@ class Controller(Hass, Mqtt):
             await task
         except CancelledError:
             self.log(
-                f"Task(s) from `{action_key}` was/were cancelled and executed again",
+                f"Task(s) from `{action_key}` was/were canceled and executed again",
                 level="DEBUG",
             )
         else:
