@@ -1,0 +1,33 @@
+name: ZB-5122 (RGB Genie)
+device_support:
+  - type: Light
+    domain: light
+    controller: ZB5122LightController
+    delay: 350
+    mapping:
+      - "Click light on → Turn on"
+      - "Click light off → Turn off"
+      - "Hold light on → Brighten up"
+      - "Hold light off → Dim down"
+      - "Click RGB → Change xy color (1 step)"
+      - "Hold RGB → Change xy color (loop)"
+      - "Click CW → Warm color"
+      - "Hold CW → Change color temp (toggle mode)"
+
+integrations:
+  - name: ZHA
+    codename: zha
+    actions:
+      - '"on" → Click light on'
+      - '"off" → Click light off'
+      - "hold_brightness_up → Hold light on"
+      - "hold_brightness_down → Hold light off"
+      - "stop → Release light on or off"
+      - "move_to_color → Click RGB"
+      - "move_hue → Hold RGB"
+      - "stop_move_hue → Release RGB"
+      - "move_to_color_temp → Click CW"
+      - "move_color_temp → Hold CW"
+      - "stop_move_step → Release CW"
+      - "recall_0_1 → Click clapperboard"
+      
