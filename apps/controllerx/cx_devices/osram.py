@@ -6,6 +6,20 @@ from cx_core.integration import EventData
 class OsramAC025XX00NJLightController(LightController):
     # This mapping works for: AC0251100NJ / AC0251400NJ / AC0251600NJ / AC0251700NJ
     # (different models are just different colours)
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.ON,  # Click Arrow up
+            1001: Light.HOLD_BRIGHTNESS_UP,  # Hold Arrow Up
+            1003: Light.RELEASE,  # Release Arrow Up
+            2002: Light.OFF,  # Click Arrow down
+            2001: Light.HOLD_BRIGHTNESS_DOWN,  # Hold Arrow down
+            2003: Light.RELEASE,  # Release Arrow down
+            3002: Light.SYNC,  # Click Circle button
+            3001: Light.HOLD_COLOR_UP,  # Hold Circle button
+            3003: Light.RELEASE,  # Release Circle button
+        }
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_on": Light.ON,
@@ -22,14 +36,3 @@ class OsramAC025XX00NJLightController(LightController):
 
     def get_zha_action(self, data: EventData) -> str:
         return f"{data['endpoint_id']}_{data['command']}"
-
-
-# on: Sent when arrow up is pressed
-# move_with_on_off: Sent when arrow up is held
-# stop: Sent when arrow up or down is released after hold
-# move_to_level_with_on_off: Sent when circle button is pressed
-# move_to_color_temp: Sent when circle button is released after press
-# move_to_saturation: Sent when circle button is held
-# move_hue: Sent when circle button is released after hold
-# off: Sent when arrow down is pressed
-# move: Sent when arrow down is held
