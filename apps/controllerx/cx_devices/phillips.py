@@ -89,3 +89,13 @@ class Niko91004LightController(LightController):
             # 6000: "",  # button_2_4_press
             6003: Light.RELEASE,  # button_2_4_release_after_hold
         }
+
+
+class HueSmartButtonLightController(LightController):
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            # 1000: "", # Initial press
+            1001: Light.HOLD_BRIGHTNESS_TOGGLE,
+            1002: Light.TOGGLE,
+            1003: Light.RELEASE,
+        }

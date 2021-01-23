@@ -5,38 +5,38 @@ device_support:
     controller: Legrand600088LightController
     delay: 350
     mapping:
-      - press bottom left button → Turn on
-      - press top left button → Turn off
-      - hold bottom left button → Change color or color temperature up
-      - hold top left button → Change color or color temperature down
-      - press bottom right button → Full brightness
-      - press top right button → Minimum brightness
-      - hold bottom right button → Brighten up
-      - hold top right button → Dim down
+      - "press bottom left button → Turn on"
+      - "press top left button → Turn off"
+      - "hold bottom left button → Change color or color temperature up"
+      - "hold top left button → Change color or color temperature down"
+      - "press bottom right button → Full brightness"
+      - "press top right button → Minimum brightness"
+      - "hold bottom right button → Brighten up"
+      - "hold top right button → Dim down"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - on_left → press bottom left button
-      - off_left → press top left button
-      - brightness_move_up_left → hold bottom left button
-      - brightness_move_down_left → hold top left button
-      - brightness_stop_left → release any left button
-      - on_right → press bottom right button
-      - off_right → press top right button
-      - brightness_move_up_right → hold bottom right button
-      - brightness_move_down_right → hold top right button
-      - brightness_stop_right → release any right button
+      - "on_left → press bottom left button"
+      - "off_left → press top left button"
+      - "brightness_move_up_left → hold bottom left button"
+      - "brightness_move_down_left → hold top left button"
+      - "brightness_stop_left → release any left button"
+      - "on_right → press bottom right button"
+      - "off_right → press top right button"
+      - "brightness_move_up_right → hold bottom right button"
+      - "brightness_move_down_right → hold top right button"
+      - "brightness_stop_right → release any right button"
   - name: ZHA
     codename: zha
     actions:
-      - 1_on → press bottom left button
-      - 1_off → press top left button
-      - 1_move_up → hold bottom left button
-      - 1_move_down → hold top left button
-      - 1_stop → release any left button
-      - 2_on → press bottom right button
-      - 2_off → press top right button
-      - 2_move_up → hold bottom right button
-      - 2_move_down → hold top right button
-      - 2_stop → release any right button
+      - "1_on → press bottom left button"
+      - "1_off → press top left button"
+      - "1_move_up → hold bottom left button"
+      - "1_move_down → hold top left button"
+      - "1_stop → release any left button"
+      - "2_on → press bottom right button"
+      - "2_off → press top right button"
+      - "2_move_up → hold bottom right button"
+      - "2_move_down → hold top right button"
+      - "2_stop → release any right button"
