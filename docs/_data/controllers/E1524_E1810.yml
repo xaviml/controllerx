@@ -5,8 +5,8 @@ device_support:
     controller: E1810Controller
     delay: 350
     mapping:
-      - "Click ⏻ → Toggle"
-      - "Hold ⏻ → Sync"
+      - "Click middle → Toggle"
+      - "Hold middle → Sync"
       - "Click 🔆 → Brighten up (1 step)"
       - "Click 🔅  → Dim down (1 step)"
       - "Click < → Color temp down / Left color wheel (1 step)"

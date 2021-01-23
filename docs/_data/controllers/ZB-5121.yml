@@ -1,0 +1,26 @@
+name: ZB-5121 (RGB Genie)
+device_support:
+  - type: Light
+    domain: light
+    controller: ZB5121LightController
+    delay: 350
+    mapping:
+      - "Click light on → Turn on"
+      - "Click light off → Turn off"
+      - "Click 🔆 → Brighten up (1 step)"
+      - "Hold 🔆 → Brighten up"
+      - "Click 🔅  → Dim down (1 step)"
+      - "Hold 🔅 → Dim down"
+integrations:
+  - name: ZHA
+    codename: zha
+    actions:
+      - '"on" → Click light on'
+      - '"off" → Click light off'
+      - "step_with_on_off_0_32_0 → Click 🔆"
+      - "move_with_on_off_0_50 → Hold 🔆"
+      - "step_with_on_off_1_32_0 → Click 🔅"
+      - "move_with_on_off_1_50 → Hold 🔅"
+      - "recall_0_1 → Click clapperboard"
+      - "stop → Release 🔆 or 🔅"
+      
