@@ -1,0 +1,7 @@
+example_app:
+  module: controllerx
+  class: ZB5122LightController
+  integration: zha
+  controller: my_controller
+  light: light.my_light
+  

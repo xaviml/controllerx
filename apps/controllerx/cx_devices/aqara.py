@@ -30,6 +30,22 @@ class WXKG02LMLightController(LightController):
             3004: Light.CLICK_BRIGHTNESS_UP,  # double both
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both_single": Light.TOGGLE,
+            "both_double": Light.CLICK_BRIGHTNESS_UP,
+            "both_long press": Light.CLICK_BRIGHTNESS_DOWN,
+            "left_single": Light.TOGGLE,
+            "left_double": Light.CLICK_BRIGHTNESS_UP,
+            "left_long press": Light.CLICK_BRIGHTNESS_DOWN,
+            "right_single": Light.TOGGLE,
+            "right_double": Light.CLICK_BRIGHTNESS_UP,
+            "right_long press": Light.CLICK_BRIGHTNESS_DOWN,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
+
 
 class WXKG02LMSwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
@@ -45,6 +61,16 @@ class WXKG02LMSwitchController(SwitchController):
             2002: Switch.TOGGLE,
             3002: Switch.TOGGLE,
         }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both_single": Switch.TOGGLE,
+            "left_single": Switch.TOGGLE,
+            "right_single": Switch.TOGGLE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
 
 
 class WXKG01LMLightController(LightController):
@@ -350,3 +376,73 @@ class WXCJKG13LMLightController(LightController):
             6001: Light.HOLD_COLOR_UP,
             6003: Light.RELEASE,
         }
+
+
+class WXKG07LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both": Light.TOGGLE,
+            "both_double": Light.CLICK_BRIGHTNESS_UP,
+            "both_long": Light.CLICK_BRIGHTNESS_UP,
+            "left": Light.TOGGLE,
+            "left_double": Light.CLICK_BRIGHTNESS_UP,
+            "left_long": Light.CLICK_BRIGHTNESS_UP,
+            "right": Light.TOGGLE,
+            "right_double": Light.CLICK_BRIGHTNESS_UP,
+            "right_long": Light.CLICK_BRIGHTNESS_UP,
+        }
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.TOGGLE,  # single left
+            1001: Light.CLICK_BRIGHTNESS_DOWN,  # long left
+            1004: Light.CLICK_BRIGHTNESS_UP,  # double left
+            2002: Light.TOGGLE,  # single right
+            2001: Light.CLICK_BRIGHTNESS_DOWN,  # long right
+            2004: Light.CLICK_BRIGHTNESS_UP,  # double right
+            3002: Light.TOGGLE,  # single both
+            3001: Light.CLICK_BRIGHTNESS_DOWN,  # long both
+            3004: Light.CLICK_BRIGHTNESS_UP,  # double both
+        }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both_single": Light.TOGGLE,
+            "both_double": Light.CLICK_BRIGHTNESS_UP,
+            "both_long press": Light.CLICK_BRIGHTNESS_DOWN,
+            "left_single": Light.TOGGLE,
+            "left_double": Light.CLICK_BRIGHTNESS_UP,
+            "left_long press": Light.CLICK_BRIGHTNESS_DOWN,
+            "right_single": Light.TOGGLE,
+            "right_double": Light.CLICK_BRIGHTNESS_UP,
+            "right_long press": Light.CLICK_BRIGHTNESS_DOWN,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
+
+
+class WXKG07LMSwitchController(SwitchController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both": Switch.TOGGLE,
+            "left": Switch.TOGGLE,
+            "right": Switch.TOGGLE,
+        }
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Switch.TOGGLE,
+            2002: Switch.TOGGLE,
+            3002: Switch.TOGGLE,
+        }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "both_single": Switch.TOGGLE,
+            "left_single": Switch.TOGGLE,
+            "right_single": Switch.TOGGLE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]

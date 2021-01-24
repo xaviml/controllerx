@@ -15,6 +15,15 @@ def get_zha_action_LegrandWallController(data: dict) -> str:
 
 
 class Legrand600083LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.ON,
+            "off": Light.OFF,
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Light.RELEASE,
+        }
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_on": Light.ON,
@@ -29,6 +38,20 @@ class Legrand600083LightController(LightController):
 
 
 class Legrand600088LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on_left": Light.ON,
+            "off_left": Light.OFF,
+            "brightness_move_up_left": Light.HOLD_COLOR_UP,
+            "brightness_move_down_left": Light.HOLD_COLOR_DOWN,
+            "brightness_stop_left": Light.RELEASE,
+            "on_right": Light.ON_FULL_BRIGHTNESS,
+            "off_right": Light.ON_MIN_BRIGHTNESS,
+            "brightness_move_up_right": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down_right": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop_right": Light.RELEASE,
+        }
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_on": Light.ON,

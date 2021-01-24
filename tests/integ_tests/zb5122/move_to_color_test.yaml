@@ -1,0 +1,12 @@
+entity_state_attributes:
+  supported_features: 191
+entity_state: "off"
+fired_actions: ["move_to_color_temp"]
+extra:
+  args: !!python/tuple [230, 0]
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      color_temp: 230
+expected_calls_count: 1

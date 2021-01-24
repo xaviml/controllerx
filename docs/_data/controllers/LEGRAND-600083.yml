@@ -5,16 +5,24 @@ device_support:
     controller: Legrand600083LightController
     delay: 350
     mapping:
-      - press top button → Turn on
-      - press bottom button → Turn off
-      - hold top button → Brighten up
-      - hold bottom button → Dim down
+      - "press bottom button → Turn on"
+      - "press top button → Turn off"
+      - "hold bottom button → Brighten up"
+      - "hold top button → Dim down"
 integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - '"on" → press bottom button'
+      - '"off" → press top button'
+      - "brightness_move_up → hold bottom button"
+      - "brightness_move_down → hold top button"
+      - "brightness_stop → release any button"
   - name: ZHA
     codename: zha
     actions:
-      - 1_on → press top button
-      - 1_off → press bottom button
-      - 1_move_up → hold top button
-      - 1_move_down → hold bottom button
-      - 1_stop → release any button
+      - "1_on → press bottom button"
+      - "1_off → press top button"
+      - "1_move_up → hold bottom button"
+      - "1_move_down → hold top button"
+      - "1_stop → release any button"
