@@ -21,17 +21,17 @@ class ZB5121LightController(LightController):
 
 class ZB5122LightController(LightController):
 
-    MOVE_TO_COLOR = "move_to_color"
+    MOVE_TO_COLOR_TEMP = "move_to_color_temp"
 
     @action
-    async def move_to_color(self, extra: EventData) -> None:
+    async def move_to_color_temp(self, extra: EventData) -> None:
         if isinstance(self.integration, ZHAIntegration):
-            await self.on(rgb_color=extra["args"])
+            await self.on(color_temp=extra["args"][0])
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         parent_mapping = super().get_predefined_actions_mapping()
         mapping: PredefinedActionsMapping = {
-            ZB5122LightController.MOVE_TO_COLOR: self.move_to_color,
+            ZB5122LightController.MOVE_TO_COLOR_TEMP: self.move_to_color_temp,
         }
         parent_mapping.update(mapping)
         return parent_mapping
@@ -43,10 +43,10 @@ class ZB5122LightController(LightController):
             "hold_brightness_up": Light.HOLD_BRIGHTNESS_UP,  # Hold light on
             "hold_brightness_down": Light.HOLD_BRIGHTNESS_DOWN,  # Hold light off
             "stop": Light.RELEASE,  # long release
-            "move_to_color": ZB5122LightController.MOVE_TO_COLOR,  # click RGB
+            "move_to_color": Light.CLICK_XY_COLOR_UP,  # click RGB
             "move_hue": Light.HOLD_XY_COLOR_UP,  # hold RGB
             "stop_move_hue": Light.RELEASE,  # release RGB
-            "move_to_color_temp": Light.ON_FULL_COLOR_TEMP,  # click CW
+            "move_to_color_temp": ZB5122LightController.MOVE_TO_COLOR_TEMP,  # click CW
             "move_color_temp": Light.HOLD_COLOR_TEMP_TOGGLE,  # hold CW
             "stop_move_step": Light.RELEASE,  # release CW
             # "recall_0_1": "",  # Click clapperboard

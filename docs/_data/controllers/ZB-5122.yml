@@ -11,7 +11,7 @@ device_support:
       - "Hold light off → Dim down"
       - "Click RGB → Change xy color (1 step)"
       - "Hold RGB → Change xy color (loop)"
-      - "Click CW → Warm color"
+      - "Click CW → Change color temp (1 step)"
       - "Hold CW → Change color temp (toggle mode)"
 
 integrations:
