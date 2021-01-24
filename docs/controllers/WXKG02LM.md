@@ -1,5 +1,5 @@
 ---
 layout: controller
-title: WXKG02LM/WXKG07LM (Aqara)
+title: WXKG02LM (Aqara)
 device: WXKG02LM
 ---

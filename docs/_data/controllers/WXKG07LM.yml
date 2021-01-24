@@ -1,8 +1,8 @@
-name: WXKG02LM (Aqara)
+name: WXKG07LM (Aqara)
 device_support:
   - type: Light
     domain: light
-    controller: WXKG02LMLightController
+    controller: WXKG07LMLightController
     delay: 350
     mapping:
       - "Click on both → Toggle"
@@ -16,7 +16,7 @@ device_support:
       - "Long click on right → Dim down (1 step)"
   - type: Switch
     domain: switch
-    controller: WXKG02LMSwitchController
+    controller: WXKG07LMSwitchController
     mapping:
       - "Click on both → Toggle"
       - "Click on left → Toggle"
@@ -25,15 +25,15 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "single_both → Click on both"
-      - "double_both → Double click on both"
-      - "hold_both → Long click on both"
-      - "single_left → Click on left"
-      - "double_left → Double click on left"
-      - "hold_left → Long click on left"
-      - "single_right → Click on right"
-      - "double_right → Double click on right"
-      - "hold_right → Long click on right"
+      - "both → Click on both"
+      - "both_double → Double click on both"
+      - "both_long → Long click on both"
+      - "left → Click on left"
+      - "left_double → Double click on left"
+      - "left_long → Long click on left"
+      - "right → Click on right"
+      - "right_double → Double click on right"
+      - "right_long → Long click on right"
   - name: deCONZ
     codename: deconz
     actions:
