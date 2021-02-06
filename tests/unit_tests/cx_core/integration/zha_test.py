@@ -30,6 +30,11 @@ from pytest_mock.plugin import MockerFixture
             {"press_type": "single", "command_id": 0, "args": [1, 0, 0, 0]},
             "button_single_1_0_0_0",
         ),
+        (
+            "button_single",
+            {"value": 257.0, "activated_face": 2},
+            None,
+        ),
     ],
 )
 @pytest.mark.asyncio
@@ -45,4 +50,7 @@ async def test_get_integrations(
     zha_integration = ZHAIntegration(fake_controller, {})
     await zha_integration.callback("test", data, {})
 
-    handle_action_patch.assert_called_once_with(expected_called_with)
+    if expected_called_with is not None:
+        handle_action_patch.assert_called_once_with(expected_called_with)
+    else:
+        handle_action_patch.assert_not_called()
