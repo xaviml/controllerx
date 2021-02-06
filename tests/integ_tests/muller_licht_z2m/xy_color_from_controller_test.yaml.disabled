@@ -1,0 +1,12 @@
+entity_state_attributes:
+  supported_features: 191
+entity_state: "off"
+fired_actions: ["color_wheel"]
+extra:
+  action_color: { "x": 0.12, "y": 0.08 }
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      xy_color: !!python/tuple [0.12, 0.08]
+expected_calls_count: 1
