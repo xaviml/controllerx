@@ -82,7 +82,7 @@ class Controller(Hass, Mqtt):
     action_delay_handles: Dict[ActionEvent, Optional[float]]
     multiple_click_actions: Set[ActionEvent]
     action_delay: Dict[ActionEvent, int]
-    action_delta: int
+    action_delta: Dict[ActionEvent, int]
     action_times: Dict[str, float]
     multiple_click_action_times: Dict[str, float]
     click_counter: Counter[ActionEvent]
@@ -133,7 +133,11 @@ class Controller(Hass, Mqtt):
         self.action_handles = defaultdict(lambda: None)
 
         # Action delta
-        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.action_delta = self.get_mapping_per_action(
+            self.actions_mapping,
+            custom=self.args.get("action_delta"),
+            default=DEFAULT_ACTION_DELTA,
+        )
         self.action_times = defaultdict(lambda: 0.0)
 
         # Multiple click
@@ -268,7 +272,7 @@ class Controller(Hass, Mqtt):
             previous_call_time = self.action_times[action_key]
             now = time.time() * 1000
             self.action_times[action_key] = now
-            if now - previous_call_time > self.action_delta:
+            if now - previous_call_time > self.action_delta[action_key]:
                 await self.call_action(action_key, extra=extra)
         elif action_key in self.multiple_click_actions:
             now = time.time() * 1000

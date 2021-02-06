@@ -82,13 +82,13 @@ async def test_custom_controllers(
         "switch": "switch.test_switch",
         "cover": "cover.test_cover",
         "mapping": mapping,
+        "action_delta": 0,
     }
     mocked = mocker.patch.object(sut, mock_function)
     monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
 
     # SUT
     await sut.initialize()
-    sut.action_delta = 0
     await sut.handle_action(action_input)
 
     # Check
@@ -150,12 +150,12 @@ async def test_call_service_controller(
         "controller": "test_controller",
         "integration": integration,
         "mapping": {"action": services},
+        "action_delta": 0,
     }
     call_service_stub = mocker.patch.object(Hass, "call_service")
 
     # SUT
     await sut.initialize()
-    sut.action_delta = 0
     await sut.handle_action("action")
 
     # Checks

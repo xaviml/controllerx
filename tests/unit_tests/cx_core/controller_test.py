@@ -414,7 +414,7 @@ async def test_handle_action(
     expected_calls: int,
     fake_action_type: ActionType,
 ):
-    sut.action_delta = action_delta
+    sut.action_delta = {action_called: action_delta}
     sut.action_times = defaultdict(lambda: 0)
 
     actions_mapping: ActionsMapping = {

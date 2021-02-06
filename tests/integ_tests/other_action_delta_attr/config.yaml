@@ -5,7 +5,9 @@ light_chambre_chevet:
   integration: zha
   light: light.chevet
   smooth_power_on: true
-  action_delta: 500
+  action_delta:
+    on_hold: 500
+    off_hold: 500
   merge_mapping:
     on_hold:
       - service: cover.open_cover
