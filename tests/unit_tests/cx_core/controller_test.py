@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Set, Union
 
 import appdaemon.plugins.hass.hassapi as hass
 import pytest
@@ -239,6 +239,59 @@ def test_get_list(
     sut: Controller, test_input: Union[List[str], str], expected: List[str]
 ):
     output = sut.get_list(test_input)
+    assert output == expected
+
+
+@pytest.mark.parametrize(
+    "actions, custom, default, expected",
+    [
+        (
+            {"action1", "action2", "action3"},
+            None,
+            0,
+            {"action1": 0, "action2": 0, "action3": 0},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            {"action1": 10},
+            0,
+            {"action1": 10, "action2": 0, "action3": 0},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            10,
+            0,
+            {"action1": 10, "action2": 10, "action3": 10},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            None,
+            "restart",
+            {"action1": "restart", "action2": "restart", "action3": "restart"},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            "single",
+            "restart",
+            {"action1": "single", "action2": "single", "action3": "single"},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            {"action2": "single", "action3": "another"},
+            "restart",
+            {"action1": "restart", "action2": "single", "action3": "another"},
+        ),
+    ],
+)
+def test_get_mapping_per_action(
+    sut: Controller,
+    actions: Set[ActionEvent],
+    custom: Optional[Dict[ActionEvent, Any]],
+    default: Any,
+    expected: Dict[ActionEvent, Any],
+) -> None:
+    actions_mapping: ActionsMapping = {action: [] for action in actions}
+    output = sut.get_mapping_per_action(actions_mapping, custom=custom, default=default)
     assert output == expected
 
 

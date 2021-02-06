@@ -126,11 +126,9 @@ class Controller(Hass, Mqtt):
         )
 
         # Action delay
-        default_action_delay = {action_key: 0 for action_key in self.actions_mapping}
-        self.action_delay = {
-            **default_action_delay,
-            **self.args.get("action_delay", {}),
-        }
+        self.action_delay = self.get_mapping_per_action(
+            self.actions_mapping, custom=self.args.get("action_delay"), default=0
+        )
         self.action_delay_handles = defaultdict(lambda: None)
         self.action_handles = defaultdict(lambda: None)
 
@@ -208,6 +206,20 @@ class Controller(Hass, Mqtt):
         if isinstance(entities, (list, tuple)):
             return list(entities)
         return [entities]
+
+    def get_mapping_per_action(
+        self,
+        actions_mapping: ActionsMapping,
+        *,
+        custom: Optional[Union[T, Dict[ActionEvent, T]]],
+        default: T,
+    ) -> Dict[ActionEvent, T]:
+        if custom is not None and not isinstance(custom, dict):
+            default = custom
+        mapping = {action: default for action in actions_mapping}
+        if custom is not None and isinstance(custom, dict):
+            mapping.update(custom)
+        return mapping
 
     def parse_action_mapping(self, mapping: CustomActionsMapping) -> ActionsMapping:
         return {event: parse_actions(self, action) for event, action in mapping.items()}
