@@ -40,6 +40,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             MediaPlayer.PREVIOUS_TRACK: self.previous_track,
             MediaPlayer.NEXT_SOURCE: (self.change_source_list, (Stepper.UP,)),
             MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, (Stepper.DOWN,)),
+            MediaPlayer.MUTE: self.volume_mute,
         }
 
     @action
@@ -102,6 +103,10 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     async def volume_down(self) -> None:
         await self.prepare_volume_change()
         await self.volume_change(Stepper.DOWN)
+
+    @action
+    async def volume_mute(self) -> None:
+        await self.call_service("media_player/volume_mute", entity_id=self.entity.name)
 
     @action
     async def hold(self, direction: str) -> None:

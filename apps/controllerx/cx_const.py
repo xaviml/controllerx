@@ -75,6 +75,7 @@ class MediaPlayer:
     PREVIOUS_TRACK = "previous_track"
     NEXT_SOURCE = "next_source"
     PREVIOUS_SOURCE = "previous_source"
+    MUTE = "mute"
 
 
 class Switch:

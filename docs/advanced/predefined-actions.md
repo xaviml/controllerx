@@ -76,6 +76,7 @@ When using a [media player controller](/controllerx/start/type-configuration#med
 | `previous_track`    | It skips the track backward                        |
 | `next_source`       | It changes to the next source                      |
 | `previous_source`   | It changes to the previous source                  |
+| `mute`              | It mutes the media player                          |
 
 ## Switch
 
