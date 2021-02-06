@@ -105,7 +105,7 @@ class Controller(Hass, Mqtt):
 
         if custom_mapping is None:
             default_actions_mapping = self.get_default_actions_mapping(self.integration)
-            self.actions_mapping = self.parse_action_mapping(default_actions_mapping)
+            self.actions_mapping = self.parse_action_mapping(default_actions_mapping)  # type: ignore
         else:
             self.actions_mapping = self.parse_action_mapping(custom_mapping)
 
