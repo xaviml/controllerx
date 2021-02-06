@@ -1,0 +1,30 @@
+name: ZB-3009 (RGB Genie)
+device_support:
+  - type: Light
+    domain: light
+    controller: ZB3009LightController
+    delay: 350
+    mapping:
+      - "Click on/off → Toggle"
+      - "Click red circle → Change color of the bulb to red"
+      - "Click blue circle → Change color of the bulb to blue"
+      - "Click green circle → Change color of the bulb to green"
+      - "Click white circle → Change color temperature"
+      - "Hold white circle → Change color temperature"
+      - "Click three rings → Toggle through white warmth"
+      - "Hold brightness button → Change brightness"
+      - "Click color wheel → Change xy color"
+
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - '"on" → Click on/off'
+      - '"off" → Click on/off'
+      - "brightness_move_up → Hold brightness button"
+      - "brightness_move_down → Hold brightness button"
+      - "brightness_stop → Release brightness button"
+      - "color_temperature_move_down → Hold white circle"
+      - "color_temperature_move_up → Hold white circle"
+      - "color_temperature_move → Click white circle"
+      - "color_move → Click red/blue/green button, three wrings button and color wheel"

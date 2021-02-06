@@ -50,3 +50,22 @@ class ZB5122LightController(LightController):
         elif command == "move_hue":
             return "stop_move_hue" if tuple(data["args"]) == (0, 0) else "move_hue"
         return command
+
+
+class ZB3009LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.TOGGLE,
+            "off": Light.TOGGLE,
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Light.RELEASE,
+            "color_temperature_move_down": Light.CLICK_COLOR_TEMP_DOWN,
+            "color_temperature_move_up": Light.CLICK_COLOR_TEMP_UP,
+            "color_temperature_move": Light.COLORTEMP_FROM_CONTROLLER,
+            "color_move": Light.XYCOLOR_FROM_CONTROLLER,
+            # "hue_move": "",  # Play/pause button
+            # "recall_1": "",  # Scene 1
+            # "recall_3": "",  # Scene 2
+            # "recall_2": "",  # Scene 3
+        }
