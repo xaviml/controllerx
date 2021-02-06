@@ -29,8 +29,8 @@ integrations:
       - "1005 → 3 clicks"
       - "1006 → 4 clicks"
       - "1010 → More than 4 clicks"
-      - "1003 → Hold the button"
-      - "1000 → Release the button"
+      - "1001 → Hold the button"
+      - "1003 → Release the button"
   - name: ZHA
     codename: zha
     actions:
