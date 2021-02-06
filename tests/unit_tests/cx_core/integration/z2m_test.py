@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict, Optional
 
 import pytest
@@ -50,6 +51,8 @@ async def test_event_callback(
     await z2m_integration.event_callback("test", data, {})
 
     if handle_action_called:
-        handle_action_patch.assert_called_once_with(expected_called_with)
+        handle_action_patch.assert_called_once_with(
+            expected_called_with, extra=json.loads(data["payload"])
+        )
     else:
         handle_action_patch.assert_not_called()
