@@ -11,11 +11,10 @@ class MLI404011LightController(LightController):
             "brightness_down_hold": Light.HOLD_BRIGHTNESS_DOWN,
             "brightness_down_release": Light.RELEASE,
             "brightness_up_click": Light.CLICK_BRIGHTNESS_UP,
-            "brightness_up_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_up_hold": Light.HOLD_BRIGHTNESS_UP,
             "brightness_up_release": Light.RELEASE,
-            "color_wheel": Light.XYCOLOR_FROM_CONTROLLER  # Color ring press
-            # color_temp: "" # warm or cold
-            # color_wheel: "" # Color ring press
+            "color_wheel": Light.XYCOLOR_FROM_CONTROLLER,  # Color ring press
+            "color_temp": Light.COLORTEMP_FROM_CONTROLLER,  # warm or cold
             # "scene_3": "",  # reading button
             # "scene_1": "",  # sunset button
             # "scene_2": "",  # party button
