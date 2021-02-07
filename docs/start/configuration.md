@@ -93,13 +93,16 @@ _\* Required fields_
 ```yaml
 example_app: # It can be anything
   module: controllerx
+
   # `class` value depends on the controller you want to use
   # Check the classes for each controller on the supported controllers page
   # Supported controller page: https://xaviml.github.io/controllerx/controllers/
   class: Controller # or E1810Controller, LightController, HueDimmerController, etc.
+
   # `controller` value depends on the integration used (z2m, deconz, zha).
   # Check https://xaviml.github.io/controllerx/others/extract-controller-id for more info
   controller: sensor.my_controller_action # or my_controller_id or 00:67:88:56:06:78:9b:3f
+
   # `integration` is the integration used for your controller
   # It can be used as object like:
   # integration:
@@ -107,19 +110,28 @@ example_app: # It can be anything
   #   listen_to: mqtt
   # Check https://xaviml.github.io/controllerx/others/integrations for more info
   integration: z2m # or deconz, mqtt, zha, state
+
   # `actions` and `excluded_actions` can be used to indicate which actions from the default mapping
   # will be used or not. These 2 attributes cannot be used at the same time.
   actions: # or excluded_actions. This is optional.
     - toggle
     - brightness_up_click
+
   # `action_delta` is the threshold to avoid firing the same action twice
   action_delta: 300 # default. This is optional.
+
   # `multiple_click_delay` is used for the multiclick functionality
   # Check https://xaviml.github.io/controllerx/advanced/multiple-clicks for more info
   multiple_click_delay: 500 # default. This is optional.
+
   # `action_delay` lets you configure delays to existing actions
   action_delay: # This is optional.
     toggle: 10 # This will fire `toggle` action in 10 seconds after pressed.
+
+  # `mode` allows you to define the strategy when an action is already executing
+  # Possible values are `single`, `restart`, `queued` and `parallel`
+  mode: single # default. This is optional.
+
   # `mapping` and `merge_mapping` let you override the default behaviour of your controller.
   # `merge_mapping` updates the default mapping, and `mapping` overrides it completely.
   # Check https://xaviml.github.io/controllerx/advanced/custom-controllers for more info
@@ -134,6 +146,7 @@ example_app: # It can be anything
       - service: script.my_script_with_arguments
         data:
           my_attr: test
+
   # From here on, we can include specific attribute from type controllers like
   # Light, MediaPlayer, Switch or Cover controller for example
   # Check https://xaviml.github.io/controllerx/start/type-configuration for more info
