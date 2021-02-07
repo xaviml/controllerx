@@ -1,0 +1,5 @@
+# Testing the single mode task functionality
+fired_actions: [action_single, 0.4, action_single]
+expected_calls:
+  - service: my_service
+  - service: my_other_service

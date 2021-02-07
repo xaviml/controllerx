@@ -6,6 +6,7 @@ from typing import Any, Dict
 import pytest
 import yaml
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import get_controller
@@ -59,7 +60,8 @@ async def test_integ_configs(
     controller.args = config
 
     fake_entity_states = get_fake_entity_states(entity_state, entity_state_attributes)
-    mocker.patch.object(controller, "get_entity_state", fake_entity_states)
+    if isinstance(controller, TypeController):
+        mocker.patch.object(controller, "get_entity_state", fake_entity_states)
     call_service_stub = mocker.patch.object(Hass, "call_service")
 
     await controller.initialize()

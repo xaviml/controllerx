@@ -1,0 +1,27 @@
+livingroom_controller:
+  module: controllerx
+  class: Controller
+  controller: my_controller
+  integration: z2m
+  mode:
+    action_single: single
+    action_restart: restart
+    action_queued: queued
+    action_parallel: parallel
+  mapping:
+    action_single:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service
+    action_restart:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service
+    action_queued:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service
+    action_parallel:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service

@@ -41,6 +41,11 @@ DEFAULT_ACTION_DELTA = 300  # In milliseconds
 DEFAULT_MULTIPLE_CLICK_DELAY = 500  # In milliseconds
 MULTIPLE_CLICK_TOKEN = "$"
 
+MODE_SINGLE = "single"
+MODE_RESTART = "restart"
+MODE_QUEUED = "queued"
+MODE_PARALLEL = "parallel"
+
 T = TypeVar("T")
 
 
@@ -150,6 +155,11 @@ class Controller(Hass, Mqtt):
         self.multiple_click_action_times = defaultdict(lambda: 0.0)
         self.click_counter = Counter()
         self.multiple_click_action_delay_tasks = defaultdict(lambda: None)
+
+        # Mode
+        self.mode = self.get_mapping_per_action(
+            self.actions_mapping, custom=self.args.get("mode"), default=MODE_SINGLE
+        )
 
         # Listen for device changes
         for controller_id in controllers_ids:
@@ -348,14 +358,38 @@ class Controller(Hass, Mqtt):
         else:
             await self.action_timer_callback({"action_key": action_key, "extra": extra})
 
+    async def _apply_mode_strategy(self, action_key: ActionEvent) -> bool:
+        previous_task = self.action_handles[action_key]
+        if previous_task is None:
+            return False
+        if self.mode[action_key] == MODE_SINGLE:
+            self.log(
+                "There is already an action executing for `action_key`. "
+                "If you want a different behaviour change `mode` parameter.",
+                level="WARNING",
+            )
+            return True
+        elif self.mode[action_key] == MODE_RESTART:
+            previous_task.cancel()
+        elif self.mode[action_key] == MODE_QUEUED:
+            await previous_task
+        elif self.mode[action_key] == MODE_PARALLEL:
+            pass
+        else:
+            raise ValueError(
+                f"`{self.mode[action_key]}` is not a possible value for `mode` parameter."
+                "Possible values: `single`, `restart`, `queued` and `parallel`."
+            )
+        return False
+
     async def action_timer_callback(self, kwargs: Dict[str, Any]):
         action_key: ActionEvent = kwargs["action_key"]
         extra: EventData = kwargs["extra"]
         self.action_delay_handles[action_key] = None
+        skip = await self._apply_mode_strategy(action_key)
+        if skip:
+            return
         action_types = self.actions_mapping[action_key]
-        previous_task = self.action_handles[action_key]
-        if previous_task is not None:
-            previous_task.cancel()
         task = asyncio.ensure_future(self.call_action_types(action_types, extra))
         self.action_handles[action_key] = task
         try:

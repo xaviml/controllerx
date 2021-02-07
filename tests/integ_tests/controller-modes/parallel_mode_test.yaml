@@ -1,0 +1,7 @@
+# Testing the parallel mode task functionality
+fired_actions: [action_parallel, 0.4, action_parallel]
+expected_calls:
+  - service: my_service
+  - service: my_service
+  - service: my_other_service
+  - service: my_other_service
