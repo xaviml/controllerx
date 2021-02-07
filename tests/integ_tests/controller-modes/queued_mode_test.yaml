@@ -1,0 +1,7 @@
+# Testing the queued mode task functionality
+fired_actions: [action_queued, 0.4, action_queued]
+expected_calls:
+  - service: my_service
+  - service: my_other_service
+  - service: my_service
+  - service: my_other_service

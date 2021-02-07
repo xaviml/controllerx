@@ -1,0 +1,17 @@
+example_app:
+  module: controllerx
+  class: Controller
+  integration: z2m
+  controller: sensor.my_controller
+  mapping:
+    toggle:
+      service: wled.effect
+      data:
+        entity_id: light.wled
+        effect: "{{ state_attr('light.wled', 'effect_list') | random }}"
+    toggle$2:
+      service: fake_service
+      data:
+        data1:
+          data2:
+            attr: "{{ to_render }}"

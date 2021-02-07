@@ -96,6 +96,12 @@ async def test_init(
             ["light.light1", "input_boolean.input_boolean1"],
             True,
         ),
+        (
+            "{{ to_render }}",
+            ["light"],
+            [],
+            False,
+        ),
     ],
 )
 @pytest.mark.asyncio

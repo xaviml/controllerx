@@ -483,6 +483,38 @@ example_app5:
         entity_id: input_boolean.light_mode
 ```
 
+The following example shows the potential of templating render. Let's say we want to execute different [predefined actions](/controllerx/advanced/predefined-actions) every time we click a button (E1810 in this case). First, we can create an input select through UI or YAML in HA:
+
+```yaml
+input_select:
+  light_state:
+    options:
+      - on_min_brightness
+      - on_full_brightness
+      - set_half_brightness
+```
+
+Then we can define the following ControllerX config to change the option of the input_select and apply the predefined action that is selected:
+
+{% assign special = "{{ states('input_select.light_state') }}" %}
+
+```yaml
+example_app:
+  module: controllerx
+  class: E1810Controller
+  controller: livingroom_controller
+  integration: 
+    name: z2m
+    listen_to: mqtt
+  light: light.my_light
+  mapping:
+    toggle:
+      - service: input_select.select_next
+        data:
+          entity_id: input_select.light_state
+      - action: "{{ special }}"
+```
+
 ## Others
 
 These are examples that are quite extensive and were extracted in separated pages:

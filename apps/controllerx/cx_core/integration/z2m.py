@@ -50,9 +50,7 @@ class Z2MIntegration(Integration):
             )
             return
         if action_group_key in payload and "action_group" in self.kwargs:
-            action_group = self.kwargs["action_group"]
-            if isinstance(action_group, str):
-                action_group = [action_group]
+            action_group = self.controller.get_list(self.kwargs["action_group"])
             if payload["action_group"] not in action_group:
                 self.controller.log(
                     f"Action group {payload['action_group']} not found in "
@@ -60,7 +58,7 @@ class Z2MIntegration(Integration):
                     level="DEBUG",
                 )
                 return
-        await self.controller.handle_action(payload[action_key])
+        await self.controller.handle_action(payload[action_key], extra=payload)
 
     async def state_callback(
         self, entity: Optional[str], attribute: Optional[str], old, new, kwargs

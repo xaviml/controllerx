@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Set, Union
 
 import appdaemon.plugins.hass.hassapi as hass
 import pytest
@@ -243,6 +243,59 @@ def test_get_list(
 
 
 @pytest.mark.parametrize(
+    "actions, custom, default, expected",
+    [
+        (
+            {"action1", "action2", "action3"},
+            None,
+            0,
+            {"action1": 0, "action2": 0, "action3": 0},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            {"action1": 10},
+            0,
+            {"action1": 10, "action2": 0, "action3": 0},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            10,
+            0,
+            {"action1": 10, "action2": 10, "action3": 10},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            None,
+            "restart",
+            {"action1": "restart", "action2": "restart", "action3": "restart"},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            "single",
+            "restart",
+            {"action1": "single", "action2": "single", "action3": "single"},
+        ),
+        (
+            {"action1", "action2", "action3"},
+            {"action2": "single", "action3": "another"},
+            "restart",
+            {"action1": "restart", "action2": "single", "action3": "another"},
+        ),
+    ],
+)
+def test_get_mapping_per_action(
+    sut: Controller,
+    actions: Set[ActionEvent],
+    custom: Optional[Dict[ActionEvent, Any]],
+    default: Any,
+    expected: Dict[ActionEvent, Any],
+) -> None:
+    actions_mapping: ActionsMapping = {action: [] for action in actions}
+    output = sut.get_mapping_per_action(actions_mapping, custom=custom, default=default)
+    assert output == expected
+
+
+@pytest.mark.parametrize(
     "mapping, expected",
     [
         (["toggle", "another"], []),
@@ -361,7 +414,7 @@ async def test_handle_action(
     expected_calls: int,
     fake_action_type: ActionType,
 ):
-    sut.action_delta = action_delta
+    sut.action_delta = {action_called: action_delta}
     sut.action_times = defaultdict(lambda: 0)
 
     actions_mapping: ActionsMapping = {
@@ -436,3 +489,21 @@ async def test_call_service(
     call_service_stub = mocker.patch.object(hass.Hass, "call_service")
     await sut.call_service(service, **attributes)
     call_service_stub.assert_called_once_with(sut, service, **attributes)
+
+
+@pytest.mark.parametrize(
+    "template, expected",
+    [
+        ("test", False),
+        ("{{ to_render }}", True),
+        ("{{ to_render }}_test", True),
+        ("test_{{ to_render }}_test", True),
+        (" {{ to_render }} ", True),
+        ("{{ to_render", False),
+        ("{ { to_render } }", False),
+    ],
+)
+@pytest.mark.asyncio
+def test_render_value(sut: Controller, template: str, expected: bool) -> None:
+    output = sut.contains_templating(template)
+    assert output == expected

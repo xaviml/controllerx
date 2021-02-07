@@ -26,7 +26,3 @@ livingroom_controller:
       - delay: 1
       - scene: scene.my_other_scene
       - service: my_other_service
-    brightness_down_hold:
-      - service: my_service
-      - delay: 1
-      - service: my_other_service

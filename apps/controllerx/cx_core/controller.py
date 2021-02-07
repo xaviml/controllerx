@@ -1,5 +1,7 @@
 import asyncio
+import re
 import time
+from ast import literal_eval
 from asyncio import CancelledError
 from asyncio.futures import Future
 from collections import defaultdict
@@ -40,6 +42,11 @@ Services = List[Service]
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
 DEFAULT_MULTIPLE_CLICK_DELAY = 500  # In milliseconds
 MULTIPLE_CLICK_TOKEN = "$"
+
+MODE_SINGLE = "single"
+MODE_RESTART = "restart"
+MODE_QUEUED = "queued"
+MODE_PARALLEL = "parallel"
 
 T = TypeVar("T")
 
@@ -82,7 +89,7 @@ class Controller(Hass, Mqtt):
     action_delay_handles: Dict[ActionEvent, Optional[float]]
     multiple_click_actions: Set[ActionEvent]
     action_delay: Dict[ActionEvent, int]
-    action_delta: int
+    action_delta: Dict[ActionEvent, int]
     action_times: Dict[str, float]
     multiple_click_action_times: Dict[str, float]
     click_counter: Counter[ActionEvent]
@@ -105,7 +112,7 @@ class Controller(Hass, Mqtt):
 
         if custom_mapping is None:
             default_actions_mapping = self.get_default_actions_mapping(self.integration)
-            self.actions_mapping = self.parse_action_mapping(default_actions_mapping)
+            self.actions_mapping = self.parse_action_mapping(default_actions_mapping)  # type: ignore
         else:
             self.actions_mapping = self.parse_action_mapping(custom_mapping)
 
@@ -126,16 +133,18 @@ class Controller(Hass, Mqtt):
         )
 
         # Action delay
-        default_action_delay = {action_key: 0 for action_key in self.actions_mapping}
-        self.action_delay = {
-            **default_action_delay,
-            **self.args.get("action_delay", {}),
-        }
+        self.action_delay = self.get_mapping_per_action(
+            self.actions_mapping, custom=self.args.get("action_delay"), default=0
+        )
         self.action_delay_handles = defaultdict(lambda: None)
         self.action_handles = defaultdict(lambda: None)
 
         # Action delta
-        self.action_delta = self.args.get("action_delta", DEFAULT_ACTION_DELTA)
+        self.action_delta = self.get_mapping_per_action(
+            self.actions_mapping,
+            custom=self.args.get("action_delta"),
+            default=DEFAULT_ACTION_DELTA,
+        )
         self.action_times = defaultdict(lambda: 0.0)
 
         # Multiple click
@@ -148,6 +157,11 @@ class Controller(Hass, Mqtt):
         self.multiple_click_action_times = defaultdict(lambda: 0.0)
         self.click_counter = Counter()
         self.multiple_click_action_delay_tasks = defaultdict(lambda: None)
+
+        # Mode
+        self.mode = self.get_mapping_per_action(
+            self.actions_mapping, custom=self.args.get("mode"), default=MODE_SINGLE
+        )
 
         # Listen for device changes
         for controller_id in controllers_ids:
@@ -209,6 +223,20 @@ class Controller(Hass, Mqtt):
             return list(entities)
         return [entities]
 
+    def get_mapping_per_action(
+        self,
+        actions_mapping: ActionsMapping,
+        *,
+        custom: Optional[Union[T, Dict[ActionEvent, T]]],
+        default: T,
+    ) -> Dict[ActionEvent, T]:
+        if custom is not None and not isinstance(custom, dict):
+            default = custom
+        mapping = {action: default for action in actions_mapping}
+        if custom is not None and isinstance(custom, dict):
+            mapping.update(custom)
+        return mapping
+
     def parse_action_mapping(self, mapping: CustomActionsMapping) -> ActionsMapping:
         return {event: parse_actions(self, action) for event, action in mapping.items()}
 
@@ -233,17 +261,48 @@ class Controller(Hass, Mqtt):
             str(action_key) + MULTIPLE_CLICK_TOKEN + str(click_count)
         )  # e.g. toggle$2
 
-    async def call_service(self, service: str, **attributes) -> None:
+    async def _render_template(self, template: str) -> Any:
+        result = await self.call_service("template/render", template=template)
+        if result is None:
+            raise ValueError(f"Template {template} returned None")
+        try:
+            return literal_eval(result)
+        except (SyntaxError, ValueError):
+            return result
+
+    _TEMPLATE_RE = re.compile(r"\s*\{\{.*\}\}")
+
+    def contains_templating(self, template: str) -> bool:
+        is_template = self._TEMPLATE_RE.search(template) is not None
+        if not is_template:
+            self.log(f"`{template}` is not recognized as a template", level="DEBUG")
+        return is_template
+
+    async def render_value(self, value: Any) -> Any:
+        if isinstance(value, str) and self.contains_templating(value):
+            return await self._render_template(value)
+        else:
+            return value
+
+    async def render_attributes(self, attributes: Dict[str, Any]) -> Dict[str, Any]:
+        new_attributes: Dict[str, Any] = {}
+        for key, value in attributes.items():
+            new_value = await self.render_value(value)
+            if isinstance(value, dict):
+                new_value = await self.render_attributes(value)
+            new_attributes[key] = new_value
+        return new_attributes
+
+    async def call_service(self, service: str, **attributes) -> Optional[Any]:
         service = service.replace(".", "/")
-        self.log(
-            f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m",
-            level="INFO",
-            ascii_encode=False,
-        )
+        to_log = ["\n", f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m"]
+        if service != "template/render":
+            attributes = await self.render_attributes(attributes)
         for attribute, value in attributes.items():
             if isinstance(value, float):
                 value = f"{value:.2f}"
-            self.log(f"  - {attribute}: {value}", level="INFO", ascii_encode=False)
+            to_log.append(f"  - {attribute}: {value}")
+        self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)  # type: ignore
 
     async def handle_action(
@@ -256,7 +315,7 @@ class Controller(Hass, Mqtt):
             previous_call_time = self.action_times[action_key]
             now = time.time() * 1000
             self.action_times[action_key] = now
-            if now - previous_call_time > self.action_delta:
+            if now - previous_call_time > self.action_delta[action_key]:
                 await self.call_action(action_key, extra=extra)
         elif action_key in self.multiple_click_actions:
             now = time.time() * 1000
@@ -332,14 +391,38 @@ class Controller(Hass, Mqtt):
         else:
             await self.action_timer_callback({"action_key": action_key, "extra": extra})
 
+    async def _apply_mode_strategy(self, action_key: ActionEvent) -> bool:
+        previous_task = self.action_handles[action_key]
+        if previous_task is None:
+            return False
+        if self.mode[action_key] == MODE_SINGLE:
+            self.log(
+                "There is already an action executing for `action_key`. "
+                "If you want a different behaviour change `mode` parameter.",
+                level="WARNING",
+            )
+            return True
+        elif self.mode[action_key] == MODE_RESTART:
+            previous_task.cancel()
+        elif self.mode[action_key] == MODE_QUEUED:
+            await previous_task
+        elif self.mode[action_key] == MODE_PARALLEL:
+            pass
+        else:
+            raise ValueError(
+                f"`{self.mode[action_key]}` is not a possible value for `mode` parameter."
+                "Possible values: `single`, `restart`, `queued` and `parallel`."
+            )
+        return False
+
     async def action_timer_callback(self, kwargs: Dict[str, Any]):
         action_key: ActionEvent = kwargs["action_key"]
         extra: EventData = kwargs["extra"]
         self.action_delay_handles[action_key] = None
+        skip = await self._apply_mode_strategy(action_key)
+        if skip:
+            return
         action_types = self.actions_mapping[action_key]
-        previous_task = self.action_handles[action_key]
-        if previous_task is not None:
-            previous_task.cancel()
         task = asyncio.ensure_future(self.call_action_types(action_types, extra))
         self.action_handles[action_key] = task
         try:

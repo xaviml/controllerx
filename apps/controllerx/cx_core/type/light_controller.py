@@ -4,6 +4,9 @@ from cx_const import Light, PredefinedActionsMapping
 from cx_core.color_helper import get_color_wheel
 from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
+from cx_core.integration import EventData
+from cx_core.integration.deconz import DeCONZIntegration
+from cx_core.integration.z2m import Z2MIntegration
 from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import Stepper
 from cx_core.stepper.circular_stepper import CircularStepper
@@ -371,6 +374,8 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                     Stepper.TOGGLE,
                 ),
             ),
+            Light.XYCOLOR_FROM_CONTROLLER: self.xycolor_from_controller,
+            Light.COLORTEMP_FROM_CONTROLLER: self.colortemp_from_controller,
         }
 
     async def call_light_service(
@@ -454,6 +459,39 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 ascii_encode=False,
             )
         await self.on(**attributes, brightness=self.max_brightness)
+
+    @action
+    async def xycolor_from_controller(self, extra: Optional[EventData]) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_color" not in extra:
+                self.log(
+                    "`action_color` is not present in the MQTT payload", level="WARNING"
+                )
+                return
+            xy_color = extra["action_color"]
+            await self.on(xy_color=(xy_color["x"], xy_color["y"]))
+        elif isinstance(self.integration, DeCONZIntegration):
+            if "xy" not in extra:
+                self.log("`xy` is not present in the deCONZ event", level="WARNING")
+                return
+            await self.on(xy_color=extra["xy"])
+
+    @action
+    async def colortemp_from_controller(self, extra: Optional[EventData]) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_color_temperature" not in extra:
+                self.log(
+                    "`action_color_temperature` is not present in the MQTT payload",
+                    level="WARNING",
+                )
+                return
+            await self.on(color_temp=extra["action_color_temperature"])
 
     async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:

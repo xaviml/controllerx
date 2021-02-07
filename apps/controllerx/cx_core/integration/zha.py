@@ -33,5 +33,12 @@ class ZHAIntegration(Integration):
         if action is None:
             # If there is no action extracted from the controller then
             # we extract with the standard function
-            action = self.get_action(data)
+            try:
+                action = self.get_action(data)
+            except Exception:
+                self.controller.log(
+                    f"The following event could not be parsed: {data}", level="WARNING"
+                )
+                return
+
         await self.controller.handle_action(action)

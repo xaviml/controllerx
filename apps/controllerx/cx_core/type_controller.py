@@ -53,7 +53,9 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
             )
 
     async def check_domain(self, entity_name: str) -> None:
-        if entity_name.startswith("group."):
+        if self.contains_templating(entity_name):
+            return
+        elif entity_name.startswith("group."):
             entities = await self.get_state(entity_name, attribute="entity_id")  # type: ignore
             same_domain = all(
                 (
