@@ -489,3 +489,21 @@ async def test_call_service(
     call_service_stub = mocker.patch.object(hass.Hass, "call_service")
     await sut.call_service(service, **attributes)
     call_service_stub.assert_called_once_with(sut, service, **attributes)
+
+
+@pytest.mark.parametrize(
+    "template, expected",
+    [
+        ("test", False),
+        ("{{ to_render }}", True),
+        ("{{ to_render }}_test", True),
+        ("test_{{ to_render }}_test", True),
+        (" {{ to_render }} ", True),
+        ("{{ to_render", False),
+        ("{ { to_render } }", False),
+    ],
+)
+@pytest.mark.asyncio
+def test_render_value(sut: Controller, template: str, expected: bool) -> None:
+    output = sut.contains_templating(template)
+    assert output == expected

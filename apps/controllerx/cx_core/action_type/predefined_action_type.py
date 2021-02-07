@@ -17,6 +17,15 @@ class PredefinedActionType(ActionType):
     action_key: str
     predefined_actions_mapping: PredefinedActionsMapping
 
+    def _raise_action_key_not_found(
+        self, action_key: str, predefined_actions: PredefinedActionsMapping
+    ) -> None:
+        raise ValueError(
+            f"`{action_key}` is not one of the predefined actions. "
+            f"Available actions are: {list(predefined_actions.keys())}."
+            "See more in: https://xaviml.github.io/controllerx/advanced/custom-controllers"
+        )
+
     def initialize(self, **kwargs) -> None:
         self.action_key = kwargs["action"]
         self.predefined_actions_mapping = (
@@ -26,15 +35,21 @@ class PredefinedActionType(ActionType):
             raise ValueError(
                 f"Cannot use predefined actions for `{self.controller.__class__.__name__}` class."
             )
-        if self.action_key not in self.predefined_actions_mapping:
-            raise ValueError(
-                f"`{self.action_key}` is not one of the predefined actions. "
-                f"Available actions are: {list(self.predefined_actions_mapping.keys())}."
-                "See more in: https://xaviml.github.io/controllerx/advanced/custom-controllers"
+        if (
+            not self.controller.contains_templating(self.action_key)
+            and self.action_key not in self.predefined_actions_mapping
+        ):
+            self._raise_action_key_not_found(
+                self.action_key, self.predefined_actions_mapping
             )
 
     async def run(self, extra: Optional[EventData] = None) -> None:
-        action, args = _get_action(self.predefined_actions_mapping[self.action_key])
+        action_key = await self.controller.render_value(self.action_key)
+        if action_key not in self.predefined_actions_mapping:
+            self._raise_action_key_not_found(
+                action_key, self.predefined_actions_mapping
+            )
+        action, args = _get_action(self.predefined_actions_mapping[action_key])
         if "extra" in set(inspect.signature(action).parameters):
             await action(*args, extra=extra)
         else:

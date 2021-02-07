@@ -1,5 +1,7 @@
 import asyncio
+import re
 import time
+from ast import literal_eval
 from asyncio import CancelledError
 from asyncio.futures import Future
 from collections import defaultdict
@@ -259,17 +261,48 @@ class Controller(Hass, Mqtt):
             str(action_key) + MULTIPLE_CLICK_TOKEN + str(click_count)
         )  # e.g. toggle$2
 
-    async def call_service(self, service: str, **attributes) -> None:
+    async def _render_template(self, template: str) -> Any:
+        result = await self.call_service("template/render", template=template)
+        if result is None:
+            raise ValueError(f"Template {template} returned None")
+        try:
+            return literal_eval(result)
+        except (SyntaxError, ValueError):
+            return result
+
+    _TEMPLATE_RE = re.compile(r"\s*\{\{.*\}\}")
+
+    def contains_templating(self, template: str) -> bool:
+        is_template = self._TEMPLATE_RE.search(template) is not None
+        if not is_template:
+            self.log(f"`{template}` is not recognized as a template", level="DEBUG")
+        return is_template
+
+    async def render_value(self, value: Any) -> Any:
+        if isinstance(value, str) and self.contains_templating(value):
+            return await self._render_template(value)
+        else:
+            return value
+
+    async def render_attributes(self, attributes: Dict[str, Any]) -> Dict[str, Any]:
+        new_attributes: Dict[str, Any] = {}
+        for key, value in attributes.items():
+            new_value = await self.render_value(value)
+            if isinstance(value, dict):
+                new_value = await self.render_attributes(value)
+            new_attributes[key] = new_value
+        return new_attributes
+
+    async def call_service(self, service: str, **attributes) -> Optional[Any]:
         service = service.replace(".", "/")
-        self.log(
-            f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m",
-            level="INFO",
-            ascii_encode=False,
-        )
+        to_log = ["\n", f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m"]
+        if service != "template/render":
+            attributes = await self.render_attributes(attributes)
         for attribute, value in attributes.items():
             if isinstance(value, float):
                 value = f"{value:.2f}"
-            self.log(f"  - {attribute}: {value}", level="INFO", ascii_encode=False)
+            to_log.append(f"  - {attribute}: {value}")
+        self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)  # type: ignore
 
     async def handle_action(

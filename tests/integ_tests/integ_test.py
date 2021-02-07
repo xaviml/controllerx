@@ -49,6 +49,7 @@ async def test_integ_configs(
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
     fired_actions = data.get("fired_actions", [])
+    render_template_response = data.get("render_template_response")
     extra = data.get("extra")
     expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
@@ -59,8 +60,15 @@ async def test_integ_configs(
         raise ValueError(f"`{config['class']}` class controller does not exist")
     controller.args = config
 
-    fake_entity_states = get_fake_entity_states(entity_state, entity_state_attributes)
+    if render_template_response is not None:
+        mocker.patch.object(
+            controller, "_render_template", return_value=render_template_response
+        )
+
     if isinstance(controller, TypeController):
+        fake_entity_states = get_fake_entity_states(
+            entity_state, entity_state_attributes
+        )
         mocker.patch.object(controller, "get_entity_state", fake_entity_states)
     call_service_stub = mocker.patch.object(Hass, "call_service")
 

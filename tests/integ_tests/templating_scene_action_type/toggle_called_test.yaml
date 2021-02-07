@@ -1,0 +1,6 @@
+fired_actions: [toggle]
+render_template_response: scene.my_scene
+expected_calls:
+  - service: scene/turn_on
+    data:
+      entity_id: scene.my_scene

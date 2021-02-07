@@ -1,0 +1,6 @@
+fired_actions: [toggle]
+render_template_response: media_player.livingroom
+expected_calls:
+- service: media_player/media_play_pause
+  data:
+    entity_id: media_player.livingroom

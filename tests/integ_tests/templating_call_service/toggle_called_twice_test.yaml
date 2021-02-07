@@ -1,0 +1,8 @@
+fired_actions: [toggle, 0.4, toggle]
+render_template_response: fake_render
+expected_calls:
+  - service: fake_service
+    data:
+      data1:
+        data2:
+          attr: fake_render

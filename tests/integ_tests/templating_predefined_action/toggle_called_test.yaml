@@ -1,0 +1,6 @@
+fired_actions: [toggle]
+render_template_response: toggle
+expected_calls:
+  - service: light/toggle
+    data:
+      entity_id: light.my_light
