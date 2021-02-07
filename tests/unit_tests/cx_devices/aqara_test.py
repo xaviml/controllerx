@@ -34,6 +34,10 @@ def test_zha_action_MFKZQ01LMLightController(data: EventData, expected_action: s
         ({"command": "click", "args": {"click_type": "triple"}}, "triple"),
         ({"command": "click", "args": {"click_type": "quadruple"}}, "quadruple"),
         ({"command": "click", "args": {"click_type": "furious"}}, "furious"),
+        (
+            {"command": "attribute_updated", "args": {"value": True}},
+            "attribute_updated",
+        ),
     ],
 )
 def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: str):
