@@ -17,6 +17,7 @@ _Note: I recommend working with Python 3.6 since is the minimum version supporte
 New controllers need to be added into the `apps/controllerx/devices/` and you will need to define the mapping for the integration you are adding support to.
 
 Also, the controller will need to be added to the documentation. You will need to create:
+
 - YAML file in `docs/_data/controllers`
 - MarkDown file in `docs/controllers`
 - JPEG image in `docs/assets/img`
@@ -121,7 +122,7 @@ git checkout -b <username>-<remote-branch> <username>/<remote-branch>
 
 ## Deployment
 
-Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. So first, we will need to bump version with `commitizen` by running the following line in the `master` branch:
+Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. So first, we will need to bump version with `commitizen` by running the following line in the `main` branch:
 
 ```shell
 cz bump --no-verify
@@ -130,7 +131,7 @@ cz bump --no-verify
 `--prerelease beta` tag can be added to create a pre-release. Note that you can also add `--dry-run` to see which version will bump without commiting anything. Then, we can directly push the tags:
 
 ```shell
-git push origin master --tags
+git push origin main --tags
 ```
 
 This will automatically generate a GitHub release with the changes for that release.

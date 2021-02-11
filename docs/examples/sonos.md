@@ -26,7 +26,7 @@ office_sonos_controller:
 
 ### SONOS/SYMFONISK groups
 
-ControllerX supports Sonos groups as well. If media_player in app is set to a group, then ControllerX will read the Sonos source list from FIRST entity_id in group. So this has to be your chosen master speaker! This setup will work perfectly, if you only use static groups that are never altered (via Sonos app/HA or otherwise). But if your Sonos group alters through the day (other family members redefines group speakers to their liking), you need a dynamic group setting.
+ControllerX supports Sonos groups as well. If media_player in app is set to a group, then ControllerX will read the Sonos source list from FIRST entity_id in group. So this has to be your chosen main speaker! This setup will work perfectly, if you only use static groups that are never altered (via Sonos app/HA or otherwise). But if your Sonos group alters through the day (other family members redefines group speakers to their liking), you need a dynamic group setting.
 
 This can easily be achieved by adding only one sensor and one small automation to your HA configuration.
 
@@ -37,8 +37,8 @@ This can easily be achieved by adding only one sensor and one small automation t
 ```yaml
 - platform: template
   sensors:
-    sonos_master_group_entities:
-      value_template: "{{ special }}" #MASTER speaker
+    sonos_main_group_entities:
+      value_template: "{{ special }}" #main speaker
 ```
 
 #### HA automation.yaml
@@ -50,12 +50,12 @@ id: dynamic_sonos_groups
 alias: dynamic_sonos_groups
 trigger:
   platform: state
-  entity_id: sensor.sonos_master_group_entities # Same as defined in configuration.yaml
+  entity_id: sensor.sonos_main_group_entities # Same as defined in configuration.yaml
 action:
   - service: group.set
     data_template:
       object_id: sonos_all #name of sonos group in groups.yaml
-      entities: "{{ special }}" #MASTER speaker
+      entities: "{{ special }}" #main speaker
 ```
 
 #### HA groups.yaml
@@ -63,9 +63,9 @@ action:
 ```yaml
 name: sonos_all
 entities:
-  - media_player.office #this HAS to be your MASTER speaker
-  - media_player.kitchen #SLAVE speaker #1
-  - media_player.livingroom #SLAVE speaker #2
+  - media_player.office #this HAS to be your main speaker
+  - media_player.kitchen #passive speaker #1
+  - media_player.livingroom #passive speaker #2
 ```
 
 And with the following ControllerX configuration, you will be able to control the dynamic group in HA, which will be changed immediately if group is altered eg. from Sonos app. This app version below, has 'flipped' the arrow functions. So click will change source and hold will change previous/next song in playlist. This behaviour will most likely fit better for users that primarily uses favourites (radio stations).
