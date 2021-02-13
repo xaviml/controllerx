@@ -41,7 +41,7 @@ Three things to clarify when using the `z2m` integration listening to MQTT:
 
 #### deCONZ
 
-This integration(**`deconz`**) listens to events and actions gets fired by default with the `event` attribute from the `data` object. However, you can change the attribute to listen to by adding a `type` attribute. This is an example
+This integration(**`deconz`**) listens to `deconz_event` events and actions gets fired by default with the `event` attribute from the `data` object. However, you can change the attribute to listen to by adding a `type` attribute. This is an example
 
 ```yaml
 example_app:
@@ -56,7 +56,7 @@ example_app:
 
 #### ZHA
 
-This integration(**`zha`**) listens to events and concatenates the command with the argument for the action string. It does not have any additional arguments.
+This integration(**`zha`**) listens to `zha_event` events and concatenates the command with the argument for the action string. It does not have any additional arguments.
 
 #### MQTT
 
@@ -129,3 +129,7 @@ example_app:
     1_click: "on"
     2_click: "off"
 ```
+
+#### Lutron Caséta
+
+This integration(**`lutron_caseta`**) listens to `lutron_caseta_button_event` events. It creates an action like `button_<number>_<action type>`. It does not have any additional arguments.
