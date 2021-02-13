@@ -1,0 +1,21 @@
+name: E1812 (IKEA)
+device_support:
+  - type: Light
+    domain: light
+    controller: E1812LightController
+    delay: 350
+    mapping:
+      - "Click → Toggle"
+      - "Hold → Brightness up/down with direction changes"
+  - type: Switch
+    domain: switch
+    controller: E1812SwitchController
+    mapping:
+      - "Click → Toggle"
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "on → Click"
+      - "brightness_move_up → Hold"
+      - "brightness_stop → Released after being held"
