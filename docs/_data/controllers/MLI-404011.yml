@@ -13,11 +13,11 @@ device_support:
       - "Hold 🔆 → Brighten up"
       - "Hold 🔅→ Dim down"
 integrations:
-  - name: deCONZ
-    codename: deconz
+  - name: Zigbee2MQTT
+    codename: z2m
     actions:
-      - on → Toggle button
-      - off → Toggle button
+      - '"on" → Toggle button'
+      - '"off" → Toggle button'
       - brightness_down_click → Click 🔅
       - brightness_down_hold → Hold 🔅
       - brightness_down_release → Release 🔅

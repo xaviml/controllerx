@@ -1,5 +1,7 @@
 from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
+from cx_core.controller import Controller
+from cx_core.integration import EventData
 
 
 class MLI404011LightController(LightController):
@@ -41,4 +43,40 @@ class MLI404011LightController(LightController):
             # 10002: "",  # night button
             # 11002: "",  # fire button
             # 12002: "",  # heart button
+        }
+
+
+class MLI404002Controller(Controller):
+    def get_zha_action(self, data: EventData) -> str:
+        command = data["command"]
+        if command not in ("move", "step"):
+            return command
+        args = data["args"]
+        direction_mapping = {0: "up", 1: "down"}
+        return f"{command}_{direction_mapping[args[0]]}"
+
+
+class MLI404002LightController(MLI404002Controller, LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.TOGGLE,
+            "off": Light.TOGGLE,
+            "brightness_step_up": Light.CLICK_BRIGHTNESS_UP,
+            "brightness_step_down": Light.CLICK_BRIGHTNESS_DOWN,
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Light.RELEASE,
+            "recall_1": Light.ON_FULL_BRIGHTNESS,
+        }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.TOGGLE,
+            "off": Light.TOGGLE,
+            "move_up": Light.HOLD_BRIGHTNESS_UP,
+            "move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "stop": Light.RELEASE,
+            "step_up": Light.CLICK_BRIGHTNESS_UP,
+            "step_down": Light.CLICK_BRIGHTNESS_DOWN,
+            "recall": Light.ON_FULL_BRIGHTNESS,
         }
