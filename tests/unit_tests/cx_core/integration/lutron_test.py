@@ -2,7 +2,7 @@ from typing import Dict
 
 import pytest
 from cx_core.controller import Controller
-from cx_core.integration.lutron import LutronIntegration
+from cx_core.integration.lutron_caseta import LutronIntegration
 from pytest_mock.plugin import MockerFixture
 
 
