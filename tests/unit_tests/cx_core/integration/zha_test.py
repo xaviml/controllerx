@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 import pytest
 from cx_core.controller import Controller
@@ -38,12 +38,12 @@ from pytest_mock.plugin import MockerFixture
     ],
 )
 @pytest.mark.asyncio
-async def test_get_integrations(
+async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
     command: str,
     args: Dict,
-    expected_called_with: str,
+    expected_called_with: Optional[str],
 ):
     data = {"command": command, "args": args}
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")

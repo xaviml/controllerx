@@ -2,7 +2,7 @@ name: PJ2-2BRL (Lutron Caseta Pro)
 device_support:
   - type: Light
     domain: light
-    controller: LutronCasetaProPicoLightController
+    controller: LutronPJ22BRLLightController
     delay: 350
     mapping:
       - "Top button → Full brightness"
@@ -11,7 +11,7 @@ device_support:
       - "Bottom button → Turn off"
   - type: Media Player
     domain: media_player
-    controller: LutronCasetaProPicoMediaPlayerController
+    controller: LutronPJ22BRLMediaPlayerController
     delay: 500
     mapping:
       - "Top button → Play/Pause"
@@ -19,7 +19,7 @@ device_support:
       - "Arrow down button → Volume down"
       - "Bottom button → Next track"
 note: >-
-  This requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
   All Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this
   controller type except for the 4-button PJ2-4B remotes which is separate.
@@ -28,8 +28,8 @@ integrations:
   - name: State
     codename: state
     actions:
-      - "\"1\" → Top button"
-      - "\"8\" → Arrow up button"
-      - "\"16\" → Arrow down button"
-      - "\"4\" → Bottom button"
-      - "\"0\" → Release/Idle state"
+      - '"1" → Top button'
+      - '"8" → Arrow up button'
+      - '"16" → Arrow down button'
+      - '"4" → Bottom button'
+      - '"0" → Release/Idle state'
