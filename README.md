@@ -5,11 +5,10 @@
 [![logo](https://github.com/xaviml/controllerx/raw/dev/docs/android-chrome-192x192.png)](https://github.com/xaviml/controllerx/releases)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
-[![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
+[![azure-pipelines-build](https://img.shields.io/azure-devops/build/xaviml93/ControllerX/1/main.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=main)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 [![downloads-latest](https://img.shields.io/github/downloads/xaviml/controllerx/latest/total?style=for-the-badge)](http://github.com/xaviml/controllerx/releases/latest)
-[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/master.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=master)
-[![Codacy Badge](https://img.shields.io/codacy/grade/542f29ab55a449099488601ec7400563/master?style=for-the-badge)](https://app.codacy.com/manual/xaviml/controllerx?utm_source=github.com&utm_medium=referral&utm_content=xaviml/controllerx&utm_campaign=Badge_Grade_Dashboard)
+[![azure-pipelines-coverage](https://img.shields.io/azure-devops/coverage/xaviml93/ControllerX/1/main.svg?style=for-the-badge)](https://dev.azure.com/xaviml93/ControllerX/_build/latest?definitionId=1&branchName=main)
 [![community-topic](https://img.shields.io/badge/community-topic-blue?style=for-the-badge)](https://community.home-assistant.io/t/controllerx-bring-full-functionality-to-light-and-media-player-controllers/148855)
 [![buy-me-a-beer](https://img.shields.io/badge/sponsor-Buy%20me%20a%20beer-orange?style=for-the-badge)](https://www.buymeacoffee.com/xaviml)
 
@@ -40,4 +39,4 @@ If you like this project, don't forget to star it :)
 
 ## Contributing
 
-If you want to contribute to this project, check [CONTRIBUTING.md](https://github.com/xaviml/controllerx/blob/master/CONTRIBUTING.md).
+If you want to contribute to this project, check [CONTRIBUTING.md](https://github.com/xaviml/controllerx/blob/main/CONTRIBUTING.md).

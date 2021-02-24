@@ -3,12 +3,12 @@
 name: HACS Compliant
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# events but only for the main branch
 on:
   push:
-    branches: [dev, master]
+    branches: [dev, main]
   pull_request:
-    branches: [dev, master]
+    branches: [dev, main]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,10 +19,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    - name: HACS validation
-      uses: hacs/integration/action@main
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CATEGORY: appdaemon
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: HACS validation
+        uses: hacs/integration/action@main
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CATEGORY: appdaemon
