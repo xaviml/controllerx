@@ -120,7 +120,7 @@ async def test_custom_controllers(
             [("homeassistant/test_service2", {})],
         ),
         (
-            "z2m",
+            "lutron_caseta",
             {"service": "homeassistant/test_service2"},
             [("homeassistant/test_service2", {})],
         ),

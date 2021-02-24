@@ -486,3 +486,17 @@ class E1766CoverController(CoverController):
             "down_close": Cover.TOGGLE_CLOSE,
             "stop": Cover.STOP,
         }
+
+
+class E1812LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.TOGGLE,
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "brightness_stop": Light.RELEASE,
+        }
+
+
+class E1812SwitchController(SwitchController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {"on": Switch.TOGGLE}

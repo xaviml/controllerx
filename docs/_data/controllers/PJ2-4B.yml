@@ -2,7 +2,7 @@ name: PJ2-4B (Lutron Caseta Pro)
 device_support:
   - type: Light
     domain: light
-    controller: LutronCasetaProPJ24BLightController
+    controller: LutronPJ24BLightController
     delay: 350
     mapping:
       - "Top button → Full brightness"
@@ -11,7 +11,7 @@ device_support:
       - "Bottom button → Turn off"
   - type: Media Player
     domain: media_player
-    controller: LutronCasetaProPicoPJ24BMediaPlayerController
+    controller: LutronPJ24BMediaPlayerController
     delay: 500
     mapping:
       - "Top button → Play/Pause"
@@ -19,15 +19,15 @@ device_support:
       - "Third button → Volume down"
       - "Bottom button → Next track"
 note: >-
-  This requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
 
 integrations:
   - name: State
     codename: state
     actions:
-      - "\"1\" → Top button"
-      - "\"2\" → Second  button"
-      - "\"4\" → Third button"
-      - "\"8\" → Bottom button"
-      - "\"0\" → Release/Idle state"
+      - '"1" → Top button'
+      - '"2" → Second  button'
+      - '"4" → Third button'
+      - '"8" → Bottom button'
+      - '"0" → Release/Idle state'

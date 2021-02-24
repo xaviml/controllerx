@@ -12,7 +12,7 @@ class CustomLightController(LightController):
             level="WARNING",
             ascii_encode=False,
         )
-        await super().init()
+        await super().init()  # pragma: no cover
 
 
 class CustomMediaPlayerController(MediaPlayerController):
@@ -22,7 +22,7 @@ class CustomMediaPlayerController(MediaPlayerController):
             level="WARNING",
             ascii_encode=False,
         )
-        await super().init()
+        await super().init()  # pragma: no cover
 
 
 class CustomSwitchController(SwitchController):
@@ -32,7 +32,7 @@ class CustomSwitchController(SwitchController):
             level="WARNING",
             ascii_encode=False,
         )
-        await super().init()
+        await super().init()  # pragma: no cover
 
 
 class CustomCoverController(CoverController):
@@ -42,7 +42,7 @@ class CustomCoverController(CoverController):
             level="WARNING",
             ascii_encode=False,
         )
-        await super().init()
+        await super().init()  # pragma: no cover
 
 
 class CallServiceController(Controller):
@@ -52,4 +52,4 @@ class CallServiceController(Controller):
             level="WARNING",
             ascii_encode=False,
         )
-        await super().init()
+        await super().init()  # pragma: no cover
