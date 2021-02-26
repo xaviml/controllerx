@@ -125,7 +125,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
-            Light.ON: (self.on, (True,)),
+            Light.ON: (self.on, (False,)),
             Light.OFF: self.off,
             Light.TOGGLE: self.toggle,
             Light.TOGGLE_FULL_BRIGHTNESS: (
@@ -379,14 +379,14 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         }
 
     async def call_light_service(
-        self, service: str, turned_toggle: bool, **attributes
+        self, service: str, light_on: bool, **attributes
     ) -> None:
 
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
         if (
             not self.add_transition
-            or (turned_toggle and not self.add_transition_turn_toggle)
+            or (not light_on and not self.add_transition_turn_toggle)
             or await self.feature_support.not_supported(LightSupport.TRANSITION)
         ):
             del attributes["transition"]
@@ -395,21 +395,17 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     @action
     async def on(self, light_on: Optional[bool] = None, **attributes) -> None:
         if light_on is None:
-            light_state = await self.get_entity_state(self.entity.name)
+            light_state: str = await self.get_entity_state(self.entity.name)
             light_on = light_state == "on"
-        await self.call_light_service(
-            "light/turn_on", turned_toggle=not light_on, **attributes
-        )
+        await self.call_light_service("light/turn_on", light_on=light_on, **attributes)
 
     @action
     async def off(self, **attributes) -> None:
-        await self.call_light_service(
-            "light/turn_off", turned_toggle=True, **attributes
-        )
+        await self.call_light_service("light/turn_off", light_on=False, **attributes)
 
     @action
     async def toggle(self, **attributes) -> None:
-        await self.call_light_service("light/toggle", turned_toggle=True, **attributes)
+        await self.call_light_service("light/toggle", light_on=False, **attributes)
 
     @action
     async def set_value(
@@ -555,23 +551,33 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def before_action(self, action: str, *args, **kwargs) -> bool:
         to_return = True
         if action == "click" or action == "hold":
-            attribute, direction = args
+            smooth_power_on = None
+            if len(args) == 2:
+                attribute, direction = args
+            else:  # length is 3
+                attribute, direction, smooth_power_on = args
             light_state = await self.get_entity_state(self.entity.name)
-            to_return = light_state == "on" or self.check_smooth_power_on(
-                attribute, direction, light_state
-            )
+            if smooth_power_on is None:
+                smooth_power_on = self.check_smooth_power_on(
+                    attribute, direction, light_state
+                )
+            to_return = light_state == "on" or smooth_power_on
         return await super().before_action(action, *args, **kwargs) and to_return
 
     @action
     async def click(self, attribute: str, direction: str) -> None:
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute, direction)
+        smooth_power_on = self.check_smooth_power_on(
+            attribute, direction, await self.get_entity_state(self.entity.name)
+        )
         await self.change_light_state(
             self.value_attribute,
             attribute,
             direction,
             self.manual_steppers[attribute],
             "click",
+            smooth_power_on,
         )
 
     @action
@@ -591,9 +597,12 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             self.value_attribute, direction
         )
         self.log(f"Going direction: {direction}", level="DEBUG")
-        await super().hold(attribute, direction)
+        smooth_power_on = self.check_smooth_power_on(
+            attribute, direction, await self.get_entity_state(self.entity.name)
+        )
+        await super().hold(attribute, direction, smooth_power_on)
 
-    async def hold_loop(self, attribute: str, direction: str) -> bool:  # type: ignore
+    async def hold_loop(self, attribute: str, direction: str, smooth_power_on: bool) -> bool:  # type: ignore
         # Is value_attribute is None, then we stop the loop
         if self.value_attribute is None:
             return True
@@ -603,6 +612,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             direction,
             self.automatic_steppers[attribute],
             "hold",
+            smooth_power_on,
         )
 
     async def change_light_state(
@@ -612,6 +622,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         direction: str,
         stepper: Stepper,
         action_type: str,
+        smooth_power_on: bool,
     ) -> bool:
         """
         This functions changes the state of the light depending on the previous
@@ -632,9 +643,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             # I haven't experimented any problems with it, but a future implementation
             # would be to force the loop to stop after 4 or 5 loops as a safety measure.
             return False
-        if self.check_smooth_power_on(
-            attribute, direction, await self.get_entity_state(self.entity.name)
-        ):
+        if smooth_power_on:
             await self.on_min(attribute, light_on=False)
             # # After smooth power on, the light should not brighten up.
             return True

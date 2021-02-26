@@ -224,16 +224,15 @@ async def test_change_light_state(
     expected_value_attribute: int,
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
-    sut.smooth_power_on = smooth_power_on
+
     sut.value_attribute = old
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.feature_support._supported_features = 0
-    monkeypatch.setattr(
-        sut, "get_entity_state", fake_fn(to_return=light_state, async_=True)
-    )
 
-    stop = await sut.change_light_state(old, attribute, direction, stepper, "hold")
+    stop = await sut.change_light_state(
+        old, attribute, direction, stepper, "hold", smooth_power_on
+    )
 
     assert stop == stop_expected
     assert sut.value_attribute == expected_value_attribute
@@ -241,14 +240,21 @@ async def test_change_light_state(
 
 
 @pytest.mark.parametrize(
-    "attributes_input, transition_support, turned_toggle, add_transition, add_transition_turn_toggle, attributes_expected",
+    "attributes_input, transition_support, light_on, add_transition, add_transition_turn_toggle, attributes_expected",
     [
-        ({"test": "test"}, True, True, True, True, {"test": "test", "transition": 0.3}),
-        ({"test": "test"}, False, True, True, True, {"test": "test"}),
+        (
+            {"test": "test"},
+            True,
+            False,
+            True,
+            True,
+            {"test": "test", "transition": 0.3},
+        ),
+        ({"test": "test"}, False, False, True, True, {"test": "test"}),
         (
             {"test": "test", "transition": 0.5},
             True,
-            True,
+            False,
             True,
             True,
             {"test": "test", "transition": 0.5},
@@ -256,27 +262,27 @@ async def test_change_light_state(
         (
             {"test": "test", "transition": 0.5},
             False,
-            True,
+            False,
             True,
             True,
             {"test": "test"},
         ),
-        ({}, True, True, True, True, {"transition": 0.3}),
-        ({}, True, True, True, False, {}),
-        ({}, True, True, False, True, {}),
-        ({}, True, True, False, False, {}),
         ({}, True, False, True, True, {"transition": 0.3}),
-        ({}, True, False, True, False, {"transition": 0.3}),
+        ({}, True, False, True, False, {}),
         ({}, True, False, False, True, {}),
         ({}, True, False, False, False, {}),
-        ({}, False, True, True, True, {}),
-        ({}, False, True, True, False, {}),
-        ({}, False, True, False, True, {}),
-        ({}, False, True, False, False, {}),
+        ({}, True, True, True, True, {"transition": 0.3}),
+        ({}, True, True, True, False, {"transition": 0.3}),
+        ({}, True, True, False, True, {}),
+        ({}, True, True, False, False, {}),
         ({}, False, False, True, True, {}),
         ({}, False, False, True, False, {}),
         ({}, False, False, False, True, {}),
         ({}, False, False, False, False, {}),
+        ({}, False, True, True, True, {}),
+        ({}, False, True, True, False, {}),
+        ({}, False, True, False, True, {}),
+        ({}, False, True, False, False, {}),
     ],
 )
 @pytest.mark.asyncio
@@ -285,7 +291,7 @@ async def test_call_light_service(
     mocker: MockerFixture,
     attributes_input: Dict[str, str],
     transition_support: bool,
-    turned_toggle: bool,
+    light_on: bool,
     add_transition: bool,
     add_transition_turn_toggle: bool,
     attributes_expected: Dict[str, str],
@@ -297,17 +303,15 @@ async def test_call_light_service(
     sut.feature_support._supported_features = (
         LightSupport.TRANSITION if transition_support else 0
     )
-    await sut.call_light_service(
-        "test_service", turned_toggle=turned_toggle, **attributes_input
-    )
+    await sut.call_light_service("test_service", light_on=light_on, **attributes_input)
     called_service_patch.assert_called_once_with(
         "test_service", entity_id=ENTITY_NAME, **attributes_expected
     )
 
 
 @pytest.mark.parametrize(
-    "light_on, light_state, expected_turned_toggle",
-    [(True, any, False), (False, any, True), (None, "on", False), (None, "off", True)],
+    "light_on, light_state, expected_light_on",
+    [(True, any, True), (False, any, False), (None, "on", True), (None, "off", False)],
 )
 @pytest.mark.asyncio
 async def test_on(
@@ -315,7 +319,7 @@ async def test_on(
     mocker: MockerFixture,
     light_on: bool,
     light_state: str,
-    expected_turned_toggle: bool,
+    expected_light_on: bool,
 ):
     mocker.patch.object(
         sut, "get_entity_state", fake_fn(async_=True, to_return=light_state)
@@ -326,7 +330,7 @@ async def test_on(
     await sut.on(light_on=light_on, **attributes)
 
     call_light_service_patch.assert_called_once_with(
-        "light/turn_on", turned_toggle=expected_turned_toggle, **attributes
+        "light/turn_on", light_on=expected_light_on, **attributes
     )
 
 
@@ -338,7 +342,7 @@ async def test_off(sut: LightController, mocker: MockerFixture):
     await sut.off(**attributes)
 
     call_light_service_patch.assert_called_once_with(
-        "light/turn_off", turned_toggle=True, **attributes
+        "light/turn_off", light_on=False, **attributes
     )
 
 
@@ -350,7 +354,7 @@ async def test_toggle(sut: LightController, mocker: MockerFixture):
     await sut.toggle(**attributes)
 
     call_light_service_patch.assert_called_once_with(
-        "light/toggle", turned_toggle=True, **attributes
+        "light/toggle", light_on=False, **attributes
     )
 
 
@@ -547,7 +551,7 @@ async def test_click(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, direction_input, previous_direction, light_state, smooth_power_on, expected_calls, expected_direction",
+    "attribute_input, direction_input, previous_direction, light_state, smooth_power_on, expected_calls, expected_direction, expected_smooth_power_on",
     [
         (
             LightController.ATTRIBUTE_BRIGHTNESS,
@@ -557,9 +561,10 @@ async def test_click(
             True,
             1,
             Stepper.UP,
+            True,
         ),
-        ("color_temp", Stepper.UP, Stepper.UP, "off", True, 0, Stepper.UP),
-        ("color_temp", Stepper.UP, Stepper.UP, "on", True, 1, Stepper.UP),
+        ("color_temp", Stepper.UP, Stepper.UP, "off", True, 0, Stepper.UP, False),
+        ("color_temp", Stepper.UP, Stepper.UP, "on", True, 1, Stepper.UP, False),
         (
             "color_temp",
             Stepper.TOGGLE,
@@ -568,6 +573,7 @@ async def test_click(
             True,
             1,
             Stepper.TOGGLE_DOWN,
+            False,
         ),
     ],
 )
@@ -583,6 +589,7 @@ async def test_hold(
     smooth_power_on: bool,
     expected_calls: int,
     expected_direction: str,
+    expected_smooth_power_on: str,
 ):
     value_attribute = 10
     monkeypatch.setattr(
@@ -604,7 +611,9 @@ async def test_hold(
 
     assert super_hold_patch.call_count == expected_calls
     if expected_calls > 0:
-        super_hold_patch.assert_called_with(attribute_input, expected_direction)
+        super_hold_patch.assert_called_with(
+            attribute_input, expected_direction, expected_smooth_power_on
+        )
 
 
 @pytest.mark.parametrize("value_attribute", [10, None])
@@ -619,11 +628,11 @@ async def test_hold_loop(
     stepper = MinMaxStepper(1, 10, 10)
     sut.automatic_steppers = {attribute: stepper}
 
-    exceeded = await sut.hold_loop(attribute, direction)
+    exceeded = await sut.hold_loop(attribute, direction, False)
 
     if value_attribute is None:
         assert exceeded
     else:
         change_light_state_patch.assert_called_once_with(
-            sut.value_attribute, attribute, direction, stepper, "hold"
+            sut.value_attribute, attribute, direction, stepper, "hold", False
         )
