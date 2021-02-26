@@ -125,7 +125,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
-            Light.ON: self.on,
+            Light.ON: (self.on, (True,)),
             Light.OFF: self.off,
             Light.TOGGLE: self.toggle,
             Light.TOGGLE_FULL_BRIGHTNESS: (
