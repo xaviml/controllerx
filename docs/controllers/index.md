@@ -3,13 +3,16 @@ layout: page
 title: Supported controllers
 ---
 
+{% assign controllers = site.data.controllers | sort %}
+
+Currently **{{ controllers.size }}** devices are supported.
+
 <table style="width:100%">
   <tr>
     <th>Model</th>
     <th>Integrations</th>
     <th>Picture</th>
   </tr>
-  {% assign controllers = site.data.controllers | sort %}
   {% for controller_obj in controllers %}
     {% assign key = controller_obj[0] %}
     {% assign controller = controller_obj[1] %}
