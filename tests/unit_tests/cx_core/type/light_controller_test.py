@@ -132,19 +132,19 @@ async def test_get_attribute(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, direction_input, light_state, expected_output, error_expected",
+    "attribute_input, smooth_power_on_check, light_state, expected_output, error_expected",
     [
-        ("xy_color", Stepper.DOWN, "any", 0, False),
-        ("brightness", Stepper.DOWN, "any", 3.0, False),
-        ("brightness", Stepper.DOWN, "any", "3.0", False),
-        ("brightness", Stepper.DOWN, "any", "3", False),
-        ("color_temp", Stepper.DOWN, "any", 1, False),
-        ("xy_color", Stepper.DOWN, "any", 0, False),
-        ("brightness", Stepper.UP, "off", 0, False),
-        ("brightness", Stepper.DOWN, "any", "error", True),
-        ("brightness", Stepper.DOWN, "any", None, True),
-        ("color_temp", Stepper.DOWN, "any", None, True),
-        ("not_a_valid_attribute", Stepper.DOWN, "any", None, True),
+        ("xy_color", False, "any", 0, False),
+        ("brightness", False, "any", 3.0, False),
+        ("brightness", False, "any", "3.0", False),
+        ("brightness", False, "any", "3", False),
+        ("color_temp", False, "any", 1, False),
+        ("xy_color", False, "any", 0, False),
+        ("brightness", True, "off", 0, False),
+        ("brightness", False, "any", "error", True),
+        ("brightness", False, "any", None, True),
+        ("color_temp", False, "any", None, True),
+        ("not_a_valid_attribute", False, "any", None, True),
     ],
 )
 @pytest.mark.asyncio
@@ -152,12 +152,13 @@ async def test_get_value_attribute(
     sut: LightController,
     monkeypatch: MonkeyPatch,
     attribute_input: str,
-    direction_input: Literal["up", "down"],
+    smooth_power_on_check: bool,
     light_state: str,
     expected_output: Union[int, float, str],
     error_expected: bool,
 ):
     sut.smooth_power_on = True
+    sut.smooth_power_on_check = smooth_power_on_check
 
     async def fake_get_entity_state(entity, attribute=None):
         if entity == "light" and attribute is None:
@@ -167,32 +168,30 @@ async def test_get_value_attribute(
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
     with wrap_exetuction(error_expected=error_expected, exception=ValueError):
-        output = await sut.get_value_attribute(attribute_input, direction_input)
+        output = await sut.get_value_attribute(attribute_input)
 
     if not error_expected:
         assert output == float(expected_output)
 
 
 @pytest.mark.parametrize(
-    "old, attribute, direction, stepper, light_state, smooth_power_on, stop_expected, expected_value_attribute",
+    "old, attribute, direction, stepper, smooth_power_on_check, stop_expected, expected_value_attribute",
     [
         (
             50,
             LightController.ATTRIBUTE_BRIGHTNESS,
             Stepper.UP,
             MinMaxStepper(1, 255, 254),
-            "on",
             False,
             False,
             51,
         ),
-        (0, "xy_color", Stepper.UP, CircularStepper(0, 30, 30), "on", False, False, 0),
+        (0, "xy_color", Stepper.UP, CircularStepper(0, 30, 30), False, False, 0),
         (
             499,
             "color_temp",
             Stepper.UP,
             MinMaxStepper(153, 500, 10),
-            "on",
             False,
             True,
             500,
@@ -202,7 +201,6 @@ async def test_get_value_attribute(
             LightController.ATTRIBUTE_BRIGHTNESS,
             Stepper.UP,
             MinMaxStepper(1, 255, 254),
-            "off",
             True,
             True,
             0,
@@ -213,26 +211,23 @@ async def test_get_value_attribute(
 async def test_change_light_state(
     sut: LightController,
     mocker: MockerFixture,
-    monkeypatch: MonkeyPatch,
     old: int,
     attribute: str,
     direction: Literal["up", "down"],
     stepper: MinMaxStepper,
-    light_state: str,
-    smooth_power_on: bool,
+    smooth_power_on_check: bool,
     stop_expected: bool,
     expected_value_attribute: int,
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     sut.value_attribute = old
+    sut.smooth_power_on_check = smooth_power_on_check
     sut.manual_steppers = {attribute: stepper}
     sut.automatic_steppers = {attribute: stepper}
     sut.feature_support._supported_features = 0
 
-    stop = await sut.change_light_state(
-        old, attribute, direction, stepper, "hold", smooth_power_on
-    )
+    stop = await sut.change_light_state(old, attribute, direction, stepper, "hold")
 
     assert stop == stop_expected
     assert sut.value_attribute == expected_value_attribute
@@ -551,7 +546,7 @@ async def test_click(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, direction_input, previous_direction, light_state, smooth_power_on, expected_calls, expected_direction, expected_smooth_power_on",
+    "attribute_input, direction_input, previous_direction, light_state, smooth_power_on, expected_calls, expected_direction",
     [
         (
             LightController.ATTRIBUTE_BRIGHTNESS,
@@ -561,10 +556,9 @@ async def test_click(
             True,
             1,
             Stepper.UP,
-            True,
         ),
-        ("color_temp", Stepper.UP, Stepper.UP, "off", True, 0, Stepper.UP, False),
-        ("color_temp", Stepper.UP, Stepper.UP, "on", True, 1, Stepper.UP, False),
+        ("color_temp", Stepper.UP, Stepper.UP, "off", True, 0, Stepper.UP),
+        ("color_temp", Stepper.UP, Stepper.UP, "on", True, 1, Stepper.UP),
         (
             "color_temp",
             Stepper.TOGGLE,
@@ -573,7 +567,6 @@ async def test_click(
             True,
             1,
             Stepper.TOGGLE_DOWN,
-            False,
         ),
     ],
 )
@@ -589,7 +582,6 @@ async def test_hold(
     smooth_power_on: bool,
     expected_calls: int,
     expected_direction: str,
-    expected_smooth_power_on: str,
 ):
     value_attribute = 10
     monkeypatch.setattr(
@@ -611,9 +603,7 @@ async def test_hold(
 
     assert super_hold_patch.call_count == expected_calls
     if expected_calls > 0:
-        super_hold_patch.assert_called_with(
-            attribute_input, expected_direction, expected_smooth_power_on
-        )
+        super_hold_patch.assert_called_with(attribute_input, expected_direction)
 
 
 @pytest.mark.parametrize("value_attribute", [10, None])
@@ -623,16 +613,17 @@ async def test_hold_loop(
 ):
     attribute = "test_attribute"
     direction = Stepper.UP
+    sut.smooth_power_on_check = False
     sut.value_attribute = value_attribute
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")
     stepper = MinMaxStepper(1, 10, 10)
     sut.automatic_steppers = {attribute: stepper}
 
-    exceeded = await sut.hold_loop(attribute, direction, False)
+    exceeded = await sut.hold_loop(attribute, direction)
 
     if value_attribute is None:
         assert exceeded
     else:
         change_light_state_patch.assert_called_once_with(
-            sut.value_attribute, attribute, direction, stepper, "hold", False
+            sut.value_attribute, attribute, direction, stepper, "hold"
         )
