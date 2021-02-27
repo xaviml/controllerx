@@ -11,5 +11,4 @@ expected_calls:
     entity_id: light.bedroom
     color_temp: 370
     brightness: 255
-    transition: 0.3
 expected_calls_count: 2

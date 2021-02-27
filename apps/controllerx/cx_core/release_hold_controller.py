@@ -21,7 +21,6 @@ class ReleaseHoldController(Controller, abc.ABC):
     async def release(self) -> None:
         self.on_hold = False
 
-    @action
     async def hold(self, *args) -> None:
         loops = 0
         self.on_hold = True

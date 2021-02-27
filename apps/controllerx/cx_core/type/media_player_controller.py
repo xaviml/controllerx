@@ -109,7 +109,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         await self.call_service("media_player/volume_mute", entity_id=self.entity.name)
 
     @action
-    async def hold(self, direction: str) -> None:
+    async def hold(self, direction: str) -> None:  # type: ignore
         await self.prepare_volume_change()
         await super().hold(direction)
 
