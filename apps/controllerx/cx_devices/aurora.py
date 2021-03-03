@@ -1,15 +1,11 @@
-from cx_const import (
-    DefaultActionsMapping,
-    Light,
-)
-from cx_core import (
-    LightController,
-)
+from cx_const import DefaultActionsMapping, Light
+from cx_core import LightController
 from cx_core.integration import EventData
+
 
 class AUA1ZBR2GWLightController(LightController):
     # Different states reported from the controller:
-    # on, off, brightness_step_up, brightness_step_down, 
+    # on, off, brightness_step_up, brightness_step_down,
     # color_temperature_step_up, color_temperature_step_down
     # There is one copy of these actions per endpoint
 
