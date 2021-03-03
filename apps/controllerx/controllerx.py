@@ -15,8 +15,8 @@ from cx_core import (
     MediaPlayerController,
     SwitchController,
 )
-from cx_devices.aurora import *
 from cx_devices.aqara import *
+from cx_devices.aurora import *
 from cx_devices.ikea import *
 from cx_devices.legrand import *
 from cx_devices.livarno import *
