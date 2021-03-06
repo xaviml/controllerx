@@ -3,7 +3,7 @@ device_support:
   - type: Light
     domain: light
     controller: AUA1ZBR2GWLightController
-    delay: 100
+    delay: 350
     mapping:
       - "Click left knob → Toggle 2"
       - "Rotate left knob clockwise → Increase brightness 2"
