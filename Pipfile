@@ -14,7 +14,7 @@ mock = "==4.0.3"
 pre-commit = "==2.11.1"
 commitizen = "==2.16.0"
 mypy = "==0.812"
-flake8 = "==3.8.4"
+flake8 = "==3.9.0"
 isort = "==5.7.0"
 controllerx = {path = ".", editable = true}
 
