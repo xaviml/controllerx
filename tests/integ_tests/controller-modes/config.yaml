@@ -3,13 +3,24 @@ livingroom_controller:
   class: Controller
   controller: my_controller
   integration: z2m
+  multiple_click_delay: 300
   mode:
     action_single: single
+    action_single_with_multiclick: single
+    action_single_with_multiclick$2: single
     action_restart: restart
     action_queued: queued
     action_parallel: parallel
   mapping:
     action_single:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service
+    action_single_with_multiclick:
+      - service: my_service
+      - delay: 1
+      - service: my_other_service
+    action_single_with_multiclick$2:
       - service: my_service
       - delay: 1
       - service: my_other_service

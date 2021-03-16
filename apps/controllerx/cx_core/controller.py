@@ -350,6 +350,7 @@ class Controller(Hass, Mqtt):
         action_key: ActionEvent = kwargs["action_key"]
         extra: EventData = kwargs["extra"]
         click_count: int = kwargs["click_count"]
+        self.multiple_click_action_delay_tasks[action_key] = None
         self.log(
             f"🎮 {action_key} clicked `{click_count}` time(s)",
             level="DEBUG",
@@ -397,8 +398,9 @@ class Controller(Hass, Mqtt):
             return False
         if self.mode[action_key] == MODE_SINGLE:
             self.log(
-                "There is already an action executing for `action_key`. "
-                "If you want a different behaviour change `mode` parameter.",
+                f"There is already an action executing for `{action_key}`. "
+                "If you want a different behaviour change `mode` parameter, "
+                "the default value is `single`.",
                 level="WARNING",
             )
             return True

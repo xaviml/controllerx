@@ -147,6 +147,14 @@ class WXKG11LMRemoteLightController(LightController):
 
 
 class WXKG11LMSensorSwitchLightController(LightController):
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.TOGGLE,
+            1004: Light.ON_FULL_BRIGHTNESS,
+            1005: Light.ON_MIN_BRIGHTNESS,
+            1006: Light.SET_HALF_BRIGHTNESS,
+        }
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "single": Light.TOGGLE,

@@ -10,6 +10,13 @@ device_support:
       - "3 clicks → Minimum brightness (just ZHA integration)"
       - "4 clicks → 50% brightness (just ZHA integration)"
 integrations:
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 → 1 click"
+      - "1004 → 2 clicks"
+      - "1005 → 3 clicks"
+      - "1006 → 4 clicks"
   - name: ZHA
     codename: zha
     actions:

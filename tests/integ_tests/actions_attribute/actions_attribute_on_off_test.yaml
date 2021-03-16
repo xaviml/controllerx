@@ -1,12 +1,8 @@
-entity_state_attributes:
-  supported_features: 191
-entity_state: "on"
 fired_actions: ["on", 0.450, "off"]
 expected_calls:
-- service: light/turn_on
-  data:
-    entity_id: light.simple_light
-    transition: 0.3
-- service: light/turn_off
-  data:
-    entity_id: light.simple_light
+  - service: light/turn_on
+    data:
+      entity_id: light.simple_light
+  - service: light/turn_off
+    data:
+      entity_id: light.simple_light
