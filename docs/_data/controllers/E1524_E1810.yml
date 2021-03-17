@@ -8,7 +8,7 @@ device_support:
       - "Click middle → Toggle"
       - "Hold middle → Sync"
       - "Click 🔆 → Brighten up (1 step)"
-      - "Click 🔅  → Dim down (1 step)"
+      - "Click 🔅 → Dim down (1 step)"
       - "Click < → Color temp down / Left color wheel (1 step)"
       - "Click > → Color temp up / Right color wheel (1 step)"
       - "Hold 🔆 → Brighten up"
@@ -20,9 +20,9 @@ device_support:
     controller: E1810MediaPlayerController
     delay: 500
     mapping:
-      - "Click ⏻ → Play/Pause"
+      - "Click middle → Play/Pause"
       - "Click 🔆 → Volume up (1 step)"
-      - " Click 🔅  → Volume down (1 step)"
+      - "Click 🔅 → Volume down (1 step)"
       - "Click < → Previous track"
       - "Click > → Next track"
       - "Hold 🔆 → Volume up"
@@ -33,8 +33,8 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "toggle → Click ⏻"
-      - "toggle_hold → Hold ⏻"
+      - "toggle → Click middle"
+      - "toggle_hold → Hold middle"
       - "brightness_up_click → Click 🔆"
       - "brightness_down_click → Click 🔅"
       - "arrow_left_click → Click <"
@@ -50,8 +50,8 @@ integrations:
   - name: deCONZ
     codename: deconz
     actions:
-      - "1002 → Click ⏻"
-      - "1001 → Hold ⏻"
+      - "1002 → Click middle"
+      - "1001 → Hold middle"
       - "2002 → Click 🔆"
       - "3002 → Click 🔅"
       - "4002 → Click <"
@@ -67,7 +67,8 @@ integrations:
   - name: ZHA
     codename: zha
     actions:
-      - "toggle → Click ⏻"
+      - "toggle → Click middle"
+      - "press_2_0_0 → Hold middle"
       - "step_with_on_off_0_43_5 → Click 🔆"
       - "step_1_43_5 → Click 🔅"
       - "press_257_13_0 → Click <"
