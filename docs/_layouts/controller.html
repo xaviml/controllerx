@@ -44,12 +44,12 @@ integration_names = controller.integrations | map: "codename" | join: ", " %}
     <p>This is an example configuration:</p>
     <pre>
       <code lang="yaml">
-  example_app:
-    module: controllerx
-    class: {{ ds.controller }}
-    controller: < controller_id >
-    integration: < {{integration_names}} >
-    {{ds.domain}}: < {{ds.domain}} entity >
+example_app:
+  module: controllerx
+  class: {{ ds.controller }}
+  controller: < controller_id >
+  integration: < {{integration_names}} >
+  {{ds.domain}}: < {{ds.domain}} entity >
       </code>
     </pre>
     {% endfor %} {% if controller.note %}
