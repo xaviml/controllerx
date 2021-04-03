@@ -4,11 +4,6 @@ from cx_core.integration import EventData
 
 
 class HueDimmerController(LightController):
-    # Different states reported from the controller:
-    # on-press, on-hold, on-hold-release, up-press, up-hold,
-    # up-hold-release, down-press, down-hold, down-hold-release,
-    # off-press, off-hold, off-hold-release
-
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on-press": Light.ON,
@@ -59,6 +54,24 @@ class HueDimmerController(LightController):
 
     def get_zha_action(self, data: EventData) -> str:
         return data["command"]
+
+
+class Philips929002398602LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on_press_release": Light.ON,
+            "on_hold": Light.HOLD_COLOR_UP,
+            "on_hold_release": Light.RELEASE,
+            "up_press_release": Light.CLICK_BRIGHTNESS_UP,
+            "up_hold": Light.HOLD_BRIGHTNESS_UP,
+            "up_hold_release": Light.RELEASE,
+            "down_press_release": Light.CLICK_BRIGHTNESS_DOWN,
+            "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "down_hold_release": Light.RELEASE,
+            "off_press_release": Light.OFF,
+            "off_hold": Light.HOLD_COLOR_DOWN,
+            "off_hold_release": Light.RELEASE,
+        }
 
 
 class Niko91004LightController(LightController):

@@ -1,0 +1,35 @@
+name: Hue Dimmer switch (Philips)
+device_support:
+  - type: Light
+    domain: light
+    controller: Philips929002398602LightController
+    delay: 350
+    mapping:
+      - 'Click release "on/off" → Turn on'
+      - 'Hold "on/off" → Color temp up / Right color wheel'
+      - "Click release 🔆 → Brighten up (1 step)"
+      - "Hold 🔆→ Brighten up"
+      - "Click release 🔅 → Dim down (1 step)"
+      - "Hold 🔅 → Dim down"
+      - 'Click release "hue" → Turn off'
+      - 'Hold "hue" → Color temp down / Left color wheel'
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - 'on_press → Click "on/off"'
+      - 'on_press_release → Click release "on/off"'
+      - 'on_hold → Hold "on/off"'
+      - 'on_hold_release → Release "on/off"'
+      - "up_press → Click 🔆"
+      - "up_press → Click release 🔆"
+      - "up_hold → Hold 🔆"
+      - "up_hold_release → Release 🔆"
+      - "down_press → Click 🔅"
+      - "down_press → Click release 🔅"
+      - "down_hold → Hold 🔅"
+      - "down_hold_release → Release 🔅"
+      - 'off_press → Click "hue"'
+      - 'off_press_release → Click release "hue"'
+      - 'off_hold → Hold "hue"'
+      - 'off_hold_release → Release "hue"'
