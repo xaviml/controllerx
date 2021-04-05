@@ -26,7 +26,15 @@ mapping: # or merge_mapping
       attr1: 42
       attr2: foo
 
-  # `entity_id` can be passed directly like this or through `data`
+  # `entity_id` can be passed directly like this or through `data`.
+  # Additionally, if the service is within the same domain
+  # (light, media_player, etc) as the main entity from the configuration,
+  # and entity_id is not passed, then it will use the one from the configuration.
+  # This is handy, so there is no need to repeat the same entity over and over.
+  # Priority order for entity_id:
+  # - Inside data
+  # - In the same level as "service"
+  # - From the main config if the domain matches
   <event>:
     service: light.turn_on
     entity_id: light.my_light 

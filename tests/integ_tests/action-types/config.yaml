@@ -12,9 +12,20 @@ livingroom_controller:
       scene: scene.my_scene
     arrow_left_click$2:
       service: scene.turn_on
-      entity_id: scene.my_other_scene
+      entity_id: scene.not_called
       data:
-        entity_id: scene.not_called
+        entity_id: scene.my_other_scene
+    arrow_left_click$3:
+      service: light.turn_on
+    arrow_left_click$4:
+      service: scritp.my_script
+    arrow_left_click$5:
+      service: light.turn_on
+      entity_id: light.my_other_light
+    arrow_left_click$6:
+      service: light.turn_on
+      data:
+        entity_id: light.my_other_light
     arrow_right_click:
       service: my_service
       data:

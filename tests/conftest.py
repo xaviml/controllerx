@@ -1,14 +1,9 @@
 import asyncio
-from typing import Optional
 
 import appdaemon.plugins.hass.hassapi as hass  # type: ignore
 import appdaemon.plugins.mqtt.mqttapi as mqtt
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from cx_core import LightController
-from cx_core.action_type.base import ActionType  # type: ignore
-from cx_core.controller import Controller
-from cx_core.integration import EventData
 
 from tests.test_utils import fake_fn
 
@@ -41,27 +36,3 @@ def hass_mock(monkeypatch: MonkeyPatch):
     monkeypatch.setattr(hass.Hass, "get_ad_version", fake_fn(to_return="4.0.0"))
     monkeypatch.setattr(hass.Hass, "run_in", fake_run_in)
     monkeypatch.setattr(hass.Hass, "cancel_timer", fake_cancel_timer)
-
-
-@pytest.fixture
-def fake_controller() -> Controller:
-    c = Controller()  # type: ignore
-    c.args = {}
-    return c
-
-
-@pytest.fixture
-def fake_type_controller() -> LightController:
-    c = LightController()  # type: ignore
-    c.args = {}
-    return c
-
-
-class FakeActionType(ActionType):
-    async def run(self, extra: Optional[EventData] = None) -> None:
-        return None
-
-
-@pytest.fixture
-def fake_action_type(fake_controller: Controller) -> ActionType:
-    return FakeActionType(fake_controller, {})
