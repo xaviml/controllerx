@@ -500,3 +500,21 @@ class E1812LightController(LightController):
 class E1812SwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"on": Switch.TOGGLE}
+
+
+class W2049LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "brightness_up_click": Light.TOGGLE,
+            "brightness_down_click": Light.CLICK_BRIGHTNESS_DOWN,
+            "arrow_left_click": Light.CLICK_COLOR_DOWN,
+            "arrow_right_click": Light.CLICK_COLOR_UP,
+            "brightness_up_hold": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_up_release": Light.RELEASE,
+            "brightness_down_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_down_release": Light.RELEASE,
+            "arrow_left_hold": Light.HOLD_COLOR_DOWN,
+            "arrow_left_release": Light.RELEASE,
+            "arrow_right_hold": Light.HOLD_COLOR_UP,
+            "arrow_right_release": Light.RELEASE,
+        }
