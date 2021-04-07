@@ -51,10 +51,10 @@ integrations:
     actions:
       - "both_single → Click on both"
       - "both_double → Double click on both"
-      - "both_long → Long click on both"
+      - "both_long press → Long click on both"
       - "left_single → Click on left"
-      - "left_long press → Double click on left"
-      - "hold_left → Long click on left"
+      - "left_double → Double click on left"
+      - "left_long press → Long click on left"
       - "right_single → Click on right"
       - "right_double → Double click on right"
       - "right_long press → Long click on right"
