@@ -72,6 +72,8 @@ stages:
               includeRootFolder: false
               archiveType: zip
               archiveFile: $(Build.ArtifactStagingDirectory)/controllerx.zip
+          - script: sed 's/VERSION_TAG/${{ variables['Build.SourceBranchName'] }}/g' RELEASE_NOTES.md > tmp.md
+            displayName: Build RELEASE_NOTES.md
           - task: GithubRelease@0
             displayName: Create GitHub Release
             inputs:
@@ -79,3 +81,6 @@ stages:
               repositoryName: xaviml/controllerx
               isPreRelease: ${{ contains(variables['Build.SourceBranchName'], 'b') }}
               assets: $(Build.ArtifactStagingDirectory)/controllerx.zip
+              title: $(Build.SourceBranchName)
+              releaseNotesSource: file
+              releaseNotesFile: tmp.md
