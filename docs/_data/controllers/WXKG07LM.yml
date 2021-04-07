@@ -49,15 +49,15 @@ integrations:
   - name: ZHA
     codename: zha
     actions:
-      - "both_single → Click on both"
-      - "both_double → Double click on both"
-      - "both_long press → Long click on both"
-      - "left_single → Click on left"
-      - "left_double → Double click on left"
-      - "left_long press → Long click on left"
-      - "right_single → Click on right"
-      - "right_double → Double click on right"
-      - "right_long press → Long click on right"
+      - "\"both_single\" → Click on both"
+      - "\"both_double\" → Double click on both"
+      - "\"both_long press\" → Long click on both"
+      - "\"left_single\" → Click on left"
+      - "\"left_double\" → Double click on left"
+      - "\"left_long press\" → Long click on left"
+      - "\"right_single\" → Click on right"
+      - "\"right_double\" → Double click on right"
+      - "\"right_long press\" → Long click on right"
 note: >-
   Note that all actions related to both, left and right, do the same. 
   This is because ControllerX is design to control just one entity (light or media player).
