@@ -22,3 +22,14 @@ integrations:
       - "brightness_move_down → Hold 🔅"
       - "brightness_stop → Release 🔆 or 🔅"
       - '"off" → Click "O"'
+  - name: ZHA
+    codename: zha
+    actions:
+      - '"on" → Click "I"'
+      - "step_0_51_10 → Click 🔆"
+      - "move_0_51 → Hold 🔆"
+      - "stop → Click 🔅"
+      - "step_1_51_10 → Hold 🔅"
+      - "move_1_51 → Release 🔆 or 🔅"
+      - '"off" → Click "O"'
+      
