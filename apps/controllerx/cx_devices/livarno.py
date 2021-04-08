@@ -28,4 +28,3 @@ class HG06323LightController(LightController):
             "move_1_51": Light.HOLD_BRIGHTNESS_DOWN,
             "off": Light.OFF,
         }
-    
