@@ -26,3 +26,4 @@ _PRERELEASE_NOTE_
 
 ## :video_game: New devices
 - [HG06323](https://xaviml.github.io/controllerx/controllers/HG06323) - add ZHA support [ #274 ] @Thomas55555
+- [TS0044](https://xaviml.github.io/controllerx/controllers/TS0044) - add device with Z2M support [ #240 ]

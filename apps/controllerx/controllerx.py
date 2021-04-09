@@ -29,3 +29,4 @@ from cx_devices.smartthings import *
 from cx_devices.sonoff import *
 from cx_devices.terncy import *
 from cx_devices.trust import *
+from cx_devices.tuya import *
