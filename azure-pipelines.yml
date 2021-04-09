@@ -72,8 +72,14 @@ stages:
               includeRootFolder: false
               archiveType: zip
               archiveFile: $(Build.ArtifactStagingDirectory)/controllerx.zip
-          - script: sed 's/VERSION_TAG/${{ variables['Build.SourceBranchName'] }}/g' RELEASE_NOTES.md > tmp.md
-            displayName: Build RELEASE_NOTES.md
+          - script: sed -i 's/VERSION_TAG/${{ variables['Build.SourceBranchName'] }}/g' RELEASE_NOTES.md
+            displayName: Replace version in RELEASE_NOTES.md
+          - script: "sed -i 's/PRERELEASE_NOTE/Note: Some links might not work or might be not updated due to being a pre-release, and documentation is not yet available/g' RELEASE_NOTES.md"
+            displayName: Replace prerelease note in RELEASE_NOTES.md
+            condition: contains(variables['Build.SourceBranchName'], 'b')
+          - script: sed -i 's/PRERELEASE_NOTE//g' RELEASE_NOTES.md
+            displayName: Replace prerelease note in RELEASE_NOTES.md
+            condition: not(contains(variables['Build.SourceBranchName'], 'b'))
           - task: GithubRelease@0
             displayName: Create GitHub Release
             inputs:
@@ -83,4 +89,4 @@ stages:
               assets: $(Build.ArtifactStagingDirectory)/controllerx.zip
               title: $(Build.SourceBranchName)
               releaseNotesSource: file
-              releaseNotesFile: tmp.md
+              releaseNotesFile: RELEASE_NOTES.md
