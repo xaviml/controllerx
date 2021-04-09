@@ -28,6 +28,8 @@ The class name convention should be `Device Model + Type + Controller`. For exam
 
 Note that this project will only accept the mapping that the original controller would follow with its original hub, or the closest behaviour we can get.
 
+This is a [commit](https://github.com/xaviml/controllerx/commit/38ee4b03ac31bf966523cc63c0200567f912f201) of a complete example of adding a new device, it can be used as a reference.
+
 ## Imports
 
 Run the following to fix imports order:
@@ -122,7 +124,7 @@ git checkout -b <username>-<remote-branch> <username>/<remote-branch>
 
 ## Deployment
 
-Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. So first, we will need to bump version with `commitizen` by running the following line in the `main` branch:
+Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file. Finally, we will need to bump version with `commitizen` by running the following line in the `main` branch:
 
 ```shell
 cz bump --no-verify
@@ -131,7 +133,7 @@ cz bump --no-verify
 `--prerelease beta` tag can be added to create a pre-release. Note that you can also add `--dry-run` to see which version will bump without commiting anything. Then, we can directly push the tags:
 
 ```shell
-git push origin main --tags
+git push origin HEAD --tags
 ```
 
-This will automatically generate a GitHub release with the changes for that release.
+This will automatically generate a GitHub release with the changes for that release, and the release from the `RELEASE_NOTES.md` file.
