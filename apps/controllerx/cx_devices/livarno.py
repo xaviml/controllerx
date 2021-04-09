@@ -17,3 +17,14 @@ class HG06323LightController(LightController):
             "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
             "off": Light.OFF,
         }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.ON,
+            "step_0_51_10": Light.CLICK_BRIGHTNESS_UP,
+            "move_0_51": Light.HOLD_BRIGHTNESS_UP,
+            "stop": Light.RELEASE,
+            "step_1_51_10": Light.CLICK_BRIGHTNESS_DOWN,
+            "move_1_51": Light.HOLD_BRIGHTNESS_DOWN,
+            "off": Light.OFF,
+        }
