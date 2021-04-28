@@ -1,0 +1,27 @@
+name: RDM001 (Philips)
+device_support:
+  - type: Light
+    domain: light
+    controller: Philips929003017102LightController
+    delay: 350
+    mapping:
+      - "Click left release → Toggle"
+      - "Hold left → Brightness up/down with direction changes"
+      - "Click right release → Toggle"
+      - "Hold right → Brightness up/down with direction changes"
+integrations:
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1000 → Click left"
+      - "1001 → Hold left"
+      - "1002 → Click left release"
+      - "1003 → Release left"
+      - "2000 → Click right"
+      - "2001 → Hold right"
+      - "2002 → Click right release"
+      - "2003 → Release right"
+note: >-
+  This controller has 4 modes and depending on which one is used, it will trigger one action or another: single_rocker, single_push_button, dual_rocker, dual_push_button.
+  You can read more about it in these threads: <a href="https://github.com/dresden-elektronik/deconz-rest-plugin/issues/4566">deconz</a> and 
+  <a href="https://github.com/Koenkk/zigbee-herdsman-converters/issues/2393">zigbee2mqtt</a>.

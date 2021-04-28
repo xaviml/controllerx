@@ -8,9 +8,9 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Fix Z2M mapping for [W2049](https://xaviml.github.io/controllerx/controllers/W2049) [ #292 ]
 
 <!--
 ## :clock2: Performance
@@ -25,5 +25,5 @@ PRERELEASE_NOTE
 -->
 
 ## :video_game: New devices
-- [HG06323](https://xaviml.github.io/controllerx/controllers/HG06323) - add ZHA support [ #274 ] @Thomas55555
-- [TS0044](https://xaviml.github.io/controllerx/controllers/TS0044) - add device with Z2M support [ #240 ]
+
+- [929003017102](https://xaviml.github.io/controllerx/controllers/929003017102) - add device with deCONZ support [ #276 ]
