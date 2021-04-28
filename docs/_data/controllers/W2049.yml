@@ -1,12 +1,12 @@
 name: W2049 (IKEA)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: W2049LightController
     delay: 350
     mapping:
-      - "Click 🔆 → Toggle"
-      - "Click 🔅 → Dim down (1 step)"
+      - "Click 🔆 → Turn on"
+      - "Click 🔅 → Turn off"
       - "Click < → Color temp down / Left color wheel (1 step)"
       - "Click > → Color temp up / Right color wheel (1 step)"
       - "Hold 🔆 → Brighten up"
@@ -17,15 +17,17 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "brightness_up_click → Click 🔆"
-      - "brightness_down_click → Click 🔅"
+      - '"on" → Click 🔆'
+      - '"off" → Click 🔅'
       - "arrow_left_click → Click <"
       - "arrow_right_click → Click >"
-      - "brightness_up_hold → Hold 🔆"
-      - "brightness_up_release → Release 🔆"
-      - "brightness_down_hold → Hold 🔅"
-      - "brightness_down_release → Release 🔅"
+      - "brightness_move_up → Hold 🔆"
+      - "brightness_move_down → Hold 🔅"
+      - "brightness_stop → Release 🔆/🔅"
       - "arrow_left_hold → Hold <"
       - "arrow_left_release → Release <"
       - "arrow_right_hold → Hold >"
       - "arrow_right_release → Release >"
+note: >-
+  This controller fires "on" action when arrows are held as well as the hold arrow action.
+  So this means that when long pressing the arrows, the light(s) will turn on before changing the color.
