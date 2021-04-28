@@ -11,6 +11,7 @@ from typing import (
     Awaitable,
     Callable,
     Counter,
+    DefaultDict,
     Dict,
     List,
     Optional,
@@ -85,7 +86,7 @@ class Controller(Hass, Mqtt):
 
     integration: Integration
     actions_mapping: ActionsMapping
-    action_handles: Dict[ActionEvent, Optional[Future]]
+    action_handles: DefaultDict[ActionEvent, Optional["Future[None]"]]
     action_delay_handles: Dict[ActionEvent, Optional[float]]
     multiple_click_actions: Set[ActionEvent]
     action_delay: Dict[ActionEvent, int]
@@ -93,7 +94,9 @@ class Controller(Hass, Mqtt):
     action_times: Dict[str, float]
     multiple_click_action_times: Dict[str, float]
     click_counter: Counter[ActionEvent]
-    multiple_click_action_delay_tasks: Dict[ActionEvent, Optional[Future]]
+    multiple_click_action_delay_tasks: DefaultDict[
+        ActionEvent, Optional["Future[None]"]
+    ]
     multiple_click_delay: int
 
     async def initialize(self) -> None:
