@@ -18,7 +18,7 @@ _ControllerX_ brings the following functionalities for different [controllers](/
 
 ## Why _ControllerX_?
 
-Solutions like Zigbee2MQTT, deCONZ and ZHA have their pros and cons, but if there is something good about these solutions is that we can remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Phillips). However, there is a downside about removing this dependency and it is that not only the propietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. This is why we end up using Home Assistant automations, however when it comes to create complex automations like this kind, it gets tricky and difficult to maintain. This is where _ControllerX_ comes in together with AppDaemon, to give the behaviour to the devices we lose when not having the original hub as well as easily create automation focus on button events.
+Solutions like Zigbee2MQTT, deCONZ and ZHA have their pros and cons, but if there is something good about these solutions is that we can remove the dependency of a propietary hub (e.g.: IKEA, Xiaomi, Phillips). However, there is a downside about removing this dependency and it is that not only the proprietary hubs let you integrate a controller with lights or media players, but it also gives a behaviour to them. This is why we end up using Home Assistant automations, however when it comes to create complex automations like this kind, it gets tricky and difficult to maintain. This is where _ControllerX_ comes in together with AppDaemon, to give the behaviour to the devices we lose when not having the original hub as well as easily create automation focus on button events.
 
 ## Quick example
 
