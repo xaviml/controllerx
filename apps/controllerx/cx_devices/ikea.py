@@ -507,6 +507,8 @@ class E1812SwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"on": Switch.TOGGLE}
 
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {1002: Switch.TOGGLE}
 
 class W2049LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
