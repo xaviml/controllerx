@@ -501,7 +501,8 @@ class E1812LightController(LightController):
             1002: Light.TOGGLE,
             1001: Light.HOLD_BRIGHTNESS_TOGGLE,
             1003: Light.RELEASE,
-        }    
+        }
+
 
 class E1812SwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
@@ -509,6 +510,7 @@ class E1812SwitchController(SwitchController):
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {1002: Switch.TOGGLE}
+
 
 class W2049LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
