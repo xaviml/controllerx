@@ -496,6 +496,12 @@ class E1812LightController(LightController):
             "brightness_stop": Light.RELEASE,
         }
 
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.TOGGLE,
+            1001: Light.HOLD_BRIGHTNESS_TOGGLE,
+            1003: Light.RELEASE,
+        }    
 
 class E1812SwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
