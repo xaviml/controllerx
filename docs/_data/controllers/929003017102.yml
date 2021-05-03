@@ -10,6 +10,17 @@ device_support:
       - "Click right release → Toggle"
       - "Hold right → Brightness up/down with direction changes"
 integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "left_press → Click left"
+      - "left_hold → Hold left"
+      - "left_press_release → Click left release"
+      - "left_hold_release → Release left"
+      - "right_press → Click right"
+      - "right_hold → Hold right"
+      - "right_press_release → Click right release"
+      - "right_hold_release → Release right"
   - name: deCONZ
     codename: deconz
     actions:

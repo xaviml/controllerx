@@ -115,6 +115,18 @@ class HueSmartButtonLightController(LightController):
 
 
 class Philips929003017102LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "left_press": Light.TOGGLE,
+            # "left_press_release": "",
+            "left_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "left_hold_release": Light.RELEASE,
+            "right_press": Light.TOGGLE,
+            # "right_press_release": "",
+            "right_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "right_hold_release": Light.RELEASE,
+        }
+
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             # 1000: "", # Initial press
