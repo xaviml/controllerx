@@ -10,7 +10,7 @@ PRERELEASE_NOTE
 
 ## :hammer: Fixes
 
-- Fix Z2M mapping for [W2049](https://xaviml.github.io/controllerx/controllers/W2049) [ #292 ]
+- ValueError when render template is present in the entity name [ #305 ]
 
 <!--
 ## :clock2: Performance
@@ -24,7 +24,9 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
+<!--
 ## :video_game: New devices
 
 - [929003017102](https://xaviml.github.io/controllerx/controllers/929003017102) - add device with Z2M and deCONZ support [ #276 ]
 - [E1812](https://xaviml.github.io/controllerx/controllers/E1812) - add deCONZ support [ #296 ] @schneekluth
+-->

@@ -56,7 +56,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
         if self.contains_templating(entity_name):
             return
         elif entity_name.startswith("group."):
-            entities = await self.get_state(entity_name, attribute="entity_id")  # type: ignore
+            entities: List[str] = await self.get_state(entity_name, attribute="entity_id")  # type: ignore
             same_domain = all(
                 (
                     any(elem.startswith(domain + ".") for domain in self.domains)
@@ -78,7 +78,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
         self, entity: str, attribute: Optional[str] = None
     ) -> Any:
         if entity.startswith("group."):
-            entities = await self.get_state(entity, attribute="entity_id")  # type: ignore
+            entities: List[str] = await self.get_state(entity, attribute="entity_id")  # type: ignore
             if len(entities) == 0:
                 raise ValueError(
                     f"The group `{entity}` does not have any entities registered."

@@ -308,6 +308,17 @@ class Controller(Hass, Mqtt):
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)  # type: ignore
 
+    async def get_state(
+        self,
+        entity_id: Optional[str] = None,
+        attribute: Optional[str] = None,
+        default: Any = None,
+        copy: bool = True,
+        **kwargs,
+    ) -> Optional[Any]:
+        rendered_entity_id = await self.render_value(entity_id)
+        return await super().get_state(rendered_entity_id, attribute, default, copy, **kwargs)  # type: ignore
+
     async def handle_action(
         self, action_key: str, extra: Optional[EventData] = None
     ) -> None:
