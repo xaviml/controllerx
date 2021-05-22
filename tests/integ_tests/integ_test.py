@@ -79,11 +79,11 @@ async def test_integ_configs(
             if idx == len(fired_actions) - 1:
                 await coroutine
             else:
-                asyncio.ensure_future(coroutine)
+                asyncio.create_task(coroutine)
         elif isinstance(action, float):
             await asyncio.sleep(action)
 
-    pending = asyncio.Task.all_tasks()
+    pending = asyncio.all_tasks()
     # We exclude the current function we are executing
     pending = {
         task for task in pending if task._coro.__name__ != "test_integ_configs"  # type: ignore

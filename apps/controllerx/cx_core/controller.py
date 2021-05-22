@@ -75,7 +75,7 @@ def run_in(fn: Callable, delay: float, **kwargs) -> Future:
         await asyncio.sleep(delay)
         await fn(kwargs)
 
-    task = asyncio.ensure_future(inner())
+    task = asyncio.create_task(inner())
     return task
 
 
@@ -439,7 +439,7 @@ class Controller(Hass, Mqtt):
         if skip:
             return
         action_types = self.actions_mapping[action_key]
-        task = asyncio.ensure_future(self.call_action_types(action_types, extra))
+        task = asyncio.create_task(self.call_action_types(action_types, extra))
         self.action_handles[action_key] = task
         try:
             await task

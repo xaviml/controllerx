@@ -13,7 +13,7 @@ async def fake_run_in(self, fn, delay, **kwargs):
         await asyncio.sleep(delay)
         await fn(kwargs)
 
-    task = asyncio.ensure_future(inner())
+    task = asyncio.create_task(inner())
     return task
 
 
