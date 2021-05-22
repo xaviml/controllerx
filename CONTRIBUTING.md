@@ -5,12 +5,12 @@
 This project uses pipenv as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
 
 ```
-pipenv install --dev --python python3.6
+pipenv install --dev --python python3.7
 pipenv shell
 pre-commit install
 ```
 
-_Note: I recommend working with Python 3.6 since is the minimum version supported_
+_Note: I recommend working with Python 3.7 since is the minimum version supported_
 
 ## Adding a new controller
 

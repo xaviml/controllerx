@@ -7,14 +7,14 @@ PRERELEASE_NOTE
 <!--
 ## :pencil2: Features
 -->
-
-## :hammer: Fixes
-
-- ValueError when render template is present in the entity name [ #305 ]
-
 <!--
-## :clock2: Performance
+## :hammer: Fixes
 -->
+
+## :clock2: Performance
+
+- Drop support for Python 3.6
+- Add support for Python 3.9
 
 <!--
 ## :scroll: Docs

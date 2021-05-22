@@ -23,12 +23,12 @@ stages:
         displayName: Build job
         strategy:
           matrix:
-            Python36:
-              python.version: "3.6"
             Python37:
               python.version: "3.7"
             Python38:
               python.version: "3.8"
+            Python39:
+              python.version: "3.9"
         steps:
           - task: UsePythonVersion@0
             inputs:
@@ -40,9 +40,6 @@ stages:
             displayName: Lock dependencies
           - script: pipenv install --system --deploy --dev
             displayName: Install dependencies
-          - script: pip install dataclasses
-            displayName: Installing dataclasses
-            condition: eq(variables['python.version'], '3.6')
           - script: isort apps/controllerx/ tests/ --check
             displayName: Organize imports (isort)
           - script: black apps/controllerx/ tests/ --check
