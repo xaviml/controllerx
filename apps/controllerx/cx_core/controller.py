@@ -21,6 +21,7 @@ from typing import (
     Union,
 )
 
+import appdaemon.utils as utils
 import cx_version
 from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
 from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
@@ -308,6 +309,7 @@ class Controller(Hass, Mqtt):
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)  # type: ignore
 
+    @utils.sync_wrapper
     async def get_state(
         self,
         entity_id: Optional[str] = None,
