@@ -7,9 +7,12 @@ PRERELEASE_NOTE
 <!--
 ## :pencil2: Features
 -->
-<!--
+
+
 ## :hammer: Fixes
--->
+
+- Fix: AppDaemon error when using a constrain_input_select [ #307 ]
+
 
 ## :clock2: Performance
 
