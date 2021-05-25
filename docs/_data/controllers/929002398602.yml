@@ -22,11 +22,11 @@ integrations:
       - 'on_hold → Hold "on/off"'
       - 'on_hold_release → Release "on/off"'
       - "up_press → Click 🔆"
-      - "up_press → Click release 🔆"
+      - "up_press_release → Click release 🔆"
       - "up_hold → Hold 🔆"
       - "up_hold_release → Release 🔆"
       - "down_press → Click 🔅"
-      - "down_press → Click release 🔅"
+      - "down_press_release → Click release 🔅"
       - "down_hold → Hold 🔅"
       - "down_hold_release → Release 🔅"
       - 'off_press → Click "hue"'
