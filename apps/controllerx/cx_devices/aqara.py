@@ -387,6 +387,43 @@ class WXCJKG13LMLightController(LightController):
             6001: Light.HOLD_COLOR_UP,
             6003: Light.RELEASE,
         }
+    
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "1_single": Light.OFF,
+            "1_double": Light.SYNC,
+            # "1_triple": "", # Nothing
+            # "1_long press": "", # Nothing
+            # "1_release": "", # Nothing
+            "2_single": Light.ON,
+            "2_double": Light.SYNC,
+            # "2_triple": "", # Nothing
+            # "2_long press": "", # Nothing
+            # "2_release": "", # Nothing
+            "3_single": Light.CLICK_BRIGHTNESS_DOWN,
+            "3_double": Light.ON_MIN_BRIGHTNESS,
+            # "3_triple": "", # Nothing
+            "3_long press": Light.HOLD_BRIGHTNESS_DOWN,
+            "3_release": Light.RELEASE,
+            "4_single": Light.CLICK_BRIGHTNESS_UP,
+            "4_double": Light.ON_FULL_BRIGHTNESS,
+            # "4_triple": "", # Nothing
+            "4_long press": Light.HOLD_BRIGHTNESS_UP,
+            "4_release": Light.RELEASE,
+            "5_single": Light.CLICK_COLOR_DOWN,
+            "5_double": Light.ON_MIN_COLOR_TEMP,
+            # "5_triple": "", # Nothing
+            "5_long press": Light.HOLD_COLOR_DOWN,
+            "5_release": Light.RELEASE,
+            "6_single": Light.CLICK_COLOR_UP,
+            "6_double": Light.ON_FULL_COLOR_TEMP,
+            # "6_triple": "", # Nothing
+            "6_long press": Light.HOLD_COLOR_UP,
+            "6_release": Light.RELEASE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
 
 
 class WXKG07LMLightController(LightController):
