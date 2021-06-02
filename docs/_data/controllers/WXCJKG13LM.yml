@@ -49,7 +49,7 @@ integrations:
       - "button_5_double → Double click bottom left button"
       - "button_5_triple → Triple bottom left button"
       - "button_5_hold → Hold bottom left button"
-      - "button_5_release Release bottom left button"
+      - "button_5_release → Release bottom left button"
       - "button_6_single → Single click bottom right button"
       - "button_6_double → Double click bottom right button"
       - "button_6_triple → Triple bottom right button"
@@ -88,3 +88,36 @@ integrations:
       - "6005 → Triple bottom right button"
       - "6001 → Hold bottom right button"
       - "6003 → Release bottom right button"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "1_single → Single click top left button"
+      - "1_double → Double click top left button"
+      - "1_triple → Triple top left button"
+      - '"1_long press" → Hold top left button'
+      - "1_release → Release top left button"
+      - "2_single → Single click top right button"
+      - "2_double → Double click top right button"
+      - "2_triple → Triple top right button"
+      - '"2_long press" → Hold top right button'
+      - "2_release → Release top right button"
+      - "3_single → Single click middle left button"
+      - "3_double → Double click middle left button"
+      - "3_triple → Triple middle left button"
+      - '"3_long press" → Hold middle left button'
+      - "3_release → Release middle left button"
+      - "4_single → Single click middle right button"
+      - "4_double → Double click middle right button"
+      - "4_triple → Triple middle right button"
+      - '"4_long press" → Hold middle right button'
+      - "4_release → Release middle right button"
+      - "5_single → Single click bottom left button"
+      - "5_double → Double click bottom left button"
+      - "5_triple → Triple bottom left button"
+      - '"5_long press" → Hold bottom left button'
+      - "5_release → Release bottom left button"
+      - "6_single → Single click bottom right button"
+      - "6_double → Double click bottom right button"
+      - "6_triple → Triple bottom right button"
+      - '"6_long press" → Hold bottom right button'
+      - "6_release → Release bottom right button"

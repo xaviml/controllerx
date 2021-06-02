@@ -387,7 +387,7 @@ class WXCJKG13LMLightController(LightController):
             6001: Light.HOLD_COLOR_UP,
             6003: Light.RELEASE,
         }
-    
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_single": Light.OFF,
