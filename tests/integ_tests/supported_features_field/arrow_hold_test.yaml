@@ -1,0 +1,19 @@
+# The light theorically supports xy_color, but since we are overriding the value
+# from configuration, ControllerX should send color_temp and not xy_color
+# because light_mode is auto.
+entity_state_attributes:
+  supported_features: 0b1111111 # Everything supported from the device
+  color_temp: 200
+entity_state: "on"
+fired_actions: [arrow_right_hold, 0.450, arrow_right_release]
+expected_calls:
+- service: light/turn_on
+  data:
+    entity_id: light.bedroom
+    transition: 0.35
+    color_temp: 234.7
+- service: light/turn_on
+  data:
+    entity_id: light.bedroom
+    transition: 0.35
+    color_temp: 269.4

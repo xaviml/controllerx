@@ -33,8 +33,9 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
         self.entity = self.get_entity(self.args[self.entity_arg])  # type: ignore
         await self.check_domain(self.entity.name)
         update_supported_features = self.args.get("update_supported_features", False)
+        supported_features = self.args.get("supported_features")
         self.feature_support = FeatureSupport(
-            self.entity.name, self, update_supported_features
+            self.entity.name, self, supported_features, update_supported_features
         )
         await super().init()
 

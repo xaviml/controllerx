@@ -36,6 +36,7 @@ This controller allows the devices to control light or group of lights. This all
 | `add_transition`             | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                                                                                            |
 | `add_transition_turn_toggle` | boolean              | True                                            | If `false` does not add transition when turning on/off or toggling, otherwise it adds the `transition` attribute to the call. See [FAQ #6](/controllerx/faq#6-light-is-not-turning-on-to-the-previous-brightness) for a further explanation on the use of this parameter. |
 | `color_wheel`                | string \| list       | `default_color_wheel`                           | It defines the color wheel used when changing the xy color either when click or hold actions are used. Check down to know more about the options.                                                                                                                         |
+| `supported_features`         | int                  | `0b10111111` or `191`                           | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                                               |
 | `update_supported_features`  | boolean              | False                                           | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                                 |
 
 _\* Required fields_
@@ -83,6 +84,7 @@ This allows you to control media players. It supports volume, play/pause and ski
 | `delay`                     | int     | [Controller specific](/controllerx/controllers)               | Delay in milliseconds that takes between sending the volume up/down instructions. Note that the maximum value is 1000 and if leaving to 0, you might get uncommon behavior.                                                                               |
 | `max_loops`                 | int     | 50                                                            | Maximum number of loops when holding. The loop will stop either with a release action or reaching the `max_loops` value.                                                                                                                                  |
 | `hold_release_toggle`       | boolean | False                                                         | If `true`, a `hold` action will work as a release when another `hold` is running. This is useful when you have a button with just one action event and you want to use the hold-release feature, then you just need to map that event to a `hold` action. |
+| `supported_features`        | int     | `0b10111111` or `191`                                         | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                               |
 | `update_supported_features` | boolean | False                                                         | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                 |
 
 _\* Required fields_
@@ -106,6 +108,66 @@ This allows you to control covers. It supports opening/closing and stop covers.
 | `cover`\*                   | string  | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control                                                                                                                                        |
 | `open_position`             | number  | 100                                   | The open position (between 0 and 100)                                                                                                                                                     |
 | `close_position`            | number  | 0                                     | The close position (between 0 and 100)                                                                                                                                                    |
+| `supported_features`        | int     | `0b10111111` or `191`                 | See [below](#supported_features-field) for the explanation.                                                                                                                               |
 | `update_supported_features` | boolean | False                                 | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time. |
 
 _\* Required fields_
+
+### "supported_features" field
+
+This field will override the `supported_features` attribute from the entity (light, media player, etc). By default, ControllerX will check this value from Home Assistant, however, there are times that this attribute does not reflect properly the features that the entity supports. ControllerX automatically will select one action or another depending on this value, this is why it's important that reflects the supported features. This is defined as a bit field in Home Assistant, so its binary representation of the number will defined which features it supports. You can see the values for each entity below.
+
+#### Light
+
+| feature     | value |
+| ----------- | ----- |
+| BRIGHTNESS  | 1     |
+| COLOR_TEMP  | 2     |
+| EFFECT      | 4     |
+| FLASH       | 8     |
+| COLOR       | 16    |
+| TRANSITION  | 32    |
+| WHITE_VALUE | 128   |
+
+If you want to express support for everything, the value is `0b10111111` or `191`.
+
+#### Media player
+
+| feature              | value  |
+| -------------------- | ------ |
+| PAUSE                | 1      |
+| SEEK                 | 2      |
+| VOLUME_SET           | 4      |
+| VOLUME_MUTE          | 8      |
+| PREVIOUS_TRACK       | 16     |
+| NEXT_TRACK           | 32     |
+| TURN_ON              | 128    |
+| TURN_OFF             | 256    |
+| PLAY_MEDIA           | 512    |
+| VOLUME_STEP          | 1024   |
+| SELECT_SOURCE        | 2048   |
+| STOP                 | 4096   |
+| CLEAR_PLAYLIST       | 8192   |
+| PLAY                 | 16384  |
+| SHUFFLE_SET          | 32768  |
+| SELECT_SOUND_MODE    | 65536  |
+| SUPPORT_BROWSE_MEDIA | 131072 |
+| SUPPORT_REPEAT_SET   | 262144 |
+| SUPPORT_GROUPING     | 524288 |
+
+If you want to express support for everything, the value is `0b1111111111110111111` or `524223`.
+
+#### Cover
+
+| feature            | value |
+| ------------------ | ----- |
+| OPEN               | 1     |
+| CLOSE              | 2     |
+| SET_COVER_POSITION | 4     |
+| STOP               | 8     |
+| OPEN_TILT          | 16    |
+| CLOSE_TILT         | 32    |
+| STOP_TILT          | 64    |
+| SET_TILT_POSITION  | 128   |
+
+If you want to express support for everything, the value is `0b11111111` or `255`.
