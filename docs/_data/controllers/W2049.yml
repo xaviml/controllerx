@@ -28,6 +28,21 @@ integrations:
       - "arrow_left_release → Release <"
       - "arrow_right_hold → Hold >"
       - "arrow_right_release → Release >"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 → Click 🔆"
+      - "2002 → Click 🔅"
+      - "3002 → Click <"
+      - "4002 → Click >"
+      - "1001 → Hold 🔆"
+      - "1003 → Release 🔆"
+      - "2001 → Hold 🔅"
+      - "2003 → Release 🔅"
+      - "3001 → Hold <"
+      - "3003 → Release <"
+      - "4001 → Hold >"
+      - "4003 → Release >"
 note: >-
   This controller fires "on" action when arrows are held as well as the hold arrow action.
   So this means that when long pressing the arrows, the light(s) will turn on before changing the color.

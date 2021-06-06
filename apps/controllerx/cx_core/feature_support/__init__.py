@@ -15,11 +15,12 @@ class FeatureSupport:
         self,
         entity_id: str,
         controller: "TypeController",
+        supported_features: Optional[int] = None,
         update_supported_features=False,
     ) -> None:
         self.entity_id = entity_id
         self.controller = controller
-        self._supported_features = None
+        self._supported_features = supported_features
         self.update_supported_features = update_supported_features
 
     @property
