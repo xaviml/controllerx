@@ -527,3 +527,19 @@ class W2049LightController(LightController):
             "arrow_right_hold": Light.HOLD_COLOR_UP,
             "arrow_right_release": Light.RELEASE,
         }
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.ON,
+            2002: Light.OFF,
+            3002: Light.CLICK_COLOR_DOWN,
+            4002: Light.CLICK_COLOR_UP,
+            1001: Light.HOLD_BRIGHTNESS_UP,
+            1003: Light.RELEASE,
+            2001: Light.HOLD_BRIGHTNESS_DOWN,
+            2003: Light.RELEASE,
+            3001: Light.HOLD_COLOR_DOWN,
+            3003: Light.RELEASE,
+            4001: Light.HOLD_COLOR_UP,
+            4003: Light.RELEASE,
+        }
