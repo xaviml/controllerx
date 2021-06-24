@@ -36,7 +36,7 @@ stages:
             displayName: Prepare Python $(python.version)
           - script: pip install pipenv
             displayName: Install pipenv
-          - script: pipenv lock --dev
+          - script: pipenv lock --dev --python $(python.version)
             displayName: Lock dependencies
           - script: pipenv install --system --deploy --dev
             displayName: Install dependencies
