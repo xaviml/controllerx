@@ -88,7 +88,7 @@ class Controller(Hass, Mqtt):
     integration: Integration
     actions_mapping: ActionsMapping
     action_handles: DefaultDict[ActionEvent, Optional["Future[None]"]]
-    action_delay_handles: Dict[ActionEvent, Optional[float]]
+    action_delay_handles: Dict[ActionEvent, Optional[str]]
     multiple_click_actions: Set[ActionEvent]
     action_delay: Dict[ActionEvent, int]
     action_delta: Dict[ActionEvent, int]
@@ -450,7 +450,7 @@ class Controller(Hass, Mqtt):
                 f"Task(s) from `{action_key}` was/were canceled and executed again",
                 level="DEBUG",
             )
-        else:
+        finally:
             self.action_handles[action_key] = None
 
     async def call_action_types(

@@ -436,7 +436,7 @@ async def test_handle_action(
     [
         (0, None, False, False, True),
         (1, None, False, True, False),
-        (1, 1234, True, True, False),
+        (1, "1234", True, True, False),
     ],
 )
 @pytest.mark.asyncio
@@ -445,14 +445,14 @@ async def test_call_action(
     monkeypatch,
     mocker: MockerFixture,
     delay: int,
-    handle: Optional[int],
+    handle: Optional[str],
     cancel_timer_called: bool,
     run_in_called: bool,
     action_timer_callback_called: bool,
 ):
     action_key = "test"
     sut.action_delay = {action_key: delay}
-    action_delay_handles: Dict[ActionEvent, Optional[float]] = {action_key: handle}
+    action_delay_handles: Dict[ActionEvent, Optional[str]] = {action_key: handle}
     sut.action_delay_handles = action_delay_handles
 
     monkeypatch.setattr(sut, "cancel_timer", fake_fn(async_=True))
