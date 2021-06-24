@@ -169,7 +169,7 @@ class Controller(Hass, Mqtt):
 
         # Listen for device changes
         for controller_id in controllers_ids:
-            self.integration.listen_changes(controller_id)
+            await self.integration.listen_changes(controller_id)
 
     def filter_actions(
         self,

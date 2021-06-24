@@ -10,9 +10,9 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Clean action handle when there is an error. This will help for error logging.
 
 <!--
 ## :clock2: Performance

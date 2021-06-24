@@ -11,8 +11,8 @@ class ZHAIntegration(Integration):
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
         return self.controller.get_zha_actions_mapping()
 
-    def listen_changes(self, controller_id: str) -> None:
-        Hass.listen_event(
+    async def listen_changes(self, controller_id: str) -> None:
+        await Hass.listen_event(
             self.controller, self.callback, "zha_event", device_ieee=controller_id
         )
 

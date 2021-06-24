@@ -11,8 +11,8 @@ class LutronIntegration(Integration):
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
         return self.controller.get_lutron_caseta_actions_mapping()
 
-    def listen_changes(self, controller_id: str) -> None:
-        Hass.listen_event(
+    async def listen_changes(self, controller_id: str) -> None:
+        await Hass.listen_event(
             self.controller,
             self.callback,
             "lutron_caseta_button_event",

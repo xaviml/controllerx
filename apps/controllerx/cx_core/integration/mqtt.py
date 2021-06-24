@@ -11,8 +11,8 @@ class MQTTIntegration(Integration):
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
         return self.controller.get_z2m_actions_mapping()
 
-    def listen_changes(self, controller_id: str) -> None:
-        Mqtt.listen_event(
+    async def listen_changes(self, controller_id: str) -> None:
+        await Mqtt.listen_event(
             self.controller, self.event_callback, topic=controller_id, namespace="mqtt"
         )
 

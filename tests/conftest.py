@@ -28,9 +28,9 @@ def hass_mock(monkeypatch: MonkeyPatch):
     """
 
     monkeypatch.setattr(hass.Hass, "__init__", fake_fn())
-    monkeypatch.setattr(hass.Hass, "listen_event", fake_fn())
-    monkeypatch.setattr(mqtt.Mqtt, "listen_event", fake_fn())
-    monkeypatch.setattr(hass.Hass, "listen_state", fake_fn())
+    monkeypatch.setattr(hass.Hass, "listen_event", fake_fn(async_=True))
+    monkeypatch.setattr(mqtt.Mqtt, "listen_event", fake_fn(async_=True))
+    monkeypatch.setattr(hass.Hass, "listen_state", fake_fn(async_=True))
     monkeypatch.setattr(hass.Hass, "log", fake_fn())
     monkeypatch.setattr(hass.Hass, "call_service", fake_fn(async_=True))
     monkeypatch.setattr(hass.Hass, "get_ad_version", fake_fn(to_return="4.0.0"))

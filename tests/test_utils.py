@@ -20,7 +20,10 @@ class IntegrationMock:
         self.get_default_actions_mapping = MagicMock(
             name="get_default_actions_mapping", return_value={}
         )
-        self.listen_changes = mocker.stub(name="listen_changes")
+        self.listen_changes_stub = mocker.stub(name="listen_changes")
+
+    async def listen_changes(self, controller_id: str) -> None:
+        self.listen_changes_stub(controller_id)
 
 
 def fake_fn(to_return=None, async_: bool = False) -> Callable:

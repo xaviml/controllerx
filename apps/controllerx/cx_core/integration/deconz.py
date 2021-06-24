@@ -11,8 +11,8 @@ class DeCONZIntegration(Integration):
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
         return self.controller.get_deconz_actions_mapping()
 
-    def listen_changes(self, controller_id: str) -> None:
-        Hass.listen_event(
+    async def listen_changes(self, controller_id: str) -> None:
+        await Hass.listen_event(
             self.controller, self.event_callback, "deconz_event", id=controller_id
         )
 

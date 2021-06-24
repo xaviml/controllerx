@@ -171,8 +171,8 @@ async def test_initialize(
     if not error_expected:
         get_default_actions_mapping.assert_called_once()
         for controller_id in controller_input:
-            integration_mock.listen_changes.assert_any_call(controller_id)
-        assert integration_mock.listen_changes.call_count == len(controller_input)
+            integration_mock.listen_changes_stub.assert_any_call(controller_id)
+        assert integration_mock.listen_changes_stub.call_count == len(controller_input)
         assert list(sut_before_init.actions_mapping.keys()) == actions_output
 
 
