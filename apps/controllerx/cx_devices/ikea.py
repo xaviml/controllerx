@@ -13,6 +13,7 @@ from cx_core import (
     SwitchController,
     action,
 )
+from cx_core.integration import EventData
 
 
 class E1810Controller(LightController):
@@ -503,6 +504,16 @@ class E1812LightController(LightController):
             1003: Light.RELEASE,
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.TOGGLE,
+            "move_with_on_off": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "stop": Light.RELEASE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
+
 
 class E1812SwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
@@ -510,6 +521,12 @@ class E1812SwitchController(SwitchController):
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {1002: Switch.TOGGLE}
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {"on": Light.TOGGLE}
+
+    def get_zha_action(self, data: EventData) -> str:
+        return data["command"]
 
 
 class W2049LightController(LightController):
