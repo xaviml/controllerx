@@ -21,7 +21,7 @@ async def test_is_supported(
     feature: int,
     expected_is_supported: bool,
 ):
-    feature_support = FeatureSupport("fake_entity", fake_type_controller, False)
+    feature_support = FeatureSupport(fake_type_controller)
     feature_support._supported_features = number
     is_supported = await feature_support.is_supported(feature)
     assert is_supported == expected_is_supported
@@ -45,7 +45,7 @@ async def test_not_supported(
     feature: int,
     expected_is_supported: bool,
 ):
-    feature_support = FeatureSupport("fake_entity", fake_type_controller, False)
+    feature_support = FeatureSupport(fake_type_controller)
     feature_support._supported_features = number
     is_supported = await feature_support.not_supported(feature)
     assert is_supported == expected_is_supported

@@ -1,15 +1,15 @@
 import asyncio
 import glob
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import pytest
 import yaml
-from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
 
-from tests.test_utils import get_controller
+from tests.test_utils import fake_fn, get_controller
 
 
 def get_integ_tests():
@@ -30,7 +30,7 @@ def read_config_yaml(file_name):
 
 
 def get_fake_entity_states(entity_state, entity_state_attributes):
-    async def inner(entity_id, attribute=None):
+    async def inner(attribute: Optional[str] = None):
         if attribute is not None and attribute in entity_state_attributes:
             return entity_state_attributes[attribute]
         return entity_state
@@ -48,6 +48,7 @@ async def test_integ_configs(
 ):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
+    entity_entities = data.get("entity_entities", None)  # Used for group entities
     fired_actions = data.get("fired_actions", [])
     render_template_response = data.get("render_template_response")
     extra = data.get("extra")
@@ -68,6 +69,9 @@ async def test_integ_configs(
     if isinstance(controller, TypeController):
         fake_entity_states = get_fake_entity_states(
             entity_state, entity_state_attributes
+        )
+        mocker.patch.object(
+            controller, "get_state", fake_fn(entity_entities, async_=True)
         )
         mocker.patch.object(controller, "get_entity_state", fake_entity_states)
     call_service_stub = mocker.patch.object(Hass, "call_service")

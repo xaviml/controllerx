@@ -1,0 +1,9 @@
+entity_state_attributes:
+  supported_features: 191
+entity_entities: ["light.bedroom_1", "light.bedroom_2"]
+entity_state: "off"
+fired_actions: [toggle]
+expected_calls:
+- service: light/toggle
+  data:
+    entity_id: light.livingroom
