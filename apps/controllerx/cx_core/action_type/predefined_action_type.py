@@ -1,7 +1,13 @@
 import inspect
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple
 
-from cx_const import ActionFunctionWithParams, PredefinedActionsMapping, TypeAction
+from cx_const import (
+    ActionFunction,
+    ActionFunctionWithParams,
+    ActionParams,
+    PredefinedActionsMapping,
+    TypeAction,
+)
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData
 
@@ -11,6 +17,57 @@ def _get_action(action_value: TypeAction) -> ActionFunctionWithParams:
         return action_value
     else:
         return (action_value, tuple())
+
+
+def _get_arguments(
+    action: ActionFunction,
+    args: ActionParams,
+    predefined_action_kwargs: Dict[str, Any],
+    extra: Optional[EventData],
+) -> Tuple[ActionParams, Dict[str, Any]]:
+    action_parameters = inspect.signature(action).parameters
+    action_parameters_without_extra = {
+        key: param for key, param in action_parameters.items() if key != "extra"
+    }
+    action_parameters_without_default = {
+        key: param
+        for key, param in action_parameters.items()
+        if param.default is inspect.Signature.empty
+    }
+    action_args: Dict[str, Any] = dict(
+        zip(action_parameters_without_extra.keys(), args)
+    )  # ControllerX args
+    action_positional_args = set(action_args.keys())
+    action_args.update(predefined_action_kwargs)  # User args
+    action_args.update({"extra": extra} if "extra" in action_parameters else {})
+    action_args = {
+        key: value for key, value in action_args.items() if key in action_parameters
+    }
+
+    if len(set(action_parameters_without_default).difference(action_args)) != 0:
+        error_msg = [
+            f"`{action.__name__}` action is missing some parameters. Parameters available:"
+        ]
+        for key, param in action_parameters_without_extra.items():
+            attr_msg = f"   {key}: {param.annotation.__name__}"
+            if param.default is not inspect.Signature.empty:
+                attr_msg += f" [default: {param.default}]"
+            if key in action_args:
+                attr_msg += f" (value given: {action_args[key]})"
+            elif param.default is inspect.Signature.empty:
+                attr_msg += " (missing)"
+            error_msg.append(attr_msg)
+        raise ValueError("\n".join(error_msg))
+
+    positional = tuple(
+        value for key, value in action_args.items() if key in action_positional_args
+    )
+    action_args = {
+        key: value
+        for key, value in action_args.items()
+        if key not in action_positional_args
+    }
+    return positional, action_args
 
 
 class PredefinedActionType(ActionType):
@@ -52,49 +109,9 @@ class PredefinedActionType(ActionType):
                 action_key, self.predefined_actions_mapping
             )
         action, args = _get_action(self.predefined_actions_mapping[action_key])
-        action_parameters = inspect.signature(action).parameters
-        action_parameters_without_extra = {
-            key: param for key, param in action_parameters.items() if key != "extra"
-        }
-        action_parameters_without_default = {
-            key: param
-            for key, param in action_parameters.items()
-            if param.default is inspect.Signature.empty
-        }
-        action_args: Dict[str, Any] = dict(
-            zip(action_parameters_without_extra.keys(), args)
-        )  # ControllerX args
-        action_positional_args = set(action_args.keys())
-        action_args.update(self.predefined_action_kwargs)  # User args
-        action_args.update({"extra": extra} if "extra" in action_parameters else {})
-        action_args = {
-            key: value for key, value in action_args.items() if key in action_parameters
-        }
-
-        if len(set(action_parameters_without_default).difference(action_args)) != 0:
-            error_msg = [
-                f"`{action.__name__}` action is missing some parameters. Parameters available:"
-            ]
-            for key, param in action_parameters_without_extra.items():
-                attr_msg = f"   {key}: {param.annotation.__name__}"
-                if param.default is not inspect.Signature.empty:
-                    attr_msg += f" [default: {param.default}]"
-                if key in action_args:
-                    attr_msg += f" (value given: {action_args[key]})"
-                elif param.default is inspect.Signature.empty:
-                    attr_msg += " (missing)"
-                error_msg.append(attr_msg)
-            raise ValueError("\n".join(error_msg))
-
-        positional = tuple(
-            value for key, value in action_args.items() if key in action_positional_args
+        positional, action_args = _get_arguments(
+            action, args, self.predefined_action_kwargs, extra
         )
-        action_args = {
-            key: value
-            for key, value in action_args.items()
-            if key not in action_positional_args
-        }
-
         await action(*positional, **action_args)
 
     def __str__(self) -> str:
