@@ -1,7 +1,7 @@
 import asyncio
 import glob
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List, Tuple
 
 import pytest
 import yaml
@@ -12,18 +12,18 @@ from pytest_mock.plugin import MockerFixture
 from tests.test_utils import get_controller
 
 
-def get_integ_tests():
+def get_integ_tests() -> List[Tuple[str, str, Dict[str, Any]]]:
     configs = []
     test_yaml_files = glob.glob("**/*_test.yaml", recursive=True)
-    for yaml_file in test_yaml_files:
-        config_filepath = Path(yaml_file).parent / "config.yaml"
-        with open(yaml_file) as f:
+    for test_yaml_file in test_yaml_files:
+        config_filepath = Path(test_yaml_file).parent / "config.yaml"
+        with open(test_yaml_file) as f:
             data = yaml.full_load(f)
-        configs.append((str(config_filepath), data))
+        configs.append((str(config_filepath), str(test_yaml_file), data))
     return configs
 
 
-def read_config_yaml(file_name):
+def read_config_yaml(file_name) -> Dict[str, Any]:
     with open(file_name) as f:
         data = yaml.full_load(f)
     return list(data.values())[0]
@@ -42,9 +42,9 @@ integration_tests = get_integ_tests()
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("config_file, data", integration_tests)
+@pytest.mark.parametrize("config_file, test_yaml_file, data", integration_tests)
 async def test_integ_configs(
-    mocker: MockerFixture, config_file: str, data: Dict[str, Any]
+    mocker: MockerFixture, config_file: str, test_yaml_file: str, data: Dict[str, Any]
 ):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)

@@ -319,31 +319,28 @@ async def test_on(
     mocker: MockerFixture,
 ):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
-    attributes = {"test": 0}
 
-    await sut.on(**attributes)
+    await sut.on()
 
-    call_light_service_patch.assert_called_once_with("light/turn_on", **attributes)
+    call_light_service_patch.assert_called_once_with("light/turn_on")
 
 
 @pytest.mark.asyncio
 async def test_off(sut: LightController, mocker: MockerFixture):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
-    attributes = {"test": 0}
 
-    await sut.off(**attributes)
+    await sut.off()
 
-    call_light_service_patch.assert_called_once_with("light/turn_off", **attributes)
+    call_light_service_patch.assert_called_once_with("light/turn_off")
 
 
 @pytest.mark.asyncio
 async def test_toggle(sut: LightController, mocker: MockerFixture):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
-    attributes = {"test": 0}
 
-    await sut.toggle(**attributes)
+    await sut.toggle()
 
-    call_light_service_patch.assert_called_once_with("light/toggle", **attributes)
+    call_light_service_patch.assert_called_once_with("light/toggle")
 
 
 @pytest.mark.parametrize(

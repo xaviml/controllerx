@@ -95,7 +95,7 @@ appdaemon:
   time_zone: XXXXXXXX
   # You can add `missing_app_warnings` if you don't want any
   # warning spam from ControllerX when starting AppDaemon
-  missing_app_warnings: 1
+  missing_app_warnings: 0
   plugins:
     HASS:
       type: hass

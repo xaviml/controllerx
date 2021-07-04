@@ -1,0 +1,11 @@
+entity_state_attributes:
+  supported_features: 175 # exclude xy_color
+  brightness: 50
+entity_state: "on"
+fired_actions: [toggle_hold]
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.bedroom
+      color_temp: 200
+      brightness: 34

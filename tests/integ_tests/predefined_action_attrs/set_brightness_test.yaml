@@ -1,0 +1,10 @@
+entity_state_attributes:
+  supported_features: 191
+  brightness: 50
+entity_state: "off"
+fired_actions: [toggle]
+expected_calls:
+  - service: light/toggle
+    data:
+      entity_id: light.bedroom
+      brightness: 128

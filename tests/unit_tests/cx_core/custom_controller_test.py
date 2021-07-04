@@ -65,7 +65,6 @@ from tests.test_utils import fake_fn
 )
 @pytest.mark.asyncio
 async def test_custom_controllers(
-    monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
     custom_cls: Type[TypeController],
     mapping: PredefinedActionsMapping,
@@ -84,8 +83,13 @@ async def test_custom_controllers(
         "mapping": mapping,
         "action_delta": 0,
     }
-    mocked = mocker.patch.object(sut, mock_function)
-    monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
+    mocked = mocker.stub()
+
+    async def mocked_fn():
+        mocked()
+
+    mocker.patch.object(sut, mock_function, mocked_fn)
+    mocker.patch.object(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
 
     # SUT
     await sut.initialize()
