@@ -74,8 +74,8 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
             f"Entities from `{entity_name}` (entity_id attribute): `{entities}`",
             level="DEBUG",
         )
-        # When the entity is not a group, this attribute returns the entity name
-        if isinstance(entities, str):
+        # If the entity groups other entities, this attribute will be a list
+        if not isinstance(entities, (list, tuple)):
             return None
         if entities is not None and len(entities) == 0:
             raise ValueError(f"`{entity_name}` does not have any entities registered.")

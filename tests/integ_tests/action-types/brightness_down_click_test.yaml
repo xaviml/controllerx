@@ -1,5 +1,3 @@
-entity_state_attributes:
-  supported_features: 191
 entity_state: "off"
 fired_actions: [brightness_down_click]
 expected_calls:

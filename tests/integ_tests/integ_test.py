@@ -9,7 +9,7 @@ from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
 
-from tests.test_utils import fake_fn, get_controller
+from tests.test_utils import get_controller
 
 
 def get_integ_tests():
@@ -29,8 +29,8 @@ def read_config_yaml(file_name):
     return list(data.values())[0]
 
 
-def get_fake_entity_states(entity_state, entity_state_attributes):
-    async def inner(attribute: Optional[str] = None):
+def get_fake_get_state(entity_state, entity_state_attributes):
+    async def inner(entity_name: str, attribute: Optional[str] = None):
         if attribute is not None and attribute in entity_state_attributes:
             return entity_state_attributes[attribute]
         return entity_state
@@ -48,13 +48,16 @@ async def test_integ_configs(
 ):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
-    entity_entities = data.get("entity_entities", None)  # Used for group entities
     fired_actions = data.get("fired_actions", [])
     render_template_response = data.get("render_template_response")
     extra = data.get("extra")
     expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
 
+    if "supported_features" not in entity_state_attributes:
+        entity_state_attributes["supported_features"] = 0b1111111111
+    if "entity_id" not in entity_state_attributes:
+        entity_state_attributes["entity_id"] = "my_entity"
     config = read_config_yaml(config_file)
     controller = get_controller(config["module"], config["class"])
     if controller is None:
@@ -67,13 +70,8 @@ async def test_integ_configs(
         )
 
     if isinstance(controller, TypeController):
-        fake_entity_states = get_fake_entity_states(
-            entity_state, entity_state_attributes
-        )
-        mocker.patch.object(
-            controller, "get_state", fake_fn(entity_entities, async_=True)
-        )
-        mocker.patch.object(controller, "get_entity_state", fake_entity_states)
+        fake_get_state = get_fake_get_state(entity_state, entity_state_attributes)
+        mocker.patch.object(controller, "get_state", fake_get_state)
     call_service_stub = mocker.patch.object(Hass, "call_service")
 
     await controller.initialize()
