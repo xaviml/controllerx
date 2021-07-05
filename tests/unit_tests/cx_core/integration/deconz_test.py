@@ -6,7 +6,7 @@ from cx_core.controller import Controller
 from cx_core.integration.deconz import DeCONZIntegration
 from pytest_mock.plugin import MockerFixture
 
-from tests.test_utils import wrap_exetuction
+from tests.test_utils import wrap_execution
 
 
 @pytest.mark.parametrize(
@@ -64,7 +64,7 @@ async def test_listen_changes(
     listen_event_mock = mocker.patch.object(Hass, "listen_event")
     deconz_integration = DeCONZIntegration(fake_controller, kwargs)
 
-    with wrap_exetuction(error_expected=expected_id is None, exception=ValueError):
+    with wrap_execution(error_expected=expected_id is None, exception=ValueError):
         await deconz_integration.listen_changes("controller_id")
 
     if expected_id is not None:

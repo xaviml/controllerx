@@ -12,7 +12,7 @@ from cx_core.type.light_controller import ColorMode, LightEntity
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
 
-from tests.test_utils import fake_fn, wrap_exetuction
+from tests.test_utils import fake_fn, wrap_execution
 
 ENTITY_NAME = "light.test"
 
@@ -72,7 +72,7 @@ async def test_init(
     sut_before_init.args["light"] = light_input
 
     # SUT
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         await sut_before_init.init()
 
     # Checks
@@ -124,7 +124,7 @@ async def test_get_attribute(
     sut.feature_support._supported_features = supported_features
     sut.entity = LightEntity(name=ENTITY_NAME, color_mode=color_mode)
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         output = await sut.get_attribute(attribute_input)
 
     if not error_expected:
@@ -167,7 +167,7 @@ async def test_get_value_attribute(
 
     monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         output = await sut.get_value_attribute(attribute_input)
 
     if not error_expected:
