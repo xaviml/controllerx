@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Tuple, Type
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import PredefinedActionsMapping
 from cx_core import (
     CallServiceController,
@@ -89,6 +89,7 @@ async def test_custom_controllers(
         mocked()
 
     mocker.patch.object(sut, mock_function, mocked_fn)
+    mocker.patch.object(sut, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(sut, "get_entity_state", fake_fn(async_=True, to_return="0"))
 
     # SUT

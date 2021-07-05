@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Tuple, Type, Union
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 from cx_const import Light, PredefinedActionsMapping
 from cx_core.color_helper import get_color_wheel
@@ -34,8 +34,13 @@ ColorMode = str
 class LightEntity(Entity):
     color_mode: ColorMode
 
-    def __init__(self, name: str, color_mode: ColorMode = "auto") -> None:
-        super().__init__(name)
+    def __init__(
+        self,
+        name: str,
+        entities: Optional[List[str]] = None,
+        color_mode: ColorMode = "auto",
+    ) -> None:
+        super().__init__(name, entities)
         self.color_mode = color_mode
 
 
@@ -539,11 +544,11 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             or attribute == LightController.ATTRIBUTE_WHITE_VALUE
             or attribute == LightController.ATTRIBUTE_COLOR_TEMP
         ):
-            value = await self.get_entity_state(self.entity.name, attribute)
+            value = await self.get_entity_state(attribute=attribute)
             if value is None:
                 raise ValueError(
                     f"Value for `{attribute}` attribute could not be retrieved "
-                    f"from `{self.entity.name}`. "
+                    f"from `{self.entity.main}`. "
                     "Check the FAQ to know more about this error: "
                     "https://xaviml.github.io/controllerx/faq"
                 )
@@ -572,7 +577,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         to_return = True
         if action in ("click", "hold"):
             attribute, direction = args
-            light_state: str = await self.get_entity_state(self.entity.name)
+            light_state: str = await self.get_entity_state()
             self.smooth_power_on_check = self.check_smooth_power_on(
                 attribute, direction, light_state
             )

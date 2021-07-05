@@ -1,6 +1,5 @@
 entity_state_attributes:
   supported_features: 175 # exclude xy_color
-  brightness: 50
 entity_state: "on"
 fired_actions: [toggle_hold]
 expected_calls:

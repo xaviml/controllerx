@@ -1,5 +1,3 @@
-entity_state_attributes:
-  supported_features: 191
 entity_state: "off"
 fired_actions: [arrow_left_click, 0.05, arrow_left_click]
 expected_calls:

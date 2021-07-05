@@ -18,6 +18,7 @@ ENTITY_NAME = "media_player.test"
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> MediaPlayerController:
     controller = MediaPlayerController()  # type: ignore
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     controller.args = {"media_player": ENTITY_NAME}
     await controller.init()
@@ -186,7 +187,7 @@ async def test_change_source_list(
 ):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
-    async def fake_get_entity_state(entity, attribute=None):
+    async def fake_get_entity_state(attribute=None):
         if active_source is None:
             return {"attributes": {"source_list": source_list}}
         else:

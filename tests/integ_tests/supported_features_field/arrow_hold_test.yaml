@@ -2,7 +2,6 @@
 # from configuration, ControllerX should send color_temp and not xy_color
 # because light_mode is auto.
 entity_state_attributes:
-  supported_features: 0b1111111 # Everything supported from the device
   color_temp: 200
 entity_state: "on"
 fired_actions: [arrow_right_hold, 0.450, arrow_right_release]

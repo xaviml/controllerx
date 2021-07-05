@@ -17,6 +17,7 @@ ENTITY_NAME = "cover.test"
 @pytest.mark.asyncio
 async def sut_before_init(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(TypeController, "init")
     return controller
 
@@ -25,6 +26,7 @@ async def sut_before_init(mocker: MockerFixture) -> CoverController:
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     controller.args = {"cover": ENTITY_NAME}
     await controller.init()

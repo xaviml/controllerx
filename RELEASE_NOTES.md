@@ -9,14 +9,15 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 
 - Allow to pass parameters to predefined actions. You can check the parameters for each predefined action, and how to pass parameters in [here](https://xaviml.github.io/controllerx/advanced/predefined-actions). [ #78 ]
+- Support for Light Group integration. To know how entity groups work, read [here](https://xaviml.github.io/controllerx/advanced/entity-groups)
 
 <!--
 ## :hammer: Fixes
 -->
 
-<!--
 ## :clock2: Performance
--->
+
+- Reduce calls to HA when entity is a group.
 
 <!--
 ## :scroll: Docs
