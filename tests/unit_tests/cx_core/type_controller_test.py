@@ -6,7 +6,7 @@ from cx_core.controller import Controller
 from cx_core.type_controller import Entity, TypeController
 from pytest_mock.plugin import MockerFixture
 
-from tests.test_utils import fake_fn, wrap_exetuction
+from tests.test_utils import fake_fn, wrap_execution
 
 ENTITY_ARG = "my_entity"
 ENTITY_NAME = "domain_1.test"
@@ -67,7 +67,7 @@ async def test_init(
 ):
     sut_before_init.args = args
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         await sut_before_init.init()
 
     if not error_expected:
@@ -123,7 +123,7 @@ async def test_check_domain(
     my_entity = MyEntity(entity, entities=entities)
     monkeypatch.setattr(sut, "get_state", fake_fn(to_return=entities, async_=True))
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         sut._check_domain(my_entity)
 
 
@@ -157,7 +157,7 @@ async def test_get_entity_state(
     monkeypatch.setattr(sut, "get_state", fake_get_state)
 
     sut.entity = MyEntity(entity_input)
-    with wrap_exetuction(error_expected=expected_calls is None, exception=ValueError):
+    with wrap_execution(error_expected=expected_calls is None, exception=ValueError):
         await sut.get_entity_state(attribute="attribute_test")
 
     if expected_calls is not None:

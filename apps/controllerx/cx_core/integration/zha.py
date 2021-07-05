@@ -13,7 +13,7 @@ class ZHAIntegration(Integration):
 
     async def listen_changes(self, controller_id: str) -> None:
         await Hass.listen_event(
-            self.controller, self.callback, "zha_event", device_ieee=controller_id
+            self.controller, self.event_callback, "zha_event", device_ieee=controller_id
         )
 
     def get_action(self, data: EventData) -> str:
@@ -28,7 +28,9 @@ class ZHAIntegration(Integration):
                 action += "_" + "_".join(args)
         return action
 
-    async def callback(self, event_name: str, data: EventData, kwargs: dict) -> None:
+    async def event_callback(
+        self, event_name: str, data: EventData, kwargs: dict
+    ) -> None:
         action = self.controller.get_zha_action(data)
         if action is None:
             # If there is no action extracted from the controller then

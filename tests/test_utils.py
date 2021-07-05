@@ -71,7 +71,7 @@ def get_classes(file_, package_, class_, instantiate=False):
 
 
 @contextmanager
-def wrap_exetuction(
+def wrap_execution(
     *, error_expected: bool, exception=Exception
 ) -> Generator[Optional[ExceptionInfo], None, None]:
     if error_expected:

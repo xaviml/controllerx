@@ -5,7 +5,7 @@ from cx_const import ActionFunctionWithParams, ActionParams, TypeAction
 from cx_core.action_type.predefined_action_type import _get_action, _get_arguments
 from cx_core.integration import EventData
 
-from tests.test_utils import fake_fn, wrap_exetuction
+from tests.test_utils import fake_fn, wrap_execution
 
 
 @pytest.mark.parametrize(
@@ -92,7 +92,7 @@ def test_get_arguments_general(
     async def test_fn(a: str, b: int = 2):
         pass
 
-    with wrap_exetuction(error_expected=expected is None, exception=ValueError):
+    with wrap_execution(error_expected=expected is None, exception=ValueError):
         output = _get_arguments(test_fn, action_args, user_args, None)
 
     if expected is not None:
@@ -131,7 +131,7 @@ def test_get_arguments_with_extra(
     async def test_fn(a: str, b: int, extra: Optional[EventData] = None):
         pass
 
-    with wrap_exetuction(error_expected=expected is None, exception=ValueError):
+    with wrap_execution(error_expected=expected is None, exception=ValueError):
         output = _get_arguments(test_fn, action_args, user_args, extra)
 
     if expected is not None:
