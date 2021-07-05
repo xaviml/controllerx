@@ -6,6 +6,8 @@ from cx_core.controller import Controller
 from cx_core.integration.deconz import DeCONZIntegration
 from pytest_mock.plugin import MockerFixture
 
+from tests.test_utils import wrap_exetuction
+
 
 @pytest.mark.parametrize(
     "data, type, expected",
@@ -45,6 +47,7 @@ async def test_callback(
         ("id", "id"),
         ("unique_id", "unique_id"),
         (None, "id"),
+        ("fake", None),
     ],
 )
 @pytest.mark.asyncio
@@ -52,7 +55,7 @@ async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
     listen_to: Optional[str],
-    expected_id: str,
+    expected_id: Optional[str],
 ):
     kwargs = {}
     if listen_to is not None:
@@ -61,11 +64,13 @@ async def test_listen_changes(
     listen_event_mock = mocker.patch.object(Hass, "listen_event")
     deconz_integration = DeCONZIntegration(fake_controller, kwargs)
 
-    await deconz_integration.listen_changes("controller_id")
+    with wrap_exetuction(error_expected=expected_id is None, exception=ValueError):
+        await deconz_integration.listen_changes("controller_id")
 
-    listen_event_mock.assert_called_once_with(
-        fake_controller,
-        deconz_integration.event_callback,
-        "deconz_event",
-        **{expected_id: "controller_id"}
-    )
+    if expected_id is not None:
+        listen_event_mock.assert_called_once_with(
+            fake_controller,
+            deconz_integration.event_callback,
+            "deconz_event",
+            **{expected_id: "controller_id"}
+        )

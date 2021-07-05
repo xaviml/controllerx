@@ -16,6 +16,10 @@ class DeCONZIntegration(Integration):
 
     async def listen_changes(self, controller_id: str) -> None:
         listens_to = self.kwargs.get("listen_to", LISTENS_TO_ID)
+        if listens_to not in (LISTENS_TO_ID, LISTENS_TO_UNIQUE_ID):
+            raise ValueError(
+                "`listens_to` for deCONZ integration should either be `id` or `unique_id`"
+            )
         await Hass.listen_event(
             self.controller,
             self.event_callback,

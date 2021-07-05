@@ -14,12 +14,14 @@ class LutronIntegration(Integration):
     async def listen_changes(self, controller_id: str) -> None:
         await Hass.listen_event(
             self.controller,
-            self.callback,
+            self.event_callback,
             "lutron_caseta_button_event",
             serial=controller_id,
         )
 
-    async def callback(self, event_name: str, data: EventData, kwargs: dict) -> None:
+    async def event_callback(
+        self, event_name: str, data: EventData, kwargs: dict
+    ) -> None:
         button = data["button_number"]
         action_type = data["action"]
         action = f"button_{button}_{action_type}"
