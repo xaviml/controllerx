@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List, Optional, Type, Union
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
@@ -16,8 +16,13 @@ DEFAULT_ATTR_TEST = "my_default"
 class MyEntity(Entity):
     attr_test: str
 
-    def __init__(self, name: str, attr_test: str = DEFAULT_ATTR_TEST) -> None:
-        super().__init__(name)
+    def __init__(
+        self,
+        name: str,
+        entities: Optional[List[str]] = None,
+        attr_test: str = DEFAULT_ATTR_TEST,
+    ) -> None:
+        super().__init__(name, entities)
         self.attr_test = attr_test
 
 
@@ -34,6 +39,7 @@ class MyTypeController(TypeController[MyEntity]):
 def sut_before_init(mocker: MockerFixture) -> MyTypeController:
     controller = MyTypeController()  # type: ignore
     controller.args = {ENTITY_ARG: ENTITY_NAME}
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     return controller
 
@@ -75,10 +81,10 @@ async def test_init(
 @pytest.mark.parametrize(
     "entity, domains, entities, error_expected",
     [
-        ("light.kitchen", ["light"], [], False),
-        ("light1.kitchen", ["light"], [], True),
-        ("media_player.kitchen", ["light"], [], True),
-        ("media_player.bedroom", ["media_player"], [], False),
+        ("light.kitchen", ["light"], None, False),
+        ("light1.kitchen", ["light"], None, True),
+        ("media_player.kitchen", ["light"], None, True),
+        ("media_player.bedroom", ["media_player"], None, False),
         ("group.all_lights", ["light"], ["light.light1", "light.light2"], False),
         ("group.all_lights", ["light"], ["light1.light1", "light2.light2"], True),
         ("group.all", ["media_player"], ["media_player.test", "light.test"], True),
@@ -88,8 +94,8 @@ async def test_init(
             ["switch.switch1", "input_boolean.input_boolean1"],
             False,
         ),
-        ("switch.switch1", ["switch", "input_boolean"], [], False),
-        ("switch.switch1", ["binary_sensor", "input_boolean"], [], True),
+        ("switch.switch1", ["switch", "input_boolean"], None, False),
+        ("switch.switch1", ["binary_sensor", "input_boolean"], None, True),
         (
             "group.all",
             ["switch", "input_boolean"],
@@ -99,7 +105,7 @@ async def test_init(
         (
             "{{ to_render }}",
             ["light"],
-            [],
+            None,
             False,
         ),
     ],
@@ -114,37 +120,21 @@ async def test_check_domain(
     error_expected: bool,
 ):
     sut.domains = domains
-    expected_error_message = ""
-    if error_expected:
-        if entities == []:
-            expected_error_message = (
-                f"'{entity}' must be from one of the following domains "
-                f"{domains} (e.g. {domains[0]}.bedroom)"
-            )
-
-        else:
-            expected_error_message = (
-                f"All entities from '{entity}' must be from one of the "
-                f"following domains {domains} (e.g. {domains[0]}.bedroom)"
-            )
-
+    my_entity = MyEntity(entity, entities=entities)
     monkeypatch.setattr(sut, "get_state", fake_fn(to_return=entities, async_=True))
 
-    with wrap_exetuction(
-        error_expected=error_expected, exception=ValueError
-    ) as err_info:
-        await sut.check_domain(entity)
-
-    if err_info is not None:
-        assert str(err_info.value) == expected_error_message
+    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+        sut._check_domain(my_entity)
 
 
 @pytest.mark.parametrize(
-    "entity_input, entities, expected_calls",
+    "entity_input, entities, update_supported_features, expected_calls",
     [
-        ("light.kitchen", ["entity.test"], 1),
-        ("group.lights", ["entity.test"], 2),
-        ("group.lights", [], None),
+        ("entity.test", None, False, 1),
+        ("entity.test", "entity.test", True, 2),
+        ("group.lights", ["entity.test"], False, 1),
+        ("group.lights", ["entity.test"], True, 2),
+        ("group.lights", [], True, None),
     ],
 )
 @pytest.mark.asyncio
@@ -153,9 +143,11 @@ async def test_get_entity_state(
     mocker: MockerFixture,
     monkeypatch: MonkeyPatch,
     entity_input: str,
-    entities: List[str],
+    entities: Union[str, List[str]],
+    update_supported_features: bool,
     expected_calls: int,
 ):
+    sut.update_supported_features = update_supported_features
     stub_get_state = mocker.stub()
 
     async def fake_get_state(entity, attribute=None):
@@ -164,8 +156,9 @@ async def test_get_entity_state(
 
     monkeypatch.setattr(sut, "get_state", fake_get_state)
 
+    sut.entity = MyEntity(entity_input)
     with wrap_exetuction(error_expected=expected_calls is None, exception=ValueError):
-        await sut.get_entity_state(entity_input, "attribute_test")
+        await sut.get_entity_state(attribute="attribute_test")
 
     if expected_calls is not None:
         if expected_calls == 1:

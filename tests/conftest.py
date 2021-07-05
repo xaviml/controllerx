@@ -1,6 +1,6 @@
 import asyncio
 
-import appdaemon.plugins.hass.hassapi as hass  # type: ignore
+import appdaemon.plugins.hass.hassapi as hass
 import appdaemon.plugins.mqtt.mqttapi as mqtt
 import pytest
 from _pytest.monkeypatch import MonkeyPatch

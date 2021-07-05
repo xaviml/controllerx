@@ -6,17 +6,17 @@ _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 PRERELEASE_NOTE
 
-<!--
+
 ## :pencil2: Features
--->
 
-## :hammer: Fixes
-
-- Clean action handle when there is an error. This will help for error logging.
+- Support for Light Group integration. To know how entity groups work, read [here](https://xaviml.github.io/controllerx/advanced/entity-groups)
 
 <!--
-## :clock2: Performance
+## :hammer: Fixes
 -->
+
+## :clock2: Performance
+- Reduce calls to HA when entity is a group.
 
 <!--
 ## :scroll: Docs
@@ -26,6 +26,8 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
+<!--
 ## :video_game: New devices
 
 - [E1812](https://xaviml.github.io/controllerx/controllers/E1812) - add ZHA support [ #324 ]
+-->

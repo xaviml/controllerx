@@ -2,7 +2,7 @@ from typing import Optional
 
 import pytest
 from cx_core import Controller, LightController
-from cx_core.action_type.base import ActionType  # type: ignore
+from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData
 
 

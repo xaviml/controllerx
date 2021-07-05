@@ -26,7 +26,7 @@ livingroom_controller:
   class: E1810Controller
   controller: sensor.livingroom_controller_action
   integration: z2m
-  light: light.bedroom
+  light: light.livingroom
 ```
 
 ## Documentation

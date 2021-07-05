@@ -56,7 +56,7 @@ class CoverController(TypeController[Entity]):
             await self.call_service("cover/open_cover", entity_id=self.entity.name)
         else:
             self.log(
-                f"⚠️ `{self.entity.name}` does not support SET_COVER_POSITION or OPEN",
+                f"⚠️ `{self.entity}` does not support SET_COVER_POSITION or OPEN",
                 level="WARNING",
                 ascii_encode=False,
             )
@@ -73,7 +73,7 @@ class CoverController(TypeController[Entity]):
             await self.call_service("cover/close_cover", entity_id=self.entity.name)
         else:
             self.log(
-                f"⚠️ `{self.entity.name}` does not support SET_COVER_POSITION or CLOSE",
+                f"⚠️ `{self.entity}` does not support SET_COVER_POSITION or CLOSE",
                 level="WARNING",
                 ascii_encode=False,
             )
@@ -84,7 +84,7 @@ class CoverController(TypeController[Entity]):
 
     @action
     async def toggle(self, action: Callable) -> None:
-        cover_state = await self.get_entity_state(self.entity.name)
+        cover_state = await self.get_entity_state()
         if cover_state == "opening" or cover_state == "closing":
             await self.stop()
         else:
