@@ -1,14 +1,12 @@
-entity_state_attributes:
-  supported_features: 191
 entity_state: "off"
 fired_actions: [toggle, 1.0, toggle_hold]
 expected_calls:
-- service: light/toggle
-  data:
-    entity_id: light.bedroom
-- service: light/turn_on
-  data:
-    entity_id: light.bedroom
-    xy_color: !!python/tuple [0.323, 0.329]
-    brightness: 255
+  - service: light/toggle
+    data:
+      entity_id: light.livingroom
+  - service: light/turn_on
+    data:
+      entity_id: light.livingroom
+      xy_color: !!python/tuple [0.323, 0.329]
+      brightness: 255
 expected_calls_count: 2

@@ -1,7 +1,8 @@
 from typing import Any, Awaitable, Callable, Dict, List, Tuple, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
-ActionFunctionWithParams = Tuple[ActionFunction, Tuple[Any, ...]]
+ActionParams = Tuple[Any, ...]
+ActionFunctionWithParams = Tuple[ActionFunction, ActionParams]
 TypeAction = Union[ActionFunction, ActionFunctionWithParams]
 ActionEvent = Union[str, int]
 PredefinedActionsMapping = Dict[str, TypeAction]

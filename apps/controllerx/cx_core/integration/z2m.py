@@ -1,8 +1,8 @@
 import json
 from typing import Optional
 
-from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
-from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
+from appdaemon.plugins.hass.hassapi import Hass
+from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import DefaultActionsMapping
 from cx_core.integration import EventData, Integration
 

@@ -1,10 +1,7 @@
-entity_state_attributes:
-  supported_features: 191
 entity_state: "on"
 fired_actions: [brightness_down_click]
 expected_calls:
-- service: light/toggle
-  data:
-    entity_id: light.my_light
-    color_temp: 100
-  
+  - service: light/toggle
+    data:
+      entity_id: light.my_light
+      color_temp: 100

@@ -19,12 +19,13 @@ from typing import (
     Tuple,
     TypeVar,
     Union,
+    overload,
 )
 
 import appdaemon.utils as utils
 import cx_version
-from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
-from appdaemon.plugins.mqtt.mqttapi import Mqtt  # type: ignore
+from appdaemon.plugins.hass.hassapi import Hass
+from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import (
     ActionEvent,
     ActionFunction,
@@ -85,6 +86,7 @@ class Controller(Hass, Mqtt):
     This is the parent Controller, all controllers must extend from this class.
     """
 
+    args: Dict[str, Any]
     integration: Integration
     actions_mapping: ActionsMapping
     action_handles: DefaultDict[ActionEvent, Optional["Future[None]"]]
@@ -222,7 +224,15 @@ class Controller(Hass, Mqtt):
             raise ValueError(f"This controller does not support {integration.name}.")
         return actions_mapping
 
-    def get_list(self, entities: Union[List[T], T]) -> List[T]:
+    @overload
+    def get_list(self, entities: List[T]) -> List[T]:
+        ...
+
+    @overload
+    def get_list(self, entities: T) -> List[T]:
+        ...
+
+    def get_list(self, entities):
         if isinstance(entities, (list, tuple)):
             return list(entities)
         return [entities]
@@ -307,7 +317,7 @@ class Controller(Hass, Mqtt):
                 value = f"{value:.2f}"
             to_log.append(f"  - {attribute}: {value}")
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
-        return await Hass.call_service(self, service, **attributes)  # type: ignore
+        return await Hass.call_service(self, service, **attributes)
 
     @utils.sync_wrapper
     async def get_state(
@@ -319,7 +329,9 @@ class Controller(Hass, Mqtt):
         **kwargs,
     ) -> Optional[Any]:
         rendered_entity_id = await self.render_value(entity_id)
-        return await super().get_state(rendered_entity_id, attribute, default, copy, **kwargs)  # type: ignore
+        return await super().get_state(
+            rendered_entity_id, attribute, default, copy, **kwargs
+        )
 
     async def handle_action(
         self, action_key: str, extra: Optional[EventData] = None
@@ -395,7 +407,7 @@ class Controller(Hass, Mqtt):
         if delay > 0:
             handle = self.action_delay_handles[action_key]
             if handle is not None:
-                await self.cancel_timer(handle)  # type: ignore
+                await self.cancel_timer(handle)
             self.log(
                 f"🕒 Running action(s) from `{action_key}` in {delay} seconds",
                 level="INFO",
@@ -403,7 +415,7 @@ class Controller(Hass, Mqtt):
             )
             new_handle = await self.run_in(
                 self.action_timer_callback, delay, action_key=action_key, extra=extra
-            )  # type: ignore
+            )
             self.action_delay_handles[action_key] = new_handle
         else:
             await self.action_timer_callback({"action_key": action_key, "extra": extra})

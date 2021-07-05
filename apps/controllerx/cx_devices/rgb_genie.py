@@ -23,7 +23,7 @@ class ZB5122LightController(LightController):
     @action
     async def colortemp_from_controller(self, extra: EventData) -> None:
         if isinstance(self.integration, ZHAIntegration):
-            await self.on(color_temp=extra["args"][0])
+            await self._on(color_temp=extra["args"][0])
 
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {

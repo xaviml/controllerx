@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Type, Union
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 from cx_const import Light, PredefinedActionsMapping
 from cx_core.color_helper import get_color_wheel
@@ -34,8 +34,13 @@ ColorMode = str
 class LightEntity(Entity):
     color_mode: ColorMode
 
-    def __init__(self, name: str, color_mode: ColorMode = "auto") -> None:
-        super().__init__(name)
+    def __init__(
+        self,
+        name: str,
+        entities: Optional[List[str]] = None,
+        color_mode: ColorMode = "auto",
+    ) -> None:
+        super().__init__(name, entities)
         self.color_mode = color_mode
 
 
@@ -400,21 +405,23 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self.call_light_service("light/turn_on", **attributes)
 
     @action
-    async def on(self, **attributes) -> None:
+    async def on(self, attributes: Optional[Dict[str, float]] = None) -> None:
+        attributes = {} if attributes is None else attributes
         await self._on(**attributes)
 
     async def _off(self, **attributes) -> None:
         await self.call_light_service("light/turn_off", **attributes)
 
     @action
-    async def off(self, **attributes) -> None:
-        await self._off(**attributes)
+    async def off(self) -> None:
+        await self._off()
 
     async def _toggle(self, **attributes) -> None:
         await self.call_light_service("light/toggle", **attributes)
 
     @action
-    async def toggle(self, **attributes) -> None:
+    async def toggle(self, attributes: Optional[Dict[str, float]] = None) -> None:
+        attributes = {} if attributes is None else attributes
         await self._toggle(**attributes)
 
     async def _set_value(self, attribute: str, fraction: float) -> None:
@@ -457,21 +464,26 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self._on_min(attribute)
 
     @action
-    async def sync(self) -> None:
+    async def sync(
+        self,
+        brightness: Optional[int] = None,
+        color_temp: int = 370,  # 2700K light
+        xy_color: Tuple[float, float] = (0.323, 0.329),  # white colour
+    ) -> None:
         attributes: Dict[Any, Any] = {}
         try:
             color_attribute = await self.get_attribute(LightController.ATTRIBUTE_COLOR)
             if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
-                attributes[color_attribute] = 370  # 2700K light
+                attributes[color_attribute] = color_temp
             else:
-                attributes[color_attribute] = (0.323, 0.329)  # white colour
+                attributes[color_attribute] = xy_color
         except ValueError:
             self.log(
                 "⚠️ `sync` action will only change brightness",
                 level="WARNING",
                 ascii_encode=False,
             )
-        await self._on(**attributes, brightness=self.max_brightness)
+        await self._on(**attributes, brightness=brightness or self.max_brightness)
 
     @action
     async def xycolor_from_controller(self, extra: Optional[EventData]) -> None:
@@ -532,11 +544,11 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             or attribute == LightController.ATTRIBUTE_WHITE_VALUE
             or attribute == LightController.ATTRIBUTE_COLOR_TEMP
         ):
-            value = await self.get_entity_state(self.entity.name, attribute)
+            value = await self.get_entity_state(attribute=attribute)
             if value is None:
                 raise ValueError(
                     f"Value for `{attribute}` attribute could not be retrieved "
-                    f"from `{self.entity.name}`. "
+                    f"from `{self.entity.main}`. "
                     "Check the FAQ to know more about this error: "
                     "https://xaviml.github.io/controllerx/faq"
                 )
@@ -565,7 +577,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         to_return = True
         if action in ("click", "hold"):
             attribute, direction = args
-            light_state: str = await self.get_entity_state(self.entity.name)
+            light_state: str = await self.get_entity_state()
             self.smooth_power_on_check = self.check_smooth_power_on(
                 attribute, direction, light_state
             )

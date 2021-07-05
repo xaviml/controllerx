@@ -6,7 +6,7 @@ import pytest
 from cx_const import ActionEvent
 from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping
-from cx_core.action_type.base import ActionType  # type: ignore
+from cx_core.action_type.base import ActionType
 from cx_core.controller import Controller, action
 from pytest_mock.plugin import MockerFixture
 
