@@ -12,7 +12,7 @@ from cx_core.type.light_controller import ColorMode, LightEntity
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
 
-from tests.test_utils import fake_fn, wrap_exetuction
+from tests.test_utils import fake_fn, wrap_execution
 
 ENTITY_NAME = "light.test"
 
@@ -22,6 +22,7 @@ ENTITY_NAME = "light.test"
 async def sut_before_init(mocker: MockerFixture) -> LightController:
     controller = LightController()  # type: ignore
     controller.args = {}
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     return controller
 
@@ -30,6 +31,7 @@ async def sut_before_init(mocker: MockerFixture) -> LightController:
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> LightController:
     controller = LightController()  # type: ignore
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     controller.args = {"light": ENTITY_NAME}
     await controller.init()
@@ -72,7 +74,7 @@ async def test_init(
     sut_before_init.args["light"] = light_input
 
     # SUT
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         await sut_before_init.init()
 
     # Checks
@@ -122,9 +124,9 @@ async def test_get_attribute(
     error_expected: bool,
 ):
     sut.feature_support._supported_features = supported_features
-    sut.entity = LightEntity(name=ENTITY_NAME, color_mode=color_mode)
+    sut.entity = LightEntity(ENTITY_NAME, color_mode=color_mode)
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         output = await sut.get_attribute(attribute_input)
 
     if not error_expected:
@@ -132,42 +134,36 @@ async def test_get_attribute(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, smooth_power_on_check, light_state, expected_output, error_expected",
+    "attribute_input, smooth_power_on_check, expected_output, error_expected",
     [
-        ("xy_color", False, "any", 0, False),
-        ("brightness", False, "any", 3.0, False),
-        ("brightness", False, "any", "3.0", False),
-        ("brightness", False, "any", "3", False),
-        ("color_temp", False, "any", 1, False),
-        ("xy_color", False, "any", 0, False),
-        ("brightness", True, "off", 0, False),
-        ("brightness", False, "any", "error", True),
-        ("brightness", False, "any", None, True),
-        ("color_temp", False, "any", None, True),
-        ("not_a_valid_attribute", False, "any", None, True),
+        ("xy_color", False, 0, False),
+        ("brightness", False, 3.0, False),
+        ("brightness", False, "3.0", False),
+        ("brightness", False, "3", False),
+        ("color_temp", False, 1, False),
+        ("xy_color", False, 0, False),
+        ("brightness", True, 0, False),
+        ("brightness", False, "error", True),
+        ("brightness", False, None, True),
+        ("color_temp", False, None, True),
+        ("not_a_valid_attribute", False, None, True),
     ],
 )
 @pytest.mark.asyncio
 async def test_get_value_attribute(
     sut: LightController,
-    monkeypatch: MonkeyPatch,
+    mocker: MockerFixture,
     attribute_input: str,
     smooth_power_on_check: bool,
-    light_state: str,
     expected_output: Union[int, float, str],
     error_expected: bool,
 ):
     sut.smooth_power_on = True
     sut.smooth_power_on_check = smooth_power_on_check
 
-    async def fake_get_entity_state(entity, attribute=None):
-        if entity == "light" and attribute is None:
-            return light_state
-        return expected_output
+    mocker.patch.object(sut, "get_entity_state", fake_fn(expected_output, async_=True))
 
-    monkeypatch.setattr(sut, "get_entity_state", fake_get_entity_state)
-
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         output = await sut.get_value_attribute(attribute_input)
 
     if not error_expected:
@@ -319,31 +315,28 @@ async def test_on(
     mocker: MockerFixture,
 ):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
-    attributes = {"test": 0}
 
-    await sut.on(**attributes)
+    await sut.on()
 
-    call_light_service_patch.assert_called_once_with("light/turn_on", **attributes)
+    call_light_service_patch.assert_called_once_with("light/turn_on")
 
 
 @pytest.mark.asyncio
 async def test_off(sut: LightController, mocker: MockerFixture):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
-    attributes = {"test": 0}
 
-    await sut.off(**attributes)
+    await sut.off()
 
-    call_light_service_patch.assert_called_once_with("light/turn_off", **attributes)
+    call_light_service_patch.assert_called_once_with("light/turn_off")
 
 
 @pytest.mark.asyncio
 async def test_toggle(sut: LightController, mocker: MockerFixture):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
-    attributes = {"test": 0}
 
-    await sut.toggle(**attributes)
+    await sut.toggle()
 
-    call_light_service_patch.assert_called_once_with("light/toggle", **attributes)
+    call_light_service_patch.assert_called_once_with("light/toggle")
 
 
 @pytest.mark.parametrize(

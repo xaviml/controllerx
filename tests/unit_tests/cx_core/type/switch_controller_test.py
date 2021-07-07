@@ -3,14 +3,17 @@ from cx_core import SwitchController
 from cx_core.type_controller import Entity
 from pytest_mock.plugin import MockerFixture
 
+from tests.test_utils import fake_fn
+
 ENTITY_NAME = "switch.test"
 
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def sut():
+async def sut(mocker: MockerFixture):
     c = SwitchController()  # type: ignore
-    c.entity = Entity(ENTITY_NAME)
+    mocker.patch.object(c, "get_state", fake_fn(None, async_=True))
+    c.entity = Entity(name=ENTITY_NAME)
     return c
 
 

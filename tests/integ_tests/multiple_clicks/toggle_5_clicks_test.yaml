@@ -1,6 +1,5 @@
-entity_state_attributes:
-  supported_features: 191
 entity_state: "on"
-fired_actions: ["toggle", 0.05, "toggle", 0.05, "toggle", 0.05, "toggle", 0.05, "toggle"]
+fired_actions:
+  ["toggle", 0.05, "toggle", 0.05, "toggle", 0.05, "toggle", 0.05, "toggle"]
 expected_calls:
   - service: fake_service5

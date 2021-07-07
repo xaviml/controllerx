@@ -1,9 +1,7 @@
-entity_state_attributes:
-  supported_features: 191
 entity_state: "off"
 fired_actions: [arrow_right_click]
 expected_calls:
-- service: my_service
-  data:
-    attr1: 42
-    attr2: foo
+  - service: my_service
+    data:
+      attr1: 42
+      attr2: foo

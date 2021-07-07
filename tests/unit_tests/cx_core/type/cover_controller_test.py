@@ -8,7 +8,7 @@ from cx_core.feature_support.cover import CoverSupport
 from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
 
-from tests.test_utils import fake_fn, wrap_exetuction
+from tests.test_utils import fake_fn, wrap_execution
 
 ENTITY_NAME = "cover.test"
 
@@ -17,6 +17,7 @@ ENTITY_NAME = "cover.test"
 @pytest.mark.asyncio
 async def sut_before_init(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(TypeController, "init")
     return controller
 
@@ -25,6 +26,7 @@ async def sut_before_init(mocker: MockerFixture) -> CoverController:
 @pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
+    mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     controller.args = {"cover": ENTITY_NAME}
     await controller.init()
@@ -53,7 +55,7 @@ async def test_init(
         "close_position": close_position,
     }
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         await sut_before_init.init()
 
     if not error_expected:

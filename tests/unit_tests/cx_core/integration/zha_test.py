@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
 import pytest
+from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.controller import Controller
 from cx_core.integration.zha import ZHAIntegration
 from pytest_mock.plugin import MockerFixture
@@ -48,9 +49,28 @@ async def test_callback(
     data = {"command": command, "args": args}
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     zha_integration = ZHAIntegration(fake_controller, {})
-    await zha_integration.callback("test", data, {})
+    await zha_integration.event_callback("test", data, {})
 
     if expected_called_with is not None:
         handle_action_patch.assert_called_once_with(expected_called_with)
     else:
         handle_action_patch.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_listen_changes(
+    fake_controller: Controller,
+    mocker: MockerFixture,
+):
+    controller_id = "controller_id"
+    listen_event_mock = mocker.patch.object(Hass, "listen_event")
+    zha_integration = ZHAIntegration(fake_controller, {})
+
+    await zha_integration.listen_changes(controller_id)
+
+    listen_event_mock.assert_called_once_with(
+        fake_controller,
+        zha_integration.event_callback,
+        "zha_event",
+        device_ieee=controller_id,
+    )

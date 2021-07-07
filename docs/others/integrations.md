@@ -41,7 +41,7 @@ Three things to clarify when using the `z2m` integration listening to MQTT:
 
 #### deCONZ
 
-This integration(**`deconz`**) listens to `deconz_event` events and actions gets fired by default with the `event` attribute from the `data` object. However, you can change the attribute to listen to by adding a `type` attribute. This is an example
+This integration(**`deconz`**) listens to `deconz_event` events and actions gets fired by default with the `event` attribute from the `data` object. However, you can change the attribute to listen to by adding a `type` attribute. In addition, you can select which attribute to listen to (`id` or `unique_id`) with `listen_to`. This is an example:
 
 ```yaml
 example_app:
@@ -50,7 +50,8 @@ example_app:
   controller: magic_cube
   integration:
     name: deconz
-    type: gesture
+    listen_to: unique_id # defaults to `id`
+    type: gesture # defaults to `event`
   light: light.example_light
 ```
 
@@ -95,7 +96,7 @@ appdaemon:
   time_zone: XXXXXXXX
   # You can add `missing_app_warnings` if you don't want any
   # warning spam from ControllerX when starting AppDaemon
-  missing_app_warnings: 1
+  missing_app_warnings: 0
   plugins:
     HASS:
       type: hass

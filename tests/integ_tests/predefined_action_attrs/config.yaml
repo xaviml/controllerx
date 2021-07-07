@@ -1,0 +1,15 @@
+example_app:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.controller_action
+  integration: z2m
+  light: light.bedroom
+  mapping:
+    toggle:
+      action: "toggle"
+      attributes:
+        brightness: 128
+    toggle_hold:
+      action: sync
+      brightness: 34
+      color_temp: 200

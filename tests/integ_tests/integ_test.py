@@ -1,36 +1,36 @@
 import asyncio
 import glob
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional, Tuple
 
 import pytest
 import yaml
-from appdaemon.plugins.hass.hassapi import Hass  # type: ignore
+from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import get_controller
 
 
-def get_integ_tests():
+def get_integ_tests() -> List[Tuple[str, str, Dict[str, Any]]]:
     configs = []
     test_yaml_files = glob.glob("**/*_test.yaml", recursive=True)
-    for yaml_file in test_yaml_files:
-        config_filepath = Path(yaml_file).parent / "config.yaml"
-        with open(yaml_file) as f:
+    for test_yaml_file in test_yaml_files:
+        config_filepath = Path(test_yaml_file).parent / "config.yaml"
+        with open(test_yaml_file) as f:
             data = yaml.full_load(f)
-        configs.append((str(config_filepath), data))
+        configs.append((str(config_filepath), str(test_yaml_file), data))
     return configs
 
 
-def read_config_yaml(file_name):
+def read_config_yaml(file_name) -> Dict[str, Any]:
     with open(file_name) as f:
         data = yaml.full_load(f)
     return list(data.values())[0]
 
 
-def get_fake_entity_states(entity_state, entity_state_attributes):
-    async def inner(entity_id, attribute=None):
+def get_fake_get_state(entity_state, entity_state_attributes):
+    async def inner(entity_name: str, attribute: Optional[str] = None):
         if attribute is not None and attribute in entity_state_attributes:
             return entity_state_attributes[attribute]
         return entity_state
@@ -42,9 +42,9 @@ integration_tests = get_integ_tests()
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("config_file, data", integration_tests)
+@pytest.mark.parametrize("config_file, test_yaml_file, data", integration_tests)
 async def test_integ_configs(
-    mocker: MockerFixture, config_file: str, data: Dict[str, Any]
+    mocker: MockerFixture, config_file: str, test_yaml_file: str, data: Dict[str, Any]
 ):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
@@ -54,6 +54,10 @@ async def test_integ_configs(
     expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
 
+    if "supported_features" not in entity_state_attributes:
+        entity_state_attributes["supported_features"] = 0b1111111111
+    if "entity_id" not in entity_state_attributes:
+        entity_state_attributes["entity_id"] = "my_entity"
     config = read_config_yaml(config_file)
     controller = get_controller(config["module"], config["class"])
     if controller is None:
@@ -66,10 +70,8 @@ async def test_integ_configs(
         )
 
     if isinstance(controller, TypeController):
-        fake_entity_states = get_fake_entity_states(
-            entity_state, entity_state_attributes
-        )
-        mocker.patch.object(controller, "get_entity_state", fake_entity_states)
+        fake_get_state = get_fake_get_state(entity_state, entity_state_attributes)
+        mocker.patch.object(controller, "get_state", fake_get_state)
     call_service_stub = mocker.patch.object(Hass, "call_service")
 
     await controller.initialize()

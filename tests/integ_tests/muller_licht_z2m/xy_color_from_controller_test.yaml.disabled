@@ -1,5 +1,4 @@
-entity_state_attributes:
-  supported_features: 191
+
 entity_state: "off"
 fired_actions: ["color_wheel"]
 extra:

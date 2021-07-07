@@ -5,10 +5,10 @@ fired_actions: [toggle, 1.0, toggle_hold]
 expected_calls:
 - service: light/toggle
   data:
-    entity_id: light.bedroom
+    entity_id: light.livingroom
 - service: light/turn_on
   data:
-    entity_id: light.bedroom
+    entity_id: light.livingroom
     color_temp: 370
     brightness: 255
 expected_calls_count: 2

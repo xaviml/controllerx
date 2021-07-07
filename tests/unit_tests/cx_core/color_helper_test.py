@@ -1,7 +1,7 @@
 import pytest
 from cx_core.color_helper import Colors, get_color_wheel
 
-from tests.test_utils import wrap_exetuction
+from tests.test_utils import wrap_execution
 
 
 @pytest.mark.parametrize(
@@ -14,5 +14,5 @@ from tests.test_utils import wrap_exetuction
     ],
 )
 def test_get_color_wheel(colors: Colors, error_expected: bool):
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         colors = get_color_wheel(colors)

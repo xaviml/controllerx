@@ -45,12 +45,12 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     @action
     async def change_source_list(self, direction: str) -> None:
-        entity_states = await self.get_entity_state(self.entity.name, attribute="all")
+        entity_states = await self.get_entity_state(attribute="all")
         entity_attributes = entity_states["attributes"]
         source_list = entity_attributes.get("source_list")
         if len(source_list) == 0 or source_list is None:
             self.log(
-                f"⚠️ There is no `source_list` parameter in `{self.entity.name}`",
+                f"⚠️ There is no `source_list` parameter in `{self.entity}`",
                 level="WARNING",
                 ascii_encode=False,
             )
@@ -114,9 +114,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         await super().hold(direction)
 
     async def prepare_volume_change(self) -> None:
-        volume_level = await self.get_entity_state(
-            self.entity.name, attribute="volume_level"
-        )
+        volume_level = await self.get_entity_state(attribute="volume_level")
         if volume_level is not None:
             self.volume_level = volume_level
 

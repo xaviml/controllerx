@@ -1,6 +1,7 @@
 from typing import Dict
 
 import pytest
+from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.controller import Controller
 from cx_core.integration.lutron_caseta import LutronIntegration
 from pytest_mock.plugin import MockerFixture
@@ -42,5 +43,24 @@ async def test_callback(
 ):
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     lutron_integration = LutronIntegration(fake_controller, {})
-    await lutron_integration.callback("test", data, {})
+    await lutron_integration.event_callback("test", data, {})
     handle_action_patch.assert_called_once_with(expected, extra=data)
+
+
+@pytest.mark.asyncio
+async def test_listen_changes(
+    fake_controller: Controller,
+    mocker: MockerFixture,
+):
+    controller_id = "controller_id"
+    listen_event_mock = mocker.patch.object(Hass, "listen_event")
+    lutron_integration = LutronIntegration(fake_controller, {})
+
+    await lutron_integration.listen_changes(controller_id)
+
+    listen_event_mock.assert_called_once_with(
+        fake_controller,
+        lutron_integration.event_callback,
+        "lutron_caseta_button_event",
+        serial=controller_id,
+    )

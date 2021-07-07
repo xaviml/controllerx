@@ -6,11 +6,11 @@ import pytest
 from cx_const import ActionEvent
 from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping
-from cx_core.action_type.base import ActionType  # type: ignore
+from cx_core.action_type.base import ActionType
 from cx_core.controller import Controller, action
 from pytest_mock.plugin import MockerFixture
 
-from tests.test_utils import IntegrationMock, fake_fn, wrap_exetuction
+from tests.test_utils import IntegrationMock, fake_fn, wrap_execution
 
 INTEGRATION_TEST_NAME = "test"
 CONTROLLER_NAME = "test_controller"
@@ -164,7 +164,7 @@ async def test_initialize(
     )
 
     # SUT
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         await sut_before_init.initialize()
 
     # Checks
@@ -214,7 +214,7 @@ async def test_merge_mapping(
     )
 
     # SUT
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         await sut_before_init.initialize()
 
     # Checks
@@ -332,7 +332,7 @@ def test_get_multiple_click_actions(
 def test_get_option(
     sut: Controller, option: str, options: List[str], error_expected: bool
 ):
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         sut.get_option(option, options)
 
 
@@ -361,7 +361,7 @@ def test_get_integration(
 ):
     get_integrations_spy = mocker.spy(integration_module, "get_integrations")
 
-    with wrap_exetuction(error_expected=error_expected, exception=ValueError):
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
         integration = fake_controller.get_integration(integration_input)
 
     if not error_expected:
