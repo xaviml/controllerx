@@ -9,6 +9,7 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 
 - Add `volume_set` predefined action for `MediaPlayerController`. See [here](https://xaviml.github.io/controllerx/advanced/predefined-actions#media-player).
+- Add `tts` predefined action for `MediaPlayerController`. See [here](https://xaviml.github.io/controllerx/advanced/predefined-actions#media-player).
 
 <!--
 ## :hammer: Fixes

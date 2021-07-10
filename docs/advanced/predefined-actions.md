@@ -32,7 +32,7 @@ When using a [light controller](/controllerx/start/type-configuration#light-cont
 | `set_half_brightness`       | It sets the brightness to 50%                                                                                                |                                                    |
 | `set_half_white_value`      | It sets the white value to 50%                                                                                               |                                                    |
 | `set_half_color_temp`       | It sets the color temp to 50%                                                                                                |                                                    |
-| `sync`                      | It syncs the light(s) to full brightness and white colour or 2700K (370 mireds)                                              | - `brightness`<br>- `color_temp`<br/>- `xy_color`  |
+| `sync`                      | It syncs the light(s) to full brightness and white colour or 2700K (370 mireds)                                              | - `brightness`<br>- `color_temp`<br>- `xy_color`   |
 | `click_brightness_up`       | It brights up accordingly with the `manual_steps` attribute                                                                  |                                                    |
 | `click_brightness_down`     | It brights down accordingly with the `manual_steps` attribute                                                                |                                                    |
 | `click_white_value_up`      | It turns the white value up accordingly with the `manual_steps` attribute                                                    |                                                    |
@@ -65,20 +65,21 @@ When using a [light controller](/controllerx/start/type-configuration#light-cont
 
 When using a [media player controller](/controllerx/start/type-configuration#media-player-controller) (e.g. `E1743MediaPlayerController`) or `MediaPlayerController`, the following actions can be used as a predefined action:
 
-| value               | description                                        | parameters                                   |
-| ------------------- | -------------------------------------------------- | -------------------------------------------- |
-| `hold_volume_down`  | It turns the volume down until `release` is called |                                              |
-| `hold_volume_up`    | It turns the volume up until `release` is called   |                                              |
-| `click_volume_down` | It turns the volume down one step                  |                                              |
-| `click_volume_up`   | It turns the volume up one step                    |                                              |
-| `volume_set`        | It sets the volume to given level                  | - `volume_level`: volume level (from 0 to 1) |
-| `release`           | It calls `release` for `hold` actions              |                                              |
-| `play_pause`        | It toggles the play/pause media                    |                                              |
-| `next_track`        | It skips the track forward                         |                                              |
-| `previous_track`    | It skips the track backward                        |                                              |
-| `next_source`       | It changes to the next source                      |                                              |
-| `previous_source`   | It changes to the previous source                  |                                              |
-| `mute`              | It mutes the media player                          |                                              |
+| value               | description                                        | parameters                                                                                                                                                                                                         |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `hold_volume_down`  | It turns the volume down until `release` is called |                                                                                                                                                                                                                    |
+| `hold_volume_up`    | It turns the volume up until `release` is called   |                                                                                                                                                                                                                    |
+| `click_volume_down` | It turns the volume down one step                  |                                                                                                                                                                                                                    |
+| `click_volume_up`   | It turns the volume up one step                    |                                                                                                                                                                                                                    |
+| `volume_set`        | It sets the volume to given level                  | - `volume_level`: volume level (from 0 to 1)                                                                                                                                                                       |
+| `release`           | It calls `release` for `hold` actions              |                                                                                                                                                                                                                    |
+| `play_pause`        | It toggles the play/pause media                    |                                                                                                                                                                                                                    |
+| `next_track`        | It skips the track forward                         |                                                                                                                                                                                                                    |
+| `previous_track`    | It skips the track backward                        |                                                                                                                                                                                                                    |
+| `next_source`       | It changes to the next source                      |                                                                                                                                                                                                                    |
+| `previous_source`   | It changes to the previous source                  |                                                                                                                                                                                                                    |
+| `mute`              | It mutes the media player                          |                                                                                                                                                                                                                    |
+| `tts`               | Text-to-Speech                                     | - `message`<br>- `service`: the service to call without "tts." (str; default: "google_translate_say")<br>- `cache` (bool; default: None)<br>- `language` (str; default: None)<br>- `options` (dict; default: None) |
 
 ## Switch
 

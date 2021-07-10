@@ -78,6 +78,7 @@ class MediaPlayer:
     NEXT_SOURCE = "next_source"
     PREVIOUS_SOURCE = "previous_source"
     MUTE = "mute"
+    TTS = "tts"
 
 
 class Switch:

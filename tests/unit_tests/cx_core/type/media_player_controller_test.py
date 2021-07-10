@@ -111,17 +111,48 @@ async def test_volume_down(
 
 
 @pytest.mark.asyncio
-async def test_volume_set(
-    sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
-):
-    monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return=0.5))
-    sut.feature_support._supported_features = MediaPlayerSupport.VOLUME_SET
+async def test_volume_set(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.volume_set(0.8)
 
     called_service_patch.assert_called_once_with(
         "media_player/volume_set", entity_id=ENTITY_NAME, volume_level=0.8
+    )
+
+
+@pytest.mark.asyncio
+async def test_volume_mute(sut: MediaPlayerController, mocker: MockerFixture):
+    called_service_patch = mocker.patch.object(sut, "call_service")
+
+    await sut.volume_mute()
+
+    called_service_patch.assert_called_once_with(
+        "media_player/volume_mute", entity_id=ENTITY_NAME
+    )
+
+
+@pytest.mark.asyncio
+async def test_tts(
+    sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
+):
+    called_service_patch = mocker.patch.object(sut, "call_service")
+
+    await sut.tts(
+        "test msg",
+        service="fake_service",
+        cache=False,
+        language="en",
+        options={"a": "b"},
+    )
+
+    called_service_patch.assert_called_once_with(
+        "tts.fake_service",
+        entity_id=ENTITY_NAME,
+        message="test msg",
+        cache=False,
+        language="en",
+        options={"a": "b"},
     )
 
 

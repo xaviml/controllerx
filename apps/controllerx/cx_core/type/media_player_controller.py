@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Any, Dict, Optional, Type
 
 from cx_const import MediaPlayer, PredefinedActionsMapping
 from cx_core.controller import action
@@ -42,6 +42,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             MediaPlayer.NEXT_SOURCE: (self.change_source_list, (Stepper.UP,)),
             MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, (Stepper.DOWN,)),
             MediaPlayer.MUTE: self.volume_mute,
+            MediaPlayer.TTS: self.tts,
         }
 
     @action
@@ -116,6 +117,24 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     @action
     async def volume_mute(self) -> None:
         await self.call_service("media_player/volume_mute", entity_id=self.entity.name)
+
+    @action
+    async def tts(
+        self,
+        message: str,
+        service: str = "google_translate_say",
+        cache: Optional[bool] = None,
+        language: Optional[str] = None,
+        options: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        args: Dict[str, Any] = {"entity_id": self.entity.name, "message": message}
+        if cache is not None:
+            args["cache"] = cache
+        if language is not None:
+            args["language"] = language
+        if options is not None:
+            args["options"] = options
+        await self.call_service(f"tts.{service}", **args)
 
     @action
     async def hold(self, direction: str) -> None:  # type: ignore

@@ -49,7 +49,10 @@ def _get_arguments(
             f"`{action.__name__}` action is missing some parameters. Parameters available:"
         ]
         for key, param in action_parameters_without_extra.items():
-            attr_msg = f"   {key}: {param.annotation.__name__}"
+            if hasattr(param.annotation, "__name__"):
+                attr_msg = f"   {key}: {param.annotation.__name__}"
+            else:
+                attr_msg = f"   {key}:"
             if param.default is not inspect.Signature.empty:
                 attr_msg += f" [default: {param.default}]"
             if key in action_args:
