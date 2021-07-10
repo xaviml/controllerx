@@ -8,17 +8,15 @@ PRERELEASE_NOTE
 
 ## :pencil2: Features
 
-- Allow to pass parameters to predefined actions. You can check the parameters for each predefined action, and how to pass parameters in [here](https://xaviml.github.io/controllerx/advanced/predefined-actions). [ #78 ]
-- Support for Light Group integration. To know how entity groups work, read [here](https://xaviml.github.io/controllerx/advanced/entity-groups) [ #330 ]
-- Add option to read `unique_id` attribute for deCONZ integration. Read more about it [here](https://xaviml.github.io/controllerx/others/integrations#deconz) [ #333 ]
+- Add `volume_set` predefined action for `MediaPlayerController`. See [here](https://xaviml.github.io/controllerx/advanced/predefined-actions#media-player).
 
 <!--
 ## :hammer: Fixes
 -->
 
+<!--
 ## :clock2: Performance
-
-- Reduce calls to HA when entity is a group.
+-->
 
 <!--
 ## :scroll: Docs

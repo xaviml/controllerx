@@ -111,6 +111,21 @@ async def test_volume_down(
 
 
 @pytest.mark.asyncio
+async def test_volume_set(
+    sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
+):
+    monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return=0.5))
+    sut.feature_support._supported_features = MediaPlayerSupport.VOLUME_SET
+    called_service_patch = mocker.patch.object(sut, "call_service")
+
+    await sut.volume_set(0.8)
+
+    called_service_patch.assert_called_once_with(
+        "media_player/volume_set", entity_id=ENTITY_NAME, volume_level=0.8
+    )
+
+
+@pytest.mark.asyncio
 async def test_hold(sut: MediaPlayerController, mocker: MockerFixture):
     direction = "test_direction"
     prepare_volume_change_patch = mocker.patch.object(sut, "prepare_volume_change")

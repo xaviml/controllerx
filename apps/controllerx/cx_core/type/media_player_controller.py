@@ -32,6 +32,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             MediaPlayer.HOLD_VOLUME_UP: (self.hold, (Stepper.UP,)),
             MediaPlayer.CLICK_VOLUME_DOWN: self.volume_down,
             MediaPlayer.CLICK_VOLUME_UP: self.volume_up,
+            MediaPlayer.VOLUME_SET: self.volume_set,
             MediaPlayer.RELEASE: self.release,
             MediaPlayer.PLAY: self.play,
             MediaPlayer.PAUSE: self.pause,
@@ -95,6 +96,14 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         )
 
     @action
+    async def volume_set(self, volume_level: float) -> None:
+        await self.call_service(
+            "media_player/volume_set",
+            entity_id=self.entity.name,
+            volume_level=volume_level,
+        )
+
+    @action
     async def volume_up(self) -> None:
         await self.prepare_volume_change()
         await self.volume_change(Stepper.UP)
@@ -123,11 +132,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             self.volume_level, exceeded = self.volume_stepper.step(
                 self.volume_level, direction
             )
-            await self.call_service(
-                "media_player/volume_set",
-                entity_id=self.entity.name,
-                volume_level=self.volume_level,
-            )
+            await self.volume_set(self.volume_level)
             return exceeded
         else:
             if direction == Stepper.UP:

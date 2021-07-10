@@ -68,6 +68,7 @@ class MediaPlayer:
     HOLD_VOLUME_UP = "hold_volume_up"
     CLICK_VOLUME_DOWN = "click_volume_down"
     CLICK_VOLUME_UP = "click_volume_up"
+    VOLUME_SET = "volume_set"
     RELEASE = "release"
     PLAY = "play"
     PAUSE = "pause"
