@@ -15,7 +15,7 @@ pre-commit = "==2.13.0"
 commitizen = "==2.17.12"
 mypy = "==0.910"
 flake8 = "==3.9.2"
-isort = "==5.9.2"
+isort = "==5.9.3"
 controllerx = {path = ".", editable = true}
 
 [packages]
