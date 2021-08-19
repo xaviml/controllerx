@@ -3,6 +3,7 @@
 # because light_mode is auto.
 entity_state_attributes:
   color_temp: 200
+  supported_color_modes: ["xy", "rgb"]
 entity_state: "on"
 fired_actions: [arrow_right_hold, 0.450, arrow_right_release]
 expected_calls:

@@ -1,4 +1,4 @@
-from typing import Any, Dict, Tuple, Type, Union
+from typing import Any, Dict, Set, Tuple, Type, Union
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
@@ -84,34 +84,34 @@ async def test_init(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, color_mode, supported_features, expected_attribute, error_expected",
+    "attribute_input, color_mode, supported_color_modes, expected_attribute, error_expected",
     [
-        ("color", "auto", LightSupport.COLOR, "xy_color", False),
-        ("color", "auto", LightSupport.COLOR_TEMP, "color_temp", False),
+        ("color", "auto", {"xy", "rgb"}, "xy_color", False),
+        ("color", "auto", {"color_temp"}, "color_temp", False),
         (
             "color",
             "auto",
-            LightSupport.COLOR | LightSupport.COLOR_TEMP,
+            {"xy", "color_temp"},
             "xy_color",
             False,
         ),
-        ("brightness", "auto", 0, "brightness", False),
-        ("brightness", "auto", LightSupport.COLOR, "brightness", False),
+        ("brightness", "auto", set(), "brightness", False),
+        ("brightness", "auto", {"xy", "rgbw"}, "brightness", False),
         (
             "color",
             "color_temp",
-            LightSupport.COLOR | LightSupport.COLOR_TEMP,
+            {"rgbww", "color_temp"},
             "color_temp",
             False,
         ),
         (
             "color",
             "xy_color",
-            LightSupport.COLOR | LightSupport.COLOR_TEMP,
+            {"xy", "hs", "rgbww", "color_temp"},
             "xy_color",
             False,
         ),
-        ("color", "auto", 0, "not_important", True),
+        ("color", "auto", set(), "not_important", True),
     ],
 )
 @pytest.mark.asyncio
@@ -119,11 +119,11 @@ async def test_get_attribute(
     sut: LightController,
     attribute_input: str,
     color_mode: ColorMode,
-    supported_features: int,
+    supported_color_modes: Set[str],
     expected_attribute: str,
     error_expected: bool,
 ):
-    sut.feature_support._supported_features = supported_features
+    sut._supported_color_modes = supported_color_modes
     sut.entity = LightEntity(ENTITY_NAME, color_mode=color_mode)
 
     with wrap_execution(error_expected=error_expected, exception=ValueError):
@@ -131,6 +131,46 @@ async def test_get_attribute(
 
     if not error_expected:
         assert output == expected_attribute
+
+
+@pytest.mark.parametrize(
+    "supported_color_modes, expected_output",
+    [
+        ({"xy"}, True),
+        ({"rgb"}, True),
+        ({"xy", "rgb"}, True),
+        ({"color_temp"}, False),
+        ({}, False),
+    ],
+)
+@pytest.mark.asyncio
+async def test_is_color_supported(
+    sut: LightController, supported_color_modes: Set[str], expected_output: bool
+):
+    sut._supported_color_modes = supported_color_modes
+    output = await sut.is_color_supported()
+    assert output == expected_output
+
+
+@pytest.mark.parametrize(
+    "supported_color_modes, expected_output",
+    [
+        ({"color_temp"}, True),
+        ({"color_temp", "xy"}, True),
+        ({"color_temp", "brightness"}, True),
+        ({"xy"}, False),
+        ({"rgb"}, False),
+        ({"xy", "rgb"}, False),
+        ({}, False),
+    ],
+)
+@pytest.mark.asyncio
+async def test_is_colortemp_supported(
+    sut: LightController, supported_color_modes: Set[str], expected_output: bool
+):
+    sut._supported_color_modes = supported_color_modes
+    output = await sut.is_colortemp_supported()
+    assert output == expected_output
 
 
 @pytest.mark.parametrize(

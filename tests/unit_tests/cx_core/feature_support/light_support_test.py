@@ -9,23 +9,24 @@ from cx_core.type_controller import TypeController
 @pytest.mark.parametrize(
     "number, expected_supported_features",
     [
-        (1, [LightSupport.BRIGHTNESS]),
         (
-            57,
+            40,
             [
-                LightSupport.BRIGHTNESS,
                 LightSupport.FLASH,
-                LightSupport.COLOR,
                 LightSupport.TRANSITION,
             ],
         ),
         (
-            149,
+            4,
             [
-                LightSupport.BRIGHTNESS,
                 LightSupport.EFFECT,
-                LightSupport.COLOR,
-                LightSupport.WHITE_VALUE,
+            ],
+        ),
+        (
+            36,
+            [
+                LightSupport.EFFECT,
+                LightSupport.TRANSITION,
             ],
         ),
     ],

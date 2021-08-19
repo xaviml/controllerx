@@ -4,4 +4,4 @@ livingroom_controller:
   controller: sensor.livingroom_controller_action
   integration: z2m
   light: light.bedroom
-  supported_features: 0b1101111 # Everything except xy_color
+  supported_color_modes: ["color_temp"]

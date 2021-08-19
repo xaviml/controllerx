@@ -1,3 +1,6 @@
+entity_state_attributes:
+  supported_features: 36
+  supported_color_modes: ["xy"]
 entity_state: "off"
 fired_actions: [toggle, 1.0, toggle_hold]
 expected_calls:

@@ -36,7 +36,8 @@ This controller allows the devices to control light or group of lights. This all
 | `add_transition`             | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                                                                                            |
 | `add_transition_turn_toggle` | boolean              | True                                            | If `false` does not add transition when turning on/off or toggling, otherwise it adds the `transition` attribute to the call. See [FAQ #6](/controllerx/faq#6-light-is-not-turning-on-to-the-previous-brightness) for a further explanation on the use of this parameter. |
 | `color_wheel`                | string \| list       | `default_color_wheel`                           | It defines the color wheel used when changing the xy color either when click or hold actions are used. Check down to know more about the options.                                                                                                                         |
-| `supported_features`         | int                  | `0b10111111` or `191`                           | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                                               |
+| `supported_features`         | int                  | `0b101100` or `44`                            | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                                               |
+| `supported_color_modes`      | list                 | `["xy", "rgb"]`                                 | It overrides the `supported_color_modes` that can be found in light attributes. Values can be `color_temp`, `hs`, `xy`, `rgb`, `rgbw` and `rgbww`.                                                                                                                        |
 | `update_supported_features`  | boolean              | False                                           | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                                 |
 
 _\* Required fields_
@@ -121,15 +122,11 @@ This field will override the `supported_features` attribute from the entity (lig
 
 | feature     | value |
 | ----------- | ----- |
-| BRIGHTNESS  | 1     |
-| COLOR_TEMP  | 2     |
 | EFFECT      | 4     |
 | FLASH       | 8     |
-| COLOR       | 16    |
 | TRANSITION  | 32    |
-| WHITE_VALUE | 128   |
 
-If you want to express support for everything, the value is `0b10111111` or `191`.
+If you want to express support for everything, the value is `0b101100` or `44`.
 
 #### Media player
 

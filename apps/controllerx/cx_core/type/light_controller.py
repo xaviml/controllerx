@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Type, Union
 
 from cx_const import Light, PredefinedActionsMapping
 from cx_core.color_helper import get_color_wheel
@@ -29,6 +29,8 @@ ColorMode = str
 # Once the minimum supported version of Python is 3.8,
 # we can declare the ColorMode as a Literal
 # ColorMode = Literal["auto", "xy_color", "color_temp"]
+
+COLOR_MODES = {"hs", "xy", "rgb", "rgbw", "rgbww"}
 
 
 class LightEntity(Entity):
@@ -79,6 +81,8 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     domains = ["light"]
     entity_arg = "light"
 
+    _supported_color_modes: Optional[Set[str]]
+
     async def init(self) -> None:
         manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
         automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
@@ -92,6 +96,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self.color_wheel = get_color_wheel(
             self.args.get("color_wheel", "default_color_wheel")
         )
+        self._supported_color_modes = self.args.get("supported_color_modes")
 
         color_stepper = CircularStepper(
             0, len(self.color_wheel) - 1, len(self.color_wheel)
@@ -518,12 +523,33 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 return
             await self._on(color_temp=extra["action_color_temperature"])
 
+    @property
+    async def supported_color_modes(self) -> Set[str]:
+        if self._supported_color_modes is None or self.update_supported_features:
+            supported_color_modes: List[str] = await self.get_entity_state(
+                attribute="supported_color_modes"
+            )
+            if supported_color_modes is not None:
+                self._supported_color_modes = set(supported_color_modes)
+            else:
+                raise ValueError(
+                    f"`supported_color_modes` could not be read from `{self.entity}`. Entity might not be available."
+                )
+
+        return self._supported_color_modes
+
+    async def is_color_supported(self) -> bool:
+        return len(COLOR_MODES.intersection(await self.supported_color_modes)) > 0
+
+    async def is_colortemp_supported(self) -> bool:
+        return "color_temp" in await self.supported_color_modes
+
     async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
             if self.entity.color_mode == "auto":
-                if await self.feature_support.is_supported(LightSupport.COLOR):
+                if await self.is_color_supported():
                     return LightController.ATTRIBUTE_XY_COLOR
-                elif await self.feature_support.is_supported(LightSupport.COLOR_TEMP):
+                elif await self.is_colortemp_supported():
                     return LightController.ATTRIBUTE_COLOR_TEMP
                 else:
                     raise ValueError(
