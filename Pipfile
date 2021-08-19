@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "==21.6b0"
+black = "==21.7b0"
 pytest = "==6.2.4"
 pytest-asyncio = "==0.15.1"
 pytest-cov = "==2.12.1"
@@ -12,10 +12,10 @@ pytest-mock = "==3.6.1"
 pytest-timeout = "==1.4.2"
 mock = "==4.0.3"
 pre-commit = "==2.14.0"
-commitizen = "==2.17.12"
+commitizen = "==2.18.0"
 mypy = "==0.910"
 flake8 = "==3.9.2"
-isort = "==5.9.2"
+isort = "==5.9.3"
 controllerx = {path = ".", editable = true}
 
 [packages]
