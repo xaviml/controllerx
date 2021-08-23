@@ -1,0 +1,9 @@
+example_app:
+  module: controllerx
+  class: ZS23000278LightController
+  integration:
+    name: z2m
+    listen_to: mqtt
+  controller: my_controller
+  light: light.my_light
+  

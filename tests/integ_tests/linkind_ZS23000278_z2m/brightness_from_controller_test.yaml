@@ -1,0 +1,9 @@
+entity_state: "on"
+fired_actions: ["brightness_move_to_level"]
+extra:
+  action_level: 42
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      brightness: 42

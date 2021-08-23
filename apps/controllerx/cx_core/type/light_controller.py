@@ -390,6 +390,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             ),
             Light.XYCOLOR_FROM_CONTROLLER: self.xycolor_from_controller,
             Light.COLORTEMP_FROM_CONTROLLER: self.colortemp_from_controller,
+            Light.BRIGHTNESS_FROM_CONTROLLER: self.brightness_from_controller,
         }
 
     async def check_remove_transition(self, on_from_user: bool) -> bool:
@@ -522,6 +523,20 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 )
                 return
             await self._on(color_temp=extra["action_color_temperature"])
+
+    @action
+    async def brightness_from_controller(self, extra: Optional[EventData]) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_level" not in extra:
+                self.log(
+                    "`action_level` is not present in the MQTT payload",
+                    level="WARNING",
+                )
+                return
+            await self._on(brightness=extra["action_level"])
 
     @property
     async def supported_color_modes(self) -> Set[str]:

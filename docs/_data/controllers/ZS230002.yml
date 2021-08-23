@@ -1,0 +1,31 @@
+name: ZS230002 (Linkind)
+device_support:
+  - type: Light
+    domain: light
+    controller: ZS23000278LightController
+    delay: 350
+    mapping:
+      - "Click on/off → Toggle"
+      - "Click arrow up in dim mode → Brighten up (1 step)"
+      - "Click arrow down in dim mode → Dim down (1 step)"
+      - "Hold arrow up in dim mode → Brighten up"
+      - "Hold arrow down in dim mode → Dim down"
+      - "Click arrow up in color temp mode → Color temp up (1 step)"
+      - "Click arrow down in color temp mode → Color temp down (1 step)"
+
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - '"on" → Click on/off'
+      - '"off" → Click on/off'
+      - "brightness_step_up → Click arrow up in dim mode"
+      - "brightness_step_down → Click arrow down in dim mode"
+      - "brightness_move_to_level → "
+      - "brightness_move_up → Hold arrow up in dim mode"
+      - "brightness_move_down → Hold arrow down in dim mode"
+      - "brightness_stop → Release arrow up/down"
+      - "color_temperature_move → "
+      - "color_temperature_move_up → Click arrow up in color temp mode"
+      - "color_temperature_move_down → Click arrow down in color temp mode"
+      - "color_move → "
