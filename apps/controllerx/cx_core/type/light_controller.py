@@ -1,7 +1,7 @@
-from typing import Any, Dict, List, Optional, Set, Tuple, Type, Union
+from typing import Any, Dict, List, Optional, Set, Type, Union
 
 from cx_const import Light, PredefinedActionsMapping
-from cx_core.color_helper import get_color_wheel
+from cx_core.color_helper import Color, get_color_wheel
 from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
 from cx_core.integration import EventData
@@ -474,7 +474,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self,
         brightness: Optional[int] = None,
         color_temp: int = 370,  # 2700K light
-        xy_color: Tuple[float, float] = (0.323, 0.329),  # white colour
+        xy_color: Color = (0.323, 0.329),  # white colour
     ) -> None:
         attributes: Dict[Any, Any] = {}
         try:
@@ -482,7 +482,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
                 attributes[color_attribute] = color_temp
             else:
-                attributes[color_attribute] = xy_color
+                attributes[color_attribute] = list(xy_color)
         except ValueError:
             self.log(
                 "⚠️ `sync` action will only change brightness",
@@ -503,12 +503,12 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 )
                 return
             xy_color = extra["action_color"]
-            await self._on(xy_color=(xy_color["x"], xy_color["y"]))
+            await self._on(xy_color=[xy_color["x"], xy_color["y"]])
         elif isinstance(self.integration, DeCONZIntegration):
             if "xy" not in extra:
                 self.log("`xy` is not present in the deCONZ event", level="WARNING")
                 return
-            await self._on(xy_color=extra["xy"])
+            await self._on(xy_color=list(extra["xy"]))
 
     @action
     async def colortemp_from_controller(self, extra: Optional[EventData]) -> None:
@@ -693,7 +693,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             index_color, _ = stepper.step(self.index_color, direction)
             self.index_color = int(index_color)
             xy_color = self.color_wheel[self.index_color]
-            attributes = {attribute: xy_color}
+            attributes = {attribute: list(xy_color)}
             if action_type == "hold":
                 attributes["transition"] = self.delay / 1000
             await self._on(**attributes)

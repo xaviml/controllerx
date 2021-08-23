@@ -10,6 +10,6 @@ expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.livingroom
-      xy_color: !!python/tuple [0.323, 0.329]
+      xy_color: [0.323, 0.329]
       brightness: 255
 expected_calls_count: 2

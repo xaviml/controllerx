@@ -1,7 +1,7 @@
 entity_state: "off"
 fired_actions: ["move_to_color_temp"]
 extra:
-  args: !!python/tuple [230, 0]
+  args: [230, 0]
 expected_calls:
   - service: light/turn_on
     data:

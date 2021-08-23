@@ -1,9 +1,9 @@
 entity_state: "off"
 fired_actions: [6002]
 extra:
-  xy: !!python/tuple [0.12, 0.08]
+  xy: [0.12, 0.08]
 expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      xy_color: !!python/tuple [0.12, 0.08]
+      xy_color: [0.12, 0.08]

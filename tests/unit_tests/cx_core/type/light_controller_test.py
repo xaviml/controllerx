@@ -497,7 +497,7 @@ async def test_on_min(sut: LightController, mocker: MockerFixture):
     "max_brightness, color_attribute, expected_attributes",
     [
         (255, "color_temp", {"brightness": 255, "color_temp": 370}),
-        (255, "xy_color", {"brightness": 255, "xy_color": (0.323, 0.329)}),
+        (255, "xy_color", {"brightness": 255, "xy_color": [0.323, 0.329]}),
         (120, "error", {"brightness": 120}),
     ],
 )
