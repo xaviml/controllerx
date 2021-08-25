@@ -27,11 +27,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: python
-
     # Setup Python (faster than using Python container)
     - name: Setup Python
       uses: actions/setup-python@v2
@@ -46,7 +41,11 @@ jobs:
       run: |
         pipenv install --deploy --dev
 
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: python
+        setup-python-dependencies: false
+        
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
-      with:
-        setup-python-dependencies: false
