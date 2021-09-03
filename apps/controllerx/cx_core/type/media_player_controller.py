@@ -1,12 +1,12 @@
-from typing import Any, Dict, Optional, Type
+from typing import Any, Dict, List, Optional, Type
 
-from cx_const import MediaPlayer, PredefinedActionsMapping
+from cx_const import MediaPlayer, Number, PredefinedActionsMapping
 from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.release_hold_controller import ReleaseHoldController
-from cx_core.stepper import Stepper
-from cx_core.stepper.circular_stepper import CircularStepper
-from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.stepper import MinMax, Stepper
+from cx_core.stepper.loop_stepper import LoopStepper
+from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type_controller import Entity, TypeController
 
 DEFAULT_VOLUME_STEPS = 10
@@ -19,7 +19,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     async def init(self) -> None:
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
-        self.volume_stepper = MinMaxStepper(0, 1, volume_steps)
+        self.volume_stepper = StopStepper(MinMax(0, 1), volume_steps)
         self.volume_level = 0.0
         await super().init()
 
@@ -49,7 +49,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     async def change_source_list(self, direction: str) -> None:
         entity_states = await self.get_entity_state(attribute="all")
         entity_attributes = entity_states["attributes"]
-        source_list = entity_attributes.get("source_list")
+        source_list: List[str] = entity_attributes.get("source_list")
         if len(source_list) == 0 or source_list is None:
             self.log(
                 f"⚠️ There is no `source_list` parameter in `{self.entity}`",
@@ -58,16 +58,19 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             )
             return
         source = entity_attributes.get("source")
+        new_index_source: Number
         if source is None:
             new_index_source = 0
         else:
             index_source = source_list.index(source)
-            source_stepper = CircularStepper(0, len(source_list) - 1, len(source_list))
+            source_stepper = LoopStepper(
+                MinMax(0, len(source_list) - 1), len(source_list)
+            )
             new_index_source, _ = source_stepper.step(index_source, direction)
         await self.call_service(
             "media_player/select_source",
             entity_id=self.entity.name,
-            source=source_list[new_index_source],
+            source=source_list[int(new_index_source)],
         )
 
     @action

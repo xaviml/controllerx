@@ -1,21 +1,19 @@
-from typing import Tuple
-
 import pytest
-from cx_core.stepper import Stepper
-from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.stepper import MinMax, Stepper
+from cx_core.stepper.stop_stepper import StopStepper
 from typing_extensions import Literal
 
 
 @pytest.mark.parametrize(
-    "minmax, value, direction, previous_direction, expected_direction, expected_new_previous_direction",
+    "min_max, value, direction, previous_direction, expected_direction, expected_new_previous_direction",
     [
-        ((0, 10), 10, Stepper.DOWN, None, Stepper.DOWN, None),
-        ((0, 10), 11, Stepper.DOWN, None, Stepper.DOWN, None),
-        ((0, 10), -1, Stepper.DOWN, None, Stepper.DOWN, None),
-        ((0, 10), 5, Stepper.UP, None, Stepper.UP, None),
-        ((0, 10), 5, Stepper.UP, None, Stepper.UP, None),
+        (MinMax(0, 10), 10, Stepper.DOWN, None, Stepper.DOWN, None),
+        (MinMax(0, 10), 11, Stepper.DOWN, None, Stepper.DOWN, None),
+        (MinMax(0, 10), -1, Stepper.DOWN, None, Stepper.DOWN, None),
+        (MinMax(0, 10), 5, Stepper.UP, None, Stepper.UP, None),
+        (MinMax(0, 10), 5, Stepper.UP, None, Stepper.UP, None),
         (
-            (0, 10),
+            MinMax(0, 10),
             5,
             Stepper.TOGGLE,
             Stepper.TOGGLE_DOWN,
@@ -23,7 +21,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_UP,
         ),
         (
-            (0, 10),
+            MinMax(0, 10),
             5,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -31,7 +29,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_DOWN,
         ),
         (
-            (0, 10),
+            MinMax(0, 10),
             10,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -39,7 +37,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_DOWN,
         ),
         (
-            (0, 10),
+            MinMax(0, 10),
             10,
             Stepper.TOGGLE,
             Stepper.TOGGLE_DOWN,
@@ -47,7 +45,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_DOWN,
         ),
         (
-            (0, 10),
+            MinMax(0, 10),
             0,
             Stepper.TOGGLE,
             Stepper.TOGGLE_DOWN,
@@ -55,7 +53,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_UP,
         ),
         (
-            (0, 10),
+            MinMax(0, 10),
             0,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -63,7 +61,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_UP,
         ),
         (
-            (1, 255),
+            MinMax(1, 255),
             255,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -71,7 +69,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_DOWN,
         ),
         (
-            (1, 255),
+            MinMax(1, 255),
             254,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -79,7 +77,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_DOWN,
         ),
         (
-            (1, 255),
+            MinMax(1, 255),
             253,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -87,7 +85,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_DOWN,
         ),
         (
-            (1, 255),
+            MinMax(1, 255),
             1,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -95,7 +93,7 @@ from typing_extensions import Literal
             Stepper.TOGGLE_UP,
         ),
         (
-            (1, 255),
+            MinMax(1, 255),
             5,
             Stepper.TOGGLE,
             Stepper.TOGGLE_UP,
@@ -104,15 +102,15 @@ from typing_extensions import Literal
         ),
     ],
 )
-def test_minmax_stepper_get_direction(
-    minmax: Tuple[int, int],
+def test_stop_stepper_get_direction(
+    min_max: MinMax,
     value: int,
     direction: str,
     previous_direction: str,
     expected_direction: str,
     expected_new_previous_direction: str,
 ):
-    stepper = MinMaxStepper(*minmax, 10)
+    stepper = StopStepper(min_max, 10)
     stepper.previous_direction = previous_direction
 
     # SUT
@@ -124,29 +122,29 @@ def test_minmax_stepper_get_direction(
 
 
 @pytest.mark.parametrize(
-    "minmax, value, steps, direction, expected_value, expected_exceeded",
+    "min_max, value, steps, direction, expected_value, expected_exceeded",
     [
-        ((0, 10), 5, 10, Stepper.DOWN, 4, False),
-        ((0, 10), 5, 10, Stepper.UP, 6, False),
-        ((0, 10), 1, 10, Stepper.DOWN, 0, True),
-        ((0, 10), 9, 10, Stepper.UP, 10, True),
-        ((0, 10), 0, 10, Stepper.DOWN, 0, True),
-        ((0, 10), 10, 10, Stepper.UP, 10, True),
-        ((0, 10), -1, 10, Stepper.DOWN, 0, True),
-        ((0, 10), 11, 10, Stepper.UP, 10, True),
-        ((0, 10), 6, 5, Stepper.DOWN, 4, False),
-        ((0, 10), 4, 5, Stepper.UP, 6, False),
+        (MinMax(0, 10), 5, 10, Stepper.DOWN, 4, False),
+        (MinMax(0, 10), 5, 10, Stepper.UP, 6, False),
+        (MinMax(0, 10), 1, 10, Stepper.DOWN, 0, True),
+        (MinMax(0, 10), 9, 10, Stepper.UP, 10, True),
+        (MinMax(0, 10), 0, 10, Stepper.DOWN, 0, True),
+        (MinMax(0, 10), 10, 10, Stepper.UP, 10, True),
+        (MinMax(0, 10), -1, 10, Stepper.DOWN, 0, True),
+        (MinMax(0, 10), 11, 10, Stepper.UP, 10, True),
+        (MinMax(0, 10), 6, 5, Stepper.DOWN, 4, False),
+        (MinMax(0, 10), 4, 5, Stepper.UP, 6, False),
     ],
 )
-def test_minmax_stepper_step(
-    minmax: Tuple[int, int],
+def test_stop_stepper_step(
+    min_max: MinMax,
     value: int,
     steps: int,
     direction: Literal["up", "down"],
     expected_value: int,
     expected_exceeded: bool,
 ):
-    stepper = MinMaxStepper(*minmax, steps)
+    stepper = StopStepper(min_max, steps)
 
     new_value, exceeded = stepper.step(value, direction)
 

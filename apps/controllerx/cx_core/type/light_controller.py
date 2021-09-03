@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Optional, Set, Type, Union
+from functools import lru_cache
+from typing import Any, Dict, List, Optional, Set, Type
 
-from cx_const import Light, PredefinedActionsMapping
+from cx_const import Light, Number, PredefinedActionsMapping
 from cx_core.color_helper import Color, get_color_wheel
 from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
@@ -8,9 +9,10 @@ from cx_core.integration import EventData
 from cx_core.integration.deconz import DeCONZIntegration
 from cx_core.integration.z2m import Z2MIntegration
 from cx_core.release_hold_controller import ReleaseHoldController
-from cx_core.stepper import Stepper
-from cx_core.stepper.circular_stepper import CircularStepper
-from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.stepper import MinMax, Stepper
+from cx_core.stepper.bounce_stepper import BounceStepper
+from cx_core.stepper.loop_stepper import LoopStepper
+from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type_controller import Entity, TypeController
 
 DEFAULT_MANUAL_STEPS = 10
@@ -31,6 +33,11 @@ ColorMode = str
 # ColorMode = Literal["auto", "xy_color", "color_temp"]
 
 COLOR_MODES = {"hs", "xy", "rgb", "rgbw", "rgbww"}
+STEPPER_MODES: Dict[str, Type[Stepper]] = {
+    "stop": StopStepper,
+    "loop": LoopStepper,
+    "bounce": BounceStepper,
+}
 
 
 class LightEntity(Entity):
@@ -78,53 +85,45 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     smooth_power_on_check: bool
     remove_transition_check: bool
 
+    manual_steps: Number
+    automatic_steps: Number
+    min_max_attributes: Dict[str, MinMax]
+    color_stepper: LoopStepper
+
     domains = ["light"]
     entity_arg = "light"
 
     _supported_color_modes: Optional[Set[str]]
 
     async def init(self) -> None:
-        manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
-        automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
-        self.min_brightness = self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS)
-        self.max_brightness = self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS)
-        self.min_white_value = self.args.get("min_white_value", DEFAULT_MIN_WHITE_VALUE)
-        self.max_white_value = self.args.get("max_white_value", DEFAULT_MAX_WHITE_VALUE)
-        self.min_color_temp = self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP)
-        self.max_color_temp = self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP)
+        self.manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
+        self.automatic_steps = self.args.get("automatic_steps", DEFAULT_AUTOMATIC_STEPS)
+
+        self.min_max_attributes = {
+            self.ATTRIBUTE_BRIGHTNESS: MinMax(
+                self.args.get("min_brightness", DEFAULT_MIN_BRIGHTNESS),
+                self.args.get("max_brightness", DEFAULT_MAX_BRIGHTNESS),
+            ),
+            self.ATTRIBUTE_WHITE_VALUE: MinMax(
+                self.args.get("min_white_value", DEFAULT_MIN_WHITE_VALUE),
+                self.args.get("max_white_value", DEFAULT_MAX_WHITE_VALUE),
+            ),
+            self.ATTRIBUTE_COLOR_TEMP: MinMax(
+                self.args.get("min_color_temp", DEFAULT_MIN_COLOR_TEMP),
+                self.args.get("max_color_temp", DEFAULT_MAX_COLOR_TEMP),
+            ),
+        }
+
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         self.color_wheel = get_color_wheel(
             self.args.get("color_wheel", "default_color_wheel")
         )
         self._supported_color_modes = self.args.get("supported_color_modes")
 
-        color_stepper = CircularStepper(
-            0, len(self.color_wheel) - 1, len(self.color_wheel)
+        self.color_stepper = LoopStepper(
+            MinMax(0, len(self.color_wheel) - 1), len(self.color_wheel)
         )
-        self.manual_steppers: Dict[str, Stepper] = {
-            LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
-                self.min_brightness, self.max_brightness, manual_steps
-            ),
-            LightController.ATTRIBUTE_WHITE_VALUE: MinMaxStepper(
-                self.min_white_value, self.max_white_value, manual_steps
-            ),
-            LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
-                self.min_color_temp, self.max_color_temp, manual_steps
-            ),
-            LightController.ATTRIBUTE_XY_COLOR: color_stepper,
-        }
-        self.automatic_steppers: Dict[str, Stepper] = {
-            LightController.ATTRIBUTE_BRIGHTNESS: MinMaxStepper(
-                self.min_brightness, self.max_brightness, automatic_steps
-            ),
-            LightController.ATTRIBUTE_WHITE_VALUE: MinMaxStepper(
-                self.min_white_value, self.max_white_value, automatic_steps
-            ),
-            LightController.ATTRIBUTE_COLOR_TEMP: MinMaxStepper(
-                self.min_color_temp, self.max_color_temp, automatic_steps
-            ),
-            LightController.ATTRIBUTE_XY_COLOR: color_stepper,
-        }
+
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
         )
@@ -432,12 +431,10 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     async def _set_value(self, attribute: str, fraction: float) -> None:
         fraction = max(0, min(fraction, 1))
-        stepper = self.automatic_steppers[attribute]
-        if isinstance(stepper, MinMaxStepper):
-            min_ = stepper.minmax.min
-            max_ = stepper.minmax.max
-            value = (max_ - min_) * fraction + min_
-            await self._on(**{attribute: value})
+        min_ = self.min_max_attributes[attribute].min
+        max_ = self.min_max_attributes[attribute].max
+        value = (max_ - min_) * fraction + min_
+        await self._on(**{attribute: value})
 
     @action
     async def set_value(self, attribute: str, fraction: float) -> None:
@@ -445,15 +442,11 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     @action
     async def toggle_full(self, attribute: str) -> None:
-        stepper = self.automatic_steppers[attribute]
-        if isinstance(stepper, MinMaxStepper):
-            await self._toggle(**{attribute: stepper.minmax.max})
+        await self._toggle(**{attribute: self.min_max_attributes[attribute].max})
 
     @action
     async def toggle_min(self, attribute: str) -> None:
-        stepper = self.automatic_steppers[attribute]
-        if isinstance(stepper, MinMaxStepper):
-            await self._toggle(**{attribute: stepper.minmax.min})
+        await self._toggle(**{attribute: self.min_max_attributes[attribute].min})
 
     async def _on_full(self, attribute: str) -> None:
         await self._set_value(attribute, 1)
@@ -489,7 +482,13 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 level="WARNING",
                 ascii_encode=False,
             )
-        await self._on(**attributes, brightness=brightness or self.max_brightness)
+        await self._on(
+            **attributes,
+            brightness=(
+                brightness
+                or self.min_max_attributes[LightController.ATTRIBUTE_BRIGHTNESS].max
+            ),
+        )
 
     @action
     async def xycolor_from_controller(self, extra: Optional[EventData]) -> None:
@@ -559,6 +558,14 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def is_colortemp_supported(self) -> bool:
         return "color_temp" in await self.supported_color_modes
 
+    @lru_cache(maxsize=None)
+    def get_stepper(self, attribute: str, steps: Number, mode: str) -> Stepper:
+        if mode not in STEPPER_MODES:
+            # TODO
+            raise ValueError("ERROR MESSAGE")
+        stepper_cls = STEPPER_MODES[mode]
+        return stepper_cls(self.min_max_attributes[attribute], steps)
+
     async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
             if self.entity.color_mode == "auto":
@@ -575,7 +582,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         else:
             return attribute
 
-    async def get_value_attribute(self, attribute: str) -> Union[float, int]:
+    async def get_value_attribute(self, attribute: str) -> Number:
         if self.smooth_power_on_check:
             return 0
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
@@ -634,44 +641,43 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         return await super().before_action(action, *args, **kwargs) and to_return
 
     @action
-    async def click(self, attribute: str, direction: str) -> None:
+    async def click(self, attribute: str, direction: str, mode: str = "stop") -> None:
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         await self.change_light_state(
             self.value_attribute,
             attribute,
             direction,
-            self.manual_steppers[attribute],
+            self.get_stepper(attribute, self.manual_steps, mode),
             "click",
         )
 
     @action
-    async def hold(self, attribute: str, direction: str) -> None:  # type: ignore
+    async def hold(self, attribute: str, direction: str, mode: str = "stop") -> None:  # type: ignore
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         self.log(
             f"Attribute value before running the hold action: {self.value_attribute}",
             level="DEBUG",
         )
+        stepper = self.get_stepper(attribute, self.automatic_steps, mode)
         if direction == Stepper.TOGGLE:
             self.log(
-                f"Previous direction: {self.automatic_steppers[attribute].previous_direction}",
+                f"Previous direction: {stepper.previous_direction}",
                 level="DEBUG",
             )
-        direction = self.automatic_steppers[attribute].get_direction(
-            self.value_attribute, direction
-        )
+        direction = stepper.get_direction(self.value_attribute, direction)
         self.log(f"Going direction: {direction}", level="DEBUG")
-        await super().hold(attribute, direction)
+        await super().hold(attribute, direction, stepper)
 
-    async def hold_loop(self, attribute: str, direction: str) -> bool:  # type: ignore
+    async def hold_loop(self, attribute: str, direction: str, stepper: Stepper) -> bool:  # type: ignore
         if self.value_attribute is None:
             return True
         return await self.change_light_state(
             self.value_attribute,
             attribute,
             direction,
-            self.automatic_steppers[attribute],
+            stepper,
             "hold",
         )
 
@@ -690,7 +696,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         """
         attributes: Dict[str, Any]
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            index_color, _ = stepper.step(self.index_color, direction)
+            index_color, _ = self.color_stepper.step(self.index_color, direction)
             self.index_color = int(index_color)
             xy_color = self.color_wheel[self.index_color]
             attributes = {attribute: list(xy_color)}

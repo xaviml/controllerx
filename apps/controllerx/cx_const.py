@@ -12,6 +12,8 @@ CustomAction = Union[str, Dict[str, Any]]
 CustomActions = Union[List[CustomAction], CustomAction]
 CustomActionsMapping = Dict[ActionEvent, CustomActions]
 
+Number = Union[int, float]
+
 
 class Light:
     ON = "on"

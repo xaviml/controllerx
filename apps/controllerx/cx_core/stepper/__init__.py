@@ -1,38 +1,43 @@
 import abc
-from typing import Tuple, Union
+from typing import Tuple
+
+from cx_const import Number
 
 
 class MinMax:
-    def __init__(self, min_: float, max_: float, margin=0.05) -> None:
-        self._min = min_
-        self._max = max_
-        self.margin_dist = (max_ - min_) * margin
+    def __init__(self, min: Number, max: Number, margin: float = 0.05) -> None:
+        self._min = min
+        self._max = max
+        self.margin_dist = (max - min) * margin
 
     @property
-    def min(self) -> float:
+    def min(self) -> Number:
         return self._min
 
     @property
-    def max(self) -> float:
+    def max(self) -> Number:
         return self._max
 
-    def is_min(self, value: float) -> bool:
+    def is_min(self, value: Number) -> bool:
         return self._min == value
 
-    def is_max(self, value: float) -> bool:
+    def is_max(self, value: Number) -> bool:
         return self._max == value
 
-    def is_between(self, value: float) -> bool:
+    def is_between(self, value: Number) -> bool:
         return self._min < value < self._max
 
-    def in_min_boundaries(self, value: float) -> bool:
+    def in_min_boundaries(self, value: Number) -> bool:
         return self._min <= value <= (self._min + self.margin_dist)
 
-    def in_max_boundaries(self, value: float) -> bool:
+    def in_max_boundaries(self, value: Number) -> bool:
         return (self._max - self.margin_dist) <= value <= self._max
 
-    def clip(self, value: float) -> float:
+    def clip(self, value: Number) -> Number:
         return max(self._min, min(value, self._max))
+
+    def __repr__(self) -> str:
+        return f"MinMax({self.min}, {self.max})"
 
 
 class Stepper(abc.ABC):
@@ -43,10 +48,15 @@ class Stepper(abc.ABC):
     TOGGLE = "toggle"
     sign_mapping = {UP: 1, DOWN: -1, TOGGLE_UP: 1, TOGGLE_DOWN: -1}
 
-    def __init__(self) -> None:
-        self.previous_direction = Stepper.TOGGLE_DOWN
+    previous_direction: str = TOGGLE_DOWN
+    min_max: MinMax
+    steps: Number
 
-    def get_direction(self, value: float, direction: str) -> str:
+    def __init__(self, min_max: MinMax, steps: Number) -> None:
+        self.min_max = min_max
+        self.steps = steps
+
+    def get_direction(self, value: Number, direction: str) -> str:
         if direction == Stepper.TOGGLE:
             direction = (
                 Stepper.TOGGLE_UP
@@ -60,7 +70,7 @@ class Stepper(abc.ABC):
         return Stepper.sign_mapping[direction]
 
     @abc.abstractmethod
-    def step(self, value: float, direction: str) -> Tuple[Union[int, float], bool]:
+    def step(self, value: Number, direction: str) -> Tuple[Number, bool]:
         """
         This function updates the value according to the steps
         that needs to take and returns the new value and True

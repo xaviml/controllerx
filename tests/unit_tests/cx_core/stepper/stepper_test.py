@@ -1,11 +1,15 @@
-from typing import Tuple, Union
+from typing import Tuple
 
 import pytest
-from cx_core.stepper import Stepper
+from cx_const import Number
+from cx_core.stepper import MinMax, Stepper
 
 
 class FakeStepper(Stepper):
-    def step(self, value: float, direction: str) -> Tuple[Union[int, float], bool]:
+    def __init__(self) -> None:
+        super().__init__(MinMax(0, 1), 1)
+
+    def step(self, value: Number, direction: str) -> Tuple[Number, bool]:
         return 0, True
 
 

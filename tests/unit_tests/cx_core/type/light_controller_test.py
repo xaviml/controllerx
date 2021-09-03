@@ -1,13 +1,13 @@
-from typing import Any, Dict, Set, Tuple, Type, Union
+from typing import Any, Dict, Set, Union
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from cx_core import LightController, ReleaseHoldController
 from cx_core.controller import Controller
 from cx_core.feature_support.light import LightSupport
-from cx_core.stepper import Stepper
-from cx_core.stepper.circular_stepper import CircularStepper
-from cx_core.stepper.minmax_stepper import MinMaxStepper
+from cx_core.stepper import MinMax, Stepper
+from cx_core.stepper.loop_stepper import LoopStepper
+from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type.light_controller import ColorMode, LightEntity
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
@@ -217,17 +217,25 @@ async def test_get_value_attribute(
             50,
             LightController.ATTRIBUTE_BRIGHTNESS,
             Stepper.UP,
-            MinMaxStepper(1, 255, 254),
+            StopStepper(MinMax(1, 255), 254),
             False,
             False,
             51,
         ),
-        (0, "xy_color", Stepper.UP, CircularStepper(0, 30, 30), False, False, 0),
+        (
+            0,
+            "xy_color",
+            Stepper.UP,
+            LoopStepper(MinMax(0, 30), 30),
+            False,
+            False,
+            0,
+        ),
         (
             499,
             "color_temp",
             Stepper.UP,
-            MinMaxStepper(153, 500, 10),
+            StopStepper(MinMax(153, 500), 10),
             False,
             True,
             500,
@@ -236,7 +244,7 @@ async def test_get_value_attribute(
             0,
             LightController.ATTRIBUTE_BRIGHTNESS,
             Stepper.UP,
-            MinMaxStepper(1, 255, 254),
+            StopStepper(MinMax(1, 255), 254),
             True,
             True,
             0,
@@ -250,7 +258,7 @@ async def test_change_light_state(
     old: int,
     attribute: str,
     direction: Literal["up", "down"],
-    stepper: MinMaxStepper,
+    stepper: StopStepper,
     smooth_power_on_check: bool,
     stop_expected: bool,
     expected_value_attribute: int,
@@ -260,8 +268,6 @@ async def test_change_light_state(
     sut.value_attribute = old
     sut.smooth_power_on_check = smooth_power_on_check
     sut.remove_transition_check = False
-    sut.manual_steppers = {attribute: stepper}
-    sut.automatic_steppers = {attribute: stepper}
     sut.feature_support._supported_features = 0
 
     stop = await sut.change_light_state(old, attribute, direction, stepper, "hold")
@@ -380,11 +386,11 @@ async def test_toggle(sut: LightController, mocker: MockerFixture):
 
 
 @pytest.mark.parametrize(
-    "attribute, stepper, expected_attribute_value",
+    "attribute, min_max, expected_attribute_value",
     [
-        ("brightness", MinMaxStepper(1, 255, 1), 255),
-        ("color_temp", MinMaxStepper(153, 500, 1), 500),
-        ("test", MinMaxStepper(1, 10, 1), 10),
+        ("brightness", MinMax(1, 255), 255),
+        ("color_temp", MinMax(153, 500), 500),
+        ("test", MinMax(1, 10), 10),
     ],
 )
 @pytest.mark.asyncio
@@ -392,11 +398,11 @@ async def test_toggle_full(
     sut: LightController,
     mocker: MockerFixture,
     attribute: str,
-    stepper: MinMaxStepper,
+    min_max: MinMax,
     expected_attribute_value: int,
 ):
     call_service_patch = mocker.patch.object(sut, "call_service")
-    sut.automatic_steppers = {attribute: stepper}
+    sut.min_max_attributes = {attribute: min_max}
 
     await sut.toggle_full(attribute)
 
@@ -407,11 +413,11 @@ async def test_toggle_full(
 
 
 @pytest.mark.parametrize(
-    "attribute, stepper, expected_attribute_value",
+    "attribute, min_max, expected_attribute_value",
     [
-        ("brightness", MinMaxStepper(1, 255, 1), 1),
-        ("color_temp", MinMaxStepper(153, 500, 1), 153),
-        ("test", MinMaxStepper(1, 10, 1), 1),
+        ("brightness", MinMax(1, 255), 1),
+        ("color_temp", MinMax(153, 500), 153),
+        ("test", MinMax(1, 10), 1),
     ],
 )
 @pytest.mark.asyncio
@@ -419,11 +425,11 @@ async def test_toggle_min(
     sut: LightController,
     mocker: MockerFixture,
     attribute: str,
-    stepper: MinMaxStepper,
+    min_max: MinMax,
     expected_attribute_value: int,
 ):
     call_service_patch = mocker.patch.object(sut, "call_service")
-    sut.automatic_steppers = {attribute: stepper}
+    sut.min_max_attributes = {attribute: min_max}
 
     await sut.toggle_min(attribute)
 
@@ -434,37 +440,32 @@ async def test_toggle_min(
 
 
 @pytest.mark.parametrize(
-    "stepper_cls, min_max, fraction, expected_calls, expected_value",
+    "min_max, fraction, expected_value",
     [
-        (MinMaxStepper, (1, 255), 0, 1, 1),
-        (MinMaxStepper, (1, 255), 1, 1, 255),
-        (MinMaxStepper, (0, 10), 0.5, 1, 5),
-        (MinMaxStepper, (0, 100), 0.2, 1, 20),
-        (MinMaxStepper, (0, 100), -1, 1, 0),
-        (MinMaxStepper, (0, 100), 1.5, 1, 100),
-        (CircularStepper, (0, 100), 0, 0, None),
+        (MinMax(1, 255), 0, 1),
+        (MinMax(1, 255), 1, 255),
+        (MinMax(0, 10), 0.5, 5),
+        (MinMax(0, 100), 0.2, 20),
+        (MinMax(0, 100), -1, 0),
+        (MinMax(0, 100), 1.5, 100),
+        (MinMax(0, 100), 0, 0),
     ],
 )
 @pytest.mark.asyncio
 async def test_set_value(
     sut: LightController,
     mocker: MockerFixture,
-    stepper_cls: Type[Union[MinMaxStepper, CircularStepper]],
-    min_max: Tuple[int, int],
+    min_max: MinMax,
     fraction: float,
-    expected_calls: int,
     expected_value: int,
 ):
     attribute = "test_attribute"
     on_patch = mocker.patch.object(sut, "_on")
-    stepper = stepper_cls(min_max[0], min_max[1], 1)
-    sut.automatic_steppers = {attribute: stepper}
+    sut.min_max_attributes = {attribute: min_max}
 
     await sut.set_value(attribute, fraction)
 
-    assert on_patch.call_count == expected_calls
-    if expected_calls > 0:
-        on_patch.assert_called_with(**{attribute: expected_value})
+    on_patch.assert_called_once_with(**{attribute: expected_value})
 
 
 @pytest.mark.asyncio
@@ -472,8 +473,7 @@ async def test_on_full(sut: LightController, mocker: MockerFixture):
     attribute = "test_attribute"
     max_ = 10
     on_patch = mocker.patch.object(sut, "_on")
-    stepper = MinMaxStepper(1, max_, 10)
-    sut.automatic_steppers = {attribute: stepper}
+    sut.min_max_attributes = {attribute: MinMax(1, max_)}
 
     await sut.on_full(attribute)
 
@@ -485,8 +485,7 @@ async def test_on_min(sut: LightController, mocker: MockerFixture):
     attribute = "test_attribute"
     min_ = 1
     on_patch = mocker.patch.object(sut, "_on")
-    stepper = MinMaxStepper(min_, 10, 10)
-    sut.automatic_steppers = {attribute: stepper}
+    sut.min_max_attributes = {attribute: MinMax(min_, 10)}
 
     await sut.on_min(attribute)
 
@@ -510,7 +509,9 @@ async def test_sync(
     color_attribute: str,
     expected_attributes: Dict[str, Any],
 ):
-    sut.max_brightness = max_brightness
+    sut.min_max_attributes[LightController.ATTRIBUTE_BRIGHTNESS] = MinMax(
+        0, max_brightness
+    )
     sut.add_transition_turn_toggle = True
     sut.feature_support._supported_features = LightSupport.TRANSITION
 
@@ -564,8 +565,8 @@ async def test_click(
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")
     sut.smooth_power_on = smooth_power_on
     sut.feature_support._supported_features = 0
-    stepper = MinMaxStepper(1, 10, 10)
-    sut.manual_steppers = {attribute_input: stepper}
+
+    mocker.patch.object(sut, "get_stepper", return_value=StopStepper(MinMax(1, 10), 10))
 
     await sut.click(attribute_input, direction_input)
 
@@ -622,16 +623,18 @@ async def test_hold(
     )
     sut.smooth_power_on = smooth_power_on
     sut.feature_support._supported_features = 0
-    stepper = MinMaxStepper(1, 10, 10)
+    stepper = StopStepper(MinMax(1, 10), 10)
     stepper.previous_direction = previous_direction
-    sut.automatic_steppers = {attribute_input: stepper}
+    mocker.patch.object(sut, "get_stepper", return_value=stepper)
     super_hold_patch = mocker.patch.object(ReleaseHoldController, "hold")
 
     await sut.hold(attribute_input, direction_input)
 
     assert super_hold_patch.call_count == expected_calls
     if expected_calls > 0:
-        super_hold_patch.assert_called_with(attribute_input, expected_direction)
+        super_hold_patch.assert_called_with(
+            attribute_input, expected_direction, stepper
+        )
 
 
 @pytest.mark.parametrize("value_attribute", [10, None])
@@ -644,10 +647,9 @@ async def test_hold_loop(
     sut.smooth_power_on_check = False
     sut.value_attribute = value_attribute
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")
-    stepper = MinMaxStepper(1, 10, 10)
-    sut.automatic_steppers = {attribute: stepper}
+    stepper = StopStepper(MinMax(1, 10), 10)
 
-    exceeded = await sut.hold_loop(attribute, direction)
+    exceeded = await sut.hold_loop(attribute, direction, stepper)
 
     if value_attribute is None:
         assert exceeded
