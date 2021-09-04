@@ -61,26 +61,30 @@ class Stepper(abc.ABC):
     min_max: MinMax
     steps: Number
 
+    @staticmethod
+    def invert_direction(direction: str) -> str:
+        return Stepper.UP if direction == Stepper.DOWN else Stepper.DOWN
+
+    @staticmethod
+    def sign(direction: str) -> int:
+        return Stepper.sign_mapping[direction]
+
     def __init__(self, min_max: MinMax, steps: Number) -> None:
         self.min_max = min_max
         self.steps = steps
 
     def get_direction(self, value: Number, direction: str) -> str:
         if direction == Stepper.TOGGLE:
-            direction = (
-                Stepper.UP if self.previous_direction == Stepper.DOWN else Stepper.DOWN
-            )
+            direction = Stepper.invert_direction(self.previous_direction)
             self.previous_direction = direction
         return direction
-
-    def sign(self, direction: str) -> int:
-        return Stepper.sign_mapping[direction]
 
     @abc.abstractmethod
     def step(self, value: Number, direction: str) -> StepperOutput:
         """
         This function updates the value according to the steps
-        that needs to take and returns the new value and True
-        if the step exceeds the boundaries.
+        that needs to take and returns the new value together with
+        the new direction it will need to go. If next_direction is
+        None, the loop will stop executing.
         """
         raise NotImplementedError

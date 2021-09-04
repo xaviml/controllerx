@@ -1,0 +1,37 @@
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.livingroom
+  merge_mapping:
+    brightness_up_hold:
+      action: hold
+      attribute: brightness
+      direction: up
+      steps: 10
+    brightness_down_hold:
+      action: hold
+      attribute: color_temp
+      direction: down
+      mode: loop
+      steps: 10
+    arrow_right_hold:
+      action: hold
+      attribute: white_value
+      direction: up
+      mode: bounce
+      steps: 10
+    brightness_up_click:
+      action: click
+      attribute: brightness
+      direction: up
+      steps: 10
+    arrow_right_click:
+      action: click
+      attribute: color_temp
+      direction: up
+      mode: loop
+      steps: 10
+
+

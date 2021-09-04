@@ -186,11 +186,16 @@ class Controller(Hass, Mqtt):
             if key in allowed_actions
         }
 
-    def get_option(self, value: str, options: List[str]) -> str:
+    def get_option(
+        self, value: str, options: List[str], ctx: Optional[str] = None
+    ) -> str:
         if value in options:
             return value
         else:
-            raise ValueError(f"{value} is not an option. The options are {options}")
+            raise ValueError(
+                f"{f'{ctx} - ' if ctx is not None else ''}`{value}` is not an option. "
+                f"The options are {options}"
+            )
 
     def parse_integration(
         self, integration: Union[str, Dict[str, Any], Any]

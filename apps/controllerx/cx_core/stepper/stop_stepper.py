@@ -14,14 +14,15 @@ class StopStepper(Stepper):
         return super().get_direction(value, direction)
 
     def step(self, value: Number, direction: str) -> StepperOutput:
-        sign = self.sign(direction)
+        value = self.min_max.clip(value)
+        sign = Stepper.sign(direction)
         max_ = self.min_max.max
         min_ = self.min_max.min
         step = (max_ - min_) / self.steps
 
         new_value = value + sign * step
-
-        if min_ < new_value < max_:
+        new_value = round(new_value, 3)
+        if self.min_max.is_between(new_value):
             return StepperOutput(new_value, next_direction=direction)
         else:
             new_value = self.min_max.clip(new_value)

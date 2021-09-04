@@ -1,0 +1,22 @@
+# This test is testing that the @lru_cache decorator from light_controller.py::get_stepper
+# is working properly, and that the returned stepper is the same everytime.
+entity_state_attributes:
+  brightness: 60
+entity_state: "on"
+fired_actions: [brightness_up_hold, 0.450, brightness_up_release, 0.3, brightness_up_hold, 0.05, brightness_up_release]
+expected_calls:
+- service: light/turn_on
+  data:
+    entity_id: light.livingroom
+    transition: 0.35
+    brightness: 85.4
+- service: light/turn_on
+  data:
+    entity_id: light.livingroom
+    transition: 0.35
+    brightness: 110.8
+- service: light/turn_on
+  data:
+    entity_id: light.livingroom
+    transition: 0.35
+    brightness: 34.6

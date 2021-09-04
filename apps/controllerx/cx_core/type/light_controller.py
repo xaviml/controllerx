@@ -11,6 +11,7 @@ from cx_core.integration.z2m import Z2MIntegration
 from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import MinMax, Stepper
 from cx_core.stepper.bounce_stepper import BounceStepper
+from cx_core.stepper.index_loop_stepper import IndexLoopStepper
 from cx_core.stepper.loop_stepper import LoopStepper
 from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type_controller import Entity, TypeController
@@ -78,17 +79,25 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     ATTRIBUTE_COLOR_TEMP = "color_temp"
     ATTRIBUTE_XY_COLOR = "xy_color"
 
+    ATTRIBUTES_LIST = [
+        ATTRIBUTE_BRIGHTNESS,
+        ATTRIBUTE_WHITE_VALUE,
+        ATTRIBUTE_COLOR,
+        ATTRIBUTE_COLOR_TEMP,
+        ATTRIBUTE_XY_COLOR,
+    ]
+
     index_color = 0
     value_attribute = None
 
     # These are intermediate variables to store the checked value
     smooth_power_on_check: bool
     remove_transition_check: bool
+    next_direction: Optional[str] = None
 
     manual_steps: Number
     automatic_steps: Number
     min_max_attributes: Dict[str, MinMax]
-    color_stepper: LoopStepper
 
     domains = ["light"]
     entity_arg = "light"
@@ -119,10 +128,6 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             self.args.get("color_wheel", "default_color_wheel")
         )
         self._supported_color_modes = self.args.get("supported_color_modes")
-
-        self.color_stepper = LoopStepper(
-            MinMax(0, len(self.color_wheel) - 1), len(self.color_wheel)
-        )
 
         self.smooth_power_on = self.args.get(
             "smooth_power_on", self.supports_smooth_power_on()
@@ -212,6 +217,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 ),
             ),
             Light.SYNC: self.sync,
+            Light.CLICK: self.click,
             Light.CLICK_BRIGHTNESS_UP: (
                 self.click,
                 (
@@ -282,6 +288,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                     Stepper.DOWN,
                 ),
             ),
+            Light.HOLD: self.hold,
             Light.HOLD_BRIGHTNESS_UP: (
                 self.hold,
                 (
@@ -547,7 +554,8 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 self._supported_color_modes = set(supported_color_modes)
             else:
                 raise ValueError(
-                    f"`supported_color_modes` could not be read from `{self.entity}`. Entity might not be available."
+                    f"`supported_color_modes` could not be read from `{self.entity}`. "
+                    "Entity might not be available."
                 )
 
         return self._supported_color_modes
@@ -560,9 +568,12 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     @lru_cache(maxsize=None)
     def get_stepper(self, attribute: str, steps: Number, mode: str) -> Stepper:
+        if attribute == LightController.ATTRIBUTE_XY_COLOR:
+            return IndexLoopStepper(len(self.color_wheel))
         if mode not in STEPPER_MODES:
-            # TODO
-            raise ValueError("ERROR MESSAGE")
+            raise ValueError(
+                f"`{mode}` mode is not available. Options are: {list(STEPPER_MODES.keys())}"
+            )
         stepper_cls = STEPPER_MODES[mode]
         return stepper_cls(self.min_max_attributes[attribute], steps)
 
@@ -624,7 +635,14 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def before_action(self, action: str, *args, **kwargs) -> bool:
         to_return = True
         if action in ("click", "hold"):
-            attribute, direction = args
+            if len(args) == 2:
+                attribute, direction = args
+            elif "attribute" in kwargs and "direction" in kwargs:
+                attribute, direction = kwargs["attribute"], kwargs["direction"]
+            else:
+                raise ValueError(
+                    f"`attribute` and `direction` are mandatory fields for `{action}` action"
+                )
             light_state: str = await self.get_entity_state()
             self.smooth_power_on_check = self.check_smooth_power_on(
                 attribute, direction, light_state
@@ -632,6 +650,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             self.remove_transition_check = await self.check_remove_transition(
                 on_from_user=False
             )
+            self.next_direction = None
             to_return = (light_state == "on") or self.smooth_power_on_check
         else:
             self.remove_transition_check = await self.check_remove_transition(
@@ -641,26 +660,52 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         return await super().before_action(action, *args, **kwargs) and to_return
 
     @action
-    async def click(self, attribute: str, direction: str, mode: str = "stop") -> None:
+    async def click(
+        self,
+        attribute: str,
+        direction: str,
+        mode: str = "stop",
+        steps: Optional[Number] = None,
+    ) -> None:
+        attribute = self.get_option(
+            attribute, LightController.ATTRIBUTES_LIST, "`click` action"
+        )
+        direction = self.get_option(
+            direction, [Stepper.UP, Stepper.DOWN], "`click` action"
+        )
+        mode = self.get_option(mode, ["stop", "loop"], "`click` action")
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         await self.change_light_state(
             self.value_attribute,
             attribute,
             direction,
-            self.get_stepper(attribute, self.manual_steps, mode),
+            self.get_stepper(attribute, steps or self.manual_steps, mode),
             "click",
         )
 
     @action
-    async def hold(self, attribute: str, direction: str, mode: str = "stop") -> None:  # type: ignore
+    async def hold(  # type: ignore
+        self,
+        attribute: str,
+        direction: str,
+        mode: str = "stop",
+        steps: Optional[Number] = None,
+    ) -> None:
+        attribute = self.get_option(
+            attribute, LightController.ATTRIBUTES_LIST, "`hold` action"
+        )
+        direction = self.get_option(
+            direction, [Stepper.UP, Stepper.DOWN, Stepper.TOGGLE], "`hold` action"
+        )
+        mode = self.get_option(mode, ["stop", "loop", "bounce"], "`hold` action")
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         self.log(
             f"Attribute value before running the hold action: {self.value_attribute}",
             level="DEBUG",
         )
-        stepper = self.get_stepper(attribute, self.automatic_steps, mode)
+        stepper = self.get_stepper(attribute, steps or self.automatic_steps, mode)
         if direction == Stepper.TOGGLE:
             self.log(
                 f"Previous direction: {stepper.previous_direction}",
@@ -695,8 +740,9 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         Otherwise, it returns False.
         """
         attributes: Dict[str, Any]
+        direction = self.next_direction or direction
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            stepper_output = self.color_stepper.step(self.index_color, direction)
+            stepper_output = stepper.step(self.index_color, direction)
             self.index_color = int(stepper_output.next_value)
             xy_color = self.color_wheel[self.index_color]
             attributes = {attribute: list(xy_color)}
@@ -713,12 +759,12 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             # # After smooth power on, the light should not brighten up.
             return True
         stepper_output = stepper.step(old, direction)
-        new_state_attribute = round(stepper_output.next_value, 3)
-        attributes = {attribute: new_state_attribute}
+        self.next_direction = stepper_output.next_direction
+        attributes = {attribute: stepper_output.next_value}
         if action_type == "hold":
             attributes["transition"] = self.delay / 1000
         await self._on(**attributes)
-        self.value_attribute = new_state_attribute
+        self.value_attribute = stepper_output.next_value
         return stepper_output.exceeded
 
     def supports_smooth_power_on(self) -> bool:

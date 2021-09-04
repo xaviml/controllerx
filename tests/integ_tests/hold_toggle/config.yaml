@@ -1,0 +1,9 @@
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.livingroom
+  merge_mapping:
+    brightness_up_hold: hold_brightness_toggle
+      

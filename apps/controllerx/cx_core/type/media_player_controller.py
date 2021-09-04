@@ -5,7 +5,7 @@ from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import MinMax, Stepper
-from cx_core.stepper.loop_stepper import LoopStepper
+from cx_core.stepper.index_loop_stepper import IndexLoopStepper
 from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type_controller import Entity, TypeController
 
@@ -63,9 +63,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             new_index_source = 0
         else:
             index_source = source_list.index(source)
-            source_stepper = LoopStepper(
-                MinMax(0, len(source_list) - 1), len(source_list)
-            )
+            source_stepper = IndexLoopStepper(len(source_list))
             stepper_output = source_stepper.step(index_source, direction)
             new_index_source = stepper_output.next_value
         await self.call_service(
