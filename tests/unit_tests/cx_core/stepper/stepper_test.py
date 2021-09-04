@@ -1,12 +1,14 @@
-from typing import Tuple, Union
-
 import pytest
-from cx_core.stepper import Stepper
+from cx_const import Number
+from cx_core.stepper import MinMax, Stepper, StepperOutput
 
 
 class FakeStepper(Stepper):
-    def step(self, value: float, direction: str) -> Tuple[Union[int, float], bool]:
-        return 0, True
+    def __init__(self) -> None:
+        super().__init__(MinMax(0, 1), 1)
+
+    def step(self, value: Number, direction: str) -> StepperOutput:
+        return StepperOutput(next_value=0, next_direction=None)
 
 
 @pytest.mark.parametrize(
@@ -16,8 +18,8 @@ class FakeStepper(Stepper):
         (Stepper.DOWN, Stepper.DOWN, Stepper.DOWN),
         (Stepper.UP, Stepper.DOWN, Stepper.UP),
         (Stepper.DOWN, Stepper.UP, Stepper.DOWN),
-        (Stepper.TOGGLE, Stepper.TOGGLE_UP, Stepper.TOGGLE_DOWN),
-        (Stepper.TOGGLE, Stepper.TOGGLE_DOWN, Stepper.TOGGLE_UP),
+        (Stepper.TOGGLE, Stepper.UP, Stepper.DOWN),
+        (Stepper.TOGGLE, Stepper.DOWN, Stepper.UP),
     ],
 )
 def test_get_direction(
@@ -36,8 +38,8 @@ def test_get_direction(
     [
         (Stepper.UP, 1),
         (Stepper.DOWN, -1),
-        (Stepper.TOGGLE_UP, 1),
-        (Stepper.TOGGLE_DOWN, -1),
+        (Stepper.UP, 1),
+        (Stepper.DOWN, -1),
     ],
 )
 def test_sign(direction_input: str, expected_sign: int):

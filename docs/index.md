@@ -62,6 +62,7 @@ _ControllerX_ uses an async loop to make HA call services requests (e.g. to chan
   - [Action types](advanced/action-types)
   - [Predefined actions](advanced/predefined-actions)
   - [Multiple clicks](advanced/multiple-clicks)
+  - [Hold/Click modes](advanced/hold-click-modes)
 - [Templating](advanced/templating)
 - [Entity Groups](advanced/entity-groups)
 
