@@ -590,11 +590,11 @@ async def test_click(
         (
             "color_temp",
             Stepper.TOGGLE,
-            Stepper.TOGGLE_DOWN,
+            Stepper.DOWN,
             "on",
             True,
             1,
-            Stepper.TOGGLE_DOWN,
+            Stepper.DOWN,
         ),
     ],
 )

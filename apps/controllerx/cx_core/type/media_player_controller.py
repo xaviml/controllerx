@@ -66,7 +66,8 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             source_stepper = LoopStepper(
                 MinMax(0, len(source_list) - 1), len(source_list)
             )
-            new_index_source, _ = source_stepper.step(index_source, direction)
+            stepper_output = source_stepper.step(index_source, direction)
+            new_index_source = stepper_output.next_value
         await self.call_service(
             "media_player/select_source",
             entity_id=self.entity.name,
@@ -151,11 +152,10 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     async def volume_change(self, direction: str) -> bool:
         if await self.feature_support.is_supported(MediaPlayerSupport.VOLUME_SET):
-            self.volume_level, exceeded = self.volume_stepper.step(
-                self.volume_level, direction
-            )
+            stepper_output = self.volume_stepper.step(self.volume_level, direction)
+            self.volume_level = stepper_output.next_value
             await self.volume_set(self.volume_level)
-            return exceeded
+            return stepper_output.exceeded
         else:
             if direction == Stepper.UP:
                 await self.call_service(

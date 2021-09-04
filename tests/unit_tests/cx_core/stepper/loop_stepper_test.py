@@ -27,5 +27,6 @@ def test_loop_stepper(
     expected_value: int,
 ):
     stepper = LoopStepper(min_max, steps)
-    new_value, _ = stepper.step(value, direction)
-    assert new_value == expected_value
+    stepper_output = stepper.step(value, direction)
+    assert stepper_output.next_value == expected_value
+    assert not stepper_output.exceeded

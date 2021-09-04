@@ -696,8 +696,8 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         """
         attributes: Dict[str, Any]
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            index_color, _ = self.color_stepper.step(self.index_color, direction)
-            self.index_color = int(index_color)
+            stepper_output = self.color_stepper.step(self.index_color, direction)
+            self.index_color = int(stepper_output.next_value)
             xy_color = self.color_wheel[self.index_color]
             attributes = {attribute: list(xy_color)}
             if action_type == "hold":
@@ -712,14 +712,14 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             await self._on_min(attribute)
             # # After smooth power on, the light should not brighten up.
             return True
-        new_state_attribute, exceeded = stepper.step(old, direction)
-        new_state_attribute = round(new_state_attribute, 3)
+        stepper_output = stepper.step(old, direction)
+        new_state_attribute = round(stepper_output.next_value, 3)
         attributes = {attribute: new_state_attribute}
         if action_type == "hold":
             attributes["transition"] = self.delay / 1000
         await self._on(**attributes)
         self.value_attribute = new_state_attribute
-        return exceeded
+        return stepper_output.exceeded
 
     def supports_smooth_power_on(self) -> bool:
         """

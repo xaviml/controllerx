@@ -1,6 +1,7 @@
 import abc
-from typing import Tuple
+from typing import Optional
 
+from attr import dataclass
 from cx_const import Number
 
 
@@ -40,15 +41,23 @@ class MinMax:
         return f"MinMax({self.min}, {self.max})"
 
 
+@dataclass
+class StepperOutput:
+    next_value: Number
+    next_direction: Optional[str]
+
+    @property
+    def exceeded(self) -> bool:
+        return self.next_direction is None
+
+
 class Stepper(abc.ABC):
     UP = "up"
     DOWN = "down"
-    TOGGLE_UP = "toggle_up"
-    TOGGLE_DOWN = "toggle_down"
     TOGGLE = "toggle"
-    sign_mapping = {UP: 1, DOWN: -1, TOGGLE_UP: 1, TOGGLE_DOWN: -1}
+    sign_mapping = {UP: 1, DOWN: -1}
 
-    previous_direction: str = TOGGLE_DOWN
+    previous_direction: str = DOWN
     min_max: MinMax
     steps: Number
 
@@ -59,9 +68,7 @@ class Stepper(abc.ABC):
     def get_direction(self, value: Number, direction: str) -> str:
         if direction == Stepper.TOGGLE:
             direction = (
-                Stepper.TOGGLE_UP
-                if self.previous_direction == Stepper.TOGGLE_DOWN
-                else Stepper.TOGGLE_DOWN
+                Stepper.UP if self.previous_direction == Stepper.DOWN else Stepper.DOWN
             )
             self.previous_direction = direction
         return direction
@@ -70,7 +77,7 @@ class Stepper(abc.ABC):
         return Stepper.sign_mapping[direction]
 
     @abc.abstractmethod
-    def step(self, value: Number, direction: str) -> Tuple[Number, bool]:
+    def step(self, value: Number, direction: str) -> StepperOutput:
         """
         This function updates the value according to the steps
         that needs to take and returns the new value and True
