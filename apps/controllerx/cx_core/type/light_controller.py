@@ -1,7 +1,7 @@
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Set, Type
 
-from cx_const import Light, Number, PredefinedActionsMapping
+from cx_const import Light, Number, PredefinedActionsMapping, StepperDir, StepperMode
 from cx_core.color_helper import Color, get_color_wheel
 from cx_core.controller import action
 from cx_core.feature_support.light import LightSupport
@@ -35,9 +35,9 @@ ColorMode = str
 
 COLOR_MODES = {"hs", "xy", "rgb", "rgbw", "rgbww"}
 STEPPER_MODES: Dict[str, Type[Stepper]] = {
-    "stop": StopStepper,
-    "loop": LoopStepper,
-    "bounce": BounceStepper,
+    StepperMode.STOP: StopStepper,
+    StepperMode.LOOP: LoopStepper,
+    StepperMode.BOUNCE: BounceStepper,
 }
 
 
@@ -222,70 +222,70 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 self.click,
                 (
                     LightController.ATTRIBUTE_BRIGHTNESS,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.CLICK_BRIGHTNESS_DOWN: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_BRIGHTNESS,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.CLICK_WHITE_VALUE_UP: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_WHITE_VALUE,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.CLICK_WHITE_VALUE_DOWN: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_WHITE_VALUE,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.CLICK_COLOR_UP: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_COLOR,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.CLICK_COLOR_DOWN: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_COLOR,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.CLICK_COLOR_TEMP_UP: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_COLOR_TEMP,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.CLICK_COLOR_TEMP_DOWN: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_COLOR_TEMP,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.CLICK_XY_COLOR_UP: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_XY_COLOR,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.CLICK_XY_COLOR_DOWN: (
                 self.click,
                 (
                     LightController.ATTRIBUTE_XY_COLOR,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.HOLD: self.hold,
@@ -293,105 +293,105 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 self.hold,
                 (
                     LightController.ATTRIBUTE_BRIGHTNESS,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.HOLD_BRIGHTNESS_DOWN: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_BRIGHTNESS,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.HOLD_BRIGHTNESS_TOGGLE: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_BRIGHTNESS,
-                    Stepper.TOGGLE,
+                    StepperDir.TOGGLE,
                 ),
             ),
             Light.HOLD_WHITE_VALUE_UP: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_WHITE_VALUE,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.HOLD_WHITE_VALUE_DOWN: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_WHITE_VALUE,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.HOLD_WHITE_VALUE_TOGGLE: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_WHITE_VALUE,
-                    Stepper.TOGGLE,
+                    StepperDir.TOGGLE,
                 ),
             ),
             Light.HOLD_COLOR_UP: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_COLOR,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.HOLD_COLOR_DOWN: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_COLOR,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.HOLD_COLOR_TOGGLE: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_COLOR,
-                    Stepper.TOGGLE,
+                    StepperDir.TOGGLE,
                 ),
             ),
             Light.HOLD_COLOR_TEMP_UP: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_COLOR_TEMP,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.HOLD_COLOR_TEMP_DOWN: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_COLOR_TEMP,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.HOLD_COLOR_TEMP_TOGGLE: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_COLOR_TEMP,
-                    Stepper.TOGGLE,
+                    StepperDir.TOGGLE,
                 ),
             ),
             Light.HOLD_XY_COLOR_UP: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_XY_COLOR,
-                    Stepper.UP,
+                    StepperDir.UP,
                 ),
             ),
             Light.HOLD_XY_COLOR_DOWN: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_XY_COLOR,
-                    Stepper.DOWN,
+                    StepperDir.DOWN,
                 ),
             ),
             Light.HOLD_XY_COLOR_TOGGLE: (
                 self.hold,
                 (
                     LightController.ATTRIBUTE_XY_COLOR,
-                    Stepper.TOGGLE,
+                    StepperDir.TOGGLE,
                 ),
             ),
             Light.XYCOLOR_FROM_CONTROLLER: self.xycolor_from_controller,
@@ -626,7 +626,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self, attribute: str, direction: str, light_state: str
     ) -> bool:
         return (
-            direction != Stepper.DOWN
+            direction != StepperDir.DOWN
             and attribute == self.ATTRIBUTE_BRIGHTNESS
             and self.smooth_power_on
             and light_state == "off"
@@ -664,16 +664,18 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self,
         attribute: str,
         direction: str,
-        mode: str = "stop",
+        mode: str = StepperMode.STOP,
         steps: Optional[Number] = None,
     ) -> None:
         attribute = self.get_option(
             attribute, LightController.ATTRIBUTES_LIST, "`click` action"
         )
         direction = self.get_option(
-            direction, [Stepper.UP, Stepper.DOWN], "`click` action"
+            direction, [StepperDir.UP, StepperDir.DOWN], "`click` action"
         )
-        mode = self.get_option(mode, ["stop", "loop"], "`click` action")
+        mode = self.get_option(
+            mode, [StepperMode.STOP, StepperMode.LOOP], "`click` action"
+        )
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         await self.change_light_state(
@@ -689,16 +691,22 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self,
         attribute: str,
         direction: str,
-        mode: str = "stop",
+        mode: str = StepperMode.STOP,
         steps: Optional[Number] = None,
     ) -> None:
         attribute = self.get_option(
             attribute, LightController.ATTRIBUTES_LIST, "`hold` action"
         )
         direction = self.get_option(
-            direction, [Stepper.UP, Stepper.DOWN, Stepper.TOGGLE], "`hold` action"
+            direction,
+            [StepperDir.UP, StepperDir.DOWN, StepperDir.TOGGLE],
+            "`hold` action",
         )
-        mode = self.get_option(mode, ["stop", "loop", "bounce"], "`hold` action")
+        mode = self.get_option(
+            mode,
+            [StepperMode.STOP, StepperMode.LOOP, StepperMode.BOUNCE],
+            "`hold` action",
+        )
         attribute = await self.get_attribute(attribute)
         self.value_attribute = await self.get_value_attribute(attribute)
         self.log(
@@ -706,7 +714,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             level="DEBUG",
         )
         stepper = self.get_stepper(attribute, steps or self.automatic_steps, mode)
-        if direction == Stepper.TOGGLE:
+        if direction == StepperDir.TOGGLE:
             self.log(
                 f"Previous direction: {stepper.previous_direction}",
                 level="DEBUG",

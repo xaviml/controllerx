@@ -1,5 +1,5 @@
 import pytest
-from cx_const import Number
+from cx_const import Number, StepperDir
 from cx_core.stepper import MinMax, Stepper, StepperOutput
 
 
@@ -14,12 +14,12 @@ class FakeStepper(Stepper):
 @pytest.mark.parametrize(
     "direction_input, previous_direction, expected_direction",
     [
-        (Stepper.UP, Stepper.UP, Stepper.UP),
-        (Stepper.DOWN, Stepper.DOWN, Stepper.DOWN),
-        (Stepper.UP, Stepper.DOWN, Stepper.UP),
-        (Stepper.DOWN, Stepper.UP, Stepper.DOWN),
-        (Stepper.TOGGLE, Stepper.UP, Stepper.DOWN),
-        (Stepper.TOGGLE, Stepper.DOWN, Stepper.UP),
+        (StepperDir.UP, StepperDir.UP, StepperDir.UP),
+        (StepperDir.DOWN, StepperDir.DOWN, StepperDir.DOWN),
+        (StepperDir.UP, StepperDir.DOWN, StepperDir.UP),
+        (StepperDir.DOWN, StepperDir.UP, StepperDir.DOWN),
+        (StepperDir.TOGGLE, StepperDir.UP, StepperDir.DOWN),
+        (StepperDir.TOGGLE, StepperDir.DOWN, StepperDir.UP),
     ],
 )
 def test_get_direction(
@@ -36,10 +36,10 @@ def test_get_direction(
 @pytest.mark.parametrize(
     "direction_input, expected_sign",
     [
-        (Stepper.UP, 1),
-        (Stepper.DOWN, -1),
-        (Stepper.UP, 1),
-        (Stepper.DOWN, -1),
+        (StepperDir.UP, 1),
+        (StepperDir.DOWN, -1),
+        (StepperDir.UP, 1),
+        (StepperDir.DOWN, -1),
     ],
 )
 def test_sign(direction_input: str, expected_sign: int):

@@ -98,3 +98,15 @@ class Cover:
     STOP = "stop"
     TOGGLE_OPEN = "toggle_open"
     TOGGLE_CLOSE = "toggle_close"
+
+
+class StepperDir:
+    UP = "up"
+    DOWN = "down"
+    TOGGLE = "toggle"
+
+
+class StepperMode:
+    STOP = "stop"
+    LOOP = "loop"
+    BOUNCE = "bounce"

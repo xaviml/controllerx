@@ -1,10 +1,10 @@
 from typing import Any, Dict, List, Optional, Type
 
-from cx_const import MediaPlayer, Number, PredefinedActionsMapping
+from cx_const import MediaPlayer, Number, PredefinedActionsMapping, StepperDir
 from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from cx_core.release_hold_controller import ReleaseHoldController
-from cx_core.stepper import MinMax, Stepper
+from cx_core.stepper import MinMax
 from cx_core.stepper.index_loop_stepper import IndexLoopStepper
 from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type_controller import Entity, TypeController
@@ -28,8 +28,8 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
-            MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, (Stepper.DOWN,)),
-            MediaPlayer.HOLD_VOLUME_UP: (self.hold, (Stepper.UP,)),
+            MediaPlayer.HOLD_VOLUME_DOWN: (self.hold, (StepperDir.DOWN,)),
+            MediaPlayer.HOLD_VOLUME_UP: (self.hold, (StepperDir.UP,)),
             MediaPlayer.CLICK_VOLUME_DOWN: self.volume_down,
             MediaPlayer.CLICK_VOLUME_UP: self.volume_up,
             MediaPlayer.VOLUME_SET: self.volume_set,
@@ -39,8 +39,8 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             MediaPlayer.PLAY_PAUSE: self.play_pause,
             MediaPlayer.NEXT_TRACK: self.next_track,
             MediaPlayer.PREVIOUS_TRACK: self.previous_track,
-            MediaPlayer.NEXT_SOURCE: (self.change_source_list, (Stepper.UP,)),
-            MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, (Stepper.DOWN,)),
+            MediaPlayer.NEXT_SOURCE: (self.change_source_list, (StepperDir.UP,)),
+            MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, (StepperDir.DOWN,)),
             MediaPlayer.MUTE: self.volume_mute,
             MediaPlayer.TTS: self.tts,
         }
@@ -109,12 +109,12 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     @action
     async def volume_up(self) -> None:
         await self.prepare_volume_change()
-        await self.volume_change(Stepper.UP)
+        await self.volume_change(StepperDir.UP)
 
     @action
     async def volume_down(self) -> None:
         await self.prepare_volume_change()
-        await self.volume_change(Stepper.DOWN)
+        await self.volume_change(StepperDir.DOWN)
 
     @action
     async def volume_mute(self) -> None:
@@ -155,7 +155,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             await self.volume_set(self.volume_level)
             return stepper_output.exceeded
         else:
-            if direction == Stepper.UP:
+            if direction == StepperDir.UP:
                 await self.call_service(
                     "media_player/volume_up", entity_id=self.entity.name
                 )

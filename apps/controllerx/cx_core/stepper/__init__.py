@@ -2,7 +2,7 @@ import abc
 from typing import Optional
 
 from attr import dataclass
-from cx_const import Number
+from cx_const import Number, StepperDir
 
 
 class MinMax:
@@ -52,18 +52,15 @@ class StepperOutput:
 
 
 class Stepper(abc.ABC):
-    UP = "up"
-    DOWN = "down"
-    TOGGLE = "toggle"
-    sign_mapping = {UP: 1, DOWN: -1}
+    sign_mapping = {StepperDir.UP: 1, StepperDir.DOWN: -1}
 
-    previous_direction: str = DOWN
+    previous_direction: str = StepperDir.DOWN
     min_max: MinMax
     steps: Number
 
     @staticmethod
     def invert_direction(direction: str) -> str:
-        return Stepper.UP if direction == Stepper.DOWN else Stepper.DOWN
+        return StepperDir.UP if direction == StepperDir.DOWN else StepperDir.DOWN
 
     @staticmethod
     def sign(direction: str) -> int:
@@ -74,7 +71,7 @@ class Stepper(abc.ABC):
         self.steps = steps
 
     def get_direction(self, value: Number, direction: str) -> str:
-        if direction == Stepper.TOGGLE:
+        if direction == StepperDir.TOGGLE:
             direction = Stepper.invert_direction(self.previous_direction)
             self.previous_direction = direction
         return direction

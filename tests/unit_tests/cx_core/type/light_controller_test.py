@@ -1,11 +1,14 @@
-from typing import Any, Dict, Set, Union
+from typing import Any, Dict, Set, Type, Union
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
+from cx_const import StepperDir, StepperMode
 from cx_core import LightController, ReleaseHoldController
 from cx_core.controller import Controller
 from cx_core.feature_support.light import LightSupport
 from cx_core.stepper import MinMax, Stepper
+from cx_core.stepper.bounce_stepper import BounceStepper
+from cx_core.stepper.index_loop_stepper import IndexLoopStepper
 from cx_core.stepper.loop_stepper import LoopStepper
 from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type.light_controller import ColorMode, LightEntity
@@ -211,12 +214,47 @@ async def test_get_value_attribute(
 
 
 @pytest.mark.parametrize(
+    "attribute, mode, expected_stepper, error_expected",
+    [
+        (LightController.ATTRIBUTE_BRIGHTNESS, StepperMode.STOP, StopStepper, False),
+        (LightController.ATTRIBUTE_COLOR_TEMP, StepperMode.LOOP, LoopStepper, False),
+        (
+            LightController.ATTRIBUTE_WHITE_VALUE,
+            StepperMode.BOUNCE,
+            BounceStepper,
+            False,
+        ),
+        (LightController.ATTRIBUTE_XY_COLOR, StepperMode.STOP, IndexLoopStepper, False),
+        (
+            LightController.ATTRIBUTE_BRIGHTNESS,
+            "this-stepper-mode-does-not-exist",
+            StopStepper,
+            True,
+        ),
+    ],
+)
+def test_get_stepper(
+    sut: LightController,
+    attribute: str,
+    mode: str,
+    expected_stepper: Type[Stepper],
+    error_expected: bool,
+) -> None:
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
+        output_stepper = sut.get_stepper(attribute, 10, mode)
+
+        assert isinstance(output_stepper, expected_stepper)
+        if attribute != LightController.ATTRIBUTE_XY_COLOR:
+            assert output_stepper.min_max == sut.min_max_attributes[attribute]
+
+
+@pytest.mark.parametrize(
     "old, attribute, direction, stepper, smooth_power_on_check, stop_expected, expected_value_attribute",
     [
         (
             50,
             LightController.ATTRIBUTE_BRIGHTNESS,
-            Stepper.UP,
+            StepperDir.UP,
             StopStepper(MinMax(1, 255), 254),
             False,
             False,
@@ -225,7 +263,7 @@ async def test_get_value_attribute(
         (
             0,
             "xy_color",
-            Stepper.UP,
+            StepperDir.UP,
             LoopStepper(MinMax(0, 30), 30),
             False,
             False,
@@ -234,7 +272,7 @@ async def test_get_value_attribute(
         (
             499,
             "color_temp",
-            Stepper.UP,
+            StepperDir.UP,
             StopStepper(MinMax(153, 500), 10),
             False,
             True,
@@ -243,7 +281,7 @@ async def test_get_value_attribute(
         (
             0,
             LightController.ATTRIBUTE_BRIGHTNESS,
-            Stepper.UP,
+            StepperDir.UP,
             StopStepper(MinMax(1, 255), 254),
             True,
             True,
@@ -534,11 +572,62 @@ async def test_sync(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, direction_input, light_state, smooth_power_on, expected_calls",
+    "attribute_input, direction_input, mode, light_state, smooth_power_on, expected_calls, error_expected",
     [
-        (LightController.ATTRIBUTE_BRIGHTNESS, Stepper.UP, "off", True, 1),
-        (LightController.ATTRIBUTE_COLOR_TEMP, Stepper.UP, "off", True, 0),
-        (LightController.ATTRIBUTE_COLOR_TEMP, Stepper.UP, "on", True, 1),
+        (
+            LightController.ATTRIBUTE_BRIGHTNESS,
+            StepperDir.UP,
+            StepperMode.STOP,
+            "off",
+            True,
+            1,
+            False,
+        ),
+        (
+            LightController.ATTRIBUTE_COLOR_TEMP,
+            StepperDir.UP,
+            StepperMode.STOP,
+            "off",
+            True,
+            0,
+            False,
+        ),
+        (
+            LightController.ATTRIBUTE_COLOR_TEMP,
+            StepperDir.UP,
+            StepperMode.STOP,
+            "on",
+            True,
+            1,
+            False,
+        ),
+        (
+            "this-attr-does-not-exist",
+            StepperDir.UP,
+            StepperMode.STOP,
+            "on",
+            False,
+            0,
+            True,
+        ),
+        (
+            LightController.ATTRIBUTE_BRIGHTNESS,
+            "toggle",
+            StepperMode.STOP,
+            "on",
+            False,
+            0,
+            True,
+        ),
+        (
+            LightController.ATTRIBUTE_BRIGHTNESS,
+            StepperDir.UP,
+            StepperMode.BOUNCE,
+            "on",
+            True,
+            0,
+            True,
+        ),
     ],
 )
 @pytest.mark.asyncio
@@ -548,9 +637,11 @@ async def test_click(
     mocker: MockerFixture,
     attribute_input: str,
     direction_input: Literal["up", "down"],
+    mode: Literal["stop", "loop"],
     light_state: Literal["on", "off"],
     smooth_power_on: bool,
     expected_calls: int,
+    error_expected: bool,
 ):
     value_attribute = 10
     monkeypatch.setattr(
@@ -568,33 +659,91 @@ async def test_click(
 
     mocker.patch.object(sut, "get_stepper", return_value=StopStepper(MinMax(1, 10), 10))
 
-    await sut.click(attribute_input, direction_input)
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
+        await sut.click(attribute_input, direction_input, mode=mode)
 
     assert change_light_state_patch.call_count == expected_calls
 
 
 @pytest.mark.parametrize(
-    "attribute_input, direction_input, previous_direction, light_state, smooth_power_on, expected_calls, expected_direction",
+    "attribute_input, direction_input, mode, previous_direction, light_state, smooth_power_on, expected_calls, expected_direction, error_expected",
     [
         (
             LightController.ATTRIBUTE_BRIGHTNESS,
-            Stepper.UP,
-            Stepper.UP,
+            StepperDir.UP,
+            StepperMode.STOP,
+            StepperDir.UP,
             "off",
             True,
             1,
-            Stepper.UP,
+            StepperDir.UP,
+            False,
         ),
-        ("color_temp", Stepper.UP, Stepper.UP, "off", True, 0, Stepper.UP),
-        ("color_temp", Stepper.UP, Stepper.UP, "on", True, 1, Stepper.UP),
         (
-            "color_temp",
-            Stepper.TOGGLE,
-            Stepper.DOWN,
+            LightController.ATTRIBUTE_COLOR_TEMP,
+            StepperDir.UP,
+            StepperMode.STOP,
+            StepperDir.UP,
+            "off",
+            True,
+            0,
+            StepperDir.UP,
+            False,
+        ),
+        (
+            LightController.ATTRIBUTE_COLOR_TEMP,
+            StepperDir.UP,
+            StepperMode.STOP,
+            StepperDir.UP,
             "on",
             True,
             1,
-            Stepper.DOWN,
+            StepperDir.UP,
+            False,
+        ),
+        (
+            LightController.ATTRIBUTE_COLOR_TEMP,
+            StepperDir.TOGGLE,
+            StepperMode.STOP,
+            StepperDir.DOWN,
+            "on",
+            True,
+            1,
+            StepperDir.DOWN,
+            False,
+        ),
+        (
+            "this-attr-does-not-exist",
+            StepperDir.UP,
+            StepperMode.STOP,
+            StepperDir.UP,
+            "on",
+            True,
+            0,
+            StepperDir.UP,
+            True,
+        ),
+        (
+            LightController.ATTRIBUTE_BRIGHTNESS,
+            "this-dir-does-not-exist",
+            StepperMode.STOP,
+            StepperDir.UP,
+            "on",
+            True,
+            0,
+            StepperDir.UP,
+            True,
+        ),
+        (
+            LightController.ATTRIBUTE_BRIGHTNESS,
+            StepperDir.UP,
+            "this-mode-does-not-exist",
+            StepperDir.UP,
+            "on",
+            True,
+            0,
+            StepperDir.UP,
+            True,
         ),
     ],
 )
@@ -604,12 +753,14 @@ async def test_hold(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
     attribute_input: str,
-    direction_input: str,
+    direction_input: Literal["up", "down", "toogle"],
+    mode: Literal["stop", "loop", "bounce"],
     previous_direction: str,
     light_state: Literal["on", "off"],
     smooth_power_on: bool,
     expected_calls: int,
     expected_direction: str,
+    error_expected: bool,
 ):
     value_attribute = 10
     monkeypatch.setattr(
@@ -628,7 +779,8 @@ async def test_hold(
     mocker.patch.object(sut, "get_stepper", return_value=stepper)
     super_hold_patch = mocker.patch.object(ReleaseHoldController, "hold")
 
-    await sut.hold(attribute_input, direction_input)
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
+        await sut.hold(attribute_input, direction_input, mode=mode)
 
     assert super_hold_patch.call_count == expected_calls
     if expected_calls > 0:
@@ -643,7 +795,7 @@ async def test_hold_loop(
     sut: LightController, mocker: MockerFixture, value_attribute: int
 ):
     attribute = "test_attribute"
-    direction = Stepper.UP
+    direction = StepperDir.UP
     sut.smooth_power_on_check = False
     sut.value_attribute = value_attribute
     change_light_state_patch = mocker.patch.object(sut, "change_light_state")

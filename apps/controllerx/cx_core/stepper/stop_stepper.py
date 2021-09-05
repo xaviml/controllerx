@@ -1,15 +1,15 @@
-from cx_const import Number
+from cx_const import Number, StepperDir
 from cx_core.stepper import Stepper, StepperOutput
 
 
 class StopStepper(Stepper):
     def get_direction(self, value: Number, direction: str) -> str:
         value = self.min_max.clip(value)
-        if direction == Stepper.TOGGLE and self.min_max.in_min_boundaries(value):
-            self.previous_direction = Stepper.UP
+        if direction == StepperDir.TOGGLE and self.min_max.in_min_boundaries(value):
+            self.previous_direction = StepperDir.UP
             return self.previous_direction
-        if direction == Stepper.TOGGLE and self.min_max.in_max_boundaries(value):
-            self.previous_direction = Stepper.DOWN
+        if direction == StepperDir.TOGGLE and self.min_max.in_max_boundaries(value):
+            self.previous_direction = StepperDir.DOWN
             return self.previous_direction
         return super().get_direction(value, direction)
 

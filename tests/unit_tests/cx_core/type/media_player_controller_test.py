@@ -2,10 +2,10 @@ from typing import List
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
+from cx_const import StepperDir
 from cx_core import MediaPlayerController, ReleaseHoldController
 from cx_core.controller import Controller
 from cx_core.feature_support.media_player import MediaPlayerSupport
-from cx_core.stepper import Stepper
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
 
@@ -171,10 +171,10 @@ async def test_hold(sut: MediaPlayerController, mocker: MockerFixture):
 @pytest.mark.parametrize(
     "direction_input, volume_set_support, volume_level, expected_volume_level",
     [
-        (Stepper.UP, True, 0, 0.1),
-        (Stepper.DOWN, True, 0.5, 0.4),
-        (Stepper.UP, False, None, None),
-        (Stepper.DOWN, False, None, None),
+        (StepperDir.UP, True, 0, 0.1),
+        (StepperDir.DOWN, True, 0.5, 0.4),
+        (StepperDir.UP, False, None, None),
+        (StepperDir.DOWN, False, None, None),
     ],
 )
 @pytest.mark.asyncio
@@ -209,15 +209,15 @@ async def test_hold_loop(
 @pytest.mark.parametrize(
     "direction_input, source_list, active_source, expected_calls, expected_source",
     [
-        (Stepper.UP, ["radio1", "radio2", "radio3"], "radio1", 1, "radio2"),
-        (Stepper.UP, ["radio1", "radio2", "radio3"], "radio3", 1, "radio1"),
-        (Stepper.DOWN, ["radio1", "radio2", "radio3"], "radio1", 1, "radio3"),
-        (Stepper.UP, ["radio1"], "radio1", 1, "radio1"),
-        (Stepper.DOWN, ["radio1"], "radio1", 1, "radio1"),
-        (Stepper.UP, ["radio1", "radio2", "radio3"], None, 1, "radio1"),
-        (Stepper.DOWN, ["radio1", "radio2", "radio3"], None, 1, "radio1"),
-        (Stepper.UP, [], None, 0, None),
-        (Stepper.DOWN, [], None, 0, None),
+        (StepperDir.UP, ["radio1", "radio2", "radio3"], "radio1", 1, "radio2"),
+        (StepperDir.UP, ["radio1", "radio2", "radio3"], "radio3", 1, "radio1"),
+        (StepperDir.DOWN, ["radio1", "radio2", "radio3"], "radio1", 1, "radio3"),
+        (StepperDir.UP, ["radio1"], "radio1", 1, "radio1"),
+        (StepperDir.DOWN, ["radio1"], "radio1", 1, "radio1"),
+        (StepperDir.UP, ["radio1", "radio2", "radio3"], None, 1, "radio1"),
+        (StepperDir.DOWN, ["radio1", "radio2", "radio3"], None, 1, "radio1"),
+        (StepperDir.UP, [], None, 0, None),
+        (StepperDir.DOWN, [], None, 0, None),
     ],
 )
 @pytest.mark.asyncio

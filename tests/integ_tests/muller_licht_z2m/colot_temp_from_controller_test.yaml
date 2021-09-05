@@ -1,0 +1,10 @@
+
+entity_state: "off"
+fired_actions: ["color_temp"]
+extra:
+  action_color_temperature: 200
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      color_temp: 200

@@ -1,5 +1,5 @@
 import pytest
-from cx_core.stepper import Stepper
+from cx_const import StepperDir
 from cx_core.stepper.index_loop_stepper import IndexLoopStepper
 from typing_extensions import Literal
 
@@ -7,13 +7,13 @@ from typing_extensions import Literal
 @pytest.mark.parametrize(
     "size, value, direction, expected_value",
     [
-        (10, 5, Stepper.DOWN, 4),
-        (10, 5, Stepper.UP, 6),
-        (10, 1, Stepper.DOWN, 0),
-        (10, 9, Stepper.UP, 0),
-        (10, 0, Stepper.DOWN, 9),
-        (10, 10, Stepper.UP, 0),
-        (10, -1, Stepper.DOWN, 9),
+        (10, 5, StepperDir.DOWN, 4),
+        (10, 5, StepperDir.UP, 6),
+        (10, 1, StepperDir.DOWN, 0),
+        (10, 9, StepperDir.UP, 0),
+        (10, 0, StepperDir.DOWN, 9),
+        (10, 10, StepperDir.UP, 0),
+        (10, -1, StepperDir.DOWN, 9),
     ],
 )
 def test_index_loop_stepper(
