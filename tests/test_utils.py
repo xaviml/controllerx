@@ -2,7 +2,7 @@ import importlib
 import os
 import pkgutil
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Callable, Generator, Optional
+from typing import TYPE_CHECKING, Any, Callable, Generator, Optional
 
 import pytest
 from _pytest._code.code import ExceptionInfo
@@ -73,7 +73,7 @@ def get_classes(file_, package_, class_, instantiate=False):
 @contextmanager
 def wrap_execution(
     *, error_expected: bool, exception=Exception
-) -> Generator[Optional[ExceptionInfo], None, None]:
+) -> Generator[Optional[ExceptionInfo[Any]], None, None]:
     if error_expected:
         with pytest.raises(exception) as err_info:
             yield err_info
