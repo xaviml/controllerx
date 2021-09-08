@@ -26,8 +26,6 @@ PRERELEASE_NOTE
 
 - Refactor some internal code to allow feature #204
 
-<!--
 ## :video_game: New devices
 
-- [ZS230002](https://xaviml.github.io/controllerx/controllers/ZS230002) - add Z2M support [ #347 ] @kloodhu
--->
+- [E1E-G7F](https://xaviml.github.io/controllerx/controllers/E1EG7F) - add Z2M support [ #355 ]
