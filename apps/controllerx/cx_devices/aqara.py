@@ -431,25 +431,25 @@ class WXKG07LMLightController(LightController):
         return {
             "both": Light.TOGGLE,
             "both_double": Light.CLICK_BRIGHTNESS_UP,
-            "both_long": Light.CLICK_BRIGHTNESS_UP,
+            "both_long": Light.CLICK_BRIGHTNESS_DOWN,
             "left": Light.TOGGLE,
             "left_double": Light.CLICK_BRIGHTNESS_UP,
-            "left_long": Light.CLICK_BRIGHTNESS_UP,
+            "left_long": Light.CLICK_BRIGHTNESS_DOWN,
             "right": Light.TOGGLE,
             "right_double": Light.CLICK_BRIGHTNESS_UP,
-            "right_long": Light.CLICK_BRIGHTNESS_UP,
+            "right_long": Light.CLICK_BRIGHTNESS_DOWN,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            1002: Light.TOGGLE,  # single left
             1001: Light.CLICK_BRIGHTNESS_DOWN,  # long left
+            1002: Light.TOGGLE,  # single left
             1004: Light.CLICK_BRIGHTNESS_UP,  # double left
-            2002: Light.TOGGLE,  # single right
             2001: Light.CLICK_BRIGHTNESS_DOWN,  # long right
+            2002: Light.TOGGLE,  # single right
             2004: Light.CLICK_BRIGHTNESS_UP,  # double right
-            3002: Light.TOGGLE,  # single both
             3001: Light.CLICK_BRIGHTNESS_DOWN,  # long both
+            3002: Light.TOGGLE,  # single both
             3004: Light.CLICK_BRIGHTNESS_UP,  # double both
         }
 
