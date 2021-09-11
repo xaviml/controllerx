@@ -1,0 +1,31 @@
+name: WXKG06LM (Aqara)
+device_support:
+  - type: Light
+    domain: light
+    controller: WXKG06LMLightController
+    delay: 350
+    mapping:
+      - "Click → Toggle"
+      - "Double click → Brighten up (1 step)"
+      - "Long click → Dim down (1 step)"
+  - type: Switch
+    domain: switch
+    controller: WXKG06LMSwitchController
+    mapping:
+      - "Click → Toggle"
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "single → Click"
+      - "double → Double click"
+      - "hold → Long click"
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1002 → Click"
+      - "1004 → Double click"
+      - "1001 → Long click"
+note: >-
+  This controller support hold action, but not release. This means that there is not 
+  smooth brightness changes when holding, just step by step everytime is held.
