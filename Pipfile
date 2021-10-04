@@ -7,7 +7,7 @@ verify_ssl = true
 black = "==21.9b0"
 pytest = "==6.2.5"
 pytest-asyncio = "==0.15.1"
-pytest-cov = "==2.12.1"
+pytest-cov = "==3.0.0"
 pytest-mock = "==3.6.1"
 pytest-timeout = "==1.4.2"
 mock = "==4.0.3"
