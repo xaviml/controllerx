@@ -4,8 +4,9 @@ import cx_devices as devices_module
 import pytest
 from cx_const import ActionEvent, DefaultActionsMapping
 from cx_core import Controller, ReleaseHoldController
+from cx_helper import get_classes
 
-from tests.test_utils import get_classes, get_controller
+from tests.test_utils import get_controller
 
 
 def check_mapping(

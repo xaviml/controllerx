@@ -1,0 +1,28 @@
+site_name: My Docs
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      primary: light blue
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: light blue
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+plugins:
+  - macros
+  - gen-files:
+      scripts:
+        - gen_device_pages.py  # or any other name or path
+
+markdown_extensions:
+  - pymdownx.tabbed
+  - pymdownx.superfences
+  - attr_list
