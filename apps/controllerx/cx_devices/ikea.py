@@ -560,6 +560,7 @@ class W2049LightController(LightController):
             4001: Light.HOLD_COLOR_UP,
             4003: Light.RELEASE,
         }
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
