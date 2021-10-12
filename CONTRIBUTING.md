@@ -118,8 +118,14 @@ git remote add <username> git@github.com:<username>/controllerx.git
 Then you will need to fetch, create and checkout the branch:
 
 ```shell
-git fetch <username> <remote-branch>
-git checkout -b <username>-<remote-branch> <username>/<remote-branch>
+git fetch <username> <branch>
+git checkout -b <username>-<branch> <username>/<branch>
+```
+
+Once the changes are commited, you can push with the following command:
+
+```shell
+git push <username> HEAD:<branch>
 ```
 
 ## Deployment
