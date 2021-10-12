@@ -43,6 +43,19 @@ integrations:
       - "3003 → Release <"
       - "4001 → Hold >"
       - "4003 → Release >"
+  - name: ZHA
+    codename: zha
+    actions:
+      - "on → Click 🔆"
+      - "off → Click 🔅"
+      - "press_257_13_0 → Click <"
+      - "press_256_13_0 → Click >"
+      - "move_with_on_off_0_83 → Hold 🔆"
+      - "move_1_83 → Hold 🔅"
+      - "hold_3329_0 → Hold <"
+      - "hold_3328_0 → Hold >"
+      - "stop → Release 🔆 or 🔅"
+      - "release → Release < or >"
 note: >-
   This controller fires "on" action when arrows are held as well as the hold arrow action.
   So this means that when long pressing the arrows, the light(s) will turn on before changing the color.
