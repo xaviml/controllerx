@@ -6,10 +6,9 @@ _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 PRERELEASE_NOTE
 
-
 ## :pencil2: Features
 
-- Add `previous_state` attribute to restrict when an action is performed depending on the previous state of the entity. This is just applicable for `state` and `z2m` (with not MQTT) integrations.
+- Add `previous_state` attribute to restrict when an action is performed depending on the previous state of the entity. This is just applicable for `state` and `z2m` (with not MQTT) integrations. [#366]
 
 <!--
 ## :hammer: Fixes
@@ -30,4 +29,4 @@ PRERELEASE_NOTE
 ## :video_game: New devices
 
 - [WXKG06LM](https://xaviml.github.io/controllerx/controllers/WXKG06LM) - add Z2M and deCONZ support
-- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add ZHA support @patrezp
+- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add ZHA support @patrezp [#375]
