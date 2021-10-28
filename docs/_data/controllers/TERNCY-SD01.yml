@@ -10,6 +10,20 @@ device_support:
       - "3 clicks → Minimum brightness"
       - "4 clicks → 50% brightness"
       - "5 clicks → 50% color temp"
+      - "Rotate right → Brightness up (1 step)"
+      - "Rotate left → Brightness down (1 step)"
+  - type: Media Player
+    domain: media_player
+    controller: TerncySD01MediaPlayerController
+    delay: 350
+    mapping:
+      - "1 click → Play/Pause"
+      - "2 clicks → Mute"
+      - "3 clicks → Next track"
+      - "4 clicks → Previous track"
+      - "5 clicks → Next source"
+      - "Rotate right → Volume up (1 step)"
+      - "Rotate left → Volume down (1 step)"
 integrations:
   - name: ZHA
     codename: zha
