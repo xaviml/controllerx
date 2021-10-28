@@ -40,4 +40,4 @@ async def test_callback(
 
     await state_integration.state_callback("test", None, "old_state", "new_state", {})
 
-    handle_action_patch.assert_called_once_with("new_state")
+    handle_action_patch.assert_called_once_with("new_state", previous_state="old_state")

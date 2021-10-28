@@ -61,6 +61,11 @@ class Z2MIntegration(Integration):
         await self.controller.handle_action(payload[action_key], extra=payload)
 
     async def state_callback(
-        self, entity: Optional[str], attribute: Optional[str], old, new, kwargs
+        self,
+        entity: Optional[str],
+        attribute: Optional[str],
+        old: Optional[str],
+        new: str,
+        kwargs,
     ) -> None:
-        await self.controller.handle_action(new)
+        await self.controller.handle_action(new, previous_state=old)

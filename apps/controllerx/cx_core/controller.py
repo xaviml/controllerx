@@ -95,6 +95,7 @@ class Controller(Hass, Mqtt):
     action_delay: Dict[ActionEvent, int]
     action_delta: Dict[ActionEvent, int]
     action_times: Dict[str, float]
+    previous_states: Dict[ActionEvent, Optional[str]]
     multiple_click_action_times: Dict[str, float]
     click_counter: Counter[ActionEvent]
     multiple_click_action_delay_tasks: DefaultDict[
@@ -140,7 +141,9 @@ class Controller(Hass, Mqtt):
 
         # Action delay
         self.action_delay = self.get_mapping_per_action(
-            self.actions_mapping, custom=self.args.get("action_delay"), default=0
+            self.actions_mapping,
+            custom=self.args.get("action_delay"),
+            default=0,
         )
         self.action_delay_handles = defaultdict(lambda: None)
         self.action_handles = defaultdict(lambda: None)
@@ -152,6 +155,13 @@ class Controller(Hass, Mqtt):
             default=DEFAULT_ACTION_DELTA,
         )
         self.action_times = defaultdict(lambda: 0.0)
+
+        # Previous state
+        self.previous_states = self.get_mapping_per_action(
+            self.actions_mapping,
+            custom=self.args.get("previous_state"),
+            default=None,
+        )
 
         # Multiple click
         self.multiple_click_actions = self.get_multiple_click_actions(
@@ -242,6 +252,17 @@ class Controller(Hass, Mqtt):
             return list(entities)
         return [entities]
 
+    @overload
+    def get_mapping_per_action(
+        self,
+        actions_mapping: ActionsMapping,
+        *,
+        custom: Optional[Union[T, Dict[ActionEvent, T]]],
+        default: None,
+    ) -> Dict[ActionEvent, Optional[T]]:
+        ...
+
+    @overload
     def get_mapping_per_action(
         self,
         actions_mapping: ActionsMapping,
@@ -249,6 +270,15 @@ class Controller(Hass, Mqtt):
         custom: Optional[Union[T, Dict[ActionEvent, T]]],
         default: T,
     ) -> Dict[ActionEvent, T]:
+        ...
+
+    def get_mapping_per_action(
+        self,
+        actions_mapping,
+        *,
+        custom,
+        default,
+    ):
         if custom is not None and not isinstance(custom, dict):
             default = custom
         mapping = {action: default for action in actions_mapping}
@@ -339,8 +369,22 @@ class Controller(Hass, Mqtt):
         )
 
     async def handle_action(
-        self, action_key: str, extra: Optional[EventData] = None
+        self,
+        action_key: str,
+        previous_state: Optional[str] = None,
+        extra: Optional[EventData] = None,
     ) -> None:
+        if (
+            action_key in self.actions_mapping
+            and self.previous_states[action_key] is not None
+            and previous_state != self.previous_states[action_key]
+        ):
+            self.log(
+                f"🎮 `{action_key}` not triggered because previous action was `{previous_state}`",
+                level="DEBUG",
+                ascii_encode=False,
+            )
+            return
         if (
             action_key in self.actions_mapping
             and action_key not in self.multiple_click_actions

@@ -417,10 +417,8 @@ async def test_handle_action(
     sut.action_delta = {action_called: action_delta}
     sut.action_times = defaultdict(lambda: 0)
 
-    actions_mapping: ActionsMapping = {
-        action: [fake_action_type] for action in actions_input
-    }
-    sut.actions_mapping = actions_mapping
+    sut.actions_mapping = {action: [fake_action_type] for action in actions_input}
+    sut.previous_states = defaultdict(lambda: None)
     call_action_patch = mocker.patch.object(sut, "call_action")
 
     # SUT

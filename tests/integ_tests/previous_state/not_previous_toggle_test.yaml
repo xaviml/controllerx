@@ -1,0 +1,4 @@
+previous_state: null
+entity_state: "off"
+fired_actions: [toggle]
+expected_calls_count: 0

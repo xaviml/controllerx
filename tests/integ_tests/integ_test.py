@@ -48,6 +48,7 @@ async def test_integ_configs(
 ):
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
+    previous_state = data.get("previous_state", None)
     fired_actions = data.get("fired_actions", [])
     render_template_response = data.get("render_template_response")
     extra = data.get("extra")
@@ -77,7 +78,9 @@ async def test_integ_configs(
     await controller.initialize()
     for idx, action in enumerate(fired_actions):
         if any(isinstance(action, type_) for type_ in (str, int)):
-            coroutine = controller.handle_action(action, extra=extra)
+            coroutine = controller.handle_action(
+                action, previous_state=previous_state, extra=extra
+            )
             if idx == len(fired_actions) - 1:
                 await coroutine
             else:

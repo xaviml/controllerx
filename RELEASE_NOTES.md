@@ -6,9 +6,10 @@ _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 PRERELEASE_NOTE
 
-<!--
+
 ## :pencil2: Features
--->
+
+- Add `previous_state` attribute to restrict when an action is performed depending on the previous state of the entity. This is just applicable for `state` and `z2m` (with not MQTT) integrations.
 
 <!--
 ## :hammer: Fixes
