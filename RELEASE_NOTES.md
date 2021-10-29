@@ -9,6 +9,7 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 
 - Add `previous_state` attribute to restrict when an action is performed depending on the previous state of the entity. This is just applicable for `state` and `z2m` (with not MQTT) integrations. [#366]
+- Add `cover_duration` attribute. Duration of the cover to open and/or close in seconds, so `toggle_open` and `toggle_close` can stop the cover if the cover is still moving. This is recommended to be used when the cover does not report `opening` and `closing` states, otherwise, it is not necessary. [#368]
 
 <!--
 ## :hammer: Fixes
