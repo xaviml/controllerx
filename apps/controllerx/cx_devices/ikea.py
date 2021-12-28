@@ -591,7 +591,7 @@ class W2049LightController(LightController):
             "brightness_down_release": MediaPlayer.RELEASE,
         }
 
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: MediaPlayer.CLICK_VOLUME_UP,
             2002: MediaPlayer.CLICK_VOLUME_DOWN,
