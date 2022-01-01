@@ -6,14 +6,13 @@ _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 PRERELEASE_NOTE
 
-## :pencil2: Features
-
-- Add `previous_state` attribute to restrict when an action is performed depending on the previous state of the entity. This is just applicable for `state` and `z2m` (with not MQTT) integrations. [#366]
-- Add `cover_duration` attribute. Duration of the cover to open and/or close in seconds, so `toggle_open` and `toggle_close` can stop the cover if the cover is still moving. This is recommended to be used when the cover does not report `opening` and `closing` states, otherwise, it is not necessary. [#368]
-
 <!--
-## :hammer: Fixes
+## :pencil2: Features
 -->
+
+## :hammer: Fixes
+
+- [IM6001-BTP01](https://xaviml.github.io/controllerx/controllers/IM6001-BTP01) - fix z2m mapping
 
 <!--
 ## :clock2: Performance
@@ -27,7 +26,9 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
+<!--
 ## :video_game: New devices
 
 - [WXKG06LM](https://xaviml.github.io/controllerx/controllers/WXKG06LM) - add Z2M and deCONZ support
 - [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add ZHA support @patrezp [#375]
+-->

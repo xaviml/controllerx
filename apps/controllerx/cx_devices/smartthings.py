@@ -10,8 +10,8 @@ class SmartThingsButtonLightController(LightController):
 
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "single_click": Light.TOGGLE,
-            "double_click": Light.ON_FULL_BRIGHTNESS,
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
             "hold": Light.SET_HALF_BRIGHTNESS,
         }
 
