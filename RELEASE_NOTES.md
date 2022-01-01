@@ -26,9 +26,6 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
-<!--
 ## :video_game: New devices
 
-- [WXKG06LM](https://xaviml.github.io/controllerx/controllers/WXKG06LM) - add Z2M and deCONZ support
-- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add ZHA support @patrezp [#375]
--->
+- [TS0044F](https://xaviml.github.io/controllerx/controllers/TS0044F) - add Z2M support
