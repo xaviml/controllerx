@@ -20,8 +20,8 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - "single_click → 1 click"
-      - "double_click → 2 clicks"
+      - "single → 1 click"
+      - "double → 2 clicks"
       - "hold  → Hold the button"
   - name: deCONZ
     codename: deconz

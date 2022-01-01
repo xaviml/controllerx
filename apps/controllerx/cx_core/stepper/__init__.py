@@ -54,7 +54,7 @@ class StepperOutput:
 class Stepper(abc.ABC):
     sign_mapping = {StepperDir.UP: 1, StepperDir.DOWN: -1}
 
-    previous_direction: str = StepperDir.DOWN
+    previous_direction: str
     min_max: MinMax
     steps: Number
 
@@ -66,9 +66,12 @@ class Stepper(abc.ABC):
     def sign(direction: str) -> int:
         return Stepper.sign_mapping[direction]
 
-    def __init__(self, min_max: MinMax, steps: Number) -> None:
+    def __init__(
+        self, min_max: MinMax, steps: Number, previous_direction: str = StepperDir.DOWN
+    ) -> None:
         self.min_max = min_max
         self.steps = steps
+        self.previous_direction = previous_direction
 
     def get_direction(self, value: Number, direction: str) -> str:
         if direction == StepperDir.TOGGLE:

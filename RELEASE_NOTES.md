@@ -10,9 +10,9 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- [IM6001-BTP01](https://xaviml.github.io/controllerx/controllers/IM6001-BTP01) - fix z2m mapping
 
 <!--
 ## :clock2: Performance
