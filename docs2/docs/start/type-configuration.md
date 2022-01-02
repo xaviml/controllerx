@@ -36,9 +36,10 @@ This controller allows the devices to control light or group of lights. This all
 | `add_transition`             | boolean              | True                                            | If `true` adds transition if supported, otherwise it does not adds the `transition` attribute.                                                                                                                                                                            |
 | `add_transition_turn_toggle` | boolean              | True                                            | If `false` does not add transition when turning on/off or toggling, otherwise it adds the `transition` attribute to the call. See [FAQ #6](/controllerx/faq#6-light-is-not-turning-on-to-the-previous-brightness) for a further explanation on the use of this parameter. |
 | `color_wheel`                | string \| list       | `default_color_wheel`                           | It defines the color wheel used when changing the xy color either when click or hold actions are used. Check down to know more about the options.                                                                                                                         |
-| `supported_features`         | int                  | `0b101100` or `44`                            | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                                               |
+| `supported_features`         | int                  | `0b101100` or `44`                              | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                                               |
 | `supported_color_modes`      | list                 | `["xy", "rgb"]`                                 | It overrides the `supported_color_modes` that can be found in light attributes. Values can be `color_temp`, `hs`, `xy`, `rgb`, `rgbw` and `rgbww`.                                                                                                                        |
 | `update_supported_features`  | boolean              | False                                           | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                                 |
+| `hold_toggle_direction_init` | string               | `up`                                            | It indicates the first direction of the hold toggle actions (`up` or `down`).                                                                                                                                                                                             |
 
 _\* Required fields_
 
@@ -104,13 +105,14 @@ _\* Required fields_
 
 This allows you to control covers. It supports opening/closing and stop covers.
 
-| key                         | type    | value                                 | description                                                                                                                                                                               |
-| --------------------------- | ------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cover`\*                   | string  | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control                                                                                                                                        |
-| `open_position`             | number  | 100                                   | The open position (between 0 and 100)                                                                                                                                                     |
-| `close_position`            | number  | 0                                     | The close position (between 0 and 100)                                                                                                                                                    |
-| `supported_features`        | int     | `0b10111111` or `191`                 | See [below](#supported_features-field) for the explanation.                                                                                                                               |
-| `update_supported_features` | boolean | False                                 | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time. |
+| key                         | type    | value                                 | description                                                                                                                                                                                                                                                               |
+| --------------------------- | ------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cover`\*                   | string  | `group.all_covers` or `cover.kitchen` | The cover (or group of covers) you want to control                                                                                                                                                                                                                        |
+| `open_position`             | number  | 100                                   | The open position (between 0 and 100)                                                                                                                                                                                                                                     |
+| `close_position`            | number  | 0                                     | The close position (between 0 and 100)                                                                                                                                                                                                                                    |
+| `cover_duration`            | number  | -                                     | Duration of the cover to open and/or close in seconds, so `toggle_open` and `toggle_close` can stop the cover if the cover is still moving. This is recommended to be used when the cover does not report `opening` and `closing` states, otherwise, it is not necessary. |
+| `supported_features`        | int     | `0b10111111` or `191`                 | See [below](#supported_features-field) for the explanation.                                                                                                                                                                                                               |
+| `update_supported_features` | boolean | False                                 | If `true`, it will check the supported features field everytime before calling any call service action. Useful in case the supported features of the device entity changes over the time.                                                                                 |
 
 _\* Required fields_
 
@@ -120,11 +122,11 @@ This field will override the `supported_features` attribute from the entity (lig
 
 #### Light
 
-| feature     | value |
-| ----------- | ----- |
-| EFFECT      | 4     |
-| FLASH       | 8     |
-| TRANSITION  | 32    |
+| feature    | value |
+| ---------- | ----- |
+| EFFECT     | 4     |
+| FLASH      | 8     |
+| TRANSITION | 32    |
 
 If you want to express support for everything, the value is `0b101100` or `44`.
 
