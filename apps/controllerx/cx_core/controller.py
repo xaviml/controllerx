@@ -311,7 +311,9 @@ class Controller(Hass, Mqtt):
         )  # e.g. toggle$2
 
     async def _render_template(self, template: str) -> Any:
-        result = await self.call_service("template/render", template=template)
+        result = await self.call_service(
+            "template/render", template=template, return_result=True
+        )
         if result is None:
             raise ValueError(f"Template {template} returned None")
         try:

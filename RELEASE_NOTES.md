@@ -10,9 +10,9 @@ PRERELEASE_NOTE
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Fix template rendering for AppDaemon 4.2.0
 
 <!--
 ## :clock2: Performance
