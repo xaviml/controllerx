@@ -12,7 +12,7 @@ PRERELEASE_NOTE
 
 ## :hammer: Fixes
 
-- Fix template rendering for AppDaemon 4.2.0
+- [WXCJKG13LM](https://xaviml.github.io/controllerx/controllers/WXCJKG13LM) - Fix: replace `x_long press` for `x_long` events for ZHA [ #419 ]
 
 <!--
 ## :clock2: Performance
