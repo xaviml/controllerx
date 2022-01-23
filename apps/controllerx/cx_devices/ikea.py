@@ -574,3 +574,38 @@ class W2049LightController(LightController):
             "stop": Light.RELEASE,
             "release": Light.RELEASE,
         }
+
+
+class W2049MediaPlayerController(MediaPlayerController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": MediaPlayer.PLAY_PAUSE,
+            "off": MediaPlayer.CLICK_VOLUME_DOWN,
+            "arrow_left_click": MediaPlayer.PREVIOUS_TRACK,
+            "arrow_right_click": MediaPlayer.NEXT_TRACK,
+            "arrow_left_hold": MediaPlayer.PREVIOUS_SOURCE,
+            "arrow_left_release": MediaPlayer.RELEASE,
+            "arrow_right_hold": MediaPlayer.NEXT_SOURCE,
+            "arrow_right_release": MediaPlayer.RELEASE,
+            "brightness_up_hold": MediaPlayer.HOLD_VOLUME_UP,
+            "brightness_stop": MediaPlayer.RELEASE,
+            "brightness_up_release": MediaPlayer.RELEASE,
+            "brightness_down_hold": MediaPlayer.HOLD_VOLUME_DOWN,
+            "brightness_down_release": MediaPlayer.RELEASE,
+        }
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: MediaPlayer.PLAY_PAUSE,
+            2002: MediaPlayer.CLICK_VOLUME_DOWN,
+            3002: MediaPlayer.PREVIOUS_TRACK,
+            4002: MediaPlayer.NEXT_TRACK,
+            1001: MediaPlayer.HOLD_VOLUME_UP,
+            1003: MediaPlayer.RELEASE,
+            2001: MediaPlayer.HOLD_VOLUME_DOWN,
+            2003: MediaPlayer.RELEASE,
+            3001: MediaPlayer.PREVIOUS_SOURCE,
+            3003: MediaPlayer.RELEASE,
+            4001: MediaPlayer.NEXT_SOURCE,
+            4003: MediaPlayer.RELEASE,
+        }

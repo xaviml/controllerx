@@ -13,6 +13,19 @@ device_support:
       - "Hold 🔅 → Dim down"
       - "Hold < → Color temp down / Left color wheel"
       - "Hold > → Color temp up / Right color wheel"
+  - type: Media Player
+    domain: media_player
+    controller: W2049MediaPlayerController
+    delay: 350
+    mapping:
+      - "Click 🔆 → Play/Pause"
+      - "Click 🔅 → Volume down (1 step)"
+      - "Click < → Previous track"
+      - "Click > → Next track"
+      - "Hold 🔆 → Volume up"
+      - "Hold 🔅 → Volume down"
+      - "Hold < → Previous source"
+      - "Hold > → Next source"
 integrations:
   - name: Zigbee2MQTT
     codename: z2m
