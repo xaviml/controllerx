@@ -575,11 +575,12 @@ class W2049LightController(LightController):
             "release": Light.RELEASE,
         }
 
- class W2049MediaPlayerController(MediaPlayerController):
+
+class W2049MediaPlayerController(MediaPlayerController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": MediaPlayer.PLAY_PAUSE,
-            "off": MediaPlayer.PLAY_PAUSE,
+            "off": MediaPlayer.CLICK_VOLUME_DOWN,
             "arrow_left_click": MediaPlayer.PREVIOUS_TRACK,
             "arrow_right_click": MediaPlayer.NEXT_TRACK,
             "arrow_left_hold": MediaPlayer.PREVIOUS_SOURCE,
@@ -596,7 +597,7 @@ class W2049LightController(LightController):
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: MediaPlayer.PLAY_PAUSE,
-            2002: MediaPlayer.PLAY_PAUSE,
+            2002: MediaPlayer.CLICK_VOLUME_DOWN,
             3002: MediaPlayer.PREVIOUS_TRACK,
             4002: MediaPlayer.NEXT_TRACK,
             1001: MediaPlayer.HOLD_VOLUME_UP,
