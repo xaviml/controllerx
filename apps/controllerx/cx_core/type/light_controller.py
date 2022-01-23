@@ -27,6 +27,7 @@ DEFAULT_MAX_COLOR_TEMP = 500
 DEFAULT_TRANSITION = 300
 DEFAULT_ADD_TRANSITION = True
 DEFAULT_TRANSITION_TURN_TOGGLE = False
+DEFAULT_HOLD_TOGGLE_DIRECTION_INIT = "up"
 
 ColorMode = str
 # Once the minimum supported version of Python is 3.8,
@@ -135,6 +136,13 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self.add_transition = self.args.get("add_transition", DEFAULT_ADD_TRANSITION)
         self.add_transition_turn_toggle = self.args.get(
             "add_transition_turn_toggle", DEFAULT_TRANSITION_TURN_TOGGLE
+        )
+        self.hold_toggle_direction_init = self.get_option(
+            self.args.get(
+                "hold_toggle_direction_init", DEFAULT_HOLD_TOGGLE_DIRECTION_INIT
+            ),
+            [StepperDir.UP, StepperDir.DOWN],
+            "`hold_toggle_direction_init`",
         )
         await super().init()
 
@@ -568,14 +576,17 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     @lru_cache(maxsize=None)
     def get_stepper(self, attribute: str, steps: Number, mode: str) -> Stepper:
+        previous_direction = Stepper.invert_direction(self.hold_toggle_direction_init)
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            return IndexLoopStepper(len(self.color_wheel))
+            return IndexLoopStepper(len(self.color_wheel), previous_direction)
         if mode not in STEPPER_MODES:
             raise ValueError(
                 f"`{mode}` mode is not available. Options are: {list(STEPPER_MODES.keys())}"
             )
         stepper_cls = STEPPER_MODES[mode]
-        return stepper_cls(self.min_max_attributes[attribute], steps)
+        return stepper_cls(
+            self.min_max_attributes[attribute], steps, previous_direction
+        )
 
     async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:

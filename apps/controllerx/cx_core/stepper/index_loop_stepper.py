@@ -1,10 +1,10 @@
 from cx_const import Number
-from cx_core.stepper import MinMax, Stepper, StepperOutput
+from cx_core.stepper import MinMax, Stepper, StepperDir, StepperOutput
 
 
 class IndexLoopStepper(Stepper):
-    def __init__(self, size: int) -> None:
-        super().__init__(MinMax(0, size - 1), size)
+    def __init__(self, size: int, previous_direction: str = StepperDir.DOWN) -> None:
+        super().__init__(MinMax(0, size - 1), size, previous_direction)
 
     def step(self, value: Number, direction: str) -> StepperOutput:
         value = self.min_max.clip(value)
