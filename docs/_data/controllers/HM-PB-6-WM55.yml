@@ -1,0 +1,11 @@
+name: HM-PB-6-WM55 (Homematic)
+device_support:
+  - type: Light
+    domain: light
+    controller: HMPB6WM55LightController
+    delay: 350
+    mapping: []
+integrations:
+  - name: Homematic
+    codename: homematic
+    actions: []

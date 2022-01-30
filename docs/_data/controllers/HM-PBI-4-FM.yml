@@ -1,0 +1,11 @@
+name: HM-PBI-4-FM (Homematic)
+device_support:
+  - type: Light
+    domain: light
+    controller: HMPBI4FMLightController
+    delay: 350
+    mapping: []
+integrations:
+  - name: Homematic
+    codename: homematic
+    actions: []

@@ -17,6 +17,7 @@ from cx_core import (
 )
 from cx_devices.aqara import *
 from cx_devices.aurora import *
+from cx_devices.homematic import *
 from cx_devices.ikea import *
 from cx_devices.legrand import *
 from cx_devices.linkind import *
