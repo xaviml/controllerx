@@ -18,15 +18,15 @@ integrations:
   - name: Zigbee2MQTT
     codename: z2m
     actions:
-      - 1_single → Click top left
-      - 1_double → Double click top left
-      - 1_hold → Hold top left
-      - 2_single → Click top right
-      - 2_double → Double click top right
-      - 2_hold → Hold top right
-      - 3_single → Click bottom left
-      - 3_double → Double click bottom left
-      - 3_hold → Hold bottom left
+      - 1_single → Click button 1
+      - 1_double → Double click button 2
+      - 1_hold → Hold button 1
+      - 2_single → Click button 2
+      - 2_double → Double click button 2
+      - 2_hold → Hold button 2
+      - 3_single → Click button 3
+      - 3_double → Double click button 3
+      - 3_hold → Hold button 3
 note: >-
   Note that each button perform the same actions.
   This is because ControllerX is design to control just one entity (light or media player).
