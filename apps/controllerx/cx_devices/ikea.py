@@ -163,8 +163,8 @@ class E1743Controller(LightController):
             "on": Light.ON,
             "off": Light.OFF,
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
-            "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
-            "stop": Light.RELEASE,
+            "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
+            "stop_with_on_off": Light.RELEASE,
         }
 
 
@@ -196,8 +196,8 @@ class E1743MediaPlayerController(MediaPlayerController):
             "on": MediaPlayer.PLAY_PAUSE,
             "off": MediaPlayer.NEXT_TRACK,
             "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
-            "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
-            "stop": MediaPlayer.RELEASE,
+            "move_1_83_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
+            "stop_with_on_off": MediaPlayer.RELEASE,
         }
 
 
@@ -243,8 +243,8 @@ class E1743CoverController(CoverController):
             "on": Cover.TOGGLE_OPEN,
             "off": Cover.TOGGLE_CLOSE,
             "move_with_on_off_0_83": Cover.OPEN,
-            "move_1_83": Cover.CLOSE,
-            "stop": Cover.STOP,
+            "move_1_83_0_0": Cover.CLOSE,
+            "stop_with_on_off": Cover.STOP,
         }
 
 
