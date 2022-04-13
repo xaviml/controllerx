@@ -30,13 +30,11 @@ def sut_before_init(fake_controller: Controller, mocker: MockerFixture) -> Contr
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(sut_before_init: Controller) -> Controller:
     await sut_before_init.initialize()
     return sut_before_init
 
 
-@pytest.mark.asyncio
 async def test_action_decorator(sut, mocker):
     stub_action = mocker.stub()
     before_action_spy = mocker.spy(sut, "before_action")
@@ -129,7 +127,6 @@ async def test_action_decorator(sut, mocker):
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_initialize(
     sut_before_init: Controller,
     mocker: MockerFixture,
@@ -187,7 +184,6 @@ async def test_initialize(
         (["action1"], ["action1"], None, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_merge_mapping(
     sut_before_init: Controller,
     mocker: MockerFixture,
@@ -403,7 +399,6 @@ def test_get_default_actions_mapping_throwing_error(
         (["action1", "action2"], "action2", 3, 0, 3),
     ],
 )
-@pytest.mark.asyncio
 async def test_handle_action(
     sut: Controller,
     mocker: MockerFixture,
@@ -437,7 +432,6 @@ async def test_handle_action(
         (1, "1234", True, True, False),
     ],
 )
-@pytest.mark.asyncio
 async def test_call_action(
     sut: Controller,
     monkeypatch,
@@ -480,7 +474,6 @@ async def test_call_action(
     "service, attributes",
     [("test_service", {"attr1": 0.0, "attr2": "test"}), ("test_service", {})],
 )
-@pytest.mark.asyncio
 async def test_call_service(
     sut: Controller, mocker: MockerFixture, service: str, attributes: Dict[str, Any]
 ):
@@ -501,7 +494,6 @@ async def test_call_service(
         ("{ { to_render } }", False),
     ],
 )
-@pytest.mark.asyncio
 def test_render_value(sut: Controller, template: str, expected: bool) -> None:
     output = sut.contains_templating(template)
     assert output == expected

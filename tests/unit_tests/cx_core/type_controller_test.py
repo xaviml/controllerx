@@ -45,13 +45,11 @@ def sut_before_init(mocker: MockerFixture) -> MyTypeController:
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(sut_before_init: MyTypeController) -> MyTypeController:
     await sut_before_init.init()
     return sut_before_init
 
 
-@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "args, error_expected",
     [
@@ -110,7 +108,6 @@ async def test_init(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_check_domain(
     sut: MyTypeController,
     monkeypatch: MonkeyPatch,
@@ -137,7 +134,6 @@ async def test_check_domain(
         ("group.lights", [], True, None),
     ],
 )
-@pytest.mark.asyncio
 async def test_get_entity_state(
     sut: MyTypeController,
     mocker: MockerFixture,

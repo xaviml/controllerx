@@ -41,7 +41,6 @@ def get_fake_get_state(entity_state, entity_state_attributes):
 integration_tests = get_integ_tests()
 
 
-@pytest.mark.asyncio
 @pytest.mark.parametrize("config_file, test_yaml_file, data", integration_tests)
 async def test_integ_configs(
     mocker: MockerFixture, config_file: str, test_yaml_file: str, data: Dict[str, Any]
