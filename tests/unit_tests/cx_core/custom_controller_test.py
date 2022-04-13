@@ -63,7 +63,6 @@ from tests.test_utils import fake_fn
         (CoverController, {"action1": "open"}, "action2", "open", 0),
     ],
 )
-@pytest.mark.asyncio
 async def test_custom_controllers(
     mocker: MockerFixture,
     custom_cls: Type[TypeController],
@@ -142,7 +141,6 @@ async def test_custom_controllers(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_call_service_controller(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,

@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 import pytest
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
@@ -6,30 +6,61 @@ from cx_core.controller import Controller
 from cx_core.integration.mqtt import MQTTIntegration
 from pytest_mock.plugin import MockerFixture
 
+from tests.test_utils import wrap_execution
+
 
 @pytest.mark.parametrize(
-    "data, expected",
+    "data, payload_key, expected, error_expected",
     [
         (
             {"payload": "click"},
+            None,
             "click",
+            False,
+        ),
+        (
+            {
+                "payload": '{"battery":99,"illuminance":0,"illuminance_lux":0,"linkquality":255,"occupancy":true,"temperature":27,"voltage":2985}'
+            },
+            "occupancy",
+            "true",
+            False,
         ),
         (
             {},
             None,
+            None,
+            False,
+        ),
+        (
+            {"payload": "fail_payload"},
+            "fake_key",
+            None,
+            True,
+        ),
+        (
+            {
+                "payload": '{"battery":99,"illuminance":0,"illuminance_lux":0,"linkquality":255,"occupancy":true,"temperature":27,"voltage":2985}'
+            },
+            "action",
+            None,
+            True,
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
     data: Dict,
-    expected: str,
+    payload_key: Optional[str],
+    expected: Optional[str],
+    error_expected: bool,
 ):
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
-    mqtt_integration = MQTTIntegration(fake_controller, {})
-    await mqtt_integration.event_callback("test", data, {})
+    mqtt_integration = MQTTIntegration(fake_controller, {"key": payload_key})
+
+    with wrap_execution(error_expected=error_expected, exception=ValueError):
+        await mqtt_integration.event_callback("test", data, {})
 
     if expected is not None:
         handle_action_patch.assert_called_once_with(expected)
@@ -37,7 +68,6 @@ async def test_callback(
         handle_action_patch.assert_not_called()
 
 
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,

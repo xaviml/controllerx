@@ -61,7 +61,7 @@ This integration(**`zha`**) listens to `zha_event` events and concatenates the c
 
 #### MQTT
 
-This integration(**`mqtt`**) listens for the topic sent from the `controller` attribute. Although this integration makes sense to use together with [custom controllers](custom-controllers), it works with the actions from zigbee2mqtt. This means that if you have a configuration like the following:
+This integration (**`mqtt`**) listens for the topic sent from the `controller` attribute. Although this integration makes sense to use together with [custom controllers](custom-controllers), it works with the actions from zigbee2mqtt. This means that if you have a configuration like the following:
 
 ```yaml
 livingroom_controller:
@@ -84,7 +84,39 @@ livingroom_controller:
   light: light.bedroom
 ```
 
-By doing this, ControllerX will be listening directly from MQTT rather than Home Assistant (which listens from MQTT). Not only can you use this with zigbee2mqtt, but also with any other MQTT integration. However, it comes with the limitation that it expects the payload from the topic to be the action and not a JSON, this is why the example above we use `zigbee2mqtt/livingroom_controller/action` and not `zigbee2mqtt/livingroom_controller`. Last but not least, MQTT needs to be configured on `appdaemon.yaml` by adding the `MQTT` plugin, apart from the `HASS` plugin. The whole file should look like the following:
+By doing this, ControllerX will be listening directly from MQTT rather than Home Assistant (which listens from MQTT). Not only can you use this with zigbee2mqtt, but also with any other MQTT integration. This works for JSON and non-JSON values in the payload. If an specific attribute needs to be extracted from JSON payload, the `key` attribute can be used:
+
+```yaml
+example_app:
+  module: controllerx
+  class: LightController
+  controller:
+    - zigbee2mqtt/stairway_sensor01_occupancy
+    - zigbee2mqtt/stairway_sensor02_occupancy
+  light: light.stairway
+  integration:
+    name: mqtt
+    key: occupancy
+  mapping:
+    "true": "on"
+    "false": "off"
+```
+
+This example will turn on the light when the following payload is shown for one of the 2 topics in the `controller` key:
+
+```json
+{
+  "battery": 99,
+  "illuminance": 0,
+  "illuminance_lux": 0,
+  "linkquality": 255,
+  "occupancy": true,
+  "temperature": 27,
+  "voltage": 2985
+}
+```
+
+By default, mqtt will read non-JSON values. Last but not least, MQTT needs to be configured on `appdaemon.yaml` by adding the `MQTT` plugin, apart from the `HASS` plugin. The whole file should look like the following:
 
 ```yaml
 ---

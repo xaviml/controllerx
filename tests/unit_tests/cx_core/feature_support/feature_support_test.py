@@ -14,7 +14,6 @@ from cx_core.type_controller import TypeController
         (0, 0, False),
     ],
 )
-@pytest.mark.asyncio
 async def test_is_supported(
     fake_type_controller: TypeController,
     number: int,
@@ -38,7 +37,6 @@ async def test_is_supported(
         (0, 0, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_not_supported(
     fake_type_controller: TypeController,
     number: int,

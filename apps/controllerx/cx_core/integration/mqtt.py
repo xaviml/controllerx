@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
@@ -20,5 +21,23 @@ class MQTTIntegration(Integration):
         self, event_name: str, data: EventData, kwargs: dict
     ) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
-        if "payload" in data:
-            await self.controller.handle_action(data["payload"])
+        payload_key = self.kwargs.get("key")
+        if "payload" not in data:
+            return
+        payload = data["payload"]
+        action_key: str
+        if payload_key is None:
+            action_key = payload
+        else:
+            try:
+                action_key = str(json.loads(payload)[payload_key]).lower()
+            except json.decoder.JSONDecodeError:
+                raise ValueError(
+                    f"`key` is being used ({payload_key}). "
+                    f"Following payload is not a valid JSON: {payload}"
+                )
+            except KeyError:
+                raise ValueError(
+                    f"Following payload does not contain `{payload_key}`: {payload}"
+                )
+        await self.controller.handle_action(action_key)
