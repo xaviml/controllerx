@@ -388,8 +388,8 @@ class E1744LightController(LightController):
             "move_0_195_0_0": Light.HOLD_BRIGHTNESS_UP,
             "stop": Light.RELEASE,
             "toggle": Light.TOGGLE,
-            "step_0_1_0": Light.ON_FULL_BRIGHTNESS,
-            "step_1_1_0": Light.ON_MIN_BRIGHTNESS,
+            "step_0_1_0_0_0": Light.ON_FULL_BRIGHTNESS,
+            "step_1_1_0_0_0": Light.ON_MIN_BRIGHTNESS,
         }
 
     def default_delay(self) -> int:
@@ -428,8 +428,8 @@ class E1744MediaPlayerController(MediaPlayerController):
             "move_0_195_0_0": MediaPlayer.HOLD_VOLUME_UP,
             "stop": MediaPlayer.RELEASE,
             "toggle": MediaPlayer.PLAY_PAUSE,
-            "step_0_1_0": MediaPlayer.NEXT_TRACK,
-            "step_1_1_0": MediaPlayer.PREVIOUS_TRACK,
+            "step_0_1_0_0_0": MediaPlayer.NEXT_TRACK,
+            "step_1_1_0_0_0": MediaPlayer.PREVIOUS_TRACK,
         }
 
     def default_delay(self) -> int:
