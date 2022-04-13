@@ -587,11 +587,9 @@ class W2049MediaPlayerController(MediaPlayerController):
             "arrow_left_release": MediaPlayer.RELEASE,
             "arrow_right_hold": MediaPlayer.NEXT_SOURCE,
             "arrow_right_release": MediaPlayer.RELEASE,
-            "brightness_up_hold": MediaPlayer.HOLD_VOLUME_UP,
+            "brightness_move_up": MediaPlayer.HOLD_VOLUME_UP,
+            "brightness_move_down": MediaPlayer.HOLD_VOLUME_DOWN,
             "brightness_stop": MediaPlayer.RELEASE,
-            "brightness_up_release": MediaPlayer.RELEASE,
-            "brightness_down_hold": MediaPlayer.HOLD_VOLUME_DOWN,
-            "brightness_down_release": MediaPlayer.RELEASE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
