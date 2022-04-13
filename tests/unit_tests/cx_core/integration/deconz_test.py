@@ -24,7 +24,6 @@ from tests.test_utils import wrap_execution
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
@@ -50,7 +49,6 @@ async def test_callback(
         ("fake", None),
     ],
 )
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,

@@ -21,7 +21,6 @@ ENTITY_NAME = "light.test"
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut_before_init(mocker: MockerFixture) -> LightController:
     controller = LightController()  # type: ignore
     controller.args = {}
@@ -31,7 +30,6 @@ async def sut_before_init(mocker: MockerFixture) -> LightController:
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> LightController:
     controller = LightController()  # type: ignore
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
@@ -66,7 +64,6 @@ async def sut(mocker: MockerFixture) -> LightController:
         (0.0, None, None, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_init(
     sut_before_init: LightController,
     light_input: Union[str, Dict[str, str]],
@@ -117,7 +114,6 @@ async def test_init(
         ("color", "auto", set(), "not_important", True),
     ],
 )
-@pytest.mark.asyncio
 async def test_get_attribute(
     sut: LightController,
     attribute_input: str,
@@ -146,7 +142,6 @@ async def test_get_attribute(
         ({}, False),
     ],
 )
-@pytest.mark.asyncio
 async def test_is_color_supported(
     sut: LightController, supported_color_modes: Set[str], expected_output: bool
 ):
@@ -167,7 +162,6 @@ async def test_is_color_supported(
         ({}, False),
     ],
 )
-@pytest.mark.asyncio
 async def test_is_colortemp_supported(
     sut: LightController, supported_color_modes: Set[str], expected_output: bool
 ):
@@ -192,7 +186,6 @@ async def test_is_colortemp_supported(
         ("not_a_valid_attribute", False, None, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_get_value_attribute(
     sut: LightController,
     mocker: MockerFixture,
@@ -289,7 +282,6 @@ def test_get_stepper(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_change_light_state(
     sut: LightController,
     mocker: MockerFixture,
@@ -336,7 +328,6 @@ async def test_change_light_state(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_call_light_service(
     sut: LightController,
     mocker: MockerFixture,
@@ -374,7 +365,6 @@ async def test_call_light_service(
         (False, False, False, False, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_check_remove_transition(
     sut: LightController,
     add_transition: bool,
@@ -393,7 +383,6 @@ async def test_check_remove_transition(
     assert output == expected_remove_transition_check
 
 
-@pytest.mark.asyncio
 async def test_on(
     sut: LightController,
     mocker: MockerFixture,
@@ -405,7 +394,6 @@ async def test_on(
     call_light_service_patch.assert_called_once_with("light/turn_on")
 
 
-@pytest.mark.asyncio
 async def test_off(sut: LightController, mocker: MockerFixture):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
 
@@ -414,7 +402,6 @@ async def test_off(sut: LightController, mocker: MockerFixture):
     call_light_service_patch.assert_called_once_with("light/turn_off")
 
 
-@pytest.mark.asyncio
 async def test_toggle(sut: LightController, mocker: MockerFixture):
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
 
@@ -431,7 +418,6 @@ async def test_toggle(sut: LightController, mocker: MockerFixture):
         ("test", MinMax(1, 10), 10),
     ],
 )
-@pytest.mark.asyncio
 async def test_toggle_full(
     sut: LightController,
     mocker: MockerFixture,
@@ -458,7 +444,6 @@ async def test_toggle_full(
         ("test", MinMax(1, 10), 1),
     ],
 )
-@pytest.mark.asyncio
 async def test_toggle_min(
     sut: LightController,
     mocker: MockerFixture,
@@ -489,7 +474,6 @@ async def test_toggle_min(
         (MinMax(0, 100), 0, 0),
     ],
 )
-@pytest.mark.asyncio
 async def test_set_value(
     sut: LightController,
     mocker: MockerFixture,
@@ -506,7 +490,6 @@ async def test_set_value(
     on_patch.assert_called_once_with(**{attribute: expected_value})
 
 
-@pytest.mark.asyncio
 async def test_on_full(sut: LightController, mocker: MockerFixture):
     attribute = "test_attribute"
     max_ = 10
@@ -518,7 +501,6 @@ async def test_on_full(sut: LightController, mocker: MockerFixture):
     on_patch.assert_called_once_with(**{attribute: max_})
 
 
-@pytest.mark.asyncio
 async def test_on_min(sut: LightController, mocker: MockerFixture):
     attribute = "test_attribute"
     min_ = 1
@@ -538,7 +520,6 @@ async def test_on_min(sut: LightController, mocker: MockerFixture):
         (120, "error", {"brightness": 120}),
     ],
 )
-@pytest.mark.asyncio
 async def test_sync(
     sut: LightController,
     monkeypatch: MonkeyPatch,
@@ -630,7 +611,6 @@ async def test_sync(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_click(
     sut: LightController,
     monkeypatch: MonkeyPatch,
@@ -747,7 +727,6 @@ async def test_click(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_hold(
     sut: LightController,
     monkeypatch: MonkeyPatch,
@@ -790,7 +769,6 @@ async def test_hold(
 
 
 @pytest.mark.parametrize("value_attribute", [10, None])
-@pytest.mark.asyncio
 async def test_hold_loop(
     sut: LightController, mocker: MockerFixture, value_attribute: int
 ):

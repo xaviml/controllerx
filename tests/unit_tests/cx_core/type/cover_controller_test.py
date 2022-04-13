@@ -14,7 +14,6 @@ ENTITY_NAME = "cover.test"
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut_before_init(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
@@ -23,7 +22,6 @@ async def sut_before_init(mocker: MockerFixture) -> CoverController:
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> CoverController:
     controller = CoverController()  # type: ignore
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
@@ -43,7 +41,6 @@ async def sut(mocker: MockerFixture) -> CoverController:
         (0, 100, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_init(
     sut_before_init: CoverController,
     open_position: int,
@@ -76,7 +73,6 @@ async def test_init(
         (0, None),
     ],
 )
-@pytest.mark.asyncio
 async def test_open(
     sut: CoverController,
     mocker: MockerFixture,
@@ -116,7 +112,6 @@ async def test_open(
         (0, None),
     ],
 )
-@pytest.mark.asyncio
 async def test_close(
     sut: CoverController,
     mocker: MockerFixture,
@@ -143,7 +138,6 @@ async def test_close(
         assert called_service_patch.call_count == 0
 
 
-@pytest.mark.asyncio
 async def test_stop(sut: CoverController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -158,7 +152,6 @@ async def test_stop(sut: CoverController, mocker: MockerFixture):
     "cover_state, stop_expected",
     [("opening", True), ("closing", True), ("open", False), ("close", False)],
 )
-@pytest.mark.asyncio
 async def test_toggle(
     sut: CoverController,
     monkeypatch: MonkeyPatch,

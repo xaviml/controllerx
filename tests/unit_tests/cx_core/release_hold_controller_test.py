@@ -25,26 +25,22 @@ def sut_before_init(mocker: MockerFixture) -> FakeReleaseHoldController:
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(sut_before_init: FakeReleaseHoldController) -> FakeReleaseHoldController:
     await sut_before_init.init()
     return sut_before_init
 
 
-@pytest.mark.asyncio
 async def test_init(sut_before_init: FakeReleaseHoldController, mocker: MockerFixture):
     await sut_before_init.init()
     assert sut_before_init.delay == 500
 
 
-@pytest.mark.asyncio
 async def test_release(sut: FakeReleaseHoldController):
     sut.on_hold = True
     await sut.release()
     assert not sut.on_hold
 
 
-@pytest.mark.asyncio
 async def test_hold(
     sut: FakeReleaseHoldController,
     monkeypatch: MonkeyPatch,
@@ -71,7 +67,6 @@ async def test_hold(
         ("release", False, False, True),
     ],
 )
-@pytest.mark.asyncio
 async def test_before_action(
     sut: FakeReleaseHoldController,
     action: str,

@@ -9,7 +9,6 @@ ENTITY_NAME = "switch.test"
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(mocker: MockerFixture):
     c = SwitchController()  # type: ignore
     mocker.patch.object(c, "get_state", fake_fn(None, async_=True))
@@ -17,7 +16,6 @@ async def sut(mocker: MockerFixture):
     return c
 
 
-@pytest.mark.asyncio
 async def test_turn_on(sut: SwitchController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.on()
@@ -26,7 +24,6 @@ async def test_turn_on(sut: SwitchController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_turn_off(sut: SwitchController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.off()
@@ -35,7 +32,6 @@ async def test_turn_off(sut: SwitchController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_toggle(sut: SwitchController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
     await sut.toggle()

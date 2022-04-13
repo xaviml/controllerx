@@ -38,7 +38,6 @@ from pytest_mock.plugin import MockerFixture
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
@@ -57,7 +56,6 @@ async def test_callback(
         handle_action_patch.assert_not_called()
 
 
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,

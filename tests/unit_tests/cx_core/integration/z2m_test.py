@@ -35,7 +35,6 @@ from tests.test_utils import wrap_execution
         ({"payload": '{"action_rate": 195}'}, "action", None, False, "Any"),
     ],
 )
-@pytest.mark.asyncio
 async def test_event_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
@@ -72,7 +71,6 @@ async def test_event_callback(
         ("fake", None, None),
     ],
 )
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,

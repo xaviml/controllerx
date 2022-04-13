@@ -8,7 +8,6 @@ from pytest_mock.plugin import MockerFixture
 
 
 @pytest.mark.parametrize("attribute", ["sensor", "entity_id", None])
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller, mocker: MockerFixture, attribute: Optional[str]
 ):
@@ -29,7 +28,6 @@ async def test_listen_changes(
     )
 
 
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,

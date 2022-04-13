@@ -15,7 +15,6 @@ ENTITY_NAME = "media_player.test"
 
 
 @pytest.fixture
-@pytest.mark.asyncio
 async def sut(mocker: MockerFixture) -> MediaPlayerController:
     controller = MediaPlayerController()  # type: ignore
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
@@ -25,7 +24,6 @@ async def sut(mocker: MockerFixture) -> MediaPlayerController:
     return controller
 
 
-@pytest.mark.asyncio
 async def test_play_pause(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -36,7 +34,6 @@ async def test_play_pause(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_play(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -47,7 +44,6 @@ async def test_play(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_pause(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -58,7 +54,6 @@ async def test_pause(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_previous_track(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -69,7 +64,6 @@ async def test_previous_track(sut: MediaPlayerController, mocker: MockerFixture)
     )
 
 
-@pytest.mark.asyncio
 async def test_next_track(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -80,7 +74,6 @@ async def test_next_track(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_volume_up(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
 ):
@@ -95,7 +88,6 @@ async def test_volume_up(
     )
 
 
-@pytest.mark.asyncio
 async def test_volume_down(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
 ):
@@ -110,7 +102,6 @@ async def test_volume_down(
     )
 
 
-@pytest.mark.asyncio
 async def test_volume_set(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -121,7 +112,6 @@ async def test_volume_set(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_volume_mute(sut: MediaPlayerController, mocker: MockerFixture):
     called_service_patch = mocker.patch.object(sut, "call_service")
 
@@ -132,7 +122,6 @@ async def test_volume_mute(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-@pytest.mark.asyncio
 async def test_tts(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
 ):
@@ -156,7 +145,6 @@ async def test_tts(
     )
 
 
-@pytest.mark.asyncio
 async def test_hold(sut: MediaPlayerController, mocker: MockerFixture):
     direction = "test_direction"
     prepare_volume_change_patch = mocker.patch.object(sut, "prepare_volume_change")
@@ -177,7 +165,6 @@ async def test_hold(sut: MediaPlayerController, mocker: MockerFixture):
         (StepperDir.DOWN, False, None, None),
     ],
 )
-@pytest.mark.asyncio
 async def test_hold_loop(
     sut: MediaPlayerController,
     mocker: MockerFixture,
@@ -220,7 +207,6 @@ async def test_hold_loop(
         (StepperDir.DOWN, [], None, 0, None),
     ],
 )
-@pytest.mark.asyncio
 async def test_change_source_list(
     sut: MediaPlayerController,
     mocker: MockerFixture,
