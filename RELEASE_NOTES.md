@@ -26,8 +26,6 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
-<!--
 ## :video_game: New devices
 
 - [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add Media Player support for Z2M and deCONZ [ #396 ] @ayatollah
-- -->
