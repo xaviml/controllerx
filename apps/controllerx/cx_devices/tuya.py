@@ -29,6 +29,7 @@ class TS0044FLightController(LightController):
             "brightness_step_down": Light.CLICK_BRIGHTNESS_DOWN,
         }
 
+
 class TS0043LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
