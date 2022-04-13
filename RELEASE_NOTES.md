@@ -10,9 +10,12 @@ PRERELEASE_NOTE
 
 - Add `key` attribute for MQTT integration. It allows reading specific attribute for JSON payloads. Read more [here](https://xaviml.github.io/controllerx/others/integrations#mqtt).
 
-<!--
 ## :hammer: Fixes
--->
+
+- [E1524_E1810](https://xaviml.github.io/controllerx/controllers/E1524_E1810) - Fix ZHA mapping for 2022.4.X Home Assistant
+- [E1743](https://xaviml.github.io/controllerx/controllers/E1743) - Fix ZHA mapping for 2022.4.X Home Assistant
+- [E1744](https://xaviml.github.io/controllerx/controllers/E1744) - Fix ZHA mapping for 2022.4.X Home Assistant
+- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - Fix ZHA mapping for 2022.4.X Home Assistant
 
 <!--
 ## :clock2: Performance

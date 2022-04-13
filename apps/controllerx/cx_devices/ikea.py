@@ -65,16 +65,16 @@ class E1810Controller(LightController):
             "toggle": Light.TOGGLE,
             "press_2_0_0": Light.SYNC,
             "step_with_on_off_0_43_5": Light.CLICK_BRIGHTNESS_UP,
-            "step_1_43_5": Light.CLICK_BRIGHTNESS_DOWN,
+            "step_1_43_5_0_0": Light.CLICK_BRIGHTNESS_DOWN,
             "press_257_13_0": Light.CLICK_COLOR_DOWN,
             "press_256_13_0": Light.CLICK_COLOR_UP,
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
             "move_with_on_off_0_84": Light.HOLD_BRIGHTNESS_UP,  # ZigBee 3.0 firmware
-            "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
-            "move_1_84": Light.HOLD_BRIGHTNESS_DOWN,  # ZigBee 3.0 firmware
+            "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_1_84_0_0": Light.HOLD_BRIGHTNESS_DOWN,  # ZigBee 3.0 firmware
             "hold_3329_0": Light.HOLD_COLOR_DOWN,
             "hold_3328_0": Light.HOLD_COLOR_UP,
-            "stop": Light.RELEASE,
+            "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
         }
 
@@ -121,14 +121,14 @@ class E1810MediaPlayerController(MediaPlayerController):
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,
             "step_with_on_off_0_43_5": MediaPlayer.CLICK_VOLUME_UP,
-            "step_1_43_5": MediaPlayer.CLICK_VOLUME_DOWN,
+            "step_1_43_5_0_0": MediaPlayer.CLICK_VOLUME_DOWN,
             "press_257_13_0": MediaPlayer.PREVIOUS_TRACK,
             "press_256_13_0": MediaPlayer.NEXT_TRACK,
             "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
             "move_with_on_off_0_84": MediaPlayer.HOLD_VOLUME_UP,  # ZigBee 3.0 firmware
-            "stop": MediaPlayer.RELEASE,
-            "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
-            "move_1_84": MediaPlayer.HOLD_VOLUME_DOWN,  # ZigBee 3.0 firmware
+            "stop_with_on_off": MediaPlayer.RELEASE,
+            "move_1_83_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_1_84_0_0": MediaPlayer.HOLD_VOLUME_DOWN,  # ZigBee 3.0 firmware
             "hold_3329_0": MediaPlayer.PREVIOUS_SOURCE,
             "hold_3328_0": MediaPlayer.NEXT_SOURCE,
             "release": MediaPlayer.RELEASE,
@@ -163,7 +163,7 @@ class E1743Controller(LightController):
             "on": Light.ON,
             "off": Light.OFF,
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
-            "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
             "stop": Light.RELEASE,
         }
 
@@ -196,7 +196,7 @@ class E1743MediaPlayerController(MediaPlayerController):
             "on": MediaPlayer.PLAY_PAUSE,
             "off": MediaPlayer.NEXT_TRACK,
             "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
-            "move_1_83": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_1_83_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
             "stop": MediaPlayer.RELEASE,
         }
 
@@ -243,7 +243,7 @@ class E1743CoverController(CoverController):
             "on": Cover.TOGGLE_OPEN,
             "off": Cover.TOGGLE_CLOSE,
             "move_with_on_off_0_83": Cover.OPEN,
-            "move_1_83": Cover.CLOSE,
+            "move_1_83_0_0": Cover.CLOSE,
             "stop": Cover.STOP,
         }
 
@@ -384,8 +384,8 @@ class E1744LightController(LightController):
 
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "move_1_195": Light.HOLD_BRIGHTNESS_DOWN,
-            "move_0_195": Light.HOLD_BRIGHTNESS_UP,
+            "move_1_195_0_0": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_0_195_0_0": Light.HOLD_BRIGHTNESS_UP,
             "stop": Light.RELEASE,
             "toggle": Light.TOGGLE,
             "step_0_1_0": Light.ON_FULL_BRIGHTNESS,
@@ -424,8 +424,8 @@ class E1744MediaPlayerController(MediaPlayerController):
 
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "move_1_195": MediaPlayer.HOLD_VOLUME_DOWN,
-            "move_0_195": MediaPlayer.HOLD_VOLUME_UP,
+            "move_1_195_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
+            "move_0_195_0_0": MediaPlayer.HOLD_VOLUME_UP,
             "stop": MediaPlayer.RELEASE,
             "toggle": MediaPlayer.PLAY_PAUSE,
             "step_0_1_0": MediaPlayer.NEXT_TRACK,
@@ -568,10 +568,10 @@ class W2049LightController(LightController):
             "press_257_13_0": Light.CLICK_COLOR_DOWN,
             "press_256_13_0": Light.CLICK_COLOR_UP,
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
-            "move_1_83": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
             "hold_3329_0": Light.HOLD_COLOR_DOWN,
             "hold_3328_0": Light.HOLD_COLOR_UP,
-            "stop": Light.RELEASE,
+            "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
         }
 
