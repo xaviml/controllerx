@@ -34,4 +34,7 @@ PRERELEASE_NOTE
 ## :video_game: New devices
 
 - [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add Media Player support for Z2M and deCONZ [ #396 ] @ayatollah
-- [TS0043] (https://xaviml.github.io/controllerx/controllers/TS0043) - add add device with Z2M support [ #442 ] @rschuiling
+- [TS0043] (https://xaviml.github.io/controllerx/controllers/TS0043) - add device with Z2M support [ #442 ] @rschuiling
+- [HM-PB-2-WM55-2] (https://xaviml.github.io/controllerx/controllers/HM-PB-2-WM55-2) - add device with Homematic support [ #421 ]
+- [HM-PBI-4-FM] (https://xaviml.github.io/controllerx/controllers/HM-PBI-4-FM) - add device with Homematic support [ #421 ]
+- [HM-PB-6-WM55] (https://xaviml.github.io/controllerx/controllers/HM-PB-6-WM55) - add device with Homematic support [ #421 ]
