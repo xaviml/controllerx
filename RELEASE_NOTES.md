@@ -18,6 +18,7 @@ PRERELEASE_NOTE
 - [E1743](https://xaviml.github.io/controllerx/controllers/E1743) - Fix ZHA mapping for 2022.4.X Home Assistant
 - [E1744](https://xaviml.github.io/controllerx/controllers/E1744) - Fix ZHA mapping for 2022.4.X Home Assistant
 - [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - Fix ZHA mapping for 2022.4.X Home Assistant
+- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - Fix Z2M mapping for the Media Player support [ #396 ]
 
 <!--
 ## :clock2: Performance
@@ -33,5 +34,4 @@ PRERELEASE_NOTE
 
 ## :video_game: New devices
 
-- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - add Media Player support for Z2M and deCONZ [ #396 ] @ayatollah
 - [TS0043] (https://xaviml.github.io/controllerx/controllers/TS0043) - add add device with Z2M support [ #442 ] @rschuiling
