@@ -43,8 +43,8 @@ integrations:
   - name: ZHA
     codename: zha
     actions:
-      - "move_1_195 → Left turn"
-      - "move_0_195 → Right turn"
+      - "move_1_195_0_0 → Left turn"
+      - "move_0_195_0_0 → Right turn"
       - "stop → Stop rotation"
       - "toggle → 1 click"
       - "step_0_1_0 → 2 click"
