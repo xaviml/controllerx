@@ -21,14 +21,12 @@ repos:
         types: [python]
       - id: mypy
         name: mypy
-        entry: pipenv run mypy --install-types --non-interactive apps/controllerx/ tests/
+        entry: pipenv run mypy --install-types --non-interactive
         language: python
         types: [python]
-        pass_filenames: false
       - id: pytest
         name: pytest
         entry: pipenv run pytest
         language: python
-        types: [python]
+        files: "(.*.py)|apps/controllerx/*|tests/*"
         pass_filenames: false
-        always_run: true
