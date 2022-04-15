@@ -12,4 +12,5 @@ def test_get_integrations(fake_controller: Controller):
         "state",
         "mqtt",
         "lutron_caseta",
+        "homematic",
     }

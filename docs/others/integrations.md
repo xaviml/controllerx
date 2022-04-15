@@ -166,3 +166,7 @@ example_app:
 #### Lutron Caséta
 
 This integration(**`lutron_caseta`**) listens to `lutron_caseta_button_event` events. It creates an action like `button_<number>_<action type>`. It does not have any additional arguments.
+
+#### Homematic
+
+This integration ([**`homematic`**](https://www.home-assistant.io/integrations/homematic/)) listens to `homematic.keypress` events. It created an action like `<action_type>_<channel>`. It does not have any additional arguments.
