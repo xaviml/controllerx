@@ -62,3 +62,13 @@ class HMPB6WM55LightController(LightController):
             "PRESS_LONG_6": Light.HOLD_COLOR_UP,
             "PRESS_LONG_RELEASE_6": Light.RELEASE,
         }
+
+
+class HMSenMDIRWM55LightController(LightController):
+    def get_homematic_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "PRESS_SHORT_1": Light.OFF,
+            "PRESS_LONG_1": Light.CLICK_BRIGHTNESS_DOWN,
+            "PRESS_SHORT_2": Light.ON,
+            "PRESS_LONG_2": Light.CLICK_BRIGHTNESS_UP,
+        }

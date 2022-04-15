@@ -43,6 +43,7 @@ PRERELEASE_NOTE
 - [HM-PB-2-WM55-2](https://xaviml.github.io/controllerx/controllers/HM-PB-2-WM55-2) - add device with Homematic support [ #421 ]
 - [HM-PBI-4-FM](https://xaviml.github.io/controllerx/controllers/HM-PBI-4-FM) - add device with Homematic support [ #421 ]
 - [HM-PB-6-WM55](https://xaviml.github.io/controllerx/controllers/HM-PB-6-WM55) - add device with Homematic support [ #421 ]
+- [HM-Sen-MDIR-WM55](https://xaviml.github.io/controllerx/controllers/HM-Sen-MDIR-WM55) - add device with Homematic support [ #421 ]
 - [PTM215X](https://xaviml.github.io/controllerx/controllers/PTM215X) - Add Z2M support [ #420 ]
 - [SNZB-01](https://xaviml.github.io/controllerx/controllers/SNZB-01) - Add Z2M support [ #460 ]
 - [ZNXNKG02LM](https://xaviml.github.io/controllerx/controllers/ZNXNKG02LM) - Add Z2M support as a Light and Media Player controller [ #430 ]
