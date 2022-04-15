@@ -9,6 +9,12 @@ device_support:
       - "2 clicks → Full brightness"
       - "After 2s holding the button → Minimum brightness"
 integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - "single → 1 click"
+      - '"double" → 2 clicks'
+      - '"long" → After 2s holding the button'
   - name: ZHA
     codename: zha
     actions:
