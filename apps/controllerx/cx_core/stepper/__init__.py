@@ -1,7 +1,7 @@
 import abc
+from dataclasses import dataclass
 from typing import Optional
 
-from attr import dataclass
 from cx_const import Number, StepperDir
 
 

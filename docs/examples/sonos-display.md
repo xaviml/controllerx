@@ -504,7 +504,7 @@ display:
           it.printf(00, 53, id(font_icons_small), TextAlign::BOTTOM_LEFT, "s"); // star sign for main speaker
           it.printf(64, 53, id(font_small_bold), TextAlign::BOTTOM_CENTER, "%s", id(sonos_main).state.c_str());
           it.printf(00, 65, id(font_icons_small), TextAlign::BOTTOM_LEFT, "a"); // chain sign for passive speaker(s)
-          it.printf(64, 65, id(font_small), TextAlign::BOTTOM_CENTER, "%s", id(sonos_passives).state.c_str());   
+          it.printf(64, 65, id(font_small), TextAlign::BOTTOM_CENTER, "%s", id(sonos_passives).state.c_str());
         } else if (id(display_page) == 2) {
             if (id(media_title).state != "None") {
               it.printf(73, 53, id(font_small), TextAlign::BOTTOM_CENTER, "%.24s", id(media_title).state.c_str());

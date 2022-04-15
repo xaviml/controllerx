@@ -1,7 +1,6 @@
 from typing import Any, Dict, Set, Type, Union
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
 from cx_const import StepperDir, StepperMode
 from cx_core import LightController, ReleaseHoldController
 from cx_core.controller import Controller
@@ -12,6 +11,7 @@ from cx_core.stepper.index_loop_stepper import IndexLoopStepper
 from cx_core.stepper.loop_stepper import LoopStepper
 from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type.light_controller import ColorMode, LightEntity
+from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
 

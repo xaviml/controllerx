@@ -34,5 +34,5 @@ integrations:
       - "2003 → Release right"
 note: >-
   This controller has 4 modes and depending on which one is used, it will trigger one action or another: single_rocker, single_push_button, dual_rocker, dual_push_button.
-  You can read more about it in these threads: <a href="https://github.com/dresden-elektronik/deconz-rest-plugin/issues/4566">deconz</a> and 
+  You can read more about it in these threads: <a href="https://github.com/dresden-elektronik/deconz-rest-plugin/issues/4566">deconz</a> and
   <a href="https://github.com/Koenkk/zigbee-herdsman-converters/issues/2393">zigbee2mqtt</a>.

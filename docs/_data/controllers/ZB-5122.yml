@@ -30,4 +30,3 @@ integrations:
       - "move_color_temp → Hold CW"
       - "stop_move_step → Release CW"
       - "recall_0_1 → Click clapperboard"
-      

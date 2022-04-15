@@ -384,7 +384,7 @@ example_app_1:
   module: controllerx
   class: E1810Controller
   controller: my_controller
-  integration: 
+  integration:
     name: z2m
     listen_to: mqtt
   light: light.light1
@@ -395,7 +395,7 @@ example_app_2:
   module: controllerx
   class: E1810Controller
   controller: my_controller
-  integration: 
+  integration:
     name: z2m
     listen_to: mqtt
   light: light.light2
@@ -503,7 +503,7 @@ example_app:
   module: controllerx
   class: E1810Controller
   controller: livingroom_controller
-  integration: 
+  integration:
     name: z2m
     listen_to: mqtt
   light: light.my_light

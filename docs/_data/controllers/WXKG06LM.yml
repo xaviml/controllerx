@@ -27,5 +27,5 @@ integrations:
       - "1004 → Double click"
       - "1001 → Long click"
 note: >-
-  This controller support hold action, but not release. This means that there is not 
+  This controller support hold action, but not release. This means that there is not
   smooth brightness changes when holding, just step by step everytime is held.

@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, Tuple, Type
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import PredefinedActionsMapping
 from cx_core import (
@@ -12,6 +11,7 @@ from cx_core import (
     SwitchController,
 )
 from cx_core.type_controller import TypeController
+from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import fake_fn

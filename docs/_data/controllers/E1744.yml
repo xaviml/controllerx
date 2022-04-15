@@ -1,5 +1,5 @@
 name: E1744 (IKEA)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: E1744LightController

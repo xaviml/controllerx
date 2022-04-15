@@ -1,5 +1,5 @@
 name: PTM215X (EnOcean - Philips)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: PTM215XLightController

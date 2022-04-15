@@ -1,5 +1,5 @@
 name: E1524/E1810 (IKEA)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: E1810Controller

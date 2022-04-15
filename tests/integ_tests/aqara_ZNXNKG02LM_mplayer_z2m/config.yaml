@@ -7,4 +7,3 @@ example_app:
   controller: my_controller
   delay: 350
   media_player: media_player.my_media_player
-  

@@ -1,5 +1,5 @@
 name: IM6001-BTP01 (SmartThings)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: SmartThingsButtonLightController

@@ -6,4 +6,3 @@ livingroom_controller:
   light: light.livingroom
   merge_mapping:
     brightness_up_hold: hold_brightness_toggle
-      
