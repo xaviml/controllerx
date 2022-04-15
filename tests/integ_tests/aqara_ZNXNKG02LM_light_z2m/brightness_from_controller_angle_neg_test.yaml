@@ -1,0 +1,15 @@
+entity_state_attributes:
+  brightness: 100.8
+entity_state: "on"
+fired_actions: ["start_rotating", 0.450, "stop_rotating"]
+extra:
+  action_rotation_angle: -42
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      brightness: 75.4
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      brightness: 50

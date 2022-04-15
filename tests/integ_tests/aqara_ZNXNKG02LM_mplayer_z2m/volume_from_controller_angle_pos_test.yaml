@@ -1,0 +1,15 @@
+entity_state_attributes:
+  volume_level: 0.5
+entity_state: "on"
+fired_actions: ["start_rotating", 0.450, "stop_rotating"]
+extra:
+  action_rotation_angle: 30
+expected_calls:
+  - service: media_player/volume_set
+    data:
+      entity_id: media_player.my_media_player
+      volume_level: 0.6
+  - service: media_player/volume_set
+    data:
+      entity_id: media_player.my_media_player
+      volume_level: 0.7

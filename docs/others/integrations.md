@@ -84,7 +84,7 @@ livingroom_controller:
   light: light.bedroom
 ```
 
-By doing this, ControllerX will be listening directly from MQTT rather than Home Assistant (which listens from MQTT). Not only can you use this with zigbee2mqtt, but also with any other MQTT integration. This works for JSON and non-JSON values in the payload. If an specific attribute needs to be extracted from JSON payload, the `key` attribute can be used:
+By doing this, ControllerX will be listening directly from MQTT rather than Home Assistant (which listens from MQTT). Not only can you use this with zigbee2mqtt, but also with any other MQTT integration. This works for JSON and non-JSON values in the payload. If an specific attribute needs to be extracted from JSON payload, the `key` (which works like `action_key` from Zigbee2MQTT integration) attribute can be used:
 
 ```yaml
 example_app:

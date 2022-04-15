@@ -165,7 +165,7 @@ sonos_all:
 
 ### Home Assistant automations:
 
-First automation is identical with the one I've already used in my ControllerX Sonos group setup example [link](https://xaviml.github.io/controllerx/examples/sonos)
+First automation is identical with the one I've already used in my ControllerX Sonos group setup example [link](/controllerx/examples/sonos)
 
 Second automation is purely optional, and not really directly related to the display. It's just a quick shortcut to easily reset active speakers within group, volume and source playing to some defaults you've defined in the automation. Really nice when you have teenagers in the house, messing with active speaker entities in the group, playlists and volume all the time... 😉
 The automation is written for an Ikea E1810 remote with z2m ControllerX HA integration. Here `toggle_hold`(Press and hold center button for appx. 3.5 seconds) is used as trigger.

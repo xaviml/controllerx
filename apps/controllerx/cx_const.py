@@ -65,7 +65,8 @@ class Light:
     HOLD_XY_COLOR_TOGGLE = "hold_xycolor_toggle"
     XYCOLOR_FROM_CONTROLLER = "xycolor_from_controller"
     COLORTEMP_FROM_CONTROLLER = "colortemp_from_controller"
-    BRIGHTNESS_FROM_CONTROLLER = "brightness_from_controller"
+    BRIGHTNESS_FROM_CONTROLLER_LEVEL = "brightness_from_controller_level"
+    BRIGHTNESS_FROM_CONTROLLER_ANGLE = "brightness_from_controller_angle"
 
 
 class MediaPlayer:
@@ -84,6 +85,7 @@ class MediaPlayer:
     PREVIOUS_SOURCE = "previous_source"
     MUTE = "mute"
     TTS = "tts"
+    VOLUME_FROM_CONTROLLER_ANGLE = "volume_from_controller_angle"
 
 
 class Switch:
