@@ -22,26 +22,26 @@ integrations:
     codename: homematic
     actions:
       - PRESS_SHORT_1 → Click button 1
-      - PRESS_CONT_1 → (To be defined)
+      - PRESS_CONT_1 → Periodically fired when button 1 is held
       - PRESS_LONG_1 → Hold button 1
       - PRESS_LONG_RELEASE_1 → Release button 1
       - PRESS_SHORT_2 → Click button 2
-      - PRESS_CONT_2 → (To be defined)
+      - PRESS_CONT_2 → Periodically fired when button 2 is held
       - PRESS_LONG_2 → Hold button 2
       - PRESS_LONG_RELEASE_2 → Release button 2
       - PRESS_SHORT_3 → Click button 3
-      - PRESS_CONT_3 → (To be defined)
+      - PRESS_CONT_3 → Periodically fired when button 3 is held
       - PRESS_LONG_3 → Hold button 3
       - PRESS_LONG_RELEASE_3 → Release button 3
       - PRESS_SHORT_4 → Click button 4
-      - PRESS_CONT_4 → (To be defined)
+      - PRESS_CONT_4 → Periodically fired when button 4 is held
       - PRESS_LONG_4 → Hold button 4
       - PRESS_LONG_RELEASE_4 → Release button 4
       - PRESS_SHORT_5 → Click button 5
-      - PRESS_CONT_5 → (To be defined)
+      - PRESS_CONT_5 → Periodically fired when button 5 is held
       - PRESS_LONG_5 → Hold button 5
       - PRESS_LONG_RELEASE_5 → Release button 5
       - PRESS_SHORT_6 → Click button 6
-      - PRESS_CONT_6 → (To be defined)
+      - PRESS_CONT_6 → Periodically fired when button 6 is held
       - PRESS_LONG_6 → Hold button 6
       - PRESS_LONG_RELEASE_6 → Release button 6
