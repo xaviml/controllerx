@@ -6,14 +6,18 @@ device_support:
     delay: 350
     mapping:
       - Click button 1 → Turn off
-      - Hold button 1 → Dim down (1 step)
+      - Hold button 1 → Dim down
       - Click button 2 → Turn on
-      - Hold button 2 → Brighten up (1 step)
+      - Hold button 2 → Brighten up
 integrations:
   - name: Homematic
     codename: homematic
     actions:
       - PRESS_SHORT_1 → Click button 1
       - PRESS_LONG_1 → Hold button 1
+      - PRESS_CONT_1 → Periodically fired when button 1 is held
+      - PRESS_LONG_RELEASE_1 → Release button 1
       - PRESS_SHORT_2 → Click button 2
       - PRESS_LONG_2 → Hold button 2
+      - PRESS_CONT_2 → Periodically fired when button 2 is held
+      - PRESS_LONG_RELEASE_2 → Release button 2
