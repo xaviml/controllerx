@@ -7,5 +7,3 @@ example_app:
   merge_mapping:
     step_with_on_off_0_43_5:
       service: my_script
-    
-  

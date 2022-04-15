@@ -33,5 +33,5 @@ note: >-
   So you can include the `actions` parameter to include the actions needed,
   or use the `mapping` attribute to define a <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
   You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
-  Also, this controller support hold action, but not release. This means that there is not 
+  Also, this controller support hold action, but not release. This means that there is not
   smooth brightness changes when holding, just step by step everytime is held.

@@ -32,5 +32,5 @@ integrations:
       - stop_rotating → Stop left/right turn
 note: >-
   Note that Left and Right turn actions for Z2M will only work if "listen_to: mqtt" is used
-  for the Z2M integration. Read <a href="/controllerx/others/integrations#zigbee2mqtt">here</a> 
+  for the Z2M integration. Read <a href="/controllerx/others/integrations#zigbee2mqtt">here</a>
   how to configure it.

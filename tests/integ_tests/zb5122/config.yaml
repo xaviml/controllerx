@@ -4,4 +4,3 @@ example_app:
   integration: zha
   controller: my_controller
   light: light.my_light
-  

@@ -3,7 +3,7 @@ import asyncio
 import appdaemon.plugins.hass.hassapi as hass
 import appdaemon.plugins.mqtt.mqttapi as mqtt
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import MonkeyPatch
 
 from tests.test_utils import fake_fn
 

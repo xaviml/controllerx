@@ -5,8 +5,8 @@ from contextlib import contextmanager
 from typing import TYPE_CHECKING, Any, Callable, Generator, Optional
 
 import pytest
-from _pytest._code.code import ExceptionInfo
 from mock import MagicMock
+from pytest import ExceptionInfo
 from pytest_mock.plugin import MockerFixture
 
 if TYPE_CHECKING:

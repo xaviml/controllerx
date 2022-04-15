@@ -51,7 +51,7 @@ integrations:
       - "rotate_left → Rotate cube to left"
       - "rotate_right → Rotate cube to right"
 note: >-
-  This controller does not have a self-explained way to use it since its main 
-  purpose is to be customized, this is why we recommend to customize it with 
-  <a href="/controllerx/advanced/custom-controllers">custom mapping</a>. 
+  This controller does not have a self-explained way to use it since its main
+  purpose is to be customized, this is why we recommend to customize it with
+  <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
   deCONZ integration should be added with <a href="/controllerx/others/integrations#deconz">type gesture</a>.

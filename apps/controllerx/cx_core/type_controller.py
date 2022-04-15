@@ -103,10 +103,8 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
         if self.contains_templating(entity.name):
             return
         same_domain = all(
-            (
-                any(elem.startswith(domain + ".") for domain in self.domains)
-                for elem in entity.entities
-            )
+            any(elem.startswith(domain + ".") for domain in self.domains)
+            for elem in entity.entities
         )
         if not same_domain:
             if entity.is_group:

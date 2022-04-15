@@ -3,7 +3,7 @@ example_app:
   class: SwitchController
   controller: sensor.my_controller
   integration: z2m
-  switch: 
+  switch:
     name: switch.my_switch
   mapping:
     toggle: toggle

@@ -1,11 +1,11 @@
 from typing import Any, Dict
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
 from cx_core import CoverController
 from cx_core.controller import Controller
 from cx_core.feature_support.cover import CoverSupport
 from cx_core.type_controller import TypeController
+from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import fake_fn, wrap_execution

@@ -38,7 +38,7 @@ ControllerX: v3.4.0b1 or newer
 
 #### Shelly device Tasmota setup (Use switchmode 11 !!):
 
-Module type: Shelly 1 (46): 
+Module type: Shelly 1 (46):
 
 #### Sonoff Mini device Tasmota setup (Use switchmode 12 !!):
 

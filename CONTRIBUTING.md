@@ -30,58 +30,36 @@ Note that this project will only accept the mapping that the original controller
 
 This is a [commit](https://github.com/xaviml/controllerx/commit/38ee4b03ac31bf966523cc63c0200567f912f201) of a complete example of adding a new device, it can be used as a reference.
 
-## Imports
+## Styling
 
-Run the following to fix imports order:
+This repository uses [pre-commit](https://pre-commit.com/) which allows us to keep some code standards by using several tools (isort, black, mypy, flake8, etc). For more detail check `.pre-commit-config.yaml` file.
 
-```shell
-pipenv run isort apps/controllerx/ tests/
-```
-
-## Format
-
-Run the following to fix formatting:
+The following command can be executed to run all checkers for all files:
 
 ```shell
-pipenv run black apps/controllerx/ tests/
+pre-commit run --all-files
 ```
 
-## Typing
-
-Run the following to check consistency in the typings:
+If you want to run it for ust the staged files:
 
 ```shell
-pipenv run mypy apps/controllerx/ tests/
+pre-commit run
 ```
 
-## Linting
-
-Run the following to check for stylings:
-
-```shell
-pipenv run flake8 apps/controllerx/ tests/
-```
+If `pre-commit` was installed into git hooks (`pre-commit install`), it will run the checkers before the commit.
 
 ## Test
 
 Run the following command for the tests:
 
 ```shell
-pipenv run pytest --cov=apps
+pytest
 ```
 
 or the following to get a report of the missing lines to be tested:
 
 ```shell
 pytest --cov-report term-missing --cov=apps
-```
-
-## Pre-commit
-
-Once you have the code ready, pre-commit will run some checks to make sure the code follows the format and the tests did not break. If you want to run the check for all files at any point, run:
-
-```shell
-pipenv run pre-commit run --all-files
 ```
 
 ## Commiting

@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Optional, Type, Union
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
 from cx_core.controller import Controller
 from cx_core.type_controller import Entity, TypeController
+from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import fake_fn, wrap_execution

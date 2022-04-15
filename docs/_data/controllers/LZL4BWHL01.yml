@@ -26,4 +26,4 @@ integrations:
       - "step_with_on_off_0_30_6 → Arrow up held"
       - "step_1_30_6 → Arrow down held"
       - "move_to_level_with_on_off_0_4 → Bottom button pressed"
-      - "stop → Arrow released" 
+      - "stop → Arrow released"

@@ -4,4 +4,3 @@ example_app:
   integration: deconz
   controller: my_controller
   light: light.my_light
-  

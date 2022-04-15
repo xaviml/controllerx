@@ -23,7 +23,7 @@ example_app:
     brightness_up_click: "on"
     toggle: click_color_down
     toggle$1: click_color_up
-    toggle$2: "off" 
+    toggle$2: "off"
 ```
 
 This could be a silly example, but it is enough to remark some points about this feature. In this configuration we see 2 actions: `brightness_up_click` (not "multi-clickable") and `toggle` ("multi-clickable"). We also see an attribute called `multiple_click_delay`, which indicates the delay (in milliseconds and 500 by default) when a multiple click action should be trigger. Let's go over the next scenarios:
@@ -38,7 +38,7 @@ livingroom:
   module: controllerx
   class: E1810Controller
   controller: livingroom_controller
-  integration: 
+  integration:
     name: z2m
     listen_to: mqtt
   light: light.livingroom_lamp
