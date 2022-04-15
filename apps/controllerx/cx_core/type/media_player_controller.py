@@ -3,6 +3,8 @@ from typing import Any, Dict, List, Optional, Type
 from cx_const import MediaPlayer, Number, PredefinedActionsMapping, StepperDir
 from cx_core.controller import action
 from cx_core.feature_support.media_player import MediaPlayerSupport
+from cx_core.integration import EventData
+from cx_core.integration.z2m import Z2MIntegration
 from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import MinMax
 from cx_core.stepper.index_loop_stepper import IndexLoopStepper
@@ -43,6 +45,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             MediaPlayer.PREVIOUS_SOURCE: (self.change_source_list, (StepperDir.DOWN,)),
             MediaPlayer.MUTE: self.volume_mute,
             MediaPlayer.TTS: self.tts,
+            MediaPlayer.VOLUME_FROM_CONTROLLER_ANGLE: self.volume_from_controller_angle,
         }
 
     @action
@@ -139,7 +142,28 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         await self.call_service(f"tts.{service}", **args)
 
     @action
+    async def volume_from_controller_angle(
+        self, extra: Optional[EventData] = None
+    ) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_rotation_angle" not in extra:
+                self.log(
+                    "`action_rotation_angle` is not present in the MQTT payload",
+                    level="WARNING",
+                )
+                return
+            angle = extra["action_rotation_angle"]
+            direction = StepperDir.UP if angle > 0 else StepperDir.DOWN
+            await self._hold(direction)
+
+    @action
     async def hold(self, direction: str) -> None:  # type: ignore
+        await self._hold(direction)
+
+    async def _hold(self, direction: str) -> None:
         await self.prepare_volume_change()
         await super().hold(direction)
 

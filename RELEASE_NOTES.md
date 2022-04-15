@@ -10,7 +10,10 @@ PRERELEASE_NOTE
 
 ## :pencil2: Features
 
-- Add `key` attribute for MQTT integration. It allows reading specific attribute for JSON payloads. Read more [here](https://xaviml.github.io/controllerx/others/integrations#mqtt).
+- Add `key` attribute for MQTT integration. It allows reading specific attribute for JSON payloads (works like `action_key` from Zigbee2MQTT integration). Read more [here](https://xaviml.github.io/controllerx/others/integrations#mqtt).
+- Add `brightness_from_controller_level` predefined action for `LightController`. It changes the brightness of the light from the value sent by the controller `action_level` (if supported).
+- Add `brightness_from_controller_angle` predefined action for `LightController`. It changes the brightness of the light from the value sent by the controller `action_rotation_angle` (if supported). This fires a `hold` action, so a `release` one will be needed to stop brightness change.
+- Add `volume_from_controller_angle` predefined action for `MediaPlayerController`. It changes volume based on controller angle (if supported). This fires a `hold` action, so a `release` one will be needed to stop volume change.
 
 ## :hammer: Fixes
 
@@ -40,3 +43,4 @@ PRERELEASE_NOTE
 - [HM-PBI-4-FM](https://xaviml.github.io/controllerx/controllers/HM-PBI-4-FM) - add device with Homematic support [ #421 ]
 - [HM-PB-6-WM55](https://xaviml.github.io/controllerx/controllers/HM-PB-6-WM55) - add device with Homematic support [ #421 ]
 - [PTM215X](https://xaviml.github.io/controllerx/controllers/PTM215X) - Add Z2M support [ #420 ]
+- [ZNXNKG02LM](https://xaviml.github.io/controllerx/controllers/ZNXNKG02LM) - Add Z2M support as a Light and Media Player controller [ #430 ]

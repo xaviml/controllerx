@@ -1,5 +1,5 @@
-from cx_const import DefaultActionsMapping, Light, Switch
-from cx_core import LightController, SwitchController
+from cx_const import DefaultActionsMapping, Light, MediaPlayer, Switch
+from cx_core import LightController, MediaPlayerController, SwitchController
 from cx_core.integration import EventData
 
 
@@ -518,3 +518,27 @@ class WXKG07LMSwitchController(SwitchController):
 
     def get_zha_action(self, data: EventData) -> str:
         return data["command"]
+
+
+class ZNXNKG02LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "hold": Light.HOLD_COLOR_TOGGLE,
+            "release": Light.RELEASE,
+            "start_rotating": Light.BRIGHTNESS_FROM_CONTROLLER_ANGLE,
+            "stop_rotating": Light.RELEASE,
+        }
+
+
+class ZNXNKG02LMMediaPlayerController(MediaPlayerController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": MediaPlayer.PLAY_PAUSE,
+            "double": MediaPlayer.NEXT_TRACK,
+            "hold": MediaPlayer.PREVIOUS_TRACK,
+            "release": MediaPlayer.RELEASE,
+            "start_rotating": MediaPlayer.VOLUME_FROM_CONTROLLER_ANGLE,
+            "stop_rotating": MediaPlayer.RELEASE,
+        }
