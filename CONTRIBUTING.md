@@ -88,6 +88,8 @@ pipenv run pre-commit run --all-files
 
 You can use the tool `commitizen` to commit based in a standard. If you are in the virtual environment, you can run `cz commit` and answer the questions to commit.
 
+If the commit adds new functionality or fixes something, please add the changes in the `RELEASE_NOTES.md` file.
+
 ## Documentation
 
 [Install Jekyll](https://jekyllrb.com/docs/) and run the documentation locally with:
@@ -130,16 +132,31 @@ git push <username> HEAD:<branch>
 
 ## Deployment
 
-Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file. Finally, we will need to bump version with `commitizen` by running the following line in the `main` branch:
+Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
+
+We use `commitizen` to bump version. First, we might want to create a beta version from `dev` branch:
 
 ```shell
-cz bump --no-verify
-```
-
-`--prerelease beta` tag can be added to create a pre-release. Note that you can also add `--dry-run` to see which version will bump without commiting anything. Then, we can directly push the tags:
-
-```shell
+cz bump --no-verify --prerelease beta
 git push origin HEAD --tags
 ```
 
-This will automatically generate a GitHub release with the changes for that release, and the release from the `RELEASE_NOTES.md` file.
+_`--dry-run` can be used with `cz` command to double check the version to be created._
+
+Once we are ready to create the final version, we need to merge to main branch with no fast forward:
+
+```shell
+git checkout main
+git merge dev --no-ff
+```
+
+Finally, we can bump the version to the final one, and push tag:
+
+```shell
+cz bump --no-verify
+git push origin HEAD --tags
+```
+
+_`--dry-run` can be used with `cz` command to double check the version to be created._
+
+When a new tag is created, the CI will automatically generate a GitHub release with the changes for that release, and the release from the `RELEASE_NOTES.md` file.
