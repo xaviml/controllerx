@@ -74,7 +74,24 @@ class Philips929002398602LightController(LightController):
         }
 
 
-class Niko91004LightController(LightController):
+class PTM215XLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "press_1": Light.ON,
+            "release_1": Light.RELEASE,
+            "press_2": Light.OFF,
+            "release_2": Light.RELEASE,
+            "press_3": Light.ON_FULL_BRIGHTNESS,
+            "release_3": Light.RELEASE,
+            "press_4": Light.ON_MIN_BRIGHTNESS,
+            "release_4": Light.RELEASE,
+            "press_1_and_3": Light.ON_FULL_COLOR_TEMP,
+            "release_1_and_3": Light.RELEASE,
+            "press_2_and_4": Light.ON_MIN_COLOR_TEMP,
+            "release_2_and_4": Light.RELEASE,
+            "press_energy_bar": Light.SYNC,
+        }
+
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.ON,  # button_1_release

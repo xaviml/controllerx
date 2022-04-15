@@ -14,11 +14,12 @@ PRERELEASE_NOTE
 
 ## :hammer: Fixes
 
-- [E1524_E1810](https://xaviml.github.io/controllerx/controllers/E1524_E1810) - Fix ZHA mapping for 2022.4.X Home Assistant
-- [E1743](https://xaviml.github.io/controllerx/controllers/E1743) - Fix ZHA mapping for 2022.4.X Home Assistant
-- [E1744](https://xaviml.github.io/controllerx/controllers/E1744) - Fix ZHA mapping for 2022.4.X Home Assistant
-- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - Fix ZHA mapping for 2022.4.X Home Assistant
+- [E1524_E1810](https://xaviml.github.io/controllerx/controllers/E1524_E1810) - Fix ZHA mapping for 2022.4.X Home Assistant [ #455, #457 ]
+- [E1743](https://xaviml.github.io/controllerx/controllers/E1743) - Fix ZHA mapping for 2022.4.X Home Assistant [ #455, #457 ]
+- [E1744](https://xaviml.github.io/controllerx/controllers/E1744) - Fix ZHA mapping for 2022.4.X Home Assistant [ #455, #457 ]
+- [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - Fix ZHA mapping for 2022.4.X Home Assistant [ #455, #457 ]
 - [W2049](https://xaviml.github.io/controllerx/controllers/W2049) - Fix Z2M mapping for the Media Player support [ #396 ]
+- [PTM215X](https://xaviml.github.io/controllerx/controllers/PTM215X) - Rename `Niko91004LightController` to `PTM215XLightController` [ #420 ]
 
 <!--
 ## :clock2: Performance
@@ -38,3 +39,4 @@ PRERELEASE_NOTE
 - [HM-PB-2-WM55-2](https://xaviml.github.io/controllerx/controllers/HM-PB-2-WM55-2) - add device with Homematic support [ #421 ]
 - [HM-PBI-4-FM](https://xaviml.github.io/controllerx/controllers/HM-PBI-4-FM) - add device with Homematic support [ #421 ]
 - [HM-PB-6-WM55](https://xaviml.github.io/controllerx/controllers/HM-PB-6-WM55) - add device with Homematic support [ #421 ]
+- [PTM215X](https://xaviml.github.io/controllerx/controllers/PTM215X) - Add Z2M support [ #420 ]

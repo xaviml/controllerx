@@ -1,6 +1,6 @@
 import pytest
 from cx_core.integration import EventData
-from cx_devices.phillips import HueDimmerController
+from cx_devices.philips import HueDimmerController
 
 
 @pytest.mark.parametrize(
