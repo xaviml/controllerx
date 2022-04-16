@@ -33,13 +33,13 @@ jobs:
       with:
         python-version: ${{ matrix.python_version }}
 
-    - name: Install pipenv
+    - name: Install poetry
       run: |
-        python -m pip install --upgrade pipenv
+        python -m pip install --upgrade poetry
 
     - name: Install dependencies
       run: |
-        pipenv install --deploy --dev
+        poetry install
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1

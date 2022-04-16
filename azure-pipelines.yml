@@ -34,11 +34,9 @@ stages:
             inputs:
               versionSpec: $(python.version)
             displayName: Prepare Python $(python.version)
-          - script: pip install pipenv
-            displayName: Install pipenv
-          - script: pipenv lock --dev --python $(python.version)
-            displayName: Lock dependencies
-          - script: pipenv install --system --deploy --dev
+          - script: pip install poetry
+            displayName: Install poetry
+          - script: poetry config virtualenvs.create false && poetry install
             displayName: Install dependencies
           - script: pre-commit run --all-files --show-diff-on-failure
             displayName: Run pre-commit

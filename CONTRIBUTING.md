@@ -2,11 +2,11 @@
 
 ## Installation
 
-This project uses pipenv as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
+This project uses poetry as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
 
 ```
-pipenv install --dev --python python3.7
-pipenv shell
+poetry install
+poetry shell
 pre-commit install
 ```
 
@@ -80,12 +80,7 @@ bundle exec jekyll serve
 
 ## Pull Request
 
-Feel free to open a PR on GitHub. When submitting the PR several points will be checked:
-
-- Testing (with pytest)
-- Linting (with flake8)
-- Typing (with mypy)
-- Formatting (with black)
+Feel free to open a PR on GitHub. It would be appreciated if the CI passes (pre-commit and pytest).
 
 ## How to change someone else's PR code
 
