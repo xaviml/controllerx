@@ -61,6 +61,7 @@ def test_devices(device_class: Type[Controller]):
         device.get_deconz_actions_mapping,
         device.get_zha_actions_mapping,
         device.get_lutron_caseta_actions_mapping,
+        device.get_homematic_actions_mapping,
     ]
     for func in integration_mappings_funcs:
         mappings = func()

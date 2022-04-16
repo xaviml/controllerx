@@ -27,5 +27,4 @@ repos:
     rev: v0.942
     hooks:
       - id: mypy
-        args: []
         additional_dependencies: [types-PyYAML, types-mock]

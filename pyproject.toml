@@ -41,14 +41,6 @@ exclude = ".git,.hg,.mypy_cache,.tox,_build,buck-out,build,dist"
 python_version = "3.7"
 no_implicit_optional = true
 
-[[tool.mypy.overrides]]
-module = [
-    "appdaemon.*",
-    "pytest.*",
-    "pytest_mock.*"
-]
-ignore_missing_imports = true
-
 [tool.pytest.ini_options]
 mock_use_standalone_module = true
 timeout = 5
