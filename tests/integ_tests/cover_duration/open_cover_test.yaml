@@ -1,17 +1,17 @@
 fired_actions: ["on", 0.1, "off", 0.1, "off", 1.05, "on"]
 expected_calls:
-- service: cover/set_cover_position
-  data:
-    entity_id: cover.my_cover
-    position: 100
-- service: cover/stop_cover
-  data:
-    entity_id: cover.my_cover
-- service: cover/set_cover_position
-  data:
-    entity_id: cover.my_cover
-    position: 0
-- service: cover/set_cover_position
-  data:
-    entity_id: cover.my_cover
-    position: 100
+  - service: cover/set_cover_position
+    data:
+      entity_id: cover.my_cover
+      position: 100
+  - service: cover/stop_cover
+    data:
+      entity_id: cover.my_cover
+  - service: cover/set_cover_position
+    data:
+      entity_id: cover.my_cover
+      position: 0
+  - service: cover/set_cover_position
+    data:
+      entity_id: cover.my_cover
+      position: 100

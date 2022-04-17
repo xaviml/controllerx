@@ -1,4 +1,3 @@
-
 entity_state: "off"
 fired_actions: ["color_wheel"]
 extra:

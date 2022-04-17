@@ -3,13 +3,13 @@ entity_state_attributes:
 entity_state: "on"
 fired_actions: [arrow_right_hold, 0.450, arrow_right_release]
 expected_calls:
-- service: light/turn_on
-  data:
-    entity_id: light.livingroom
-    transition: 0.35
-    white_value: 234.6
-- service: light/turn_on
-  data:
-    entity_id: light.livingroom
-    transition: 0.35
-    white_value: 209.2
+  - service: light/turn_on
+    data:
+      entity_id: light.livingroom
+      transition: 0.35
+      white_value: 234.6
+  - service: light/turn_on
+    data:
+      entity_id: light.livingroom
+      transition: 0.35
+      white_value: 209.2

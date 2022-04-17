@@ -4,7 +4,6 @@ about: Suggest an idea for this project
 title: "[FEATURE REQUEST]"
 labels: enhancement
 assignees: xaviml
-
 ---
 
 <!-- Make sure to read the FAQ before opening an issue. https://xaviml.github.io/controllerx/faq -->
