@@ -132,6 +132,3 @@ dmypy.json
 .vscode/*
 !.vscode/settings.json
 .idea
-
-# Ignoring poetry.lock since we support different python versions
-poetry.lock
