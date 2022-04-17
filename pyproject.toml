@@ -25,6 +25,12 @@ pytest-timeout = "2.1.0"
 mock = "4.0.3"
 pre-commit = "2.18.1"
 commitizen = "2.23.0"
+black = "22.3.0"
+flake8 = "4.0.1"
+mypy = "0.942"
+types-PyYAML = "6.0.6"
+types-mock = "4.0.13"
+isort = "5.10.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -39,7 +45,17 @@ exclude = ".git,.hg,.mypy_cache,.tox,_build,buck-out,build,dist"
 
 [tool.mypy]
 python_version = "3.7"
-no_implicit_optional = true
+warn_unused_configs = true
+warn_return_any = false
+warn_unreachable = true
+show_error_codes = true
+enable_error_code = ["ignore-without-code"]
+disallow_untyped_decorators = true
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["appdaemon.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 mock_use_standalone_module = true
@@ -54,4 +70,13 @@ exclude_lines = [
     "raise NotImplementedError",
     # Logs can be ignored
     "self.log",
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "4.19.0b3"
+tag_format = "v$major.$minor.$patch$prerelease"
+version_files = [
+    "apps/controllerx/cx_version.py",
+    ".cz.toml:version"
 ]

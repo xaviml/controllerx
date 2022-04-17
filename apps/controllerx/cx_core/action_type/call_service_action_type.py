@@ -4,7 +4,7 @@ from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData
 
 if TYPE_CHECKING:
-    from cx_core.type_controller import TypeController
+    from cx_core.type_controller import Entity, TypeController
 
 
 class CallServiceActionType(ActionType):
@@ -16,7 +16,7 @@ class CallServiceActionType(ActionType):
     entity_id: Optional[str]
     data: Dict[str, Any]
 
-    def initialize(self, **kwargs) -> None:
+    def initialize(self, **kwargs: Any) -> None:
         self.service = kwargs["service"]
         self.data = kwargs.get("data", {})
 
@@ -25,13 +25,13 @@ class CallServiceActionType(ActionType):
             self.entity_id is None
             and self._check_controller_isinstance_type_controller()
         ):
-            type_controller = cast("TypeController", self.controller)
+            type_controller = cast("TypeController[Entity]", self.controller)
             if self._get_service_domain(self.service) in type_controller.domains:
                 self.entity_id = type_controller.entity.name
         if "entity_id" in self.data:
             del self.data["entity_id"]
 
-    def _check_controller_isinstance_type_controller(self):
+    def _check_controller_isinstance_type_controller(self) -> bool:
         # This is checked dynamically without the isinstance to avoid
         # circular dependency
         class_names = [c.__name__ for c in type(self.controller).mro()]

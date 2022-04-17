@@ -48,7 +48,7 @@ class MLI404011LightController(LightController):
 
 class MLI404002Controller(Controller):
     def get_zha_action(self, data: EventData) -> str:
-        command = data["command"]
+        command: str = data["command"]
         if command not in ("move", "step"):
             return command
         args = data["args"]

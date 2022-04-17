@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, Dict, List, Optional
 
 import pytest
 from cx_const import StepperDir
@@ -16,7 +16,7 @@ ENTITY_NAME = "media_player.test"
 
 @pytest.fixture
 async def sut(mocker: MockerFixture) -> MediaPlayerController:
-    controller = MediaPlayerController()  # type: ignore
+    controller = MediaPlayerController(**{})
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     controller.args = {"media_player": ENTITY_NAME}
@@ -24,7 +24,7 @@ async def sut(mocker: MockerFixture) -> MediaPlayerController:
     return controller
 
 
-async def test_play_pause(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_play_pause(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.play_pause()
@@ -34,7 +34,7 @@ async def test_play_pause(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-async def test_play(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_play(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.play()
@@ -44,7 +44,7 @@ async def test_play(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-async def test_pause(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_pause(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.pause()
@@ -54,7 +54,9 @@ async def test_pause(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-async def test_previous_track(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_previous_track(
+    sut: MediaPlayerController, mocker: MockerFixture
+) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.previous_track()
@@ -64,7 +66,7 @@ async def test_previous_track(sut: MediaPlayerController, mocker: MockerFixture)
     )
 
 
-async def test_next_track(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_next_track(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.next_track()
@@ -76,7 +78,7 @@ async def test_next_track(sut: MediaPlayerController, mocker: MockerFixture):
 
 async def test_volume_up(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
-):
+) -> None:
     monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return=0.5))
     sut.feature_support._supported_features = MediaPlayerSupport.VOLUME_SET
     called_service_patch = mocker.patch.object(sut, "call_service")
@@ -90,7 +92,7 @@ async def test_volume_up(
 
 async def test_volume_down(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
-):
+) -> None:
     monkeypatch.setattr(sut, "get_entity_state", fake_fn(async_=True, to_return=0.5))
     sut.feature_support._supported_features = MediaPlayerSupport.VOLUME_SET
     called_service_patch = mocker.patch.object(sut, "call_service")
@@ -102,7 +104,7 @@ async def test_volume_down(
     )
 
 
-async def test_volume_set(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_volume_set(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.volume_set(0.8)
@@ -112,7 +114,7 @@ async def test_volume_set(sut: MediaPlayerController, mocker: MockerFixture):
     )
 
 
-async def test_volume_mute(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_volume_mute(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.volume_mute()
@@ -124,7 +126,7 @@ async def test_volume_mute(sut: MediaPlayerController, mocker: MockerFixture):
 
 async def test_tts(
     sut: MediaPlayerController, mocker: MockerFixture, monkeypatch: MonkeyPatch
-):
+) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     await sut.tts(
@@ -145,7 +147,7 @@ async def test_tts(
     )
 
 
-async def test_hold(sut: MediaPlayerController, mocker: MockerFixture):
+async def test_hold(sut: MediaPlayerController, mocker: MockerFixture) -> None:
     direction = "test_direction"
     prepare_volume_change_patch = mocker.patch.object(sut, "prepare_volume_change")
     super_hold_patch = mocker.patch.object(ReleaseHoldController, "hold")
@@ -161,18 +163,18 @@ async def test_hold(sut: MediaPlayerController, mocker: MockerFixture):
     [
         (StepperDir.UP, True, 0, 0.1),
         (StepperDir.DOWN, True, 0.5, 0.4),
-        (StepperDir.UP, False, None, None),
-        (StepperDir.DOWN, False, None, None),
+        (StepperDir.UP, False, 0.0, None),
+        (StepperDir.DOWN, False, 0.0, None),
     ],
 )
 async def test_hold_loop(
     sut: MediaPlayerController,
     mocker: MockerFixture,
     direction_input: Literal["up", "down"],
-    volume_set_support,
-    volume_level,
-    expected_volume_level,
-):
+    volume_set_support: bool,
+    volume_level: float,
+    expected_volume_level: Optional[float],
+) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.feature_support._supported_features = (
         MediaPlayerSupport.VOLUME_SET if volume_set_support else 0
@@ -213,13 +215,13 @@ async def test_change_source_list(
     monkeypatch: MonkeyPatch,
     direction_input: Literal["up", "down"],
     source_list: List[str],
-    active_source: str,
+    active_source: Optional[str],
     expected_calls: int,
     expected_source: str,
-):
+) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
-    async def fake_get_entity_state(attribute=None):
+    async def fake_get_entity_state(attribute: Optional[str] = None) -> Dict[str, Any]:
         if active_source is None:
             return {"attributes": {"source_list": source_list}}
         else:

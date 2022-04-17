@@ -1,4 +1,4 @@
-from typing import Any, Dict, Set, Type, Union
+from typing import Any, Dict, Optional, Set, Type, Union
 
 import pytest
 from cx_const import StepperDir, StepperMode
@@ -22,7 +22,7 @@ ENTITY_NAME = "light.test"
 
 @pytest.fixture
 async def sut_before_init(mocker: MockerFixture) -> LightController:
-    controller = LightController()  # type: ignore
+    controller = LightController(**{})
     controller.args = {}
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
@@ -31,7 +31,7 @@ async def sut_before_init(mocker: MockerFixture) -> LightController:
 
 @pytest.fixture
 async def sut(mocker: MockerFixture) -> LightController:
-    controller = LightController()  # type: ignore
+    controller = LightController(**{})
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
     controller.args = {"light": ENTITY_NAME}
@@ -70,7 +70,7 @@ async def test_init(
     expected_name: str,
     expected_color_mode: str,
     error_expected: bool,
-):
+) -> None:
     sut_before_init.args["light"] = light_input
 
     # SUT
@@ -121,7 +121,7 @@ async def test_get_attribute(
     supported_color_modes: Set[str],
     expected_attribute: str,
     error_expected: bool,
-):
+) -> None:
     sut._supported_color_modes = supported_color_modes
     sut.entity = LightEntity(ENTITY_NAME, color_mode=color_mode)
 
@@ -144,7 +144,7 @@ async def test_get_attribute(
 )
 async def test_is_color_supported(
     sut: LightController, supported_color_modes: Set[str], expected_output: bool
-):
+) -> None:
     sut._supported_color_modes = supported_color_modes
     output = await sut.is_color_supported()
     assert output == expected_output
@@ -164,7 +164,7 @@ async def test_is_color_supported(
 )
 async def test_is_colortemp_supported(
     sut: LightController, supported_color_modes: Set[str], expected_output: bool
-):
+) -> None:
     sut._supported_color_modes = supported_color_modes
     output = await sut.is_colortemp_supported()
     assert output == expected_output
@@ -193,7 +193,7 @@ async def test_get_value_attribute(
     smooth_power_on_check: bool,
     expected_output: Union[int, float, str],
     error_expected: bool,
-):
+) -> None:
     sut.smooth_power_on = True
     sut.smooth_power_on_check = smooth_power_on_check
 
@@ -292,7 +292,7 @@ async def test_change_light_state(
     smooth_power_on_check: bool,
     stop_expected: bool,
     expected_value_attribute: int,
-):
+) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
     sut.value_attribute = old
@@ -334,7 +334,7 @@ async def test_call_light_service(
     attributes_input: Dict[str, str],
     remove_transition_check: bool,
     attributes_expected: Dict[str, str],
-):
+) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.transition = 300
     sut.remove_transition_check = remove_transition_check
@@ -372,7 +372,7 @@ async def test_check_remove_transition(
     on_from_user: bool,
     transition_support: bool,
     expected_remove_transition_check: bool,
-):
+) -> None:
     sut.transition = 300
     sut.add_transition = add_transition
     sut.add_transition_turn_toggle = add_transition_turn_toggle
@@ -386,7 +386,7 @@ async def test_check_remove_transition(
 async def test_on(
     sut: LightController,
     mocker: MockerFixture,
-):
+) -> None:
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
 
     await sut.on()
@@ -394,7 +394,7 @@ async def test_on(
     call_light_service_patch.assert_called_once_with("light/turn_on")
 
 
-async def test_off(sut: LightController, mocker: MockerFixture):
+async def test_off(sut: LightController, mocker: MockerFixture) -> None:
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
 
     await sut.off()
@@ -402,7 +402,7 @@ async def test_off(sut: LightController, mocker: MockerFixture):
     call_light_service_patch.assert_called_once_with("light/turn_off")
 
 
-async def test_toggle(sut: LightController, mocker: MockerFixture):
+async def test_toggle(sut: LightController, mocker: MockerFixture) -> None:
     call_light_service_patch = mocker.patch.object(sut, "call_light_service")
 
     await sut.toggle()
@@ -424,7 +424,7 @@ async def test_toggle_full(
     attribute: str,
     min_max: MinMax,
     expected_attribute_value: int,
-):
+) -> None:
     call_service_patch = mocker.patch.object(sut, "call_service")
     sut.min_max_attributes = {attribute: min_max}
 
@@ -450,7 +450,7 @@ async def test_toggle_min(
     attribute: str,
     min_max: MinMax,
     expected_attribute_value: int,
-):
+) -> None:
     call_service_patch = mocker.patch.object(sut, "call_service")
     sut.min_max_attributes = {attribute: min_max}
 
@@ -480,7 +480,7 @@ async def test_set_value(
     min_max: MinMax,
     fraction: float,
     expected_value: int,
-):
+) -> None:
     attribute = "test_attribute"
     on_patch = mocker.patch.object(sut, "_on")
     sut.min_max_attributes = {attribute: min_max}
@@ -490,7 +490,7 @@ async def test_set_value(
     on_patch.assert_called_once_with(**{attribute: expected_value})
 
 
-async def test_on_full(sut: LightController, mocker: MockerFixture):
+async def test_on_full(sut: LightController, mocker: MockerFixture) -> None:
     attribute = "test_attribute"
     max_ = 10
     on_patch = mocker.patch.object(sut, "_on")
@@ -501,7 +501,7 @@ async def test_on_full(sut: LightController, mocker: MockerFixture):
     on_patch.assert_called_once_with(**{attribute: max_})
 
 
-async def test_on_min(sut: LightController, mocker: MockerFixture):
+async def test_on_min(sut: LightController, mocker: MockerFixture) -> None:
     attribute = "test_attribute"
     min_ = 1
     on_patch = mocker.patch.object(sut, "_on")
@@ -527,14 +527,14 @@ async def test_sync(
     max_brightness: int,
     color_attribute: str,
     expected_attributes: Dict[str, Any],
-):
+) -> None:
     sut.min_max_attributes[LightController.ATTRIBUTE_BRIGHTNESS] = MinMax(
         0, max_brightness
     )
     sut.add_transition_turn_toggle = True
     sut.feature_support._supported_features = LightSupport.TRANSITION
 
-    async def fake_get_attribute(*args, **kwargs):
+    async def fake_get_attribute(*args: Any, **kwargs: Any) -> str:
         if color_attribute == "error":
             raise ValueError()
         return color_attribute
@@ -622,7 +622,7 @@ async def test_click(
     smooth_power_on: bool,
     expected_calls: int,
     error_expected: bool,
-):
+) -> None:
     value_attribute = 10
     monkeypatch.setattr(
         sut, "get_entity_state", fake_fn(to_return=light_state, async_=True)
@@ -740,7 +740,7 @@ async def test_hold(
     expected_calls: int,
     expected_direction: str,
     error_expected: bool,
-):
+) -> None:
     value_attribute = 10
     monkeypatch.setattr(
         sut, "get_entity_state", fake_fn(to_return=light_state, async_=True)
@@ -770,8 +770,8 @@ async def test_hold(
 
 @pytest.mark.parametrize("value_attribute", [10, None])
 async def test_hold_loop(
-    sut: LightController, mocker: MockerFixture, value_attribute: int
-):
+    sut: LightController, mocker: MockerFixture, value_attribute: Optional[int]
+) -> None:
     attribute = "test_attribute"
     direction = StepperDir.UP
     sut.smooth_power_on_check = False

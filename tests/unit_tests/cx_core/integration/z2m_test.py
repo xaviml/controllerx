@@ -5,6 +5,7 @@ import pytest
 from appdaemon.plugins.hass.hassapi import Hass
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_core.controller import Controller
+from cx_core.integration import EventData
 from cx_core.integration.z2m import Z2MIntegration
 from pytest_mock import MockerFixture
 
@@ -38,12 +39,12 @@ from tests.test_utils import wrap_execution
 async def test_event_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-    data: Dict,
+    data: EventData,
     action_key: str,
     action_group: Optional[int],
     handle_action_called: bool,
     expected_called_with: str,
-):
+) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     kwargs: Dict[str, Any] = {}
     if action_key is not None:
@@ -76,8 +77,8 @@ async def test_listen_changes(
     mocker: MockerFixture,
     listen_to: Optional[str],
     topic_prefix: Optional[str],
-    expected_id: str,
-):
+    expected_id: Optional[str],
+) -> None:
     kwargs = {}
     if listen_to is not None:
         kwargs["listen_to"] = listen_to

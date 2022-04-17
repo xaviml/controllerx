@@ -16,7 +16,9 @@ from cx_devices.rgb_genie import ZB5122LightController
         ({"command": "move_hue", "args": [1, 2]}, "move_hue"),
     ],
 )
-def test_zha_action_MFKZQ01LMLightController(data: EventData, expected_action: str):
-    sut = ZB5122LightController()  # type: ignore
+def test_zha_action_MFKZQ01LMLightController(
+    data: EventData, expected_action: str
+) -> None:
+    sut = ZB5122LightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action

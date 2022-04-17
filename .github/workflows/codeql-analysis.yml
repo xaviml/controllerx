@@ -2,12 +2,12 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [main, dev]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ dev ]
+    branches: [dev]
   schedule:
-    - cron: '30 6 * * 5'
+    - cron: "30 6 * * 5"
 
 jobs:
   analyze:
@@ -21,31 +21,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python_version: [ '3.7', '3.8', '3.9' ]
+        python_version: ["3.7", "3.8", "3.9"]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    # Setup Python (faster than using Python container)
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python_version }}
+      # Setup Python (faster than using Python container)
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
 
-    - name: Install poetry
-      run: |
-        python -m pip install --upgrade poetry
+      - name: Install poetry
+        run: |
+          python -m pip install --upgrade poetry
 
-    - name: Install dependencies
-      run: |
-        poetry install
+      - name: Install dependencies
+        run: |
+          poetry install
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: python
-        setup-python-dependencies: false
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: python
+          setup-python-dependencies: false
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1

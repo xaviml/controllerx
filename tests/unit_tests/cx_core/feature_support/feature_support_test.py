@@ -1,6 +1,6 @@
 import pytest
 from cx_core.feature_support import FeatureSupport
-from cx_core.type_controller import TypeController
+from cx_core.type_controller import Entity, TypeController
 
 
 @pytest.mark.parametrize(
@@ -15,11 +15,11 @@ from cx_core.type_controller import TypeController
     ],
 )
 async def test_is_supported(
-    fake_type_controller: TypeController,
+    fake_type_controller: TypeController[Entity],
     number: int,
     feature: int,
     expected_is_supported: bool,
-):
+) -> None:
     feature_support = FeatureSupport(fake_type_controller)
     feature_support._supported_features = number
     is_supported = await feature_support.is_supported(feature)
@@ -38,11 +38,11 @@ async def test_is_supported(
     ],
 )
 async def test_not_supported(
-    fake_type_controller: TypeController,
+    fake_type_controller: TypeController[Entity],
     number: int,
     feature: int,
     expected_is_supported: bool,
-):
+) -> None:
     feature_support = FeatureSupport(fake_type_controller)
     feature_support._supported_features = number
     is_supported = await feature_support.not_supported(feature)

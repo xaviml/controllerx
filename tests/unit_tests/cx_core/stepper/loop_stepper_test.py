@@ -30,7 +30,7 @@ def test_loop_stepper(
     steps: int,
     direction: Literal["up", "down"],
     expected_value: int,
-):
+) -> None:
     stepper = LoopStepper(min_max, steps)
     stepper_output = stepper.step(value, direction)
     assert stepper_output.next_value == expected_value

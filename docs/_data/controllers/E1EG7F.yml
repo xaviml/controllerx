@@ -22,10 +22,10 @@ integrations:
       - '"on" → Click "ON"'
       - 'on_long → Hold "ON"'
       - 'on_double → Double click "ON"'
-      - 'up → Click 🔆'
-      - 'up_long → Hold 🔆'
-      - 'down → Click 🔅'
-      - 'down_long → Hold 🔅'
+      - "up → Click 🔆"
+      - "up_long → Hold 🔆"
+      - "down → Click 🔅"
+      - "down_long → Hold 🔅"
       - '"off" → Click "OFF"'
       - 'off_long → Hold "OFF"'
       - 'off_double → Double click "OFF"'

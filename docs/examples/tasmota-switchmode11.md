@@ -2,6 +2,7 @@
 title: Tasmota SwitchMode 11/12 Example - v1.1
 layout: page
 ---
+
 **Updated August, 2020.
 Changelog at last page**
 
@@ -49,9 +50,10 @@ GPIO4: Switch1 (9)
 #### Setup ControllerX app:
 
 Both examples listed below will:
-* toggle light(s) upon single button press
-* dim light(s) up/down when button is held
-* Turn light(s) on at full brightness upon double press
+
+- toggle light(s) upon single button press
+- dim light(s) up/down when button is held
+- Turn light(s) on at full brightness upon double press
 
 First example is with two separate controllers. This will also handle `HOLD FROM LIGHTS OFF` situation. Which, when lights are off, will `SYNC` light/lights when button is held for 0,8 sec.
 
@@ -114,6 +116,7 @@ tasmota_switchmode11:
 ```
 
 #### Notes on Appdaemon and HA's state machine:
+
 Things unfortunately take time when HA's state machine is involved! This can for some be notisable (for others not), when Appdaemon apps has to check HA states by eg. using constrain_input_boolean's (as in example 1) or change HA states by toggling lights. In my setup, using a constrain_input_boolean adds some 100 ms. delay on execution. Not much on its own, but still worth to keep in mind. Toggling lights via HA automation is also some 100 ms. faster than toggling through Appdaemon/ControllerX. So in order to get the fastest possible toggle of lights, I'm personally using a simple HA automation for toggling lights and let ControllerX handle everything else 🙂
 
 Optional HA toggle automation below.
@@ -172,14 +175,15 @@ Rules also needs to be 'escaped', if used with HA automation.
 Tasmota will automatically add needed escape characters, if rules are entered without.
 
 #### Changelog:
+
 **doc v1.0:**
-* Initial example documentation May, 2020
+
+- Initial example documentation May, 2020
 
 **doc v1.1:**
-* Deprecated use of custom controllers in example. These will shortly be deprecated as well in ControllerX
-* Changed from HA sensor state to official z2m MQTT event implementation using JSON objects (speed improvement!)
-* New switchmode 11/12 `DOUBLE` press command implemented
 
-
+- Deprecated use of custom controllers in example. These will shortly be deprecated as well in ControllerX
+- Changed from HA sensor state to official z2m MQTT event implementation using JSON objects (speed improvement!)
+- New switchmode 11/12 `DOUBLE` press command implemented
 
 _This example was provided by [@htvekov](https://github.com/htvekov)_

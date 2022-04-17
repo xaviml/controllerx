@@ -1,8 +1,9 @@
-from typing import Dict, Optional
+from typing import Optional
 
 import pytest
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_core.controller import Controller
+from cx_core.integration import EventData
 from cx_core.integration.mqtt import MQTTIntegration
 from pytest_mock.plugin import MockerFixture
 
@@ -51,11 +52,11 @@ from tests.test_utils import wrap_execution
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-    data: Dict,
+    data: EventData,
     payload_key: Optional[str],
     expected: Optional[str],
     error_expected: bool,
-):
+) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     mqtt_integration = MQTTIntegration(fake_controller, {"key": payload_key})
 
@@ -71,7 +72,7 @@ async def test_callback(
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-):
+) -> None:
     controller_id = "controller_id"
     listen_event_mock = mocker.patch.object(Mqtt, "listen_event")
     mqtt_integration = MQTTIntegration(fake_controller, {})

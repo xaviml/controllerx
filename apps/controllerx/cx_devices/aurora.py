@@ -25,7 +25,8 @@ class AUA1ZBR2GWLightController(LightController):
 
     def get_zha_action(self, data: EventData) -> str:
         endpoint_id = data.get("endpoint_id", 1)
-        command = action = data["command"]
+        command: str = data["command"]
+        action = command
         args = data.get("args", [])
         if command == "step" or command == "step_color_temp":
             args_mapping = {0: "up", 1: "down", 3: "up"}

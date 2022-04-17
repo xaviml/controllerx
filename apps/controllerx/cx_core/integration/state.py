@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -23,6 +23,6 @@ class StateIntegration(Integration):
         attribute: Optional[str],
         old: Optional[str],
         new: str,
-        kwargs,
+        kwargs: Dict[str, Any],
     ) -> None:
         await self.controller.handle_action(new, previous_state=old)

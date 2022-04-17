@@ -19,7 +19,7 @@ from tests.test_utils import fake_fn, wrap_execution
 def test_get_action(
     test_input: TypeAction,
     expected: ActionFunctionWithParams,
-):
+) -> None:
     output = _get_action(test_input)
     assert output == expected
 
@@ -88,8 +88,8 @@ def test_get_arguments_general(
     action_args: ActionParams,
     user_args: Dict[str, Any],
     expected: Optional[Tuple[ActionParams, Dict[str, Any]]],
-):
-    async def test_fn(a: str, b: int = 2):
+) -> None:
+    async def test_fn(a: str, b: int = 2) -> None:
         pass
 
     with wrap_execution(error_expected=expected is None, exception=ValueError):
@@ -127,8 +127,8 @@ def test_get_arguments_with_extra(
     user_args: Dict[str, Any],
     extra: Optional[EventData],
     expected: Optional[Tuple[ActionParams, Dict[str, Any]]],
-):
-    async def test_fn(a: str, b: int, extra: Optional[EventData] = None):
+) -> None:
+    async def test_fn(a: str, b: int, extra: Optional[EventData] = None) -> None:
         pass
 
     with wrap_execution(error_expected=expected is None, exception=ValueError):

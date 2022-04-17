@@ -21,7 +21,7 @@ def test_index_loop_stepper(
     value: int,
     direction: Literal["up", "down"],
     expected_value: int,
-):
+) -> None:
     stepper = IndexLoopStepper(size)
     stepper_output = stepper.step(value, direction)
     assert stepper_output.next_value == expected_value

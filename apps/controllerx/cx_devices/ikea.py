@@ -512,7 +512,8 @@ class E1812LightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class E1812SwitchController(SwitchController):
@@ -526,7 +527,8 @@ class E1812SwitchController(SwitchController):
         return {"on": Light.TOGGLE}
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class W2049LightController(LightController):

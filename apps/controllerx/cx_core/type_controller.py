@@ -4,7 +4,7 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from cx_core.controller import Controller
 from cx_core.feature_support import FeatureSupport
 
-EntityType = TypeVar("EntityType", bound="Entity")
+EntityVar = TypeVar("EntityVar", bound="Entity")
 
 
 class Entity:
@@ -12,7 +12,7 @@ class Entity:
     entities: List[str]
 
     def __init__(
-        self, name: str, entities: Optional[List[str]] = None, **kwargs: Dict[str, Any]
+        self, name: str, entities: Optional[List[str]] = None, **kwargs: Any
     ) -> None:
         self.name = name
         self.set_entities(entities)
@@ -30,19 +30,22 @@ class Entity:
 
     @classmethod
     def instantiate(
-        cls: Type[EntityType], name: str, entities: Optional[List[str]] = None, **params
-    ) -> EntityType:
+        cls: Type[EntityVar],
+        name: str,
+        entities: Optional[List[str]] = None,
+        **params: Any,
+    ) -> EntityVar:
         return cls(name=name, entities=entities, **params)
 
     def __str__(self) -> str:
         return self.name if not self.is_group else f"{self.name}({self.entities})"
 
 
-class TypeController(Controller, abc.ABC, Generic[EntityType]):
+class TypeController(Controller, abc.ABC, Generic[EntityVar]):
 
     domains: List[str]
     entity_arg: str
-    entity: EntityType
+    entity: EntityVar
     update_supported_features: bool
     feature_support: FeatureSupport
 
@@ -51,7 +54,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
             raise ValueError(
                 f"{self.__class__.__name__} class needs the `{self.entity_arg}` attribute"
             )
-        self.entity = await self._get_entity(self.args[self.entity_arg])  # type: ignore
+        self.entity = await self._get_entity(self.args[self.entity_arg])
         self._check_domain(self.entity)
         self.update_supported_features = self.args.get(
             "update_supported_features", False
@@ -63,7 +66,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
         await super().init()
 
     @abc.abstractmethod
-    def _get_entity_type(self) -> Type[Entity]:
+    def _get_entity_type(self) -> Type[EntityVar]:
         raise NotImplementedError
 
     async def _get_entities(self, entity_name: str) -> Optional[List[str]]:
@@ -81,8 +84,8 @@ class TypeController(Controller, abc.ABC, Generic[EntityType]):
             raise ValueError(f"`{entity_name}` does not have any entities registered.")
         return entities
 
-    async def _get_entity(self, entity: Union[str, dict]) -> Entity:
-        entity_args: Dict
+    async def _get_entity(self, entity: Union[str, Dict[str, Any]]) -> EntityVar:
+        entity_args: Dict[str, Any]
         entity_name: str
         if isinstance(entity, str):
             entity_name = entity

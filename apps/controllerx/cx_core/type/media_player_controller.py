@@ -18,6 +18,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     domains = ["media_player"]
     entity_arg = "media_player"
+    volume_level: float
 
     async def init(self) -> None:
         volume_steps = self.args.get("volume_steps", DEFAULT_VOLUME_STEPS)
@@ -160,7 +161,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
             await self._hold(direction)
 
     @action
-    async def hold(self, direction: str) -> None:  # type: ignore
+    async def hold(self, direction: str) -> None:  # type: ignore[override]
         await self._hold(direction)
 
     async def _hold(self, direction: str) -> None:
@@ -189,7 +190,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
                 )
             return False
 
-    async def hold_loop(self, direction: str) -> bool:  # type: ignore
+    async def hold_loop(self, direction: str) -> bool:  # type: ignore[override]
         return await self.volume_change(direction)
 
     def default_delay(self) -> int:

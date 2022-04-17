@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData
@@ -7,7 +7,7 @@ from cx_core.integration import EventData
 class SceneActionType(ActionType):
     scene: str
 
-    def initialize(self, **kwargs) -> None:
+    def initialize(self, **kwargs: Any) -> None:
         self.scene = kwargs["scene"]
 
     async def run(self, extra: Optional[EventData] = None) -> None:

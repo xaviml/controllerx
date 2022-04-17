@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
-from cx_const import DefaultActionsMapping  # type:ignore
+from cx_const import DefaultActionsMapping
 from cx_core.integration import EventData, Integration
 
 LISTENS_TO_ID = "id"
@@ -28,7 +28,7 @@ class DeCONZIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: dict
+        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
     ) -> None:
         type_ = self.kwargs.get("type", "event")
         await self.controller.handle_action(data[type_], extra=data)

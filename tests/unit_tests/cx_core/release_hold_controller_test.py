@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from cx_core import ReleaseHoldController
 from cx_core.controller import Controller
@@ -8,8 +10,8 @@ from tests.test_utils import fake_fn
 
 
 class FakeReleaseHoldController(ReleaseHoldController):
-    def hold_loop(self):
-        pass
+    async def hold_loop(self, *args: Any) -> bool:
+        return False
 
     def default_delay(self) -> int:
         return 500
@@ -17,7 +19,7 @@ class FakeReleaseHoldController(ReleaseHoldController):
 
 @pytest.fixture
 def sut_before_init(mocker: MockerFixture) -> FakeReleaseHoldController:
-    controller = FakeReleaseHoldController()  # type: ignore
+    controller = FakeReleaseHoldController(**{})
     controller.args = {}
     mocker.patch.object(Controller, "init")
     mocker.patch.object(controller, "sleep")
@@ -30,12 +32,14 @@ async def sut(sut_before_init: FakeReleaseHoldController) -> FakeReleaseHoldCont
     return sut_before_init
 
 
-async def test_init(sut_before_init: FakeReleaseHoldController, mocker: MockerFixture):
+async def test_init(
+    sut_before_init: FakeReleaseHoldController, mocker: MockerFixture
+) -> None:
     await sut_before_init.init()
     assert sut_before_init.delay == 500
 
 
-async def test_release(sut: FakeReleaseHoldController):
+async def test_release(sut: FakeReleaseHoldController) -> None:
     sut.on_hold = True
     await sut.release()
     assert not sut.on_hold
@@ -45,7 +49,7 @@ async def test_hold(
     sut: FakeReleaseHoldController,
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
-):
+) -> None:
     monkeypatch.setattr(sut, "hold_loop", fake_fn(to_return=True, async_=True))
     hold_loop_patch = mocker.patch.object(sut, "hold_loop")
 
@@ -73,7 +77,7 @@ async def test_before_action(
     on_hold_input: bool,
     hold_release_toogle: bool,
     continue_call: bool,
-):
+) -> None:
     sut.on_hold = on_hold_input
     sut.hold_release_toggle = hold_release_toogle
     output = await sut.before_action(action)

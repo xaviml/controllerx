@@ -16,14 +16,14 @@ Add a description of the bug. Detail the expected behaviour in contrast with the
 
 ## Additional information
 
-* Devices involved:
-  * Model: [ eg. IKEA 1744 ] as [ Light | Media Player | Controller ]
-  * ...
-* Integration: Choose from `z2m | deconz | zha`
-* AppDaemon version: [ eg. v4.0.1 ]
-* ControllerX version: [ eg. v2.2.1 ]
-* HACS version (if installed from there): [ eg. v0.21.5 ]
-* Home Assistant Core version: [ eg. v0.105.4 ]
+- Devices involved:
+  - Model: [ eg. IKEA 1744 ] as [ Light | Media Player | Controller ]
+  - ...
+- Integration: Choose from `z2m | deconz | zha`
+- AppDaemon version: [ eg. v4.0.1 ]
+- ControllerX version: [ eg. v2.2.1 ]
+- HACS version (if installed from there): [ eg. v0.21.5 ]
+- Home Assistant Core version: [ eg. v0.105.4 ]
 
 ## AppDaemon app configuration
 

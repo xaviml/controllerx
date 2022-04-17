@@ -44,7 +44,8 @@ class WXKG02LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG02LMSwitchController(SwitchController):
@@ -70,7 +71,8 @@ class WXKG02LMSwitchController(SwitchController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG01LMLightController(LightController):
@@ -143,7 +145,8 @@ class WXKG11LMRemoteLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG11LMSensorSwitchLightController(LightController):
@@ -245,7 +248,8 @@ class MFKZQ01LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        command = action = data["command"]
+        command: str = data["command"]
+        action = command
         args = data.get("args", {})
         if command == "flip":
             action = command + str(args["flip_degrees"])
@@ -316,7 +320,8 @@ class WXCJKG12LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXCJKG13LMLightController(LightController):
@@ -423,7 +428,8 @@ class WXCJKG13LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG06LMLightController(LightController):
@@ -491,7 +497,8 @@ class WXKG07LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG07LMSwitchController(SwitchController):
@@ -517,7 +524,8 @@ class WXKG07LMSwitchController(SwitchController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class ZNXNKG02LMLightController(LightController):
