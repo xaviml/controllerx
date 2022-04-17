@@ -71,3 +71,12 @@ exclude_lines = [
     # Logs can be ignored
     "self.log",
 ]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "4.19.0b3"
+tag_format = "v$major.$minor.$patch$prerelease"
+version_files = [
+    "apps/controllerx/cx_version.py",
+    ".cz.toml:version"
+]
