@@ -3,7 +3,7 @@ from typing import List
 import pytest
 from cx_core.feature_support import FeatureSupport
 from cx_core.feature_support.cover import CoverSupport
-from cx_core.type_controller import TypeController
+from cx_core.type_controller import Entity, TypeController
 
 
 @pytest.mark.parametrize(
@@ -31,10 +31,10 @@ from cx_core.type_controller import TypeController
     ],
 )
 async def test_is_supported(
-    fake_type_controller: TypeController,
+    fake_type_controller: TypeController[Entity],
     number: int,
     expected_supported_features: List[int],
-):
+) -> None:
     feature_support = FeatureSupport(fake_type_controller)
     feature_support._supported_features = number
     for expected_supported_feature in expected_supported_features:

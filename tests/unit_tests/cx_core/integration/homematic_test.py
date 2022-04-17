@@ -1,8 +1,9 @@
-from typing import Dict, Optional, Set
+from typing import Optional, Set
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.controller import Controller
+from cx_core.integration import EventData
 from cx_core.integration.homematic import HomematicIntegration
 from pytest_mock.plugin import MockerFixture
 
@@ -31,10 +32,10 @@ from pytest_mock.plugin import MockerFixture
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-    data: Dict,
+    data: EventData,
     registered_controllers: Set[str],
     expected: Optional[str],
-):
+) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     integration = HomematicIntegration(fake_controller, {})
     integration._registererd_controller_ids = registered_controllers
@@ -51,7 +52,7 @@ async def test_callback(
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-):
+) -> None:
     controller_id = "controller_id"
     listen_event_mock = mocker.patch.object(Hass, "listen_event")
     integration = HomematicIntegration(fake_controller, {})

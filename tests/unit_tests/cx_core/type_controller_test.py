@@ -37,7 +37,7 @@ class MyTypeController(TypeController[MyEntity]):
 
 @pytest.fixture
 def sut_before_init(mocker: MockerFixture) -> MyTypeController:
-    controller = MyTypeController()  # type: ignore
+    controller = MyTypeController(**{})
     controller.args = {ENTITY_ARG: ENTITY_NAME}
     mocker.patch.object(controller, "get_state", fake_fn(None, async_=True))
     mocker.patch.object(Controller, "init")
@@ -62,7 +62,7 @@ async def sut(sut_before_init: MyTypeController) -> MyTypeController:
 )
 async def test_init(
     sut_before_init: MyTypeController, args: Dict[str, Any], error_expected: bool
-):
+) -> None:
     sut_before_init.args = args
 
     with wrap_execution(error_expected=error_expected, exception=ValueError):
@@ -115,7 +115,7 @@ async def test_check_domain(
     domains: List[str],
     entities: List[str],
     error_expected: bool,
-):
+) -> None:
     sut.domains = domains
     my_entity = MyEntity(entity, entities=entities)
     monkeypatch.setattr(sut, "get_state", fake_fn(to_return=entities, async_=True))
@@ -142,11 +142,13 @@ async def test_get_entity_state(
     entities: Union[str, List[str]],
     update_supported_features: bool,
     expected_calls: int,
-):
+) -> None:
     sut.update_supported_features = update_supported_features
     stub_get_state = mocker.stub()
 
-    async def fake_get_state(entity, attribute=None):
+    async def fake_get_state(
+        entity: str, attribute: Optional[str] = None
+    ) -> Union[str, List[str]]:
         stub_get_state(entity, attribute=attribute)
         return entities
 

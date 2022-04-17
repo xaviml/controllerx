@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -20,7 +20,7 @@ class LutronIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: dict
+        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
     ) -> None:
         button = data["button_number"]
         action_type = data["action"]

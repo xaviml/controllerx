@@ -1,4 +1,4 @@
-from typing import Optional, Set
+from typing import Any, Dict, Optional, Set
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -19,7 +19,7 @@ class HomematicIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: dict
+        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
     ) -> None:
         if data["name"] not in self._registererd_controller_ids:
             return

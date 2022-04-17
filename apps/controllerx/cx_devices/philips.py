@@ -53,7 +53,8 @@ class HueDimmerController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class Philips929002398602LightController(LightController):

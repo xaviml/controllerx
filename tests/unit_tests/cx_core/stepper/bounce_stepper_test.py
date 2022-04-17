@@ -29,7 +29,7 @@ def test_bounce_stepper(
     direction: Literal["up", "down"],
     expected_value: int,
     expected_direction: Literal["up", "down"],
-):
+) -> None:
     stepper = BounceStepper(min_max, steps)
     stepper_output = stepper.step(value, direction)
     assert stepper_output.next_value == expected_value

@@ -10,7 +10,7 @@ from pytest_mock.plugin import MockerFixture
 @pytest.mark.parametrize("attribute", ["sensor", "entity_id", None])
 async def test_listen_changes(
     fake_controller: Controller, mocker: MockerFixture, attribute: Optional[str]
-):
+) -> None:
     kwargs = {}
     if attribute is not None:
         kwargs["attribute"] = attribute
@@ -31,8 +31,7 @@ async def test_listen_changes(
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-):
-
+) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     state_integration = StateIntegration(fake_controller, {})
 

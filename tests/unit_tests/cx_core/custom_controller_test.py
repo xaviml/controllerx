@@ -10,7 +10,7 @@ from cx_core import (
     MediaPlayerController,
     SwitchController,
 )
-from cx_core.type_controller import TypeController
+from cx_core.type_controller import Entity, TypeController
 from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
 
@@ -65,13 +65,13 @@ from tests.test_utils import fake_fn
 )
 async def test_custom_controllers(
     mocker: MockerFixture,
-    custom_cls: Type[TypeController],
+    custom_cls: Type[TypeController[Entity]],
     mapping: PredefinedActionsMapping,
     action_input: str,
     mock_function: str,
     expected_calls: int,
-):
-    sut = custom_cls()  # type: ignore
+) -> None:
+    sut = custom_cls(**{})
     sut.args = {
         "controller": "test_controller",
         "integration": "z2m",
@@ -84,7 +84,7 @@ async def test_custom_controllers(
     }
     mocked = mocker.stub()
 
-    async def mocked_fn():
+    async def mocked_fn() -> None:
         mocked()
 
     mocker.patch.object(sut, mock_function, mocked_fn)
@@ -147,8 +147,8 @@ async def test_call_service_controller(
     integration: str,
     services: List[Dict[str, Any]],
     expected_calls: List[Tuple[str, Dict[str, Any]]],
-):
-    sut = CallServiceController()  # type: ignore
+) -> None:
+    sut = CallServiceController(**{})
     sut.args = {
         "controller": "test_controller",
         "integration": integration,

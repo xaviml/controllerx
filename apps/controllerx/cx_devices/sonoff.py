@@ -19,4 +19,5 @@ class SNZB01LightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command

@@ -1,11 +1,14 @@
+from typing import Any, Dict
+
 from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 from cx_core.integration import EventData
 
 
-def get_zha_action_LegrandWallController(data: dict) -> str:
+def get_zha_action_LegrandWallController(data: Dict[str, Any]) -> str:
     endpoint_id = data.get("endpoint_id", 1)
-    command = action = data["command"]
+    command: str = data["command"]
+    action = command
     args = data.get("args", {})
     args_mapping = {0: "up", 1: "down"}
     if command == "move":

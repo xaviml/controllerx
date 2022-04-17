@@ -1,5 +1,5 @@
-from cx_const import Number
-from cx_core.stepper import MinMax, Stepper, StepperDir, StepperOutput
+from cx_const import Number, StepperDir
+from cx_core.stepper import MinMax, Stepper, StepperOutput
 
 
 class IndexLoopStepper(Stepper):

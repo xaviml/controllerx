@@ -49,7 +49,9 @@ def _all_integration_subclasses(
     return list(subclasses)
 
 
-def get_integrations(controller, kwargs) -> List[Integration]:
+def get_integrations(
+    controller: "Controller", kwargs: Dict[str, Any]
+) -> List[Integration]:
     _import_modules(__file__, __package__)
     subclasses = _all_integration_subclasses(Integration)
     integrations = [cls_(controller, kwargs) for cls_ in subclasses]

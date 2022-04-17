@@ -1,15 +1,16 @@
-from typing import Type
+from typing import Optional, Type
 
 import pytest
 from cx_const import PredefinedActionsMapping
 from cx_core import type as type_module
-from cx_core.type_controller import TypeController
+from cx_core.controller import Controller
+from cx_core.type_controller import Entity, TypeController
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import get_classes
 
 
-def check_mapping(mapping: PredefinedActionsMapping) -> None:
+def check_mapping(mapping: Optional[PredefinedActionsMapping]) -> None:
     if mapping is None:
         return
     for v in mapping.values():
@@ -26,14 +27,14 @@ def check_mapping(mapping: PredefinedActionsMapping) -> None:
 
 
 controller_types = get_classes(
-    type_module.__file__, type_module.__package__, TypeController
+    type_module.__file__, type_module.__package__, Controller
 )
 
 
 @pytest.mark.parametrize("controller_type", controller_types)
 def test_predefined_actions_mapping(
-    mocker: MockerFixture, controller_type: Type[TypeController]
-):
-    controller = controller_type()  # type: ignore
+    mocker: MockerFixture, controller_type: Type[TypeController[Entity]]
+) -> None:
+    controller = controller_type(**{})
     mappings = controller.get_predefined_actions_mapping()
     check_mapping(mappings)

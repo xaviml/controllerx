@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Type
+from typing import Any, Awaitable, Callable, Dict, Optional, Type
 
 from cx_const import Cover, PredefinedActionsMapping
 from cx_core.controller import action
@@ -50,11 +50,11 @@ class CoverController(TypeController[Entity]):
             Cover.TOGGLE_CLOSE: (self.toggle, (self.close,)),
         }
 
-    async def cover_stopped_cb(self, kwargs):
+    async def cover_stopped_cb(self, kwargs: Dict[str, Any]) -> None:
         self.is_supposedly_moving = False
         self.stop_timer_handle = None
 
-    async def start_timer(self):
+    async def start_timer(self) -> None:
         if self.cover_duration is None:
             return
         await self.stop_timer()
@@ -63,7 +63,7 @@ class CoverController(TypeController[Entity]):
             self.cover_stopped_cb, self.cover_duration
         )
 
-    async def stop_timer(self):
+    async def stop_timer(self) -> None:
         if self.stop_timer_handle is not None:
             self.is_supposedly_moving = False
             await self.cancel_timer(self.stop_timer_handle)
@@ -112,7 +112,7 @@ class CoverController(TypeController[Entity]):
         await self.call_service("cover/stop_cover", entity_id=self.entity.name)
 
     @action
-    async def toggle(self, action: Callable) -> None:
+    async def toggle(self, action: Callable[[], Awaitable[None]]) -> None:
         cover_state = await self.get_entity_state()
         if (
             cover_state == "opening"

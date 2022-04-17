@@ -8,14 +8,14 @@ from cx_core.integration import EventData
 
 @pytest.fixture
 def fake_controller() -> Controller:
-    c = Controller()  # type: ignore
+    c = Controller(**{})
     c.args = {}
     return c
 
 
 @pytest.fixture
 def fake_type_controller() -> LightController:
-    c = LightController()  # type: ignore
+    c = LightController(**{})
     c.args = {}
     return c
 
