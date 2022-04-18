@@ -5,7 +5,7 @@ title: Installation
 
 # AppDaemon installation
 
-Before installing ControllerX, we will need to install AppDaemon first. For this, you can follow the [official documentation](https://appdaemon.readthedocs.io/en/latest/INSTALL.html) for it. I personally recommend to install the `AppDaemon 4` addon from the `Add-on store`. Once the addon is install, you can run it and it will set up everything for you. It will create a folder in `/config/appdaemon` with the needed structure for AppDaemon to run.
+Before installing ControllerX, we will need to install AppDaemon first. For this, you can follow the [official documentation](https://appdaemon.readthedocs.io/en/latest/INSTALL.html) for it. I personally recommend to install the `AppDaemon` addon from the `Add-on store` on your Home Assistant. Once the addon is installed, you can run it and it will set up everything for you. It will create a folder in `/config/appdaemon` with the needed structure for AppDaemon to run.
 
 _You can read [here](/controllerx/others/run-appdaemon) what's AppDaemon and why is needed._
 
