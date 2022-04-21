@@ -10,6 +10,12 @@ PRERELEASE_NOTE
 
 ## :pencil2: Features
 
+- :warning: Custom Controllers have been removed from code. They were deprecated in [v3.4.0](https://github.com/xaviml/controllerx/releases/tag/v3.4.0). Following classes are no longer available:
+  - `CustomLightController` (`LightController` should be used instead).
+  - `CustomMediaPlayerController` (`MediaPlayerController` should be used instead).
+  - `CustomSwitchController` (`SwitchController` should be used instead).
+  - `CustomCoverController` (`CoverController` should be used instead).
+  - `CallServiceController` (`Controller` should be used instead).
 - Add `key` attribute for MQTT integration. It allows reading specific attribute for JSON payloads (works like `action_key` from Zigbee2MQTT integration). Read more [here](https://xaviml.github.io/controllerx/others/integrations#mqtt).
 - Add [HomeMatic](https://www.home-assistant.io/integrations/homematic/) (`homematic`) integration. Read more [here](https://xaviml.github.io/controllerx/others/integrations#homematic).
 - Add `brightness_from_controller_level` predefined action for `LightController`. It changes the brightness of the light from the value sent by the controller `action_level` (if supported).

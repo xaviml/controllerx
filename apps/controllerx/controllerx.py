@@ -4,13 +4,8 @@ Create controller-based automations with ease to control your home devices and s
 https://github.com/xaviml/controllerx
 """
 from cx_core import (
-    CallServiceController,
     Controller,
     CoverController,
-    CustomCoverController,
-    CustomLightController,
-    CustomMediaPlayerController,
-    CustomSwitchController,
     LightController,
     MediaPlayerController,
     SwitchController,

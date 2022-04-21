@@ -4,7 +4,7 @@ import pytest
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import PredefinedActionsMapping
 from cx_core import (
-    CallServiceController,
+    Controller,
     CoverController,
     LightController,
     MediaPlayerController,
@@ -148,7 +148,7 @@ async def test_call_service_controller(
     services: List[Dict[str, Any]],
     expected_calls: List[Tuple[str, Dict[str, Any]]],
 ) -> None:
-    sut = CallServiceController(**{})
+    sut = Controller(**{})
     sut.args = {
         "controller": "test_controller",
         "integration": integration,
