@@ -4,7 +4,7 @@
   "python.testing.pytestEnabled": true,
   "editor.formatOnSave": true,
   "python.formatting.provider": "black",
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "off",
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.stubPath": "apps/controllerx",
   "python.testing.pytestArgs": ["tests"],
@@ -16,5 +16,6 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
-  }
+  },
+  "python.analysis.completeFunctionParens": true
 }
