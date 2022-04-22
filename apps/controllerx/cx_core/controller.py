@@ -470,7 +470,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
 
     async def _apply_mode_strategy(self, action_key: ActionEvent) -> bool:
         previous_task = self.action_handles[action_key]
-        if previous_task is None:
+        if previous_task is None or previous_task.done():
             return False
         if self.mode[action_key] == MODE_SINGLE:
             self.log(
@@ -510,8 +510,6 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
                 f"Task(s) from `{action_key}` was/were canceled and executed again",
                 level="DEBUG",
             )
-        finally:
-            self.action_handles[action_key] = None
 
     async def call_action_types(
         self, action_types: List[ActionType], extra: Optional[EventData] = None

@@ -25,6 +25,7 @@ PRERELEASE_NOTE
 
 ## :hammer: Fixes
 
+- Fixes bug related to `mode: restart`. Actions were not restarted properly over time.
 - [E1524_E1810](https://xaviml.github.io/controllerx/controllers/E1524_E1810) - Fix ZHA mapping for 2022.4.X Home Assistant. [ #455, #457 ]
 - [E1743](https://xaviml.github.io/controllerx/controllers/E1743) - Fix ZHA mapping for 2022.4.X Home Assistant. [ #455, #457 ]
 - [E1744](https://xaviml.github.io/controllerx/controllers/E1744) - Fix ZHA mapping for 2022.4.X Home Assistant. [ #455, #457 ]
