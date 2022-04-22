@@ -673,6 +673,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     async def before_action(self, action: str, *args: Any, **kwargs: Any) -> bool:
         to_return = True
+        self.next_direction = None
         if action in ("click", "hold"):
             if len(args) == 2:
                 attribute, direction = args
@@ -689,7 +690,6 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             self.remove_transition_check = await self.check_remove_transition(
                 on_from_user=False
             )
-            self.next_direction = None
             to_return = (light_state == "on") or self.smooth_power_on_check
         else:
             self.remove_transition_check = await self.check_remove_transition(

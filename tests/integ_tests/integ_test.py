@@ -1,7 +1,18 @@
 import asyncio
 import glob
 from pathlib import Path
-from typing import Any, Awaitable, Callable, Dict, List, Optional, Set, Tuple
+from typing import (
+    Any,
+    Awaitable,
+    Callable,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Set,
+    Tuple,
+    Union,
+)
 
 import pytest
 import yaml
@@ -43,6 +54,35 @@ def get_fake_get_state(
 integration_tests = get_integ_tests()
 
 
+class ExtraIterator:
+    iterator: Iterator[Optional[Dict[str, Any]]]
+    current: Optional[Dict[str, Any]] = None
+
+    def __init__(self, iterator: Iterator[Optional[Dict[str, Any]]]) -> None:
+        self.iterator = iterator
+
+    def __next__(self) -> Optional[Dict[str, Any]]:
+        try:
+            self.current = next(self.iterator)
+        except StopIteration:
+            # Once iterator is finished, we will return always current
+            # which is the last element from the iterator
+            pass
+        finally:
+            return self.current
+
+
+def _get_extra(
+    data: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]
+) -> ExtraIterator:
+    if data is None:
+        return ExtraIterator(iter([None]))
+    if isinstance(data, list):
+        return ExtraIterator(iter(data))
+    elif isinstance(data, dict):
+        return ExtraIterator(iter([data]))
+
+
 @pytest.mark.parametrize("config_file, test_yaml_file, data", integration_tests)
 async def test_integ_configs(
     mocker: MockerFixture, config_file: str, test_yaml_file: str, data: Dict[str, Any]
@@ -52,7 +92,7 @@ async def test_integ_configs(
     previous_state = data.get("previous_state", None)
     fired_actions = data.get("fired_actions", [])
     render_template_response = data.get("render_template_response")
-    extra = data.get("extra")
+    extras: ExtraIterator = _get_extra(data.get("extra"))
     expected_calls = data.get("expected_calls", [])
     expected_calls_count = data.get("expected_calls_count", len(expected_calls))
 
@@ -80,7 +120,7 @@ async def test_integ_configs(
     for idx, action in enumerate(fired_actions):
         if any(isinstance(action, type_) for type_ in (str, int)):
             coroutine = controller.handle_action(
-                action, previous_state=previous_state, extra=extra
+                action, previous_state=previous_state, extra=next(extras)
             )
             if idx == len(fired_actions) - 1:
                 await coroutine
