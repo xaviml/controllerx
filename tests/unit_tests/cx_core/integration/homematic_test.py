@@ -38,7 +38,7 @@ async def test_callback(
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     integration = HomematicIntegration(fake_controller, {})
-    integration._registererd_controller_ids = registered_controllers
+    integration._registered_controller_ids = registered_controllers
 
     await integration.event_callback("test", data, {})
 
@@ -56,11 +56,11 @@ async def test_listen_changes(
     controller_id = "controller_id"
     listen_event_mock = mocker.patch.object(Hass, "listen_event")
     integration = HomematicIntegration(fake_controller, {})
-    assert integration._registererd_controller_ids == set()
+    assert integration._registered_controller_ids == set()
 
     await integration.listen_changes(controller_id)
 
     listen_event_mock.assert_called_once_with(
         fake_controller, integration.event_callback, "homematic.keypress"
     )
-    assert integration._registererd_controller_ids == {controller_id}
+    assert integration._registered_controller_ids == {controller_id}
