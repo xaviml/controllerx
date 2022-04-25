@@ -14,9 +14,9 @@ from typing import (
     Union,
     overload,
 )
+from unittest.mock import MagicMock
 
 import pytest
-from mock import MagicMock
 from pytest import ExceptionInfo
 from pytest_mock.plugin import MockerFixture
 from typing_extensions import Literal
