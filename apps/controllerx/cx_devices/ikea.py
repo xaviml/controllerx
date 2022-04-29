@@ -165,6 +165,7 @@ class E1743Controller(LightController):
             "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
             "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
             "stop": Light.RELEASE,
+            "stop_with_on_off": Light.RELEASE,
         }
 
 
@@ -198,6 +199,7 @@ class E1743MediaPlayerController(MediaPlayerController):
             "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
             "move_1_83_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
             "stop": MediaPlayer.RELEASE,
+            "stop_with_on_off": MediaPlayer.RELEASE,
         }
 
 
@@ -245,6 +247,7 @@ class E1743CoverController(CoverController):
             "move_with_on_off_0_83": Cover.OPEN,
             "move_1_83_0_0": Cover.CLOSE,
             "stop": Cover.STOP,
+            "stop_with_on_off": Cover.STOP,
         }
 
 
