@@ -203,6 +203,34 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 self.on_min,
                 (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
+            Light.ON_MIN_MAX_BRIGHTNESS: (
+                self.on_min_max,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    True,
+                ),
+            ),
+            Light.ON_MAX_MIN_BRIGHTNESS: (
+                self.on_min_max,
+                (
+                    LightController.ATTRIBUTE_BRIGHTNESS,
+                    False,
+                ),
+            ),
+            Light.ON_MIN_MAX_COLOR_TEMP: (
+                self.on_min_max,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    True,
+                ),
+            ),
+            Light.ON_MAX_MIN_COLOR_TEMP: (
+                self.on_min_max,
+                (
+                    LightController.ATTRIBUTE_COLOR_TEMP,
+                    False,
+                ),
+            ),
             Light.SET_HALF_BRIGHTNESS: (
                 self.set_value,
                 (
@@ -477,6 +505,18 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     @action
     async def on_min(self, attribute: str) -> None:
         await self._on_min(attribute)
+
+    @action
+    async def on_min_max(self, attribute: str, default_to_min: bool) -> None:
+        min_ = self.min_max_attributes[attribute].min
+        max_ = self.min_max_attributes[attribute].max
+        # current_value_ could be None in cases like when light is off
+        current_value_ = await self.get_entity_state(attribute=attribute)
+        if default_to_min:
+            value = max_ if current_value_ == min_ else min_
+        else:
+            value = min_ if current_value_ == max_ else max_
+        await self._on(**{attribute: value})
 
     @action
     async def sync(
