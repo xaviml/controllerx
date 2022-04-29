@@ -1,5 +1,5 @@
 name: ICTCG1 (IKEA)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: ICTCG1Controller

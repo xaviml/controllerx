@@ -1,0 +1,31 @@
+name: HM-PBI-4-FM (Homematic)
+device_support:
+  - type: Light
+    domain: light
+    controller: HMPBI4FMLightController
+    delay: 350
+    mapping:
+      - Click button 1 → Turn off
+      - Hold button 1 → Color temp down / Left color wheel (1 step)
+      - Click button 2 → Turn on
+      - Hold button 2 → Color temp up / Right color wheel (1 step)
+      - Click button 3 → Dim down (1 step)
+      - Hold button 3 → Minimum brightness
+      - Click button 4 → Brighten up (1 step)
+      - Hold button 4 → Full brightness
+integrations:
+  - name: Homematic
+    codename: homematic
+    actions:
+      - PRESS_SHORT_1 → Click button 1
+      - PRESS_CONT_1 → Periodically fired when button 1 is held
+      - PRESS_LONG_1 → Hold button 1
+      - PRESS_SHORT_2 → Click button 2
+      - PRESS_CONT_2 → Periodically fired when button 2 is held
+      - PRESS_LONG_2 → Hold button 2
+      - PRESS_SHORT_3 → Click button 3
+      - PRESS_CONT_3 → Periodically fired when button 3 is held
+      - PRESS_LONG_3 → Hold button 3
+      - PRESS_SHORT_4 → Click button 4
+      - PRESS_CONT_4 → Periodically fired when button 4 is held
+      - PRESS_LONG_4 → Hold button 4

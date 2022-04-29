@@ -3,8 +3,8 @@ entity_state_attributes:
 entity_state: "on"
 fired_actions: [arrow_right_click]
 expected_calls:
-- service: light/turn_on
-  data:
-    entity_id: light.livingroom
-    transition: 0.3
-    color_temp: 177.7
+  - service: light/turn_on
+    data:
+      entity_id: light.livingroom
+      transition: 0.3
+      color_temp: 177.7

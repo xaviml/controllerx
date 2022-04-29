@@ -14,7 +14,9 @@ from cx_devices.aurora import AUA1ZBR2GWLightController
         ({"command": "step_color_temp", "args": [1]}, "1_step_color_temp_down"),
     ],
 )
-def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: str):
-    sut = AUA1ZBR2GWLightController()  # type: ignore
+def test_zha_action_WXKG01LMLightController(
+    data: EventData, expected_action: str
+) -> None:
+    sut = AUA1ZBR2GWLightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action

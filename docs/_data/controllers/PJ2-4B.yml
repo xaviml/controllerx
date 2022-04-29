@@ -19,7 +19,7 @@ device_support:
       - "Third button → Volume down"
       - "Bottom button → Next track"
 note: >-
-  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a> 
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a>
   CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
 
 integrations:

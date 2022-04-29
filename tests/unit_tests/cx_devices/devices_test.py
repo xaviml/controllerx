@@ -45,8 +45,8 @@ devices_classes = get_classes(
 
 
 @pytest.mark.parametrize("device_class", devices_classes)
-def test_devices(device_class: Type[Controller]):
-    device = device_class()  # type: ignore
+def test_devices(device_class: Type[Controller]) -> None:
+    device = device_class(**{})
 
     # We first check that all devices are importable from controllerx module
     device_from_controllerx = get_controller("controllerx", device_class.__name__)
@@ -61,6 +61,7 @@ def test_devices(device_class: Type[Controller]):
         device.get_deconz_actions_mapping,
         device.get_zha_actions_mapping,
         device.get_lutron_caseta_actions_mapping,
+        device.get_homematic_actions_mapping,
     ]
     for func in integration_mappings_funcs:
         mappings = func()

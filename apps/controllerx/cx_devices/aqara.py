@@ -1,5 +1,5 @@
-from cx_const import DefaultActionsMapping, Light, Switch
-from cx_core import LightController, SwitchController
+from cx_const import DefaultActionsMapping, Light, MediaPlayer, Switch
+from cx_core import LightController, MediaPlayerController, SwitchController
 from cx_core.integration import EventData
 
 
@@ -44,7 +44,8 @@ class WXKG02LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG02LMSwitchController(SwitchController):
@@ -70,7 +71,8 @@ class WXKG02LMSwitchController(SwitchController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG01LMLightController(LightController):
@@ -143,7 +145,8 @@ class WXKG11LMRemoteLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG11LMSensorSwitchLightController(LightController):
@@ -245,7 +248,8 @@ class MFKZQ01LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        command = action = data["command"]
+        command: str = data["command"]
+        action = command
         args = data.get("args", {})
         if command == "flip":
             action = command + str(args["flip_degrees"])
@@ -316,7 +320,8 @@ class WXCJKG12LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXCJKG13LMLightController(LightController):
@@ -423,7 +428,8 @@ class WXCJKG13LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG06LMLightController(LightController):
@@ -491,7 +497,8 @@ class WXKG07LMLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class WXKG07LMSwitchController(SwitchController):
@@ -517,4 +524,29 @@ class WXKG07LMSwitchController(SwitchController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
+
+
+class ZNXNKG02LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": Light.TOGGLE,
+            "double": Light.ON_FULL_BRIGHTNESS,
+            "hold": Light.HOLD_COLOR_TOGGLE,
+            "release": Light.RELEASE,
+            "start_rotating": Light.BRIGHTNESS_FROM_CONTROLLER_ANGLE,
+            "stop_rotating": Light.RELEASE,
+        }
+
+
+class ZNXNKG02LMMediaPlayerController(MediaPlayerController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": MediaPlayer.PLAY_PAUSE,
+            "double": MediaPlayer.NEXT_TRACK,
+            "hold": MediaPlayer.PREVIOUS_TRACK,
+            "release": MediaPlayer.RELEASE,
+            "start_rotating": MediaPlayer.VOLUME_FROM_CONTROLLER_ANGLE,
+            "stop_rotating": MediaPlayer.RELEASE,
+        }

@@ -1,20 +1,20 @@
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from cx_core.type_controller import TypeController
+    from cx_core.type_controller import Entity, TypeController
 
 
 class FeatureSupport:
 
-    controller: "TypeController"
+    controller: "TypeController[Entity]"
     update_supported_features: bool
     _supported_features: Optional[int]
 
     def __init__(
         self,
-        controller: "TypeController",
+        controller: "TypeController[Entity]",
         supported_features: Optional[int] = None,
-        update_supported_features=False,
+        update_supported_features: bool = False,
     ) -> None:
         self.controller = controller
         self._supported_features = supported_features

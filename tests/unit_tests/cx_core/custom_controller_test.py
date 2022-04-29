@@ -1,17 +1,17 @@
 from typing import Any, Dict, List, Tuple, Type
 
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import PredefinedActionsMapping
 from cx_core import (
-    CallServiceController,
+    Controller,
     CoverController,
     LightController,
     MediaPlayerController,
     SwitchController,
 )
-from cx_core.type_controller import TypeController
+from cx_core.type_controller import Entity, TypeController
+from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
 
 from tests.test_utils import fake_fn
@@ -63,16 +63,15 @@ from tests.test_utils import fake_fn
         (CoverController, {"action1": "open"}, "action2", "open", 0),
     ],
 )
-@pytest.mark.asyncio
 async def test_custom_controllers(
     mocker: MockerFixture,
-    custom_cls: Type[TypeController],
+    custom_cls: Type[TypeController[Entity]],
     mapping: PredefinedActionsMapping,
     action_input: str,
     mock_function: str,
     expected_calls: int,
-):
-    sut = custom_cls()  # type: ignore
+) -> None:
+    sut = custom_cls(**{})
     sut.args = {
         "controller": "test_controller",
         "integration": "z2m",
@@ -85,7 +84,7 @@ async def test_custom_controllers(
     }
     mocked = mocker.stub()
 
-    async def mocked_fn():
+    async def mocked_fn() -> None:
         mocked()
 
     mocker.patch.object(sut, mock_function, mocked_fn)
@@ -142,15 +141,14 @@ async def test_custom_controllers(
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_call_service_controller(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
     integration: str,
     services: List[Dict[str, Any]],
     expected_calls: List[Tuple[str, Dict[str, Any]]],
-):
-    sut = CallServiceController()  # type: ignore
+) -> None:
+    sut = Controller(**{})
     sut.args = {
         "controller": "test_controller",
         "integration": integration,

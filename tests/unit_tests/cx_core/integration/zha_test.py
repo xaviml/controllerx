@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -38,14 +38,13 @@ from pytest_mock.plugin import MockerFixture
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
     command: str,
-    args: Dict,
+    args: Dict[str, Any],
     expected_called_with: Optional[str],
-):
+) -> None:
     data = {"command": command, "args": args}
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     zha_integration = ZHAIntegration(fake_controller, {})
@@ -57,11 +56,10 @@ async def test_callback(
         handle_action_patch.assert_not_called()
 
 
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-):
+) -> None:
     controller_id = "controller_id"
     listen_event_mock = mocker.patch.object(Hass, "listen_event")
     zha_integration = ZHAIntegration(fake_controller, {})

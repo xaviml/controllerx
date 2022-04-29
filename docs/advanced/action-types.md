@@ -13,7 +13,7 @@ mapping: # or merge_mapping
   ## Predefined actions
   # `toogle` is a light predefined action
   <event>:
-    action: toggle 
+    action: toggle
 
   # The previous action type can be reduced as:
   <event>: toggle
@@ -37,7 +37,7 @@ mapping: # or merge_mapping
   # - From the main config if the domain matches
   <event>:
     service: light.turn_on
-    entity_id: light.my_light 
+    entity_id: light.my_light
 
   ## Scene activation
   # Activate any HA Scene

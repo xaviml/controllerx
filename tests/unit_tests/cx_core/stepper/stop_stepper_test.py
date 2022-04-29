@@ -110,7 +110,7 @@ def test_stop_stepper_get_direction(
     previous_direction: str,
     expected_direction: str,
     expected_new_previous_direction: str,
-):
+) -> None:
     stepper = StopStepper(min_max, 10)
     stepper.previous_direction = previous_direction
 
@@ -144,7 +144,7 @@ def test_stop_stepper_step(
     direction: Literal["up", "down"],
     expected_value: int,
     expected_exceeded: bool,
-):
+) -> None:
     stepper = StopStepper(min_max, steps)
 
     stepper_output = stepper.step(value, direction)

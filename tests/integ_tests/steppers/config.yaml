@@ -33,5 +33,3 @@ livingroom_controller:
       direction: up
       mode: loop
       steps: 10
-
-

@@ -1,15 +1,20 @@
 import asyncio
+from asyncio import Task
+from typing import Any, Callable
 
 import appdaemon.plugins.hass.hassapi as hass
 import appdaemon.plugins.mqtt.mqttapi as mqtt
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
+from cx_core import Controller
+from pytest import MonkeyPatch
 
 from tests.test_utils import fake_fn
 
 
-async def fake_run_in(self, fn, delay, **kwargs):
-    async def inner():
+async def fake_run_in(
+    self: Controller, fn: Callable[..., Any], delay: float, **kwargs: Any
+) -> "Task[None]":
+    async def inner() -> None:
         await asyncio.sleep(delay)
         await fn(kwargs)
 
@@ -17,12 +22,12 @@ async def fake_run_in(self, fn, delay, **kwargs):
     return task
 
 
-async def fake_cancel_timer(self, task):
-    task.cancel()
+async def fake_cancel_timer(self: Controller, task: "Task[None]") -> bool:
+    return task.cancel()
 
 
 @pytest.fixture(autouse=True)
-def hass_mock(monkeypatch: MonkeyPatch):
+def hass_mock(monkeypatch: MonkeyPatch) -> None:
     """
     Fixture for set up the tests, mocking appdaemon functions
     """

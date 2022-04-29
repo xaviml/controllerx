@@ -14,7 +14,8 @@ class TerncyPP01LightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class TerncySD01LightController(LightController):
@@ -30,7 +31,8 @@ class TerncySD01LightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command
 
 
 class TerncySD01MediaPlayerController(MediaPlayerController):
@@ -46,4 +48,5 @@ class TerncySD01MediaPlayerController(MediaPlayerController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command

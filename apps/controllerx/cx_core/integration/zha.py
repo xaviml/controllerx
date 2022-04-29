@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -29,7 +29,7 @@ class ZHAIntegration(Integration):
         return action
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: dict
+        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
     ) -> None:
         action = self.controller.get_zha_action(data)
         if action is None:

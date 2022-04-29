@@ -24,7 +24,7 @@ class FakeStepper(Stepper):
 )
 def test_get_direction(
     direction_input: str, previous_direction: str, expected_direction: str
-):
+) -> None:
     stepper = FakeStepper()
     stepper.previous_direction = previous_direction
 
@@ -42,7 +42,7 @@ def test_get_direction(
         (StepperDir.DOWN, -1),
     ],
 )
-def test_sign(direction_input: str, expected_sign: int):
+def test_sign(direction_input: str, expected_sign: int) -> None:
     stepper = FakeStepper()
     sign_output = stepper.sign(direction_input)
     assert sign_output == expected_sign

@@ -1,0 +1,82 @@
+[tool.poetry]
+name = "controllerx"
+version = "4.19.0b6"
+description = "Create controller-based automations with ease to control your home devices and scenes."
+authors = ["Xavier Moreno <xaviml.93@gmail.com>"]
+license = "MIT"
+packages = [
+    { include = "cx_core", from = "apps/controllerx" },
+    { include = "cx_devices", from = "apps/controllerx" },
+    { include = "controllerx.py", from = "apps/controllerx" },
+    { include = "cx_const.py", from = "apps/controllerx" },
+    { include = "cx_version.py", from = "apps/controllerx" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+appdaemon = "4.2.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "7.1.2"
+pytest-asyncio = "0.18.3"
+pytest-cov = "3.0.0"
+pytest-mock = "3.7.0"
+pytest-timeout = "2.1.0"
+mock = "4.0.3"
+pre-commit = "2.18.1"
+commitizen = "2.24.0"
+black = "22.3.0"
+flake8 = "4.0.1"
+mypy = "0.950"
+types-PyYAML = "6.0.7"
+types-mock = "4.0.13"
+isort = "5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 88
+exclude = ".git,.hg,.mypy_cache,.tox,_build,buck-out,build,dist"
+
+[tool.mypy]
+python_version = "3.7"
+warn_unused_configs = true
+warn_return_any = false
+warn_unreachable = true
+show_error_codes = true
+enable_error_code = ["ignore-without-code"]
+disallow_untyped_decorators = true
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["appdaemon.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+mock_use_standalone_module = true
+timeout = 5
+asyncio_mode = "auto"
+
+[tool.coverage.report]
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise NotImplementedError",
+    # Logs can be ignored
+    "self.log",
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "4.19.0b6"
+tag_format = "v$major.$minor.$patch$prerelease"
+version_files = [
+    "apps/controllerx/cx_version.py",
+    "pyproject.toml:version"
+]

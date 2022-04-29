@@ -14,7 +14,7 @@ class ActionType(ABC):
         self.controller = controller
         self.initialize(**action)
 
-    def initialize(self, **kwargs) -> None:
+    def initialize(self, **kwargs: Any) -> None:
         pass
 
     @abstractmethod

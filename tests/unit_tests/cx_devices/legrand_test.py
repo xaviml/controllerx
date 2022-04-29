@@ -16,6 +16,8 @@ from cx_devices.legrand import get_zha_action_LegrandWallController
         ({"endpoint_id": 2, "command": "stop"}, "2_stop"),
     ],
 )
-def test_get_zha_action_LegrandWallController(data: EventData, expected_action: str):
+def test_get_zha_action_LegrandWallController(
+    data: EventData, expected_action: str
+) -> None:
     action = get_zha_action_LegrandWallController(data)
     assert action == expected_action

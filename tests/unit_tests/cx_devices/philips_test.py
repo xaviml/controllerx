@@ -1,6 +1,6 @@
 import pytest
 from cx_core.integration import EventData
-from cx_devices.phillips import HueDimmerController
+from cx_devices.philips import HueDimmerController
 
 
 @pytest.mark.parametrize(
@@ -11,7 +11,7 @@ from cx_devices.phillips import HueDimmerController
         ({"command": "off_hold"}, "off_hold"),
     ],
 )
-def test_zha_action_HueDimmerController(data: EventData, expected_action: str):
-    sut = HueDimmerController()  # type: ignore
+def test_zha_action_HueDimmerController(data: EventData, expected_action: str) -> None:
+    sut = HueDimmerController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action

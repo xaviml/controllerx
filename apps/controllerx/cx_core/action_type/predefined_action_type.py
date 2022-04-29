@@ -87,7 +87,7 @@ class PredefinedActionType(ActionType):
             "See more in: https://xaviml.github.io/controllerx/advanced/custom-controllers"
         )
 
-    def initialize(self, **kwargs) -> None:
+    def initialize(self, **kwargs: Any) -> None:
         self.predefined_action_key = kwargs.pop("action")
         self.predefined_action_kwargs = kwargs
         self.predefined_actions_mapping = (

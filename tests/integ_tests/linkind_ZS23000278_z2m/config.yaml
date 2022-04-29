@@ -6,4 +6,3 @@ example_app:
     listen_to: mqtt
   controller: my_controller
   light: light.my_light
-  

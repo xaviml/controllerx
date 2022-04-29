@@ -1,0 +1,66 @@
+name: PTM215X (EnOcean - Philips)
+device_support:
+  - type: Light
+    domain: light
+    controller: PTM215XLightController
+    delay: 350
+    mapping:
+      - "Click button 1 → Turn on"
+      - "Hold button 1 → Sync"
+      - "Click button 2 → Turn off"
+      - "Hold button 2 → Sync"
+      - "Click button 3 → Full brightness"
+      - "Hold button 3 → Brighten up"
+      - "Click button 4 → Minimum brightness"
+      - "Hold button 4 → Dim down"
+      - "Click button 1_3 → Full color temp (if supported)"
+      - "Hold button 1_3 → Color temp up / Right color wheel"
+      - "Click button 2_4 → Minimum color temp (if supported)"
+      - "Hold button 2_4 → Color temp down / Left color wheel"
+      - "Click Energy Bar → Sync"
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - press_1 → Click button 1
+      - release_1 → Release button 1 after click or hold
+      - press_2 → Click button 2
+      - release_2 → Release button 2 after click or hold
+      - press_3 → Click button 3
+      - release_3 → Release button 3 after click or hold
+      - press_4 → Click button 4
+      - release_4 → Release button 4 after click or hold
+      - press_1_and_3 → Click button 1_3
+      - release_1_and_3 → Release button 1_3 after click or hold
+      - press_2_and_4 → Click button 2_4
+      - release_2_and_4 → Release button 2_4 after click or hold
+      - press_energy_bar → Click Energy Bar
+  - name: deCONZ
+    codename: deconz
+    actions:
+      - "1000 → Click button 1"
+      - "1001 → Hold button 1"
+      - "1002 → Release button 1 after click"
+      - "1003 → Release button 1 after hold"
+      - "2000 → Click button 2"
+      - "2001 → Hold button 2"
+      - "2002 → Release button 2 after click"
+      - "2003 → Release button 2 after hold"
+      - "3000 → Click button 3"
+      - "3001 → Hold button 3"
+      - "3002 → Release button 3 after click"
+      - "3003 → Release button 3 after hold"
+      - "4000 → Click button 4"
+      - "4001 → Hold button 4"
+      - "4002 → Release button 4 after click"
+      - "4003 → Release button 4 after hold"
+      - "5000 → Click button 1_3"
+      - "5001 → Hold button 1_3"
+      - "5002 → Release button 1_3 after click"
+      - "5003 → Release button 1_3 after hold"
+      - "6000 → Click button 2_4"
+      - "6001 → Hold button 2_4"
+      - "6002 → Release button 2_4 after click"
+      - "6003 → Release button 2_4 after hold"
+note: >-
+  Check the button mapping in <a href="https://phoscon.de/en/support#pairing-friends-of-hue-switch">here</a>.

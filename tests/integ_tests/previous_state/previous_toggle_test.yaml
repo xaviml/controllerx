@@ -2,6 +2,6 @@ previous_state: previous_toggle
 entity_state: "off"
 fired_actions: [toggle]
 expected_calls:
-- service: light/toggle
-  data:
-    entity_id: light.livingroom
+  - service: light/toggle
+    data:
+      entity_id: light.livingroom

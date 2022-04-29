@@ -13,6 +13,6 @@ from tests.test_utils import wrap_execution
         (0, True),
     ],
 )
-def test_get_color_wheel(colors: Colors, error_expected: bool):
+def test_get_color_wheel(colors: Colors, error_expected: bool) -> None:
     with wrap_execution(error_expected=error_expected, exception=ValueError):
         colors = get_color_wheel(colors)

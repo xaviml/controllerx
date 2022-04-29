@@ -1,0 +1,13 @@
+example_app:
+  module: controllerx
+  class: LightController
+  controller:
+    - zigbee2mqtt/stairway_sensor01_occupancy
+    - zigbee2mqtt/stairway_sensor02_occupancy
+  light: light.stairway
+  integration:
+    name: mqtt
+    key: occupancy
+  mapping:
+    "true": "on"
+    "false": "off"

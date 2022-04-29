@@ -1,0 +1,9 @@
+example_app:
+  module: controllerx
+  class: ZNXNKG02LMMediaPlayerController
+  integration:
+    name: z2m
+    listen_to: mqtt
+  controller: my_controller
+  delay: 350
+  media_player: media_player.my_media_player

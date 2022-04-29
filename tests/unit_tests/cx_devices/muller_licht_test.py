@@ -40,7 +40,7 @@ from cx_devices.muller_licht import MLI404002LightController
         ),
     ],
 )
-def test_zha_action_MLI404002(data: EventData, expected_action: str):
-    sut = MLI404002LightController()  # type: ignore
+def test_zha_action_MLI404002(data: EventData, expected_action: str) -> None:
+    sut = MLI404002LightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action

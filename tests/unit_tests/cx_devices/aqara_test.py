@@ -20,8 +20,10 @@ from cx_devices.aqara import (
         ({"command": "rotate_right"}, "rotate_right"),
     ],
 )
-def test_zha_action_MFKZQ01LMLightController(data: EventData, expected_action: str):
-    sut = MFKZQ01LMLightController()  # type: ignore
+def test_zha_action_MFKZQ01LMLightController(
+    data: EventData, expected_action: str
+) -> None:
+    sut = MFKZQ01LMLightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action
 
@@ -40,8 +42,10 @@ def test_zha_action_MFKZQ01LMLightController(data: EventData, expected_action: s
         ),
     ],
 )
-def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: str):
-    sut = WXKG01LMLightController()  # type: ignore
+def test_zha_action_WXKG01LMLightController(
+    data: EventData, expected_action: str
+) -> None:
+    sut = WXKG01LMLightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action
 
@@ -57,8 +61,8 @@ def test_zha_action_WXKG01LMLightController(data: EventData, expected_action: st
 )
 def test_zha_action_WXKG11LMRemoteLightController(
     data: EventData, expected_action: str
-):
-    sut = WXKG11LMRemoteLightController()  # type: ignore
+) -> None:
+    sut = WXKG11LMRemoteLightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action
 
@@ -75,7 +79,7 @@ def test_zha_action_WXKG11LMRemoteLightController(
 )
 def test_zha_action_WXKG11LMSensorSwitchLightController(
     data: EventData, expected_action: str
-):
-    sut = WXKG11LMSensorSwitchLightController()  # type: ignore
+) -> None:
+    sut = WXKG11LMSensorSwitchLightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action

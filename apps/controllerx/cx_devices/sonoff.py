@@ -4,6 +4,13 @@ from cx_core.integration import EventData
 
 
 class SNZB01LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": Light.TOGGLE,  # single click
+            "double": Light.ON_FULL_BRIGHTNESS,  # double click
+            "long": Light.ON_MIN_BRIGHTNESS,  # hold
+        }
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "toggle": Light.TOGGLE,  # single click
@@ -12,4 +19,5 @@ class SNZB01LightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
-        return data["command"]
+        command: str = data["command"]
+        return command

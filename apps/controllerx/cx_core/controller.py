@@ -2,8 +2,7 @@ import asyncio
 import re
 import time
 from ast import literal_eval
-from asyncio import CancelledError
-from asyncio.futures import Future
+from asyncio import CancelledError, Task
 from collections import defaultdict
 from functools import wraps
 from typing import (
@@ -54,11 +53,9 @@ MODE_PARALLEL = "parallel"
 T = TypeVar("T")
 
 
-def action(method: Callable[..., Awaitable]) -> ActionFunction:
+def action(method: Callable[..., Awaitable[Any]]) -> ActionFunction:
     @wraps(method)
-    async def _action_impl(
-        controller: "Controller", *args: Any, **kwargs: Dict[Any, Any]
-    ):
+    async def _action_impl(controller: "Controller", *args: Any, **kwargs: Any) -> None:
         continue_call = await controller.before_action(method.__name__, *args, **kwargs)
         if continue_call:
             await method(controller, *args, **kwargs)
@@ -66,9 +63,9 @@ def action(method: Callable[..., Awaitable]) -> ActionFunction:
     return _action_impl
 
 
-def run_in(fn: Callable, delay: float, **kwargs) -> Future:
+def run_in(fn: Callable[..., Any], delay: float, **kwargs: Any) -> "Task[None]":
     """
-    It runs the function (fn) to running event loop in `delay` seconds.
+    It runs the function (fn) in running event loop in `delay` seconds.
     This function has been created because the default run_in function
     from AppDaemon does not accept microseconds.
     """
@@ -81,7 +78,7 @@ def run_in(fn: Callable, delay: float, **kwargs) -> Future:
     return task
 
 
-class Controller(Hass, Mqtt):
+class Controller(Hass, Mqtt):  # type: ignore[misc]
     """
     This is the parent Controller, all controllers must extend from this class.
     """
@@ -89,7 +86,7 @@ class Controller(Hass, Mqtt):
     args: Dict[str, Any]
     integration: Integration
     actions_mapping: ActionsMapping
-    action_handles: DefaultDict[ActionEvent, Optional["Future[None]"]]
+    action_handles: DefaultDict[ActionEvent, Optional["Task[None]"]]
     action_delay_handles: Dict[ActionEvent, Optional[str]]
     multiple_click_actions: Set[ActionEvent]
     action_delay: Dict[ActionEvent, int]
@@ -98,9 +95,7 @@ class Controller(Hass, Mqtt):
     previous_states: Dict[ActionEvent, Optional[str]]
     multiple_click_action_times: Dict[str, float]
     click_counter: Counter[ActionEvent]
-    multiple_click_action_delay_tasks: DefaultDict[
-        ActionEvent, Optional["Future[None]"]
-    ]
+    multiple_click_action_delay_tasks: DefaultDict[ActionEvent, Optional["Task[None]"]]
     multiple_click_delay: int
 
     async def initialize(self) -> None:
@@ -114,12 +109,14 @@ class Controller(Hass, Mqtt):
         if "mapping" in self.args and "merge_mapping" in self.args:
             raise ValueError("`mapping` and `merge_mapping` cannot be used together")
 
-        custom_mapping: CustomActionsMapping = self.args.get("mapping", None)
-        merge_mapping: CustomActionsMapping = self.args.get("merge_mapping", None)
+        custom_mapping: Optional[CustomActionsMapping] = self.args.get("mapping", None)
+        merge_mapping: Optional[CustomActionsMapping] = self.args.get(
+            "merge_mapping", None
+        )
 
         if custom_mapping is None:
             default_actions_mapping = self.get_default_actions_mapping(self.integration)
-            self.actions_mapping = self.parse_action_mapping(default_actions_mapping)  # type: ignore
+            self.actions_mapping = self.parse_action_mapping(default_actions_mapping)  # type: ignore[arg-type]
         else:
             self.actions_mapping = self.parse_action_mapping(custom_mapping)
 
@@ -188,7 +185,7 @@ class Controller(Hass, Mqtt):
         actions_mapping: ActionsMapping,
         include: Set[ActionEvent],
         exclude: Set[ActionEvent],
-    ):
+    ) -> ActionsMapping:
         allowed_actions = include - exclude
         return {
             key: value
@@ -247,7 +244,7 @@ class Controller(Hass, Mqtt):
     def get_list(self, entities: T) -> List[T]:
         ...
 
-    def get_list(self, entities):
+    def get_list(self, entities: Union[List[T], T]) -> List[T]:
         if isinstance(entities, (list, tuple)):
             return list(entities)
         return [entities]
@@ -274,11 +271,11 @@ class Controller(Hass, Mqtt):
 
     def get_mapping_per_action(
         self,
-        actions_mapping,
+        actions_mapping: ActionsMapping,
         *,
-        custom,
-        default,
-    ):
+        custom: Optional[Union[T, Dict[ActionEvent, T]]],
+        default: Union[None, T],
+    ) -> Union[Dict[ActionEvent, Optional[T]], Dict[ActionEvent, T]]:
         if custom is not None and not isinstance(custom, dict):
             default = custom
         mapping = {action: default for action in actions_mapping}
@@ -344,7 +341,7 @@ class Controller(Hass, Mqtt):
             new_attributes[key] = new_value
         return new_attributes
 
-    async def call_service(self, service: str, **attributes) -> Optional[Any]:
+    async def call_service(self, service: str, **attributes: Any) -> Optional[Any]:
         service = service.replace(".", "/")
         to_log = ["\n", f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m"]
         if service != "template/render":
@@ -356,14 +353,14 @@ class Controller(Hass, Mqtt):
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await Hass.call_service(self, service, **attributes)
 
-    @utils.sync_wrapper
+    @utils.sync_wrapper  # type: ignore[misc]
     async def get_state(
         self,
         entity_id: Optional[str] = None,
         attribute: Optional[str] = None,
         default: Any = None,
         copy: bool = True,
-        **kwargs,
+        **kwargs: Any,
     ) -> Optional[Any]:
         rendered_entity_id = await self.render_value(entity_id)
         return await super().get_state(
@@ -473,7 +470,7 @@ class Controller(Hass, Mqtt):
 
     async def _apply_mode_strategy(self, action_key: ActionEvent) -> bool:
         previous_task = self.action_handles[action_key]
-        if previous_task is None:
+        if previous_task is None or previous_task.done():
             return False
         if self.mode[action_key] == MODE_SINGLE:
             self.log(
@@ -496,7 +493,7 @@ class Controller(Hass, Mqtt):
             )
         return False
 
-    async def action_timer_callback(self, kwargs: Dict[str, Any]):
+    async def action_timer_callback(self, kwargs: Dict[str, Any]) -> None:
         action_key: ActionEvent = kwargs["action_key"]
         extra: EventData = kwargs["extra"]
         self.action_delay_handles[action_key] = None
@@ -513,8 +510,6 @@ class Controller(Hass, Mqtt):
                 f"Task(s) from `{action_key}` was/were canceled and executed again",
                 level="DEBUG",
             )
-        finally:
-            self.action_handles[action_key] = None
 
     async def call_action_types(
         self, action_types: List[ActionType], extra: Optional[EventData] = None
@@ -527,9 +522,7 @@ class Controller(Hass, Mqtt):
             )
             await action_type.run(extra=extra)
 
-    async def before_action(
-        self, action: str, *args: str, **kwargs: Dict[Any, Any]
-    ) -> bool:
+    async def before_action(self, action: str, *args: str, **kwargs: Any) -> bool:
         """
         Controllers have the option to implement this function, which is called
         everytime before an action is called and it has the check_before_action decorator.
@@ -574,6 +567,14 @@ class Controller(Hass, Mqtt):
         Controllers can implement this function. It should return a dict
         with the command that a controller can take and the functions as values.
         This is used for Lutron support.
+        """
+        return None
+
+    def get_homematic_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+        """
+        Controllers can implement this function. It should return a dict
+        with the command that a controller can take and the functions as values.
+        This is used for Homematic support.
         """
         return None
 

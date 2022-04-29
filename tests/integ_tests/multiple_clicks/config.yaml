@@ -7,10 +7,10 @@ example_app:
   mapping:
     1000: toggle
     1001$1: toggle
-    1002: toggle  
+    1002: toggle
     1002$1:
       service: fake_service1002
-    1003: toggle  
+    1003: toggle
     1003$2:
       service: fake_service1003
     toggle$1:

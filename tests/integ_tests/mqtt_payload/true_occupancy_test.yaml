@@ -1,0 +1,5 @@
+fired_actions: ["true"]
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.stairway

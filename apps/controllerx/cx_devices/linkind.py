@@ -9,7 +9,7 @@ class ZS23000278LightController(LightController):
             "off": Light.OFF,
             "brightness_step_up": Light.CLICK_BRIGHTNESS_UP,
             "brightness_step_down": Light.CLICK_BRIGHTNESS_DOWN,
-            "brightness_move_to_level": Light.BRIGHTNESS_FROM_CONTROLLER,
+            "brightness_move_to_level": Light.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
             "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
             "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
             "brightness_stop": Light.RELEASE,

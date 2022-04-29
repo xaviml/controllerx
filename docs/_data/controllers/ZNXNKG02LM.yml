@@ -1,0 +1,36 @@
+name: ZNXNKG02LM (Aqara)
+device_support:
+  - type: Light
+    domain: light
+    controller: ZNXNKG02LMLightController
+    delay: 350
+    mapping:
+      - 1 click → Toggle
+      - 2 click → Full brightness
+      - Hold button → Color (temp/xy) with direction changes
+      - Left turn → Dim down
+      - Right turn → Brighten up
+  - type: Media Player
+    domain: media_player
+    controller: ZNXNKG02LMMediaPlayerController
+    delay: 500
+    mapping:
+      - 1 click → Play/Pause
+      - 2 click → Skip forward
+      - Hold button → Skip backward
+      - Left turn → Volume down
+      - Right turn → Volume up
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - single → 1 click
+      - double → 2 click
+      - hold → Hold button
+      - release → Release button after hold
+      - start_rotating → Left/Right turn
+      - stop_rotating → Stop left/right turn
+note: >-
+  Note that Left and Right turn actions for Z2M will only work if "listen_to: mqtt" is used
+  for the Z2M integration. Read <a href="/controllerx/others/integrations#zigbee2mqtt">here</a>
+  how to configure it.

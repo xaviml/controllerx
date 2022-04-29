@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -34,24 +34,22 @@ from pytest_mock.plugin import MockerFixture
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-    data: Dict,
+    data: Dict[str, Any],
     expected: str,
-):
+) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     lutron_integration = LutronIntegration(fake_controller, {})
     await lutron_integration.event_callback("test", data, {})
     handle_action_patch.assert_called_once_with(expected, extra=data)
 
 
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-):
+) -> None:
     controller_id = "controller_id"
     listen_event_mock = mocker.patch.object(Hass, "listen_event")
     lutron_integration = LutronIntegration(fake_controller, {})

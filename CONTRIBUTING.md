@@ -2,11 +2,11 @@
 
 ## Installation
 
-This project uses pipenv as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
+This project uses poetry as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
 
 ```
-pipenv install --dev --python python3.7
-pipenv shell
+poetry install
+poetry shell
 pre-commit install
 ```
 
@@ -30,44 +30,30 @@ Note that this project will only accept the mapping that the original controller
 
 This is a [commit](https://github.com/xaviml/controllerx/commit/38ee4b03ac31bf966523cc63c0200567f912f201) of a complete example of adding a new device, it can be used as a reference.
 
-## Imports
+## Styling
 
-Run the following to fix imports order:
+This repository uses [pre-commit](https://pre-commit.com/) which allows us to keep some code standards by using several tools (isort, black, mypy, flake8, etc). For more detail check `.pre-commit-config.yaml` file.
 
-```shell
-pipenv run isort apps/controllerx/ tests/
-```
-
-## Format
-
-Run the following to fix formatting:
+The following command can be executed to run all checkers for all files:
 
 ```shell
-pipenv run black apps/controllerx/ tests/
+pre-commit run --all-files
 ```
 
-## Typing
-
-Run the following to check consistency in the typings:
+If you want to run it for ust the staged files:
 
 ```shell
-pipenv run mypy apps/controllerx/ tests/
+pre-commit run
 ```
 
-## Linting
-
-Run the following to check for stylings:
-
-```shell
-pipenv run flake8 apps/controllerx/ tests/
-```
+If `pre-commit` was installed into git hooks (`pre-commit install`), it will run the checkers before the commit.
 
 ## Test
 
 Run the following command for the tests:
 
 ```shell
-pipenv run pytest --cov=apps
+pytest
 ```
 
 or the following to get a report of the missing lines to be tested:
@@ -76,17 +62,11 @@ or the following to get a report of the missing lines to be tested:
 pytest --cov-report term-missing --cov=apps
 ```
 
-## Pre-commit
-
-Once you have the code ready, pre-commit will run some checks to make sure the code follows the format and the tests did not break. If you want to run the check for all files at any point, run:
-
-```shell
-pipenv run pre-commit run --all-files
-```
-
 ## Commiting
 
 You can use the tool `commitizen` to commit based in a standard. If you are in the virtual environment, you can run `cz commit` and answer the questions to commit.
+
+If the commit adds new functionality or fixes something, please add the changes in the `RELEASE_NOTES.md` file.
 
 ## Documentation
 
@@ -100,12 +80,7 @@ bundle exec jekyll serve
 
 ## Pull Request
 
-Feel free to open a PR on GitHub. When submitting the PR several points will be checked:
-
-- Testing (with pytest)
-- Linting (with flake8)
-- Typing (with mypy)
-- Formatting (with black)
+Feel free to open a PR on GitHub. It would be appreciated if the CI passes (pre-commit and pytest).
 
 ## How to change someone else's PR code
 
@@ -130,16 +105,31 @@ git push <username> HEAD:<branch>
 
 ## Deployment
 
-Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file. Finally, we will need to bump version with `commitizen` by running the following line in the `main` branch:
+Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
+
+We use `commitizen` to bump version. First, we might want to create a beta version from `dev` branch:
 
 ```shell
-cz bump --no-verify
-```
-
-`--prerelease beta` tag can be added to create a pre-release. Note that you can also add `--dry-run` to see which version will bump without commiting anything. Then, we can directly push the tags:
-
-```shell
+cz bump --no-verify --prerelease beta
 git push origin HEAD --tags
 ```
 
-This will automatically generate a GitHub release with the changes for that release, and the release from the `RELEASE_NOTES.md` file.
+_`--dry-run` can be used with `cz` command to double check the version to be created._
+
+Once we are ready to create the final version, we need to merge to main branch with no fast forward:
+
+```shell
+git checkout main
+git merge dev --no-ff
+```
+
+Finally, we can bump the version to the final one, and push tag:
+
+```shell
+cz bump --no-verify
+git push origin HEAD --tags
+```
+
+_`--dry-run` can be used with `cz` command to double check the version to be created._
+
+When a new tag is created, the CI will automatically generate a GitHub release with the changes for that release, and the release from the `RELEASE_NOTES.md` file.

@@ -49,19 +49,19 @@ integrations:
   - name: ZHA
     codename: zha
     actions:
-      - "\"both_single\" → Click on both"
-      - "\"both_double\" → Double click on both"
-      - "\"both_long press\" → Long click on both"
-      - "\"left_single\" → Click on left"
-      - "\"left_double\" → Double click on left"
-      - "\"left_long press\" → Long click on left"
-      - "\"right_single\" → Click on right"
-      - "\"right_double\" → Double click on right"
-      - "\"right_long press\" → Long click on right"
+      - '"both_single" → Click on both'
+      - '"both_double" → Double click on both'
+      - '"both_long press" → Long click on both'
+      - '"left_single" → Click on left'
+      - '"left_double" → Double click on left'
+      - '"left_long press" → Long click on left'
+      - '"right_single" → Click on right'
+      - '"right_double" → Double click on right'
+      - '"right_long press" → Long click on right'
 note: >-
-  Note that all actions related to both, left and right, do the same. 
+  Note that all actions related to both, left and right, do the same.
   This is because ControllerX is design to control just one entity (light or media player).
   So you can include the `actions` parameter to include the actions needed.
   You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
-  Also, this controller support hold action, but not release. This means that there is not 
+  Also, this controller support hold action, but not release. This means that there is not
   smooth brightness changes when holding, just step by step everytime is held.

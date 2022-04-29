@@ -1,5 +1,5 @@
 name: E1524/E1810 (IKEA)
-device_support: 
+device_support:
   - type: Light
     domain: light
     controller: E1810Controller
@@ -70,14 +70,14 @@ integrations:
       - "toggle → Click middle"
       - "press_2_0_0 → Hold middle"
       - "step_with_on_off_0_43_5 → Click 🔆"
-      - "step_1_43_5 → Click 🔅"
+      - "step_1_43_5_0_0 → Click 🔅"
       - "press_257_13_0 → Click <"
       - "press_256_13_0 → Click >"
       - "move_with_on_off_0_83 → Hold 🔆 for device firmware below 2.3.014"
       - "move_with_on_off_0_84 → Hold 🔆 for device firmware 2.3.014 and above"
-      - "move_1_83 → Hold 🔅 for device firmware below 2.3.014"
-      - "move_1_84 → Hold 🔅 for device firmware 2.3.014 and above"
+      - "move_1_83_0_0 → Hold 🔅 for device firmware below 2.3.014"
+      - "move_1_84_0_0 → Hold 🔅 for device firmware 2.3.014 and above"
       - "hold_3329_0 → Hold <"
       - "hold_3328_0 → Hold >"
-      - "stop → Release 🔆 or 🔅"
+      - "stop_with_on_off → Release 🔆 or 🔅"
       - "release → Release < or >"

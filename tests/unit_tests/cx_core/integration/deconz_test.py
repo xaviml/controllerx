@@ -24,14 +24,13 @@ from tests.test_utils import wrap_execution
         ),
     ],
 )
-@pytest.mark.asyncio
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-    data: Dict,
+    data: Dict[str, int],
     type: Optional[str],
     expected: str,
-):
+) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     kwargs = {}
     if type is not None:
@@ -50,13 +49,12 @@ async def test_callback(
         ("fake", None),
     ],
 )
-@pytest.mark.asyncio
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
     listen_to: Optional[str],
     expected_id: Optional[str],
-):
+) -> None:
     kwargs = {}
     if listen_to is not None:
         kwargs["listen_to"] = listen_to

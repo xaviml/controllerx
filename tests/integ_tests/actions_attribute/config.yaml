@@ -5,5 +5,5 @@ bedroom_light:
   integration: zha
   light: light.simple_light
   actions:
-  - "on"
-  - "off"
+    - "on"
+    - "off"
