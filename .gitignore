@@ -132,3 +132,6 @@ dmypy.json
 .vscode/*
 !.vscode/settings.json
 .idea
+
+# Project
+apps.yaml

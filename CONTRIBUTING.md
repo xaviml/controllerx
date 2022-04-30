@@ -82,6 +82,41 @@ bundle exec jekyll serve
 
 Feel free to open a PR on GitHub. It would be appreciated if the CI passes (pre-commit and pytest).
 
+## Run code with AppDaemon
+
+### Docker
+
+This is the easiest option to run your code with AppDaemon and try your changes. First, you need to add `apps.yaml` in the root of the project with the ControllerX configuration. For example:
+
+```yaml
+livingroom_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.livingroom_controller_action
+  integration: z2m
+  light: light.livingroom
+```
+
+Second, you will need an HA Long-Lived Access Tokens (`YOUR_HA_TOKEN`) which you can get at `/profile` from your HA instance.
+
+Then, you can run the following:
+
+```shell
+docker run \
+-v $PWD/apps/controllerx:/usr/src/app/conf/apps/controllerx \
+-v $PWD/apps.yaml:/usr/src/app/conf/apps/apps.yaml \
+--rm -e DASH_URL=http://127.0.0.1:5050 \
+-e HA_URL="http://YOUR_HA_IP:8123" \
+-e TOKEN="YOUR_HA_TOKEN" \
+acockburn/appdaemon:latest
+```
+
+This will start AppDaemon with the apps on the `apps.yaml`. Note that this will not work with `mqtt` integration or `z2m` with `listen_to: mqtt`. [This PR in AppDaemon](https://github.com/AppDaemon/appdaemon/pull/1454) fixes the use of `MQTT` with docker.
+
+### Samba addon
+
+Install `Samba share` addon in Home Assistant, so you can connect to HA folder structure from your computer. Then, you can just copy `apps/controllerx` on `/config/appdaemon/apps/`. When done, you should be able to find `controllerx.py` in `/config/appdaemon/apps/controllerx/controllerx.py`. Then, you can restart `AppDaemon` addon.
+
 ## How to change someone else's PR code
 
 If you have the permission to change code from the source branch of the PR, then you can do the following to change it. First, you will need to add the remote:
