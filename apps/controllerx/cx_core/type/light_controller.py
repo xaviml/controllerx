@@ -1,3 +1,4 @@
+import asyncio
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Set, Type
 
@@ -509,8 +510,11 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def _on_min_max(
         self, attribute: str, *, default: Number, other: Number
     ) -> None:
-        light_state: str = await self.get_entity_state()
-        attribute_value: Number = await self.get_entity_state(attribute=attribute)
+        light_state: str
+        attribute_value: Number
+        light_state, attribute_value = await asyncio.gather(
+            self.get_entity_state(), self.get_entity_state(attribute=attribute)
+        )
 
         if light_state == "off" or attribute_value != default:
             await self._on(**{attribute: default})
