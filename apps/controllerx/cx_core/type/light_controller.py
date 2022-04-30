@@ -205,31 +205,19 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             ),
             Light.ON_MIN_MAX_BRIGHTNESS: (
                 self.on_min_max,
-                (
-                    LightController.ATTRIBUTE_BRIGHTNESS,
-                    True,
-                ),
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
             ),
             Light.ON_MAX_MIN_BRIGHTNESS: (
-                self.on_min_max,
-                (
-                    LightController.ATTRIBUTE_BRIGHTNESS,
-                    False,
-                ),
+                self.on_max_min,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
             ),
             Light.ON_MIN_MAX_COLOR_TEMP: (
                 self.on_min_max,
-                (
-                    LightController.ATTRIBUTE_COLOR_TEMP,
-                    True,
-                ),
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.ON_MAX_MIN_COLOR_TEMP: (
-                self.on_min_max,
-                (
-                    LightController.ATTRIBUTE_COLOR_TEMP,
-                    False,
-                ),
+                self.on_max_min,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.SET_HALF_BRIGHTNESS: (
                 self.set_value,
@@ -507,16 +495,27 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self._on_min(attribute)
 
     @action
-    async def on_min_max(self, attribute: str, default_to_min: bool) -> None:
+    async def on_min_max(self, attribute: str) -> None:
         min_ = self.min_max_attributes[attribute].min
         max_ = self.min_max_attributes[attribute].max
-        # current_value_ could be None in cases like when light is off
-        current_value_ = await self.get_entity_state(attribute=attribute)
-        if default_to_min:
-            value = max_ if current_value_ == min_ else min_
+        await self._on_min_max(attribute, default=min_, other=max_)
+
+    @action
+    async def on_max_min(self, attribute: str) -> None:
+        min_ = self.min_max_attributes[attribute].min
+        max_ = self.min_max_attributes[attribute].max
+        await self._on_min_max(attribute, default=max_, other=min_)
+
+    async def _on_min_max(
+        self, attribute: str, *, default: Number, other: Number
+    ) -> None:
+        light_state: str = await self.get_entity_state()
+        attribute_value: Number = await self.get_entity_state(attribute=attribute)
+
+        if light_state == "off" or attribute_value != default:
+            await self._on(**{attribute: default})
         else:
-            value = min_ if current_value_ == max_ else max_
-        await self._on(**{attribute: value})
+            await self._on(**{attribute: other})
 
     @action
     async def sync(
