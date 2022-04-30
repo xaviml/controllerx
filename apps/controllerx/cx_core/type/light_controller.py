@@ -1,3 +1,4 @@
+import asyncio
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Set, Type
 
@@ -201,6 +202,22 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             ),
             Light.ON_MIN_COLOR_TEMP: (
                 self.on_min,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
+            ),
+            Light.ON_MIN_MAX_BRIGHTNESS: (
+                self.on_min_max,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
+            ),
+            Light.ON_MAX_MIN_BRIGHTNESS: (
+                self.on_max_min,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
+            ),
+            Light.ON_MIN_MAX_COLOR_TEMP: (
+                self.on_min_max,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
+            ),
+            Light.ON_MAX_MIN_COLOR_TEMP: (
+                self.on_max_min,
                 (LightController.ATTRIBUTE_COLOR_TEMP,),
             ),
             Light.SET_HALF_BRIGHTNESS: (
@@ -477,6 +494,32 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     @action
     async def on_min(self, attribute: str) -> None:
         await self._on_min(attribute)
+
+    @action
+    async def on_min_max(self, attribute: str) -> None:
+        min_ = self.min_max_attributes[attribute].min
+        max_ = self.min_max_attributes[attribute].max
+        await self._on_min_max(attribute, default=min_, other=max_)
+
+    @action
+    async def on_max_min(self, attribute: str) -> None:
+        min_ = self.min_max_attributes[attribute].min
+        max_ = self.min_max_attributes[attribute].max
+        await self._on_min_max(attribute, default=max_, other=min_)
+
+    async def _on_min_max(
+        self, attribute: str, *, default: Number, other: Number
+    ) -> None:
+        light_state: str
+        attribute_value: Number
+        light_state, attribute_value = await asyncio.gather(
+            self.get_entity_state(), self.get_entity_state(attribute=attribute)
+        )
+
+        if light_state == "off" or attribute_value != default:
+            await self._on(**{attribute: default})
+        else:
+            await self._on(**{attribute: other})
 
     @action
     async def sync(

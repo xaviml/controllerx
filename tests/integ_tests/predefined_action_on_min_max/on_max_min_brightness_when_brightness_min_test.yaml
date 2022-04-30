@@ -1,0 +1,9 @@
+entity_state: "on"
+entity_state_attributes:
+  brightness: 1
+fired_actions: [brightness_up_click]
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.bedroom
+      brightness: 255
