@@ -95,7 +95,7 @@ jobs:
         with:
           ref: main
       - run: mv RELEASE_NOTES.md RELEASE_NOTES.old.md
-      - run: cp RELEASE_NOTES.template.md RELEASE_NOTES.md
+      - run: cp .github/RELEASE_NOTES.template.md RELEASE_NOTES.md
       - name: Commit report
         if: hashFiles('RELEASE_NOTES.old.md') != hashFiles('RELEASE_NOTES.md')
         run: |
