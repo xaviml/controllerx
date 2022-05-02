@@ -35,18 +35,36 @@ jobs:
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      - name: Styling and linting
-        run: poetry run pre-commit run --all-files  --show-diff-on-failure
       - name: Testing
         run: poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
-      - name: HACS validation
-        uses: hacs/action@main
+  pre-commit:
+    name: pre-commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure
+  hacs:
+    name: HACS validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hacs/action@main
         with:
           category: appdaemon
   deploy:
     name: Deployment
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [test, pre-commit, hacs]
     if: startsWith(github.ref_name,'v')
     steps:
       - uses: actions/checkout@v3
