@@ -17,43 +17,35 @@ jobs:
       actions: read
       contents: read
       security-events: write
-
     strategy:
       fail-fast: false
       matrix:
         python_version: ["3.7", "3.8", "3.9", "3.10"]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python_version }}
-
       - name: Install poetry
         uses: snok/install-poetry@v1
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
-
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v3
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
-
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
           languages: python
           setup-python-dependencies: false
-
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
