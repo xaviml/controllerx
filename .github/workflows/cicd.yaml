@@ -73,9 +73,9 @@ jobs:
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
-          type: "zip"
-          filename: "../../release.zip"
-          directory: apps/test
+          type: zip
+          filename: ../../controllerx.zip
+          directory: apps/controllerx
       - run: sed -i 's/VERSION_TAG/${{ github.ref_name }}/g' RELEASE_NOTES.md
       - run: "sed -i 's/PRERELEASE_NOTE/_Note: Some links might not work or might be not updated due to being a pre-release, and documentation is not yet available_/g' RELEASE_NOTES.md"
         if: contains(github.ref_name, 'b')
@@ -83,9 +83,9 @@ jobs:
         if: "!contains(github.ref_name, 'b')"
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "release.zip"
+          artifacts: controllerx.zip
           prerelease: ${{ contains(github.ref_name, 'b') }}
-          bodyFile: "RELEASE_NOTES.md"
+          bodyFile: RELEASE_NOTES.md
           generateReleaseNotes: true
   post_deploy:
     name: Post deployment
