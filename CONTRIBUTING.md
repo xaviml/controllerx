@@ -140,7 +140,7 @@ git push <username> HEAD:<branch>
 
 ## Deployment
 
-Thanks to the Azure Pipelines, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
+Thanks to the GitHub Actions, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
 
 We use `commitizen` to bump version. First, we might want to create a beta version from `dev` branch:
 
