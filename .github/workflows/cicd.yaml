@@ -1,0 +1,116 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, dev]
+    tags: ["v*"]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    name: Styling and Testing
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - name: Testing
+        run: poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+  pre-commit:
+    name: pre-commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install pre-commit
+        run: pip install pre-commit
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure
+  hacs:
+    name: HACS validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hacs/action@main
+        with:
+          category: appdaemon
+  deploy:
+    name: Deployment
+    runs-on: ubuntu-latest
+    needs: [test, pre-commit, hacs]
+    if: startsWith(github.ref_name,'v')
+    steps:
+      - uses: actions/checkout@v3
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: zip
+          filename: ../../controllerx.zip
+          directory: apps/controllerx
+      - run: sed -i 's/VERSION_TAG/${{ github.ref_name }}/g' RELEASE_NOTES.md
+      - run: "sed -i 's/PRERELEASE_NOTE/_Note: Some links might not work or might be not updated due to being a pre-release, and documentation is not yet available_/g' RELEASE_NOTES.md"
+        if: contains(github.ref_name, 'b')
+      - run: sed -i 's/PRERELEASE_NOTE//g' RELEASE_NOTES.md
+        if: "!contains(github.ref_name, 'b')"
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: controllerx.zip
+          prerelease: ${{ contains(github.ref_name, 'b') }}
+          bodyFile: RELEASE_NOTES.md
+          generateReleaseNotes: true
+  post_deploy:
+    name: Post deployment
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: startsWith(github.ref_name,'v') && !contains(github.ref_name, 'b')
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - run: mv RELEASE_NOTES.md RELEASE_NOTES.old.md
+      - run: cp .github/RELEASE_NOTES.template.md RELEASE_NOTES.md
+      - name: Commit report
+        if: hashFiles('RELEASE_NOTES.old.md') != hashFiles('RELEASE_NOTES.md')
+        run: |
+          git config --global user.name 'xaviml'
+          git config --global user.email 'xaviml@users.noreply.github.com'
+          git add RELEASE_NOTES.md
+          git commit -m "Upload RELEASE_NOTES.md"
+          git push origin HEAD
+      - name: Merge main -> dev
+        if: hashFiles('RELEASE_NOTES.old.md') != hashFiles('RELEASE_NOTES.md')
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: main
+          target_branch: dev
+          github_token: ${{ github.token }}
