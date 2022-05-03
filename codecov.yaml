@@ -1,0 +1,11 @@
+coverage:
+  precision: 0
+  round: nearest
+  range: 70..95 # coverage lower than 70 is red, higher than 95 green, between color code
+
+  status:
+    # do not run coverage checks
+    project: false
+    patch: false
+
+github_checks: false
