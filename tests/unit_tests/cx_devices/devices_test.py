@@ -2,10 +2,10 @@ from typing import Callable, KeysView, List, Optional, Type
 
 import cx_devices as devices_module
 import pytest
+from tests.test_utils import get_classes, get_controller
 from cx_const import ActionEvent, DefaultActionsMapping
 from cx_core import Controller, ReleaseHoldController
 
-from tests.test_utils import get_classes, get_controller
 
 
 def check_mapping(
@@ -56,12 +56,11 @@ def test_devices(device_class: Type[Controller]) -> None:
 
     predefined_actions_mapping = device.get_predefined_actions_mapping()
     possible_actions = predefined_actions_mapping.keys()
-    integration_mappings_funcs: List[Callable[[], Optional[DefaultActionsMapping]]] = [
-        device.get_z2m_actions_mapping,
+    integration_mappings_funcs: List[Callable[[], Optional[DefaultActionsMapping]]] = [device.get_z2m_actions_mapping,
         device.get_deconz_actions_mapping,
         device.get_zha_actions_mapping,
         device.get_lutron_caseta_actions_mapping,
-        device.get_homematic_actions_mapping,
+        device.get_homematic_actions_mapping
     ]
     for func in integration_mappings_funcs:
         mappings = func()
