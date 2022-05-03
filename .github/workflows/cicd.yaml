@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: Styling and Testing
+    name: Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
