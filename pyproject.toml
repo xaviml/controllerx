@@ -9,6 +9,7 @@ packages = [
     { include = "cx_devices", from = "apps/controllerx" },
     { include = "controllerx.py", from = "apps/controllerx" },
     { include = "cx_const.py", from = "apps/controllerx" },
+    { include = "cx_helper.py", from = "apps/controllerx" },
     { include = "cx_version.py", from = "apps/controllerx" },
 ]
 
@@ -31,6 +32,9 @@ mypy = "0.950"
 types-PyYAML = "6.0.7"
 types-mock = "4.0.13"
 isort = "5.10.1"
+mkdocs-gen-files = "0.3.4"
+mkdocs-macros-plugin = "0.7.0"
+mkdocs-material = "8.2.7"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

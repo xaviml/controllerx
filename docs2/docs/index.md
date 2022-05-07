@@ -78,5 +78,5 @@ _ControllerX_ uses an async loop to make HA call services requests (e.g. to chan
 Thank you to all these people for putting out there content related to ControllerX:
 
 - [/u/canaletto](https://community.home-assistant.io/u/canaletto/summary) - [canaletto.fr](https://canaletto.fr/post/home-assistant-rc-and-lights) (French)
-- [/u/jones](https://community.home-assistant.io/u/jones/summary) - [triumvirat.org](https://www.triumvirat.org/posts/hass/hass-controllerx/) (German)
+- [/u/jones](https://community.home-assistant.io/u/jones/summary) - [jbetzen.net](https://jbetzen.net/posts/controllerx/) (German)
 - [/u/fribse](https://community.home-assistant.io/u/fribse/summary) - [YouTube](https://youtu.be/ZVsibNcc_tw) (Danish)

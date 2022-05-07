@@ -11,7 +11,7 @@ Currently **{{ controllers | length }}** devices are supported.
   {% for device, controller_docs in controllers.items() %}
     <tr>
             <td style="vertical-align: middle;"><h3><a href="/controllers/{{ device }}">{{ device }}</a></h3></td>
-            <td style="vertical-align: middle;">{{ controller_docs[0].integrations.values() | map(attribute="title") | join(", ") }}</td>
+            <td style="vertical-align: middle;">{{ controller_docs[0].integrations_titles | join(", ") }}</td>
             <td style="vertical-align: middle;"><img src="/assets/images/{{ device }}.jpeg" /></td>
     </tr>
     {% endfor %}

@@ -29,7 +29,9 @@ class Integration(abc.ABC):
         raise NotImplementedError
 
 
-def get_integrations(controller, kwargs) -> List[Integration]:
+def get_integrations(
+    controller: "Controller", kwargs: Dict[str, Any]
+) -> List[Integration]:
     integration_classes = get_classes(__file__, __package__, Integration)
     integrations = [cls_(controller, kwargs) for cls_ in integration_classes]
     return integrations

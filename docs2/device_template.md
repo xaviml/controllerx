@@ -19,9 +19,9 @@
       </td>
       <td style="vertical-align: middle;">
         <ul>
-          {% for key, integration in controllers[0].integrations.items() %}
+          {% for integration in controllers[0].integrations_list %}
           <li>
-            {{ integration["title"] }} ({{ key }})
+            {{ INTEGRATIONS_TITLES[integration] }} ({{ integration }})
           </li>
           {% endfor %}
         </ul>
@@ -42,15 +42,18 @@ Default mapping:
 
 {{ controller.make_table() }}
 
-{% for key, integration in controller.integrations.items() %}
+{% for integration in controller.integrations_examples %}
 
 === "{{ integration["title"] }}"
 
     ```yaml
     example_app:
       module: controllerx
-      class: {{ controller.cls }}
-      integration: {{ key }}
+      class: {{ controller.cls }}{% if "attrs" not in integration %}
+      integration: {{ integration["name"] }}{% else %}
+      integration:
+        name: {{ integration["name"] }}
+      {% for attr_key, attr_value in integration["attrs"].items() %}  {{ attr_key }}: {{ attr_value }}{% endfor %}{% endif %}
       controller: {{ integration["controller"] }}
       {{ controller.domain }}: {{ controller.domain }}.my_entity_id
     ```

@@ -1,10 +1,10 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
+from unittest import mock
 
 import appdaemon.plugins.hass.hassapi as hass
 import cx_devices as devices_module
-import mock
 from cx_const import ActionEvent, DefaultActionsMapping
 from cx_core import (
     CoverController,
@@ -13,16 +13,39 @@ from cx_core import (
     SwitchController,
 )
 from cx_core.release_hold_controller import ReleaseHoldController
-from cx_core.type_controller import TypeController
-from cx_helper import get_classes
+from cx_core.type_controller import Entity, TypeController
+from cx_helper import get_instances
+from mkdocs_macros.plugin import MacrosPlugin
 
-INTEGRATIONS: Dict[str, Dict[str, str]] = {
-    "z2m": {"title": "Zigbee2MQTT", "controller": "sensor.my_controller_action"},
-    "deconz": {"title": "deCONZ", "controller": "my_controller"},
-    "zha": {"title": "ZHA", "controller": "00:11:22:33:44:55:66:77:88"},
-    "state": {"title": "State", "controller": "sensor.my_custom_controller"},
-    "lutron": {"title": "Lutron Caseta", "controller": "87654321"},
+INTEGRATIONS_TITLES = {
+    "z2m": "Zigbee2MQTT",
+    "deconz": "deCONZ",
+    "zha": "ZHA",
+    "state": "State",
+    "lutron": "Lutron Caseta",
 }
+
+INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
+    {
+        "name": "z2m",
+        "title": "Zigbee2MQTT (HA entity)",
+        "controller": "sensor.my_controller_action",
+    },
+    {
+        "name": "z2m",
+        "title": "Zigbee2MQTT (mqtt)",
+        "controller": "my_controller",
+        "attrs": {"listen_to": "mqtt"},
+    },
+    {"name": "deconz", "title": "deCONZ", "controller": "my_controller"},
+    {"name": "zha", "title": "ZHA", "controller": "00:11:22:33:44:55:66:77:88"},
+    {
+        "name": "state",
+        "title": "State",
+        "controller": "sensor.my_custom_controller",
+    },
+    {"name": "lutron", "title": "Lutron Caseta", "controller": "87654321"},
+]
 
 
 @dataclass
@@ -39,11 +62,18 @@ class ControllerDocs:
         return "_".join(self.type.lower().split())
 
     @property
-    def integrations(self) -> Dict[str, Dict[str, str]]:
-        return {
-            integration: INTEGRATIONS[integration]
-            for integration in self.integrations_list
-        }
+    def integrations_examples(self) -> List[Dict[str, Any]]:
+        return [
+            integration
+            for integration in INTEGRATIONS_EXAMPLES
+            if integration["name"] in self.integrations_list
+        ]
+
+    @property
+    def integrations_titles(self) -> List[str]:
+        return [
+            INTEGRATIONS_TITLES[integration] for integration in self.integrations_list
+        ]
 
     def _decorate_action_event(self, action_event: ActionEvent) -> str:
         value = str(action_event)
@@ -52,11 +82,13 @@ class ControllerDocs:
         return f"`{value}`"
 
     def make_table(self) -> str:
-
         table = [
             "|"
             + "|".join(
-                [integration["title"] for integration in self.integrations.values()]
+                [
+                    INTEGRATIONS_TITLES[integration]
+                    for integration in self.integrations_list
+                ]
             )
             + "| Predefined actions |"
         ]
@@ -94,7 +126,7 @@ def get_device_name(controller: str) -> str:
     )
 
 
-def get_controller_type(controller: TypeController) -> Tuple[str, int]:
+def get_controller_type(controller: TypeController[Entity]) -> Tuple[str, int]:
     if isinstance(controller, LightController):
         return "Light", 0
     elif isinstance(controller, MediaPlayerController):
@@ -109,7 +141,7 @@ def get_controller_type(controller: TypeController) -> Tuple[str, int]:
         )
 
 
-def get_controller_docs(controller: TypeController) -> ControllerDocs:
+def get_controller_docs(controller: TypeController[Entity]) -> ControllerDocs:
     controller_type, order = get_controller_type(controller)
     controller_class = controller.__class__.__name__
     delay: Optional[int] = None
@@ -146,13 +178,12 @@ def get_controller_docs(controller: TypeController) -> ControllerDocs:
     )
 
 
-def get_controllers() -> List[TypeController]:
+def get_controllers() -> List[TypeController[Entity]]:
     with mock.patch.object(hass.Hass, "__init__", return_value=None):
-        controller_instances = get_classes(
+        controller_instances = get_instances(
             devices_module.__file__,
             devices_module.__package__,
             TypeController,
-            instantiate=True,
         )
     return controller_instances
 
@@ -170,8 +201,8 @@ def get_devices() -> Dict[str, List[ControllerDocs]]:
     return devices
 
 
-def define_env(env):
-    @env.macro
-    def devices():
+def define_env(env: MacrosPlugin) -> None:
+    @env.macro  # type: ignore[misc]
+    def devices() -> Dict[str, List[ControllerDocs]]:
         devices = get_devices()
         return dict(sorted(devices.items(), key=lambda device: device[0]))
