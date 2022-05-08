@@ -70,13 +70,14 @@ If the commit adds new functionality or fixes something, please add the changes 
 
 ## Documentation
 
-[Install Jekyll](https://jekyllrb.com/docs/) and run the documentation locally with:
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material) is used for documentation. If depedencies are installed with poetry, the following can be executed to get the documentation running locally:
 
 ```shell
 cd docs
-bundle install
-bundle exec jekyll serve
+poetry run mkdocs serve
 ```
+
+Then, open http://127.0.0.1:8000/controllerx/ in the browser.
 
 ## Pull Request
 
