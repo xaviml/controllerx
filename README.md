@@ -2,7 +2,7 @@
 
 <h1>ControllerX</h1>
 
-[![logo](https://github.com/xaviml/controllerx/raw/dev/docs/android-chrome-192x192.png)](https://github.com/xaviml/controllerx/releases)
+[![logo](https://github.com/xaviml/controllerx/raw/main/docs/docs/logo_blue.png)](https://github.com/xaviml/controllerx/releases)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 [![github-check-status](https://img.shields.io/github/checks-status/xaviml/controllerx/main?style=for-the-badge)](https://github.com/xaviml/controllerx/actions?query=branch%3Amain)
