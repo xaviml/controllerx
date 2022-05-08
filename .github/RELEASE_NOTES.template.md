@@ -6,9 +6,9 @@ _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 PRERELEASE_NOTE
 
+<!--
 ## :pencil2: Features
-
-- Add following predefined actions `on_min_max_brightness`, `on_max_min_brightness`, `on_min_max_color_temp` and `on_max_min_color_temp`. [ #472 ] @sabaatworld
+-->
 
 <!--
 ## :hammer: Fixes
@@ -29,5 +29,5 @@ PRERELEASE_NOTE
 <!--
 ## :video_game: New devices
 
-- [TS0043](https://xaviml.github.io/controllerx/controllers/TS0043) - add device with Z2M support. [ #442 ] @rschuiling
+- [XYZ](https://xaviml.github.io/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->

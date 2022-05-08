@@ -1,0 +1,7 @@
+entity_state: "off"
+fired_actions: [arrow_left_click]
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.bedroom
+      color_temp: 153

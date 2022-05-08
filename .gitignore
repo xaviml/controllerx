@@ -118,7 +118,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+**/site
 
 # mypy
 .mypy_cache/
@@ -132,3 +132,6 @@ dmypy.json
 .vscode/*
 !.vscode/settings.json
 .idea
+
+# Project
+apps.yaml
