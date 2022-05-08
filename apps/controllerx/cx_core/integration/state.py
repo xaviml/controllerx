@@ -9,7 +9,7 @@ class StateIntegration(Integration):
     name = "state"
 
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
-        return self.controller.get_z2m_actions_mapping()
+        return self.controller.get_state_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:
         attribute = self.kwargs.get("attribute", None)
