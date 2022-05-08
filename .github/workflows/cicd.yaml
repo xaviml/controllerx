@@ -31,7 +31,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
@@ -63,10 +63,38 @@ jobs:
       - uses: hacs/action@main
         with:
           category: appdaemon
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: docs-venv-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      # This next step can be removed once AppDaemon bumps pygments
+      - name: Install pygments==2.12.0
+        run: poetry run pip install pygments==2.12.0
+      - name: Build docs
+        run: cd docs && USE_PYGMENTS=true poetry run mkdocs build
   deploy:
     name: Deployment
     runs-on: ubuntu-latest
-    needs: [test, pre-commit, hacs]
+    needs: [test, pre-commit, hacs, docs]
     if: startsWith(github.ref_name,'v')
     steps:
       - uses: actions/checkout@v3
@@ -106,11 +134,33 @@ jobs:
           git add RELEASE_NOTES.md
           git commit -m "Upload RELEASE_NOTES.md"
           git push origin HEAD
-      - name: Merge main -> dev
-        if: hashFiles('RELEASE_NOTES.old.md') != hashFiles('RELEASE_NOTES.md')
-        uses: devmasx/merge-branch@master
+  publish_doc:
+    name: Publish documentation
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: startsWith(github.ref_name,'v') && !contains(github.ref_name, 'b')
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
         with:
-          type: now
-          from_branch: main
-          target_branch: dev
-          github_token: ${{ github.token }}
+          python-version: "3.10"
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: docs-venv-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      # This next step can be removed once AppDaemon bumps pygments
+      - name: Install pygments==2.12.0
+        run: poetry run pip install pygments==2.12.0
+      - name: Publish docs
+        run: cd docs && USE_PYGMENTS=true poetry run mkdocs gh-deploy --force

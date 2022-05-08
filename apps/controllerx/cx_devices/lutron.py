@@ -37,7 +37,7 @@ class Z31BRLLightController(LightController):
 
 
 class LutronPJ22BLightController(LightController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": Light.ON_FULL_BRIGHTNESS,
             "4": Light.OFF,
@@ -51,7 +51,7 @@ class LutronPJ22BLightController(LightController):
 
 
 class LutronPJ22BMediaPlayerController(MediaPlayerController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": MediaPlayer.PLAY_PAUSE,
             "4": MediaPlayer.NEXT_TRACK,
@@ -65,7 +65,7 @@ class LutronPJ22BMediaPlayerController(MediaPlayerController):
 
 
 class LutronPJ22BRLLightController(LightController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": Light.ON_FULL_BRIGHTNESS,
             "8": Light.HOLD_BRIGHTNESS_UP,
@@ -76,7 +76,7 @@ class LutronPJ22BRLLightController(LightController):
 
 
 class LutronPJ22BRLMediaPlayerController(MediaPlayerController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": MediaPlayer.PLAY_PAUSE,
             "8": MediaPlayer.HOLD_VOLUME_UP,
@@ -87,7 +87,7 @@ class LutronPJ22BRLMediaPlayerController(MediaPlayerController):
 
 
 class LutronPJ23BRLLightController(LightController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": Light.ON_FULL_BRIGHTNESS,
             "8": Light.HOLD_BRIGHTNESS_UP,
@@ -110,7 +110,7 @@ class LutronPJ23BRLLightController(LightController):
 
 
 class LutronPJ23BRLMediaPlayerController(MediaPlayerController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": MediaPlayer.PLAY_PAUSE,
             "8": MediaPlayer.HOLD_VOLUME_UP,
@@ -133,7 +133,7 @@ class LutronPJ23BRLMediaPlayerController(MediaPlayerController):
 
 
 class LutronPJ24BLightController(LightController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": Light.ON_FULL_BRIGHTNESS,
             "2": Light.HOLD_BRIGHTNESS_UP,
@@ -144,7 +144,7 @@ class LutronPJ24BLightController(LightController):
 
 
 class LutronPJ24BMediaPlayerController(MediaPlayerController):
-    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+    def get_state_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1": MediaPlayer.PLAY_PAUSE,
             "2": MediaPlayer.HOLD_VOLUME_UP,

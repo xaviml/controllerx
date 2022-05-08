@@ -5,9 +5,8 @@ from cx_const import PredefinedActionsMapping
 from cx_core import type as type_module
 from cx_core.controller import Controller
 from cx_core.type_controller import Entity, TypeController
+from cx_helper import get_classes
 from pytest_mock.plugin import MockerFixture
-
-from tests.test_utils import get_classes
 
 
 def check_mapping(mapping: Optional[PredefinedActionsMapping]) -> None:
