@@ -26,8 +26,6 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
-<!--
 ## :video_game: New devices
 
-- [TS0043](https://xaviml.github.io/controllerx/controllers/TS0043) - add device with Z2M support. [ #442 ] @rschuiling
--->
+- [ROB2000070](https://xaviml.github.io/controllerx/controllers/ROB2000070) - add device with Z2M support. [ #482 ] @hrak
