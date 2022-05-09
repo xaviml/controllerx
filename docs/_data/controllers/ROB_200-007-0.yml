@@ -1,0 +1,54 @@
+name: ROB_200-007-0 (ROBB)
+device_support:
+  - type: Light
+    domain: light
+    controller: ROB_200_007_0LightController
+    delay: 350
+    mapping:
+      - 'Click first row on ("I") → Turn on'
+      - 'Click first row off ("O") → Turn off'
+      - 'Hold first row on ("I") → Brightness up'
+      - 'Hold first row off ("O") → Brightness down'
+      - 'Click second row on ("I") → Turn on'
+      - 'Click second row off ("O") → Turn off'
+      - 'Hold second row on ("I") → Brightness up'
+      - 'Hold second row off ("O") → Brightness down'
+      - 'Click third row on ("I") → Turn on'
+      - 'Click third row off ("O") → Turn off'
+      - 'Hold third row on ("I") → Brightness up'
+      - 'Hold third row off ("O") → Brightness down'
+      - 'Click fourth row on ("I") → Turn on'
+      - 'Click fourth row off ("O") → Turn off'
+      - 'Hold fourth row on ("I") → Brightness up'
+      - 'Hold fourth row off ("O") → Brightness down'
+integrations:
+  - name: Zigbee2MQTT
+    codename: z2m
+    actions:
+      - on_1 → Click first row on ("I")
+      - off_1 → Click first row off ("O")
+      - brightness_move_up_1 → Hold first row on ("I")
+      - brightness_move_down_1 → Hold first row off ("O")
+      - brightness_stop_1 → → Release (after being held) first row on ("I") or off ("O")
+      - on_2 → Click second row on ("I")
+      - off_2 → Click second row off ("O")
+      - brightness_move_up_2 → Hold second row on ("I")
+      - brightness_move_down_2 → Hold second row off ("O")
+      - brightness_stop_2 → → Release (after being held) second row on ("I") or off ("O")
+      - on_3 → Click third row on ("I")
+      - off_3 → Click third row off ("O")
+      - brightness_move_up_3 → Hold third row on ("I")
+      - brightness_move_down_3 → Hold third row off ("O")
+      - brightness_stop_3 → → Release (after being held) third row on ("I") or off ("O")
+      - on_4 → Click fourth row on ("I")
+      - off_4 → Click fourth row off ("O")
+      - brightness_move_up_4 → Hold fourth row on ("I")
+      - brightness_move_down_4 → Hold fourth row off ("O")
+      - brightness_stop_4 → → Release (after being held) fourth row on ("I") or off ("O")
+note: >-
+  Note that each button perform the same actions.
+  This is because ControllerX is design to control just one entity (light or media player).
+  So you can include the `actions` parameter to include the actions needed,
+  or use the `mapping` attribute to define a <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+  This controller is a white-label version of the Sunricher SR-ZG9001K8-DIM.
