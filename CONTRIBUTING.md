@@ -16,19 +16,13 @@ _Note: I recommend working with Python 3.7 since is the minimum version supporte
 
 New controllers need to be added into the `apps/controllerx/devices/` and you will need to define the mapping for the integration you are adding support to.
 
-Also, the controller will need to be added to the documentation. You will need to create:
+The controller will be added to the documentation automatically, but a JPEG will need to be added to `docs/assets/img`. You can easily find the model (for picture) in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html). Check [here](#documentation) to know how to run the documentation locally.
 
-- YAML file in `docs/_data/controllers`
-- MarkDown file in `docs/controllers`
-- JPEG image in `docs/assets/img`
-
-The name of the files should be the model of the controller. For example, if the device model is `E1743`, then the name of the files should be: `E1743.{yaml, md, jpeg}`. You can easily find the model in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html).
-
-The class name convention should be `Device Model + Type + Controller`. For example, for a new light controller for E1743, the class name should be `E1743LightController`. Take into account that there are some old controllers that do not follow this convention.
+The class name convention should be `Device Model (No special characters) + Type + Controller`. For example, for a new light controller for E1743, the class name should be `E1743LightController`. Take into account that there are some old controllers that do not follow this convention.
 
 Note that this project will only accept the mapping that the original controller would follow with its original hub, or the closest behaviour we can get.
 
-This is a [commit](https://github.com/xaviml/controllerx/commit/38ee4b03ac31bf966523cc63c0200567f912f201) of a complete example of adding a new device, it can be used as a reference.
+This is a [PR](https://github.com/xaviml/controllerx/pull/482/files) of a complete example of adding a new device, it can be used as a reference.
 
 ## Styling
 
