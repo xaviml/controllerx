@@ -2,7 +2,7 @@ from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 
 
-class ROB_200_007_0LightController(LightController):
+class ROB2000070LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on_1": Light.ON,
