@@ -109,6 +109,8 @@ jobs:
         run: mkdir docs/controllerx-site && mv docs/site docs/controllerx-site/controllerx
       - name: Create redirect for /controllerx
         run: echo "/ /controllerx" > ./docs/controllerx-site/_redirects
+      - run: echo "${{ github.event.ref_type }}"
+      - run: echo "${{ github.event.ref_name }}"
       - name: Deploy to Netlify
         id: netlify
         uses: nwtgck/actions-netlify@v1.2
