@@ -95,11 +95,11 @@ jobs:
         with:
           name: built-docs
           path: docs/site
-  publish-preview-docs:
+  publish_preview_docs:
     name: Publish preview documentation
     runs-on: ubuntu-latest
     needs: [docs]
-    if: github.event.ref_type != 'tag'
+    if: github.ref_type != 'tag'
     steps:
       - uses: actions/download-artifact@master
         with:
@@ -109,8 +109,6 @@ jobs:
         run: mkdir docs/controllerx-site && mv docs/site docs/controllerx-site/controllerx
       - name: Create redirect for /controllerx
         run: echo "/ /controllerx" > ./docs/controllerx-site/_redirects
-      - run: echo "${{ github.event.ref_type }}"
-      - run: echo "${{ github.event.ref_name }}"
       - name: Deploy to Netlify
         id: netlify
         uses: nwtgck/actions-netlify@v1.2
@@ -118,7 +116,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           publish-dir: "./docs/controllerx-site"
           deploy-message: "${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}"
-          production-deploy: ${{ github.event.ref_type == 'branch' && github.event.ref_name == 'main' }}
+          production-deploy: ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
           enable-pull-request-comment: true
           enable-commit-comment: false
           overwrites-pull-request-comment: true
