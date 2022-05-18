@@ -13,4 +13,6 @@ def test_get_integrations(fake_controller: Controller) -> None:
         "mqtt",
         "lutron_caseta",
         "homematic",
+        "shelly",
+        "shellyforhass",
     }

@@ -16,6 +16,5 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
-  },
-  "python.analysis.completeFunctionParens": true
+  }
 }

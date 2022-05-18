@@ -24,6 +24,8 @@ INTEGRATIONS_TITLES = {
     "state": "State",
     "lutron": "Lutron Caseta",
     "homematic": "Homematic",
+    "shelly": "Shelly",
+    "shellyforhass": "ShellyForHass",
 }
 
 INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
@@ -47,6 +49,12 @@ INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
     },
     {"name": "lutron", "title": "Lutron Caseta", "controller": "87654321"},
     {"name": "homematic", "title": "Homematic", "controller": "my_controller"},
+    {"name": "shelly", "title": "Shelly", "controller": "shellybutton-ABC123456"},
+    {
+        "name": "shellyforhass",
+        "title": "ShellyForHass",
+        "controller": "binary_sensor.shelly_button_switch",
+    },
 ]
 
 
@@ -168,6 +176,8 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerDocs:
         "state": controller.get_state_actions_mapping,
         "lutron": controller.get_lutron_caseta_actions_mapping,
         "homematic": controller.get_homematic_actions_mapping,
+        "shelly": controller.get_shelly_actions_mapping,
+        "shellyforhass": controller.get_shellyforhass_actions_mapping,
     }
     for integration, integration_mapping_func in integration_mappings_funcs.items():
         mapping = integration_mapping_func()

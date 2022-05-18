@@ -24,6 +24,7 @@ from cx_devices.philips import *
 from cx_devices.rgb_genie import *
 from cx_devices.robb import *
 from cx_devices.sengled import *
+from cx_devices.shelly import *
 from cx_devices.smartthings import *
 from cx_devices.sonoff import *
 from cx_devices.terncy import *

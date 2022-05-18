@@ -11,11 +11,11 @@ The name you need to add to the `controller` parameter can be found in `Configur
 
 #### deCONZ
 
-In case of deCONZ, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `deconz_event` and start listening. Then press any button and you will see event of the button, you will need to copy the `id` inside the `data` object.
+In case of deCONZ, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `deconz_event` and start listening. Then, press any button and you will see event of the button, you will need to copy the `id` inside the `data` object.
 
 #### ZHA
 
-In case of ZHA, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `zha_event` and start listening. Then press any button and you will see event of the button, you will need to copy the `device_ieee` inside the `data` object. It is a number like the following 00:67:88:56:06:78:9b:3f.
+In case of ZHA, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `zha_event` and start listening. Then, press any button and you will see event of the button, you will need to copy the `device_ieee` inside the `data` object. It is a number like the following 00:67:88:56:06:78:9b:3f.
 
 #### MQTT
 
@@ -23,4 +23,12 @@ In case of using MQTT integration, the `controller` attribute must have the MQTT
 
 #### Homematic
 
-In case of Homematic, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `homematic.keypress` and start listening. Then press any button and you will see event of the button, you will need to copy the `name` inside the `data` object.
+In case of Homematic, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `homematic.keypress` and start listening. Then, press any button and you will see event of the button, you will need to copy the `name` inside the `data` object.
+
+#### Shelly
+
+In case of Shelly, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `shelly.click` and start listening. Then, press any button and you will see event of the button, you will need to copy the `device` inside the `data` object. You can read more about the event [here](https://www.home-assistant.io/integrations/shelly/#events).
+
+#### ShellyForHASS
+
+In case of ShellyForHASS, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `shellyforhass.click` and start listening. Then, press any button and you will see event of the button, you will need to copy the `entity_id` inside the `data` object. You can read more about the event [here](https://github.com/StyraHem/ShellyForHASS#shellyforhassclick-020).

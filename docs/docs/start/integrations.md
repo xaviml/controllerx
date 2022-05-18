@@ -169,4 +169,12 @@ This integration(**`lutron_caseta`**) listens to `lutron_caseta_button_event` ev
 
 #### Homematic
 
-This integration ([**`homematic`**](https://www.home-assistant.io/integrations/homematic/)) listens to `homematic.keypress` events. It created an action like `<action_type>_<channel>`. It does not have any additional arguments.
+This integration ([**`homematic`**](https://www.home-assistant.io/integrations/homematic)) listens to `homematic.keypress` events. It creates an action like `<action_type>_<channel>`. It does not have any additional arguments.
+
+#### Shelly
+
+This integration ([**`shelly`**](https://www.home-assistant.io/integrations/shelly)) listens to `shelly.click` events. It creates an action like `<click_type>_<channel>`. It does not have any additional arguments.
+
+#### Shelly for HASS
+
+This integration ([**`shellyforhass`**](https://github.com/StyraHem/ShellyForHASS)) listens to `shellyforhass.click` events. It creates an action like `<action_type>`. It does not have any additional arguments.
