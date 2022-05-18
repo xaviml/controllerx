@@ -146,7 +146,7 @@ jobs:
           artifacts: controllerx.zip
           prerelease: ${{ contains(github.ref_name, 'b') }}
           bodyFile: RELEASE_NOTES.md
-          generateReleaseNotes: true
+          generateReleaseNotes: false
   post_deploy:
     name: Post deployment
     runs-on: ubuntu-latest
