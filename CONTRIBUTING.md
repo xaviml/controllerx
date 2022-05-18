@@ -140,7 +140,7 @@ Thanks to the GitHub Actions, we are able to deploy by just creating a new tag o
 We use `commitizen` to bump version. First, we might want to create a beta version:
 
 ```shell
-cz bump --no-verify --prerelease beta
+cz bump --prerelease beta
 git push origin HEAD --tags
 ```
 
@@ -149,7 +149,7 @@ _`--dry-run` can be used with `cz` command to double check the version to be cre
 Once we are ready to create the final version, we can bump the version to the final one, and push tag:
 
 ```shell
-cz bump --no-verify
+cz bump
 git push origin HEAD --tags
 ```
 
