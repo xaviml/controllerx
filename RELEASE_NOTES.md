@@ -11,6 +11,7 @@ PRERELEASE_NOTE
 - Add following predefined actions `on_min_max_brightness`, `on_max_min_brightness`, `on_min_max_color_temp` and `on_max_min_color_temp`. [ #472 ] @sabaatworld
 - Add [`shelly` integration](https://xaviml.github.io/controllerx/start/integrations/#shelly).
 - Add [`shellyforhass` integration](https://xaviml.github.io/controllerx/start/integrations/#shellyforhass).
+- Add `release_delay` attribute for cases where release is sent right after a hold action.
 
 <!--
 ## :hammer: Fixes

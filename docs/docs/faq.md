@@ -45,6 +45,7 @@ This is probably happenning to you sometimes and is because the stop/release act
 
 However, these are some actions you can take to overcome this problem and reduce the number of times that this happens:
 
+- If `release` action is sent at a similar time than a `hold` one, you could use [`release_delay: true` attribute](/controllerx/start/type-configuration/?h=release_delay#light-controller) to execute `release` actions 100ms after they have been fired.
 - If using z2m, change the integration to listen MQTT directly, this way it will avoid the HA state machine layer. Read more about in [here](/controllerx/start/integrations#zigbee2mqtt).
 - If using deCONZ and you just want to dim your lights smoothly, then you can consider using [this AppDaemon app](https://github.com/Burningstone91/Hue_Dimmer_Deconz) from [_@Burningstone91_](https://github.com/Burningstone91). It brightens/dims your lights with a deCONZ calls instead of calling HA periodically, this means that deCONZ would handle the dimming for you.
 - Play around with delay (default is 350ms) and automatic_steps (default is 10) attributes. You can read more about them in [here](/controllerx/start/type-configuration#light-controller). The lower the delay is, the more requests will go to HA. The more automatic_steps, the more steps it will take to get from min to max, and vice versa.
