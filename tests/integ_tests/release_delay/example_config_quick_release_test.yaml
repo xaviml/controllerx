@@ -1,0 +1,5 @@
+entity_state_attributes:
+  brightness: 50
+entity_state: "on"
+fired_actions: [brightness_up_hold, brightness_up_release]
+expected_calls_count: 1
