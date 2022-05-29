@@ -46,3 +46,20 @@ def test_sign(direction_input: str, expected_sign: int) -> None:
     stepper = FakeStepper()
     sign_output = stepper.sign(direction_input)
     assert sign_output == expected_sign
+
+
+@pytest.mark.parametrize(
+    "value, direction_input, expected_value",
+    [
+        (10, StepperDir.UP, 10),
+        (0, StepperDir.DOWN, 0),
+        (0, StepperDir.UP, 0),
+        (2, StepperDir.DOWN, -2),
+    ],
+)
+def test_apply_sign(
+    value: Number, direction_input: str, expected_value: Number
+) -> None:
+    stepper = FakeStepper()
+    value_output = stepper.apply_sign(value, direction_input)
+    assert value_output == expected_value

@@ -13,6 +13,7 @@ from cx_core import (
     LightController,
     MediaPlayerController,
     SwitchController,
+    Z2MLightController,
 )
 from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.type_controller import Entity, TypeController
@@ -67,14 +68,17 @@ with open(Path(__file__).parent / "notes.yaml") as f:
 class ControllerTypeDocs:
     order: int
     type: str
+    entity_arg: str
+    domain: Optional[str]
     cls: str
     delay: Optional[int]
     mappings: Dict[str, Dict[str, List[ActionEvent]]]
     integrations_list: List[str]
 
     @property
-    def domain(self) -> str:
-        return "_".join(self.type.lower().split())
+    def entity_name(self) -> str:
+        entity_name = "my_entity_id"
+        return entity_name if self.domain is None else f"{self.domain}.{entity_name}"
 
     @property
     def section(self) -> str:
@@ -145,7 +149,8 @@ class ControllerDocs:
 
 def get_device_name(controller: str) -> str:
     return (
-        controller.replace("Light", "")
+        controller.replace("Z2MLight", "")
+        .replace("Light", "")
         .replace("MediaPlayer", "")
         .replace("Switch", "")
         .replace("Cover", "")
@@ -156,12 +161,14 @@ def get_device_name(controller: str) -> str:
 def get_controller_type(controller: TypeController[Entity]) -> Tuple[str, int]:
     if isinstance(controller, LightController):
         return "Light", 0
+    elif isinstance(controller, Z2MLightController):
+        return "Zigbee2MQTT Light", 1
     elif isinstance(controller, MediaPlayerController):
-        return "Media Player", 1
+        return "Media Player", 2
     elif isinstance(controller, SwitchController):
-        return "Switch", 2
+        return "Switch", 3
     elif isinstance(controller, CoverController):
-        return "Cover", 3
+        return "Cover", 4
     else:
         raise ValueError(
             f"{controller.__class__.__name__} does not belong to any of the 4 type controllers"
@@ -201,6 +208,8 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDoc
     return ControllerTypeDocs(
         order=order,
         type=controller_type,
+        entity_arg=controller.entity_arg,
+        domain=controller.domains[0] if len(controller.domains) > 0 else None,
         cls=controller_class,
         delay=delay,
         mappings=mappings,

@@ -16,6 +16,7 @@ class SwitchController(TypeController[Entity]):
     """
 
     domains = [
+        "switch",
         "alert",
         "automation",
         "cover",
@@ -23,7 +24,6 @@ class SwitchController(TypeController[Entity]):
         "light",
         "media_player",
         "script",
-        "switch",
     ]
     entity_arg = "switch"
 

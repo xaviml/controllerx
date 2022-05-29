@@ -5,12 +5,14 @@ from cx_const import (
     MediaPlayer,
     PredefinedActionsMapping,
     Switch,
+    Z2MLight,
 )
 from cx_core import (
     CoverController,
     LightController,
     MediaPlayerController,
     SwitchController,
+    Z2MLightController,
     action,
 )
 from cx_core.integration import EventData
@@ -76,6 +78,26 @@ class E1810Controller(LightController):
             "hold_3328_0": Light.HOLD_COLOR_UP,
             "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
+        }
+
+
+class E1810Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "toggle": Z2MLight.TOGGLE,
+            "toggle_hold": Z2MLight.ON_FULL_BRIGHTNESS,
+            "brightness_up_click": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "brightness_down_click": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "arrow_left_click": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "arrow_right_click": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "brightness_up_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_up_release": Z2MLight.RELEASE,
+            "brightness_down_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_down_release": Z2MLight.RELEASE,
+            "arrow_left_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "arrow_left_release": Z2MLight.RELEASE,
+            "arrow_right_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "arrow_right_release": Z2MLight.RELEASE,
         }
 
 
@@ -578,6 +600,23 @@ class W2049LightController(LightController):
             "hold_3328_0": Light.HOLD_COLOR_UP,
             "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
+        }
+
+
+class W2049Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.ON,
+            "off": Z2MLight.OFF,
+            "arrow_left_click": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "arrow_right_click": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_stop": Z2MLight.RELEASE,
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "arrow_left_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "arrow_left_release": Z2MLight.RELEASE,
+            "arrow_right_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "arrow_right_release": Z2MLight.RELEASE,
         }
 
 

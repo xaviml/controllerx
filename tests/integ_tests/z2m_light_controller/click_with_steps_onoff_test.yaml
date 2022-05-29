@@ -1,0 +1,6 @@
+fired_actions: [arrow_left_click, 0.01, arrow_left_click]
+expected_calls:
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"brightness_step_onoff": 100, "transition": 0.5}'

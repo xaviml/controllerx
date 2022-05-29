@@ -1,0 +1,6 @@
+fired_actions: [brightness_up_click, 0.01, brightness_up_click]
+expected_calls:
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"color_temp_step": -50, "transition": 3}'

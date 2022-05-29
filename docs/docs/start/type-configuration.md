@@ -77,6 +77,34 @@ example_app:
     - [0.324, 0.329]
 ```
 
+## Zigbee2MQTT Light controller
+
+This controller (`Z2MLightController`) allows the devices to control Zigbe2MQTT lights. It allows you to:
+
+- Turn on/off light
+- Toggle light
+- Manual increase/decrease of brightness and color
+- Smooth increase/decrease (holding button) of brightness and color
+
+| key           | type                 | value      | description                                                                                            |
+| ------------- | -------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| `light`\*     | string \| dictionary | `my_light` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                       |
+| `click_steps` | float                | 70         | Number of steps that are passed to Zigbee2MQTT for click actions.                                      |
+| `hold_steps`  | float                | 70         | Number of steps that are passed to Zigbee2MQTT for hold actions.                                       |
+| `transition`  | float                | 0.5        | Transition sent to Zigbee2MQTT when changing brightness or color temp.                                 |
+| `use_onoff`   | bool                 | `false`    | This allows click and hold actions to turn on/off the light when off or minimum brightness is reached. |
+
+_\* Required fields_
+
+_Light dictionary for the `light` attribute:_
+
+| key      | type   | value      | description                                                                                                                                                                                                                                                                      |
+| -------- | ------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`\* | string | `my_light` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                                                                                                                                                                                                 |
+| `mode`   | string | `ha`       | This attribute only takes `ha` or `mqtt` as values. `ha` will send the mqtt messages through `mqtt.publish` service call. `mqtt` will send the mqtt message through AppDaemon MQTT plugin (read more about it [here](/controllerx/start/integrations#mqtt)). By default is `ha`. |
+
+_\* Required fields_
+
 ## Media player controller
 
 This allows you to control media players. It supports volume, play/pause and skipping forward/backward the track and the source.

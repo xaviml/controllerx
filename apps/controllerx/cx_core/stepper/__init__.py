@@ -66,6 +66,10 @@ class Stepper(abc.ABC):
     def sign(direction: str) -> int:
         return Stepper.sign_mapping[direction]
 
+    @staticmethod
+    def apply_sign(value: Number, direction: str) -> Number:
+        return Stepper.sign(direction) * value
+
     def __init__(
         self, min_max: MinMax, steps: Number, previous_direction: str = StepperDir.DOWN
     ) -> None:
