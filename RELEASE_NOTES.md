@@ -6,12 +6,9 @@ _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 PRERELEASE_NOTE
 
+<!--
 ## :pencil2: Features
-
-- Add following predefined actions `on_min_max_brightness`, `on_max_min_brightness`, `on_min_max_color_temp` and `on_max_min_color_temp`. [ #472 ] @sabaatworld
-- Add [`shelly` integration](https://xaviml.github.io/controllerx/start/integrations/#shelly).
-- Add [`shellyforhass` integration](https://xaviml.github.io/controllerx/start/integrations/#shellyforhass).
-- Add `release_delay` attribute for cases where release is sent right after a hold action.
+-->
 
 <!--
 ## :hammer: Fixes
@@ -29,9 +26,8 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
+<!--
 ## :video_game: New devices
 
-- [ROB2000070](https://xaviml.github.io/controllerx/controllers/ROB2000070) - add device with Z2M support. [ #482 ] @hrak
-- [ShellyI3](https://xaviml.github.io/controllerx/controllers/ShellyI3) - add device with ShellyForHASS support. [ #441 ]
-- [ShellyPlusI4](https://xaviml.github.io/controllerx/controllers/ShellyPlusI4) - add device with Shelly support. [ #441 ]
-- [Shelly25](https://xaviml.github.io/controllerx/controllers/Shelly25) - add device with Shelly support. [ #441 ]
+- [XYZ](https://xaviml.github.io/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
+-->
