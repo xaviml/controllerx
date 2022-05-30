@@ -1,0 +1,33 @@
+fired_actions:
+  - arrow_right_hold
+  - 0.450
+  - brightness_up_release
+  - 0.01
+  - arrow_right_hold
+  - 0.450
+  - brightness_up_release
+expected_calls:
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"color_temp_move": 70, "transition": 0.5}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"brightness_move": "stop"}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"color_temp_move": "stop"}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"color_temp_move": -70, "transition": 0.5}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"brightness_move": "stop"}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"color_temp_move": "stop"}'

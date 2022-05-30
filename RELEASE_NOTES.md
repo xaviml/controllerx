@@ -8,6 +8,7 @@ PRERELEASE_NOTE
 
 ## :pencil2: Features
 
+- Add Zigbee2MQTT Light Controller (`Z2MLightController`). Until now we had an option to listen from MQTT, but light commands will always go through HA Light integration. This new controller allows you to interact directly with Zigbe2MQTT commands to interact with your lights. This means that you can leverage the `hold` actions that Zigbee2MQTT offers with barely no lag and much more smoother than `Light Controller` hold actions. However, it is not as flexible and does not offer as many options as `Light Controller` does. Many of the existing devices now have support to `Z2MLightController`, and you can use it in the `class` as you can now use `LightController` as well. You can read more about it [here](https://BASE_URL/controllerx/others/zigbee2mqtt-light-controller). [ #118, #168 ]
 - Allow passing the delay time (in seconds) to `release_delay` attribute. [ #497 ]
 
 ## :hammer: Fixes

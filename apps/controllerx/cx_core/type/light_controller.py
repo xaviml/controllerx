@@ -646,7 +646,9 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         return "color_temp" in await self.supported_color_modes
 
     @lru_cache(maxsize=None)
-    def get_stepper(self, attribute: str, steps: Number, mode: str) -> Stepper:
+    def get_stepper(
+        self, attribute: str, steps: Number, mode: str, *, tag: str
+    ) -> Stepper:
         previous_direction = Stepper.invert_direction(self.hold_toggle_direction_init)
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
             return IndexLoopStepper(len(self.color_wheel), previous_direction)
@@ -764,7 +766,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             self.value_attribute,
             attribute,
             direction,
-            self.get_stepper(attribute, steps or self.manual_steps, mode),
+            self.get_stepper(attribute, steps or self.manual_steps, mode, tag="click"),
             "click",
         )
 
@@ -804,7 +806,9 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             f"Attribute value before running the hold action: {self.value_attribute}",
             level="DEBUG",
         )
-        stepper = self.get_stepper(attribute, steps or self.automatic_steps, mode)
+        stepper = self.get_stepper(
+            attribute, steps or self.automatic_steps, mode, tag="hold"
+        )
         if direction == StepperDir.TOGGLE:
             self.log(
                 f"Previous direction: {stepper.previous_direction}",

@@ -92,8 +92,14 @@ class Z2MLight:
     HOLD = "hold"
     HOLD_BRIGHTNESS_UP = "hold_brightness_up"
     HOLD_BRIGHTNESS_DOWN = "hold_brightness_down"
+    HOLD_BRIGHTNESS_TOGGLE = "hold_brightness_toggle"
     HOLD_COLOR_TEMP_UP = "hold_colortemp_up"
     HOLD_COLOR_TEMP_DOWN = "hold_colortemp_down"
+    HOLD_COLOR_TEMP_TOGGLE = "hold_colortemp_toggle"
+    XYCOLOR_FROM_CONTROLLER = "xycolor_from_controller"
+    COLORTEMP_FROM_CONTROLLER = "colortemp_from_controller"
+    BRIGHTNESS_FROM_CONTROLLER_LEVEL = "brightness_from_controller_level"
+    BRIGHTNESS_FROM_CONTROLLER_ANGLE = "brightness_from_controller_angle"
 
 
 class MediaPlayer:

@@ -1,5 +1,10 @@
-from cx_const import DefaultActionsMapping, Light, MediaPlayer, Switch
-from cx_core import LightController, MediaPlayerController, SwitchController
+from cx_const import DefaultActionsMapping, Light, MediaPlayer, Switch, Z2MLight
+from cx_core import (
+    LightController,
+    MediaPlayerController,
+    SwitchController,
+    Z2MLightController,
+)
 from cx_core.integration import EventData
 
 
@@ -46,6 +51,21 @@ class WXKG02LMLightController(LightController):
     def get_zha_action(self, data: EventData) -> str:
         command: str = data["command"]
         return command
+
+
+class WXKG02LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single_both": Z2MLight.TOGGLE,
+            "double_both": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "hold_both": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "single_left": Z2MLight.TOGGLE,
+            "double_left": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "hold_left": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "single_right": Z2MLight.TOGGLE,
+            "double_right": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "hold_right": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+        }
 
 
 class WXKG02LMSwitchController(SwitchController):
@@ -119,6 +139,19 @@ class WXKG01LMLightController(LightController):
         return data["command"]
 
 
+class WXKG01LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": Z2MLight.TOGGLE,
+            "double": Z2MLight.ON_FULL_BRIGHTNESS,
+            "triple": Z2MLight.ON_MIN_BRIGHTNESS,
+            "quadruple": Z2MLight.SET_HALF_BRIGHTNESS,
+            # "many": "", # Nothing
+            "hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Z2MLight.RELEASE,
+        }
+
+
 class WXKG11LMRemoteLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
@@ -147,6 +180,16 @@ class WXKG11LMRemoteLightController(LightController):
     def get_zha_action(self, data: EventData) -> str:
         command: str = data["command"]
         return command
+
+
+class WXKG11LMRemoteZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": Z2MLight.TOGGLE,
+            "double": Z2MLight.ON_FULL_BRIGHTNESS,
+            "hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Z2MLight.RELEASE,
+        }
 
 
 class WXKG11LMSensorSwitchLightController(LightController):
@@ -199,6 +242,17 @@ class WXKG12LMLightController(LightController):
             1007: Light.ON_MIN_BRIGHTNESS,  # button_1_shake
             1001: Light.HOLD_BRIGHTNESS_TOGGLE,  # button_1_hold
             1003: Light.RELEASE,  # button_1_release_after_hold
+        }
+
+
+class WXKG12LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single": Z2MLight.TOGGLE,
+            "double": Z2MLight.ON_FULL_BRIGHTNESS,
+            "shake": Z2MLight.ON_MIN_BRIGHTNESS,
+            "hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Z2MLight.RELEASE,
         }
 
 
@@ -270,6 +324,20 @@ class WXCJKG11LMLightController(LightController):
         }
 
 
+class WXCJKG11LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "button_1_single": Z2MLight.OFF,
+            "button_1_double": Z2MLight.ON_MIN_BRIGHTNESS,
+            "button_1_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "button_1_release": Z2MLight.RELEASE,
+            "button_2_single": Z2MLight.ON,
+            "button_2_double": Z2MLight.ON_FULL_BRIGHTNESS,
+            "button_2_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "button_2_release": Z2MLight.RELEASE,
+        }
+
+
 class WXCJKG12LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
@@ -322,6 +390,32 @@ class WXCJKG12LMLightController(LightController):
     def get_zha_action(self, data: EventData) -> str:
         command: str = data["command"]
         return command
+
+
+class WXCJKG12LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "button_1_single": Z2MLight.OFF,
+            "button_1_double": Z2MLight.ON_MIN_COLOR_TEMP,
+            # "button_1_triple": "",
+            "button_1_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "button_1_release": Z2MLight.RELEASE,
+            "button_2_single": Z2MLight.ON,
+            "button_2_double": Z2MLight.ON_FULL_COLOR_TEMP,
+            # "button_2_triple": "",
+            "button_2_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "button_2_release": Z2MLight.RELEASE,
+            "button_3_single": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "button_3_double": Z2MLight.ON_MIN_BRIGHTNESS,
+            # "button_3_triple": "",
+            "button_3_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "button_3_release": Z2MLight.RELEASE,
+            "button_4_single": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "button_4_double": Z2MLight.ON_FULL_BRIGHTNESS,
+            # "button_4_triple": "",
+            "button_4_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "button_4_release": Z2MLight.RELEASE,
+        }
 
 
 class WXCJKG13LMLightController(LightController):
@@ -430,6 +524,42 @@ class WXCJKG13LMLightController(LightController):
     def get_zha_action(self, data: EventData) -> str:
         command: str = data["command"]
         return command
+
+
+class WXCJKG13LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "button_1_single": Z2MLight.OFF,
+            "button_1_double": Z2MLight.ON_FULL_BRIGHTNESS,
+            # "button_1_triple": "", # Nothing
+            # "button_1_hold": "", # Nothing
+            # "button_1_release": "", # Nothing
+            "button_2_single": Z2MLight.ON,
+            "button_2_double": Z2MLight.ON_FULL_BRIGHTNESS,
+            # "button_2_triple": "", # Nothing
+            # "button_2_hold": "", # Nothing
+            # "button_2_release": "", # Nothing
+            "button_3_single": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "button_3_double": Z2MLight.ON_MIN_BRIGHTNESS,
+            # "button_3_triple": "", # Nothing
+            "button_3_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "button_3_release": Z2MLight.RELEASE,
+            "button_4_single": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "button_4_double": Z2MLight.ON_FULL_BRIGHTNESS,
+            # "button_4_triple": "", # Nothing
+            "button_4_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "button_4_release": Z2MLight.RELEASE,
+            "button_5_single": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "button_5_double": Z2MLight.ON_MIN_COLOR_TEMP,
+            # "button_5_triple": "", # Nothing
+            "button_5_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "button_5_release": Z2MLight.RELEASE,
+            "button_6_single": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "button_6_double": Z2MLight.ON_FULL_COLOR_TEMP,
+            # "button_6_triple": "", # Nothing
+            "button_6_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "button_6_release": Z2MLight.RELEASE,
+        }
 
 
 class WXKG06LMLightController(LightController):

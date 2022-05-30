@@ -1,0 +1,11 @@
+example_app:
+  module: controllerx
+  class: ZS23000278Z2MLightController
+  integration:
+    name: z2m
+    listen_to: mqtt
+  controller: sensor.livingroom_controller_action
+  light: livingroom_lamp
+  merge_mapping:
+    brithgness_from_angle: brightness_from_controller_angle
+    brithgness_from_angle_release: release

@@ -1,0 +1,18 @@
+fired_actions:
+  - brithgness_from_angle
+  - 0.450
+  - brithgness_from_angle_release
+extra: { action_rotation_angle: -42 }
+expected_calls:
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"brightness_move": -70, "transition": 0.5}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"brightness_move": "stop"}'
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"color_temp_move": "stop"}'

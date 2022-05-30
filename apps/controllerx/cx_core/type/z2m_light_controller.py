@@ -1,10 +1,13 @@
 import asyncio
 import json
+from functools import lru_cache
 from typing import Any, Dict, List, Optional, Set, Type
 
 from cx_const import PredefinedActionsMapping, StepperDir, Z2MLight
 from cx_core.controller import action
-from cx_core.stepper import MinMax, Stepper
+from cx_core.integration import EventData
+from cx_core.integration.z2m import Z2MIntegration
+from cx_core.stepper import InvertStepper, MinMax
 from cx_core.type_controller import Entity, TypeController
 
 DEFAULT_CLICK_STEPS = 70
@@ -159,6 +162,13 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
                     StepperDir.DOWN,
                 ),
             ),
+            Z2MLight.HOLD_BRIGHTNESS_TOGGLE: (
+                self.hold,
+                (
+                    Z2MLightController.ATTRIBUTE_BRIGHTNESS,
+                    StepperDir.TOGGLE,
+                ),
+            ),
             Z2MLight.HOLD_COLOR_TEMP_DOWN: (
                 self.hold,
                 (
@@ -166,6 +176,17 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
                     StepperDir.DOWN,
                 ),
             ),
+            Z2MLight.HOLD_COLOR_TEMP_TOGGLE: (
+                self.hold,
+                (
+                    Z2MLightController.ATTRIBUTE_COLOR_TEMP,
+                    StepperDir.TOGGLE,
+                ),
+            ),
+            Z2MLight.XYCOLOR_FROM_CONTROLLER: self.xycolor_from_controller,
+            Z2MLight.COLORTEMP_FROM_CONTROLLER: self.colortemp_from_controller,
+            Z2MLight.BRIGHTNESS_FROM_CONTROLLER_LEVEL: self.brightness_from_controller_level,
+            Z2MLight.BRIGHTNESS_FROM_CONTROLLER_ANGLE: self.brightness_from_controller_angle,
         }
 
     async def _mqtt_call(self, payload: Dict[str, Any]) -> None:
@@ -222,27 +243,28 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
     async def on_min(self, attribute: str) -> None:
         await self._on_min(attribute)
 
+    @lru_cache(maxsize=None)
+    def get_stepper(self, attribute: str, steps: float, *, tag: str) -> InvertStepper:
+        previous_direction = StepperDir.DOWN
+        return InvertStepper(self.MIN_MAX_ATTR[attribute], steps, previous_direction)
+
     async def _change_light_state(
         self,
         *,
         attribute: str,
         direction: str,
-        steps: float,
+        stepper: InvertStepper,
         transition: float,
         use_onoff: bool,
         mode: str,
     ) -> None:
-        attribute = self.get_option(attribute, self.ATTRIBUTES_LIST, "`click` action")
-        direction = self.get_option(
-            direction, [StepperDir.UP, StepperDir.DOWN], "`click` action"
-        )
-
         onoff_cmd = (
             "_onoff" if use_onoff and attribute == self.ATTRIBUTE_BRIGHTNESS else ""
         )
+        stepper_output = stepper.step(stepper.steps, direction)
         await self._mqtt_call(
             {
-                f"{attribute}_{mode}{onoff_cmd}": Stepper.apply_sign(steps, direction),
+                f"{attribute}_{mode}{onoff_cmd}": stepper_output.next_value,
                 "transition": transition,
             }
         )
@@ -256,13 +278,44 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         transition: Optional[float] = None,
         use_onoff: Optional[bool] = None,
     ) -> None:
+        attribute = self.get_option(attribute, self.ATTRIBUTES_LIST, "`click` action")
+        direction = self.get_option(
+            direction, [StepperDir.UP, StepperDir.DOWN], "`click` action"
+        )
+        steps = steps if steps is not None else self.click_steps
+        stepper = self.get_stepper(attribute, steps, tag="click")
         await self._change_light_state(
             attribute=attribute,
             direction=direction,
-            steps=steps if steps is not None else self.click_steps,
+            stepper=stepper,
             transition=transition if transition is not None else self.transition,
             use_onoff=use_onoff if use_onoff is not None else self.use_onoff,
             mode="step",
+        )
+
+    async def _hold(
+        self,
+        attribute: str,
+        direction: str,
+        steps: Optional[float] = None,
+        use_onoff: Optional[bool] = None,
+    ) -> None:
+        attribute = self.get_option(attribute, self.ATTRIBUTES_LIST, "`hold` action")
+        direction = self.get_option(
+            direction,
+            [StepperDir.UP, StepperDir.DOWN, StepperDir.TOGGLE],
+            "`hold` action",
+        )
+        steps = steps if steps is not None else self.hold_steps
+        stepper = self.get_stepper(attribute, steps, tag="hold")
+        direction = stepper.get_direction(steps, direction)
+        await self._change_light_state(
+            attribute=attribute,
+            direction=direction,
+            stepper=stepper,
+            transition=self.transition,
+            use_onoff=use_onoff if use_onoff is not None else self.use_onoff,
+            mode="move",
         )
 
     @action
@@ -273,14 +326,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         steps: Optional[float] = None,
         use_onoff: Optional[bool] = None,
     ) -> None:
-        await self._change_light_state(
-            attribute=attribute,
-            direction=direction,
-            steps=steps if steps is not None else self.click_steps,
-            transition=self.transition,
-            use_onoff=use_onoff if use_onoff is not None else self.use_onoff,
-            mode="move",
-        )
+        await self._hold(attribute, direction, steps, use_onoff)
 
     @action
     async def release(self) -> None:
@@ -290,3 +336,72 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
                 for attribute in self.ATTRIBUTES_LIST
             ]
         )
+
+    @action
+    async def xycolor_from_controller(self, extra: Optional[EventData] = None) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_color" not in extra:
+                self.log(
+                    "`action_color` is not present in the MQTT payload", level="WARNING"
+                )
+                return
+            xy_color = extra["action_color"]
+            await self._on(color={"x": xy_color["x"], "y": xy_color["y"]})
+
+    @action
+    async def colortemp_from_controller(
+        self, extra: Optional[EventData] = None
+    ) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_color_temperature" not in extra:
+                self.log(
+                    "`action_color_temperature` is not present in the MQTT payload",
+                    level="WARNING",
+                )
+                return
+            await self._on(color_temp=extra["action_color_temperature"])
+
+    @action
+    async def brightness_from_controller_level(
+        self, extra: Optional[EventData] = None
+    ) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_level" not in extra:
+                self.log(
+                    "`action_level` is not present in the MQTT payload",
+                    level="WARNING",
+                )
+                return
+            await self._on(brightness=extra["action_level"])
+
+    @action
+    async def brightness_from_controller_angle(
+        self,
+        steps: Optional[float] = None,
+        use_onoff: Optional[bool] = None,
+        extra: Optional[EventData] = None,
+    ) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, Z2MIntegration):
+            if "action_rotation_angle" not in extra:
+                self.log(
+                    "`action_rotation_angle` is not present in the MQTT payload",
+                    level="WARNING",
+                )
+                return
+            angle = extra["action_rotation_angle"]
+            direction = StepperDir.UP if angle > 0 else StepperDir.DOWN
+            await self._hold(
+                self.ATTRIBUTE_BRIGHTNESS, direction, steps=steps, use_onoff=use_onoff
+            )

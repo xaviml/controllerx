@@ -27,3 +27,4 @@ example_app:
       attribute: brightness
       direction: down
       use_onoff: true
+    arrow_right_hold: hold_colortemp_toggle

@@ -92,3 +92,8 @@ class Stepper(abc.ABC):
         None, the loop will stop executing.
         """
         raise NotImplementedError
+
+
+class InvertStepper(Stepper):
+    def step(self, value: Number, direction: str) -> StepperOutput:
+        return StepperOutput(self.apply_sign(value, direction), next_direction=None)

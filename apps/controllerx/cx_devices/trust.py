@@ -1,5 +1,5 @@
-from cx_const import DefaultActionsMapping, Light, MediaPlayer
-from cx_core import LightController, MediaPlayerController
+from cx_const import DefaultActionsMapping, Light, MediaPlayer, Z2MLight
+from cx_core import LightController, MediaPlayerController, Z2MLightController
 
 
 class ZYCT202LightController(LightController):
@@ -14,6 +14,17 @@ class ZYCT202LightController(LightController):
             "down-press": Light.HOLD_BRIGHTNESS_DOWN,
             "off": Light.OFF,
             "stop": Light.RELEASE,
+        }
+
+
+class ZYCT202Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.ON,
+            "up-press": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "down-press": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "off": Z2MLight.OFF,
+            "stop": Z2MLight.RELEASE,
         }
 
 
