@@ -1,7 +1,7 @@
 import asyncio
 import json
 from functools import lru_cache
-from typing import Any, Dict, List, Optional, Set, Type
+from typing import Any, Dict, Optional, Set, Type
 
 from cx_const import PredefinedActionsMapping, StepperDir, Z2MLight
 from cx_core.controller import action
@@ -14,26 +14,8 @@ DEFAULT_CLICK_STEPS = 70
 DEFAULT_HOLD_STEPS = 70
 DEFAULT_TRANSITION = 0.5
 
-Mode = str
-# Once the minimum supported version of Python is 3.8,
-# we can declare the Mode as a Literal
-# ColorMode = Literal["ha", "mqtt"]
 
-
-class Z2MLightEntity(Entity):
-    mode: Mode
-
-    def __init__(
-        self,
-        name: str,
-        entities: Optional[List[str]] = None,
-        color_mode: Mode = "ha",
-    ) -> None:
-        super().__init__(name, entities)
-        self.color_mode = color_mode
-
-
-class Z2MLightController(TypeController[Z2MLightEntity]):
+class Z2MLightController(TypeController[Entity]):
     """
     This is the main class that controls the Zigbee2MQTT lights for different devices.
     Type of actions:
@@ -72,8 +54,8 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
 
         await super().init()
 
-    def _get_entity_type(self) -> Type[Z2MLightEntity]:
-        return Z2MLightEntity
+    def _get_entity_type(self) -> Type[Entity]:
+        return Entity
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
@@ -254,7 +236,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         attribute: str,
         direction: str,
         stepper: InvertStepper,
-        transition: float,
+        transition: Optional[float],
         use_onoff: bool,
         mode: str,
     ) -> None:
@@ -262,10 +244,13 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
             "_onoff" if use_onoff and attribute == self.ATTRIBUTE_BRIGHTNESS else ""
         )
         stepper_output = stepper.step(stepper.steps, direction)
+        kwargs = {}
+        if transition is not None:
+            kwargs["transition"] = transition
         await self._mqtt_call(
             {
                 f"{attribute}_{mode}{onoff_cmd}": stepper_output.next_value,
-                "transition": transition,
+                **kwargs,
             }
         )
 
@@ -313,7 +298,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
             attribute=attribute,
             direction=direction,
             stepper=stepper,
-            transition=self.transition,
+            transition=None,
             use_onoff=use_onoff if use_onoff is not None else self.use_onoff,
             mode="move",
         )

@@ -3,7 +3,7 @@ expected_calls:
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
-      payload: '{"brightness_move_onoff": -70, "transition": 0.5}'
+      payload: '{"brightness_move_onoff": -70}'
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set

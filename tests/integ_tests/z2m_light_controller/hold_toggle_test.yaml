@@ -10,7 +10,7 @@ expected_calls:
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
-      payload: '{"color_temp_move": 70, "transition": 0.5}'
+      payload: '{"color_temp_move": 70}'
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
@@ -22,7 +22,7 @@ expected_calls:
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
-      payload: '{"color_temp_move": -70, "transition": 0.5}'
+      payload: '{"color_temp_move": -70}'
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
