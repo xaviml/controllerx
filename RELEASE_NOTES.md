@@ -4,7 +4,6 @@
 
 _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
-PRERELEASE_NOTE
 
 ## :pencil2: Features
 
