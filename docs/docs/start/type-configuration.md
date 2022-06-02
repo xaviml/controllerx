@@ -86,15 +86,24 @@ This controller (`Z2MLightController`) allows the devices to control Zigbe2MQTT 
 - Manual increase/decrease of brightness and color
 - Smooth increase/decrease (holding button) of brightness and color
 
-| key           | type   | value      | description                                                                                            |
-| ------------- | ------ | ---------- | ------------------------------------------------------------------------------------------------------ |
-| `light`\*     | string | `my_light` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                       |
-| `click_steps` | float  | 70         | Number of steps that are passed to Zigbee2MQTT for click actions.                                      |
-| `hold_steps`  | float  | 70         | Number of steps that are passed to Zigbee2MQTT for hold actions.                                       |
-| `transition`  | float  | 0.5        | Transition sent to Zigbee2MQTT when changing brightness or color temp.                                 |
-| `use_onoff`   | bool   | `false`    | This allows click and hold actions to turn on/off the light when off or minimum brightness is reached. |
+| key           | type                 | value      | description                                                                                            |
+| ------------- | -------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| `light`\*     | string \| dictionary | `my_light` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                       |
+| `click_steps` | float                | 70         | Number of steps that are passed to Zigbee2MQTT for click actions.                                      |
+| `hold_steps`  | float                | 70         | Number of steps that are passed to Zigbee2MQTT for hold actions.                                       |
+| `transition`  | float                | 0.5        | Transition sent to Zigbee2MQTT when changing brightness or color temp.                                 |
+| `use_onoff`   | bool                 | `false`    | This allows click and hold actions to turn on/off the light when off or minimum brightness is reached. |
 
 _\* Required fields_
+
+_Light dictionary for the `light` attribute:_
+
+| key      | type   | value           | description                                                                                                                                                                                                                                                                                                                       |
+| -------- | ------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`\* | string | `light.kitchen` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                                                                                                                                                                                                                                                  |
+| `mode`   | string | `ha`            | This attribute can take `ha`, `mqtt`. On the one hand, `ha` will send the mqtt messages through Home Assistant with [`mqtt.publish` service](https://www.home-assistant.io/docs/mqtt/service/#service-mqttpublish). On the other hand, `mqtt` will send the MQTT messages through MQTT plugin from AppDaemon (hence skipping HA). |
+
+_\* Required fields_\*\*\*\*
 
 ## Media player controller
 

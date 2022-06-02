@@ -30,10 +30,10 @@ DEFAULT_ADD_TRANSITION = True
 DEFAULT_TRANSITION_TURN_TOGGLE = False
 DEFAULT_HOLD_TOGGLE_DIRECTION_INIT = "up"
 
-ColorMode = str
 # Once the minimum supported version of Python is 3.8,
 # we can declare the ColorMode as a Literal
 # ColorMode = Literal["auto", "xy_color", "color_temp"]
+ColorMode = str
 
 COLOR_MODES = {"hs", "xy", "rgb", "rgbw", "rgbww"}
 STEPPER_MODES: Dict[str, Type[Stepper]] = {

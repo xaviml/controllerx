@@ -23,6 +23,7 @@ from typing import (
 
 import appdaemon.utils as utils
 import cx_version
+from appdaemon.adapi import ADAPI
 from appdaemon.plugins.hass.hassapi import Hass
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import (
@@ -193,9 +194,8 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
             if key in allowed_actions
         }
 
-    def get_option(
-        self, value: str, options: List[str], ctx: Optional[str] = None
-    ) -> str:
+    @staticmethod
+    def get_option(value: str, options: List[str], ctx: Optional[str] = None) -> str:
         if value in options:
             return value
         else:
@@ -309,7 +309,10 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
 
     async def _render_template(self, template: str) -> Any:
         result = await self.call_service(
-            "template/render", template=template, return_result=True
+            "template/render",
+            render_template=False,
+            template=template,
+            return_result=True,
         )
         if result is None:
             raise ValueError(f"Template {template} returned None")
@@ -341,17 +344,19 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
             new_attributes[key] = new_value
         return new_attributes
 
-    async def call_service(self, service: str, **attributes: Any) -> Optional[Any]:
+    async def call_service(
+        self, service: str, render_template: bool = True, **attributes: Any
+    ) -> Optional[Any]:
         service = service.replace(".", "/")
         to_log = ["\n", f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m"]
-        if service != "template/render":
+        if service != "template/render" or render_template:
             attributes = await self.render_attributes(attributes)
         for attribute, value in attributes.items():
             if isinstance(value, float):
                 value = f"{value:.2f}"
             to_log.append(f"  - {attribute}: {value}")
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
-        return await Hass.call_service(self, service, **attributes)
+        return await ADAPI.call_service(self, service, **attributes)
 
     @utils.sync_wrapper  # type: ignore[misc]
     async def get_state(

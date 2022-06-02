@@ -1,0 +1,8 @@
+example_app:
+  module: controllerx
+  class: E1810Z2MLightController
+  integration: z2m
+  controller: sensor.livingroom_controller_action
+  light:
+    name: livingroom_lamp
+    mode: mqtt

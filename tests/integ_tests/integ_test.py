@@ -16,7 +16,7 @@ from typing import (
 
 import pytest
 import yaml
-from appdaemon.plugins.hass.hassapi import Hass
+from appdaemon.adapi import ADAPI
 from cx_core.type_controller import TypeController
 from pytest_mock.plugin import MockerFixture
 
@@ -114,7 +114,7 @@ async def test_integ_configs(
     if isinstance(controller, TypeController):
         fake_get_state = get_fake_get_state(entity_state, entity_state_attributes)
         mocker.patch.object(controller, "get_state", fake_get_state)
-    call_service_stub = mocker.patch.object(Hass, "call_service")
+    call_service_stub = mocker.patch.object(ADAPI, "call_service")
 
     await controller.initialize()
     for idx, action in enumerate(fired_actions):

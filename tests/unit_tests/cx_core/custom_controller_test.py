@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Tuple, Type
 
 import pytest
-from appdaemon.plugins.hass.hassapi import Hass
+from appdaemon.adapi import ADAPI
 from cx_const import PredefinedActionsMapping
 from cx_core import (
     Controller,
@@ -155,7 +155,7 @@ async def test_call_service_controller(
         "mapping": {"action": services},
         "action_delta": 0,
     }
-    call_service_stub = mocker.patch.object(Hass, "call_service")
+    call_service_stub = mocker.patch.object(ADAPI, "call_service")
 
     # SUT
     await sut.initialize()

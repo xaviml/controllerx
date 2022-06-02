@@ -1,10 +1,10 @@
 import asyncio
 import json
 from functools import lru_cache
-from typing import Any, Dict, Optional, Set, Type
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Type
 
 from cx_const import PredefinedActionsMapping, StepperDir, Z2MLight
-from cx_core.controller import action
+from cx_core.controller import Controller, action
 from cx_core.integration import EventData
 from cx_core.integration.z2m import Z2MIntegration
 from cx_core.stepper import InvertStepper, MinMax
@@ -14,8 +14,27 @@ DEFAULT_CLICK_STEPS = 70
 DEFAULT_HOLD_STEPS = 70
 DEFAULT_TRANSITION = 0.5
 
+# Once the minimum supported version of Python is 3.8,
+# we can declare the Mode as a Literal
+# Mode = Literal["ha", "mqtt"]
+Mode = str
 
-class Z2MLightController(TypeController[Entity]):
+
+class Z2MLightEntity(Entity):
+    mode: Mode
+
+    def __init__(
+        self,
+        name: str,
+        entities: Optional[List[str]] = None,
+        mode: Mode = "ha",
+    ) -> None:
+        super().__init__(name, entities)
+        mode = Controller.get_option(mode, ["ha", "mqtt"])
+        self.mode = mode
+
+
+class Z2MLightController(TypeController[Z2MLightEntity]):
     """
     This is the main class that controls the Zigbee2MQTT lights for different devices.
     Type of actions:
@@ -44,7 +63,7 @@ class Z2MLightController(TypeController[Entity]):
     transition: float
     use_onoff: bool
 
-    _supported_color_modes: Optional[Set[str]]
+    _mqtt_fn: Dict[Mode, Callable[[str, str], Awaitable[None]]]
 
     async def init(self) -> None:
         self.click_steps = self.args.get("click_steps", DEFAULT_CLICK_STEPS)
@@ -52,10 +71,15 @@ class Z2MLightController(TypeController[Entity]):
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         self.use_onoff = self.args.get("use_onoff", False)
 
+        self._mqtt_fn = {
+            "ha": self._ha_mqtt_call,
+            "mqtt": self._mqtt_plugin_call,
+        }
+
         await super().init()
 
-    def _get_entity_type(self) -> Type[Entity]:
-        return Entity
+    def _get_entity_type(self) -> Type[Z2MLightEntity]:
+        return Z2MLightEntity
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {
@@ -171,11 +195,17 @@ class Z2MLightController(TypeController[Entity]):
             Z2MLight.BRIGHTNESS_FROM_CONTROLLER_ANGLE: self.brightness_from_controller_angle,
         }
 
-    async def _mqtt_call(self, payload: Dict[str, Any]) -> None:
+    async def _ha_mqtt_call(self, topic: str, payload: str) -> None:
+        await self.call_service("mqtt.publish", topic=topic, payload=payload)
+
+    async def _mqtt_plugin_call(self, topic: str, payload: str) -> None:
         await self.call_service(
-            "mqtt.publish",
-            topic=f"zigbee2mqtt/{self.entity.name}/set",
-            payload=json.dumps(payload),
+            "mqtt.publish", topic=topic, payload=payload, namespace="mqtt"
+        )
+
+    async def _mqtt_call(self, payload: Dict[str, Any]) -> None:
+        await self._mqtt_fn[self.entity.mode](
+            f"zigbee2mqtt/{self.entity.name}/set", json.dumps(payload)
         )
 
     async def _on(self, **attributes: Any) -> None:
