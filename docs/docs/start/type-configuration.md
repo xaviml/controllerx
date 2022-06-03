@@ -86,6 +86,8 @@ This controller (`Z2MLightController`) allows the devices to control Zigbe2MQTT 
 - Manual increase/decrease of brightness and color
 - Smooth increase/decrease (holding button) of brightness and color
 
+You can read more about this specific controller [here](/controllerx/others/zigbee2mqtt-light-controller).
+
 | key           | type                 | value      | description                                                                                            |
 | ------------- | -------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
 | `light`\*     | string \| dictionary | `my_light` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                       |
@@ -103,7 +105,7 @@ _Light dictionary for the `light` attribute:_
 | `name`\* | string | `light.kitchen` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                                                                                                                                                                                                                                                  |
 | `mode`   | string | `ha`            | This attribute can take `ha`, `mqtt`. On the one hand, `ha` will send the mqtt messages through Home Assistant with [`mqtt.publish` service](https://www.home-assistant.io/docs/mqtt/service/#service-mqttpublish). On the other hand, `mqtt` will send the MQTT messages through MQTT plugin from AppDaemon (hence skipping HA). |
 
-_\* Required fields_\*\*\*\*
+_\* Required fields_
 
 ## Media player controller
 

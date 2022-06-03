@@ -349,7 +349,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
     ) -> Optional[Any]:
         service = service.replace(".", "/")
         to_log = ["\n", f"🤖 Service: \033[1m{service.replace('/', '.')}\033[0m"]
-        if service != "template/render" or render_template:
+        if service != "template/render" and render_template:
             attributes = await self.render_attributes(attributes)
         for attribute, value in attributes.items():
             if isinstance(value, float):
