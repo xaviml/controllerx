@@ -4,4 +4,4 @@ livingroom_controller:
   controller: sensor.livingroom_controller_action
   integration: z2m
   light: light.livingroom
-  release_delay: true
+  release_delay: 0.01

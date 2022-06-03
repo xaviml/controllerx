@@ -4,7 +4,7 @@ from typing import Any
 from cx_core import Controller, action
 
 DEFAULT_DELAY = 350  # In milliseconds
-RELEASE_DELAY = 0.1  # In seconds
+DEFAULT_RELEASE_DELAY = 0  # In seconds
 
 
 class ReleaseHoldController(Controller, abc.ABC):
@@ -14,7 +14,7 @@ class ReleaseHoldController(Controller, abc.ABC):
     delay: float
     max_loops: int
     hold_release_toggle: bool
-    release_delay: bool
+    release_delay: int
 
     async def init(self) -> None:
         self.on_hold = False
@@ -22,14 +22,14 @@ class ReleaseHoldController(Controller, abc.ABC):
         self.max_loops = self.args.get(
             "max_loops", ReleaseHoldController.DEFAULT_MAX_LOOPS
         )
-        self.hold_release_toggle: bool = self.args.get("hold_release_toggle", False)
-        self.release_delay: bool = self.args.get("release_delay", False)
+        self.hold_release_toggle = self.args.get("hold_release_toggle", False)
+        self.release_delay = self.args.get("release_delay", DEFAULT_RELEASE_DELAY)
         await super().init()
 
     @action
     async def release(self) -> None:
-        if self.release_delay:
-            await self.sleep(RELEASE_DELAY)
+        if self.release_delay > 0:
+            await self.sleep(self.release_delay)
         self.on_hold = False
 
     async def hold(self, *args: Any) -> None:
