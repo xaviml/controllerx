@@ -6,18 +6,18 @@ from cx_core.integration import EventData
 class HueDimmerController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "on-press": Light.ON,
-            "on-hold": Light.HOLD_COLOR_UP,
-            "on-hold-release": Light.RELEASE,
-            "up-press": Light.CLICK_BRIGHTNESS_UP,
-            "up-hold": Light.HOLD_BRIGHTNESS_UP,
-            "up-hold-release": Light.RELEASE,
-            "down-press": Light.CLICK_BRIGHTNESS_DOWN,
-            "down-hold": Light.HOLD_BRIGHTNESS_DOWN,
-            "down-hold-release": Light.RELEASE,
-            "off-press": Light.OFF,
-            "off-hold": Light.HOLD_COLOR_DOWN,
-            "off-hold-release": Light.RELEASE,
+            "on_press": Light.ON,
+            "on_hold": Light.HOLD_COLOR_UP,
+            "on_hold_release": Light.RELEASE,
+            "up_press": Light.CLICK_BRIGHTNESS_UP,
+            "up_hold": Light.HOLD_BRIGHTNESS_UP,
+            "up_hold_release": Light.RELEASE,
+            "down_press": Light.CLICK_BRIGHTNESS_DOWN,
+            "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "down_hold_release": Light.RELEASE,
+            "off_press": Light.OFF,
+            "off_hold": Light.HOLD_COLOR_DOWN,
+            "off_hold_release": Light.RELEASE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:

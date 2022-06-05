@@ -17,12 +17,11 @@ env = Environment(
 
 template = env.get_template("device_template.md")
 
-for device, controllers in devices.items():
+for device, controller_docs in devices.items():
     with mkdocs_gen_files.open(f"controllers/{device}.md", "w") as f:
         print(
             template.render(
-                device=device,
-                controllers=controllers,
+                controller_docs=controller_docs,
                 INTEGRATIONS_TITLES=INTEGRATIONS_TITLES,
             ),
             file=f,
