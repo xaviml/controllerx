@@ -176,6 +176,16 @@ class HueSmartButtonLightController(LightController):
         }
 
 
+class HueSmartButtonZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.TOGGLE,
+            "off": Z2MLight.TOGGLE,
+            "hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Z2MLight.RELEASE,
+        }
+
+
 class Philips929003017102LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
