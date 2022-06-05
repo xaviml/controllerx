@@ -60,18 +60,18 @@ class HueDimmerController(LightController):
 class HueDimmerZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "on-press": Z2MLight.ON,
-            "on-hold": Z2MLight.HOLD_COLOR_TEMP_UP,
-            "on-hold-release": Z2MLight.RELEASE,
-            "up-press": Z2MLight.CLICK_BRIGHTNESS_UP,
-            "up-hold": Z2MLight.HOLD_BRIGHTNESS_UP,
-            "up-hold-release": Z2MLight.RELEASE,
-            "down-press": Z2MLight.CLICK_BRIGHTNESS_DOWN,
-            "down-hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
-            "down-hold-release": Z2MLight.RELEASE,
-            "off-press": Z2MLight.OFF,
-            "off-hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
-            "off-hold-release": Z2MLight.RELEASE,
+            "on_press": Z2MLight.ON,
+            "on_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "on_hold_release": Z2MLight.RELEASE,
+            "up_press": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "up_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "up_hold_release": Z2MLight.RELEASE,
+            "down_press": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "down_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "down_hold_release": Z2MLight.RELEASE,
+            "off_press": Z2MLight.OFF,
+            "off_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "off_hold_release": Z2MLight.RELEASE,
         }
 
 
