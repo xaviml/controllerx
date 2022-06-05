@@ -26,8 +26,6 @@ PRERELEASE_NOTE
 ## :wrench: Refactor
 -->
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://xaviml.github.io/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
+- [XYZ](https://BASE_URL/controllerx/controllers/HueSmartButton) - add Z2M support. [ #498 ]
