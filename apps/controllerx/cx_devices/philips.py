@@ -6,16 +6,16 @@ from cx_core.integration import EventData
 class HueDimmerController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "on_press": Light.ON,
+            "on_press_release": Light.ON,
             "on_hold": Light.HOLD_COLOR_UP,
             "on_hold_release": Light.RELEASE,
-            "up_press": Light.CLICK_BRIGHTNESS_UP,
+            "up_press_release": Light.CLICK_BRIGHTNESS_UP,
             "up_hold": Light.HOLD_BRIGHTNESS_UP,
             "up_hold_release": Light.RELEASE,
-            "down_press": Light.CLICK_BRIGHTNESS_DOWN,
+            "down_press_release": Light.CLICK_BRIGHTNESS_DOWN,
             "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
             "down_hold_release": Light.RELEASE,
-            "off_press": Light.OFF,
+            "off_press_release": Light.OFF,
             "off_hold": Light.HOLD_COLOR_DOWN,
             "off_hold_release": Light.RELEASE,
         }
@@ -60,16 +60,16 @@ class HueDimmerController(LightController):
 class HueDimmerZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "on_press": Z2MLight.ON,
+            "on_press_release": Z2MLight.ON,
             "on_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
             "on_hold_release": Z2MLight.RELEASE,
-            "up_press": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "up_press_release": Z2MLight.CLICK_BRIGHTNESS_UP,
             "up_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
             "up_hold_release": Z2MLight.RELEASE,
-            "down_press": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "down_press_release": Z2MLight.CLICK_BRIGHTNESS_DOWN,
             "down_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
             "down_hold_release": Z2MLight.RELEASE,
-            "off_press": Z2MLight.OFF,
+            "off_press_release": Z2MLight.OFF,
             "off_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
             "off_hold_release": Z2MLight.RELEASE,
         }
