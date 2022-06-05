@@ -123,6 +123,14 @@ class PTM215XLightController(LightController):
 
 
 class HueSmartButtonLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.TOGGLE,
+            "off": Light.TOGGLE,
+            "hold": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "release": Light.RELEASE,
+        }
+
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             # 1000: "", # Initial press
