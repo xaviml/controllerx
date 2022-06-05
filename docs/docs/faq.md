@@ -70,4 +70,4 @@ example_app:
   media_player: media_player.my_media_player
 ```
 
-Notice how we added the `listen_to` attribute and change the `controller` to the Zigbee2MQTT friendly name. Then, you will also need to add the MQTT broker and the credentials in the `appdaemon.yaml` as described in the [MQTT section](/controllerx/start/integrations#mqtt) from the integrations page. Then you can just restart the AppDaemon addon/server.
+Notice how we added the `listen_to` attribute and change the `controller` to the Zigbee2MQTT friendly name. Finally, you will also need to have the [MQTT plugin enabled](/controllerx/others/enable-mqtt-plugin).

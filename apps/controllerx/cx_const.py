@@ -73,6 +73,35 @@ class Light:
     BRIGHTNESS_FROM_CONTROLLER_ANGLE = "brightness_from_controller_angle"
 
 
+class Z2MLight:
+    ON = "on"
+    OFF = "off"
+    TOGGLE = "toggle"
+    RELEASE = "release"
+    ON_FULL_BRIGHTNESS = "on_full_brightness"
+    ON_FULL_COLOR_TEMP = "on_full_color_temp"
+    ON_MIN_BRIGHTNESS = "on_min_brightness"
+    ON_MIN_COLOR_TEMP = "on_min_color_temp"
+    SET_HALF_BRIGHTNESS = "set_half_brightness"
+    SET_HALF_COLOR_TEMP = "set_half_color_temp"
+    CLICK = "click"
+    CLICK_BRIGHTNESS_UP = "click_brightness_up"
+    CLICK_BRIGHTNESS_DOWN = "click_brightness_down"
+    CLICK_COLOR_TEMP_UP = "click_colortemp_up"
+    CLICK_COLOR_TEMP_DOWN = "click_colortemp_down"
+    HOLD = "hold"
+    HOLD_BRIGHTNESS_UP = "hold_brightness_up"
+    HOLD_BRIGHTNESS_DOWN = "hold_brightness_down"
+    HOLD_BRIGHTNESS_TOGGLE = "hold_brightness_toggle"
+    HOLD_COLOR_TEMP_UP = "hold_colortemp_up"
+    HOLD_COLOR_TEMP_DOWN = "hold_colortemp_down"
+    HOLD_COLOR_TEMP_TOGGLE = "hold_colortemp_toggle"
+    XYCOLOR_FROM_CONTROLLER = "xycolor_from_controller"
+    COLORTEMP_FROM_CONTROLLER = "colortemp_from_controller"
+    BRIGHTNESS_FROM_CONTROLLER_LEVEL = "brightness_from_controller_level"
+    BRIGHTNESS_FROM_CONTROLLER_ANGLE = "brightness_from_controller_angle"
+
+
 class MediaPlayer:
     HOLD_VOLUME_DOWN = "hold_volume_down"
     HOLD_VOLUME_UP = "hold_volume_up"

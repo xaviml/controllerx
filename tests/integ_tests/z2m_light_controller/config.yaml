@@ -1,0 +1,30 @@
+example_app:
+  module: controllerx
+  class: E1810Z2MLightController
+  integration: z2m
+  controller: sensor.livingroom_controller_action
+  light: livingroom_lamp
+  merge_mapping:
+    toggle$2: "off"
+    toggle$3: set_half_brightness
+    arrow_right_click$2: on_full_color_temp
+    brightness_down_click$2: on_min_brightness
+    arrow_left_click$2:
+      action: click
+      attribute: brightness
+      direction: up
+      steps: 100
+      use_onoff: true
+    brightness_up_click$2:
+      action: click
+      attribute: color_temp
+      direction: down
+      steps: 50
+      use_onoff: true
+      transition: 3
+    brightness_down_hold:
+      action: hold
+      attribute: brightness
+      direction: down
+      use_onoff: true
+    arrow_right_hold: hold_colortemp_toggle

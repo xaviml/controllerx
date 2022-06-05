@@ -1,5 +1,5 @@
-from cx_const import DefaultActionsMapping, Light
-from cx_core import LightController
+from cx_const import DefaultActionsMapping, Light, Z2MLight
+from cx_core import LightController, Z2MLightController
 from cx_core.controller import action
 from cx_core.integration import EventData
 from cx_core.integration.zha import ZHAIntegration
@@ -64,6 +64,25 @@ class ZB3009LightController(LightController):
             "color_temperature_move_up": Light.CLICK_COLOR_TEMP_UP,
             "color_temperature_move": Light.COLORTEMP_FROM_CONTROLLER,
             "color_move": Light.XYCOLOR_FROM_CONTROLLER,
+            # "hue_move": "",  # Play/pause button
+            # "recall_1": "",  # Scene 1
+            # "recall_3": "",  # Scene 2
+            # "recall_2": "",  # Scene 3
+        }
+
+
+class ZB3009Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.TOGGLE,
+            "off": Z2MLight.TOGGLE,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Z2MLight.RELEASE,
+            "color_temperature_move_down": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "color_temperature_move_up": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "color_temperature_move": Z2MLight.COLORTEMP_FROM_CONTROLLER,
+            "color_move": Z2MLight.XYCOLOR_FROM_CONTROLLER,
             # "hue_move": "",  # Play/pause button
             # "recall_1": "",  # Scene 1
             # "recall_3": "",  # Scene 2

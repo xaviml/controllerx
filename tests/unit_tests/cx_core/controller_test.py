@@ -1,8 +1,8 @@
 from collections import defaultdict
 from typing import Any, Dict, List, Optional, Set, Union
 
-import appdaemon.plugins.hass.hassapi as hass
 import pytest
+from appdaemon.adapi import ADAPI
 from cx_const import ActionEvent
 from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping
@@ -480,7 +480,7 @@ async def test_call_action(
 async def test_call_service(
     sut: Controller, mocker: MockerFixture, service: str, attributes: Dict[str, Any]
 ) -> None:
-    call_service_stub = mocker.patch.object(hass.Hass, "call_service")
+    call_service_stub = mocker.patch.object(ADAPI, "call_service")
     await sut.call_service(service, **attributes)
     call_service_stub.assert_called_once_with(sut, service, **attributes)
 

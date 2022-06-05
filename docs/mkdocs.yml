@@ -35,6 +35,8 @@ nav:
       - others/extract-controller-id.md
       - others/run-appdaemon.md
       - others/update.md
+      - others/zigbee2mqtt-light-controller.md
+      - others/enable-mqtt-plugin.md
   - faq.md
 
 theme:
@@ -48,6 +50,7 @@ theme:
     - search.suggest
     - search.highlight
     - search.share
+    - content.code.annotate
   icon:
     repo: material/github
   logo: assets/logo_white.png

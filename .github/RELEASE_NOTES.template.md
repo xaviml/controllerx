@@ -4,7 +4,6 @@
 
 _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
-PRERELEASE_NOTE
 
 <!--
 ## :pencil2: Features
@@ -29,5 +28,5 @@ PRERELEASE_NOTE
 <!--
 ## :video_game: New devices
 
-- [XYZ](https://xaviml.github.io/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
+- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->

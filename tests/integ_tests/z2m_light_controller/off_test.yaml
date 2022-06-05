@@ -1,0 +1,6 @@
+fired_actions: [toggle, 0.01, toggle]
+expected_calls:
+  - service: mqtt/publish
+    data:
+      topic: zigbee2mqtt/livingroom_lamp/set
+      payload: '{"state": "OFF"}'

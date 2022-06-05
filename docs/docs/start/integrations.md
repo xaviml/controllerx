@@ -34,7 +34,7 @@ livingroom_controller:
 
 Three things to clarify when using the `z2m` integration listening to MQTT:
 
-- `appdaemon.yaml` needs to be changed by adding the MQTT plugin (see `MQTT` section below).
+- `appdaemon.yaml` needs to be changed by adding the MQTT plugin (see [here](/controllerx/others/enable-mqtt-plugin))
 - The Zigbee2MQTT friendly name from the z2m needs to be specified in the `controller` attribute.
 - `action_key` is the key inside the topic payload that contains the fired action from the controller. It is normally `action` or `click`. By default will be `action`.
 - `action_group` is a list of allowed action groups for the controller configuration. Read more about it [here](https://github.com/xaviml/controllerx/pull/150).
@@ -116,34 +116,7 @@ This example will turn on the light when the following payload is shown for one 
 }
 ```
 
-By default, mqtt will read non-JSON values. Last but not least, MQTT needs to be configured on `appdaemon.yaml` by adding the `MQTT` plugin, apart from the `HASS` plugin. The whole file should look like the following:
-
-```yaml
----
-secrets: /config/secrets.yaml
-appdaemon:
-  latitude: X.XXXXXXX
-  longitude: X.XXXXXXX
-  elevation: XXXX
-  time_zone: XXXXXXXX
-  # You can add `missing_app_warnings` if you don't want any
-  # warning spam from ControllerX when starting AppDaemon
-  missing_app_warnings: 0
-  plugins:
-    HASS:
-      type: hass
-    MQTT:
-      type: mqtt
-      namespace: mqtt # This is important
-      client_host: <Host without indicating the port (e.g. 192.168.1.10)>
-      client_user: XXXXX
-      client_password: XXXXX
-http:
-  url: http://127.0.0.1:5050
-admin:
-api:
-hadashboard:
-```
+By default, mqtt will read non-JSON values. Last but not least, the [MQTT plugin needs to be enabled](/controllerx/others/enable-mqtt-plugin).
 
 #### State
 

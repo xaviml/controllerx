@@ -66,7 +66,7 @@ Default mapping:
         name: {{ integration["name"] }}
       {% for attr_key, attr_value in integration["attrs"].items() %}  {{ attr_key }}: {{ attr_value }}{% endfor %}{% endif %}
       controller: {{ integration["controller"] }}
-      {{ controller.domain }}: {{ controller.domain }}.my_entity_id
+      {{ controller.entity_arg }}: {{ controller.entity_name }}
     ```
 
 {% endfor %}

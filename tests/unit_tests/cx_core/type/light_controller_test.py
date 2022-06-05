@@ -234,7 +234,7 @@ def test_get_stepper(
     error_expected: bool,
 ) -> None:
     with wrap_execution(error_expected=error_expected, exception=ValueError):
-        output_stepper = sut.get_stepper(attribute, 10, mode)
+        output_stepper = sut.get_stepper(attribute, 10, mode, tag="my_tag")
 
         assert isinstance(output_stepper, expected_stepper)
         if attribute != LightController.ATTRIBUTE_XY_COLOR:

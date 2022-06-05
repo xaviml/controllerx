@@ -137,9 +137,9 @@ jobs:
           filename: ../../controllerx.zip
           directory: apps/controllerx
       - run: sed -i 's/VERSION_TAG/${{ github.ref_name }}/g' RELEASE_NOTES.md
-      - run: "sed -i 's/PRERELEASE_NOTE/_Note: Some links might not work or might be not updated due to being a pre-release, and documentation is not yet available_/g' RELEASE_NOTES.md"
+      - run: "sed -i 's/BASE_URL/controllerx.netlify.app/g' RELEASE_NOTES.md"
         if: contains(github.ref_name, 'b')
-      - run: sed -i 's/PRERELEASE_NOTE//g' RELEASE_NOTES.md
+      - run: sed -i 's/BASE_URL/xaviml.github.io/g' RELEASE_NOTES.md
         if: "!contains(github.ref_name, 'b')"
       - uses: ncipollo/release-action@v1
         with:

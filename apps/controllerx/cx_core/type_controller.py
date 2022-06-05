@@ -43,7 +43,7 @@ class Entity:
 
 class TypeController(Controller, abc.ABC, Generic[EntityVar]):
 
-    domains: List[str]
+    domains: List[str] = []
     entity_arg: str
     entity: EntityVar
     update_supported_features: bool
@@ -97,12 +97,14 @@ class TypeController(Controller, abc.ABC, Generic[EntityVar]):
             raise ValueError(
                 f"Type {type(entity)} is not supported for `{self.entity_arg}` attribute"
             )
-        entities = await self._get_entities(entity_name)
+        entities = await self._get_entities(entity_name) if self.domains else None
         return self._get_entity_type().instantiate(
             name=entity_name, entities=entities, **entity_args
         )
 
     def _check_domain(self, entity: Entity) -> None:
+        if not self.domains:
+            return
         if self.contains_templating(entity.name):
             return
         same_domain = all(

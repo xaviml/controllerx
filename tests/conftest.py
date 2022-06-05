@@ -5,6 +5,7 @@ from typing import Any, Callable
 import appdaemon.plugins.hass.hassapi as hass
 import appdaemon.plugins.mqtt.mqttapi as mqtt
 import pytest
+from appdaemon.adapi import ADAPI
 from cx_core import Controller
 from pytest import MonkeyPatch
 
@@ -37,7 +38,7 @@ def hass_mock(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr(mqtt.Mqtt, "listen_event", fake_fn(async_=True))
     monkeypatch.setattr(hass.Hass, "listen_state", fake_fn(async_=True))
     monkeypatch.setattr(hass.Hass, "log", fake_fn())
-    monkeypatch.setattr(hass.Hass, "call_service", fake_fn(async_=True))
+    monkeypatch.setattr(ADAPI, "call_service", fake_fn(async_=True))
     monkeypatch.setattr(hass.Hass, "get_ad_version", fake_fn(to_return="4.0.0"))
     monkeypatch.setattr(hass.Hass, "run_in", fake_run_in)
     monkeypatch.setattr(hass.Hass, "cancel_timer", fake_cancel_timer)

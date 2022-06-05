@@ -5,12 +5,14 @@ from cx_const import (
     MediaPlayer,
     PredefinedActionsMapping,
     Switch,
+    Z2MLight,
 )
 from cx_core import (
     CoverController,
     LightController,
     MediaPlayerController,
     SwitchController,
+    Z2MLightController,
     action,
 )
 from cx_core.integration import EventData
@@ -76,6 +78,26 @@ class E1810Controller(LightController):
             "hold_3328_0": Light.HOLD_COLOR_UP,
             "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
+        }
+
+
+class E1810Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "toggle": Z2MLight.TOGGLE,
+            "toggle_hold": Z2MLight.ON_FULL_BRIGHTNESS,
+            "brightness_up_click": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "brightness_down_click": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "arrow_left_click": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "arrow_right_click": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "brightness_up_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_up_release": Z2MLight.RELEASE,
+            "brightness_down_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_down_release": Z2MLight.RELEASE,
+            "arrow_left_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "arrow_left_release": Z2MLight.RELEASE,
+            "arrow_right_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "arrow_right_release": Z2MLight.RELEASE,
         }
 
 
@@ -166,6 +188,17 @@ class E1743Controller(LightController):
             "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
             "stop": Light.RELEASE,
             "stop_with_on_off": Light.RELEASE,
+        }
+
+
+class E1743Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.ON,
+            "off": Z2MLight.OFF,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Z2MLight.RELEASE,
         }
 
 
@@ -399,6 +432,18 @@ class E1744LightController(LightController):
         return 500
 
 
+class E1744Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_stop": Z2MLight.RELEASE,
+            "toggle": Z2MLight.TOGGLE,
+            "brightness_step_up": Z2MLight.ON_FULL_BRIGHTNESS,
+            "brightness_step_down": Z2MLight.ON_MIN_BRIGHTNESS,
+        }
+
+
 class E1744MediaPlayerController(MediaPlayerController):
     # Different states reported from the controller:
     # brightness_move_down, brightness_move_up, brightness_stop,
@@ -455,6 +500,11 @@ class E1766LightController(LightController):
             "up_open": Light.ON,
             "down_close": Light.OFF,
         }
+
+
+class E1766Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {"open": Z2MLight.ON, "close": Z2MLight.OFF}
 
 
 class E1766SwitchController(SwitchController):
@@ -519,6 +569,15 @@ class E1812LightController(LightController):
         return command
 
 
+class E1812Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.TOGGLE,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
+            "brightness_stop": Z2MLight.RELEASE,
+        }
+
+
 class E1812SwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {"on": Switch.TOGGLE}
@@ -578,6 +637,23 @@ class W2049LightController(LightController):
             "hold_3328_0": Light.HOLD_COLOR_UP,
             "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
+        }
+
+
+class W2049Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.ON,
+            "off": Z2MLight.OFF,
+            "arrow_left_click": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "arrow_right_click": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_stop": Z2MLight.RELEASE,
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "arrow_left_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "arrow_left_release": Z2MLight.RELEASE,
+            "arrow_right_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "arrow_right_release": Z2MLight.RELEASE,
         }
 
 

@@ -1,5 +1,5 @@
-from cx_const import DefaultActionsMapping, Light
-from cx_core import LightController
+from cx_const import DefaultActionsMapping, Light, Z2MLight
+from cx_core import LightController, Z2MLightController
 from cx_core.controller import Controller
 from cx_core.integration import EventData
 
@@ -46,6 +46,28 @@ class MLI404011LightController(LightController):
         }
 
 
+class MLI404011Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.TOGGLE,
+            "off": Z2MLight.TOGGLE,
+            "brightness_down_click": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "brightness_down_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_down_release": Z2MLight.RELEASE,
+            "brightness_up_click": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "brightness_up_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_up_release": Z2MLight.RELEASE,
+            "color_wheel": Z2MLight.XYCOLOR_FROM_CONTROLLER,  # Color ring press
+            "color_temp": Z2MLight.COLORTEMP_FROM_CONTROLLER,  # warm or cold
+            # "scene_3": "",  # reading button
+            # "scene_1": "",  # sunset button
+            # "scene_2": "",  # party button
+            # "scene_6": "",  # night button
+            # "scene_4": "",  # fire button
+            # "scene_5": "",  # heart button
+        }
+
+
 class MLI404002Controller(Controller):
     def get_zha_action(self, data: EventData) -> str:
         command: str = data["command"]
@@ -79,4 +101,18 @@ class MLI404002LightController(MLI404002Controller, LightController):
             "step_up": Light.CLICK_BRIGHTNESS_UP,
             "step_down": Light.CLICK_BRIGHTNESS_DOWN,
             "recall": Light.ON_FULL_BRIGHTNESS,
+        }
+
+
+class MLI404002Z2MLightController(MLI404002Controller, Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Z2MLight.TOGGLE,
+            "off": Z2MLight.TOGGLE,
+            "brightness_step_up": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "brightness_step_down": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Z2MLight.RELEASE,
+            "recall_1": Z2MLight.ON_FULL_BRIGHTNESS,
         }
