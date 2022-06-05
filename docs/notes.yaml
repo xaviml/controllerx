@@ -1,0 +1,121 @@
+E1744: |
+  If you want to use the default controller, you will need to set `legacy: false` in the Zigbee2MQTT configuration.
+  Read more in <a href="https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration">here</a>.
+
+HueDimmer: |
+  In case of working with <strong>z2m</strong> the device needs to be flagged as `legacy: false` as
+  <a href="https://www.zigbee2mqtt.io/devices/324131092621.html#options">Zigbee2MQTT
+  documentation recommends</a>.
+
+  In case of working with <strong>z2m</strong> and wanting to use the multiclick functionality, then
+  you need to make sure to remove from the device specific (devices.yaml) the
+  `multiple_press_timeout` option.
+
+  In case of <strong>deCONZ</strong>, all the click actions are mapped with X002 actions, so when the
+  button is released after being clicked.
+
+LutronPJ22B: |
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a>
+  CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
+  All Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this
+  controller type except for the 4-button PJ2-4B remotes which is separate.
+
+LutronPJ22BRL: |
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a>
+  CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
+  All Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this
+  controller type except for the 4-button PJ2-4B remotes which is separate.
+
+LutronPJ23BRL: |
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a>
+  CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
+  All Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this
+  controller type except for the 4-button PJ2-4B remotes which is separate.
+
+LutronPJ24B: |
+  For the State integration, it requires the <a href="https://github.com/upsert/lutron-caseta-pro">LutronCasetaPro</a>
+  CUSTOM integration by upsert. THIS WILL NOT WORK with the default Lutron Caseta integration.
+
+MFKZQ01LM: |
+  This controller does not have a self-explained way to use it since its main
+  purpose is to be customized, this is why we recommend to customize it with
+  <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
+
+  deCONZ integration should be added with <a href="/controllerx/others/integrations#deconz">type gesture</a>.
+
+MLI404011: |
+  Some buttons are left to be mapped for both integrations.
+  Please read more about in <a href="https://github.com/xaviml/controllerx/issues/111">here (deconz)</a>
+  and <a href="https://github.com/xaviml/controllerx/issues/176">here (z2m)</a>.
+
+OsramAC025XX00NJ: |
+  This controller is supported for AC0251100NJ / AC0251400NJ / AC0251600NJ / AC0251700NJ.
+  Different models are just different colours.
+
+Philips929003017102: |
+  This controller has 4 modes and depending on which one is used,
+  it will trigger one action or another: single_rocker, single_push_button, dual_rocker, dual_push_button.
+  You can read more about it in these threads:
+  <a href="https://github.com/dresden-elektronik/deconz-rest-plugin/issues/4566">deconz</a> and
+  <a href="https://github.com/Koenkk/zigbee-herdsman-converters/issues/2393">zigbee2mqtt</a>.
+
+PTM215X: |
+  Check the button mapping in <a href="https://phoscon.de/en/support#pairing-friends-of-hue-switch">here</a>.
+
+ROB2000070: |
+  Note that each button perform the same actions.
+  This is because ControllerX is designed to control just one entity (light or media player).
+  So, you can include the `actions` parameter to include the actions needed,
+  or use the `mapping` attribute to define a <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+
+  This controller is a white-label version of the Sunricher SR-ZG9001K8-DIM.
+
+TS0044: |
+  Note that each button perform the same actions.
+  This is because ControllerX is designed to control just one entity (light or media player).
+  So, you can include the `actions` parameter to include the actions needed,
+  or use the `mapping` attribute to define a <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+
+  Also, this controller support hold action, but not release. This means that there is not
+  smooth brightness changes when holding, just step by step everytime is held.
+
+TS0044F: |
+  This device is very similar to the TS0044 Tuya, except that it doesn't hold action, double clicks.
+
+  Note that each button perform the same actions.
+  This is because ControllerX is designed to control just one entity (light or media player).
+  So, you can include the `actions` parameter to include the actions needed,
+  or use the `mapping` attribute to define a <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+
+  Also, this controller doesn't support hold action. This means that there is not
+  smooth brightness changes when holding, just step by step everytime it's pressed.
+
+W2049: |
+  This controller fires "on" action when arrows are held as well as the hold arrow action.
+  So this means that when long pressing the arrows, the light(s) will turn on before changing the color.
+
+WXKG01LM: |
+  The ZHA implementation of this button does not yet support hold and release actions.
+
+WXKG02LM: |
+  Note that all actions related to both, left and right, do the same.
+  This is because ControllerX is design to control just one entity (light or media player).
+  So you can include the `actions` parameter to include the actions needed.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+  Also, this controller support hold action, but not release. This means that there is not
+  smooth brightness changes when holding, just step by step everytime is held.
+
+WXKG06LM: |
+  This controller support hold action, but not release. This means that there is not
+  smooth brightness changes when holding, just step by step everytime is held.
+
+WXKG07LM: |
+  Note that all actions related to both, left and right, do the same.
+  This is because ControllerX is design to control just one entity (light or media player).
+  So you can include the `actions` parameter to include the actions needed.
+  You can check <a href="https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634">here</a> for reference.
+  Also, this controller support hold action, but not release. This means that there is not
+  smooth brightness changes when holding, just step by step everytime is held.

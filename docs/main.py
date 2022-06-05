@@ -1,10 +1,12 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 from unittest import mock
 
 import appdaemon.plugins.hass.hassapi as hass
 import cx_devices as devices_module
+import yaml
 from cx_const import ActionEvent, DefaultActionsMapping
 from cx_core import (
     CoverController,
@@ -57,9 +59,12 @@ INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
     },
 ]
 
+with open(Path(__file__).parent / "notes.yaml") as f:
+    NOTES: Dict[str, str] = yaml.full_load(f)
+
 
 @dataclass
-class ControllerDocs:
+class ControllerTypeDocs:
     order: int
     type: str
     cls: str
@@ -131,6 +136,13 @@ class ControllerDocs:
         return "\n".join(table)
 
 
+@dataclass
+class ControllerDocs:
+    name: str
+    controller_type_docs: List[ControllerTypeDocs]
+    notes: Optional[str]
+
+
 def get_device_name(controller: str) -> str:
     return (
         controller.replace("Light", "")
@@ -156,7 +168,7 @@ def get_controller_type(controller: TypeController[Entity]) -> Tuple[str, int]:
         )
 
 
-def get_controller_docs(controller: TypeController[Entity]) -> ControllerDocs:
+def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDocs:
     controller_type, order = get_controller_type(controller)
     controller_class = controller.__class__.__name__
     delay: Optional[int] = None
@@ -186,7 +198,7 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerDocs:
             for action_event, predefined_action in mapping.items():
                 mappings[predefined_action][integration].append(action_event)
 
-    return ControllerDocs(
+    return ControllerTypeDocs(
         order=order,
         type=controller_type,
         cls=controller_class,
@@ -206,21 +218,27 @@ def get_controllers() -> List[TypeController[Entity]]:
     return controller_instances
 
 
-def get_devices() -> Dict[str, List[ControllerDocs]]:
+def get_devices() -> Dict[str, ControllerDocs]:
     devices = defaultdict(list)
     for controller in get_controllers():
         device_name = get_device_name(controller.__class__.__name__)
         controller_docs = get_controller_docs(controller)
         devices[device_name].append(controller_docs)
-    # Sort the controller types,
-    # so they appear in the same order in the documentaiton
-    for device in devices:
-        devices[device].sort(key=lambda c: c.order)
-    return devices
+
+    devices_docs: Dict[str, ControllerDocs] = {}
+    for device_name, docs in devices.items():
+        # Sort the controller types,
+        # so they appear in the same order in the documentaiton
+        docs = sorted(docs, key=lambda c: c.order)
+        devices_docs[device_name] = ControllerDocs(
+            name=device_name, controller_type_docs=docs, notes=NOTES.get(device_name)
+        )
+
+    return devices_docs
 
 
 def define_env(env: MacrosPlugin) -> None:
     @env.macro  # type: ignore[misc]
-    def devices() -> Dict[str, List[ControllerDocs]]:
+    def devices() -> Dict[str, ControllerDocs]:
         devices = get_devices()
         return dict(sorted(devices.items(), key=lambda device: device[0]))
