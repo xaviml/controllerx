@@ -1249,7 +1249,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "types-mock"
-version = "4.0.14"
+version = "4.0.15"
 description = "Typing stubs for mock"
 category = "dev"
 optional = false
@@ -1384,7 +1384,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "148237ebb72d7660045643a4b838c309ec72a0944561c7f19cbd51750f00e835"
+content-hash = "71f30fee0aa386c810733e21f0fd45796ce2e75241a41fa6fd2b2b787a7baa13"
 
 [metadata.files]
 aiodns = [
@@ -2319,8 +2319,8 @@ typed-ast = [
     {file = "typed_ast-1.5.3.tar.gz", hash = "sha256:27f25232e2dd0edfe1f019d6bfaaf11e86e657d9bdb7b0956db95f560cceb2b3"},
 ]
 types-mock = [
-    {file = "types-mock-4.0.14.tar.gz", hash = "sha256:faec5b613e24f4ad7bd784585e34f97f3a305bad911f37c9081352bb0c80d26b"},
-    {file = "types_mock-4.0.14-py3-none-any.whl", hash = "sha256:d119547aa21ca77dceb799fe78e09a33e2ce637eec18ee8b9b052b36edda101b"},
+    {file = "types-mock-4.0.15.tar.gz", hash = "sha256:a849bc2d966063f4946013bf404822ee2b96f77a8dccda4174b70ab61c5293fe"},
+    {file = "types_mock-4.0.15-py3-none-any.whl", hash = "sha256:4535fbb3912b88a247d43cdb41db0c8b2e187138986f6f01a989717e56105848"},
 ]
 types-pyyaml = [
     {file = "types-PyYAML-6.0.8.tar.gz", hash = "sha256:d9495d377bb4f9c5387ac278776403eb3b4bb376851025d913eea4c22b4c6438"},
