@@ -688,3 +688,28 @@ class W2049MediaPlayerController(MediaPlayerController):
             4001: MediaPlayer.NEXT_SOURCE,
             4003: MediaPlayer.RELEASE,
         }
+
+
+class E2002LightController(LightController):
+    # Different states reported from the controller:
+    # on, off
+    # arrow_left_click, arrow_right_click, brightness_up_hold
+    # brightness_up_release, brightness_down_hold, brightness_down_release,
+    # arrow_left_hold, arrow_left_release, arrow_right_hold
+    # arrow_right_release
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.ON,
+            "off": Light.OFF,
+            "press_257_13_0": Light.CLICK_COLOR_DOWN,
+            "press_256_13_0": Light.CLICK_COLOR_UP,
+            "move_with_on_off_0_83": Light.HOLD_BRIGHTNESS_UP,
+            "move_with_on_off_0_84": Light.HOLD_BRIGHTNESS_UP,  # ZigBee 3.0 firmware
+            "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
+            "move_1_84_0_0": Light.HOLD_BRIGHTNESS_DOWN,  # ZigBee 3.0 firmware
+            "hold_3329_0": Light.HOLD_COLOR_DOWN,
+            "hold_3328_0": Light.HOLD_COLOR_UP,
+            "stop_with_on_off": Light.RELEASE,
+            "release": Light.RELEASE,
+        }

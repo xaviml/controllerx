@@ -29,3 +29,4 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :video_game: New devices
 
 - [HueSmartButton](https://BASE_URL/controllerx/controllers/HueSmartButton) - add Z2M support. [ #498 ]
+- IKEA E2001/E2002 - Add ZHA support [ #504 ]
