@@ -2,6 +2,6 @@ fired_actions: [toggle]
 expected_calls:
   - service: mqtt/publish
     data:
-      topic: zigbee2mqtt/livingroom_lamp/set
+      topic: z2m/livingroom_lamp/set
       payload: '{"state": "TOGGLE"}'
       namespace: mqtt

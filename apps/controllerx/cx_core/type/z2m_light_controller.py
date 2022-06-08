@@ -13,6 +13,7 @@ from cx_core.type_controller import Entity, TypeController
 DEFAULT_CLICK_STEPS = 70
 DEFAULT_HOLD_STEPS = 70
 DEFAULT_TRANSITION = 0.5
+DEFAULT_BASE_TOPIC = "zigbee2mqtt"
 
 # Once the minimum supported version of Python is 3.8,
 # we can declare the Mode as a Literal
@@ -70,6 +71,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         self.hold_steps = self.args.get("hold_steps", DEFAULT_HOLD_STEPS)
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         self.use_onoff = self.args.get("use_onoff", False)
+        self.base_topic = self.args.get("base_topic", DEFAULT_BASE_TOPIC)
 
         self._mqtt_fn = {
             "ha": self._ha_mqtt_call,
@@ -205,7 +207,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
 
     async def _mqtt_call(self, payload: Dict[str, Any]) -> None:
         await self._mqtt_fn[self.entity.mode](
-            f"zigbee2mqtt/{self.entity.name}/set", json.dumps(payload)
+            f"{self.base_topic}/{self.entity.name}/set", json.dumps(payload)
         )
 
     async def _on(self, **attributes: Any) -> None:

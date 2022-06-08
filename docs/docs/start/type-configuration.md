@@ -88,13 +88,14 @@ This controller (`Z2MLightController`) allows the devices to control Zigbe2MQTT 
 
 You can read more about this specific controller [here](/controllerx/others/zigbee2mqtt-light-controller).
 
-| key           | type                 | value      | description                                                                                            |
-| ------------- | -------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
-| `light`\*     | string \| dictionary | `my_light` | The light you want to control. This is the friendly name light from Zigbee2MQTT.                       |
-| `click_steps` | float                | 70         | Number of steps that are passed to Zigbee2MQTT for click actions.                                      |
-| `hold_steps`  | float                | 70         | Number of steps that are passed to Zigbee2MQTT for hold actions.                                       |
-| `transition`  | float                | 0.5        | Transition sent to Zigbee2MQTT when changing brightness or color temp.                                 |
-| `use_onoff`   | bool                 | `false`    | This allows click and hold actions to turn on/off the light when off or minimum brightness is reached. |
+| key           | type                 | value         | description                                                                                               |
+| ------------- | -------------------- | ------------- | --------------------------------------------------------------------------------------------------------- |
+| `light`\*     | string \| dictionary | `my_light`    | The light you want to control. This is the friendly name light from Zigbee2MQTT.                          |
+| `base_topic`  | string               | `zigbee2mqtt` | MQTT base topic for Zigbee2MQTT MQTT messages. The topic sent will be `<base_topic>/<friendly_name>/set`. |
+| `click_steps` | float                | 70            | Number of steps that are passed to Zigbee2MQTT for click actions.                                         |
+| `hold_steps`  | float                | 70            | Number of steps that are passed to Zigbee2MQTT for hold actions.                                          |
+| `transition`  | float                | 0.5           | Transition sent to Zigbee2MQTT when changing brightness or color temp.                                    |
+| `use_onoff`   | bool                 | `false`       | This allows click and hold actions to turn on/off the light when off or minimum brightness is reached.    |
 
 _\* Required fields_
 
