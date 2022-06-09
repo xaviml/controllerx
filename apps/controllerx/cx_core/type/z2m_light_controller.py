@@ -13,7 +13,8 @@ from cx_core.type_controller import Entity, TypeController
 DEFAULT_CLICK_STEPS = 70
 DEFAULT_HOLD_STEPS = 70
 DEFAULT_TRANSITION = 0.5
-DEFAULT_BASE_TOPIC = "zigbee2mqtt"
+DEFAULT_MODE = "ha"
+DEFAULT_TOPIC_PREFIX = "zigbee2mqtt"
 
 # Once the minimum supported version of Python is 3.8,
 # we can declare the Mode as a Literal
@@ -23,16 +24,19 @@ Mode = str
 
 class Z2MLightEntity(Entity):
     mode: Mode
+    topic_prefix: str
 
     def __init__(
         self,
         name: str,
         entities: Optional[List[str]] = None,
-        mode: Mode = "ha",
+        mode: Mode = DEFAULT_MODE,
+        topic_prefix: str = DEFAULT_TOPIC_PREFIX,
     ) -> None:
         super().__init__(name, entities)
         mode = Controller.get_option(mode, ["ha", "mqtt"])
         self.mode = mode
+        self.topic_prefix = topic_prefix
 
 
 class Z2MLightController(TypeController[Z2MLightEntity]):
@@ -71,7 +75,6 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         self.hold_steps = self.args.get("hold_steps", DEFAULT_HOLD_STEPS)
         self.transition = self.args.get("transition", DEFAULT_TRANSITION)
         self.use_onoff = self.args.get("use_onoff", False)
-        self.base_topic = self.args.get("base_topic", DEFAULT_BASE_TOPIC)
 
         self._mqtt_fn = {
             "ha": self._ha_mqtt_call,
@@ -207,7 +210,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
 
     async def _mqtt_call(self, payload: Dict[str, Any]) -> None:
         await self._mqtt_fn[self.entity.mode](
-            f"{self.base_topic}/{self.entity.name}/set", json.dumps(payload)
+            f"{self.entity.topic_prefix}/{self.entity.name}/set", json.dumps(payload)
         )
 
     async def _on(self, **attributes: Any) -> None:

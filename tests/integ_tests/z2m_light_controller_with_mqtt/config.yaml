@@ -3,7 +3,7 @@ example_app:
   class: E1810Z2MLightController
   integration: z2m
   controller: sensor.livingroom_controller_action
-  base_topic: z2m
   light:
     name: livingroom_lamp
     mode: mqtt
+    topic_prefix: z2m

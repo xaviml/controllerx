@@ -7,7 +7,14 @@ Integrations is a way to abstract the logic from the event extraction in Control
 
 #### Zigbee2MQTT
 
-This integration(**`z2m`**) is meant to be used for zigbee2mqtt. It listens the states from the HA sensor entities. You can add `listen_to` attribute to indicate if it listens for HA states (`ha`) or MQTT topics (`mqtt`). Default is `ha`. If you want to use the `mqtt`, then you will need to change the `appdaemon.yaml` as it is stated in the `MQTT` integration section. Imagine we have the following configuration already created for a `z2m` controller listening to HA state:
+This integration(**`z2m`**) is meant to be used for zigbee2mqtt. It listens the states from the HA sensor entities. These are the accepted attributes:
+
+- `listen_to`: Indicates whether it listens for HA states (`ha`) or MQTT topics (`mqtt`). Default is `ha`.
+- `action_key`: It is the key inside the topic payload that contains the fired action from the controller. It is normally `action` or `click`. By default will be `action`. Only applicable is `listen_to` is `mqtt`.
+- `action_group` is a list of allowed action groups for the controller configuration. Read more about it [here](https://github.com/xaviml/controllerx/pull/150). Only applicable is `listen_to` is `mqtt`.
+- `topic_prefix`: MQTT base topic for Zigbee2MQTT MQTT messages. By default is `zigbee2mqtt`, and it listens to `<topic_prefix>/<controller_id>` for changes. Only applicable is `listen_to` is `mqtt`.
+
+If you want to use the `mqtt`, then you will need to change the `appdaemon.yaml` as it is stated in the `MQTT` integration section. Imagine we have the following configuration already created for a `z2m` controller listening to HA state:
 
 ```yaml
 livingroom_controller:
@@ -32,12 +39,7 @@ livingroom_controller:
   light: light.bedroom
 ```
 
-Three things to clarify when using the `z2m` integration listening to MQTT:
-
-- `appdaemon.yaml` needs to be changed by adding the MQTT plugin (see [here](/controllerx/others/enable-mqtt-plugin))
-- The Zigbee2MQTT friendly name from the z2m needs to be specified in the `controller` attribute.
-- `action_key` is the key inside the topic payload that contains the fired action from the controller. It is normally `action` or `click`. By default will be `action`.
-- `action_group` is a list of allowed action groups for the controller configuration. Read more about it [here](https://github.com/xaviml/controllerx/pull/150).
+`appdaemon.yaml` needs to be changed by adding the MQTT plugin (see [here](/controllerx/others/enable-mqtt-plugin))
 
 #### deCONZ
 
