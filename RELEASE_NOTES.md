@@ -13,7 +13,7 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :hammer: Fixes
 
 - :warning: Change [Hue Dimmer](https://BASE_URL/controllerx/controllers/HueDimmer) mapping for Zigbee2MQTT to be compatible with `legacy: false` mapping. This option will need to be [enabled from Zigbee2MQTT](https://www.zigbee2mqtt.io/devices/324131092621.html#options). [ #496 ]
-- :warning: Rename `W2049` controllers for `E2002` (e.g. `W2049LightController` is now `E2002LightController`). The old names can still be used, but they show a warning and will be removed in the future.
+- :warning: Rename `W2049` controllers for `E2002` (e.g. `W2049LightController` is now `E2002LightController`). The old names can still be used, but they show a warning and will be removed in the future. [ #504 ]
 
 <!--
 ## :clock2: Performance
