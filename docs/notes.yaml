@@ -2,6 +2,12 @@ E1744: |
   If you want to use the default controller, you will need to set `legacy: false` in the Zigbee2MQTT configuration.
   Read more in <a href="https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration">here</a>.
 
+E1810: |
+  This device mapping has also support for E1524 controller.
+
+E2002: |
+  This device mapping has also support for E2001 controller.
+
 HueDimmer: |
   In case of working with <strong>z2m</strong> the device needs to be flagged as `legacy: false` as
   <a href="https://www.zigbee2mqtt.io/devices/324131092621.html#options">Zigbee2MQTT
