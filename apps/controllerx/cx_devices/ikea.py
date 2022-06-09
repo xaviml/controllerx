@@ -593,7 +593,7 @@ class E1812SwitchController(SwitchController):
         return command
 
 
-class W2049LightController(LightController):
+class E2002LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
@@ -640,7 +640,17 @@ class W2049LightController(LightController):
         }
 
 
-class W2049Z2MLightController(Z2MLightController):
+class W2049LightController(E2002LightController):
+    async def initialize(self) -> None:
+        await super().initialize()
+        self.log(
+            "⚠️ `W2049LightController` is deprecated and will be removed. Use `E2002LightController` instead.",
+            level="WARNING",
+            ascii_encode=False,
+        )
+
+
+class E2002Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Z2MLight.ON,
@@ -657,7 +667,7 @@ class W2049Z2MLightController(Z2MLightController):
         }
 
 
-class W2049MediaPlayerController(MediaPlayerController):
+class E2002MediaPlayerController(MediaPlayerController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": MediaPlayer.PLAY_PAUSE,
@@ -688,3 +698,14 @@ class W2049MediaPlayerController(MediaPlayerController):
             4001: MediaPlayer.NEXT_SOURCE,
             4003: MediaPlayer.RELEASE,
         }
+
+
+class W2049MediaPlayerController(E2002MediaPlayerController):
+    async def initialize(self) -> None:
+        await super().initialize()
+        self.log(
+            "⚠️ `W2049MediaPlayerController` is deprecated and will be removed. "
+            "Use `E2002MediaPlayerController` instead.",
+            level="WARNING",
+            ascii_encode=False,
+        )

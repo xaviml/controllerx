@@ -60,6 +60,8 @@ INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
     },
 ]
 
+DEPRECATED_CONTROLLERS = ["W2049"]
+
 with open(Path(__file__).parent / "notes.yaml") as f:
     NOTES: Dict[str, str] = yaml.full_load(f)
 
@@ -231,6 +233,8 @@ def get_devices() -> Dict[str, ControllerDocs]:
     devices = defaultdict(list)
     for controller in get_controllers():
         device_name = get_device_name(controller.__class__.__name__)
+        if device_name in DEPRECATED_CONTROLLERS:
+            continue
         controller_docs = get_controller_docs(controller)
         devices[device_name].append(controller_docs)
 
