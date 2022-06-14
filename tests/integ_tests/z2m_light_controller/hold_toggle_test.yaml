@@ -14,19 +14,11 @@ expected_calls:
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
-      payload: '{"brightness_move": "stop"}'
-  - service: mqtt/publish
-    data:
-      topic: zigbee2mqtt/livingroom_lamp/set
       payload: '{"color_temp_move": "stop"}'
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
       payload: '{"color_temp_move": -70}'
-  - service: mqtt/publish
-    data:
-      topic: zigbee2mqtt/livingroom_lamp/set
-      payload: '{"brightness_move": "stop"}'
   - service: mqtt/publish
     data:
       topic: zigbee2mqtt/livingroom_lamp/set
