@@ -10,8 +10,3 @@ expected_calls:
       topic: z2m/livingroom_lamp/set
       payload: '{"brightness_move": "stop"}'
       namespace: mqtt
-  - service: mqtt/publish
-    data:
-      topic: z2m/livingroom_lamp/set
-      payload: '{"color_temp_move": "stop"}'
-      namespace: mqtt

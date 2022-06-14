@@ -1,4 +1,3 @@
-import asyncio
 import json
 from functools import lru_cache
 from typing import Any, Awaitable, Callable, Dict, List, Optional, Type
@@ -68,6 +67,8 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
     transition: float
     use_onoff: bool
 
+    hold_attribute: Optional[str]
+
     _mqtt_fn: Dict[Mode, Callable[[str, str], Awaitable[None]]]
 
     async def init(self) -> None:
@@ -80,6 +81,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
             "ha": self._ha_mqtt_call,
             "mqtt": self._mqtt_plugin_call,
         }
+        self.hold_attribute = None
 
         await super().init()
 
@@ -199,6 +201,10 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
             Z2MLight.BRIGHTNESS_FROM_CONTROLLER_LEVEL: self.brightness_from_controller_level,
             Z2MLight.BRIGHTNESS_FROM_CONTROLLER_ANGLE: self.brightness_from_controller_angle,
         }
+
+    async def before_action(self, action: str, *args: Any, **kwargs: Any) -> bool:
+        to_return = not (action == "hold" and self.hold_attribute is not None)
+        return await super().before_action(action, *args, **kwargs) and to_return
 
     async def _ha_mqtt_call(self, topic: str, payload: str) -> None:
         await self.call_service("mqtt.publish", topic=topic, payload=payload)
@@ -329,6 +335,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         steps = steps if steps is not None else self.hold_steps
         stepper = self.get_stepper(attribute, steps, tag="hold")
         direction = stepper.get_direction(steps, direction)
+        self.hold_attribute = attribute
         await self._change_light_state(
             attribute=attribute,
             direction=direction,
@@ -350,12 +357,10 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
 
     @action
     async def release(self) -> None:
-        await asyncio.gather(
-            *[
-                self._mqtt_call({f"{attribute}_move": "stop"})
-                for attribute in self.ATTRIBUTES_LIST
-            ]
-        )
+        if self.hold_attribute is None:
+            return
+        await self._mqtt_call({f"{self.hold_attribute}_move": "stop"})
+        self.hold_attribute = None
 
     @action
     async def xycolor_from_controller(self, extra: Optional[EventData] = None) -> None:
