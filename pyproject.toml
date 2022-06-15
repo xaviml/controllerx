@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "controllerx"
-version = "4.21.0b2"
+version = "4.21.0"
 description = "Create controller-based automations with ease to control your home devices and scenes."
 authors = ["Xavier Moreno <xaviml.93@gmail.com>"]
 license = "MIT"
@@ -78,7 +78,7 @@ exclude_lines = [
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "4.21.0b2"
+version = "4.21.0"
 tag_format = "v$major.$minor.$patch$prerelease"
 version_files = [
     "apps/controllerx/cx_version.py",
