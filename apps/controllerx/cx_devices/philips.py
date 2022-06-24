@@ -92,6 +92,22 @@ class Philips929002398602LightController(LightController):
             "off_hold_release": Light.RELEASE,
         }
 
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.ON,
+            1001: Light.HOLD_COLOR_UP,
+            1003: Light.RELEASE,
+            2002: Light.CLICK_BRIGHTNESS_UP,
+            2001: Light.HOLD_BRIGHTNESS_UP,
+            2003: Light.RELEASE,
+            3002: Light.CLICK_BRIGHTNESS_DOWN,
+            3001: Light.HOLD_BRIGHTNESS_DOWN,
+            3003: Light.RELEASE,
+            4002: Light.OFF,
+            4001: Light.HOLD_COLOR_DOWN,
+            4003: Light.RELEASE,
+        }
+
 
 class Philips929002398602Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
