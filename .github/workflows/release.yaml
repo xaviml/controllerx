@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      increment:
+        description: "Increment"
+        required: false
+        default: "MINOR"
+        type: choice
+        options: [MAJOR, MINOR, PATCH]
+      prerelease:
+        description: "Prerelease"
+        required: true
+        default: true
+        type: boolean
+      dry_run:
+        description: "Dry run"
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Set prerelease argument"
+        run: |
+          if ${{ inputs.prerelease }} == true; then
+            echo "PRERELEASE_ARG=--prerelease beta" >> $GITHUB_ENV
+          else
+            echo "PRERELEASE_ARG=" >> $GITHUB_ENV
+          fi
+      - name: "Set dry run argument"
+        run: |
+          if ${{ inputs.dry_run }} == true; then
+            echo "DRY_RUN_ARG=--dry-run" >> $GITHUB_ENV
+          else
+            echo "DRY_RUN_ARG=" >> $GITHUB_ENV
+          fi
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - run: pip install commitizen
+      - name: Configure git
+        run: |
+          git config --global user.name 'xaviml'
+          git config --global user.email 'xaviml@users.noreply.github.com'
+      - name: Bump version
+        run: cz bump --increment ${{ inputs.increment }} ${PRERELEASE_ARG} ${DRY_RUN_ARG}
+      - name: Push tag
+        if: "!inputs.dry_run"
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.PAT }}
+          tags: true
