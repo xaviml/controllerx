@@ -25,6 +25,8 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :wrench: Refactor
 -->
 
+<!--
 ## :video_game: New devices
 
-- [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602) - add deCONZ support [ #516 ]
+- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
+-->
