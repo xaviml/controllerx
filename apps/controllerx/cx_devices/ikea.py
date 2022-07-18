@@ -699,6 +699,19 @@ class E2002MediaPlayerController(MediaPlayerController):
             4003: MediaPlayer.RELEASE,
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": MediaPlayer.PLAY_PAUSE,
+            "off": MediaPlayer.CLICK_VOLUME_DOWN,
+            "press_257_13_0": MediaPlayer.PREVIOUS_TRACK,
+            "press_256_13_0": MediaPlayer.NEXT_TRACK,
+            "move_with_on_off_0_83": MediaPlayer.HOLD_VOLUME_UP,
+            "move_1_83_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
+            "hold_3329_0": MediaPlayer.PREVIOUS_SOURCE,
+            "hold_3328_0": MediaPlayer.NEXT_SOURCE,
+            "stop_with_on_off": MediaPlayer.RELEASE,
+            "release": MediaPlayer.RELEASE,
+        }
 
 class W2049MediaPlayerController(E2002MediaPlayerController):
     async def initialize(self) -> None:
