@@ -30,4 +30,5 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
+
 - IKEA E2001/E2002 - Add ZHA media player support
