@@ -26,4 +26,5 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 -->
 
 ## :video_game: New devices
+
 - [E2002](https://BASE_URL/controllerx/controllers/E2002) - add Media Player support for ZHA.
