@@ -25,9 +25,5 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :wrench: Refactor
 -->
 
-<!--
 ## :video_game: New devices
-
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
-- IKEA E2001/E2002 - Add ZHA media player support
+- [E2002](https://BASE_URL/controllerx/controllers/E2002) - add Media Player support for ZHA.
