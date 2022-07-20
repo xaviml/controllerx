@@ -713,6 +713,7 @@ class E2002MediaPlayerController(MediaPlayerController):
             "release": MediaPlayer.RELEASE,
         }
 
+
 class W2049MediaPlayerController(E2002MediaPlayerController):
     async def initialize(self) -> None:
         await super().initialize()
