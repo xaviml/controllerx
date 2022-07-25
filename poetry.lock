@@ -510,7 +510,7 @@ python-versions = "*"
 python-dateutil = ">=2.8.1"
 
 [package.extras]
-dev = ["twine", "markdown", "flake8", "wheel"]
+dev = ["wheel", "flake8", "markdown", "twine"]
 
 [[package]]
 name = "identify"
@@ -687,7 +687,7 @@ pyyaml = "*"
 termcolor = "*"
 
 [package.extras]
-test = ["mkdocs-macros-test", "mkdocs-material (>=6.2)", "mkdocs-include-markdown-plugin"]
+test = ["mkdocs-include-markdown-plugin", "mkdocs-material (>=6.2)", "mkdocs-macros-test"]
 
 [[package]]
 name = "mkdocs-material"
@@ -872,8 +872,8 @@ python-versions = ">=3.6"
 importlib-metadata = {version = ">=0.12", markers = "python_version < \"3.8\""}
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "pre-commit"
@@ -1040,7 +1040,7 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+testing = ["virtualenv", "pytest-xdist", "six", "process-tests", "hunter", "fields"]
 
 [[package]]
 name = "pytest-mock"
@@ -1257,7 +1257,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.10"
+version = "6.0.11"
 description = "Typing stubs for PyYAML"
 category = "dev"
 optional = false
@@ -1352,9 +1352,9 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-docs = ["Sphinx (>=3.4)", "sphinx-rtd-theme (>=0.5)"]
-optional = ["python-socks", "wsaccel"]
 test = ["websockets"]
+optional = ["wsaccel", "python-socks"]
+docs = ["sphinx-rtd-theme (>=0.5)", "Sphinx (>=3.4)"]
 
 [[package]]
 name = "yarl"
@@ -1384,7 +1384,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "d8b979532cdcd2b7a1b43e80e9941f44c173c50573ab39e68db05cd0aaacd139"
+content-hash = "bdf5d2bb31c0f8f5afffb038d952768d877c4dff149ad2782c2eb2e39cfbdc1d"
 
 [metadata.files]
 aiodns = [
@@ -2322,8 +2322,8 @@ types-mock = [
     {file = "types_mock-4.0.15-py3-none-any.whl", hash = "sha256:4535fbb3912b88a247d43cdb41db0c8b2e187138986f6f01a989717e56105848"},
 ]
 types-pyyaml = [
-    {file = "types-PyYAML-6.0.10.tar.gz", hash = "sha256:a1676caeb098096833fe2f1472e7ea8debf7663222964fa90545cfaafebf3385"},
-    {file = "types_PyYAML-6.0.10-py3-none-any.whl", hash = "sha256:18985a382c93fb12187daae6f57ce7787e3651cd590291c907d3e757919689ff"},
+    {file = "types-PyYAML-6.0.11.tar.gz", hash = "sha256:7f7da2fd11e9bc1e5e9eb3ea1be84f4849747017a59fc2eee0ea34ed1147c2e0"},
+    {file = "types_PyYAML-6.0.11-py3-none-any.whl", hash = "sha256:8f890028123607379c63550179ddaec4517dc751f4c527a52bb61934bf495989"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.2.0-py3-none-any.whl", hash = "sha256:6657594ee297170d19f67d55c05852a874e7eb634f4f753dbd667855e07c1708"},
