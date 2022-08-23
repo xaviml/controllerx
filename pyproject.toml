@@ -32,7 +32,7 @@ mypy = "0.971"
 types-PyYAML = "6.0.11"
 types-mock = "4.0.15"
 isort = "5.10.1"
-mkdocs-gen-files = "0.3.5"
+mkdocs-gen-files = "0.4.0"
 mkdocs-macros-plugin = "0.7.0"
 mkdocs-material = "8.2.7"
 
