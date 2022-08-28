@@ -3,10 +3,13 @@ E1744: |
   Read more in <a href="https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration">here</a>.
 
 E1810: |
-  This device mapping has also support for E1524 controller.
+  This device mapping also supports E1524 controller.
 
 E2002: |
-  This device mapping has also support for E2001 controller.
+  This controller fires "on" action when arrows are held as well as the hold arrow action.
+  So this means that when long pressing the arrows, the light(s) will turn on before changing the color.
+
+  This device mapping also supports E2001 controller.
 
 HueDimmer: |
   In case of working with <strong>z2m</strong> the device needs to be flagged as `legacy: false` as
@@ -98,10 +101,6 @@ TS0044F: |
 
   Also, this controller doesn't support hold action. This means that there is not
   smooth brightness changes when holding, just step by step everytime it's pressed.
-
-W2049: |
-  This controller fires "on" action when arrows are held as well as the hold arrow action.
-  So this means that when long pressing the arrows, the light(s) will turn on before changing the color.
 
 WXKG01LM: |
   The ZHA implementation of this button does not yet support hold and release actions.
