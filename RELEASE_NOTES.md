@@ -9,9 +9,9 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Check if `source_list` is None before treating as array [ #550 ] @kheyse
 
 <!--
 ## :clock2: Performance
@@ -27,5 +27,5 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 
 ## :video_game: New devices
 
-- [E2002](https://BASE_URL/controllerx/controllers/E2002) - add Media Player support for ZHA.
-- [SK5700002228949](https://BASE_URL/controllerx/controllers/SK5700002228949) - add Light support for deCONZ.
+- [E2002](https://BASE_URL/controllerx/controllers/E2002) - add Media Player support for ZHA. [ #531 ] @Langthjem
+- [SK5700002228949](https://BASE_URL/controllerx/controllers/SK5700002228949) - add Light support for deCONZ. [ #554 ]
