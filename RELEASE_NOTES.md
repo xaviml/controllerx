@@ -30,3 +30,4 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 - [E2002](https://BASE_URL/controllerx/controllers/E2002) - add Media Player support for ZHA. [ #531 ] @Langthjem
 - [SK5700002228949](https://BASE_URL/controllerx/controllers/SK5700002228949) - add Light support for deCONZ. [ #528 ]
 - [WXCJKG11LM](https://BASE_URL/controllerx/controllers/WXCJKG11LM) - add deCONZ support for light controller [ #553 ]
+- [WXKG07LMZ](https://BASE_URL/controllerx/controllers/WXKG07LMZ) - add Z2M Light Controller support [ #547 ]
