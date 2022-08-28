@@ -323,6 +323,16 @@ class WXCJKG11LMLightController(LightController):
             "button_2_release": Light.RELEASE,
         }
 
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: Light.OFF,
+            1001: Light.HOLD_BRIGHTNESS_DOWN,
+            1003: Light.RELEASE,
+            2002: Light.ON,
+            2001: Light.HOLD_BRIGHTNESS_UP,
+            2003: Light.RELEASE,
+        }
+
 
 class WXCJKG11LMZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
