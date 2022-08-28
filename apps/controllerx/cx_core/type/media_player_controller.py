@@ -53,8 +53,8 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     async def change_source_list(self, direction: str) -> None:
         entity_states = await self.get_entity_state(attribute="all")
         entity_attributes = entity_states["attributes"]
-        source_list: List[str] = entity_attributes.get("source_list")
-        if len(source_list) == 0 or source_list is None:
+        source_list: Optional[List[str]] = entity_attributes.get("source_list")
+        if source_list is None or len(source_list) == 0:
             self.log(
                 f"⚠️ There is no `source_list` parameter in `{self.entity}`",
                 level="WARNING",
