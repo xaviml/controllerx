@@ -31,3 +31,4 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 - [SK5700002228949](https://BASE_URL/controllerx/controllers/SK5700002228949) - add Light support for deCONZ. [ #528 ]
 - [WXCJKG11LM](https://BASE_URL/controllerx/controllers/WXCJKG11LM) - add deCONZ support for light controller [ #553 ]
 - [WXKG07LMZ](https://BASE_URL/controllerx/controllers/WXKG07LMZ) - add Z2M Light Controller support [ #547 ]
+- [PhilipsRDM002](https://BASE_URL/controllerx/controllers/PhilipsRDM002) - add support for light and Z2M Llght controller [ #551 ]
