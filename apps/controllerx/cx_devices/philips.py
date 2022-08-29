@@ -240,3 +240,51 @@ class Philips929003017102Z2MLightController(Z2MLightController):
             "right_hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
             "right_hold_release": Z2MLight.RELEASE,
         }
+
+
+class PhilipsRDM002LightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "button_1_press_release": Light.OFF,
+            "button_1_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "button_1_hold_release": Light.RELEASE,
+            "button_2_press_release": Light.ON,
+            "button_2_hold": Light.HOLD_BRIGHTNESS_UP,
+            "button_2_hold_release": Light.RELEASE,
+            "button_3_press_release": Light.CLICK_COLOR_DOWN,
+            "button_3_hold": Light.HOLD_COLOR_DOWN,
+            "button_3_hold_release": Light.RELEASE,
+            "button_4_press_release": Light.CLICK_COLOR_UP,
+            "button_4_hold": Light.HOLD_COLOR_UP,
+            "button_4_hold_release": Light.RELEASE,
+            "dial_rotate_left_step": Light.CLICK_BRIGHTNESS_DOWN,
+            "dial_rotate_left_slow": Light.ON_MIN_COLOR_TEMP,
+            "dial_rotate_left_fast": Light.ON_MIN_BRIGHTNESS,
+            "dial_rotate_right_step": Light.CLICK_BRIGHTNESS_UP,
+            "dial_rotate_right_slow": Light.ON_FULL_COLOR_TEMP,
+            "dial_rotate_right_fast": Light.ON_FULL_BRIGHTNESS,
+        }
+
+
+class PhilipsRDM002Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "button_1_press_release": Z2MLight.OFF,
+            "button_1_hold": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "button_1_hold_release": Z2MLight.RELEASE,
+            "button_2_press_release": Z2MLight.ON,
+            "button_2_hold": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "button_2_hold_release": Z2MLight.RELEASE,
+            "button_3_press_release": Z2MLight.CLICK_COLOR_TEMP_DOWN,
+            "button_3_hold": Z2MLight.HOLD_COLOR_TEMP_DOWN,
+            "button_3_hold_release": Z2MLight.RELEASE,
+            "button_4_press_release": Z2MLight.CLICK_COLOR_TEMP_UP,
+            "button_4_hold": Z2MLight.HOLD_COLOR_TEMP_UP,
+            "button_4_hold_release": Z2MLight.RELEASE,
+            "dial_rotate_left_step": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "dial_rotate_left_slow": Z2MLight.ON_MIN_COLOR_TEMP,
+            "dial_rotate_left_fast": Z2MLight.ON_MIN_BRIGHTNESS,
+            "dial_rotate_right_step": Light.CLICK_BRIGHTNESS_UP,
+            "dial_rotate_right_slow": Z2MLight.ON_FULL_COLOR_TEMP,
+            "dial_rotate_right_fast": Z2MLight.ON_FULL_BRIGHTNESS,
+        }
