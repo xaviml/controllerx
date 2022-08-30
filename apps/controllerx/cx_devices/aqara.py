@@ -705,3 +705,49 @@ class ZNXNKG02LMMediaPlayerController(MediaPlayerController):
             "start_rotating": MediaPlayer.VOLUME_FROM_CONTROLLER_ANGLE,
             "stop_rotating": MediaPlayer.RELEASE,
         }
+
+
+
+class WXKG15LMLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single_both": Light.TOGGLE,
+            "double_both": Light.CLICK_BRIGHTNESS_UP,
+            "triple_both": Light.CLICK_BRIGHTNESS_DOWN,
+            "hold_both": Light.ON_FULL_BRIGHTNESS,
+            "single_left": Light.TOGGLE,
+            "double_left": Light.CLICK_BRIGHTNESS_UP,
+            "triple_left": Light.CLICK_BRIGHTNESS_DOWN,
+            "hold_left": Light.ON_FULL_BRIGHTNESS,
+            "single_right": Light.TOGGLE,
+            "double_right": Light.CLICK_BRIGHTNESS_UP,
+            "triple_right": Light.CLICK_BRIGHTNESS_DOWN,
+            "hold_right": Light.ON_FULL_BRIGHTNESS,
+        }
+
+
+class WXKG15LMZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single_both": Z2MLight.TOGGLE,
+            "double_both": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "triple_both": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "hold_both": Z2MLight.ON_FULL_BRIGHTNESS,
+            "single_left": Z2MLight.TOGGLE,
+            "double_left": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "triple_left": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "hold_left": Z2MLight.ON_FULL_BRIGHTNESS,
+            "single_right": Z2MLight.TOGGLE,
+            "double_right": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "triple_right": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "hold_right": Z2MLight.ON_FULL_BRIGHTNESS,
+        }
+
+
+class WXKG15LMSwitchController(SwitchController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single_both": Switch.TOGGLE,
+            "single_left": Switch.TOGGLE,
+            "single_right": Switch.TOGGLE,
+        }
