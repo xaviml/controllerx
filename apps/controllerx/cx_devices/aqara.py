@@ -707,7 +707,6 @@ class ZNXNKG02LMMediaPlayerController(MediaPlayerController):
         }
 
 
-
 class WXKG15LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
