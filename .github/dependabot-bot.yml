@@ -1,0 +1,18 @@
+safe:
+  - pytest
+  - pytest-asyncio
+  - pytest-cov
+  - pytest-mock
+  - pytest-timeout
+  - mock
+  - mypy
+  - pre-commit
+  - commitizen
+  - black
+  - flake8
+  - types-PyYAML
+  - types-mock
+  - isort
+  - mkdocs-gen-files
+  - mkdocs-macros-plugin
+  - mkdocs-material
