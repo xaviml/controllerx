@@ -138,6 +138,17 @@ example_app:
     2_click: "off"
 ```
 
+#### Event
+
+This integration (**`event`**) is meant to be used for a custom event and it is not attached to any type of integration. Unless other integration, the following attributes are mandatory:
+
+- `name`: This has to be the name of the integration (`event`).
+- `event_type`: The event we are listening to (e.g. `zha_event`).
+- `controller_key`: The attribute of the controller to listen to (e.g. `device_ieee`).
+- `action_template`: The action template that will be built from the event data (e.g. `action_{command}`).
+
+For further explanation and example, please check [here](/controllerx/advanced/event-integration).
+
 #### Lutron Caséta
 
 This integration(**`lutron_caseta`**) listens to `lutron_caseta_button_event` events. It creates an action like `button_<number>_<action type>`. It does not have any additional arguments.

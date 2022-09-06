@@ -50,7 +50,7 @@ MFKZQ01LM: |
   purpose is to be customized, this is why we recommend to customize it with
   <a href="/controllerx/advanced/custom-controllers">custom mapping</a>.
 
-  deCONZ integration should be added with <a href="/controllerx/others/integrations#deconz">type gesture</a>.
+  deCONZ integration should be added with <a href="/controllerx/start/integrations#deconz">type gesture</a>.
 
 MLI404011: |
   Some buttons are left to be mapped for both integrations.

@@ -20,9 +20,8 @@ class Integration(abc.ABC):
         self.controller = controller
         self.kwargs = kwargs
 
-    @abc.abstractmethod
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
-        raise NotImplementedError
+        return None
 
     @abc.abstractmethod
     async def listen_changes(self, controller_id: str) -> None:

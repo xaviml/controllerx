@@ -25,6 +25,7 @@ nav:
           - advanced/hold-click-modes.md
       - advanced/templating.md
       - advanced/entity-groups.md
+      - advanced/event-integration.md
   - Examples:
       - examples/index.md
       - Others:
