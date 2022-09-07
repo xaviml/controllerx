@@ -12,7 +12,7 @@ Each event has its own payload that could look like:
 ```json
 {
   "device_ieee": "00:67:88:56:06:78:9b:3f",
-  "name": "my_device",
+  "device_name": "my_device",
   "command": "step",
   "args": { "direction": "up" }
 }
@@ -31,7 +31,7 @@ example_app:
   integration:
     name: event # This name is necessary
     event_type: my_custom_event
-    controller_key: name
+    controller_key: device_name
     action_template: "action_{command}_{args[direction]}"
   mapping:
     action_step_up: click_brightness_up
@@ -41,5 +41,5 @@ example_app:
 Let's break down the configuration for the integration:
 
 - `event_type`: This is the event we will be listening to. For example, ZHA uses `zha_event`.
-- `controller_key`: This is the key that we will listen from. It can be extracted from the event.
+- `controller_key`: This is the key that we will listen from. It can be extracted from the event. Note that the following names cannot be used for this field: `name`, `event`, `callback`, `namespace` or `cb`
 - `action_template`: This is the template that allows us build the name of the actions. We can use `{}` to retrieve the keys from the data, and `[]` inside to access attributes inside it as shown in the example.

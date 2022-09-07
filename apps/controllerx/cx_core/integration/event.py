@@ -17,7 +17,7 @@ class EventIntegration(Integration):
         event_type: str = self.get_arg("event_type")
         controller_key: str = self.get_arg("controller_key")
         self.controller.log(
-            f"Listening to {event_type} events for controller {controller_key}={controller_id}"
+            f"Listening to `{event_type}` events for controller `{controller_key}={controller_id}`"
         )
         await Hass.listen_event(
             self.controller,
