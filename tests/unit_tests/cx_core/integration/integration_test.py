@@ -15,4 +15,5 @@ def test_get_integrations(fake_controller: Controller) -> None:
         "homematic",
         "shelly",
         "shellyforhass",
+        "event",
     }
