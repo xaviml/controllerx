@@ -5,9 +5,9 @@
 _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 
-<!--
 ## :pencil2: Features
--->
+
+- Add `Event` integration. This new integration allows us define the event we want to listen to, and which actions build from it. It is ideal for DYI devices. Read more about it [here](https://BASE_URL/controllerx/advanced/event-integration).
 
 ## :hammer: Fixes
 
