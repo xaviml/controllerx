@@ -311,11 +311,10 @@ class ICTCG1Controller(LightController):
 
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "rotate_left": Light.HOLD_BRIGHTNESS_DOWN,
-            "rotate_left_quick": "rotate_left_quick",
-            "rotate_right": Light.HOLD_BRIGHTNESS_UP,
-            "rotate_right_quick": "rotate_right_quick",
-            "rotate_stop": Light.RELEASE,
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Light.RELEASE,
+            "brightness_move_to_level": Light.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
@@ -335,6 +334,16 @@ class ICTCG1Controller(LightController):
             "move_with_on_off_0_195": Light.ON,
             "move_to_level_with_on_off_255_1": "rotate_right_quick",
             "stop": Light.RELEASE,
+        }
+
+
+class ICTCG1Z2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+            "brightness_stop": Z2MLight.RELEASE,
+            "brightness_move_to_level": Z2MLight.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
         }
 
 
@@ -365,11 +374,9 @@ class ICTCG1MediaPlayerController(MediaPlayerController):
 
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "rotate_left": MediaPlayer.HOLD_VOLUME_DOWN,
-            "rotate_left_quick": "rotate_left_quick",
-            "rotate_right": MediaPlayer.HOLD_VOLUME_UP,
-            "rotate_right_quick": "rotate_right_quick",
-            "rotate_stop": MediaPlayer.RELEASE,
+            "brightness_move_up": MediaPlayer.HOLD_VOLUME_UP,
+            "brightness_move_down": MediaPlayer.HOLD_VOLUME_DOWN,
+            "brightness_stop": MediaPlayer.RELEASE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
