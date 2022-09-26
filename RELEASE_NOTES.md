@@ -1,6 +1,6 @@
 [![downloads](https://img.shields.io/github/downloads/xaviml/controllerx/VERSION_TAG/total?style=for-the-badge)](http://github.com/xaviml/controllerx/releases/VERSION_TAG)
 
-<!--:warning: This major/minor change contains a breaking change.-->
+:warning: This minor change contains a breaking change.
 
 _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
@@ -9,9 +9,9 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- :warning: Fixes mapping for `ICTCG1Controller` and `ICTCG1MediaPlayerController` for Zigbee2MQTT integration. It now defaults to the mapping exposed from the device when it is in `legacy: false` mode. [ #577 ]
 
 <!--
 ## :clock2: Performance
@@ -25,8 +25,6 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :wrench: Refactor
 -->
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
+- [ICTCG1](https://BASE_URL/controllerx/controllers/ICTCG1) - add support for Z2MLightController. [ #577 ]
