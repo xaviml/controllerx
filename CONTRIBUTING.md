@@ -14,9 +14,9 @@ _Note: I recommend working with Python 3.7 since is the minimum version supporte
 
 ## Adding a new controller
 
-New controllers need to be added into the `apps/controllerx/devices/` and you will need to define the mapping for the integration you are adding support to.
+New controllers need to be added into the `apps/controllerx/cx_devices/` and you will need to define the mapping for the integration you are adding support to.
 
-The controller will be added to the documentation automatically, but a JPEG will need to be added to `docs/assets/img`. You can easily find the model (for picture) in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html). Check [here](#documentation) to know how to run the documentation locally.
+The controller will be added to the documentation automatically, but a JPEG will need to be added to `docs/docs/assets/controllers`. You can easily find the model (for picture) in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html). Check [here](#documentation) to know how to run the documentation locally.
 
 The class name convention should be `Device Model (No special characters) + Type + Controller`. For example, for a new light controller for E1743, the class name should be `E1743LightController`. Take into account that there are some old controllers that do not follow this convention.
 
