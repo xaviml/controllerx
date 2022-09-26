@@ -1,19 +1,28 @@
 from cx_const import Cover, DefaultActionsMapping, Light, Switch, Z2MLight
-from cx_core import LightController
+from cx_core import (
+    CoverController,
+    LightController,
+    SwitchController,
+    Z2MLightController,
+)
 
 
-class TasmotaZ2MLightController(LightController):
-    def get_tasmota_button_actions_mapping(self) -> DefaultActionsMapping:
+class TasmotaButtonZ2MLightController(Z2MLightController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
+            "TOGGLE": Z2MLight.TOGGLE,
             "SINGLE": Z2MLight.TOGGLE,
             "DOUBLE": Z2MLight.ON_MIN_BRIGHTNESS,
             "TRIPLE": Z2MLight.SET_HALF_BRIGHTNESS,
             "QUAD": Z2MLight.ON_FULL_BRIGHTNESS,
             # "PENTA": "", # Nothing
-            # "HOLD": "", # Nothing
+            "HOLD": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
+            "CLEAR": Z2MLight.RELEASE,
         }
 
-    def get_tasmota_switch_actions_mapping(self) -> DefaultActionsMapping:
+
+class TasmotaSwitchZ2MLightController(Z2MLightController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "TOGGLE": Z2MLight.TOGGLE,
             "ON": Z2MLight.ON,
@@ -22,18 +31,22 @@ class TasmotaZ2MLightController(LightController):
         }
 
 
-class TasmotaLightController(LightController):
-    def get_tasmota_button_actions_mapping(self) -> DefaultActionsMapping:
+class TasmotaButtonLightController(LightController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
+            "TOGGLE": Light.TOGGLE,
             "SINGLE": Light.TOGGLE,
             "DOUBLE": Light.ON_MIN_BRIGHTNESS,
             "TRIPLE": Light.SET_HALF_BRIGHTNESS,
             "QUAD": Light.ON_FULL_BRIGHTNESS,
             # "PENTA": "", # Nothing
-            "HOLD": Light.ON_MIN_MAX_BRIGHTNESS,
+            "HOLD": Light.HOLD_BRIGHTNESS_TOGGLE,
+            "CLEAR": Light.RELEASE,
         }
 
-    def get_tasmota_switch_actions_mapping(self) -> DefaultActionsMapping:
+
+class TasmotaSwitchLightController(LightController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "TOGGLE": Light.TOGGLE,
             "ON": Light.ON,
@@ -42,29 +55,22 @@ class TasmotaLightController(LightController):
         }
 
 
-# Placeholder for Switchmode 11/12, for now Tasmota has some limitations when using this mode.
-class TasmotaSM11LightController(LightController):
+class TasmotaButtonSwitchController(SwitchController):
     def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "TOGGLE": Light.ON,
-            "POWER_100": Light.RELEASE,
-            "POWER_INCREMENT": Light.OFF,
-            "POWER_RELEASE": Light.HOLD_COLOR_DOWN,
-        }
-
-
-class TasmotaSwitchController(LightController):
-    def get_tasmota_button_actions_mapping(self) -> DefaultActionsMapping:
-        return {
+            "TOGGLE": Light.TOGGLE,
             "SINGLE": Switch.TOGGLE,
             "DOUBLE": Switch.ON,
             "TRIPLE": Switch.OFF,
             # "QUAD": "", # Nothing
             # "PENTA": "", # Nothing
             # "HOLD": "" # Nothing
+            # "CLEAR": "" # Nothing
         }
 
-    def get_tasmota_switch_actions_mapping(self) -> DefaultActionsMapping:
+
+class TasmotaSwitchSwitchController(SwitchController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "TOGGLE": Switch.TOGGLE,
             "ON": Switch.ON,
@@ -73,18 +79,22 @@ class TasmotaSwitchController(LightController):
         }
 
 
-class TasmotaCoverController(LightController):
-    def get_tasmota_button_actions_mapping(self) -> DefaultActionsMapping:
+class TasmotaButtonCoverController(CoverController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
+            "TOGGLE": Cover.TOGGLE_OPEN,
             "SINGLE": Cover.TOGGLE_OPEN,
             "DOUBLE": Cover.CLOSE,
             # "TRIPLE": "", # Nothing
             # "QUAD": "", # Nothing
             # "PENTA": "", # Nothing
-            # "HOLD": "" # Nothing
+            "HOLD": Cover.CLOSE,
+            # "CLEAR": "" # Nothing
         }
 
-    def get_tasmota_switch_actions_mapping(self) -> DefaultActionsMapping:
+
+class TasmotaSwitchCoverController(CoverController):
+    def get_tasmota_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "TOGGLE": Cover.TOGGLE_OPEN,
             "ON": Cover.OPEN,

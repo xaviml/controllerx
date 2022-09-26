@@ -10,22 +10,7 @@ class TasmotaIntegration(Integration):
     name = "tasmota"
 
     def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
-        device_key = self.kwargs.get("device")
-        if device_key is not None:
-            if "Button" in device_key:
-                return self.controller.get_tasmota_button_actions_mapping()
-            elif "Switch" in device_key:
-                return self.controller.get_tasmota_switch_actions_mapping()
-            else:
-                raise ValueError(
-                    f"Wrong device type assigned: ({device_key}). "
-                    f"Should be one of [Button, Switch]. "
-                )
-        else:
-            raise ValueError(
-                f"Device type needs to be assigned: ({device_key}). "
-                f"It should be one of [Button, Switch]. "
-            )
+        return self.controller.get_tasmota_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:
         await Mqtt.listen_event(
@@ -36,14 +21,14 @@ class TasmotaIntegration(Integration):
         self, event_name: str, data: EventData, kwargs: Dict[str, Any]
     ) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
-        device_key = self.kwargs.get("device")
+        component_key = self.kwargs.get("component")
         payload_key = self.kwargs.get("key", "Action")
-        if "payload" not in data or device_key is None:
+        if "payload" not in data or component_key is None:
             return
         payload = data["payload"]
-        if device_key in payload:
+        if component_key in payload:
             try:
-                action_key = str(json.loads(payload)[device_key][payload_key])
+                action_key = str(json.loads(payload)[component_key][payload_key])
             except json.decoder.JSONDecodeError:
                 raise ValueError(
                     f"`key` is being used ({payload_key}). "

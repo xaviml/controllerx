@@ -5,9 +5,9 @@
 _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 
-<!--
 ## :pencil2: Features
--->
+
+Added compatibility to use Tasmota as controller when SetOption73 and/or SetOption114 are enabled.
 
 ## :hammer: Fixes
 
