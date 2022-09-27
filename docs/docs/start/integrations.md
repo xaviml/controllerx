@@ -167,10 +167,11 @@ This integration ([**`shellyforhass`**](https://github.com/StyraHem/ShellyForHAS
 
 #### Tasmota
 
-This integration ([**`tasmota`**](https://tasmota.github.io)) listens for the topic sent from the `controller` attribute, and gets the action from the attribute defined in `component`. Unless other integration, the following attributes are mandatory:
+This integration ([**`tasmota`**](https://tasmota.github.io)) listens for the MQTT topic sent from the `controller` attribute, and gets the action from the attribute defined in `component`. These are the attributes for this integration
 
-- `name`: This has to be the name of the integration (`tasmota`).
-- `component`: The component we are listening to (e.g. `Button1`).
+- `name` (required): This has to be the name of the integration (`tasmota`).
+- `component` (required): The component we are listening to (e.g. `Button1`).
+- `key` (optional): The key to retrieve the data from. Default: `Action`.
 
 For this integration to work, SetOption73 (for Buttons) and SetOption114 (for Switches) need to be set in Tasmota.
 

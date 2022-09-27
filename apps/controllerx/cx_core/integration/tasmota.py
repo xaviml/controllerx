@@ -13,6 +13,12 @@ class TasmotaIntegration(Integration):
         return self.controller.get_tasmota_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:
+        component_key = self.kwargs.get("component")
+        if component_key is None:
+            raise ValueError(
+                "`component` attribute is mandatory. "
+                "Check example from https://xaviml.github.io/controllerx/start/integrations/#tasmota"
+            )
         await Mqtt.listen_event(
             self.controller, self.event_callback, topic=controller_id, namespace="mqtt"
         )
@@ -23,19 +29,19 @@ class TasmotaIntegration(Integration):
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
         component_key = self.kwargs.get("component")
         payload_key = self.kwargs.get("key", "Action")
-        if "payload" not in data or component_key is None:
+        if "payload" not in data:
             return
-        payload = data["payload"]
-        if component_key in payload:
-            try:
-                action_key = str(json.loads(payload)[component_key][payload_key])
-            except json.decoder.JSONDecodeError:
-                raise ValueError(
-                    f"`key` is being used ({payload_key}). "
-                    f"Following payload is not a valid JSON: {payload}"
-                )
-            except KeyError:
-                raise ValueError(
-                    f"Following payload does not contain `{payload_key}`: {payload}"
-                )
-            await self.controller.handle_action(action_key)
+        payload: str = data["payload"]
+        try:
+            action_key = str(json.loads(payload)[component_key][payload_key])
+        except json.decoder.JSONDecodeError:
+            raise ValueError(
+                f"`key` is being used ({payload_key}). "
+                f"Following payload is not a valid JSON: {payload}"
+            )
+        except KeyError:
+            raise ValueError(
+                f"Following payload does not contain payload_key=`{payload_key}` "
+                f"and/or component_key=`{component_key}`: {payload}"
+            )
+        await self.controller.handle_action(action_key)

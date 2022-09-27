@@ -32,3 +32,7 @@ In case of Shelly, you can go to `Developer Tools > Events` then down the bottom
 #### ShellyForHASS
 
 In case of ShellyForHASS, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `shellyforhass.click` and start listening. Then, press any button and you will see event of the button, you will need to copy the `entity_id` inside the `data` object. You can read more about the event [here](https://github.com/StyraHem/ShellyForHASS#shellyforhassclick-020).
+
+#### Tasmota
+
+Tasmota integration relies on MQTT plugin, so the `controller` is the MQTT topic to listen to (e.g. `stat/tasmota_device/RESULT`).
