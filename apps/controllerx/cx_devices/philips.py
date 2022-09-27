@@ -128,6 +128,7 @@ class Philips929002398602LightController(LightController):
         command: str = data["command"]
         return command
 
+
 class Philips929002398602Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
