@@ -108,6 +108,25 @@ class Philips929002398602LightController(LightController):
             4003: Light.RELEASE,
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "off_long_release": Light.RELEASE,
+            "off_hold": Light.HOLD_COLOR_DOWN,
+            "off_short_release": Light.OFF,
+            "down_long_release": Light.RELEASE,
+            "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "down_short_release": Light.CLICK_BRIGHTNESS_DOWN,
+            "up_long_release": Light.RELEASE,
+            "up_hold": Light.HOLD_BRIGHTNESS_UP,
+            "up_short_release": Light.CLICK_BRIGHTNESS_UP,
+            "on_long_release": Light.RELEASE,
+            "on_hold": Light.HOLD_COLOR_UP,
+            "on_short_release": Light.ON,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        command: str = data["command"]
+        return command
 
 class Philips929002398602Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
