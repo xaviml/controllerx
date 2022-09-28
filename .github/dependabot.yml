@@ -6,26 +6,3 @@ updates:
       interval: daily
       time: "11:00"
     open-pull-requests-limit: 10
-    ignore:
-      - dependency-name: black
-        versions:
-          - 21.4b0
-      - dependency-name: pytest-asyncio
-        versions:
-          - 0.15.0
-      - dependency-name: pre-commit
-        versions:
-          - 2.10.1
-          - 2.11.0
-          - 2.12.1
-      - dependency-name: commitizen
-        versions:
-          - 2.14.2
-          - 2.15.1
-          - 2.17.3
-      - dependency-name: appdaemon
-        versions:
-          - 4.0.6
-      - dependency-name: pytest
-        versions:
-          - 6.2.2
