@@ -607,5 +607,13 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         """
         return None
 
+    def get_tasmota_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+        """
+        Controllers can implement this function. It should return a dict
+        with the command that a controller can take and the functions as values.
+        This is used for Tasmota support.
+        """
+        return None
+
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
         return {}

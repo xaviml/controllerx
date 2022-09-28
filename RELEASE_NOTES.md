@@ -5,9 +5,9 @@
 _This minor change does not contain any breaking changes._
 _Note: Remember to restart the AppDaemon addon/server after updating to a new version._
 
-<!--
 ## :pencil2: Features
--->
+
+- Added new Tasmota integration to use when SetOption73 and/or SetOption114 are enabled. Read more about it [here](https://BASE_URL/controllerx/start/integrations/#tasmota). [ #575 ] @cmiguelcabral
 
 ## :hammer: Fixes
 
@@ -28,3 +28,5 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :video_game: New devices
 
 - [ICTCG1](https://BASE_URL/controllerx/controllers/ICTCG1) - add support for Z2MLightController. [ #577 ]
+- [TasmotaButton](https://BASE_URL/controllerx/controllers/TasmotaButton) - new device with Tasmota support. [ #575 ] @cmiguelcabral
+- [TasmotaSwitch](https://BASE_URL/controllerx/controllers/TasmotaSwitch) - new device with Tasmota support. [ #575 ] @cmiguelcabral

@@ -164,3 +164,38 @@ This integration ([**`shelly`**](https://www.home-assistant.io/integrations/shel
 #### Shelly for HASS
 
 This integration ([**`shellyforhass`**](https://github.com/StyraHem/ShellyForHASS)) listens to `shellyforhass.click` events. It creates an action like `<action_type>`. It does not have any additional arguments.
+
+#### Tasmota
+
+This integration ([**`tasmota`**](https://tasmota.github.io)) listens for the MQTT topic sent from the `controller` attribute, and gets the action from the attribute defined in `component`. These are the attributes for this integration
+
+- `name` (required): This has to be the name of the integration (`tasmota`).
+- `component` (required): The component we are listening to (e.g. `Button1`).
+- `key` (optional): The key to retrieve the data from. Default: `Action`.
+
+For this integration to work, SetOption73 (for Buttons) and SetOption114 (for Switches) need to be set in Tasmota.
+
+Tasmota payload:
+
+```json
+{
+  "Button1": {
+    "Action": "TOGGLE"
+  }
+}
+```
+
+Example Usage:
+
+```yaml
+example_app:
+  module: controllerx
+  class: TasmotaButtonLightController
+  controller: stat/tasmota_device/RESULT
+  integration:
+    name: tasmota
+    component: Button1
+  light: light.example_light
+```
+
+Last but not least, the [MQTT plugin needs to be enabled](/controllerx/others/enable-mqtt-plugin).

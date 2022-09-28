@@ -29,6 +29,7 @@ INTEGRATIONS_TITLES = {
     "homematic": "Homematic",
     "shelly": "Shelly",
     "shellyforhass": "ShellyForHass",
+    "tasmota": "Tasmota",
 }
 
 INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
@@ -57,6 +58,12 @@ INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
         "name": "shellyforhass",
         "title": "ShellyForHass",
         "controller": "binary_sensor.shelly_button_switch",
+    },
+    {
+        "name": "tasmota",
+        "title": "Tasmota",
+        "controller": "stat/tasmota_device/RESULT",
+        "attrs": {"component": "MyComponent"},
     },
 ]
 
@@ -151,11 +158,11 @@ class ControllerDocs:
 
 def get_device_name(controller: str) -> str:
     return (
-        controller.replace("Z2MLight", "")
-        .replace("Light", "")
-        .replace("MediaPlayer", "")
-        .replace("Switch", "")
-        .replace("Cover", "")
+        controller.replace("Z2MLightController", "")
+        .replace("LightController", "")
+        .replace("MediaPlayerController", "")
+        .replace("SwitchController", "")
+        .replace("CoverController", "")
         .replace("Controller", "")
     )
 
@@ -199,6 +206,7 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDoc
         "homematic": controller.get_homematic_actions_mapping,
         "shelly": controller.get_shelly_actions_mapping,
         "shellyforhass": controller.get_shellyforhass_actions_mapping,
+        "tasmota": controller.get_tasmota_actions_mapping,
     }
     for integration, integration_mapping_func in integration_mappings_funcs.items():
         mapping = integration_mapping_func()

@@ -46,7 +46,7 @@ def get_controller(module_name: str, class_name: str) -> Optional["Controller"]:
 
 @contextmanager
 def wrap_execution(
-    *, error_expected: bool, exception: Type[Exception] = Exception
+    *, error_expected: bool = True, exception: Type[Exception] = Exception
 ) -> Generator[Optional[ExceptionInfo[Any]], None, None]:
     if error_expected:
         with pytest.raises(exception) as err_info:
