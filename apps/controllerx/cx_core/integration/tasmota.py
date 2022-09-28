@@ -27,11 +27,15 @@ class TasmotaIntegration(Integration):
         self, event_name: str, data: EventData, kwargs: Dict[str, Any]
     ) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
-        component_key = self.kwargs.get("component")
-        payload_key = self.kwargs.get("key", "Action")
+        component_key: str = self.kwargs["component"]
+        payload_key: str = self.kwargs.get("key", "Action")
         if "payload" not in data:
             return
         payload: str = data["payload"]
+        # Even though this checks if "compoenent_key" is in the payload
+        # (as string, not dictionary), it is preferred for its performance
+        if component_key not in payload:
+            return
         try:
             action_key = str(json.loads(payload)[component_key][payload_key])
         except json.decoder.JSONDecodeError:
@@ -41,7 +45,7 @@ class TasmotaIntegration(Integration):
             )
         except KeyError:
             raise ValueError(
-                f"Following payload does not contain payload_key=`{payload_key}` "
-                f"and/or component_key=`{component_key}`: {payload}"
+                "Following payload does not contain "
+                f"payload_key=`{payload_key}`: {payload}"
             )
         await self.controller.handle_action(action_key)

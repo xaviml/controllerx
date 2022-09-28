@@ -25,7 +25,7 @@ from tests.test_utils import wrap_execution
             "Component2",
             "Action",
             None,
-            True,
+            False,
         ),
         (
             {"payload": '{"Component": {"Action": "TOGGLE"}}'},
@@ -42,9 +42,9 @@ from tests.test_utils import wrap_execution
             False,
         ),
         (
-            {"payload": "fail_payload"},
-            None,
-            None,
+            {"payload": "Component"},
+            "Component",
+            "Action",
             None,
             True,
         ),
