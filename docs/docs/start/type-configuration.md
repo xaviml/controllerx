@@ -3,7 +3,7 @@ title: Controller types
 layout: page
 ---
 
-Each device supports a type of controller and this is what gives them the functionality over an entity. As for now, the two types of supported controllers are lights and media players.
+Each device supports a type of controller and this is what gives them the functionality over an entity.
 
 Here you can check the specific parameters that each type of controller needs. Check the [configuration](../configuration) page for the generic parameters.
 
