@@ -12,6 +12,7 @@ _Note: Remember to restart the AppDaemon addon/server after updating to a new ve
 ## :hammer: Fixes
 
 - :warning: Fixes mapping for `ICTCG1Controller` and `ICTCG1MediaPlayerController` for Zigbee2MQTT integration. It now defaults to the mapping exposed from the device when it is in `legacy: false` mode. [ #577 ]
+- :warning: Fixes mapping for `WXKG07LM` controllers for Zigbee2MQTT integration. It now defaults to the mapping specified in [Zigbee2MQTT documentation](https://www.zigbee2mqtt.io/devices/WXKG07LM.html#action-enum). [ #584 ]
 
 <!--
 ## :clock2: Performance

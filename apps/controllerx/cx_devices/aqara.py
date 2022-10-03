@@ -599,15 +599,15 @@ class WXKG06LMSwitchController(SwitchController):
 class WXKG07LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "both": Light.TOGGLE,
-            "both_double": Light.CLICK_BRIGHTNESS_UP,
-            "both_long": Light.CLICK_BRIGHTNESS_DOWN,
-            "left": Light.TOGGLE,
-            "left_double": Light.CLICK_BRIGHTNESS_UP,
-            "left_long": Light.CLICK_BRIGHTNESS_DOWN,
-            "right": Light.TOGGLE,
-            "right_double": Light.CLICK_BRIGHTNESS_UP,
-            "right_long": Light.CLICK_BRIGHTNESS_DOWN,
+            "single_both": Light.TOGGLE,
+            "double_both": Light.CLICK_BRIGHTNESS_UP,
+            "hold_both": Light.CLICK_BRIGHTNESS_DOWN,
+            "single_left": Light.TOGGLE,
+            "double_left": Light.CLICK_BRIGHTNESS_UP,
+            "hold_left": Light.CLICK_BRIGHTNESS_DOWN,
+            "single_right": Light.TOGGLE,
+            "double_right": Light.CLICK_BRIGHTNESS_UP,
+            "hold_right": Light.CLICK_BRIGHTNESS_DOWN,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
@@ -644,24 +644,24 @@ class WXKG07LMLightController(LightController):
 class WXKG07LMZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "both": Z2MLight.TOGGLE,
-            "both_double": Z2MLight.CLICK_BRIGHTNESS_UP,
-            "both_long": Z2MLight.CLICK_BRIGHTNESS_DOWN,
-            "left": Z2MLight.TOGGLE,
-            "left_double": Z2MLight.CLICK_BRIGHTNESS_UP,
-            "left_long": Z2MLight.CLICK_BRIGHTNESS_DOWN,
-            "right": Z2MLight.TOGGLE,
-            "right_double": Z2MLight.CLICK_BRIGHTNESS_UP,
-            "right_long": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "single_both": Z2MLight.TOGGLE,
+            "double_both": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "hold_both": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "single_left": Z2MLight.TOGGLE,
+            "double_left": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "hold_left": Z2MLight.CLICK_BRIGHTNESS_DOWN,
+            "single_right": Z2MLight.TOGGLE,
+            "double_right": Z2MLight.CLICK_BRIGHTNESS_UP,
+            "hold_right": Z2MLight.CLICK_BRIGHTNESS_DOWN,
         }
 
 
 class WXKG07LMSwitchController(SwitchController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "both": Switch.TOGGLE,
-            "left": Switch.TOGGLE,
-            "right": Switch.TOGGLE,
+            "single_both": Switch.TOGGLE,
+            "single_left": Switch.TOGGLE,
+            "single_right": Switch.TOGGLE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
