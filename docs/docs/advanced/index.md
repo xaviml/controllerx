@@ -3,7 +3,7 @@ title: Custom mapping
 layout: page
 ---
 
-We can make us of the attribute `mapping` to overwrite completely the behaviour of our default controller, or `merge_mapping` to overwrite just the specified events. The content of both work the same way:
+We can make use of the attribute `mapping` to overwrite completely the behaviour of our default controller, or `merge_mapping` to overwrite just the specified events. The content of both work the same way:
 
 - **key**: The event to get fired from the controller. You can check these events in the individual pages from the [supported controllers](/controllerx/controllers). Note that they change depending on the controller and the integration (z2m, deconz, zha). [Mutliple click functionality](multiple-clicks) can be configured in the `key` part.
 - **value**: An [action type](action-types) or a list of them. This is/are the action(s) to be executed when the event (`key`) is fired.
