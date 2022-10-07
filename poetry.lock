@@ -163,7 +163,7 @@ python-versions = "*"
 
 [[package]]
 name = "azure-core"
-version = "1.25.1"
+version = "1.26.0"
 description = "Microsoft Azure Core Library for Python"
 category = "main"
 optional = false
@@ -173,6 +173,9 @@ python-versions = ">=3.7"
 requests = ">=2.18.4"
 six = ">=1.11.0"
 typing-extensions = ">=4.0.1"
+
+[package.extras]
+aio = ["aiohttp (>=3.0)"]
 
 [[package]]
 name = "azure-keyvault-secrets"
@@ -1533,8 +1536,8 @@ azure-common = [
     {file = "azure_common-1.1.28-py2.py3-none-any.whl", hash = "sha256:5c12d3dcf4ec20599ca6b0d3e09e86e146353d443e7fcc050c9a19c1f9df20ad"},
 ]
 azure-core = [
-    {file = "azure-core-1.25.1.zip", hash = "sha256:3c1cf368650e76ec009c07cd1174a95cdcb471b247bb72d18245f7d56c1809b2"},
-    {file = "azure_core-1.25.1-py3-none-any.whl", hash = "sha256:b0d62e67ec6d47365eebb12c50bc96f7b22d06b359f56ce7f904b095cb46b195"},
+    {file = "azure-core-1.26.0.zip", hash = "sha256:b0036a0d256329e08d1278dff7df36be30031d2ec9b16c691bc61e4732f71fe0"},
+    {file = "azure_core-1.26.0-py3-none-any.whl", hash = "sha256:578ea3ae56bca48880c96797871b6c954b5ae78d10d54360182c7604dc837f25"},
 ]
 azure-keyvault-secrets = [
     {file = "azure-keyvault-secrets-4.3.0.zip", hash = "sha256:26279ba3a6c727deba1fb61f549496867baddffbf062bd579d6fd2bc04e95276"},
