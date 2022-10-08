@@ -2,8 +2,9 @@
 
 :warning: This minor change contains a breaking change.
 
-_This minor change does not contain any breaking changes._
-_Note: Remember to restart the AppDaemon addon/server after updating to a new version._
+<!-- _This minor change does not contain any breaking changes._ -->
+
+**_Note: Remember to restart the AppDaemon addon/server after updating to a new version._**
 
 ## :pencil2: Features
 
