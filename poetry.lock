@@ -1273,7 +1273,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "types-mock"
-version = "4.0.15"
+version = "4.0.15.2"
 description = "Typing stubs for mock"
 category = "dev"
 optional = false
@@ -1418,7 +1418,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "b1c70041d9b5179469c7299c8bff37c89ff9f67091faa9d582fa7fad40a0e268"
+content-hash = "8093cfeeb8b20b4911a03042c03ce9eff8501a35fef957ea2c61b2067f45f298"
 
 [metadata.files]
 aiodns = [
@@ -2407,8 +2407,8 @@ typed-ast = [
     {file = "typed_ast-1.5.4.tar.gz", hash = "sha256:39e21ceb7388e4bb37f4c679d72707ed46c2fbf2a5609b8b8ebc4b067d977df2"},
 ]
 types-mock = [
-    {file = "types-mock-4.0.15.tar.gz", hash = "sha256:a849bc2d966063f4946013bf404822ee2b96f77a8dccda4174b70ab61c5293fe"},
-    {file = "types_mock-4.0.15-py3-none-any.whl", hash = "sha256:4535fbb3912b88a247d43cdb41db0c8b2e187138986f6f01a989717e56105848"},
+    {file = "types-mock-4.0.15.2.tar.gz", hash = "sha256:83fe479741adb92210c3c92f006fe058297d5051e93c2cec36f1a9e0bae16e9e"},
+    {file = "types_mock-4.0.15.2-py3-none-any.whl", hash = "sha256:39d489b6d9361b75448677680a3087701c0cfab61260363cfc0f646d2bf0a8b2"},
 ]
 types-pyyaml = [
     {file = "types-PyYAML-6.0.12.tar.gz", hash = "sha256:f6f350418125872f3f0409d96a62a5a5ceb45231af5cc07ee0034ec48a3c82fa"},
