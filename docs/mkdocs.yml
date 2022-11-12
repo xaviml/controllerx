@@ -32,6 +32,7 @@ nav:
           - examples/sonos-display.md
           - examples/sonos.md
           - examples/tasmota-switchmode11.md
+          - examples/tasmota-double-button.md
   - Others:
       - others/extract-controller-id.md
       - others/run-appdaemon.md
