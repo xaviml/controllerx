@@ -198,4 +198,6 @@ example_app:
   light: light.example_light
 ```
 
+For an example on how to use a device with two buttons, please check [here](/controllerx/examples/tasmota-double-button).
+
 Last but not least, the [MQTT plugin needs to be enabled](/controllerx/others/enable-mqtt-plugin).
