@@ -427,6 +427,9 @@ class WXCJKG12LMZ2MLightController(Z2MLightController):
             "button_4_release": Z2MLight.RELEASE,
         }
 
+class WXCJKG13LMMediaPlayerController(MediaPlayerController):
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {}
 
 class WXCJKG13LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
