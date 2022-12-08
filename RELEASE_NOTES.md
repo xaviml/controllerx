@@ -10,9 +10,9 @@ _This minor change does not contain any breaking changes._
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Fix Z2M mapping for [Philips929003017102](https://BASE_URL/controllerx/controllers/Philips929003017102). Change `left_press`/`right_press` for `left_press_release`/`right_press_release`.
 
 <!--
 ## :clock2: Performance

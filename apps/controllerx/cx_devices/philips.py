@@ -205,12 +205,12 @@ class HueSmartButtonZ2MLightController(Z2MLightController):
 class Philips929003017102LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "left_press": Light.TOGGLE,
-            # "left_press_release": "",
+            # "left_press": Light.TOGGLE,
+            "left_press_release": Light.TOGGLE,
             "left_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
             "left_hold_release": Light.RELEASE,
-            "right_press": Light.TOGGLE,
-            # "right_press_release": "",
+            # "right_press": Light.TOGGLE,
+            "right_press_release": Light.TOGGLE,
             "right_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
             "right_hold_release": Light.RELEASE,
         }
@@ -231,12 +231,12 @@ class Philips929003017102LightController(LightController):
 class Philips929003017102Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "left_press": Z2MLight.TOGGLE,
-            # "left_press_release": "",
+            # "left_press": Z2MLight.TOGGLE,
+            "left_press_release": Z2MLight.TOGGLE,
             "left_hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
             "left_hold_release": Z2MLight.RELEASE,
-            "right_press": Z2MLight.TOGGLE,
-            # "right_press_release": "",
+            # "right_press": Z2MLight.TOGGLE,
+            "right_press_release": Z2MLight.TOGGLE,
             "right_hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
             "right_hold_release": Z2MLight.RELEASE,
         }
