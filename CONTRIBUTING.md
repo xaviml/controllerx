@@ -10,7 +10,7 @@ poetry shell
 pre-commit install
 ```
 
-_Note: I recommend working with Python 3.7 since is the minimum version supported_
+_Note: Although 3.7 is the minimum version supported, I recommend working with Python 3.8 since it is the minimum version supported by flake8._
 
 ## Adding a new controller
 
