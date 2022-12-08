@@ -111,7 +111,7 @@ jobs:
         run: echo "/ /controllerx" > ./docs/controllerx-site/_redirects
       - name: Deploy to Netlify
         id: netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           publish-dir: "./docs/controllerx-site"
