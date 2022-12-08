@@ -644,6 +644,7 @@ class E2002LightController(LightController):
             "move_1_83_0_0": Light.HOLD_BRIGHTNESS_DOWN,
             "hold_3329_0": Light.HOLD_COLOR_DOWN,
             "hold_3328_0": Light.HOLD_COLOR_UP,
+            "stop": Light.RELEASE,
             "stop_with_on_off": Light.RELEASE,
             "release": Light.RELEASE,
         }
@@ -718,6 +719,7 @@ class E2002MediaPlayerController(MediaPlayerController):
             "move_1_83_0_0": MediaPlayer.HOLD_VOLUME_DOWN,
             "hold_3329_0": MediaPlayer.PREVIOUS_SOURCE,
             "hold_3328_0": MediaPlayer.NEXT_SOURCE,
+            "stop": MediaPlayer.RELEASE,
             "stop_with_on_off": MediaPlayer.RELEASE,
             "release": MediaPlayer.RELEASE,
         }
