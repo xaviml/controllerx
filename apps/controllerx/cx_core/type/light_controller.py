@@ -1,6 +1,6 @@
 import asyncio
 from functools import lru_cache
-from typing import Any, Dict, List, Optional, Set, Type
+from typing import Any, Dict, List, Literal, Optional, Set, Type
 
 from cx_const import Light, Number, PredefinedActionsMapping, StepperDir, StepperMode
 from cx_core.color_helper import Color, get_color_wheel
@@ -30,10 +30,7 @@ DEFAULT_ADD_TRANSITION = True
 DEFAULT_TRANSITION_TURN_TOGGLE = False
 DEFAULT_HOLD_TOGGLE_DIRECTION_INIT = "up"
 
-# Once the minimum supported version of Python is 3.8,
-# we can declare the ColorMode as a Literal
-# ColorMode = Literal["auto", "xy_color", "color_temp"]
-ColorMode = str
+ColorMode = Literal["auto", "xy_color", "color_temp"]
 
 COLOR_MODES = {"hs", "xy", "rgb", "rgbw", "rgbww"}
 STEPPER_MODES: Dict[str, Type[Stepper]] = {

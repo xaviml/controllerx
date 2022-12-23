@@ -22,9 +22,9 @@ _This minor change does not contain any breaking changes._
 ## :scroll: Docs
 -->
 
-<!--
-## :wrench: Refactor
--->
+## :wrench: Build
+
+- Update minimum supported Python version to 3.8
 
 <!--
 ## :video_game: New devices

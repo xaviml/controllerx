@@ -1,8 +1,9 @@
+from typing import Literal
+
 import pytest
 from cx_const import StepperDir
 from cx_core.stepper import MinMax
 from cx_core.stepper.stop_stepper import StopStepper
-from typing_extensions import Literal
 
 
 @pytest.mark.parametrize(

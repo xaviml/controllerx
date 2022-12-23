@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Set, Type, Union
+from typing import Any, Dict, Literal, Optional, Set, Type, Union
 
 import pytest
 from cx_const import StepperDir, StepperMode
@@ -13,7 +13,6 @@ from cx_core.stepper.stop_stepper import StopStepper
 from cx_core.type.light_controller import ColorMode, LightEntity
 from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
-from typing_extensions import Literal
 
 from tests.test_utils import fake_fn, wrap_execution
 
