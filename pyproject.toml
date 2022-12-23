@@ -14,7 +14,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 appdaemon = "4.2.1"
 
 [tool.poetry.dev-dependencies]
@@ -48,7 +48,7 @@ line-length = 88
 exclude = ".git,.hg,.mypy_cache,.tox,_build,buck-out,build,dist"
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.8"
 warn_unused_configs = true
 warn_return_any = false
 warn_unreachable = true
