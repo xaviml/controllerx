@@ -2,7 +2,7 @@ from cx_const import DefaultActionsMapping, Light, Z2MLight
 from cx_core import LightController, Z2MLightController
 
 
-class ADEOHRC99CZC045LightController(LightController):
+class AdeoHRC99CZC045LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Light.ON,
@@ -24,7 +24,7 @@ class ADEOHRC99CZC045LightController(LightController):
         }
 
 
-class ADEOHRC99CZC045Z2MLightController(Z2MLightController):
+class AdeoHRC99CZC045Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "on": Z2MLight.ON,

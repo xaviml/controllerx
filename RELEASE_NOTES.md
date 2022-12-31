@@ -29,4 +29,4 @@ _This minor change does not contain any breaking changes._
 ## :video_game: New devices
 
 - [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602) - add ZHA support. [ #580 ] @cznewt @ScratMan
-- [ADEOHRC99CZC045](https://BASE_URL/controllerx/controllers/ADEOHRC99CZC045) - add device with Z2M support. [ #648 ]
+- [AdeoHRC99CZC045](https://BASE_URL/controllerx/controllers/AdeoHRC99CZC045) - add device with Z2M support. [ #648 ]
