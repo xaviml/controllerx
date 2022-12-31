@@ -1,6 +1,6 @@
 [![downloads](https://img.shields.io/github/downloads/xaviml/controllerx/VERSION_TAG/total?style=for-the-badge)](http://github.com/xaviml/controllerx/releases/VERSION_TAG)
 
-<!--:warning: This major/minor change contains a breaking change.-->
+:warning: This major/minor change contains a breaking change.
 
 _This minor change does not contain any breaking changes._
 
@@ -12,7 +12,7 @@ _This minor change does not contain any breaking changes._
 
 ## :hammer: Fixes
 
-- Fix Z2M and deCONZ default mapping for [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602). [ #580 ]
+- :warning: Fix Z2M and deCONZ default mapping for [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602) (Hue Dimmer v2). The power button (click and hold) toggles the light and the Hue button changes the color. If you use this device with a custom mapping using the `mapping` attribute, there is nothing to worry about. [ #580 ]
 
 <!--
 ## :clock2: Performance
