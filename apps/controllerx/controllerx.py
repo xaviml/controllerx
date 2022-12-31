@@ -11,6 +11,7 @@ from cx_core import (
     SwitchController,
     Z2MLightController,
 )
+from cx_devices.adeo import *
 from cx_devices.aqara import *
 from cx_devices.aurora import *
 from cx_devices.homematic import *
