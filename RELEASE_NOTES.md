@@ -10,9 +10,9 @@ _This minor change does not contain any breaking changes._
 ## :pencil2: Features
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Fix Z2M and deCONZ default mapping for [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602). [ #580 ]
 
 <!--
 ## :clock2: Performance
@@ -26,8 +26,6 @@ _This minor change does not contain any breaking changes._
 
 - Update minimum supported Python version to 3.8
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
+- [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602) - add ZHA support. [ #580 ] @cznewt @ScratMan
