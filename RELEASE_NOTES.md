@@ -30,3 +30,4 @@ _This minor change does not contain any breaking changes._
 
 - [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602) - add ZHA support. [ #580 ] @cznewt @ScratMan
 - [AdeoHRC99CZC045](https://BASE_URL/controllerx/controllers/AdeoHRC99CZC045) - add device with Z2M support. [ #648 ]
+- [Prolight5412748727388](https://BASE_URL/controllerx/controllers/Prolight5412748727388) - add device with Z2M support. [ #657 ]
