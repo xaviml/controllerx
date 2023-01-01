@@ -85,7 +85,7 @@ class TuYaERS10TZBVKAAZ2MLightController(Z2MLightController):
         }
 
 
-class TuYaERS10TZBVKAAMediaPlayerLightController(MediaPlayerController):
+class TuYaERS10TZBVKAAMediaPlayerController(MediaPlayerController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             # Command mode
