@@ -25,7 +25,7 @@ class OsramAC025XX00NJLightController(LightController):
             "1_on": Light.ON,
             "1_move_with_on_off": Light.HOLD_BRIGHTNESS_UP,
             "1_stop": Light.RELEASE,
-            # "3_move_to_level_with_on_off" : "", # Nothing
+            "3_move_to_level_with_on_off": None,
             "3_move_to_color_temp": Light.SYNC,
             "3_move_to_saturation": Light.HOLD_COLOR_UP,
             "3_move_hue": Light.RELEASE,

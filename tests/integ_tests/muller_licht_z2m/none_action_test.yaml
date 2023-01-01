@@ -1,0 +1,3 @@
+entity_state: "on"
+fired_actions: [scene_1, scene_2, scene_3, scene_4, scene_5, scene_6]
+expected_calls_count: 0

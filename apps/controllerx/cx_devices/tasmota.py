@@ -15,7 +15,7 @@ class TasmotaButtonZ2MLightController(Z2MLightController):
             "DOUBLE": Z2MLight.ON_MIN_BRIGHTNESS,
             "TRIPLE": Z2MLight.SET_HALF_BRIGHTNESS,
             "QUAD": Z2MLight.ON_FULL_BRIGHTNESS,
-            # "PENTA": "", # Nothing
+            "PENTA": None,
             "HOLD": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
             "CLEAR": Z2MLight.RELEASE,
         }
@@ -39,7 +39,7 @@ class TasmotaButtonLightController(LightController):
             "DOUBLE": Light.ON_MIN_BRIGHTNESS,
             "TRIPLE": Light.SET_HALF_BRIGHTNESS,
             "QUAD": Light.ON_FULL_BRIGHTNESS,
-            # "PENTA": "", # Nothing
+            "PENTA": None,
             "HOLD": Light.HOLD_BRIGHTNESS_TOGGLE,
             "CLEAR": Light.RELEASE,
         }
@@ -62,10 +62,10 @@ class TasmotaButtonSwitchController(SwitchController):
             "SINGLE": Switch.TOGGLE,
             "DOUBLE": Switch.ON,
             "TRIPLE": Switch.OFF,
-            # "QUAD": "", # Nothing
-            # "PENTA": "", # Nothing
-            # "HOLD": "" # Nothing
-            # "CLEAR": "" # Nothing
+            "QUAD": None,
+            "PENTA": None,
+            "HOLD": None,
+            "CLEAR": None,
         }
 
 
@@ -75,7 +75,7 @@ class TasmotaSwitchSwitchController(SwitchController):
             "TOGGLE": Switch.TOGGLE,
             "ON": Switch.ON,
             "OFF": Switch.OFF,
-            # "HOLD": "" # Nothing
+            "HOLD": None,
         }
 
 
@@ -85,11 +85,11 @@ class TasmotaButtonCoverController(CoverController):
             "TOGGLE": Cover.TOGGLE_OPEN,
             "SINGLE": Cover.TOGGLE_OPEN,
             "DOUBLE": Cover.CLOSE,
-            # "TRIPLE": "", # Nothing
-            # "QUAD": "", # Nothing
-            # "PENTA": "", # Nothing
+            "TRIPLE": None,
+            "QUAD": None,
+            "PENTA": None,
             "HOLD": Cover.CLOSE,
-            # "CLEAR": "" # Nothing
+            "CLEAR": None,
         }
 
 
