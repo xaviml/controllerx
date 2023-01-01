@@ -13,14 +13,15 @@ _This minor change does not contain any breaking changes._
 ## :hammer: Fixes
 
 - :warning: Fix Z2M and deCONZ default mapping for [Philips929002398602](https://BASE_URL/controllerx/controllers/Philips929002398602) (Hue Dimmer v2). The power button (click and hold) toggles the light and the Hue button changes the color. If you use this device with a custom mapping using the `mapping` attribute, there is nothing to worry about. [ #580 ]
+- Allow running configuration with null actions. [ #662 ]
 
 <!--
 ## :clock2: Performance
 -->
 
-<!--
 ## :scroll: Docs
--->
+
+- Device pages: show events with no actions assigned [ #662 ]
 
 ## :wrench: Build
 

@@ -17,10 +17,10 @@ class AdeoHRC99CZC045LightController(LightController):
             "color_temperature_step_up": Light.HOLD_COLOR_TEMP_UP,
             "color_temperature_step_down": Light.HOLD_COLOR_TEMP_DOWN,
             "color_stop": Light.RELEASE,
-            # "scene_1": "",
-            # "scene_2": "",
-            # "scene_3": "",
-            # "scene_4": "",
+            "scene_1": None,
+            "scene_2": None,
+            "scene_3": None,
+            "scene_4": None,
         }
 
 
@@ -39,8 +39,8 @@ class AdeoHRC99CZC045Z2MLightController(Z2MLightController):
             "color_temperature_step_up": Z2MLight.HOLD_COLOR_TEMP_UP,
             "color_temperature_step_down": Z2MLight.HOLD_COLOR_TEMP_DOWN,
             "color_stop": Z2MLight.RELEASE,
-            # "scene_1": "",
-            # "scene_2": "",
-            # "scene_3": "",
-            # "scene_4": "",
+            "scene_1": None,
+            "scene_2": None,
+            "scene_3": None,
+            "scene_4": None,
         }

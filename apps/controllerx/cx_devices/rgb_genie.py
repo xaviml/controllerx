@@ -14,7 +14,7 @@ class ZB5121LightController(LightController):
             "move_with_on_off_0_50": Light.HOLD_BRIGHTNESS_UP,  # Hold brightness up
             "step_with_on_off_1_32_0": Light.CLICK_BRIGHTNESS_DOWN,  # Click brightness down
             "move_with_on_off_1_50": Light.HOLD_BRIGHTNESS_DOWN,  # Hold brightness down
-            # "recall_0_1": "",  # Click clapperboard
+            "recall_0_1": None,  # Click clapperboard
             "stop": Light.RELEASE,  # long release
         }
 
@@ -38,7 +38,7 @@ class ZB5122LightController(LightController):
             "move_to_color_temp": Light.COLORTEMP_FROM_CONTROLLER,  # click CW
             "move_color_temp": Light.HOLD_COLOR_TEMP_TOGGLE,  # hold CW
             "stop_move_step": Light.RELEASE,  # release CW
-            # "recall_0_1": "",  # Click clapperboard
+            "recall_0_1": None,  # Click clapperboard
         }
 
     def get_zha_action(self, data: EventData) -> str:
@@ -64,10 +64,10 @@ class ZB3009LightController(LightController):
             "color_temperature_move_up": Light.CLICK_COLOR_TEMP_UP,
             "color_temperature_move": Light.COLORTEMP_FROM_CONTROLLER,
             "color_move": Light.XYCOLOR_FROM_CONTROLLER,
-            # "hue_move": "",  # Play/pause button
-            # "recall_1": "",  # Scene 1
-            # "recall_3": "",  # Scene 2
-            # "recall_2": "",  # Scene 3
+            "hue_move": None,  # Play/pause button
+            "recall_1": None,  # Scene 1
+            "recall_3": None,  # Scene 2
+            "recall_2": None,  # Scene 3
         }
 
 
@@ -83,8 +83,8 @@ class ZB3009Z2MLightController(Z2MLightController):
             "color_temperature_move_up": Z2MLight.CLICK_COLOR_TEMP_UP,
             "color_temperature_move": Z2MLight.COLORTEMP_FROM_CONTROLLER,
             "color_move": Z2MLight.XYCOLOR_FROM_CONTROLLER,
-            # "hue_move": "",  # Play/pause button
-            # "recall_1": "",  # Scene 1
-            # "recall_3": "",  # Scene 2
-            # "recall_2": "",  # Scene 3
+            "hue_move": None,  # Play/pause button
+            "recall_1": None,  # Scene 1
+            "recall_3": None,  # Scene 2
+            "recall_2": None,  # Scene 3
         }
