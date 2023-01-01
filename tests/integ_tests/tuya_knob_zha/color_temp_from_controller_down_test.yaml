@@ -1,0 +1,17 @@
+entity_state: "on"
+entity_state_attributes:
+  color_temp: 80
+fired_actions: ["step_color_temp"]
+extra:
+  params:
+    step_mode: 1
+    step_size: 37
+    transition_time: 3
+    options_mask: null
+    options_override: null
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      color_temp: 43
+      transition: 3000

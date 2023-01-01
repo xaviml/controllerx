@@ -34,3 +34,4 @@ _This minor change does not contain any breaking changes._
 - [AdeoHRC99CZC045](https://BASE_URL/controllerx/controllers/AdeoHRC99CZC045) - add device with Z2M support. [ #648 ]
 - [Prolight5412748727388](https://BASE_URL/controllerx/controllers/Prolight5412748727388) - add device with Z2M support. [ #657 ]
 - [TuYaERS10TZBVKAA](https://BASE_URL/controllerx/controllers/TuYaERS10TZBVKAA) - fix class name for Media Player Controller
+- [TuYaERS10TZBVKAA](https://BASE_URL/controllerx/controllers/TuYaERS10TZBVKAA) - add ZHA support. [ #625 ]

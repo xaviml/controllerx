@@ -9,6 +9,7 @@ from cx_core.feature_support.light import LightSupport
 from cx_core.integration import EventData
 from cx_core.integration.deconz import DeCONZIntegration
 from cx_core.integration.z2m import Z2MIntegration
+from cx_core.integration.zha import ZHAIntegration
 from cx_core.release_hold_controller import ReleaseHoldController
 from cx_core.stepper import MinMax, Stepper
 from cx_core.stepper.bounce_stepper import BounceStepper
@@ -418,8 +419,16 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             ),
             Light.XYCOLOR_FROM_CONTROLLER: self.xycolor_from_controller,
             Light.COLORTEMP_FROM_CONTROLLER: self.colortemp_from_controller,
+            Light.COLORTEMP_FROM_CONTROLLER_STEP: (
+                self.attribute_from_controller_step,
+                (LightController.ATTRIBUTE_COLOR_TEMP,),
+            ),
             Light.BRIGHTNESS_FROM_CONTROLLER_LEVEL: self.brightness_from_controller_level,
             Light.BRIGHTNESS_FROM_CONTROLLER_ANGLE: self.brightness_from_controller_angle,
+            Light.BRIGHTNESS_FROM_CONTROLLER_STEP: (
+                self.attribute_from_controller_step,
+                (LightController.ATTRIBUTE_BRIGHTNESS,),
+            ),
         }
 
     async def check_remove_transition(self, on_from_user: bool) -> bool:
@@ -429,10 +438,12 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             or await self.feature_support.not_supported(LightSupport.TRANSITION)
         )
 
-    async def call_light_service(self, service: str, **attributes: Any) -> None:
+    async def call_light_service(
+        self, service: str, force_transition: bool = False, **attributes: Any
+    ) -> None:
         if "transition" not in attributes:
             attributes["transition"] = self.transition / 1000
-        if self.remove_transition_check:
+        if self.remove_transition_check and not force_transition:
             del attributes["transition"]
         await self.call_service(service, entity_id=self.entity.name, **attributes)
 
@@ -596,6 +607,43 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 )
                 return
             await self._on(brightness=extra["action_level"])
+
+    @action
+    async def attribute_from_controller_step(
+        self, attribute: str, extra: Optional[EventData] = None
+    ) -> None:
+        if extra is None:
+            self.log("No event data present", level="WARNING")
+            return
+        if isinstance(self.integration, ZHAIntegration):
+            try:
+                step_mode: int = extra["params"]["step_mode"]
+                step_size: int = extra["params"]["step_size"]
+                if (
+                    attribute == LightController.ATTRIBUTE_BRIGHTNESS and step_mode == 0
+                ) or (
+                    attribute == LightController.ATTRIBUTE_COLOR_TEMP and step_mode == 1
+                ):
+                    step_size = -step_size
+
+                # Transition time in seconds
+                transition_time: int = extra["params"]["transition_time"]
+
+                self.value_attribute = await self.get_value_attribute(attribute)
+
+                value = self.value_attribute + step_size
+                attributes = {
+                    attribute: value,
+                    "transition": transition_time * 1000,
+                    "force_transition": True,
+                }
+                await self._on(**attributes)
+            except (KeyError, TypeError):
+                self.log(
+                    "`params` should be present in ZHA event with "
+                    "`step_mode`, `step_size`, and `transition_time`",
+                    level="WARNING",
+                )
 
     @action
     async def brightness_from_controller_angle(
