@@ -18,14 +18,14 @@ expected_calls:
     data:
       entity_id: light.livingroom
       transition: 0.35
-      brightness: 34.6
+      brightness: 34
   - service: light/turn_on
     data:
       entity_id: light.livingroom
       transition: 0.35
-      brightness: 9.2
+      brightness: 8
   - service: light/turn_on
     data:
       entity_id: light.livingroom
       transition: 0.35
-      brightness: 85.4
+      brightness: 85

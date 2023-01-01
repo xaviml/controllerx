@@ -299,7 +299,7 @@ async def test_change_light_state(
     sut.remove_transition_check = False
     sut.feature_support._supported_features = 0
 
-    stop = await sut.change_light_state(old, attribute, direction, stepper, "hold")
+    stop = await sut.change_light_state(old, attribute, direction, stepper)
 
     assert stop == stop_expected
     assert sut.value_attribute == expected_value_attribute
@@ -307,23 +307,32 @@ async def test_change_light_state(
 
 
 @pytest.mark.parametrize(
-    "attributes_input, remove_transition_check, attributes_expected",
+    "attributes_input, remove_transition_check, force_transition, attributes_expected",
     [
         (
             {"test": "test"},
             False,
+            False,
             {"test": "test", "transition": 0.3},
         ),
-        ({"test": "test"}, True, {"test": "test"}),
+        ({"test": "test"}, True, False, {"test": "test"}),
         (
             {"test": "test", "transition": 0.5},
+            False,
             False,
             {"test": "test", "transition": 0.5},
         ),
         (
             {"test": "test", "transition": 0.5},
             True,
+            False,
             {"test": "test"},
+        ),
+        (
+            {"test": "test", "transition": 0.5},
+            True,
+            True,
+            {"test": "test", "transition": 0.5},
         ),
     ],
 )
@@ -332,12 +341,15 @@ async def test_call_light_service(
     mocker: MockerFixture,
     attributes_input: Dict[str, str],
     remove_transition_check: bool,
+    force_transition: bool,
     attributes_expected: Dict[str, str],
 ) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.transition = 300
     sut.remove_transition_check = remove_transition_check
-    await sut.call_light_service("test_service", **attributes_input)
+    await sut.call_light_service(
+        "test_service", force_transition=force_transition, **attributes_input
+    )
     called_service_patch.assert_called_once_with(
         "test_service", entity_id=ENTITY_NAME, **attributes_expected
     )
@@ -779,10 +791,13 @@ async def test_hold_loop(
     stepper = StopStepper(MinMax(1, 10), 10)
 
     exceeded = await sut.hold_loop(attribute, direction, stepper)
-
     if value_attribute is None:
         assert exceeded
     else:
         change_light_state_patch.assert_called_once_with(
-            sut.value_attribute, attribute, direction, stepper, "hold"
+            sut.value_attribute,
+            attribute,
+            direction,
+            stepper,
+            extra_attributes={"transition": sut.delay / 1000},
         )

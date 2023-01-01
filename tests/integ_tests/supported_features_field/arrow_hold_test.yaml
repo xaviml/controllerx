@@ -11,9 +11,9 @@ expected_calls:
     data:
       entity_id: light.bedroom
       transition: 0.35
-      color_temp: 234.7
+      color_temp: 234
   - service: light/turn_on
     data:
       entity_id: light.bedroom
       transition: 0.35
-      color_temp: 269.4
+      color_temp: 268

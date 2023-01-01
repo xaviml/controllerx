@@ -1,0 +1,6 @@
+example_app:
+  module: controllerx
+  class: TuYaERS10TZBVKAALightController
+  integration: zha
+  controller: sensor.tuya_knob
+  light: light.my_light
