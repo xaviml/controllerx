@@ -14,4 +14,4 @@ expected_calls:
     data:
       entity_id: light.my_light
       brightness: 70
-      transition: 1000
+      transition: 1

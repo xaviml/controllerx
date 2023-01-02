@@ -1,6 +1,6 @@
 entity_state: "on"
 entity_state_attributes:
-  color_temp: 50
+  color_temp: 200
 fired_actions: ["step_color_temp"]
 extra:
   params:
@@ -13,5 +13,5 @@ expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      color_temp: 63
-      transition: 1000
+      color_temp: 213
+      transition: 1

@@ -619,22 +619,25 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             try:
                 step_mode: int = extra["params"]["step_mode"]
                 step_size: int = extra["params"]["step_size"]
+                stepper = self.generate_stepper(
+                    attribute, step_size, StepperMode.STOP, relative_steps=False
+                )
+                direction = StepperDir.UP
                 if (
                     attribute == LightController.ATTRIBUTE_BRIGHTNESS and step_mode == 0
                 ) or (
                     attribute == LightController.ATTRIBUTE_COLOR_TEMP and step_mode == 1
                 ):
-                    step_size = -step_size
+                    direction = StepperDir.DOWN
 
                 # Transition time in seconds
                 transition_time: int = extra["params"]["transition_time"]
 
                 self.value_attribute = await self.get_value_attribute(attribute)
-
-                value = self.value_attribute + step_size
+                stepper_output = stepper.step(self.value_attribute, direction)
                 attributes = {
-                    attribute: value,
-                    "transition": transition_time * 1000,
+                    attribute: stepper_output.next_value,
+                    "transition": transition_time,
                     "force_transition": True,
                 }
                 await self._on(**attributes)
@@ -690,21 +693,33 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def is_colortemp_supported(self) -> bool:
         return "color_temp" in await self.supported_color_modes
 
-    @lru_cache(maxsize=None)
-    def get_stepper(
-        self, attribute: str, steps: Number, mode: str, *, tag: str
+    def generate_stepper(
+        self, attribute: str, steps: Number, mode: str, *, relative_steps: bool = True
     ) -> Stepper:
         previous_direction = Stepper.invert_direction(self.hold_toggle_direction_init)
         if attribute == LightController.ATTRIBUTE_XY_COLOR:
-            return IndexLoopStepper(len(self.color_wheel), previous_direction)
+            return IndexLoopStepper(
+                len(self.color_wheel),
+                previous_direction,
+                relative_steps,
+            )
         if mode not in STEPPER_MODES:
             raise ValueError(
                 f"`{mode}` mode is not available. Options are: {list(STEPPER_MODES.keys())}"
             )
         stepper_cls = STEPPER_MODES[mode]
         return stepper_cls(
-            self.min_max_attributes[attribute], steps, previous_direction
+            self.min_max_attributes[attribute],
+            steps,
+            previous_direction,
+            relative_steps,
         )
+
+    @lru_cache(maxsize=None)
+    def get_stepper(
+        self, attribute: str, steps: Number, mode: str, *, tag: str
+    ) -> Stepper:
+        return self.generate_stepper(attribute, steps, mode)
 
     async def get_attribute(self, attribute: str) -> str:
         if attribute == LightController.ATTRIBUTE_COLOR:
@@ -764,6 +779,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def before_action(self, action: str, *args: Any, **kwargs: Any) -> bool:
         to_return = True
         self.next_direction = None
+        light_state: str
         if action in ("click", "hold"):
             if len(args) == 2:
                 attribute, direction = args
@@ -773,7 +789,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 raise ValueError(
                     f"`attribute` and `direction` are mandatory fields for `{action}` action"
                 )
-            light_state: str = await self.get_entity_state()
+            light_state = await self.get_entity_state()
             self.smooth_power_on_check = self.check_smooth_power_on(
                 attribute, direction, light_state
             )
@@ -781,6 +797,11 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
                 on_from_user=False
             )
             to_return = (light_state == "on") or self.smooth_power_on_check
+        elif action == "attribute_from_controller_step":
+            light_state = await self.get_entity_state()
+            to_return = light_state == "on"
+            self.smooth_power_on_check = False
+            self.remove_transition_check = False
         else:
             self.remove_transition_check = await self.check_remove_transition(
                 on_from_user=True
