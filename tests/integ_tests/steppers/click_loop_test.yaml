@@ -7,4 +7,4 @@ expected_calls:
     data:
       entity_id: light.livingroom
       transition: 0.3
-      color_temp: 177.7
+      color_temp: 177

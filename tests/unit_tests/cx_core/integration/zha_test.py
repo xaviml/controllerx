@@ -51,7 +51,7 @@ async def test_callback(
     await zha_integration.event_callback("test", data, {})
 
     if expected_called_with is not None:
-        handle_action_patch.assert_called_once_with(expected_called_with)
+        handle_action_patch.assert_called_once_with(expected_called_with, extra=data)
     else:
         handle_action_patch.assert_not_called()
 

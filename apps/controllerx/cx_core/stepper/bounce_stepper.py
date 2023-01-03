@@ -5,9 +5,7 @@ from cx_core.stepper import Stepper, StepperOutput
 class BounceStepper(Stepper):
     def step(self, value: Number, direction: str) -> StepperOutput:
         value = self.min_max.clip(value)
-        max_ = self.min_max.max
-        min_ = self.min_max.min
-        step = (max_ - min_) / self.steps
+        step = self._compute_step()
 
         new_value = value + Stepper.apply_sign(step, direction)
         if self.min_max.is_between(new_value):

@@ -7,9 +7,9 @@ expected_calls:
     data:
       entity_id: light.livingroom
       transition: 0.35
-      color_temp: 472.3
+      color_temp: 472
   - service: light/turn_on
     data:
       entity_id: light.livingroom
       transition: 0.35
-      color_temp: 437.6
+      color_temp: 437

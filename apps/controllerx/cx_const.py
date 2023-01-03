@@ -69,8 +69,10 @@ class Light:
     HOLD_XY_COLOR_TOGGLE = "hold_xycolor_toggle"
     XYCOLOR_FROM_CONTROLLER = "xycolor_from_controller"
     COLORTEMP_FROM_CONTROLLER = "colortemp_from_controller"
+    COLORTEMP_FROM_CONTROLLER_STEP = "colortemp_from_controller_step"
     BRIGHTNESS_FROM_CONTROLLER_LEVEL = "brightness_from_controller_level"
     BRIGHTNESS_FROM_CONTROLLER_ANGLE = "brightness_from_controller_angle"
+    BRIGHTNESS_FROM_CONTROLLER_STEP = "brightness_from_controller_step"
 
 
 class Z2MLight:
