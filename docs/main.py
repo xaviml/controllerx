@@ -20,6 +20,8 @@ from cx_core.type_controller import Entity, TypeController
 from cx_helper import get_instances
 from mkdocs_macros.plugin import MacrosPlugin
 
+DocsMapping = Dict[Optional[str], Dict[str, List[ActionEvent]]]
+
 INTEGRATIONS_TITLES = {
     "z2m": "Zigbee2MQTT",
     "deconz": "deCONZ",
@@ -81,7 +83,7 @@ class ControllerTypeDocs:
     domain: Optional[str]
     cls: str
     delay: Optional[int]
-    mappings: Dict[str, Dict[str, List[ActionEvent]]]
+    mappings: DocsMapping
     integrations_list: List[str]
 
     @property
@@ -142,7 +144,11 @@ class ControllerTypeDocs:
                 "|"
                 + "|".join(integration_values.values())
                 + "|"
-                + predefined_action
+                + (
+                    predefined_action
+                    if predefined_action is not None
+                    else "`No action`"
+                )
                 + "|"
             )
             table.append(row)
@@ -190,9 +196,7 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDoc
     delay: Optional[int] = None
     if isinstance(controller, ReleaseHoldController):
         delay = controller.default_delay()
-    mappings: Dict[str, Dict[str, List[ActionEvent]]] = defaultdict(
-        lambda: defaultdict(list)
-    )
+    mappings: DocsMapping = defaultdict(lambda: defaultdict(list))
     integrations = []
 
     integration_mappings_funcs: Dict[

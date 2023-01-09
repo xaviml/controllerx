@@ -43,4 +43,4 @@ class ZHAIntegration(Integration):
                 )
                 return
 
-        await self.controller.handle_action(action)
+        await self.controller.handle_action(action, extra=data)

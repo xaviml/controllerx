@@ -1,0 +1,17 @@
+entity_state: "on"
+entity_state_attributes:
+  brightness: 1
+fired_actions: ["step_brightness"]
+extra:
+  params:
+    step_mode: 1
+    step_size: 10
+    transition_time: 1
+    options_mask: null
+    options_override: null
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.my_light
+      brightness: 1
+      transition: 1

@@ -79,7 +79,7 @@ example_app:
 
 ## Zigbee2MQTT Light controller
 
-This controller (`Z2MLightController`) allows the devices to control Zigbe2MQTT lights. It allows you to:
+This controller (`Z2MLightController`) allows the devices to control Zigbee2MQTT lights. It allows you to:
 
 - Turn on/off light
 - Toggle light

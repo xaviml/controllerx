@@ -284,7 +284,11 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         return mapping
 
     def parse_action_mapping(self, mapping: CustomActionsMapping) -> ActionsMapping:
-        return {event: parse_actions(self, action) for event, action in mapping.items()}
+        return {
+            event: parse_actions(self, action)
+            for event, action in mapping.items()
+            if action is not None
+        }
 
     def get_multiple_click_actions(self, mapping: ActionsMapping) -> Set[ActionEvent]:
         to_return: Set[ActionEvent] = set()

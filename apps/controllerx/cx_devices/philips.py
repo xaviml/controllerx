@@ -78,8 +78,8 @@ class HueDimmerZ2MLightController(Z2MLightController):
 class Philips929002398602LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "on_press_release": Light.ON,
-            "on_hold": Light.HOLD_COLOR_UP,
+            "on_press_release": Light.TOGGLE,
+            "on_hold": Light.TOGGLE,
             "on_hold_release": Light.RELEASE,
             "up_press_release": Light.CLICK_BRIGHTNESS_UP,
             "up_hold": Light.HOLD_BRIGHTNESS_UP,
@@ -87,15 +87,15 @@ class Philips929002398602LightController(LightController):
             "down_press_release": Light.CLICK_BRIGHTNESS_DOWN,
             "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
             "down_hold_release": Light.RELEASE,
-            "off_press_release": Light.OFF,
+            "off_press_release": Light.CLICK_COLOR_UP,
             "off_hold": Light.HOLD_COLOR_DOWN,
             "off_hold_release": Light.RELEASE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            1002: Light.ON,
-            1001: Light.HOLD_COLOR_UP,
+            1002: Light.TOGGLE,
+            1001: Light.TOGGLE,
             1003: Light.RELEASE,
             2002: Light.CLICK_BRIGHTNESS_UP,
             2001: Light.HOLD_BRIGHTNESS_UP,
@@ -103,10 +103,30 @@ class Philips929002398602LightController(LightController):
             3002: Light.CLICK_BRIGHTNESS_DOWN,
             3001: Light.HOLD_BRIGHTNESS_DOWN,
             3003: Light.RELEASE,
-            4002: Light.OFF,
+            4002: Light.CLICK_COLOR_UP,
             4001: Light.HOLD_COLOR_DOWN,
             4003: Light.RELEASE,
         }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "off_long_release": Light.RELEASE,
+            "off_hold": Light.HOLD_COLOR_DOWN,
+            "off_short_release": Light.CLICK_COLOR_UP,
+            "down_long_release": Light.RELEASE,
+            "down_hold": Light.HOLD_BRIGHTNESS_DOWN,
+            "down_short_release": Light.CLICK_BRIGHTNESS_DOWN,
+            "up_long_release": Light.RELEASE,
+            "up_hold": Light.HOLD_BRIGHTNESS_UP,
+            "up_short_release": Light.CLICK_BRIGHTNESS_UP,
+            "on_long_release": Light.RELEASE,
+            "on_hold": Light.TOGGLE,
+            "on_short_release": Light.TOGGLE,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        command: str = data["command"]
+        return command
 
 
 class Philips929002398602Z2MLightController(Z2MLightController):
@@ -149,27 +169,27 @@ class PTM215XLightController(LightController):
         return {
             1002: Light.ON,  # button_1_release
             1001: Light.SYNC,  # button_1_hold
-            # 1000: "",  # button_1_press
-            # 1003: "",  # button_1_release_after_hold
+            1000: None,  # button_1_press
+            1003: None,  # button_1_release_after_hold
             2002: Light.OFF,  # button_2_release
             2001: Light.SYNC,  # button_2_hold
-            # 2000: "",  # button_2_press
-            # 2003: "",  # button_2_release_after_hold
+            2000: None,  # button_2_press
+            2003: None,  # button_2_release_after_hold
             3002: Light.ON_FULL_BRIGHTNESS,  # button_3_release
             3001: Light.HOLD_BRIGHTNESS_UP,  # button_3_hold
-            # 3000: "",  # button_3_press
+            3000: None,  # button_3_press
             3003: Light.RELEASE,  # button_3_release_after_hold
             4002: Light.ON_MIN_BRIGHTNESS,  # button_4_release
             4001: Light.HOLD_BRIGHTNESS_DOWN,  # button_4_hold
-            # 4000: "",  # button_4_press
+            4000: None,  # button_4_press
             4003: Light.RELEASE,  # button_4_release_after_hold
             5002: Light.ON_FULL_COLOR_TEMP,  # button_1_3_release
             5001: Light.HOLD_COLOR_UP,  # button_1_3_hold
-            # 5000: "",  # button_1_3_press
+            5000: None,  # button_1_3_press
             5003: Light.RELEASE,  # button_1_3_release_after_hold
             6002: Light.ON_MIN_COLOR_TEMP,  # button_2_4_release
             6001: Light.HOLD_COLOR_DOWN,  # button_2_4_hold
-            # 6000: "",  # button_2_4_press
+            6000: None,  # button_2_4_press
             6003: Light.RELEASE,  # button_2_4_release_after_hold
         }
 
@@ -185,7 +205,7 @@ class HueSmartButtonLightController(LightController):
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            # 1000: "", # Initial press
+            1000: None,  # Initial press
             1001: Light.HOLD_BRIGHTNESS_TOGGLE,
             1002: Light.TOGGLE,
             1003: Light.RELEASE,
@@ -205,23 +225,23 @@ class HueSmartButtonZ2MLightController(Z2MLightController):
 class Philips929003017102LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "left_press": Light.TOGGLE,
-            # "left_press_release": "",
+            # "left_press": Light.TOGGLE,
+            "left_press_release": Light.TOGGLE,
             "left_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
             "left_hold_release": Light.RELEASE,
-            "right_press": Light.TOGGLE,
-            # "right_press_release": "",
+            # "right_press": Light.TOGGLE,
+            "right_press_release": Light.TOGGLE,
             "right_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
             "right_hold_release": Light.RELEASE,
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            # 1000: "", # Initial press
+            1000: None,  # Initial press
             1001: Light.HOLD_BRIGHTNESS_TOGGLE,
             1002: Light.TOGGLE,
             1003: Light.RELEASE,
-            # 2000: "", # Initial press
+            2000: None,  # Initial press
             2001: Light.HOLD_BRIGHTNESS_TOGGLE,
             2002: Light.TOGGLE,
             2003: Light.RELEASE,
@@ -231,12 +251,12 @@ class Philips929003017102LightController(LightController):
 class Philips929003017102Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "left_press": Z2MLight.TOGGLE,
-            # "left_press_release": "",
+            # "left_press": Z2MLight.TOGGLE,
+            "left_press_release": Z2MLight.TOGGLE,
             "left_hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
             "left_hold_release": Z2MLight.RELEASE,
-            "right_press": Z2MLight.TOGGLE,
-            # "right_press_release": "",
+            # "right_press": Z2MLight.TOGGLE,
+            "right_press_release": Z2MLight.TOGGLE,
             "right_hold": Z2MLight.HOLD_BRIGHTNESS_TOGGLE,
             "right_hold_release": Z2MLight.RELEASE,
         }

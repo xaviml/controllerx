@@ -1,5 +1,6 @@
 from cx_const import DefaultActionsMapping, Light, MediaPlayer, Z2MLight
 from cx_core import LightController, MediaPlayerController, Z2MLightController
+from cx_core.integration import EventData
 
 
 class TS0044LightController(LightController):
@@ -64,6 +65,19 @@ class TuYaERS10TZBVKAALightController(LightController):
             "hold": Light.ON_MIN_BRIGHTNESS,
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "toggle": Light.TOGGLE,
+            "step_brightness": Light.BRIGHTNESS_FROM_CONTROLLER_STEP,
+            "step_color_temp": Light.COLORTEMP_FROM_CONTROLLER_STEP,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        command: str = data["command"]
+        if command == "step":
+            return "step_brightness"
+        return command
+
 
 class TuYaERS10TZBVKAAZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
@@ -85,7 +99,7 @@ class TuYaERS10TZBVKAAZ2MLightController(Z2MLightController):
         }
 
 
-class TuYaERS10TZBVKAAMediaPlayerLightController(MediaPlayerController):
+class TuYaERS10TZBVKAAMediaPlayerController(MediaPlayerController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             # Command mode

@@ -14,17 +14,17 @@ expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      brightness: 75.4
+      brightness: 75
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      brightness: 50
+      brightness: 49
   # Now we expect the brightness to go up from the original brightness (100.8)
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      brightness: 126.2
+      brightness: 126
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      brightness: 151.6
+      brightness: 151

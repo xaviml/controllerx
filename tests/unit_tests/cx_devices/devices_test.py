@@ -25,6 +25,8 @@ def check_mapping(
                 f"Device class: {device_name}"
             )
     for v in mapping.values():
+        if v is None:
+            continue
         if not isinstance(v, str):
             raise ValueError(
                 "The value from the mapping should be a string, matching "

@@ -17,12 +17,12 @@ class MLI404011LightController(LightController):
             "brightness_up_release": Light.RELEASE,
             "color_wheel": Light.XYCOLOR_FROM_CONTROLLER,  # Color ring press
             "color_temp": Light.COLORTEMP_FROM_CONTROLLER,  # warm or cold
-            # "scene_3": "",  # reading button
-            # "scene_1": "",  # sunset button
-            # "scene_2": "",  # party button
-            # "scene_6": "",  # night button
-            # "scene_4": "",  # fire button
-            # "scene_5": "",  # heart button
+            "scene_1": None,  # sunset button
+            "scene_2": None,  # party button
+            "scene_3": None,  # reading button
+            "scene_4": None,  # fire button
+            "scene_5": None,  # heart button
+            "scene_6": None,  # night button
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
@@ -37,12 +37,12 @@ class MLI404011LightController(LightController):
             4002: Light.CLICK_COLOR_UP,
             5002: Light.CLICK_COLOR_DOWN,
             6002: Light.XYCOLOR_FROM_CONTROLLER,  # Color ring press
-            # 7002: "",  # reading button
-            # 8002: "",  # sunset button
-            # 9002: "",  # party button
-            # 10002: "",  # night button
-            # 11002: "",  # fire button
-            # 12002: "",  # heart button
+            7002: None,  # reading button
+            8002: None,  # sunset button
+            9002: None,  # party button
+            10002: None,  # night button
+            11002: None,  # fire button
+            12002: None,  # heart button
         }
 
 
@@ -59,12 +59,12 @@ class MLI404011Z2MLightController(Z2MLightController):
             "brightness_up_release": Z2MLight.RELEASE,
             "color_wheel": Z2MLight.XYCOLOR_FROM_CONTROLLER,  # Color ring press
             "color_temp": Z2MLight.COLORTEMP_FROM_CONTROLLER,  # warm or cold
-            # "scene_3": "",  # reading button
-            # "scene_1": "",  # sunset button
-            # "scene_2": "",  # party button
-            # "scene_6": "",  # night button
-            # "scene_4": "",  # fire button
-            # "scene_5": "",  # heart button
+            "scene_1": None,  # sunset button
+            "scene_2": None,  # party button
+            "scene_3": None,  # reading button
+            "scene_4": None,  # fire button
+            "scene_5": None,  # heart button
+            "scene_6": None,  # night button
         }
 
 

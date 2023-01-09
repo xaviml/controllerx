@@ -11,6 +11,7 @@ from cx_core import (
     SwitchController,
     Z2MLightController,
 )
+from cx_devices.adeo import *
 from cx_devices.aqara import *
 from cx_devices.aurora import *
 from cx_devices.homematic import *
@@ -22,6 +23,7 @@ from cx_devices.lutron import *
 from cx_devices.muller_licht import *
 from cx_devices.osram import *
 from cx_devices.philips import *
+from cx_devices.prolight import *
 from cx_devices.rgb_genie import *
 from cx_devices.robb import *
 from cx_devices.sengled import *

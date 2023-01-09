@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import pytest
 from cx_const import StepperDir
@@ -7,7 +7,6 @@ from cx_core.controller import Controller
 from cx_core.feature_support.media_player import MediaPlayerSupport
 from pytest import MonkeyPatch
 from pytest_mock.plugin import MockerFixture
-from typing_extensions import Literal
 
 from tests.test_utils import fake_fn
 

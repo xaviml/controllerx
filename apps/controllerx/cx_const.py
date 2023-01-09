@@ -1,4 +1,4 @@
-from typing import Any, Awaitable, Callable, Dict, List, Tuple, Union
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
 ActionParams = Tuple[Any, ...]
@@ -6,11 +6,11 @@ ActionFunctionWithParams = Tuple[ActionFunction, ActionParams]
 TypeAction = Union[ActionFunction, ActionFunctionWithParams]
 ActionEvent = Union[str, int]
 PredefinedActionsMapping = Dict[str, TypeAction]
-DefaultActionsMapping = Dict[ActionEvent, str]
+DefaultActionsMapping = Dict[ActionEvent, Optional[str]]
 
 CustomAction = Union[str, Dict[str, Any]]
 CustomActions = Union[List[CustomAction], CustomAction]
-CustomActionsMapping = Dict[ActionEvent, CustomActions]
+CustomActionsMapping = Dict[ActionEvent, Optional[CustomActions]]
 
 Number = Union[int, float]
 
@@ -69,8 +69,10 @@ class Light:
     HOLD_XY_COLOR_TOGGLE = "hold_xycolor_toggle"
     XYCOLOR_FROM_CONTROLLER = "xycolor_from_controller"
     COLORTEMP_FROM_CONTROLLER = "colortemp_from_controller"
+    COLORTEMP_FROM_CONTROLLER_STEP = "colortemp_from_controller_step"
     BRIGHTNESS_FROM_CONTROLLER_LEVEL = "brightness_from_controller_level"
     BRIGHTNESS_FROM_CONTROLLER_ANGLE = "brightness_from_controller_angle"
+    BRIGHTNESS_FROM_CONTROLLER_STEP = "brightness_from_controller_step"
 
 
 class Z2MLight:

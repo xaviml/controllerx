@@ -11,11 +11,13 @@ _This minor change does not contain any breaking changes._
 -->
 
 <!--
-## :hammer: Fixes
+## :video_game: New devices
+
+- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
 
 <!--
-## :clock2: Performance
+## :hammer: Fixes
 -->
 
 <!--
@@ -23,11 +25,9 @@ _This minor change does not contain any breaking changes._
 -->
 
 <!--
-## :wrench: Refactor
+## :clock2: Performance
 -->
 
 <!--
-## :video_game: New devices
-
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
+## :wrench: Refactor
 -->

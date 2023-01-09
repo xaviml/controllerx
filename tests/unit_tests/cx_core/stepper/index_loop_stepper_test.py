@@ -1,7 +1,8 @@
+from typing import Literal
+
 import pytest
 from cx_const import StepperDir
 from cx_core.stepper.index_loop_stepper import IndexLoopStepper
-from typing_extensions import Literal
 
 
 @pytest.mark.parametrize(

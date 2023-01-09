@@ -54,9 +54,10 @@ class StepperOutput:
 class Stepper(abc.ABC):
     sign_mapping = {StepperDir.UP: 1, StepperDir.DOWN: -1}
 
-    previous_direction: str
     min_max: MinMax
     steps: Number
+    previous_direction: str
+    relative_steps: bool
 
     @staticmethod
     def invert_direction(direction: str) -> str:
@@ -71,11 +72,24 @@ class Stepper(abc.ABC):
         return Stepper.sign(direction) * value
 
     def __init__(
-        self, min_max: MinMax, steps: Number, previous_direction: str = StepperDir.DOWN
+        self,
+        min_max: MinMax,
+        steps: Number,
+        previous_direction: str = StepperDir.DOWN,
+        relative_steps: bool = True,
     ) -> None:
         self.min_max = min_max
         self.steps = steps
         self.previous_direction = previous_direction
+        self.relative_steps = relative_steps
+
+    def _compute_step(self) -> float:
+        if self.relative_steps:
+            max_ = self.min_max.max
+            min_ = self.min_max.min
+            return (max_ - min_) / self.steps
+        else:
+            return self.steps
 
     def get_direction(self, value: Number, direction: str) -> str:
         if direction == StepperDir.TOGGLE:
