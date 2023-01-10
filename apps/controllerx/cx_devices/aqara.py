@@ -675,6 +675,10 @@ class WXCJKG13LMMediaPlayerController(MediaPlayerController):
             # "6_release": "", # Nothing
         }
 
+    def get_zha_action(self, data: EventData) -> str:
+        command: str = data["command"]
+        return command
+
 
 class WXKG06LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
