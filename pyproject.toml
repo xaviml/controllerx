@@ -18,7 +18,7 @@ python = "^3.8"
 appdaemon = "4.2.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "7.2.0"
+pytest = "7.2.1"
 pytest-asyncio = "0.20.3"
 pytest-cov = "4.0.0"
 pytest-mock = "3.10.0"
