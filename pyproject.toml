@@ -34,7 +34,7 @@ types-mock = "5.0.0.0"
 isort = "5.11.4"
 mkdocs-gen-files = "0.4.0"
 mkdocs-macros-plugin = "0.7.0"
-mkdocs-material = "8.2.7"
+mkdocs-material = "8.2.11"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
