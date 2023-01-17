@@ -33,9 +33,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ matrix.python-version }}-v1-${{ hashFiles('poetry.lock') }}
+          key: tests-venv-${{ matrix.python-version }}-v1-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --with test
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Testing
         run: poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
@@ -88,7 +88,7 @@ jobs:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --with docs
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       # This next step can be removed once AppDaemon bumps pygments
       - name: Install pygments==2.12.0
@@ -195,7 +195,7 @@ jobs:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --with docs
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       # This next step can be removed once AppDaemon bumps pygments
       - name: Install pygments==2.12.0
