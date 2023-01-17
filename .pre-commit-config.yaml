@@ -10,7 +10,7 @@ repos:
       - id: name-tests-test
         exclude: ^tests/test_utils.py$
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
+    rev: v1.10.0
     hooks:
       - id: python-check-mock-methods
       - id: python-check-blanket-type-ignore
