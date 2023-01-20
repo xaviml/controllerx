@@ -10,11 +10,9 @@ _This minor change does not contain any breaking changes._
 ## :pencil2: Features
 -->
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
+- [WXCJKG13LM](https://BASE_URL/controllerx/controllers/WXCJKG13LM) - add MediaPlayer controller with Z2M, deCONZ and ZHA support. [ #667 ]
 
 <!--
 ## :hammer: Fixes
