@@ -572,6 +572,132 @@ class WXCJKG13LMZ2MLightController(Z2MLightController):
         }
 
 
+class WXCJKG13LMMediaPlayerController(MediaPlayerController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "button_1_single": MediaPlayer.CLICK_VOLUME_DOWN,
+            "button_1_double": MediaPlayer.MUTE,
+            "button_1_triple": None,
+            "button_1_hold": MediaPlayer.HOLD_VOLUME_DOWN,
+            "button_1_release": MediaPlayer.RELEASE,
+            "button_2_single": MediaPlayer.CLICK_VOLUME_UP,
+            "button_2_double": MediaPlayer.PLAY_PAUSE,
+            "button_2_triple": None,
+            "button_2_hold": MediaPlayer.HOLD_VOLUME_UP,
+            "button_2_release": MediaPlayer.RELEASE,
+            "button_3_single": MediaPlayer.PREVIOUS_TRACK,
+            "button_3_double": None,
+            "button_3_triple": None,
+            "button_3_hold": None,
+            "button_3_release": None,
+            "button_4_single": MediaPlayer.NEXT_TRACK,
+            "button_4_double": None,
+            "button_4_triple": None,
+            "button_4_hold": None,
+            "button_4_release": None,
+            "button_5_single": MediaPlayer.PREVIOUS_SOURCE,
+            "button_5_double": None,
+            "button_5_triple": None,
+            "button_5_hold": None,
+            "button_5_release": None,
+            "button_6_single": MediaPlayer.NEXT_SOURCE,
+            "button_6_double": None,
+            "button_6_triple": None,
+            "button_6_hold": None,
+            "button_6_release": None,
+        }
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        #######################
+        # Button layout
+        #######################
+        # 1000: top-left
+        # 2000: top-right
+        # 3000: middle-left
+        # 4000: middle-right
+        # 5000: bottom-left
+        # 6000: bottom-right
+        #######################
+        # Actions
+        #######################
+        # 0001: hold
+        # 0002: click
+        # 0003: release
+        # 0004: double-click
+        # 0005: triple-click
+        #######################
+        return {
+            1002: MediaPlayer.CLICK_VOLUME_DOWN,
+            1001: MediaPlayer.HOLD_VOLUME_DOWN,
+            1003: MediaPlayer.RELEASE,
+            1004: MediaPlayer.MUTE,
+            1005: None,
+            2002: MediaPlayer.CLICK_VOLUME_UP,
+            2001: MediaPlayer.HOLD_VOLUME_UP,
+            2003: MediaPlayer.RELEASE,
+            2004: MediaPlayer.PLAY_PAUSE,
+            2005: None,
+            3002: MediaPlayer.PREVIOUS_TRACK,
+            3001: None,
+            3003: None,
+            3004: None,
+            3005: None,
+            4002: MediaPlayer.NEXT_TRACK,
+            4001: None,
+            4003: None,
+            4004: None,
+            4005: None,
+            5002: MediaPlayer.PREVIOUS_SOURCE,
+            5001: None,
+            5003: None,
+            5004: None,
+            5005: None,
+            6002: MediaPlayer.NEXT_SOURCE,
+            6001: None,
+            6003: None,
+            6004: None,
+            6005: None,
+        }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "1_single": MediaPlayer.CLICK_VOLUME_DOWN,
+            "1_double": MediaPlayer.MUTE,
+            "1_triple": None,
+            "1_long": MediaPlayer.HOLD_VOLUME_DOWN,
+            "1_release": MediaPlayer.RELEASE,
+            "2_single": MediaPlayer.CLICK_VOLUME_UP,
+            "2_double": MediaPlayer.PLAY_PAUSE,
+            "2_triple": None,
+            "2_long": MediaPlayer.HOLD_VOLUME_UP,
+            "2_release": MediaPlayer.RELEASE,
+            "3_single": MediaPlayer.PREVIOUS_TRACK,
+            "3_double": None,
+            "3_triple": None,
+            "3_long": None,
+            "3_release": None,
+            "4_single": MediaPlayer.NEXT_TRACK,
+            "4_double": None,
+            "4_triple": None,
+            "4_long": None,
+            "4_release": None,
+            "5_single": MediaPlayer.PREVIOUS_SOURCE,
+            "5_double": None,
+            "5_triple": None,
+            "5_long": None,
+            "5_release": Light.RELEASE,
+            "6_single": MediaPlayer.NEXT_SOURCE,
+            "6_double": None,
+            "6_triple": None,
+            "6_long": None,
+            "6_release": None,
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        command: str = data["command"]
+        return command
+
+
 class WXKG06LMLightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {

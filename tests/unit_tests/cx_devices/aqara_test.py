@@ -1,7 +1,9 @@
 import pytest
+from cx_core import MediaPlayerController
 from cx_core.integration import EventData
 from cx_devices.aqara import (
     MFKZQ01LMLightController,
+    WXCJKG13LMMediaPlayerController,
     WXKG01LMLightController,
     WXKG11LMRemoteLightController,
     WXKG11LMSensorSwitchLightController,
@@ -83,3 +85,10 @@ def test_zha_action_WXKG11LMSensorSwitchLightController(
     sut = WXKG11LMSensorSwitchLightController(**{})
     action = sut.get_zha_action(data)
     assert action == expected_action
+
+
+def test_type_WXCJKG13LMMediaPlayerController() -> None:
+
+    sut = WXCJKG13LMMediaPlayerController()
+
+    assert isinstance(sut, MediaPlayerController)
