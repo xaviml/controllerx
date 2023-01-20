@@ -5,7 +5,7 @@
 This project uses poetry as python management tool. Run the following commands to install dependencies and hooking up the pre-commit to git
 
 ```
-poetry install
+poetry install --with dev,test,docs
 poetry shell
 pre-commit install
 ```
