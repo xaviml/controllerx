@@ -12,7 +12,7 @@ _This minor change does not contain any breaking changes._
 
 ## :video_game: New devices
 
-- [WXCJKG13LM](https://BASE_URL/controllerx/controllers/WXCJKG13LM) - add MediaPlayer controller with Z2M, deCONZ and ZHA support. [ #667 ]
+- [WXCJKG13LM](https://BASE_URL/controllerx/controllers/WXCJKG13LM) - add MediaPlayer controller with Z2M, deCONZ and ZHA support. [ #667 ] @mathieuric
 
 <!--
 ## :hammer: Fixes
