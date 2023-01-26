@@ -21,34 +21,34 @@ appdaemon = "4.2.1"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-black = "22.12.0"
-commitizen = "2.29.3"
-flake8 = "5.0.4"
-isort = "5.11.4"
-mypy = "0.991"
-pre-commit = "2.21.0"
-types-mock = "5.0.0.0"
-types-PyYAML = "6.0.12.2"
+black = ">=22.12.0"
+commitizen = ">=2.29.3"
+flake8 = ">=5.0.4"
+isort = ">=5.11.4"
+mypy = ">=0.991"
+pre-commit = ">=2.21.0"
+types-mock = ">=5.0.0.0"
+types-PyYAML = ">=6.0.12.2"
 
 [tool.poetry.group.test]
 optional = true
 
 [tool.poetry.group.test.dependencies]
-mock = "5.0.1"
-pytest = "7.2.1"
-pytest-asyncio = "0.20.3"
-pytest-cov = "4.0.0"
-pytest-mock = "3.10.0"
-pytest-timeout = "2.1.0"
+mock = ">=5.0.1"
+pytest = ">=7.2.1"
+pytest-asyncio = ">=0.20.3"
+pytest-cov = ">=4.0.0"
+pytest-mock = ">=3.10.0"
+pytest-timeout = ">=2.1.0"
 
 [tool.poetry.group.docs]
 optional = true
 
 [tool.poetry.group.docs.dependencies]
-mkdocs-gen-files = "0.4.0"
-mkdocs-macros-plugin = "0.7.0"
-mkdocs-material = "8.2.7"
-setuptools = "66.0.0"
+mkdocs-gen-files = ">=0.4.0"
+mkdocs-macros-plugin = ">=0.7.0"
+mkdocs-material = ">=8.2.7"
+setuptools = ">=66.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
