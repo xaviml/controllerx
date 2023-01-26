@@ -2213,14 +2213,14 @@ files = [
 
 [[package]]
 name = "types-mock"
-version = "5.0.0.0"
+version = "5.0.0.2"
 description = "Typing stubs for mock"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-mock-5.0.0.0.tar.gz", hash = "sha256:7119b478a0824f1ae02b57e25e9e428404a58440bcd89c4ee76404afce261f7c"},
-    {file = "types_mock-5.0.0.0-py3-none-any.whl", hash = "sha256:c293a49d4e762f238a0da1f09b80c0128afacd0e608426ae42be40f5bc3eee2e"},
+    {file = "types-mock-5.0.0.2.tar.gz", hash = "sha256:90c06a7ac36f06c42fedf645b00613fb57fccf7507812faeb17f5252f2d57cbc"},
+    {file = "types_mock-5.0.0.2-py3-none-any.whl", hash = "sha256:f5483743961f9cc2672204394d2b763ac48651e0ac1c36c0ea2d0f1deb425d9d"},
 ]
 
 [[package]]
