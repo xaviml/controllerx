@@ -26,6 +26,7 @@ nav:
       - advanced/templating.md
       - advanced/entity-groups.md
       - advanced/event-integration.md
+      - advanced/stateful-controllers.md
   - Examples:
       - examples/index.md
       - Others:
