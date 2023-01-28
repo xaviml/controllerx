@@ -56,3 +56,5 @@ livingroom:
 ```
 
 This will keep the default mapping for the E1810 controller by using `merge_mapping` and add a new action when clicking 2 and 3 times the middle button to toggle the fairylights and the bedroom lamp.
+
+Note that ControllerX registers the multiple-click events in the initialization phase by checking the events with `$`, so it records whether it needs to wait to trigger the multiple-click event or not. If the triggered event is not registered as mutliple-clickable, then it will be triggered immidiately. However, if the triggered event is mutliple-clickable then it will wait as much time as specified in `multiple_click_delay` to detect if another click is issued or not. If not second (n-th click) is registered, then the event is triggered. Therefore, all multi-clickable events will have a delay specified by `multiple_click_delay`.
