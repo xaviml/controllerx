@@ -96,7 +96,6 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.inlinehilite
   - pymdownx.highlight:
-      # This can be changes to 'true' when AppDaemon bumps pygments to >=2.12
-      use_pygments: !ENV [USE_PYGMENTS, false]
+      use_pygments: true
       anchor_linenums: true
   - attr_list

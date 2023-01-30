@@ -35,7 +35,7 @@ jobs:
           path: .venv
           key: tests-venv-${{ matrix.python-version }}-v1-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: poetry install --with test
+        run: poetry install --only main,test
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Testing
         run: poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
@@ -88,13 +88,10 @@ jobs:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: poetry install --with docs
+        run: poetry install --only main,docs
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      # This next step can be removed once AppDaemon bumps pygments
-      - name: Install pygments==2.12.0
-        run: poetry run pip install pygments==2.12.0
       - name: Build docs
-        run: cd docs && USE_PYGMENTS=true poetry run mkdocs build
+        run: cd docs && poetry run mkdocs build
       - uses: actions/upload-artifact@master
         with:
           name: built-docs
@@ -195,10 +192,7 @@ jobs:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: poetry install --with docs
+        run: poetry install --only main,docs
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      # This next step can be removed once AppDaemon bumps pygments
-      - name: Install pygments==2.12.0
-        run: poetry run pip install pygments==2.12.0
       - name: Publish docs
-        run: cd docs && USE_PYGMENTS=true poetry run mkdocs gh-deploy --force
+        run: cd docs && poetry run mkdocs gh-deploy --force
