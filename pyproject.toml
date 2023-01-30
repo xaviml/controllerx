@@ -17,9 +17,6 @@ packages = [
 python = "^3.8"
 appdaemon = "4.2.1"
 
-[tool.poetry.group.dev]
-optional = true
-
 [tool.poetry.group.dev.dependencies]
 black = ">=22.12.0"
 commitizen = ">=2.29.3"
@@ -30,9 +27,6 @@ pre-commit = ">=2.21.0"
 types-mock = ">=5.0.0.0"
 types-PyYAML = ">=6.0.12.2"
 
-[tool.poetry.group.test]
-optional = true
-
 [tool.poetry.group.test.dependencies]
 mock = ">=5.0.1"
 pytest = ">=7.2.1"
@@ -40,9 +34,6 @@ pytest-asyncio = ">=0.20.3"
 pytest-cov = ">=4.0.0"
 pytest-mock = ">=3.10.0"
 pytest-timeout = ">=2.1.0"
-
-[tool.poetry.group.docs]
-optional = true
 
 [tool.poetry.group.docs.dependencies]
 mkdocs-gen-files = ">=0.4.0"
