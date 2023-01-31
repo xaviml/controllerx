@@ -1287,14 +1287,14 @@ test = ["mkdocs-include-markdown-plugin", "mkdocs-macros-test", "mkdocs-material
 
 [[package]]
 name = "mkdocs-material"
-version = "8.2.11"
+version = "8.2.10"
 description = "Documentation that simply works"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "mkdocs-material-8.2.11.tar.gz", hash = "sha256:af6bbd608a54b8493cb5fa0d2f2cf29cde3bf348837ab718afb1be0a8bea6509"},
-    {file = "mkdocs_material-8.2.11-py2.py3-none-any.whl", hash = "sha256:4a3631ba22cff7ceca00c39465a8db5b2116fcd74f3abd82b801f7711cceb699"},
+    {file = "mkdocs-material-8.2.10.tar.gz", hash = "sha256:11bafe7a32d072439942cab7d1bb36b965a237371b978ba1da868b222dae8cf5"},
+    {file = "mkdocs_material-8.2.10-py2.py3-none-any.whl", hash = "sha256:4877433fd46cfcc17b11c7b6bc51c35263789ad2b5f2f5a2d3ea39dcf2436b1d"},
 ]
 
 [package.dependencies]
@@ -1302,8 +1302,8 @@ jinja2 = ">=2.11.1"
 markdown = ">=3.2"
 mkdocs = ">=1.3.0"
 mkdocs-material-extensions = ">=1.0.3"
-pygments = ">=2.10,<2.12"
-pymdown-extensions = ">=9.0,<9.4"
+pygments = ">=2.10"
+pymdown-extensions = ">=9.0"
 
 [[package]]
 name = "mkdocs-material-extensions"
@@ -1813,18 +1813,18 @@ files = [
 
 [[package]]
 name = "pymdown-extensions"
-version = "9.3"
+version = "9.9.2"
 description = "Extension pack for Python Markdown."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pymdown-extensions-9.3.tar.gz", hash = "sha256:a80553b243d3ed2d6c27723bcd64ca9887e560e6f4808baa96f36e93061eaf90"},
-    {file = "pymdown_extensions-9.3-py3-none-any.whl", hash = "sha256:b37461a181c1c8103cfe1660081726a0361a8294cbfda88e5b02cefe976f0546"},
+    {file = "pymdown_extensions-9.9.2-py3-none-any.whl", hash = "sha256:c3d804eb4a42b85bafb5f36436342a5ad38df03878bb24db8855a4aa8b08b765"},
+    {file = "pymdown_extensions-9.9.2.tar.gz", hash = "sha256:ebb33069bafcb64d5f5988043331d4ea4929325dc678a6bcf247ddfcf96499f8"},
 ]
 
 [package.dependencies]
-Markdown = ">=3.2"
+markdown = ">=3.2"
 
 [[package]]
 name = "pyparsing"
