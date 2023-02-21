@@ -88,7 +88,6 @@ def test_zha_action_WXKG11LMSensorSwitchLightController(
 
 
 def test_type_WXCJKG13LMMediaPlayerController() -> None:
-
     sut = WXCJKG13LMMediaPlayerController()
 
     assert isinstance(sut, MediaPlayerController)

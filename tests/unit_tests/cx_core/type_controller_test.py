@@ -27,7 +27,6 @@ class MyEntity(Entity):
 
 
 class MyTypeController(TypeController[MyEntity]):
-
     domains = ["domain_1", "domain_2"]
     entity_arg = ENTITY_ARG
 

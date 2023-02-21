@@ -5,7 +5,6 @@ if TYPE_CHECKING:
 
 
 class FeatureSupport:
-
     controller: "TypeController[Entity]"
     update_supported_features: bool
     _supported_features: Optional[int]
