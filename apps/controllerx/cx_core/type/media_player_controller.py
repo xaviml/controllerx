@@ -15,7 +15,6 @@ DEFAULT_VOLUME_STEPS = 10
 
 
 class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
-
     domains = ["media_player"]
     entity_arg = "media_player"
     volume_level: float

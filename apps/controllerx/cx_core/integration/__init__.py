@@ -11,7 +11,6 @@ EventData = Dict[str, Any]
 
 
 class Integration(abc.ABC):
-
     name: str
     controller: "Controller"
     kwargs: Dict[str, Any]

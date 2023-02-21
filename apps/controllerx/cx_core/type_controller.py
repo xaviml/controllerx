@@ -42,7 +42,6 @@ class Entity:
 
 
 class TypeController(Controller, abc.ABC, Generic[EntityVar]):
-
     domains: List[str] = []
     entity_arg: str
     entity: EntityVar

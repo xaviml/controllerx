@@ -6,7 +6,7 @@ from typing import Any, List, Type
 
 def _import_modules(file_dir: str, package: str) -> None:
     pkg_dir = os.path.dirname(file_dir)
-    for (_, name, ispkg) in pkgutil.iter_modules([pkg_dir]):
+    for _, name, ispkg in pkgutil.iter_modules([pkg_dir]):
         if ispkg:
             _import_modules(pkg_dir + "/" + name + "/__init__.py", package + "." + name)
         else:
