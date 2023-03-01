@@ -97,16 +97,30 @@ Second, you will need an HA Long-Lived Access Tokens (`YOUR_HA_TOKEN`) which you
 Then, you can run the following:
 
 ```shell
-docker run \
+docker run --pull=always --rm \
 -v $PWD/apps/controllerx:/usr/src/app/conf/apps/controllerx \
 -v $PWD/apps.yaml:/usr/src/app/conf/apps/apps.yaml \
---rm -e DASH_URL=http://127.0.0.1:5050 \
+-e DASH_URL=http://127.0.0.1:5050 \
 -e HA_URL="http://YOUR_HA_IP:8123" \
 -e TOKEN="YOUR_HA_TOKEN" \
 acockburn/appdaemon:latest
 ```
 
-This will start AppDaemon with the apps on the `apps.yaml`. Note that this will not work with `mqtt` integration or `z2m` with `listen_to: mqtt`. [This PR in AppDaemon](https://github.com/AppDaemon/appdaemon/pull/1454) fixes the use of `MQTT` with docker.
+This will start AppDaemon with the apps on the `apps.yaml`. Note that if you want to test `mqtt` integration or `z2m` with `listen_to: mqtt`, you will need to execute with MQTT environment variables:
+
+```shell
+docker run --pull=always --rm \
+-v $PWD/apps/controllerx:/usr/src/app/conf/apps/controllerx \
+-v $PWD/apps.yaml:/usr/src/app/conf/apps/apps.yaml \
+-e DASH_URL=http://127.0.0.1:5050 \
+-e HA_URL="http://YOUR_HA_IP:8123" \
+-e TOKEN="YOUR_HA_TOKEN" \
+-e MQTT_NAMESPACE=mqtt \
+-e MQTT_CLIENT_HOST=192.168.X.XXX \
+-e MQTT_CLIENT_USER="YOUR_USER" \
+-e MQTT_CLIENT_PASSWORD="YOUR_PASSWORD" \
+acockburn/appdaemon:latest
+```
 
 ### Samba addon
 
