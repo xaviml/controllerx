@@ -1700,14 +1700,14 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pre-commit"
-version = "3.2.0"
+version = "3.2.2"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pre_commit-3.2.0-py2.py3-none-any.whl", hash = "sha256:f712d3688102e13c8e66b7d7dbd8934a6dda157e58635d89f7d6fecdca39ce8a"},
-    {file = "pre_commit-3.2.0.tar.gz", hash = "sha256:818f0d998059934d0f81bb3667e3ccdc32da6ed7ccaac33e43dc231561ddaaa9"},
+    {file = "pre_commit-3.2.2-py2.py3-none-any.whl", hash = "sha256:0b4210aea813fe81144e87c5a291f09ea66f199f367fa1df41b55e1d26e1e2b4"},
+    {file = "pre_commit-3.2.2.tar.gz", hash = "sha256:5b808fcbda4afbccf6d6633a56663fed35b6c2bc08096fd3d47ce197ac351d9d"},
 ]
 
 [package.dependencies]
