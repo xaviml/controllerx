@@ -10,13 +10,15 @@ _This minor change does not contain any breaking changes._
 ## :pencil2: Features
 -->
 
+<!--
 ## :video_game: New devices
 
-- [WXCJKG13LM](https://BASE_URL/controllerx/controllers/WXCJKG13LM) - add MediaPlayer controller with Z2M, deCONZ and ZHA support. [ #667 ] @mathieuric
+- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
+-->
 
+<!--
 ## :hammer: Fixes
-
-- Temporarily fix issue with template rendering. Issue comes from AppDaemon [ #810 ]
+-->
 
 <!--
 ## :scroll: Docs
