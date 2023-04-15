@@ -13,7 +13,7 @@ This entire file can be deleted once the fix is in place officially from AppDaem
 import asyncio
 import json
 import traceback
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import aiohttp
 
@@ -30,43 +30,30 @@ service = "render"
 
 
 async def render_template(
-    config: Dict[str, Any], data: Any, controller: "Controller"
+    session: aiohttp.ClientSession, ha_url: str, data: Any, controller: "Controller"
 ) -> Optional[str]:
     if isinstance(data, str):
         data = {"entity_id": data}
 
-    if "token" in config:
-        headers = {"Authorization": "Bearer {}".format(config["token"])}
-    elif "ha_key" in config:
-        headers = {"x-ha-access": config["ha_key"]}
-    else:
-        headers = {}
-
-    api_url = "{}/api/template".format(config["ha_url"])
+    api_url = f"{ha_url}/api/template"
 
     try:
-        async with aiohttp.ClientSession(
-            connector=aiohttp.TCPConnector(), json_serialize=convert_json
-        ) as session:
-            async with session.post(
-                api_url, headers=headers, json=data, verify_ssl=config["cert_verify"]
-            ) as resp:
-                if resp.status == 200 or resp.status == 201:
-                    result = await resp.text()
-                else:
-                    controller.log.warning(
-                        "Error calling Home Assistant service %s/%s",
-                        domain,
-                        service,
-                    )
-                    txt = await resp.text()
-                    controller.log.warning("Code: %s, error: %s", resp.status, txt)
-                    result = None
+        async with session.post(api_url, json=data) as resp:
+            if resp.status == 200 or resp.status == 201:
+                result = await resp.text()
+            else:
+                controller.log(
+                    f"Error calling Home Assistant service {domain}/{service}",
+                    level="WARNING",
+                )
+                txt = await resp.text()
+                controller.log(f"Code: {resp.status}, error: {txt}", level="WARNING")
+                result = None
 
-                return result
+            return result
     except (asyncio.TimeoutError, asyncio.CancelledError):
         controller.log(
-            "Timeout in call_service(%s/%s, %s)", domain, service, data, level="WARNING"
+            f"Timeout in call_service({domain}/{service}, {data})", level="WARNING"
         )
     except aiohttp.client_exceptions.ServerDisconnectedError:
         controller.log(
@@ -75,9 +62,7 @@ async def render_template(
     except Exception:
         controller.log("-" * 60, level="ERROR")
         controller.log("Unexpected error during call_plugin_service()", level="ERROR")
-        controller.log(
-            "Service: %s.%s Arguments: %s", domain, service, data, level="ERROR"
-        )
+        controller.log(f"Service: {domain}.{service} Arguments: {data}", level="ERROR")
         controller.log("-" * 60, level="ERROR")
         controller.log(traceback.format_exc(), level="ERROR")
         controller.log("-" * 60, level="ERROR")

@@ -364,8 +364,10 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         # Start condition to be deleted
         # Read doc string from apps/controllerx/cx_core/fix_template.py
         if service == "template/render":
-            ha_config = self.config["plugins"]["HASS"]
-            return await fix_template.render_template(ha_config, attributes, self)
+            hass_plugin = await self.AD.plugins.get_plugin_object("default")
+            return await fix_template.render_template(
+                hass_plugin.session, hass_plugin.ha_url, attributes, self
+            )
         # End of condition to be deleted.
         return await ADAPI.call_service(self, service, **attributes)
 
