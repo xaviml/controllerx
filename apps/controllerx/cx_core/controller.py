@@ -33,6 +33,7 @@ from cx_const import (
     DefaultActionsMapping,
     PredefinedActionsMapping,
 )
+from cx_core import fix_template
 from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping, parse_actions
 from cx_core.action_type.base import ActionType
@@ -360,6 +361,12 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
                 value = f"{value:.2f}"
             to_log.append(f"  - {attribute}: {value}")
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
+        # Start condition to be deleted
+        # Read doc string from apps/controllerx/cx_core/fix_template.py
+        if service == "template/render":
+            ha_config = self.config["plugins"]["HASS"]
+            return await fix_template.render_template(ha_config, attributes, self)
+        # End of condition to be deleted.
         return await ADAPI.call_service(self, service, **attributes)
 
     @utils.sync_wrapper  # type: ignore[misc]
