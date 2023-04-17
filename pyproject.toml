@@ -80,9 +80,6 @@ exclude_lines = [
     # Logs can be ignored
     "self.log",
 ]
-omit = [
-    "apps/controllerx/cx_core/fix_template.py",
-]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
