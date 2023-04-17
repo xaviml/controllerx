@@ -16,9 +16,9 @@ _This minor change does not contain any breaking changes._
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Revert fix patch for template rendering (#811, #812) since AppDaemon 4.4.2 officially released the fix.
 
 <!--
 ## :scroll: Docs
