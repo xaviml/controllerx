@@ -234,12 +234,13 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
     async def off(self) -> None:
         await self._off()
 
-    async def _toggle(self) -> None:
-        await self._mqtt_call({"state": "TOGGLE"})
+    async def _toggle(self, **attributes: Any) -> None:
+        await self._mqtt_call({"state": "TOGGLE", **attributes})
 
     @action
-    async def toggle(self) -> None:
-        await self._toggle()
+    async def toggle(self, attributes: Optional[Dict[str, float]] = None) -> None:
+        attributes = attributes or {}
+        await self._toggle(**attributes)
 
     async def _set_value(self, attribute: str, fraction: float) -> None:
         fraction = max(0, min(fraction, 1))
