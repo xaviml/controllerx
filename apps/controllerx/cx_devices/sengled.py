@@ -17,6 +17,19 @@ class E1EG7FLightController(LightController):
             "off_double": Light.ON_MIN_COLOR_TEMP,
         }
 
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "on": Light.ON,
+            "on_long": Light.CLICK_COLOR_UP,
+            "on_double": Light.ON_FULL_COLOR_TEMP,
+            "step_0_1_0": Light.CLICK_BRIGHTNESS_UP,
+            "step_0_2_0": Light.ON_FULL_BRIGHTNESS,
+            "step_1_1_0": Light.CLICK_BRIGHTNESS_DOWN,
+            "step_1_2_0": Light.ON_MIN_BRIGHTNESS,
+            "off": Light.OFF,
+            "off_long": Light.CLICK_COLOR_DOWN,
+            "off_double": Light.ON_MIN_COLOR_TEMP,
+        }
 
 class E1EG7FZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
