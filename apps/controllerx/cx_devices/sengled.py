@@ -31,6 +31,7 @@ class E1EG7FLightController(LightController):
             "off_double": Light.ON_MIN_COLOR_TEMP,
         }
 
+
 class E1EG7FZ2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
