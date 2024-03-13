@@ -30,7 +30,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: tests-venv-${{ matrix.python-version }}-v1-${{ hashFiles('poetry.lock') }}
@@ -51,7 +51,7 @@ jobs:
           python-version: "3.11"
       - name: Install pre-commit
         run: pip install pre-commit
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -83,7 +83,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
@@ -187,7 +187,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
