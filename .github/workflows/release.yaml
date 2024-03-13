@@ -38,7 +38,7 @@ jobs:
           else
             echo "DRY_RUN_ARG=" >> $GITHUB_ENV
           fi
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: main
