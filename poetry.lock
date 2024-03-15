@@ -175,13 +175,13 @@ doc = ["myst-parser (==1.0.0)", "pygments (>=2.14,<2.16)", "sphinx-autobuild (>=
 
 [[package]]
 name = "argcomplete"
-version = "3.2.3"
+version = "3.1.6"
 description = "Bash tab completion for argparse"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "argcomplete-3.2.3-py3-none-any.whl", hash = "sha256:c12355e0494c76a2a7b73e3a59b09024ca0ba1e279fb9ed6c1b82d5b74b6a70c"},
-    {file = "argcomplete-3.2.3.tar.gz", hash = "sha256:bf7900329262e481be5a15f56f19736b376df6f82ed27576fa893652c5de6c23"},
+    {file = "argcomplete-3.1.6-py3-none-any.whl", hash = "sha256:71f4683bc9e6b0be85f2b2c1224c47680f210903e23512cfebfe5a41edfd883a"},
+    {file = "argcomplete-3.1.6.tar.gz", hash = "sha256:3b1f07d133332547a53c79437527c00be48cca3807b1d4ca5cab1b26313386a6"},
 ]
 
 [package.extras]
@@ -498,25 +498,25 @@ files = [
 
 [[package]]
 name = "commitizen"
-version = "3.18.4"
+version = "3.9.1"
 description = "Python commitizen client tool"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "commitizen-3.18.4-py3-none-any.whl", hash = "sha256:42c9b2c5fd3d6b83ebf850424227a8935d3e49f9fa636c58c072a370713b176a"},
-    {file = "commitizen-3.18.4.tar.gz", hash = "sha256:57b3051d4170e23a5317f348d1bc61b98e57ac01b04f66e0f9a25fef75e6f679"},
+    {file = "commitizen-3.9.1-py3-none-any.whl", hash = "sha256:2d2133fb4798d156475f937e9f8950327ffa79ef663dee1a940229c791f3095e"},
+    {file = "commitizen-3.9.1.tar.gz", hash = "sha256:30d756bd8ae669c4a1e641148d22069ef588713b0e437eb6012e7dacac370e1e"},
 ]
 
 [package.dependencies]
-argcomplete = ">=1.12.1,<3.3"
+argcomplete = ">=1.12.1,<3.2"
 charset-normalizer = ">=2.1.0,<4"
 colorama = ">=0.4.1,<0.5.0"
 decli = ">=0.6.0,<0.7.0"
-importlib_metadata = ">=4.13,<8"
+importlib_metadata = ">=4.13,<7"
 jinja2 = ">=2.10.3"
 packaging = ">=19"
 pyyaml = ">=3.08"
-questionary = ">=2.0,<3.0"
+questionary = ">=1.4.0,<2.0.0"
 termcolor = ">=1.1,<3"
 tomlkit = ">=0.5.3,<1.0.0"
 
@@ -1403,13 +1403,13 @@ virtualenv = ">=20.10.0"
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.36"
+version = "3.0.43"
 description = "Library for building powerful interactive command lines in Python"
 optional = false
-python-versions = ">=3.6.2"
+python-versions = ">=3.7.0"
 files = [
-    {file = "prompt_toolkit-3.0.36-py3-none-any.whl", hash = "sha256:aa64ad242a462c5ff0363a7b9cfe696c20d55d9fc60c11fd8e632d064804d305"},
-    {file = "prompt_toolkit-3.0.36.tar.gz", hash = "sha256:3e163f254bef5a03b146397d7c1963bd3e2812f0964bb9a24e6ec761fd28db63"},
+    {file = "prompt_toolkit-3.0.43-py3-none-any.whl", hash = "sha256:a11a29cb3bf0a28a387fe5122cdb649816a957cd9261dcedf8c9f1fef33eacf6"},
+    {file = "prompt_toolkit-3.0.43.tar.gz", hash = "sha256:3527b7af26106cbc65a040bcc84839a3566ec1b051bb0bfe953631e704b0ff7d"},
 ]
 
 [package.dependencies]
@@ -1726,17 +1726,20 @@ pyyaml = "*"
 
 [[package]]
 name = "questionary"
-version = "2.0.1"
+version = "1.10.0"
 description = "Python library to build pretty command line user prompts ⭐️"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.6,<4.0"
 files = [
-    {file = "questionary-2.0.1-py3-none-any.whl", hash = "sha256:8ab9a01d0b91b68444dff7f6652c1e754105533f083cbe27597c8110ecc230a2"},
-    {file = "questionary-2.0.1.tar.gz", hash = "sha256:bcce898bf3dbb446ff62830c86c5c6fb9a22a54146f0f5597d3da43b10d8fc8b"},
+    {file = "questionary-1.10.0-py3-none-any.whl", hash = "sha256:fecfcc8cca110fda9d561cb83f1e97ecbb93c613ff857f655818839dac74ce90"},
+    {file = "questionary-1.10.0.tar.gz", hash = "sha256:600d3aefecce26d48d97eee936fdb66e4bc27f934c3ab6dd1e292c4f43946d90"},
 ]
 
 [package.dependencies]
-prompt_toolkit = ">=2.0,<=3.0.36"
+prompt_toolkit = ">=2.0,<4.0"
+
+[package.extras]
+docs = ["Sphinx (>=3.3,<4.0)", "sphinx-autobuild (>=2020.9.1,<2021.0.0)", "sphinx-autodoc-typehints (>=1.11.1,<2.0.0)", "sphinx-copybutton (>=0.3.1,<0.4.0)", "sphinx-rtd-theme (>=0.5.0,<0.6.0)"]
 
 [[package]]
 name = "requests"
