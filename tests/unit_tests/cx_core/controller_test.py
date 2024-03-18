@@ -413,7 +413,7 @@ async def test_handle_action(
     fake_action_type: ActionType,
 ) -> None:
     sut.action_delta = {action_called: action_delta}
-    sut.action_times = defaultdict(lambda: 0)
+    sut.action_times = defaultdict(int)
 
     sut.actions_mapping = {action: [fake_action_type] for action in actions_input}
     sut.previous_states = defaultdict(lambda: None)
