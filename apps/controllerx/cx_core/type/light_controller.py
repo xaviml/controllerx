@@ -886,7 +886,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         self.log(f"Going direction: {direction}", level="DEBUG")
         await super().hold(attribute, direction, stepper)
 
-    async def hold_loop(  # type: ignore[override]
+    async def hold_loop(
         self,
         attribute: str,
         direction: str,

@@ -189,7 +189,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
                 )
             return False
 
-    async def hold_loop(self, direction: str) -> bool:  # type: ignore[override]
+    async def hold_loop(self, direction: str) -> bool:
         return await self.volume_change(direction)
 
     def default_delay(self) -> int:

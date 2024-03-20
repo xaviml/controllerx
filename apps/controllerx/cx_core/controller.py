@@ -15,7 +15,6 @@ from typing import (
     List,
     Optional,
     Set,
-    Tuple,
     TypeVar,
     Union,
     overload,
@@ -37,10 +36,6 @@ from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping, parse_actions
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData, Integration
-
-Service = Tuple[str, Dict]
-Services = List[Service]
-
 
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
 DEFAULT_MULTIPLE_CLICK_DELAY = 500  # In milliseconds
@@ -152,7 +147,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
             custom=self.args.get("action_delta"),
             default=DEFAULT_ACTION_DELTA,
         )
-        self.action_times = defaultdict(lambda: 0.0)
+        self.action_times = defaultdict(float)
 
         # Previous state
         self.previous_states = self.get_mapping_per_action(
@@ -168,7 +163,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         self.multiple_click_delay = self.args.get(
             "multiple_click_delay", DEFAULT_MULTIPLE_CLICK_DELAY
         )
-        self.multiple_click_action_times = defaultdict(lambda: 0.0)
+        self.multiple_click_action_times = defaultdict(float)
         self.click_counter = Counter()
         self.multiple_click_action_delay_tasks = defaultdict(lambda: None)
 
@@ -238,11 +233,11 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
 
     @overload
     def get_list(self, entities: List[T]) -> List[T]:
-        ...
+        pass
 
     @overload
     def get_list(self, entities: T) -> List[T]:
-        ...
+        pass
 
     def get_list(self, entities: Union[List[T], T]) -> List[T]:
         if isinstance(entities, (list, tuple)):
@@ -257,7 +252,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         custom: Optional[Union[T, Dict[ActionEvent, T]]],
         default: None,
     ) -> Dict[ActionEvent, Optional[T]]:
-        ...
+        pass
 
     @overload
     def get_mapping_per_action(
@@ -267,7 +262,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         custom: Optional[Union[T, Dict[ActionEvent, T]]],
         default: T,
     ) -> Dict[ActionEvent, T]:
-        ...
+        pass
 
     def get_mapping_per_action(
         self,

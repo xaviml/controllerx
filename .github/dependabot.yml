@@ -1,4 +1,5 @@
 version: 2
+
 updates:
   - package-ecosystem: pip
     directory: "/"
@@ -8,9 +9,19 @@ updates:
     allow:
       - dependency-type: all
     open-pull-requests-limit: 10
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: daily
       time: "11:00"
     open-pull-requests-limit: 10
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"

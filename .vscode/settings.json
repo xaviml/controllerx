@@ -3,18 +3,22 @@
   "files.autoSaveDelay": 100,
   "python.testing.pytestEnabled": true,
   "editor.formatOnSave": true,
-  "python.formatting.provider": "black",
   "python.analysis.typeCheckingMode": "off",
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.stubPath": "apps/controllerx",
-  "python.testing.pytestArgs": ["tests"],
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
   "python.languageServer": "Pylance",
-  "python.linting.mypyEnabled": true,
-  "python.linting.mypyCategorySeverity.note": "Error",
-  "python.linting.flake8Enabled": true,
+  "mypy-type-checker.severity": {
+    "error": "Error",
+    "note": "Information"
+  },
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    }
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
   }
 }
