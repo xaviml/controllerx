@@ -175,13 +175,13 @@ doc = ["myst-parser (==1.0.0)", "pygments (>=2.14,<2.16)", "sphinx-autobuild (>=
 
 [[package]]
 name = "argcomplete"
-version = "3.2.3"
+version = "3.1.6"
 description = "Bash tab completion for argparse"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "argcomplete-3.2.3-py3-none-any.whl", hash = "sha256:c12355e0494c76a2a7b73e3a59b09024ca0ba1e279fb9ed6c1b82d5b74b6a70c"},
-    {file = "argcomplete-3.2.3.tar.gz", hash = "sha256:bf7900329262e481be5a15f56f19736b376df6f82ed27576fa893652c5de6c23"},
+    {file = "argcomplete-3.1.6-py3-none-any.whl", hash = "sha256:71f4683bc9e6b0be85f2b2c1224c47680f210903e23512cfebfe5a41edfd883a"},
+    {file = "argcomplete-3.1.6.tar.gz", hash = "sha256:3b1f07d133332547a53c79437527c00be48cca3807b1d4ca5cab1b26313386a6"},
 ]
 
 [package.extras]
@@ -516,25 +516,25 @@ files = [
 
 [[package]]
 name = "commitizen"
-version = "3.20.0"
+version = "3.9.1"
 description = "Python commitizen client tool"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "commitizen-3.20.0-py3-none-any.whl", hash = "sha256:f079d9642347d314afae75664d289b0de80cf0343c99c3dcfa85782f164333f3"},
-    {file = "commitizen-3.20.0.tar.gz", hash = "sha256:17aebc8f36326fa3e65dcc08195303579e356be84b0d65c3c4bfed85b8822411"},
+    {file = "commitizen-3.9.1-py3-none-any.whl", hash = "sha256:2d2133fb4798d156475f937e9f8950327ffa79ef663dee1a940229c791f3095e"},
+    {file = "commitizen-3.9.1.tar.gz", hash = "sha256:30d756bd8ae669c4a1e641148d22069ef588713b0e437eb6012e7dacac370e1e"},
 ]
 
 [package.dependencies]
-argcomplete = ">=1.12.1,<3.3"
+argcomplete = ">=1.12.1,<3.2"
 charset-normalizer = ">=2.1.0,<4"
 colorama = ">=0.4.1,<0.5.0"
 decli = ">=0.6.0,<0.7.0"
-importlib_metadata = ">=4.13,<8"
+importlib_metadata = ">=4.13,<7"
 jinja2 = ">=2.10.3"
 packaging = ">=19"
 pyyaml = ">=3.08"
-questionary = ">=2.0,<3.0"
+questionary = ">=1.4.0,<2.0.0"
 termcolor = ">=1.1,<3"
 tomlkit = ">=0.5.3,<1.0.0"
 
@@ -675,18 +675,18 @@ sgmllib3k = "*"
 
 [[package]]
 name = "filelock"
-version = "3.13.1"
+version = "3.13.3"
 description = "A platform independent file lock."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "filelock-3.13.1-py3-none-any.whl", hash = "sha256:57dbda9b35157b05fb3e58ee91448612eb674172fab98ee235ccb0b5bee19a1c"},
-    {file = "filelock-3.13.1.tar.gz", hash = "sha256:521f5f56c50f8426f5e03ad3b281b490a87ef15bc6c526f168290f0c7148d44e"},
+    {file = "filelock-3.13.3-py3-none-any.whl", hash = "sha256:5ffa845303983e7a0b7ae17636509bc97997d58afeafa72fb141a17b152284cb"},
+    {file = "filelock-3.13.3.tar.gz", hash = "sha256:a79895a25bbefdf55d1a2a0a80968f7dbb28edcd6d4234a0afb3f37ecde4b546"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.9.10)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.24)"]
-testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8)", "pytest (>=7.4.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)", "pytest-timeout (>=2.2)"]
+docs = ["furo (>=2023.9.10)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.25.2)"]
+testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8.0.1)", "pytest (>=7.4.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)", "pytest-timeout (>=2.2)"]
 typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
@@ -846,22 +846,22 @@ files = [
 
 [[package]]
 name = "importlib-metadata"
-version = "7.0.2"
+version = "6.11.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-7.0.2-py3-none-any.whl", hash = "sha256:f4bc4c0c070c490abf4ce96d715f68e95923320370efb66143df00199bb6c100"},
-    {file = "importlib_metadata-7.0.2.tar.gz", hash = "sha256:198f568f3230878cb1b44fbd7975f87906c22336dba2e4a7f05278c281fbd792"},
+    {file = "importlib_metadata-6.11.0-py3-none-any.whl", hash = "sha256:f0afba6205ad8f8947c7d338b5342d5db2afbfd82f9cbef7879a9539cc12eb9b"},
+    {file = "importlib_metadata-6.11.0.tar.gz", hash = "sha256:1231cf92d825c9e03cfc4da076a16de6422c863558229ea0b22b675657463443"},
 ]
 
 [package.dependencies]
 zipp = ">=0.5"
 
 [package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-lint"]
 perf = ["ipython"]
-testing = ["flufl.flake8", "importlib-resources (>=1.3)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-perf (>=0.9.2)", "pytest-ruff (>=0.2.1)"]
+testing = ["flufl.flake8", "importlib-resources (>=1.3)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-perf (>=0.9.2)", "pytest-ruff"]
 
 [[package]]
 name = "iniconfig"
@@ -1093,13 +1093,13 @@ test = ["mkdocs-include-markdown-plugin", "mkdocs-macros-test", "mkdocs-material
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.14"
+version = "9.5.15"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.14-py3-none-any.whl", hash = "sha256:a45244ac221fda46ecf8337f00ec0e5cb5348ab9ffb203ca2a0c313b0d4dbc27"},
-    {file = "mkdocs_material-9.5.14.tar.gz", hash = "sha256:2a1f8e67cda2587ab93ecea9ba42d0ca61d1d7b5fad8cf690eeaeb39dcd4b9af"},
+    {file = "mkdocs_material-9.5.15-py3-none-any.whl", hash = "sha256:e5c96dec3d19491de49ca643fc1dbb92b278e43cdb816c775bc47db77d9b62fb"},
+    {file = "mkdocs_material-9.5.15.tar.gz", hash = "sha256:39f03cca45e82bf54eb7456b5a18bd252eabfdd67f237a229471484a0a4d4635"},
 ]
 
 [package.dependencies]
@@ -1441,13 +1441,13 @@ virtualenv = ">=20.10.0"
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.36"
+version = "3.0.43"
 description = "Library for building powerful interactive command lines in Python"
 optional = false
-python-versions = ">=3.6.2"
+python-versions = ">=3.7.0"
 files = [
-    {file = "prompt_toolkit-3.0.36-py3-none-any.whl", hash = "sha256:aa64ad242a462c5ff0363a7b9cfe696c20d55d9fc60c11fd8e632d064804d305"},
-    {file = "prompt_toolkit-3.0.36.tar.gz", hash = "sha256:3e163f254bef5a03b146397d7c1963bd3e2812f0964bb9a24e6ec761fd28db63"},
+    {file = "prompt_toolkit-3.0.43-py3-none-any.whl", hash = "sha256:a11a29cb3bf0a28a387fe5122cdb649816a957cd9261dcedf8c9f1fef33eacf6"},
+    {file = "prompt_toolkit-3.0.43.tar.gz", hash = "sha256:3527b7af26106cbc65a040bcc84839a3566ec1b051bb0bfe953631e704b0ff7d"},
 ]
 
 [package.dependencies]
@@ -1578,13 +1578,13 @@ testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)"]
 
 [[package]]
 name = "pytest-cov"
-version = "4.1.0"
+version = "5.0.0"
 description = "Pytest plugin for measuring coverage."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6"},
-    {file = "pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a"},
+    {file = "pytest-cov-5.0.0.tar.gz", hash = "sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857"},
+    {file = "pytest_cov-5.0.0-py3-none-any.whl", hash = "sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652"},
 ]
 
 [package.dependencies]
@@ -1592,21 +1592,21 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
+testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
 name = "pytest-mock"
-version = "3.12.0"
+version = "3.14.0"
 description = "Thin-wrapper around the mock package for easier use with pytest"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-mock-3.12.0.tar.gz", hash = "sha256:31a40f038c22cad32287bb43932054451ff5583ff094bca6f675df2f8bc1a6e9"},
-    {file = "pytest_mock-3.12.0-py3-none-any.whl", hash = "sha256:0972719a7263072da3a21c7f4773069bcc7486027d7e8e1f81d98a47e701bc4f"},
+    {file = "pytest-mock-3.14.0.tar.gz", hash = "sha256:2719255a1efeceadbc056d6bf3df3d1c5015530fb40cf347c0f9afac88410bd0"},
+    {file = "pytest_mock-3.14.0-py3-none-any.whl", hash = "sha256:0b72c38033392a5f4621342fe11e9219ac11ec9d375f8e2a0c164539e0d70f6f"},
 ]
 
 [package.dependencies]
-pytest = ">=5.0"
+pytest = ">=6.2.5"
 
 [package.extras]
 dev = ["pre-commit", "pytest-asyncio", "tox"]
@@ -1764,17 +1764,20 @@ pyyaml = "*"
 
 [[package]]
 name = "questionary"
-version = "2.0.1"
+version = "1.10.0"
 description = "Python library to build pretty command line user prompts ⭐️"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.6,<4.0"
 files = [
-    {file = "questionary-2.0.1-py3-none-any.whl", hash = "sha256:8ab9a01d0b91b68444dff7f6652c1e754105533f083cbe27597c8110ecc230a2"},
-    {file = "questionary-2.0.1.tar.gz", hash = "sha256:bcce898bf3dbb446ff62830c86c5c6fb9a22a54146f0f5597d3da43b10d8fc8b"},
+    {file = "questionary-1.10.0-py3-none-any.whl", hash = "sha256:fecfcc8cca110fda9d561cb83f1e97ecbb93c613ff857f655818839dac74ce90"},
+    {file = "questionary-1.10.0.tar.gz", hash = "sha256:600d3aefecce26d48d97eee936fdb66e4bc27f934c3ab6dd1e292c4f43946d90"},
 ]
 
 [package.dependencies]
-prompt_toolkit = ">=2.0,<=3.0.36"
+prompt_toolkit = ">=2.0,<4.0"
+
+[package.extras]
+docs = ["Sphinx (>=3.3,<4.0)", "sphinx-autobuild (>=2020.9.1,<2021.0.0)", "sphinx-autodoc-typehints (>=1.11.1,<2.0.0)", "sphinx-copybutton (>=0.3.1,<0.4.0)", "sphinx-rtd-theme (>=0.5.0,<0.6.0)"]
 
 [[package]]
 name = "regex"
