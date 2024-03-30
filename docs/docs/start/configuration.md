@@ -3,7 +3,7 @@ layout: page
 title: Configuration
 ---
 
-This is an example configuration template to place in `/config/appdaemon/apps/apps.yaml`:
+Once [AppDaemon and Controller has been installed](../installation), you can proceed to configure ControllerX in `/homeassistant/appdaemon/apps/apps.yaml`. This file follows the [AppDaemon specifications](https://appdaemon.readthedocs.io/en/latest/APPGUIDE.html#configuration-of-apps). ControllerX app links 1 controller with one or multiple devices like:
 
 ```yaml
 example_app:

@@ -124,7 +124,7 @@ acockburn/appdaemon:latest
 
 ### Samba addon
 
-Install `Samba share` addon in Home Assistant, so you can connect to HA folder structure from your computer. Then, you can just copy `apps/controllerx` on `/config/appdaemon/apps/`. When done, you should be able to find `controllerx.py` in `/config/appdaemon/apps/controllerx/controllerx.py`. Then, you can restart `AppDaemon` addon.
+Install `Samba share` addon in Home Assistant, so you can connect to HA folder structure from your computer. Then, you can just copy `apps/controllerx` on `/homeassistant/appdaemon/apps/`. When done, you should be able to find `controllerx.py` in `/homeassistant/appdaemon/apps/controllerx/controllerx.py`. Then, you can restart `AppDaemon` addon.
 
 ## How to change someone else's PR code
 

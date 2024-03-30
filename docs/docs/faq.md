@@ -7,7 +7,7 @@ hide:
 
 #### 1. I placed the configuration in configuration.yaml and it doesn't work
 
-ControllerX depends on AppDaemon and all the configuration for AppDaemon apps goes to `/config/appdaemon/apps/apps.yaml` and not `/config/configuration.yaml`.
+ControllerX depends on AppDaemon and all the configuration for AppDaemon apps goes to `/homeassistant/appdaemon/apps/apps.yaml` and not `/config/configuration.yaml`.
 
 #### 2. I updated ControllerX to a new version and it does not work
 
