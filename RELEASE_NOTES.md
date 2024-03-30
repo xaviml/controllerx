@@ -13,6 +13,7 @@ _This minor change does not contain any breaking changes._
 ## :video_game: New devices
 
 - [E1EG7F](https://BASE_URL/controllerx/controllers/E1EG7F) - add ZHA support. [ #879 ] @sreknob
+- [Philips929003017102](https://BASE_URL/controllerx/controllers/Philips929003017102) - add ZHA support. [ #877 ] @aommm
 
 <!--
 ## :hammer: Fixes
