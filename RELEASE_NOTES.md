@@ -6,9 +6,9 @@ _This minor change does not contain any breaking changes._
 
 **_Note: Remember to restart the AppDaemon addon/server after updating to a new version._**
 
-<!--
 ## :pencil2: Features
--->
+
+- Allow attributes for toggle action to Z2M Light Controller. [ #873 ] @hvorragend
 
 ## :video_game: New devices
 
