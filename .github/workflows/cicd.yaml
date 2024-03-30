@@ -99,7 +99,7 @@ jobs:
   publish_preview_docs:
     name: Publish preview documentation
     runs-on: ubuntu-latest
-    needs: [docs]
+    needs: [test, pre-commit, hacs, docs]
     if: github.ref_type != 'tag'
     steps:
       - uses: actions/download-artifact@master
