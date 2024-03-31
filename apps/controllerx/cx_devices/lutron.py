@@ -1,5 +1,6 @@
-from cx_const import DefaultActionsMapping, Light, MediaPlayer
+from cx_const import DefaultActionsMapping, Light, MediaPlayer, Z2MLight
 from cx_core import LightController, MediaPlayerController
+from cx_core.type.z2m_light_controller import Z2MLightController
 
 
 class LZL4BWHL01LightController(LightController):
@@ -28,11 +29,23 @@ class LZL4BWHL01LightController(LightController):
 
 
 class Z31BRLLightController(LightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "brightness_move_to_level": Light.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
+        }
+
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
             1002: Light.TOGGLE,
             2002: Light.CLICK_BRIGHTNESS_UP,
             3002: Light.CLICK_BRIGHTNESS_DOWN,
+        }
+
+
+class Z31BRLZ2MLightController(Z2MLightController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "brightness_move_to_level": Z2MLight.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
         }
 
 
