@@ -11,6 +11,10 @@ E2002: |
 
   This device mapping also supports E2001 controller.
 
+E2123: |
+  The device supports other events which are not added to the default mapping. Please check
+  <a href="https://github.com/xaviml/controllerx/issues/842">this GitHub issue</a> for more information.
+
 HueDimmer: |
   In case of working with <strong>z2m</strong> the device needs to be flagged as `legacy: false` as
   <a href="https://www.zigbee2mqtt.io/devices/324131092621.html#options">Zigbee2MQTT

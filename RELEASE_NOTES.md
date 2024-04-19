@@ -16,6 +16,7 @@ _This minor change does not contain any breaking changes._
 - [Philips929003017102](https://BASE_URL/controllerx/controllers/Philips929003017102) - add ZHA support. [ #877 ] @aommm
 - [E2213](https://BASE_URL/controllerx/controllers/E2213) - add device with Z2M support. [ #885 ]
 - [Z31BRL](https://BASE_URL/controllerx/controllers/Z31BRL) - add Z2M support. [ #958 ]
+- [E2123](https://BASE_URL/controllerx/controllers/E2123) - add Z2M and deCONZ support. [ #842 ]
 
 <!--
 ## :hammer: Fixes

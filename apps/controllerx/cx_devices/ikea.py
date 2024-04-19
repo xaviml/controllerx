@@ -766,3 +766,33 @@ class E2213Z2MLightController(Z2MLightController):
             "1_double_press": Z2MLight.HOLD_COLOR_TEMP_UP,
             "2_double_press": Z2MLight.HOLD_COLOR_TEMP_DOWN,
         }
+
+
+class E2123MediaPlayerController(MediaPlayerController):
+
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "toggle": MediaPlayer.PLAY,  # click Play button
+            "play_pause": MediaPlayer.PLAY,  # click Play button
+            "track_next": MediaPlayer.NEXT_TRACK,  # click Next Track
+            "track_previous": MediaPlayer.PREVIOUS_TRACK,  # click Previous Track
+            "volume_up": MediaPlayer.CLICK_VOLUME_UP,  # click + (Volume up)
+            "volume_up_hold": MediaPlayer.CLICK_VOLUME_UP,  # hold + (Volume up)
+            "volume_down": MediaPlayer.CLICK_VOLUME_DOWN,  # click - (Volume down)
+            "volume_down_hold": MediaPlayer.CLICK_VOLUME_DOWN,  # hold - (Volume down)
+            "dots_1_initial_press": MediaPlayer.PREVIOUS_SOURCE,  # click . (Previous Source)
+            "dots_2_initial_press": MediaPlayer.NEXT_SOURCE,  # click .. (Previous Source)
+        }
+
+    def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            1002: MediaPlayer.PLAY,  # Play; Press/Release or Hold
+            2001: MediaPlayer.HOLD_VOLUME_UP,  # +; Hold (every 0.2s)
+            2002: MediaPlayer.RELEASE,  # +; Press/Release
+            3001: MediaPlayer.HOLD_VOLUME_DOWN,  # +; Hold (every 0.2s)
+            3002: MediaPlayer.RELEASE,  # -; Press/Release
+            4002: MediaPlayer.PREVIOUS_TRACK,  # Previous; Press/Release or Hold
+            5002: MediaPlayer.NEXT_TRACK,  # Next; Press/Release or Hold
+            6000: MediaPlayer.PREVIOUS_SOURCE,  # .; Initial Press
+            7000: MediaPlayer.NEXT_SOURCE,  # ..; Initial Press
+        }
