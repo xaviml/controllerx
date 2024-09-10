@@ -6,18 +6,15 @@ _This minor change does not contain any breaking changes._
 
 **_Note: Remember to restart the AppDaemon addon/server after updating to a new version._**
 
+<!--
 ## :pencil2: Features
+-->
 
-- Allow attributes for toggle action to Z2M Light Controller. [ #873 ] @hvorragend
-
+<!--
 ## :video_game: New devices
 
-- [E1EG7F](https://BASE_URL/controllerx/controllers/E1EG7F) - add ZHA support. [ #879 ] @sreknob
-- [Philips929003017102](https://BASE_URL/controllerx/controllers/Philips929003017102) - add ZHA support. [ #877 ] @aommm
-- [E2213](https://BASE_URL/controllerx/controllers/E2213) - add device with Z2M support. [ #885 ]
-- [Z31BRL](https://BASE_URL/controllerx/controllers/Z31BRL) - add Z2M support. [ #958 ]
-- [E2123](https://BASE_URL/controllerx/controllers/E2123) - add Z2M and deCONZ support. [ #842 ]
-- [ShellyDimmer2](https://BASE_URL/controllerx/controllers/ShellyDimmer2) - add Shelly support. [ #1014 ]
+- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
+-->
 
 <!--
 ## :hammer: Fixes
