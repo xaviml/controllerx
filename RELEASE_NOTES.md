@@ -17,6 +17,7 @@ _This minor change does not contain any breaking changes._
 - [E2213](https://BASE_URL/controllerx/controllers/E2213) - add device with Z2M support. [ #885 ]
 - [Z31BRL](https://BASE_URL/controllerx/controllers/Z31BRL) - add Z2M support. [ #958 ]
 - [E2123](https://BASE_URL/controllerx/controllers/E2123) - add Z2M and deCONZ support. [ #842 ]
+- [ShellyDimmer2](https://BASE_URL/controllerx/controllers/ShellyDimmer2) - add Shelly support. [ #1014 ]
 
 <!--
 ## :hammer: Fixes

@@ -45,3 +45,13 @@ class Shelly25LightController(LightController):
             "btn_up_2": Light.RELEASE,
             "double_push_2": Light.ON_MIN_BRIGHTNESS,
         }
+
+
+class ShellyDimmer2LightController(LightController):
+    def get_shelly_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "single_1": Light.TOGGLE,
+            "single_2": None,
+            "long_1": Light.TOGGLE,
+            "long_2": None,
+        }
