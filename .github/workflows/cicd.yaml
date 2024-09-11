@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install poetry
-        uses: snok/install-poetry@v1.3
+        uses: snok/install-poetry@v1.4
         with:
           version: 1.4.0
           virtualenvs-create: true
@@ -75,7 +75,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install poetry
-        uses: snok/install-poetry@v1.3
+        uses: snok/install-poetry@v1.4
         with:
           version: 1.4.0
           virtualenvs-create: true
@@ -179,7 +179,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install poetry
-        uses: snok/install-poetry@v1.3
+        uses: snok/install-poetry@v1.4
         with:
           version: 1.4.0
           virtualenvs-create: true
