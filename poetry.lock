@@ -175,13 +175,13 @@ doc = ["myst-parser (==1.0.0)", "pygments (>=2.14,<2.16)", "sphinx-autobuild (>=
 
 [[package]]
 name = "argcomplete"
-version = "3.5.1"
+version = "3.1.6"
 description = "Bash tab completion for argparse"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "argcomplete-3.5.1-py3-none-any.whl", hash = "sha256:1a1d148bdaa3e3b93454900163403df41448a248af01b6e849edc5ac08e6c363"},
-    {file = "argcomplete-3.5.1.tar.gz", hash = "sha256:eb1ee355aa2557bd3d0145de7b06b2a45b0ce461e1e7813f5d066039ab4177b4"},
+    {file = "argcomplete-3.1.6-py3-none-any.whl", hash = "sha256:71f4683bc9e6b0be85f2b2c1224c47680f210903e23512cfebfe5a41edfd883a"},
+    {file = "argcomplete-3.1.6.tar.gz", hash = "sha256:3b1f07d133332547a53c79437527c00be48cca3807b1d4ca5cab1b26313386a6"},
 ]
 
 [package.extras]
@@ -531,25 +531,25 @@ files = [
 
 [[package]]
 name = "commitizen"
-version = "3.29.1"
+version = "3.9.1"
 description = "Python commitizen client tool"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "commitizen-3.29.1-py3-none-any.whl", hash = "sha256:83f6563fae6a6262238e4424c55db5743eaa9827d2044dc23719466e4e78a0ca"},
-    {file = "commitizen-3.29.1.tar.gz", hash = "sha256:b9a56190f4f3b20c73600e5ba448c7b81e0e6f87be3092aec1db4de75bf0fa91"},
+    {file = "commitizen-3.9.1-py3-none-any.whl", hash = "sha256:2d2133fb4798d156475f937e9f8950327ffa79ef663dee1a940229c791f3095e"},
+    {file = "commitizen-3.9.1.tar.gz", hash = "sha256:30d756bd8ae669c4a1e641148d22069ef588713b0e437eb6012e7dacac370e1e"},
 ]
 
 [package.dependencies]
-argcomplete = ">=1.12.1,<3.6"
+argcomplete = ">=1.12.1,<3.2"
 charset-normalizer = ">=2.1.0,<4"
 colorama = ">=0.4.1,<0.5.0"
 decli = ">=0.6.0,<0.7.0"
-importlib_metadata = {version = ">=8.0.0,<9", markers = "python_version < \"3.10\""}
+importlib_metadata = ">=4.13,<7"
 jinja2 = ">=2.10.3"
 packaging = ">=19"
 pyyaml = ">=3.08"
-questionary = ">=2.0,<3.0"
+questionary = ">=1.4.0,<2.0.0"
 termcolor = ">=1.1,<3"
 tomlkit = ">=0.5.3,<1.0.0"
 
@@ -671,13 +671,13 @@ optimize = ["orjson"]
 
 [[package]]
 name = "distlib"
-version = "0.3.8"
+version = "0.3.9"
 description = "Distribution utilities"
 optional = false
 python-versions = "*"
 files = [
-    {file = "distlib-0.3.8-py2.py3-none-any.whl", hash = "sha256:034db59a0b96f8ca18035f36290806a9a6e6bd9d1ff91e45a7f172eb17e51784"},
-    {file = "distlib-0.3.8.tar.gz", hash = "sha256:1530ea13e350031b6312d8580ddb6b27a104275a31106523b8f123787f494f64"},
+    {file = "distlib-0.3.9-py2.py3-none-any.whl", hash = "sha256:47f8c22fd27c27e25a65601af709b38e4f0a45ea4fc2e710f65755fa8caaaf87"},
+    {file = "distlib-0.3.9.tar.gz", hash = "sha256:a60f20dea646b8a33f3e7772f74dc0b2d0772d2837ee1342a00645c81edf9403"},
 ]
 
 [[package]]
@@ -855,6 +855,17 @@ files = [
 ]
 
 [[package]]
+name = "hjson"
+version = "3.1.0"
+description = "Hjson, a user interface for JSON."
+optional = false
+python-versions = "*"
+files = [
+    {file = "hjson-3.1.0-py3-none-any.whl", hash = "sha256:65713cdcf13214fb554eb8b4ef803419733f4f5e551047c9b711098ab7186b89"},
+    {file = "hjson-3.1.0.tar.gz", hash = "sha256:55af475a27cf83a7969c808399d7bccdec8fb836a07ddbd574587593b9cdcf75"},
+]
+
+[[package]]
 name = "identify"
 version = "2.6.1"
 description = "File identification library for Python"
@@ -884,26 +895,22 @@ all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2
 
 [[package]]
 name = "importlib-metadata"
-version = "8.5.0"
+version = "6.11.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-8.5.0-py3-none-any.whl", hash = "sha256:45e54197d28b7a7f1559e60b95e7c567032b602131fbd588f1497f47880aa68b"},
-    {file = "importlib_metadata-8.5.0.tar.gz", hash = "sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7"},
+    {file = "importlib_metadata-6.11.0-py3-none-any.whl", hash = "sha256:f0afba6205ad8f8947c7d338b5342d5db2afbfd82f9cbef7879a9539cc12eb9b"},
+    {file = "importlib_metadata-6.11.0.tar.gz", hash = "sha256:1231cf92d825c9e03cfc4da076a16de6422c863558229ea0b22b675657463443"},
 ]
 
 [package.dependencies]
-zipp = ">=3.20"
+zipp = ">=0.5"
 
 [package.extras]
-check = ["pytest-checkdocs (>=2.4)", "pytest-ruff (>=0.2.1)"]
-cover = ["pytest-cov"]
-doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
-enabler = ["pytest-enabler (>=2.2)"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-lint"]
 perf = ["ipython"]
-test = ["flufl.flake8", "importlib-resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6,!=8.1.*)", "pytest-perf (>=0.9.2)"]
-type = ["pytest-mypy"]
+testing = ["flufl.flake8", "importlib-resources (>=1.3)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-perf (>=0.9.2)", "pytest-ruff"]
 
 [[package]]
 name = "iniconfig"
@@ -1131,35 +1138,38 @@ pyyaml = ">=5.1"
 
 [[package]]
 name = "mkdocs-macros-plugin"
-version = "1.2.0"
+version = "1.3.4"
 description = "Unleash the power of MkDocs with macros and variables"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs-macros-plugin-1.2.0.tar.gz", hash = "sha256:7603b85cb336d669e29a8a9cc3af8b90767ffdf6021b3e023d5ec2e0a1f927a7"},
-    {file = "mkdocs_macros_plugin-1.2.0-py3-none-any.whl", hash = "sha256:3e442f8f37aa69710a69b5389e6b6cd0f54f4fcaee354aa57a61735ba8f97d27"},
+    {file = "mkdocs-macros-plugin-1.3.4.tar.gz", hash = "sha256:de6ea32729bf2ffffed18b23966e27b4915512370e5cbc37a388f32ff75b97b9"},
+    {file = "mkdocs_macros_plugin-1.3.4-py3-none-any.whl", hash = "sha256:6f99dc10420a82afa4835db7896f0a242d3b8f593c090c66f3b427ceebbc8767"},
 ]
 
 [package.dependencies]
+hjson = "*"
 jinja2 = "*"
 mkdocs = ">=0.17"
 packaging = "*"
+pathspec = "*"
 python-dateutil = "*"
 pyyaml = "*"
+super-collections = "*"
 termcolor = "*"
 
 [package.extras]
-test = ["mkdocs-include-markdown-plugin", "mkdocs-macros-test", "mkdocs-material (>=6.2)"]
+test = ["mkdocs-include-markdown-plugin", "mkdocs-macros-test", "mkdocs-material (>=6.2)", "mkdocs-test"]
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.39"
+version = "9.5.40"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.39-py3-none-any.whl", hash = "sha256:0f2f68c8db89523cb4a59705cd01b4acd62b2f71218ccb67e1e004e560410d2b"},
-    {file = "mkdocs_material-9.5.39.tar.gz", hash = "sha256:25faa06142afa38549d2b781d475a86fb61de93189f532b88e69bf11e5e5c3be"},
+    {file = "mkdocs_material-9.5.40-py3-none-any.whl", hash = "sha256:8e7a16ada34e79a7b6459ff2602584222f522c738b6a023d1bea853d5049da6f"},
+    {file = "mkdocs_material-9.5.40.tar.gz", hash = "sha256:b69d70e667ec51fc41f65e006a3184dd00d95b2439d982cb1586e4c018943156"},
 ]
 
 [package.dependencies]
@@ -1509,13 +1519,13 @@ virtualenv = ">=20.10.0"
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.36"
+version = "3.0.48"
 description = "Library for building powerful interactive command lines in Python"
 optional = false
-python-versions = ">=3.6.2"
+python-versions = ">=3.7.0"
 files = [
-    {file = "prompt_toolkit-3.0.36-py3-none-any.whl", hash = "sha256:aa64ad242a462c5ff0363a7b9cfe696c20d55d9fc60c11fd8e632d064804d305"},
-    {file = "prompt_toolkit-3.0.36.tar.gz", hash = "sha256:3e163f254bef5a03b146397d7c1963bd3e2812f0964bb9a24e6ec761fd28db63"},
+    {file = "prompt_toolkit-3.0.48-py3-none-any.whl", hash = "sha256:f49a827f90062e411f1ce1f854f2aedb3c23353244f8108b89283587397ac10e"},
+    {file = "prompt_toolkit-3.0.48.tar.gz", hash = "sha256:d6623ab0477a80df74e646bdbc93621143f5caf104206aa29294d53de1a03d90"},
 ]
 
 [package.dependencies]
@@ -1941,17 +1951,20 @@ pyyaml = "*"
 
 [[package]]
 name = "questionary"
-version = "2.0.1"
+version = "1.10.0"
 description = "Python library to build pretty command line user prompts ⭐️"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.6,<4.0"
 files = [
-    {file = "questionary-2.0.1-py3-none-any.whl", hash = "sha256:8ab9a01d0b91b68444dff7f6652c1e754105533f083cbe27597c8110ecc230a2"},
-    {file = "questionary-2.0.1.tar.gz", hash = "sha256:bcce898bf3dbb446ff62830c86c5c6fb9a22a54146f0f5597d3da43b10d8fc8b"},
+    {file = "questionary-1.10.0-py3-none-any.whl", hash = "sha256:fecfcc8cca110fda9d561cb83f1e97ecbb93c613ff857f655818839dac74ce90"},
+    {file = "questionary-1.10.0.tar.gz", hash = "sha256:600d3aefecce26d48d97eee936fdb66e4bc27f934c3ab6dd1e292c4f43946d90"},
 ]
 
 [package.dependencies]
-prompt_toolkit = ">=2.0,<=3.0.36"
+prompt_toolkit = ">=2.0,<4.0"
+
+[package.extras]
+docs = ["Sphinx (>=3.3,<4.0)", "sphinx-autobuild (>=2020.9.1,<2021.0.0)", "sphinx-autodoc-typehints (>=1.11.1,<2.0.0)", "sphinx-copybutton (>=0.3.1,<0.4.0)", "sphinx-rtd-theme (>=0.5.0,<0.6.0)"]
 
 [[package]]
 name = "regex"
@@ -2148,6 +2161,20 @@ files = [
 
 [package.dependencies]
 aiohttp = ">=3.0.0"
+
+[[package]]
+name = "super-collections"
+version = "0.5.0"
+description = "file: README.md"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "super_collections-0.5.0-py3-none-any.whl", hash = "sha256:95db6b400fc16e29087ba1188eada9669fb8b8a4c4c4e6b4c63037e2e8166798"},
+    {file = "super_collections-0.5.0.tar.gz", hash = "sha256:d4a38a0eefa7d02a46d65594437cff94b54cf84c8ee62f9cc4067eca38462ebb"},
+]
+
+[package.dependencies]
+hjson = "*"
 
 [[package]]
 name = "termcolor"
