@@ -126,7 +126,7 @@ class TS0042LightController(LightController):
             "1_remote_button_double_press": Light.CLICK_BRIGHTNESS_UP,
             "1_remote_button_long_press": Light.ON_FULL_BRIGHTNESS,
             "2_remote_button_short_press": Light.OFF,
-            "2_remote_button_double_press": Light.ON_MIN_BRIGHTNESS
+            "2_remote_button_double_press": Light.ON_MIN_BRIGHTNESS,
         }
 
     def get_zha_action(self, data: EventData) -> str:
