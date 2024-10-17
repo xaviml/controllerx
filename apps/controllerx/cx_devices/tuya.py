@@ -117,3 +117,24 @@ class TuYaERS10TZBVKAAMediaPlayerController(MediaPlayerController):
             "double": MediaPlayer.NEXT_TRACK,
             "hold": MediaPlayer.PREVIOUS_TRACK,
         }
+
+
+class TS0042LightController(LightController):
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "1_remote_button_short_press": [Light.ON, Light.CLICK_BRIGHTNESS_UP],
+            "1_remote_button_long_press": Light.ON_FULL_BRIGHTNESS,
+            "2_remote_button_short_press": Light.CLICK_BRIGHTNESS_DOWN,
+            "2_remote_button_double_press": Light.OFF
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        args: str = ""
+        # Command is {endpoint_id}_{command}
+        if len(data["args"]) > 0:
+            if isinstance(data["args"], list):
+                args = "_" + "_".join([str(d) for d in data["args"]])
+            else:
+                args = args + f"{data['args']}"
+        command: str = f"{data['endpoint_id']}_{data['command']}{args}"
+        return command
