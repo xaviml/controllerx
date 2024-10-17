@@ -44,7 +44,7 @@ class TS0043LightController(LightController):
             "3_double": Light.CLICK_BRIGHTNESS_UP,
             "3_hold": Light.CLICK_BRIGHTNESS_DOWN,
         }
-    
+
     def get_zha_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "1_remote_button_short_press": Light.TOGGLE,
@@ -68,7 +68,6 @@ class TS0043LightController(LightController):
                 args = args + f"{data['args']}"
         command: str = f"{data['endpoint_id']}_{data['command']}{args}"
         return command
-
 
 
 class TuYaERS10TZBVKAALightController(LightController):
@@ -142,4 +141,3 @@ class TuYaERS10TZBVKAAMediaPlayerController(MediaPlayerController):
             "double": MediaPlayer.NEXT_TRACK,
             "hold": MediaPlayer.PREVIOUS_TRACK,
         }
-
