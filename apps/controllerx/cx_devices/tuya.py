@@ -50,6 +50,7 @@ class TS0043LightController(LightController):
             "3_hold": Light.CLICK_BRIGHTNESS_DOWN,
         }
 
+
 class TS0043CoverController(CoverController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
