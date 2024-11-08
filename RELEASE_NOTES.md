@@ -10,11 +10,9 @@ _This minor change does not contain any breaking changes._
 ## :pencil2: Features
 -->
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
+- [TS0042](https://BASE_URL/controllerx/controllers/TS0042) - add device with ZHA support. [ #1065 ]
 
 <!--
 ## :hammer: Fixes
