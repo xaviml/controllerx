@@ -1,5 +1,10 @@
-from cx_const import DefaultActionsMapping, Light, MediaPlayer, Z2MLight
-from cx_core import LightController, MediaPlayerController, Z2MLightController
+from cx_const import Cover, DefaultActionsMapping, Light, MediaPlayer, Z2MLight
+from cx_core import (
+    CoverController,
+    LightController,
+    MediaPlayerController,
+    Z2MLightController,
+)
 from cx_core.integration import EventData
 
 
@@ -68,6 +73,15 @@ class TS0043LightController(LightController):
                 args = args + f"{data['args']}"
         command: str = f"{data['endpoint_id']}_{data['command']}{args}"
         return command
+
+
+class TS0043CoverController(CoverController):
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "1_single": Cover.TOGGLE_OPEN,
+            "2_single": Cover.STOP,
+            "3_single": Cover.TOGGLE_CLOSE,
+        }
 
 
 class TuYaERS10TZBVKAALightController(LightController):

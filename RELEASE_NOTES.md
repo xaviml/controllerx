@@ -12,8 +12,9 @@ _This minor change does not contain any breaking changes._
 
 ## :video_game: New devices
 
-- [TS0042](https://BASE_URL/controllerx/controllers/TS0042) - add device with ZHA support. [ #1065 ]
-- [TS0043](https://BASE_URL/controllerx/controllers/TS0043) - add ZHA support. [ #1066 ]
+- [TS0042](https://BASE_URL/controllerx/controllers/TS0042) - add device with ZHA support. [ #1065 ] @Strauman
+- [TS0043](https://BASE_URL/controllerx/controllers/TS0043) - add ZHA support. [ #1066 ] @Strauman
+- [TS0043](https://BASE_URL/controllerx/controllers/TS0043) - add cover controll with ZHA support. [ #1076 ] @ChristopheBraud
 
 <!--
 ## :hammer: Fixes
