@@ -15,7 +15,6 @@ _This minor change does not contain any breaking changes._
 - [TS0042](https://BASE_URL/controllerx/controllers/TS0042) - add device with ZHA support. [ #1065 ]
 - [TS0043](https://BASE_URL/controllerx/controllers/TS0043) - add ZHA support. [ #1066 ]
 
-
 <!--
 ## :hammer: Fixes
 -->
