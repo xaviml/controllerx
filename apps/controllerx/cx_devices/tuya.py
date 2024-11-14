@@ -78,9 +78,9 @@ class TS0043LightController(LightController):
 class TS0043CoverController(CoverController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "1_single": Cover.TOGGLE_OPEN,
+            "1_single": Cover.OPEN,
             "2_single": Cover.STOP,
-            "3_single": Cover.TOGGLE_CLOSE,
+            "3_single": Cover.CLOSE,
         }
 
 class TuYaERS10TZBVKAALightController(LightController):
