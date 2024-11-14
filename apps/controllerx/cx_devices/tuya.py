@@ -83,6 +83,7 @@ class TS0043CoverController(CoverController):
             "3_single": Cover.CLOSE,
         }
 
+
 class TuYaERS10TZBVKAALightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
