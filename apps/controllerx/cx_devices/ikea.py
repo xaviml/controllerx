@@ -772,8 +772,8 @@ class E2123MediaPlayerController(MediaPlayerController):
 
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "toggle": MediaPlayer.PLAY,  # click Play button
-            "play_pause": MediaPlayer.PLAY,  # click Play button
+            "toggle": MediaPlayer.PLAY_PAUSE,  # click Play button
+            "play_pause": MediaPlayer.PLAY_PAUSE,  # click Play button
             "track_next": MediaPlayer.NEXT_TRACK,  # click Next Track
             "track_previous": MediaPlayer.PREVIOUS_TRACK,  # click Previous Track
             "volume_up": MediaPlayer.CLICK_VOLUME_UP,  # click + (Volume up)
