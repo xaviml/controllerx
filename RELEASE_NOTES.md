@@ -14,6 +14,7 @@
 
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
+- [E2123](https://BASE_URL/controllerx/controllers/E2123) - add ZHA support. [ #842 ]
 
 ## :hammer: Fixes
 
