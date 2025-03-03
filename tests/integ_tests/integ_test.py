@@ -73,7 +73,7 @@ class ExtraIterator:
 
 
 def _get_extra(
-    data: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]
+    data: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]],
 ) -> ExtraIterator:
     if data is None:
         return ExtraIterator(iter([None]))
