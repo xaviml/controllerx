@@ -390,7 +390,10 @@ def test_get_default_actions_mapping_throwing_error(
     with pytest.raises(ValueError) as e:
         sut.get_default_actions_mapping(integration_mock)  # type: ignore[arg-type]
 
-    assert str(e.value) == "This controller does not support integration-test."
+    assert (
+        str(e.value)
+        == "This controller does not support integration-test. Use `mapping` to define the actions."
+    )
 
 
 @pytest.mark.parametrize(

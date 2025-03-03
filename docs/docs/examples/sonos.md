@@ -18,8 +18,10 @@ This favourites list can consist of both radio stations, playlists, podcasts etc
 office_sonos_controller:
   module: controllerx
   class: E1810MediaPlayerController
-  controller: sensor.controller_action
-  integration: z2m
+  controller: controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   volume_steps: 20 # default setting is 10. This will increase default steps to 20 from no volume to full volume
   media_player: media_player.office
 ```
@@ -76,10 +78,12 @@ And with the following ControllerX configuration, you will be able to control th
 sonos_group:
   module: controllerx
   class: MediaPlayerController
-  controller: sensor.controller_action
-  integration: z2m
+  controller: controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   volume_steps: 20
-  media_player: group.sonos_all #Sonos group in groups.yaml
+  media_player: group.sonos_all # Sonos group in groups.yaml
   mapping:
     toggle: play_pause
     brightness_up_click: click_volume_up

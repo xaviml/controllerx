@@ -8,6 +8,7 @@ from cx_core.integration import EventData, Integration
 
 LISTENS_TO_HA = "ha"
 LISTENS_TO_MQTT = "mqtt"
+LISTENS_TO_EVENT = "event"
 
 
 class Z2MIntegration(Integration):
@@ -19,6 +20,12 @@ class Z2MIntegration(Integration):
     async def listen_changes(self, controller_id: str) -> None:
         listens_to = self.kwargs.get("listen_to", LISTENS_TO_HA)
         if listens_to == LISTENS_TO_HA:
+            self.controller.log(
+                "⚠️ Listening to HA sensor actions is now deprecated and will be removed in the future. Use `listen_to: mqtt` or `listen_to: event` instead."
+                " Read more about it here: https://xaviml.github.io/controllerx/others/z2m-ha-sensor-deprecated",
+                level="WARNING",
+                ascii_encode=False,
+            )
             await Hass.listen_state(self.controller, self.state_callback, controller_id)
         elif listens_to == LISTENS_TO_MQTT:
             topic_prefix = self.kwargs.get("topic_prefix", "zigbee2mqtt")
@@ -28,9 +35,16 @@ class Z2MIntegration(Integration):
                 topic=f"{topic_prefix}/{controller_id}",
                 namespace="mqtt",
             )
+        elif listens_to == LISTENS_TO_EVENT:
+            await Hass.listen_state(
+                self.controller,
+                self.state_callback,
+                f"event.{controller_id}",
+                attribute="event_type",
+            )
         else:
             raise ValueError(
-                "`listen_to` has to be either `ha` or `mqtt`. Default is `ha`."
+                "`listen_to` has to be either `ha`, `mqtt` or `event`. Default is `ha`."
             )
 
     async def event_callback(

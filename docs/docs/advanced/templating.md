@@ -20,8 +20,10 @@ It can be used to get the current media player is playing. It assumes there is a
 example_app:
   module: controllerx
   class: E1810MediaPlayerController
-  integration: z2m
-  controller: sensor.my_controller
+  controller: my_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   media_player: "{{ special }}"
 ```
 
@@ -33,8 +35,10 @@ Get data for call services. For example, get a random effect for our WLED light.
 example_app:
   module: controllerx
   class: Controller
-  integration: z2m
-  controller: sensor.my_controller
+  controller: my_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   mapping:
     toggle:
       service: wled.effect

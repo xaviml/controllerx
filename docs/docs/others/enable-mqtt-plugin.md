@@ -5,7 +5,7 @@ layout: page
 
 If we want to use the `mqtt` integration or the `listen_to: mqtt` from `z2m` integration as well as the `Z2MLightController`, we will need to activate the MQTT Plugin on the AppDaemon configuration (normally located in `/addon_configs/a0d7b954_appdaemon/appdaemon.yaml`). We will need the add the following highlighted section in that file:
 
-```yaml hl_lines="12 13 14 15 16 17"
+```yaml hl_lines="13-18"
 ---
 secrets: /homeassistant/secrets.yaml
 appdaemon:

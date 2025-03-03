@@ -17,7 +17,7 @@ class TasmotaIntegration(Integration):
         if component_key is None:
             raise ValueError(
                 "`component` attribute is mandatory. "
-                "Check example from https://xaviml.github.io/controllerx/start/integrations/#tasmota"
+                "Check example from https://xaviml.github.io/controllerx/start/integrations/tasmota"
             )
         await Mqtt.listen_event(
             self.controller, self.event_callback, topic=controller_id, namespace="mqtt"

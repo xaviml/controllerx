@@ -7,14 +7,16 @@ The purpose of this page is to show some real examples for the configuration. Th
 
 ## Basic
 
-E1524/E1810 controller with z2m that controls all the livingroom lights.
+E1524/E1810 controller with z2m event entities that controls all the livingroom lights.
 
 ```yaml
 livingroom_controller:
   module: controllerx
   class: E1810Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller_action
+  integration:
+    name: z2m
+    listen_to: event
   light: group.livingroom_lights
 ```
 
@@ -62,9 +64,11 @@ Controlling two lights with Aqara double key wireless switch (z2m):
 controller_left_switch:
   module: controllerx
   class: DoubleKeyWirelessAqaraController
-  controller: sensor.controller_action
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.light1
-  integration: z2m
   manual_steps: 7
   actions:
     - left
@@ -74,9 +78,11 @@ controller_left_switch:
 controller_right_switch:
   module: controllerx
   class: DoubleKeyWirelessAqaraController
-  controller: sensor.controller_action
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.light2
-  integration: z2m
   manual_steps: 7
   actions:
     - right
@@ -90,8 +96,10 @@ Controlling just the color with E1810 and z2m because toggle and brightness is c
 example_app:
   module: controllerx
   class: E1810Controller
-  controller: sensor.controller_action
-  integration: z2m
+  controller: controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.light1
   actions:
     - arrow_left_hold
@@ -123,8 +131,10 @@ hallway_light_group_no_toggle:
   # use Hue bridge light group for even and syncronized on/off function
   module: controllerx
   class: E1810Controller
-  controller: sensor.0x90fd9ffffe17d796_action
-  integration: z2m
+  controller: "x90fd9ffffe17d796"
+  integration:
+    name: z2m
+    listen_to: mqtt
   # transition: 1000 # transition attribute works on Hue bridge
   smooth_power_on: true
   light: group.hallway # HA group. ControllerX syncs values from first group entity with remaining entities in group
@@ -147,8 +157,10 @@ hallway_light_group_toggle:
   # use Hue bridge light group for even and syncronized on/off function
   module: controllerx
   class: E1810Controller
-  controller: sensor.0x90fd9ffffe17d796_action
-  integration: z2m
+  controller: "x90fd9ffffe17d796"
+  integration:
+    name: z2m
+    listen_to: mqtt
   # transition: 1000 # transition attribute works on Hue bridge
   light: light.hallway # Hue light group. On/off completely in sync, as zigbee group commands are used by Hue bridge
   actions:
@@ -273,16 +285,20 @@ Extending the functionality of the smooth power onfor the E1810, so when clicked
 livingroom_light_on:
   module: controllerx
   class: E1810Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.livingroom
   constrain_input_boolean: light.livingroom,on
 
 livingroom_light_off:
   module: controllerx
   class: LightController
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.livingroom
   mapping:
     toggle: toggle
@@ -322,8 +338,10 @@ Customising Aqara magic cube with z2m. This makes use of the `mapping` attribute
 cube_bedroom:
   module: controllerx
   class: Controller
-  controller: sensor.cube_bedroom_action
-  integration: z2m
+  controller: cube_bedroom
+  integration:
+    name: z2m
+    listen_to: mqtt
   mapping:
     flip90:
       service: scene.turn_on
@@ -345,8 +363,10 @@ Customising WXKG01LM de Aqara. We want to toggle the light and turn it on always
 mando_aqara_salon:
   module: controllerx
   class: WXKG01LMLightController
-  controller: sensor.0x00158d00027b6d79_click
-  integration: z2m
+  controller: "0x00158d00027b6d79"
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.0x000d6ffffec2620d_light
   merge_mapping:
     single: # Give an action to the `single` event
@@ -362,8 +382,10 @@ Customising the E1810 to invert the click and hold actions and control a group o
 sonos_speaker:
   module: controllerx
   class: MediaPlayerController
-  controller: sensor.0x90fd9ffffe0cbd69_action
-  integration: z2m
+  controller: "0x90fd9ffffe0cbd69"
+  integration:
+    name: z2m
+    listen_to: mqtt
   media_player: group.sonos_all
   mapping:
     toggle: play_pause

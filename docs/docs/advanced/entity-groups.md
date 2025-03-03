@@ -3,7 +3,7 @@ title: Entity groups
 layout: page
 ---
 
-_This is supported from ControllerX v4.14.0_
+_This is supported since ControllerX v4.14.0_
 
 ControllerX allow for Entity Controllers (LightController, MediaPlayerController, CoverController, etc) to work with grouped entities.
 
@@ -26,9 +26,11 @@ Then, we could for example configure the following in apps.yaml file:
 ```yaml
 example_app:
   module: controllerx
-  class: E1810Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  class: E2002LightController
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.livingroom
 ```
 

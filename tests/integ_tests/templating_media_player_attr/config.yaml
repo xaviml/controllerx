@@ -1,6 +1,8 @@
 example_app:
   module: controllerx
   class: E1810MediaPlayerController
-  integration: z2m
-  controller: sensor.my_controller
+  controller: my_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   media_player: "{{ states('sensor.current_media_player') }}"

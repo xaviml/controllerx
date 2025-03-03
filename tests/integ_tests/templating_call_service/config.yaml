@@ -1,8 +1,10 @@
 example_app:
   module: controllerx
   class: Controller
-  integration: z2m
-  controller: sensor.my_controller
+  controller: my_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   mapping:
     toggle:
       service: wled.effect

@@ -155,8 +155,10 @@ When passing parameters to predefined actions, we will nede to use the `action` 
 example_app:
   module: controllerx
   class: E1810Controller
-  integration: z2m
-  controller: sensor.controller_action
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.my_light
   merge_mapping:
     toggle_hold:
@@ -171,8 +173,10 @@ And this is another example for the `toggle` action:
 example_app:
   module: controllerx
   class: E1810Controller
-  integration: z2m
-  controller: sensor.controller_action
+  controller: controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.my_light
   merge_mapping:
     toggle:
