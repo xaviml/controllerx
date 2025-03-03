@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import pytest
 from cx_core import CoverController
@@ -85,7 +85,7 @@ async def test_open(
     await sut.open()
 
     if expected_service is not None:
-        expected_attributes: Dict[str, Any]
+        expected_attributes: dict[str, Any]
         if expected_service == "cover/open_cover":
             expected_attributes = {"entity_id": "cover.test"}
         elif expected_service == "cover/set_cover_position":
@@ -124,7 +124,7 @@ async def test_close(
     await sut.close()
 
     if expected_service is not None:
-        expected_attributes: Dict[str, Any]
+        expected_attributes: dict[str, Any]
         if expected_service == "cover/close_cover":
             expected_attributes = {"entity_id": "cover.test"}
         elif expected_service == "cover/set_cover_position":

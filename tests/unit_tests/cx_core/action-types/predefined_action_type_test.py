@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 import pytest
 from cx_const import ActionFunctionWithParams, ActionParams, TypeAction
@@ -86,8 +86,8 @@ def test_get_action(
 )
 def test_get_arguments_general(
     action_args: ActionParams,
-    user_args: Dict[str, Any],
-    expected: Optional[Tuple[ActionParams, Dict[str, Any]]],
+    user_args: dict[str, Any],
+    expected: Optional[tuple[ActionParams, dict[str, Any]]],
 ) -> None:
     async def test_fn(a: str, b: int = 2) -> None:
         pass
@@ -124,9 +124,9 @@ def test_get_arguments_general(
 )
 def test_get_arguments_with_extra(
     action_args: ActionParams,
-    user_args: Dict[str, Any],
+    user_args: dict[str, Any],
     extra: Optional[EventData],
-    expected: Optional[Tuple[ActionParams, Dict[str, Any]]],
+    expected: Optional[tuple[ActionParams, dict[str, Any]]],
 ) -> None:
     async def test_fn(a: str, b: int, extra: Optional[EventData] = None) -> None:
         pass

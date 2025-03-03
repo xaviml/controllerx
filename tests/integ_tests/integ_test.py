@@ -1,18 +1,8 @@
 import asyncio
 import glob
+from collections.abc import Awaitable, Iterator
 from pathlib import Path
-from typing import (
-    Any,
-    Awaitable,
-    Callable,
-    Dict,
-    Iterator,
-    List,
-    Optional,
-    Set,
-    Tuple,
-    Union,
-)
+from typing import Any, Callable, Optional, Union
 
 import pytest
 import yaml
@@ -23,7 +13,7 @@ from pytest_mock.plugin import MockerFixture
 from tests.test_utils import get_controller
 
 
-def get_integ_tests() -> List[Tuple[str, str, Dict[str, Any]]]:
+def get_integ_tests() -> list[tuple[str, str, dict[str, Any]]]:
     configs = []
     test_yaml_files = glob.glob("**/*_test.yaml", recursive=True)
     for test_yaml_file in test_yaml_files:
@@ -34,14 +24,14 @@ def get_integ_tests() -> List[Tuple[str, str, Dict[str, Any]]]:
     return configs
 
 
-def read_config_yaml(file_name: str) -> Dict[str, Any]:
+def read_config_yaml(file_name: str) -> dict[str, Any]:
     with open(file_name) as f:
         data = yaml.full_load(f)
     return list(data.values())[0]
 
 
 def get_fake_get_state(
-    entity_state: str, entity_state_attributes: Dict[str, str]
+    entity_state: str, entity_state_attributes: dict[str, str]
 ) -> Callable[[str, Optional[str]], Awaitable[str]]:
     async def inner(entity_name: str, attribute: Optional[str] = None) -> str:
         if attribute is not None and attribute in entity_state_attributes:
@@ -55,13 +45,13 @@ integration_tests = get_integ_tests()
 
 
 class ExtraIterator:
-    iterator: Iterator[Optional[Dict[str, Any]]]
-    current: Optional[Dict[str, Any]] = None
+    iterator: Iterator[Optional[dict[str, Any]]]
+    current: Optional[dict[str, Any]] = None
 
-    def __init__(self, iterator: Iterator[Optional[Dict[str, Any]]]) -> None:
+    def __init__(self, iterator: Iterator[Optional[dict[str, Any]]]) -> None:
         self.iterator = iterator
 
-    def __next__(self) -> Optional[Dict[str, Any]]:
+    def __next__(self) -> Optional[dict[str, Any]]:
         try:
             self.current = next(self.iterator)
         except StopIteration:
@@ -73,7 +63,7 @@ class ExtraIterator:
 
 
 def _get_extra(
-    data: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]
+    data: Optional[Union[dict[str, Any], list[dict[str, Any]]]]
 ) -> ExtraIterator:
     if data is None:
         return ExtraIterator(iter([None]))
@@ -85,7 +75,7 @@ def _get_extra(
 
 @pytest.mark.parametrize("config_file, test_yaml_file, data", integration_tests)
 async def test_integ_configs(
-    mocker: MockerFixture, config_file: str, test_yaml_file: str, data: Dict[str, Any]
+    mocker: MockerFixture, config_file: str, test_yaml_file: str, data: dict[str, Any]
 ) -> None:
     entity_state_attributes = data.get("entity_state_attributes", {})
     entity_state = data.get("entity_state", None)
@@ -129,7 +119,7 @@ async def test_integ_configs(
         elif isinstance(action, float):
             await asyncio.sleep(action)
 
-    pending: Set[asyncio.Task[Any]] = asyncio.all_tasks()
+    pending: set[asyncio.Task[Any]] = asyncio.all_tasks()
     # We exclude the current function we are executing
     pending = {
         task

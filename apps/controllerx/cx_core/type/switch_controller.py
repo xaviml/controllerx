@@ -1,5 +1,3 @@
-from typing import Type
-
 from cx_const import PredefinedActionsMapping, Switch
 from cx_core.controller import action
 from cx_core.type_controller import Entity, TypeController
@@ -34,7 +32,7 @@ class SwitchController(TypeController[Entity]):
             Switch.TOGGLE: self.toggle,
         }
 
-    def _get_entity_type(self) -> Type[Entity]:
+    def _get_entity_type(self) -> type[Entity]:
         return Entity
 
     @action

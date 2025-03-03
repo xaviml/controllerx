@@ -1,6 +1,6 @@
 import asyncio
 from functools import lru_cache
-from typing import Any, Dict, List, Literal, Optional, Set, Type
+from typing import Any, Literal, Optional
 
 from cx_const import Light, Number, PredefinedActionsMapping, StepperDir, StepperMode
 from cx_core.color_helper import Color, get_color_wheel
@@ -34,7 +34,7 @@ DEFAULT_HOLD_TOGGLE_DIRECTION_INIT = "up"
 ColorMode = Literal["auto", "xy_color", "color_temp"]
 
 COLOR_MODES = {"hs", "xy", "rgb", "rgbw", "rgbww"}
-STEPPER_MODES: Dict[str, Type[Stepper]] = {
+STEPPER_MODES: dict[str, type[Stepper]] = {
     StepperMode.STOP: StopStepper,
     StepperMode.LOOP: LoopStepper,
     StepperMode.BOUNCE: BounceStepper,
@@ -47,7 +47,7 @@ class LightEntity(Entity):
     def __init__(
         self,
         name: str,
-        entities: Optional[List[str]] = None,
+        entities: Optional[list[str]] = None,
         color_mode: ColorMode = "auto",
     ) -> None:
         super().__init__(name, entities)
@@ -97,12 +97,12 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     manual_steps: Number
     automatic_steps: Number
-    min_max_attributes: Dict[str, MinMax]
+    min_max_attributes: dict[str, MinMax]
 
     domains = ["light"]
     entity_arg = "light"
 
-    _supported_color_modes: Optional[Set[str]]
+    _supported_color_modes: Optional[set[str]]
 
     async def init(self) -> None:
         self.manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
@@ -145,7 +145,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         )
         await super().init()
 
-    def _get_entity_type(self) -> Type[LightEntity]:
+    def _get_entity_type(self) -> type[LightEntity]:
         return LightEntity
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
@@ -451,7 +451,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self.call_light_service("light/turn_on", **attributes)
 
     @action
-    async def on(self, attributes: Optional[Dict[str, float]] = None) -> None:
+    async def on(self, attributes: Optional[dict[str, float]] = None) -> None:
         attributes = {} if attributes is None else attributes
         await self._on(**attributes)
 
@@ -466,7 +466,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self.call_light_service("light/toggle", **attributes)
 
     @action
-    async def toggle(self, attributes: Optional[Dict[str, float]] = None) -> None:
+    async def toggle(self, attributes: Optional[dict[str, float]] = None) -> None:
         attributes = {} if attributes is None else attributes
         await self._toggle(**attributes)
 
@@ -536,7 +536,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         color_temp: int = 370,  # 2700K light
         xy_color: Color = (0.323, 0.329),  # white colour
     ) -> None:
-        attributes: Dict[Any, Any] = {}
+        attributes: dict[Any, Any] = {}
         try:
             color_attribute = await self.get_attribute(LightController.ATTRIBUTE_COLOR)
             if color_attribute == LightController.ATTRIBUTE_COLOR_TEMP:
@@ -675,9 +675,9 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             )
 
     @property
-    async def supported_color_modes(self) -> Set[str]:
+    async def supported_color_modes(self) -> set[str]:
         if self._supported_color_modes is None or self.update_supported_features:
-            supported_color_modes: List[str] = await self.get_entity_state(
+            supported_color_modes: list[str] = await self.get_entity_state(
                 attribute="supported_color_modes"
             )
             if supported_color_modes is not None:
@@ -910,14 +910,14 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         direction: str,
         stepper: Stepper,
         *,
-        extra_attributes: Optional[Dict[str, Any]] = None,
+        extra_attributes: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         This functions changes the state of the light depending on the previous
         value and attribute. It returns True when no more changes will need to be done.
         Otherwise, it returns False.
         """
-        attributes: Dict[str, Any] = (
+        attributes: dict[str, Any] = (
             {} if extra_attributes is None else extra_attributes
         )
         direction = self.next_direction or direction

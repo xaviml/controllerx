@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple, Type
+from typing import Any
 
 import pytest
 from appdaemon.adapi import ADAPI
@@ -65,7 +65,7 @@ from tests.test_utils import fake_fn
 )
 async def test_custom_controllers(
     mocker: MockerFixture,
-    custom_cls: Type[TypeController[Entity]],
+    custom_cls: type[TypeController[Entity]],
     mapping: PredefinedActionsMapping,
     action_input: str,
     mock_function: str,
@@ -145,8 +145,8 @@ async def test_call_service_controller(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
     integration: str,
-    services: List[Dict[str, Any]],
-    expected_calls: List[Tuple[str, Dict[str, Any]]],
+    services: list[dict[str, Any]],
+    expected_calls: list[tuple[str, dict[str, Any]]],
 ) -> None:
     sut = Controller(**{})
     sut.args = {

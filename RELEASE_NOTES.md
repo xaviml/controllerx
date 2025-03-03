@@ -1,8 +1,6 @@
 [![downloads](https://img.shields.io/github/downloads/xaviml/controllerx/VERSION_TAG/total?style=for-the-badge)](http://github.com/xaviml/controllerx/releases/VERSION_TAG)
 
-<!--:warning: This major/minor change contains a breaking change.-->
-
-_This minor change does not contain any breaking changes._
+:warning: This major/minor change contains a breaking change.
 
 **_Note: Remember to restart the AppDaemon addon/server after updating to a new version._**
 
@@ -29,6 +27,6 @@ _This minor change does not contain any breaking changes._
 ## :clock2: Performance
 -->
 
-<!--
 ## :wrench: Refactor
--->
+
+- :warning: Remove compatibility with Python 3.8. Minimum version is Python 3.9 now. This breaking change should only affect to those running AppDaemon on Python 3.8 or lower. If you are running AppDaemon add-on, this change does not affect you.

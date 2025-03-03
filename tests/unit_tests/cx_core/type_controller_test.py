@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import Any, Optional, Union
 
 import pytest
 from cx_core.controller import Controller
@@ -19,7 +19,7 @@ class MyEntity(Entity):
     def __init__(
         self,
         name: str,
-        entities: Optional[List[str]] = None,
+        entities: Optional[list[str]] = None,
         attr_test: str = DEFAULT_ATTR_TEST,
     ) -> None:
         super().__init__(name, entities)
@@ -30,7 +30,7 @@ class MyTypeController(TypeController[MyEntity]):
     domains = ["domain_1", "domain_2"]
     entity_arg = ENTITY_ARG
 
-    def _get_entity_type(self) -> Type[MyEntity]:
+    def _get_entity_type(self) -> type[MyEntity]:
         return MyEntity
 
 
@@ -60,7 +60,7 @@ async def sut(sut_before_init: MyTypeController) -> MyTypeController:
     ],
 )
 async def test_init(
-    sut_before_init: MyTypeController, args: Dict[str, Any], error_expected: bool
+    sut_before_init: MyTypeController, args: dict[str, Any], error_expected: bool
 ) -> None:
     sut_before_init.args = args
 
@@ -111,8 +111,8 @@ async def test_check_domain(
     sut: MyTypeController,
     monkeypatch: MonkeyPatch,
     entity: str,
-    domains: List[str],
-    entities: List[str],
+    domains: list[str],
+    entities: list[str],
     error_expected: bool,
 ) -> None:
     sut.domains = domains
@@ -138,7 +138,7 @@ async def test_get_entity_state(
     mocker: MockerFixture,
     monkeypatch: MonkeyPatch,
     entity_input: str,
-    entities: Union[str, List[str]],
+    entities: Union[str, list[str]],
     update_supported_features: bool,
     expected_calls: int,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_get_entity_state(
 
     async def fake_get_state(
         entity: str, attribute: Optional[str] = None
-    ) -> Union[str, List[str]]:
+    ) -> Union[str, list[str]]:
         stub_get_state(entity, attribute=attribute)
         return entities
 

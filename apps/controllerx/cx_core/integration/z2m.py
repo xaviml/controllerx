@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
@@ -48,7 +48,7 @@ class Z2MIntegration(Integration):
             )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
+        self, event_name: str, data: EventData, kwargs: dict[str, Any]
     ) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
         action_key = self.kwargs.get("action_key", "action")
@@ -80,6 +80,6 @@ class Z2MIntegration(Integration):
         attribute: Optional[str],
         old: Optional[str],
         new: str,
-        kwargs: Dict[str, Any],
+        kwargs: dict[str, Any],
     ) -> None:
         await self.controller.handle_action(new, previous_state=old)

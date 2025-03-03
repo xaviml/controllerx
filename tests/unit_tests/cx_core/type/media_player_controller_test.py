@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Literal, Optional
 
 import pytest
 from cx_const import StepperDir
@@ -213,14 +213,14 @@ async def test_change_source_list(
     mocker: MockerFixture,
     monkeypatch: MonkeyPatch,
     direction_input: Literal["up", "down"],
-    source_list: List[str],
+    source_list: list[str],
     active_source: Optional[str],
     expected_calls: int,
     expected_source: str,
 ) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
 
-    async def fake_get_entity_state(attribute: Optional[str] = None) -> Dict[str, Any]:
+    async def fake_get_entity_state(attribute: Optional[str] = None) -> dict[str, Any]:
         if active_source is None:
             return {"attributes": {"source_list": source_list}}
         else:

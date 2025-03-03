@@ -1,11 +1,11 @@
-from typing import Any, Dict
+from typing import Any
 
 from cx_const import DefaultActionsMapping, Light, Z2MLight
 from cx_core import LightController, Z2MLightController
 from cx_core.integration import EventData
 
 
-def get_zha_action_LegrandWallController(data: Dict[str, Any]) -> str:
+def get_zha_action_LegrandWallController(data: dict[str, Any]) -> str:
     endpoint_id = data.get("endpoint_id", 1)
     command: str = data["command"]
     action = command

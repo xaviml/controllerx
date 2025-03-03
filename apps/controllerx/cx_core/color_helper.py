@@ -1,7 +1,7 @@
-from typing import List, Tuple, Union
+from typing import Union
 
-Color = Tuple[float, float]
-Colors = List[Color]
+Color = tuple[float, float]
+Colors = list[Color]
 
 # These are the 24 colors that appear in the circle color of home assistant
 default_color_wheel = [

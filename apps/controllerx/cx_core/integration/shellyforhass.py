@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -20,7 +20,7 @@ class ShellyForHASSIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
+        self, event_name: str, data: EventData, kwargs: dict[str, Any]
     ) -> None:
         click_type = data["click_type"]
         action = f"{click_type}"

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -29,7 +29,7 @@ from pytest_mock.plugin import MockerFixture
 async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
-    data: Dict[str, Any],
+    data: dict[str, Any],
     expected: str,
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")

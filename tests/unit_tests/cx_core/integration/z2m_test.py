@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -46,7 +46,7 @@ async def test_event_callback(
     expected_called_with: str,
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
-    kwargs: Dict[str, Any] = {}
+    kwargs: dict[str, Any] = {}
     if action_key is not None:
         kwargs["action_key"] = action_key
     if action_group is not None:

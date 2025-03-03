@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.integration import EventData, Integration
@@ -27,7 +27,7 @@ class EventIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
+        self, event_name: str, data: EventData, kwargs: dict[str, Any]
     ) -> None:
         action_template: str = self.get_arg("action_template")
         try:

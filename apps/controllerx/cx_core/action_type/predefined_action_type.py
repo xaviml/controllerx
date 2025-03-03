@@ -1,5 +1,5 @@
 import inspect
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 from cx_const import (
     ActionFunction,
@@ -22,9 +22,9 @@ def _get_action(action_value: TypeAction) -> ActionFunctionWithParams:
 def _get_arguments(
     action: ActionFunction,
     args: ActionParams,
-    predefined_action_kwargs: Dict[str, Any],
+    predefined_action_kwargs: dict[str, Any],
     extra: Optional[EventData],
-) -> Tuple[ActionParams, Dict[str, Any]]:
+) -> tuple[ActionParams, dict[str, Any]]:
     action_parameters = inspect.signature(action).parameters
     action_parameters_without_extra = {
         key: param for key, param in action_parameters.items() if key != "extra"
@@ -34,7 +34,7 @@ def _get_arguments(
         for key, param in action_parameters.items()
         if param.default is inspect.Signature.empty
     }
-    action_args: Dict[str, Any] = dict(
+    action_args: dict[str, Any] = dict(
         zip(action_parameters_without_extra.keys(), args)
     )  # ControllerX args
     action_positional_args = set(action_args.keys())
@@ -75,7 +75,7 @@ def _get_arguments(
 
 class PredefinedActionType(ActionType):
     predefined_action_key: str
-    predefined_action_kwargs: Dict[str, Any]
+    predefined_action_kwargs: dict[str, Any]
     predefined_actions_mapping: PredefinedActionsMapping
 
     def _raise_action_key_not_found(

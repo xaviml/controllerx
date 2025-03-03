@@ -1,7 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 from unittest import mock
 
 import appdaemon.plugins.hass.hassapi as hass
@@ -20,7 +20,7 @@ from cx_core.type_controller import Entity, TypeController
 from cx_helper import get_instances
 from mkdocs_macros.plugin import MacrosPlugin
 
-DocsMapping = Dict[Optional[str], Dict[str, List[ActionEvent]]]
+DocsMapping = dict[Optional[str], dict[str, list[ActionEvent]]]
 
 INTEGRATIONS_TITLES = {
     "z2m": "Zigbee2MQTT",
@@ -34,7 +34,7 @@ INTEGRATIONS_TITLES = {
     "tasmota": "Tasmota",
 }
 
-INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
+INTEGRATIONS_EXAMPLES: list[dict[str, Any]] = [
     {
         "name": "z2m",
         "title": "Zigbee2MQTT (HA entity)",
@@ -72,7 +72,7 @@ INTEGRATIONS_EXAMPLES: List[Dict[str, Any]] = [
 DEPRECATED_CONTROLLERS = ["W2049"]
 
 with open(Path(__file__).parent / "notes.yaml") as f:
-    NOTES: Dict[str, str] = yaml.full_load(f)
+    NOTES: dict[str, str] = yaml.full_load(f)
 
 
 @dataclass
@@ -84,7 +84,7 @@ class ControllerTypeDocs:
     cls: str
     delay: Optional[int]
     mappings: DocsMapping
-    integrations_list: List[str]
+    integrations_list: list[str]
 
     @property
     def entity_name(self) -> str:
@@ -96,7 +96,7 @@ class ControllerTypeDocs:
         return "-".join(self.type.lower().split())
 
     @property
-    def integrations_examples(self) -> List[Dict[str, Any]]:
+    def integrations_examples(self) -> list[dict[str, Any]]:
         return [
             integration
             for integration in INTEGRATIONS_EXAMPLES
@@ -104,7 +104,7 @@ class ControllerTypeDocs:
         ]
 
     @property
-    def integrations_titles(self) -> List[str]:
+    def integrations_titles(self) -> list[str]:
         return [
             INTEGRATIONS_TITLES[integration] for integration in self.integrations_list
         ]
@@ -158,7 +158,7 @@ class ControllerTypeDocs:
 @dataclass
 class ControllerDocs:
     name: str
-    controller_type_docs: List[ControllerTypeDocs]
+    controller_type_docs: list[ControllerTypeDocs]
     notes: Optional[str]
 
 
@@ -173,7 +173,7 @@ def get_device_name(controller: str) -> str:
     )
 
 
-def get_controller_type(controller: TypeController[Entity]) -> Tuple[str, int]:
+def get_controller_type(controller: TypeController[Entity]) -> tuple[str, int]:
     if isinstance(controller, LightController):
         return "Light", 0
     elif isinstance(controller, Z2MLightController):
@@ -199,7 +199,7 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDoc
     mappings: DocsMapping = defaultdict(lambda: defaultdict(list))
     integrations = []
 
-    integration_mappings_funcs: Dict[
+    integration_mappings_funcs: dict[
         str, Callable[[], Optional[DefaultActionsMapping]]
     ] = {
         "z2m": controller.get_z2m_actions_mapping,
@@ -231,7 +231,7 @@ def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDoc
     )
 
 
-def get_controllers() -> List[TypeController[Entity]]:
+def get_controllers() -> list[TypeController[Entity]]:
     with mock.patch.object(hass.Hass, "__init__", return_value=None):
         controller_instances = get_instances(
             devices_module.__file__,
@@ -241,7 +241,7 @@ def get_controllers() -> List[TypeController[Entity]]:
     return controller_instances
 
 
-def get_devices() -> Dict[str, ControllerDocs]:
+def get_devices() -> dict[str, ControllerDocs]:
     devices = defaultdict(list)
     for controller in get_controllers():
         device_name = get_device_name(controller.__class__.__name__)
@@ -250,7 +250,7 @@ def get_devices() -> Dict[str, ControllerDocs]:
         controller_docs = get_controller_docs(controller)
         devices[device_name].append(controller_docs)
 
-    devices_docs: Dict[str, ControllerDocs] = {}
+    devices_docs: dict[str, ControllerDocs] = {}
     for device_name, docs in devices.items():
         # Sort the controller types,
         # so they appear in the same order in the documentaiton
@@ -264,6 +264,6 @@ def get_devices() -> Dict[str, ControllerDocs]:
 
 def define_env(env: MacrosPlugin) -> None:
     @env.macro  # type: ignore[misc]
-    def devices() -> Dict[str, ControllerDocs]:
+    def devices() -> dict[str, ControllerDocs]:
         devices = get_devices()
         return dict(sorted(devices.items(), key=lambda device: device[0]))

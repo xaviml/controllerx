@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, Optional, Set
+from typing import TYPE_CHECKING, Any, Optional
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -10,9 +10,9 @@ if TYPE_CHECKING:
 
 class HomematicIntegration(Integration):
     name = "homematic"
-    _registered_controller_ids: Set[str]
+    _registered_controller_ids: set[str]
 
-    def __init__(self, controller: "Controller", kwargs: Dict[str, Any]):
+    def __init__(self, controller: "Controller", kwargs: dict[str, Any]):
         self._registered_controller_ids = set()
         super().__init__(controller, kwargs)
 
@@ -26,7 +26,7 @@ class HomematicIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
+        self, event_name: str, data: EventData, kwargs: dict[str, Any]
     ) -> None:
         if data["name"] not in self._registered_controller_ids:
             return

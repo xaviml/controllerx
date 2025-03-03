@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from cx_core.integration import EventData
 
@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 class ActionType(ABC):
     controller: "Controller"
 
-    def __init__(self, controller: "Controller", action: Dict[str, Any]) -> None:
+    def __init__(self, controller: "Controller", action: dict[str, Any]) -> None:
         self.controller = controller
         self.initialize(**action)
 

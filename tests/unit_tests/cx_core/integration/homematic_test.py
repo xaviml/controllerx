@@ -1,4 +1,4 @@
-from typing import Optional, Set
+from typing import Optional
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -33,7 +33,7 @@ async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
     data: EventData,
-    registered_controllers: Set[str],
+    registered_controllers: set[str],
     expected: Optional[str],
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")

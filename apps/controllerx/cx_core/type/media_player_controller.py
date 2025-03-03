@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Optional
 
 from cx_const import MediaPlayer, Number, PredefinedActionsMapping, StepperDir
 from cx_core.controller import action
@@ -25,7 +25,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         self.volume_level = 0.0
         await super().init()
 
-    def _get_entity_type(self) -> Type[Entity]:
+    def _get_entity_type(self) -> type[Entity]:
         return Entity
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
@@ -52,7 +52,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     async def change_source_list(self, direction: str) -> None:
         entity_states = await self.get_entity_state(attribute="all")
         entity_attributes = entity_states["attributes"]
-        source_list: Optional[List[str]] = entity_attributes.get("source_list")
+        source_list: Optional[list[str]] = entity_attributes.get("source_list")
         if source_list is None or len(source_list) == 0:
             self.log(
                 f"⚠️ There is no `source_list` parameter in `{self.entity}`",
@@ -130,9 +130,9 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         service: str = "google_translate_say",
         cache: Optional[bool] = None,
         language: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None,
+        options: Optional[dict[str, Any]] = None,
     ) -> None:
-        args: Dict[str, Any] = {"entity_id": self.entity.name, "message": message}
+        args: dict[str, Any] = {"entity_id": self.entity.name, "message": message}
         if cache is not None:
             args["cache"] = cache
         if language is not None:

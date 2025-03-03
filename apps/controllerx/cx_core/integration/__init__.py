@@ -1,5 +1,5 @@
 import abc
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from cx_const import DefaultActionsMapping
 from cx_helper import get_classes
@@ -7,15 +7,15 @@ from cx_helper import get_classes
 if TYPE_CHECKING:
     from cx_core.controller import Controller
 
-EventData = Dict[str, Any]
+EventData = dict[str, Any]
 
 
 class Integration(abc.ABC):
     name: str
     controller: "Controller"
-    kwargs: Dict[str, Any]
+    kwargs: dict[str, Any]
 
-    def __init__(self, controller: "Controller", kwargs: Dict[str, Any]):
+    def __init__(self, controller: "Controller", kwargs: dict[str, Any]):
         self.controller = controller
         self.kwargs = kwargs
 
@@ -28,8 +28,8 @@ class Integration(abc.ABC):
 
 
 def get_integrations(
-    controller: "Controller", kwargs: Dict[str, Any]
-) -> List[Integration]:
+    controller: "Controller", kwargs: dict[str, Any]
+) -> list[Integration]:
     integration_classes = get_classes(__file__, __package__, Integration)
     integrations = [cls_(controller, kwargs) for cls_ in integration_classes]
     return integrations

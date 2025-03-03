@@ -1,16 +1,17 @@
-from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple, Union
+from collections.abc import Awaitable
+from typing import Any, Callable, Optional, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
-ActionParams = Tuple[Any, ...]
-ActionFunctionWithParams = Tuple[ActionFunction, ActionParams]
+ActionParams = tuple[Any, ...]
+ActionFunctionWithParams = tuple[ActionFunction, ActionParams]
 TypeAction = Union[ActionFunction, ActionFunctionWithParams]
 ActionEvent = Union[str, int]
-PredefinedActionsMapping = Dict[str, TypeAction]
-DefaultActionsMapping = Dict[ActionEvent, Optional[str]]
+PredefinedActionsMapping = dict[str, TypeAction]
+DefaultActionsMapping = dict[ActionEvent, Optional[str]]
 
-CustomAction = Union[str, Dict[str, Any]]
-CustomActions = Union[List[CustomAction], CustomAction]
-CustomActionsMapping = Dict[ActionEvent, Optional[CustomActions]]
+CustomAction = Union[str, dict[str, Any]]
+CustomActions = Union[list[CustomAction], CustomAction]
+CustomActionsMapping = dict[ActionEvent, Optional[CustomActions]]
 
 Number = Union[int, float]
 

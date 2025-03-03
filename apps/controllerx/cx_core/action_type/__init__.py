@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Dict, List, Type
+from typing import TYPE_CHECKING
 
 from cx_const import ActionEvent, CustomAction, CustomActions
 from cx_core.action_type.base import ActionType
@@ -10,9 +10,9 @@ from cx_core.action_type.scene_action_type import SceneActionType
 if TYPE_CHECKING:
     from cx_core import Controller
 
-ActionsMapping = Dict[ActionEvent, List[ActionType]]
+ActionsMapping = dict[ActionEvent, list[ActionType]]
 
-action_type_mapping: Dict[str, Type[ActionType]] = {
+action_type_mapping: dict[str, type[ActionType]] = {
     "action": PredefinedActionType,
     "service": CallServiceActionType,
     "scene": SceneActionType,
@@ -20,7 +20,7 @@ action_type_mapping: Dict[str, Type[ActionType]] = {
 }
 
 
-def parse_actions(controller: "Controller", data: CustomActions) -> List[ActionType]:
+def parse_actions(controller: "Controller", data: CustomActions) -> list[ActionType]:
     actions: CustomActions
     if isinstance(data, (list, tuple)):
         actions = list(data)

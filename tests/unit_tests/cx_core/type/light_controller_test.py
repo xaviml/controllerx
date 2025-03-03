@@ -1,4 +1,4 @@
-from typing import Any, Dict, Literal, Optional, Set, Type, Union
+from typing import Any, Literal, Optional, Union
 
 import pytest
 from cx_const import StepperDir, StepperMode
@@ -65,7 +65,7 @@ async def sut(mocker: MockerFixture) -> LightController:
 )
 async def test_init(
     sut_before_init: LightController,
-    light_input: Union[str, Dict[str, str]],
+    light_input: Union[str, dict[str, str]],
     expected_name: str,
     expected_color_mode: str,
     error_expected: bool,
@@ -117,7 +117,7 @@ async def test_get_attribute(
     sut: LightController,
     attribute_input: str,
     color_mode: ColorMode,
-    supported_color_modes: Set[str],
+    supported_color_modes: set[str],
     expected_attribute: str,
     error_expected: bool,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_get_attribute(
     ],
 )
 async def test_is_color_supported(
-    sut: LightController, supported_color_modes: Set[str], expected_output: bool
+    sut: LightController, supported_color_modes: set[str], expected_output: bool
 ) -> None:
     sut._supported_color_modes = supported_color_modes
     output = await sut.is_color_supported()
@@ -162,7 +162,7 @@ async def test_is_color_supported(
     ],
 )
 async def test_is_colortemp_supported(
-    sut: LightController, supported_color_modes: Set[str], expected_output: bool
+    sut: LightController, supported_color_modes: set[str], expected_output: bool
 ) -> None:
     sut._supported_color_modes = supported_color_modes
     output = await sut.is_colortemp_supported()
@@ -229,7 +229,7 @@ def test_get_stepper(
     sut: LightController,
     attribute: str,
     mode: str,
-    expected_stepper: Type[Stepper],
+    expected_stepper: type[Stepper],
     error_expected: bool,
 ) -> None:
     with wrap_execution(error_expected=error_expected, exception=ValueError):
@@ -339,10 +339,10 @@ async def test_change_light_state(
 async def test_call_light_service(
     sut: LightController,
     mocker: MockerFixture,
-    attributes_input: Dict[str, str],
+    attributes_input: dict[str, str],
     remove_transition_check: bool,
     force_transition: bool,
-    attributes_expected: Dict[str, str],
+    attributes_expected: dict[str, str],
 ) -> None:
     called_service_patch = mocker.patch.object(sut, "call_service")
     sut.transition = 300
@@ -537,7 +537,7 @@ async def test_sync(
     mocker: MockerFixture,
     max_brightness: int,
     color_attribute: str,
-    expected_attributes: Dict[str, Any],
+    expected_attributes: dict[str, Any],
 ) -> None:
     sut.min_max_attributes[LightController.ATTRIBUTE_BRIGHTNESS] = MinMax(
         0, max_brightness

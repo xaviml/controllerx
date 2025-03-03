@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import DefaultActionsMapping
@@ -24,7 +24,7 @@ class TasmotaIntegration(Integration):
         )
 
     async def event_callback(
-        self, event_name: str, data: EventData, kwargs: Dict[str, Any]
+        self, event_name: str, data: EventData, kwargs: dict[str, Any]
     ) -> None:
         self.controller.log(f"MQTT data event: {data}", level="DEBUG")
         component_key: str = self.kwargs["component"]

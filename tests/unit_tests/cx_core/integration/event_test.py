@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -79,7 +79,7 @@ async def test_callback(
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-    kwargs: Dict[str, Any],
+    kwargs: dict[str, Any],
     error_expected: bool,
 ) -> None:
     controller_id = "controller_id"

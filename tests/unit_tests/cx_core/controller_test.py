@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Optional, Union
 
 import pytest
 from appdaemon.adapi import ADAPI
@@ -131,11 +131,11 @@ async def test_action_decorator(sut: Controller, mocker: MockerFixture) -> None:
 async def test_initialize(
     sut_before_init: Controller,
     mocker: MockerFixture,
-    controller_input: Union[str, List[str]],
-    actions_input: List[str],
-    included_actions: Optional[List[str]],
-    excluded_actions: Optional[List[str]],
-    actions_output: List[str],
+    controller_input: Union[str, list[str]],
+    actions_input: list[str],
+    included_actions: Optional[list[str]],
+    excluded_actions: Optional[list[str]],
+    actions_output: list[str],
     error_expected: bool,
 ) -> None:
     actions = {action: action for action in actions_input}
@@ -188,9 +188,9 @@ async def test_initialize(
 async def test_merge_mapping(
     sut_before_init: Controller,
     mocker: MockerFixture,
-    mapping: List[str],
-    merge_mapping: List[str],
-    actions_output: List[str],
+    mapping: list[str],
+    merge_mapping: list[str],
+    actions_output: list[str],
     error_expected: bool,
 ) -> None:
     actions_input = ["action1", "action2", "action3"]
@@ -233,7 +233,7 @@ async def test_merge_mapping(
     ],
 )
 def test_get_list(
-    sut: Controller, test_input: Union[List[str], str], expected: List[str]
+    sut: Controller, test_input: Union[list[str], str], expected: list[str]
 ) -> None:
     output = sut.get_list(test_input)
     assert output == expected
@@ -282,10 +282,10 @@ def test_get_list(
 )
 def test_get_mapping_per_action(
     sut: Controller,
-    actions: Set[ActionEvent],
-    custom: Optional[Dict[ActionEvent, Any]],
+    actions: set[ActionEvent],
+    custom: Optional[dict[ActionEvent, Any]],
     default: Any,
-    expected: Dict[ActionEvent, Any],
+    expected: dict[ActionEvent, Any],
 ) -> None:
     actions_mapping: ActionsMapping = {action: [] for action in actions}
     output = sut.get_mapping_per_action(actions_mapping, custom=custom, default=default)
@@ -311,8 +311,8 @@ def test_get_mapping_per_action(
 def test_get_multiple_click_actions(
     fake_action_type: ActionType,
     sut: Controller,
-    mapping: List[ActionEvent],
-    expected: List[str],
+    mapping: list[ActionEvent],
+    expected: list[str],
 ) -> None:
     actions_mapping: ActionsMapping = {key: [fake_action_type] for key in mapping}
     output = sut.get_multiple_click_actions(actions_mapping)
@@ -327,7 +327,7 @@ def test_get_multiple_click_actions(
     ],
 )
 def test_get_option(
-    sut: Controller, option: str, options: List[str], error_expected: bool
+    sut: Controller, option: str, options: list[str], error_expected: bool
 ) -> None:
     with wrap_execution(error_expected=error_expected, exception=ValueError):
         sut.get_option(option, options)
@@ -351,9 +351,9 @@ def test_get_option(
 def test_get_integration(
     fake_controller: Controller,
     mocker: MockerFixture,
-    integration_input: Union[str, Dict[str, Any]],
+    integration_input: Union[str, dict[str, Any]],
     integration_name_expected: str,
-    args_expected: Dict[str, Any],
+    args_expected: dict[str, Any],
     error_expected: bool,
 ) -> None:
     get_integrations_spy = mocker.spy(integration_module, "get_integrations")
@@ -408,7 +408,7 @@ def test_get_default_actions_mapping_throwing_error(
 async def test_handle_action(
     sut: Controller,
     mocker: MockerFixture,
-    actions_input: List[ActionEvent],
+    actions_input: list[ActionEvent],
     action_called: str,
     action_called_times: int,
     action_delta: int,
@@ -450,7 +450,7 @@ async def test_call_action(
 ) -> None:
     action_key = "test"
     sut.action_delay = {action_key: delay}
-    action_delay_handles: Dict[ActionEvent, Optional[str]] = {action_key: handle}
+    action_delay_handles: dict[ActionEvent, Optional[str]] = {action_key: handle}
     sut.action_delay_handles = action_delay_handles
 
     monkeypatch.setattr(sut, "cancel_timer", fake_fn(async_=True))
@@ -481,7 +481,7 @@ async def test_call_action(
     [("test_service", {"attr1": 0.0, "attr2": "test"}), ("test_service", {})],
 )
 async def test_call_service(
-    sut: Controller, mocker: MockerFixture, service: str, attributes: Dict[str, Any]
+    sut: Controller, mocker: MockerFixture, service: str, attributes: dict[str, Any]
 ) -> None:
     call_service_stub = mocker.patch.object(ADAPI, "call_service")
     await sut.call_service(service, **attributes)

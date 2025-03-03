@@ -1,4 +1,5 @@
-from typing import Any, Awaitable, Callable, Dict, Optional, Type
+from collections.abc import Awaitable
+from typing import Any, Callable, Optional
 
 from cx_const import Cover, PredefinedActionsMapping
 from cx_core.controller import action
@@ -38,7 +39,7 @@ class CoverController(TypeController[Entity]):
             raise ValueError("`open_position` must be higher than `close_position`")
         await super().init()
 
-    def _get_entity_type(self) -> Type[Entity]:
+    def _get_entity_type(self) -> type[Entity]:
         return Entity
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
@@ -50,7 +51,7 @@ class CoverController(TypeController[Entity]):
             Cover.TOGGLE_CLOSE: (self.toggle, (self.close,)),
         }
 
-    async def cover_stopped_cb(self, kwargs: Dict[str, Any]) -> None:
+    async def cover_stopped_cb(self, kwargs: dict[str, Any]) -> None:
         self.is_supposedly_moving = False
         self.stop_timer_handle = None
 

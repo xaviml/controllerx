@@ -1,4 +1,5 @@
-from typing import Callable, KeysView, List, Optional, Type
+from collections.abc import KeysView
+from typing import Callable, Optional
 
 import cx_devices as devices_module
 import pytest
@@ -48,7 +49,7 @@ devices_classes = get_classes(
 
 
 @pytest.mark.parametrize("device_class", devices_classes)
-def test_devices(device_class: Type[Controller]) -> None:
+def test_devices(device_class: type[Controller]) -> None:
     device = device_class(**{})
 
     # We first check that all devices are importable from controllerx module
@@ -59,7 +60,7 @@ def test_devices(device_class: Type[Controller]) -> None:
 
     predefined_actions_mapping = device.get_predefined_actions_mapping()
     possible_actions = predefined_actions_mapping.keys()
-    integration_mappings_funcs: List[Callable[[], Optional[DefaultActionsMapping]]] = [
+    integration_mappings_funcs: list[Callable[[], Optional[DefaultActionsMapping]]] = [
         device.get_z2m_actions_mapping,
         device.get_deconz_actions_mapping,
         device.get_zha_actions_mapping,

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, Optional, cast
+from typing import TYPE_CHECKING, Any, Optional, cast
 
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData
@@ -14,7 +14,7 @@ class CallServiceActionType(ActionType):
     # - In the same level as "service"
     # - From the main config if the domain matches
     entity_id: Optional[str]
-    data: Dict[str, Any]
+    data: dict[str, Any]
 
     def initialize(self, **kwargs: Any) -> None:
         self.service = kwargs["service"]

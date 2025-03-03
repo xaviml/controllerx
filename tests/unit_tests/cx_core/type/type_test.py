@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional
 
 import pytest
 from cx_const import PredefinedActionsMapping
@@ -32,7 +32,7 @@ controller_types = get_classes(
 
 @pytest.mark.parametrize("controller_type", controller_types)
 def test_predefined_actions_mapping(
-    mocker: MockerFixture, controller_type: Type[TypeController[Entity]]
+    mocker: MockerFixture, controller_type: type[TypeController[Entity]]
 ) -> None:
     controller = controller_type(**{})
     mappings = controller.get_predefined_actions_mapping()

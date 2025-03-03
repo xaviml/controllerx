@@ -1,6 +1,7 @@
 import json
+from collections.abc import Awaitable
 from functools import lru_cache
-from typing import Any, Awaitable, Callable, Dict, List, Optional, Type
+from typing import Annotated, Any, Callable, Literal, Optional
 
 from cx_const import PredefinedActionsMapping, StepperDir, Z2MLight
 from cx_core.controller import Controller, action
@@ -15,10 +16,7 @@ DEFAULT_TRANSITION = 0.5
 DEFAULT_MODE = "ha"
 DEFAULT_TOPIC_PREFIX = "zigbee2mqtt"
 
-# Once the minimum supported version of Python is 3.8,
-# we can declare the Mode as a Literal
-# Mode = Literal["ha", "mqtt"]
-Mode = str
+Mode = Annotated[str, Literal["ha", "mqtt"]]
 
 
 class Z2MLightEntity(Entity):
@@ -28,7 +26,7 @@ class Z2MLightEntity(Entity):
     def __init__(
         self,
         name: str,
-        entities: Optional[List[str]] = None,
+        entities: Optional[list[str]] = None,
         mode: Mode = DEFAULT_MODE,
         topic_prefix: str = DEFAULT_TOPIC_PREFIX,
     ) -> None:
@@ -69,7 +67,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
 
     hold_attribute: Optional[str]
 
-    _mqtt_fn: Dict[Mode, Callable[[str, str], Awaitable[None]]]
+    _mqtt_fn: dict[Mode, Callable[[str, str], Awaitable[None]]]
 
     async def init(self) -> None:
         self.click_steps = self.args.get("click_steps", DEFAULT_CLICK_STEPS)
@@ -85,7 +83,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
 
         await super().init()
 
-    def _get_entity_type(self) -> Type[Z2MLightEntity]:
+    def _get_entity_type(self) -> type[Z2MLightEntity]:
         return Z2MLightEntity
 
     def get_predefined_actions_mapping(self) -> PredefinedActionsMapping:
@@ -214,7 +212,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
             "mqtt.publish", topic=topic, payload=payload, namespace="mqtt"
         )
 
-    async def _mqtt_call(self, payload: Dict[str, Any]) -> None:
+    async def _mqtt_call(self, payload: dict[str, Any]) -> None:
         await self._mqtt_fn[self.entity.mode](
             f"{self.entity.topic_prefix}/{self.entity.name}/set", json.dumps(payload)
         )
@@ -223,7 +221,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         await self._mqtt_call({"state": "ON", **attributes})
 
     @action
-    async def on(self, attributes: Optional[Dict[str, float]] = None) -> None:
+    async def on(self, attributes: Optional[dict[str, float]] = None) -> None:
         attributes = attributes or {}
         await self._on(**attributes)
 
@@ -238,7 +236,7 @@ class Z2MLightController(TypeController[Z2MLightEntity]):
         await self._mqtt_call({"state": "TOGGLE", **attributes})
 
     @action
-    async def toggle(self, attributes: Optional[Dict[str, float]] = None) -> None:
+    async def toggle(self, attributes: Optional[dict[str, float]] = None) -> None:
         attributes = attributes or {}
         await self._toggle(**attributes)
 

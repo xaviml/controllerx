@@ -1,6 +1,7 @@
 import importlib
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Any, Callable, Generator, Optional, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, Optional, TypeVar
 from unittest.mock import MagicMock
 
 import pytest
@@ -46,7 +47,7 @@ def get_controller(module_name: str, class_name: str) -> Optional["Controller"]:
 
 @contextmanager
 def wrap_execution(
-    *, error_expected: bool = True, exception: Type[Exception] = Exception
+    *, error_expected: bool = True, exception: type[Exception] = Exception
 ) -> Generator[Optional[ExceptionInfo[Any]], None, None]:
     if error_expected:
         with pytest.raises(exception) as err_info:
