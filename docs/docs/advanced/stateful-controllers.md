@@ -26,8 +26,10 @@ Once we have an entity that Home Assistant controls, we can create the following
 example_app_0:
   module: controllerx
   class: E1810Controller
-  controller: sensor.your_controller_action
-  integration: z2m
+  controller: your_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.my_light_1
   merge_mapping:
     arrow_left_click:
@@ -41,8 +43,10 @@ example_app_0:
 example_app_1:
   module: controllerx
   class: E1810Controller
-  controller: sensor.your_controller_action
-  integration: z2m
+  controller: your_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.my_light_2
   merge_mapping:
     arrow_left_click:
@@ -78,8 +82,10 @@ Then, the configuration would be simplified to the following thanks to [templati
 example_app:
   module: controllerx
   class: E1810Controller
-  controller: sensor.your_controller_action
-  integration: z2m
+  controller: your_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: "{{ special }}"
   merge_mapping:
     arrow_left_click:

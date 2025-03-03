@@ -14,8 +14,10 @@ Let's see an example:
 example_app:
   module: controllerx
   class: E1743Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.livingroom
   merge_mapping:
     "off":

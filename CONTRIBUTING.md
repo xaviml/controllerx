@@ -94,7 +94,7 @@ livingroom_controller:
 
 Second, you will need an HA Long-Lived Access Tokens (`YOUR_HA_TOKEN`) which you can get at `/profile` from your HA instance.
 
-Then, you can run the following:
+Then, make sure to have no other AppDaemon running (like the one you use in Home Assistant), and run:
 
 ```shell
 docker run --pull=always --rm \

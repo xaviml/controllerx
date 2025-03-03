@@ -69,6 +69,7 @@ async def test_event_callback(
         (None, None, "ha"),
         ("mqtt", None, "mqtt"),
         ("mqtt", "my_prefix", "mqtt"),
+        ("event", None, "event"),
         ("fake", None, None),
     ],
 )
@@ -107,6 +108,13 @@ async def test_listen_changes(
             z2m_integration.event_callback,
             topic=f"{topic_prefix or 'zigbee2mqtt'}/controller_id",
             namespace="mqtt",
+        )
+    elif expected_id == "event":
+        hass_listen_state_mock.assert_called_once_with(
+            fake_controller,
+            z2m_integration.state_callback,
+            "event.controller_id",
+            attribute="event_type",
         )
     else:
         assert False, "expected_id cannot be other than 'ha' or 'mqtt'"

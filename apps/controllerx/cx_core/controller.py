@@ -228,7 +228,9 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
     ) -> DefaultActionsMapping:
         actions_mapping = integration.get_default_actions_mapping()
         if actions_mapping is None:
-            raise ValueError(f"This controller does not support {integration.name}.")
+            raise ValueError(
+                f"This controller does not support {integration.name}. Use `mapping` to define the actions."
+            )
         return actions_mapping
 
     @overload

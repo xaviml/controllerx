@@ -2,7 +2,9 @@ livingroom_controller:
   module: controllerx
   class: Controller
   controller: my_controller
-  integration: z2m
+  integration:
+    name: z2m
+    listen_to: mqtt
   multiple_click_delay: 300
   mode:
     action_single: single

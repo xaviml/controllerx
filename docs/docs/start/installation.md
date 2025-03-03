@@ -42,6 +42,10 @@ Note that by this point the addon might fail since `/homeassistant/appdaemon` mi
 
 You can read more about these changes in [this GitHub discussion](https://github.com/xaviml/controllerx/discussions/874).
 
+## Enabling MQTT plugin (optional)
+
+In case of using Zigbee2MQTT integration, it is recommended to [enable MQTT plugin](/controllerx/others/enable-mqtt-plugin) since the default [HA sensor listener is now deprecated](/controllerx/others/z2m-ha-sensor-deprecated).
+
 ## ControllerX installation
 
 You can proceed to install ControllerX either manually or through HACS in the `/homeassistant/appdaemon/apps/` folder.

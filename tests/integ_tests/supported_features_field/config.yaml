@@ -1,7 +1,9 @@
 livingroom_controller:
   module: controllerx
   class: E1810Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.bedroom
   supported_color_modes: ["color_temp"]

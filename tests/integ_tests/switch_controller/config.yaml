@@ -1,8 +1,10 @@
 example_app:
   module: controllerx
   class: SwitchController
-  controller: sensor.my_controller
-  integration: z2m
+  controller: my_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   switch:
     name: switch.my_switch
   mapping:

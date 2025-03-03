@@ -18,14 +18,16 @@ _Create controller-based automations with ease to control your home devices and 
 
 ## Quick example
 
-With just this configuration, you can have the E1810 controller from IKEA (5 buttons one) connected to the bedroom light and be able to change the brightness and color temperature or color.
+With just this configuration, you can have the E2002 controller from IKEA (4 buttons) connected to the livingroom light and be able to change the brightness and color temperature or color.
 
 ```yaml
 livingroom_controller:
   module: controllerx
-  class: E1810Controller
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  class: E2002LightController
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
   light: light.livingroom
 ```
 

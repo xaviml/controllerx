@@ -3,7 +3,7 @@ title: Zigbee2MQTT Light Controller
 layout: page
 ---
 
-_This is supported from ControllerX v4.21.0_
+_This is supported since ControllerX v4.21.0_
 
 ControllerX has always given support for [Light Controller](/controllerx/start/type-configuration#light-controller) which allows amongst other features to smoothly change attributes (brightness, color temperature) values by requesting the changes periodically to Home Assistant. This has allowed to work with lights integrated with many integrations (e.g.: Zigbee2MQTT, deCONZ, WLED, Hue). However, this generalization has penalized Zigbee2MQTT which has its own mechanism to change brightness and color temp over time which works much smoother than the Light Controller.
 

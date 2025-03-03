@@ -13,8 +13,22 @@ nav:
   - Getting started:
       - Installation: start/installation.md
       - Configuration: start/configuration.md
+      - Integrations:
+          - start/integrations/index.md
+          - With mapping:
+              - start/integrations/zigbee2mqtt.md
+              - start/integrations/deconz.md
+              - start/integrations/zha.md
+              - start/integrations/homematic.md
+              - start/integrations/lutron_caseta.md
+              - start/integrations/shelly.md
+              - start/integrations/shellyforhass.md
+              - start/integrations/tasmota.md
+          - Custom:
+              - start/integrations/state.md
+              - start/integrations/mqtt.md
+              - start/integrations/event.md
       - Type Configuration: start/type-configuration.md
-      - Integrations: start/integrations.md
   - Supported controllers: controllers.md
   - Advanced:
       - Custom mapping:
@@ -35,16 +49,18 @@ nav:
           - examples/tasmota-switchmode11.md
           - examples/tasmota-double-button.md
   - Others:
-      - others/extract-controller-id.md
       - others/run-appdaemon.md
       - others/update.md
       - others/zigbee2mqtt-light-controller.md
       - others/enable-mqtt-plugin.md
+      - others/z2m-ha-sensor-deprecated.md
   - faq.md
 
 theme:
   name: material
   features:
+    - content.code.annotate
+    - content.action.edit
     - navigation.instant
     - navigation.tracking
     - navigation.tabs
@@ -53,7 +69,6 @@ theme:
     - search.suggest
     - search.highlight
     - search.share
-    - content.code.annotate
   icon:
     repo: material/github
   logo: assets/logo_white.png
@@ -90,6 +105,8 @@ extra:
       name: xaviml on GitHub
 
 markdown_extensions:
+  - admonition
+  - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true

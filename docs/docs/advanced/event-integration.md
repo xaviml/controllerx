@@ -3,9 +3,9 @@ title: Event integration
 layout: page
 ---
 
-_This is supported from ControllerX v4.23.0_
+_This is supported since ControllerX v4.23.0_
 
-Most of the integrations supported by ControllerX are defined for an specific use case (zigbee2mqtt, deCONZ, ZHA), but we also have the [`State` integration](/controllerx/start/integrations#state), which is a more generic integration and allows us to listen to any Home Assistant entity state and build a mapping from it. From ControllerX v4.23.0, we can also use the [`Event` integration](/controllerx/start/integrations#event) which allows us define the event we want to listen to, and which actions build from it.
+Most of the integrations supported by ControllerX are defined for an specific use case (zigbee2mqtt, deCONZ, ZHA), but we also have the [`State` integration](/controllerx/start/integrations/state), which is a more generic integration and allows us to listen to any Home Assistant entity state and build a mapping from it. From ControllerX v4.23.0, we can also use the [`Event` integration](/controllerx/start/integrations/event) which allows us define the event we want to listen to, and which actions build from it.
 
 Each event has its own payload that could look like:
 
