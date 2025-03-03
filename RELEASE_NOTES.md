@@ -16,9 +16,9 @@ _This minor change does not contain any breaking changes._
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- [TS0043](https://BASE_URL/controllerx/controllers/TS0043) - fix cover mapping [ #1082 ] @ChristopheBraud
 
 <!--
 ## :scroll: Docs
