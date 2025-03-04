@@ -128,23 +128,20 @@ Install `Samba share` addon in Home Assistant, so you can connect to HA folder s
 
 ## How to change someone else's PR code
 
-If you have the permission to change code from the source branch of the PR, then you can do the following to change it. First, you will need to add the remote:
+If you have the permission to change code from the source branch of the PR, then you can do the following to change it. Fill in the username and branch and execute the following:
 
 ```shell
-git remote add <username> git@github.com:<username>/controllerx.git
+USERNAME=PR_USER  # Replace
+BRANCH=PR_BRANCH  # Replace
+git remote add $USERNAME git@github.com:$USERNAME/controllerx.git
+git fetch $USERNAME $BRANCH
+git checkout -b $USERNAME-$BRANCH $USERNAME/$BRANCH
 ```
 
-Then you will need to fetch, create and checkout the branch:
+Do your changes and once the changes are commited, you can push with the following command:
 
 ```shell
-git fetch <username> <branch>
-git checkout -b <username>-<branch> <username>/<branch>
-```
-
-Once the changes are commited, you can push with the following command:
-
-```shell
-git push <username> HEAD:<branch>
+git push $USERNAME HEAD:$BRANCH
 ```
 
 ## Deployment
