@@ -18,6 +18,7 @@
 ## :hammer: Fixes
 
 - [TS0043](https://BASE_URL/controllerx/controllers/TS0043) - fix cover mapping [ #1082 ] @ChristopheBraud
+- [E2123](https://BASE_URL/controllerx/controllers/E2123) - fix media player mapping [ #1102 ] @sevorl
 
 ## :scroll: Docs
 
