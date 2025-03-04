@@ -9,13 +9,9 @@
 - Add [`event` sensor listener](https://BASE_URL/controllerx/start/integrations/zigbee2mqtt/#event-state-listen_to-event) to Zigbee2MQTT integration. [ #1090 ]
 - Deprecate [HA sensor action listener](https://BASE_URL/controllerx/start/integrations/zigbee2mqtt/#ha-states-listen_to-ha) from Zigbee2MQTT integration. [ #1090 ]
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
-
-- [E2123](https://BASE_URL/controllerx/controllers/E2123) - add ZHA support. [ #842 ]
+- [E2123](https://BASE_URL/controllerx/controllers/E2123) - add ZHA support. [ #1109 ] @harrismck
 
 ## :hammer: Fixes
 
