@@ -781,7 +781,7 @@ class E2123MediaPlayerController(MediaPlayerController):
             "volume_down": MediaPlayer.CLICK_VOLUME_DOWN,  # click - (Volume down)
             "volume_down_hold": MediaPlayer.CLICK_VOLUME_DOWN,  # hold - (Volume down)
             "dots_1_initial_press": MediaPlayer.PREVIOUS_SOURCE,  # click . (Previous Source)
-            "dots_2_initial_press": MediaPlayer.NEXT_SOURCE,  # click .. (Previous Source)
+            "dots_2_initial_press": MediaPlayer.NEXT_SOURCE,  # click .. (Next Source)
         }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
@@ -796,3 +796,34 @@ class E2123MediaPlayerController(MediaPlayerController):
             6000: MediaPlayer.PREVIOUS_SOURCE,  # .; Initial Press
             7000: MediaPlayer.NEXT_SOURCE,  # ..; Initial Press
         }
+
+    def get_zha_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            "toggle": MediaPlayer.PLAY_PAUSE,  # click Play button
+            "play_pause": MediaPlayer.PLAY_PAUSE,  # click Play button
+            "step_0_1_0_0_0": MediaPlayer.NEXT_TRACK,  # click Next Track
+            "step_1_1_0_0_0": MediaPlayer.PREVIOUS_TRACK,  # click Previous Track
+            "move_with_on_off_0_255": MediaPlayer.CLICK_VOLUME_UP,  # click + (Volume up)
+            "move_0_255_0_0": MediaPlayer.HOLD_VOLUME_UP,  # hold + (Volume up)
+            "move_with_on_off_1_255": MediaPlayer.CLICK_VOLUME_DOWN,  # click - (Volume down)
+            "move_1_255_0_0": MediaPlayer.HOLD_VOLUME_DOWN,  # hold - (Volume down)
+            "2_initial_press_0": MediaPlayer.PREVIOUS_SOURCE,  # click . (Previous Source)
+            "3_initial_press_0": MediaPlayer.NEXT_SOURCE,  # click .. (Next Source)
+        }
+
+    def get_zha_action(self, data: EventData) -> str:
+        command = data["command"]
+        args = data["args"]
+        if isinstance(args, dict):
+            args = args["args"]
+        args = list(map(str, args))
+        action = command
+        if not (command == "stop" or command == "release"):
+            if len(args) > 0:
+                action += "_" + "_".join(args)
+        endpoint = data["endpoint_id"]
+        # We only need to add the endpoint ID for the dot buttons, which use 2 and 3
+        if endpoint != 1:
+            return f"{data['endpoint_id']}_{action}"
+        else:
+            return action
