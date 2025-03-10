@@ -15,7 +15,7 @@ repos:
       - id: python-check-mock-methods
       - id: python-check-blanket-type-ignore
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.31.2
+    rev: 0.31.3
     hooks:
       - id: check-github-workflows
       - id: check-dependabot
