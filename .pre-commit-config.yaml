@@ -15,7 +15,7 @@ repos:
       - id: python-check-mock-methods
       - id: python-check-blanket-type-ignore
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.31.3
+    rev: 0.32.1
     hooks:
       - id: check-github-workflows
       - id: check-dependabot
@@ -42,7 +42,7 @@ repos:
       - id: pyupgrade
         args: [--py39-plus]
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.1.2
+    rev: 7.2.0
     hooks:
       - id: flake8
   - repo: https://github.com/pre-commit/mirrors-mypy
