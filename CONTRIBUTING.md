@@ -10,7 +10,7 @@ poetry shell
 pre-commit install
 ```
 
-_Note: I recommend working with Python 3.8 since is the minimum version supported._
+_Note: I recommend working with Python 3.10 since is the minimum version supported._
 
 ## Adding a new controller
 
