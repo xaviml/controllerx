@@ -347,19 +347,16 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await ADAPI.call_service(self, service, **attributes)
 
-    @utils.sync_wrapper  # type: ignore[misc]
+    @utils.sync_decorator  # type: ignore[misc]
     async def get_state(
         self,
-        entity_id: Optional[str] = None,
-        attribute: Optional[str] = None,
-        default: Any = None,
+        entity_id: str | None = None,
+        attribute: str | None = None,
+        default: Any | None = None,
         copy: bool = True,
-        **kwargs: Any,
     ) -> Optional[Any]:
         rendered_entity_id = await self.render_value(entity_id)
-        return await super().get_state(
-            rendered_entity_id, attribute, default, copy, **kwargs
-        )
+        return await super().get_state(rendered_entity_id, attribute, default, copy)
 
     async def handle_action(
         self,
