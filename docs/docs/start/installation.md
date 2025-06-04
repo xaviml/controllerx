@@ -21,7 +21,8 @@ appdaemon:
   longitude: X.XXXXXXX
   elevation: XXXX
   time_zone: XXXXXXXX
-  missing_app_warnings: 0 # (3)
+  exclude_dirs:
+    - cx_core # (3)
   app_dir: /homeassistant/appdaemon/apps # (4)
   plugins:
     HASS:
@@ -35,7 +36,7 @@ hadashboard:
 
 1. This line is important for AppDaemon to get the secrets from the correct path.
 2. Substitute with the correct values, or leave the default ones.
-3. Extra tip: you can add `missing_app_warnings` if you don't want any warning spam from ControllerX when starting AppDaemon.
+3. Make sure to add this to not get a cyclic error when starting AppDaemon.
 4. This line is important for AppDaemon to get the correct apps path where HACS install ControllerX in.
 
 Note that by this point the addon might fail since `/homeassistant/appdaemon` might not exists yet, but you can keep following the installation steps.
