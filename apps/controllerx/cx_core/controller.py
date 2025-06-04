@@ -356,12 +356,12 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         copy: bool = True,
     ) -> Any:
         rendered_entity_id = await self.render_value(entity_id)
-        mystate = await super().get_state(rendered_entity_id, "all")
-        if not attribute:
-            state = mystate["state"]
-        else:
-            state = mystate.get(attribute, mystate["attributes"].get(attribute))
-        return state
+        state = await super().get_state(rendered_entity_id, "all")
+        if attribute:
+            # The attribute could be a key of state (eg. entity_id), or in the
+            # attributes dictionay (eg. supported_features)
+            return state.get(attribute, state["attributes"].get(attribute))
+        return state["state"]
 
     async def handle_action(
         self,
