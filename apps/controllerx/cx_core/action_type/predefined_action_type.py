@@ -1,5 +1,5 @@
 import inspect
-from typing import Any, Optional
+from typing import Any
 
 from cx_const import (
     ActionFunction,
@@ -23,7 +23,7 @@ def _get_arguments(
     action: ActionFunction,
     args: ActionParams,
     predefined_action_kwargs: dict[str, Any],
-    extra: Optional[EventData],
+    extra: EventData | None,
 ) -> tuple[ActionParams, dict[str, Any]]:
     action_parameters = inspect.signature(action).parameters
     action_parameters_without_extra = {
@@ -105,7 +105,7 @@ class PredefinedActionType(ActionType):
                 self.predefined_action_key, self.predefined_actions_mapping
             )
 
-    async def run(self, extra: Optional[EventData] = None) -> None:
+    async def run(self, extra: EventData | None = None) -> None:
         action_key = await self.controller.render_value(self.predefined_action_key)
         if action_key not in self.predefined_actions_mapping:
             self._raise_action_key_not_found(

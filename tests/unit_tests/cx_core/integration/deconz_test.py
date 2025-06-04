@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.controller import Controller
@@ -28,7 +26,7 @@ async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
     data: dict[str, int],
-    type: Optional[str],
+    type: str | None,
     expected: str,
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
@@ -52,8 +50,8 @@ async def test_callback(
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-    listen_to: Optional[str],
-    expected_id: Optional[str],
+    listen_to: str | None,
+    expected_id: str | None,
 ) -> None:
     kwargs = {}
     if listen_to is not None:

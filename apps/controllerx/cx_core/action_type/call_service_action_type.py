@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Optional, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData
@@ -13,7 +13,7 @@ class CallServiceActionType(ActionType):
     # - Inside data
     # - In the same level as "service"
     # - From the main config if the domain matches
-    entity_id: Optional[str]
+    entity_id: str | None
     data: dict[str, Any]
 
     def initialize(self, **kwargs: Any) -> None:
@@ -40,7 +40,7 @@ class CallServiceActionType(ActionType):
     def _get_service_domain(self, service: str) -> str:
         return service.replace(".", "/").split("/")[0]
 
-    async def run(self, extra: Optional[EventData] = None) -> None:
+    async def run(self, extra: EventData | None = None) -> None:
         if self.entity_id:
             await self.controller.call_service(
                 self.service, entity_id=self.entity_id, **self.data

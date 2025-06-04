@@ -1,6 +1,7 @@
 import asyncio
 from asyncio import Task
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 import appdaemon.plugins.hass.hassapi as hass
 import appdaemon.plugins.mqtt.mqttapi as mqtt

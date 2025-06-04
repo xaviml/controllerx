@@ -1,5 +1,5 @@
 import json
-from typing import Any, Optional
+from typing import Any
 
 from appdaemon.plugins.hass.hassapi import Hass
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
@@ -14,7 +14,7 @@ LISTENS_TO_EVENT = "event"
 class Z2MIntegration(Integration):
     name = "z2m"
 
-    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+    def get_default_actions_mapping(self) -> DefaultActionsMapping | None:
         return self.controller.get_z2m_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:
@@ -76,9 +76,9 @@ class Z2MIntegration(Integration):
 
     async def state_callback(
         self,
-        entity: Optional[str],
-        attribute: Optional[str],
-        old: Optional[str],
+        entity: str | None,
+        attribute: str | None,
+        old: str | None,
         new: str,
         kwargs: dict[str, Any],
     ) -> None:

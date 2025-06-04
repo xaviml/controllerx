@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 import pytest
 from cx_core import CoverController
@@ -77,7 +77,7 @@ async def test_open(
     sut: CoverController,
     mocker: MockerFixture,
     supported_features: int,
-    expected_service: Optional[str],
+    expected_service: str | None,
 ) -> None:
     sut.feature_support._supported_features = supported_features
     called_service_patch = mocker.patch.object(sut, "call_service")
@@ -116,7 +116,7 @@ async def test_close(
     sut: CoverController,
     mocker: MockerFixture,
     supported_features: int,
-    expected_service: Optional[str],
+    expected_service: str | None,
 ) -> None:
     sut.feature_support._supported_features = supported_features
     called_service_patch = mocker.patch.object(sut, "call_service")

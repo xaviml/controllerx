@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from cx_core.integration import EventData
 
@@ -18,7 +18,7 @@ class ActionType(ABC):
         pass
 
     @abstractmethod
-    async def run(self, extra: Optional[EventData] = None) -> None:
+    async def run(self, extra: EventData | None = None) -> None:
         raise NotImplementedError
 
     def __str__(self) -> str:

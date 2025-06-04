@@ -1,5 +1,5 @@
 import json
-from typing import Any, Optional
+from typing import Any
 
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
@@ -41,7 +41,7 @@ async def test_event_callback(
     mocker: MockerFixture,
     data: EventData,
     action_key: str,
-    action_group: Optional[int],
+    action_group: int | None,
     handle_action_called: bool,
     expected_called_with: str,
 ) -> None:
@@ -76,9 +76,9 @@ async def test_event_callback(
 async def test_listen_changes(
     fake_controller: Controller,
     mocker: MockerFixture,
-    listen_to: Optional[str],
-    topic_prefix: Optional[str],
-    expected_id: Optional[str],
+    listen_to: str | None,
+    topic_prefix: str | None,
+    expected_id: str | None,
 ) -> None:
     kwargs = {}
     if listen_to is not None:

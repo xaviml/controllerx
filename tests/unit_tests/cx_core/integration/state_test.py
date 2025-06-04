@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.controller import Controller
@@ -9,7 +7,7 @@ from pytest_mock.plugin import MockerFixture
 
 @pytest.mark.parametrize("attribute", ["sensor", "entity_id", None])
 async def test_listen_changes(
-    fake_controller: Controller, mocker: MockerFixture, attribute: Optional[str]
+    fake_controller: Controller, mocker: MockerFixture, attribute: str | None
 ) -> None:
     kwargs = {}
     if attribute is not None:

@@ -1,5 +1,5 @@
-from collections.abc import Awaitable
-from typing import Any, Callable, Optional
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 from cx_const import Cover, PredefinedActionsMapping
 from cx_core.controller import action
@@ -26,10 +26,10 @@ class CoverController(TypeController[Entity]):
     open_position: int
     close_position: int
 
-    cover_duration: Optional[int]
+    cover_duration: int | None
 
     is_supposedly_moving: bool = False
-    stop_timer_handle: Optional[str] = None
+    stop_timer_handle: str | None = None
 
     async def init(self) -> None:
         self.open_position = self.args.get("open_position", 100)

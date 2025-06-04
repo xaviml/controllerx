@@ -1,5 +1,5 @@
 import abc
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from cx_const import DefaultActionsMapping
 from cx_helper import get_classes
@@ -19,7 +19,7 @@ class Integration(abc.ABC):
         self.controller = controller
         self.kwargs = kwargs
 
-    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+    def get_default_actions_mapping(self) -> DefaultActionsMapping | None:
         return None
 
     @abc.abstractmethod

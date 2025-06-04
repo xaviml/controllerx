@@ -1,5 +1,4 @@
-from collections.abc import KeysView
-from typing import Callable, Optional
+from collections.abc import Callable, KeysView
 
 import cx_devices as devices_module
 import pytest
@@ -11,7 +10,7 @@ from tests.test_utils import get_controller
 
 
 def check_mapping(
-    mapping: Optional[DefaultActionsMapping],
+    mapping: DefaultActionsMapping | None,
     all_possible_actions: KeysView[ActionEvent],
     device: Controller,
 ) -> None:
@@ -60,7 +59,7 @@ def test_devices(device_class: type[Controller]) -> None:
 
     predefined_actions_mapping = device.get_predefined_actions_mapping()
     possible_actions = predefined_actions_mapping.keys()
-    integration_mappings_funcs: list[Callable[[], Optional[DefaultActionsMapping]]] = [
+    integration_mappings_funcs: list[Callable[[], DefaultActionsMapping | None]] = [
         device.get_z2m_actions_mapping,
         device.get_deconz_actions_mapping,
         device.get_zha_actions_mapping,

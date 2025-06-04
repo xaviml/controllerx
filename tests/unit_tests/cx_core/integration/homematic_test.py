@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_core.controller import Controller
@@ -33,7 +31,7 @@ async def test_callback(
     mocker: MockerFixture,
     data: EventData,
     registered_controllers: set[str],
-    expected: Optional[str],
+    expected: str | None,
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
     integration = HomematicIntegration(fake_controller, {})

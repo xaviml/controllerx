@@ -1,5 +1,3 @@
-from typing import Union
-
 Color = tuple[float, float]
 Colors = list[Color]
 
@@ -68,7 +66,7 @@ COLOR_WHEELS = {
 }
 
 
-def get_color_wheel(colors: Union[str, Colors]) -> Colors:
+def get_color_wheel(colors: str | Colors) -> Colors:
     if isinstance(colors, str):
         if colors not in COLOR_WHEELS:
             raise ValueError(

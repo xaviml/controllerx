@@ -10,7 +10,7 @@ poetry shell
 pre-commit install
 ```
 
-_Note: I recommend working with Python 3.8 since is the minimum version supported._
+_Note: I recommend working with Python 3.10 since is the minimum version supported._
 
 ## Adding a new controller
 
@@ -112,6 +112,7 @@ This will start AppDaemon with the apps on the `apps.yaml`. Note that if you wan
 docker run --pull=always --rm \
 -v $PWD/apps/controllerx:/usr/src/app/conf/apps/controllerx \
 -v $PWD/apps.yaml:/usr/src/app/conf/apps/apps.yaml \
+-v $PWD/appdaemon.yaml:/usr/src/app/conf/appdaemon.yaml.example \
 -e DASH_URL=http://127.0.0.1:5050 \
 -e HA_URL="http://YOUR_HA_IP:8123" \
 -e TOKEN="YOUR_HA_TOKEN" \

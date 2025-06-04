@@ -1,6 +1,5 @@
 import abc
 from dataclasses import dataclass
-from typing import Optional
 
 from cx_const import Number, StepperDir
 
@@ -44,7 +43,7 @@ class MinMax:
 @dataclass
 class StepperOutput:
     next_value: Number
-    next_direction: Optional[str]
+    next_direction: str | None
 
     @property
     def exceeded(self) -> bool:

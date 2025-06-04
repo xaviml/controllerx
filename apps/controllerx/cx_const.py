@@ -1,5 +1,5 @@
-from collections.abc import Awaitable
-from typing import Any, Callable, Optional, Union
+from collections.abc import Awaitable, Callable
+from typing import Any, Optional, Union
 
 ActionFunction = Callable[..., Awaitable[Any]]
 ActionParams = tuple[Any, ...]
