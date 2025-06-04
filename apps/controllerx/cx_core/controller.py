@@ -354,9 +354,14 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         attribute: str | None = None,
         default: Any | None = None,
         copy: bool = True,
-    ) -> Optional[Any]:
+    ) -> Any:
         rendered_entity_id = await self.render_value(entity_id)
-        return await super().get_state(rendered_entity_id, attribute, default, copy)
+        mystate = await super().get_state(rendered_entity_id, "all")
+        if not attribute:
+            state = mystate["state"]
+        else:
+            state = mystate.get(attribute, mystate["attributes"].get(attribute))
+        return state
 
     async def handle_action(
         self,
