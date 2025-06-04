@@ -350,13 +350,15 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
     @utils.sync_decorator  # type: ignore[misc]
     async def get_state(
         self,
-        entity_id: str | None = None,
-        attribute: str | None = None,
-        default: Any | None = None,
+        entity_id: Optional[str] = None,
+        attribute: Optional[str] = None,
+        default: Any = None,
         copy: bool = True,
-    ) -> Any:
+    ) -> Any | dict[str, Any] | None:
         rendered_entity_id = await self.render_value(entity_id)
-        state = await super().get_state(rendered_entity_id, "all")
+        state = await super().get_state(
+            rendered_entity_id, "all", default=default, copy=copy
+        )
         if attribute:
             # The attribute could be a key of state (eg. entity_id), or in the
             # attributes dictionay (eg. supported_features)
