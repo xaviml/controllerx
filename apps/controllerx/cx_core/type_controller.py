@@ -1,5 +1,5 @@
 import abc
-from typing import Any, Generic, Optional, TypeVar, Union
+from typing import Any, Generic, TypeVar
 
 from cx_core.controller import Controller
 from cx_core.feature_support import FeatureSupport
@@ -12,7 +12,7 @@ class Entity:
     entities: list[str]
 
     def __init__(
-        self, name: str, entities: Optional[list[str]] = None, **kwargs: Any
+        self, name: str, entities: list[str] | None = None, **kwargs: Any
     ) -> None:
         self.name = name
         self.set_entities(entities)
@@ -25,14 +25,14 @@ class Entity:
     def is_group(self) -> bool:
         return self.entities[0] != self.name
 
-    def set_entities(self, value: Optional[list[str]] = None) -> None:
+    def set_entities(self, value: list[str] | None = None) -> None:
         self.entities = value if value is not None else [self.name]
 
     @classmethod
     def instantiate(
         cls: type[EntityVar],
         name: str,
-        entities: Optional[list[str]] = None,
+        entities: list[str] | None = None,
         **params: Any,
     ) -> EntityVar:
         return cls(name=name, entities=entities, **params)
@@ -58,7 +58,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityVar]):
         self.update_supported_features = self.args.get(
             "update_supported_features", False
         )
-        supported_features: Optional[int] = self.args.get("supported_features")
+        supported_features: int | None = self.args.get("supported_features")
         self.feature_support = FeatureSupport(
             self, supported_features, self.update_supported_features
         )
@@ -68,8 +68,8 @@ class TypeController(Controller, abc.ABC, Generic[EntityVar]):
     def _get_entity_type(self) -> type[EntityVar]:
         raise NotImplementedError
 
-    async def _get_entities(self, entity_name: str) -> Optional[list[str]]:
-        entities: Optional[Union[str, list[str]]] = await self.get_state(
+    async def _get_entities(self, entity_name: str) -> list[str] | None:
+        entities: str | list[str] | None = await self.get_state(
             entity_name, attribute="entity_id"
         )
         self.log(
@@ -83,7 +83,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityVar]):
             raise ValueError(f"`{entity_name}` does not have any entities registered.")
         return entities
 
-    async def _get_entity(self, entity: Union[str, dict[str, Any]]) -> EntityVar:
+    async def _get_entity(self, entity: str | dict[str, Any]) -> EntityVar:
         entity_args: dict[str, Any]
         entity_name: str
         if isinstance(entity, str):
@@ -123,7 +123,7 @@ class TypeController(Controller, abc.ABC, Generic[EntityVar]):
                 )
             raise ValueError(error_msg)
 
-    async def get_entity_state(self, attribute: Optional[str] = None) -> Any:
+    async def get_entity_state(self, attribute: str | None = None) -> Any:
         entity = self.entity.main
         if self.update_supported_features:
             entities = await self._get_entities(self.entity.name)

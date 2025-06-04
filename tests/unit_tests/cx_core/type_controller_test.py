@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Any
 
 import pytest
 from cx_core.controller import Controller
@@ -19,7 +19,7 @@ class MyEntity(Entity):
     def __init__(
         self,
         name: str,
-        entities: Optional[list[str]] = None,
+        entities: list[str] | None = None,
         attr_test: str = DEFAULT_ATTR_TEST,
     ) -> None:
         super().__init__(name, entities)
@@ -138,7 +138,7 @@ async def test_get_entity_state(
     mocker: MockerFixture,
     monkeypatch: MonkeyPatch,
     entity_input: str,
-    entities: Union[str, list[str]],
+    entities: str | list[str],
     update_supported_features: bool,
     expected_calls: int,
 ) -> None:
@@ -146,8 +146,8 @@ async def test_get_entity_state(
     stub_get_state = mocker.stub()
 
     async def fake_get_state(
-        entity: str, attribute: Optional[str] = None
-    ) -> Union[str, list[str]]:
+        entity: str, attribute: str | None = None
+    ) -> str | list[str]:
         stub_get_state(entity, attribute=attribute)
         return entities
 

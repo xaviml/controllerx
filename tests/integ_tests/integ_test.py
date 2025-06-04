@@ -1,8 +1,8 @@
 import asyncio
 import glob
-from collections.abc import Awaitable, Iterator
+from collections.abc import Awaitable, Callable, Iterator
 from pathlib import Path
-from typing import Any, Callable, Optional, Union
+from typing import Any, Literal
 
 import pytest
 import yaml
@@ -31,9 +31,16 @@ def read_config_yaml(file_name: str) -> dict[str, Any]:
 
 
 def get_fake_get_state(
-    entity_state: str, entity_state_attributes: dict[str, str]
-) -> Callable[[str, Optional[str]], Awaitable[str]]:
-    async def inner(entity_name: str, attribute: Optional[str] = None) -> str:
+    entity_state: str | None, entity_state_attributes: dict[str, str]
+) -> Callable[[str, str | None], Awaitable[Any | dict[str, Any] | None]]:
+    async def inner(
+        entity_id: str | None = None,
+        attribute: str | Literal["all"] | None = None,
+        default: Any | None = None,
+        namespace: str | None = None,
+        copy: bool = True,
+        **kwargs: dict[str, Any],
+    ) -> Any | dict[str, Any] | None:
         if attribute is not None and attribute in entity_state_attributes:
             return entity_state_attributes[attribute]
         return entity_state
@@ -45,13 +52,13 @@ integration_tests = get_integ_tests()
 
 
 class ExtraIterator:
-    iterator: Iterator[Optional[dict[str, Any]]]
-    current: Optional[dict[str, Any]] = None
+    iterator: Iterator[dict[str, Any] | None]
+    current: dict[str, Any] | None = None
 
-    def __init__(self, iterator: Iterator[Optional[dict[str, Any]]]) -> None:
+    def __init__(self, iterator: Iterator[dict[str, Any] | None]) -> None:
         self.iterator = iterator
 
-    def __next__(self) -> Optional[dict[str, Any]]:
+    def __next__(self) -> dict[str, Any] | None:
         try:
             self.current = next(self.iterator)
         except StopIteration:
@@ -63,7 +70,7 @@ class ExtraIterator:
 
 
 def _get_extra(
-    data: Optional[Union[dict[str, Any], list[dict[str, Any]]]],
+    data: dict[str, Any] | list[dict[str, Any]] | None,
 ) -> ExtraIterator:
     if data is None:
         return ExtraIterator(iter([None]))
@@ -78,7 +85,7 @@ async def test_integ_configs(
     mocker: MockerFixture, config_file: str, test_yaml_file: str, data: dict[str, Any]
 ) -> None:
     entity_state_attributes = data.get("entity_state_attributes", {})
-    entity_state = data.get("entity_state", None)
+    entity_state: str | None = data.get("entity_state", None)
     previous_state = data.get("previous_state", None)
     fired_actions = data.get("fired_actions", [])
     render_template_response = data.get("render_template_response")

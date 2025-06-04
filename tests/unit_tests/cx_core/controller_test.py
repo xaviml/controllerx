@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Optional, Union
+from typing import Any
 
 import pytest
 from appdaemon.adapi import ADAPI
@@ -131,10 +131,10 @@ async def test_action_decorator(sut: Controller, mocker: MockerFixture) -> None:
 async def test_initialize(
     sut_before_init: Controller,
     mocker: MockerFixture,
-    controller_input: Union[str, list[str]],
+    controller_input: str | list[str],
     actions_input: list[str],
-    included_actions: Optional[list[str]],
-    excluded_actions: Optional[list[str]],
+    included_actions: list[str] | None,
+    excluded_actions: list[str] | None,
     actions_output: list[str],
     error_expected: bool,
 ) -> None:
@@ -233,7 +233,7 @@ async def test_merge_mapping(
     ],
 )
 def test_get_list(
-    sut: Controller, test_input: Union[list[str], str], expected: list[str]
+    sut: Controller, test_input: list[str] | str, expected: list[str]
 ) -> None:
     output = sut.get_list(test_input)
     assert output == expected
@@ -283,7 +283,7 @@ def test_get_list(
 def test_get_mapping_per_action(
     sut: Controller,
     actions: set[ActionEvent],
-    custom: Optional[dict[ActionEvent, Any]],
+    custom: dict[ActionEvent, Any] | None,
     default: Any,
     expected: dict[ActionEvent, Any],
 ) -> None:
@@ -351,7 +351,7 @@ def test_get_option(
 def test_get_integration(
     fake_controller: Controller,
     mocker: MockerFixture,
-    integration_input: Union[str, dict[str, Any]],
+    integration_input: str | dict[str, Any],
     integration_name_expected: str,
     args_expected: dict[str, Any],
     error_expected: bool,
@@ -443,14 +443,14 @@ async def test_call_action(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
     delay: int,
-    handle: Optional[str],
+    handle: str | None,
     cancel_timer_called: bool,
     run_in_called: bool,
     action_timer_callback_called: bool,
 ) -> None:
     action_key = "test"
     sut.action_delay = {action_key: delay}
-    action_delay_handles: dict[ActionEvent, Optional[str]] = {action_key: handle}
+    action_delay_handles: dict[ActionEvent, str | None] = {action_key: handle}
     sut.action_delay_handles = action_delay_handles
 
     monkeypatch.setattr(sut, "cancel_timer", fake_fn(async_=True))

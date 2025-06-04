@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 from cx_core import Controller, LightController
 from cx_core.action_type.base import ActionType
@@ -21,7 +19,7 @@ def fake_type_controller() -> LightController:
 
 
 class FakeActionType(ActionType):
-    async def run(self, extra: Optional[EventData] = None) -> None:
+    async def run(self, extra: EventData | None = None) -> None:
         return None
 
 

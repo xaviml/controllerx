@@ -1,5 +1,5 @@
 import json
-from typing import Any, Optional
+from typing import Any
 
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import DefaultActionsMapping
@@ -9,7 +9,7 @@ from cx_core.integration import EventData, Integration
 class MQTTIntegration(Integration):
     name = "mqtt"
 
-    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+    def get_default_actions_mapping(self) -> DefaultActionsMapping | None:
         return self.controller.get_z2m_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:

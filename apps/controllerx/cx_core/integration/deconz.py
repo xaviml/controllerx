@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -11,7 +11,7 @@ LISTENS_TO_UNIQUE_ID = "unique_id"
 class DeCONZIntegration(Integration):
     name = "deconz"
 
-    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+    def get_default_actions_mapping(self) -> DefaultActionsMapping | None:
         return self.controller.get_deconz_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:

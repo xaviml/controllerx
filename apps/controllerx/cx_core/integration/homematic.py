@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from appdaemon.plugins.hass.hassapi import Hass
 from cx_const import DefaultActionsMapping
@@ -16,7 +16,7 @@ class HomematicIntegration(Integration):
         self._registered_controller_ids = set()
         super().__init__(controller, kwargs)
 
-    def get_default_actions_mapping(self) -> Optional[DefaultActionsMapping]:
+    def get_default_actions_mapping(self) -> DefaultActionsMapping | None:
         return self.controller.get_homematic_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:

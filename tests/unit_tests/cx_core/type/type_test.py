@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 from cx_const import PredefinedActionsMapping
 from cx_core import type as type_module
@@ -9,7 +7,7 @@ from cx_helper import get_classes
 from pytest_mock.plugin import MockerFixture
 
 
-def check_mapping(mapping: Optional[PredefinedActionsMapping]) -> None:
+def check_mapping(mapping: PredefinedActionsMapping | None) -> None:
     if mapping is None:
         return
     for v in mapping.values():

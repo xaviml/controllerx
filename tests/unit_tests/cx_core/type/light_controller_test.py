@@ -1,4 +1,4 @@
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal
 
 import pytest
 from cx_const import StepperDir, StepperMode
@@ -65,7 +65,7 @@ async def sut(mocker: MockerFixture) -> LightController:
 )
 async def test_init(
     sut_before_init: LightController,
-    light_input: Union[str, dict[str, str]],
+    light_input: str | dict[str, str],
     expected_name: str,
     expected_color_mode: str,
     error_expected: bool,
@@ -190,7 +190,7 @@ async def test_get_value_attribute(
     mocker: MockerFixture,
     attribute_input: str,
     smooth_power_on_check: bool,
-    expected_output: Union[int, float, str],
+    expected_output: int | float | str,
     error_expected: bool,
 ) -> None:
     sut.smooth_power_on = True
@@ -781,7 +781,7 @@ async def test_hold(
 
 @pytest.mark.parametrize("value_attribute", [10, None])
 async def test_hold_loop(
-    sut: LightController, mocker: MockerFixture, value_attribute: Optional[int]
+    sut: LightController, mocker: MockerFixture, value_attribute: int | None
 ) -> None:
     attribute = "test_attribute"
     direction = StepperDir.UP

@@ -1,6 +1,6 @@
 import asyncio
 from functools import lru_cache
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 from cx_const import Light, Number, PredefinedActionsMapping, StepperDir, StepperMode
 from cx_core.color_helper import Color, get_color_wheel
@@ -47,7 +47,7 @@ class LightEntity(Entity):
     def __init__(
         self,
         name: str,
-        entities: Optional[list[str]] = None,
+        entities: list[str] | None = None,
         color_mode: ColorMode = "auto",
     ) -> None:
         super().__init__(name, entities)
@@ -93,7 +93,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     # These are intermediate variables to store the checked value
     smooth_power_on_check: bool
     remove_transition_check: bool
-    next_direction: Optional[str] = None
+    next_direction: str | None = None
 
     manual_steps: Number
     automatic_steps: Number
@@ -102,7 +102,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     domains = ["light"]
     entity_arg = "light"
 
-    _supported_color_modes: Optional[set[str]]
+    _supported_color_modes: set[str] | None
 
     async def init(self) -> None:
         self.manual_steps = self.args.get("manual_steps", DEFAULT_MANUAL_STEPS)
@@ -451,7 +451,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self.call_light_service("light/turn_on", **attributes)
 
     @action
-    async def on(self, attributes: Optional[dict[str, float]] = None) -> None:
+    async def on(self, attributes: dict[str, float] | None = None) -> None:
         attributes = {} if attributes is None else attributes
         await self._on(**attributes)
 
@@ -466,7 +466,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self.call_light_service("light/toggle", **attributes)
 
     @action
-    async def toggle(self, attributes: Optional[dict[str, float]] = None) -> None:
+    async def toggle(self, attributes: dict[str, float] | None = None) -> None:
         attributes = {} if attributes is None else attributes
         await self._toggle(**attributes)
 
@@ -532,7 +532,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     @action
     async def sync(
         self,
-        brightness: Optional[int] = None,
+        brightness: int | None = None,
         color_temp: int = 370,  # 2700K light
         xy_color: Color = (0.323, 0.329),  # white colour
     ) -> None:
@@ -558,7 +558,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         )
 
     @action
-    async def xycolor_from_controller(self, extra: Optional[EventData] = None) -> None:
+    async def xycolor_from_controller(self, extra: EventData | None = None) -> None:
         if extra is None:
             self.log("No event data present", level="WARNING")
             return
@@ -577,9 +577,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             await self._on(xy_color=list(extra["xy"]))
 
     @action
-    async def colortemp_from_controller(
-        self, extra: Optional[EventData] = None
-    ) -> None:
+    async def colortemp_from_controller(self, extra: EventData | None = None) -> None:
         if extra is None:
             self.log("No event data present", level="WARNING")
             return
@@ -594,7 +592,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     @action
     async def brightness_from_controller_level(
-        self, extra: Optional[EventData] = None
+        self, extra: EventData | None = None
     ) -> None:
         if extra is None:
             self.log("No event data present", level="WARNING")
@@ -610,7 +608,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
 
     @action
     async def attribute_from_controller_step(
-        self, attribute: str, extra: Optional[EventData] = None
+        self, attribute: str, extra: EventData | None = None
     ) -> None:
         if extra is None:
             self.log("No event data present", level="WARNING")
@@ -655,8 +653,8 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
     async def brightness_from_controller_angle(
         self,
         mode: str = StepperMode.STOP,
-        steps: Optional[Number] = None,
-        extra: Optional[EventData] = None,
+        steps: Number | None = None,
+        extra: EventData | None = None,
     ) -> None:
         if extra is None:
             self.log("No event data present", level="WARNING")
@@ -818,7 +816,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         attribute: str,
         direction: str,
         mode: str = StepperMode.STOP,
-        steps: Optional[Number] = None,
+        steps: Number | None = None,
     ) -> None:
         attribute = self.get_option(
             attribute, LightController.ATTRIBUTES_LIST, "`click` action"
@@ -844,7 +842,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         attribute: str,
         direction: str,
         mode: str = StepperMode.STOP,
-        steps: Optional[Number] = None,
+        steps: Number | None = None,
     ) -> None:
         await self._hold(attribute, direction, mode, steps)
 
@@ -853,7 +851,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         attribute: str,
         direction: str,
         mode: str = StepperMode.STOP,
-        steps: Optional[Number] = None,
+        steps: Number | None = None,
     ) -> None:
         attribute = self.get_option(
             attribute, LightController.ATTRIBUTES_LIST, "`hold` action"
@@ -910,7 +908,7 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         direction: str,
         stepper: Stepper,
         *,
-        extra_attributes: Optional[dict[str, Any]] = None,
+        extra_attributes: dict[str, Any] | None = None,
     ) -> bool:
         """
         This functions changes the state of the light depending on the previous

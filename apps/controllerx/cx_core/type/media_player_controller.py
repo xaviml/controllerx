@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from cx_const import MediaPlayer, Number, PredefinedActionsMapping, StepperDir
 from cx_core.controller import action
@@ -52,7 +52,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
     async def change_source_list(self, direction: str) -> None:
         entity_states = await self.get_entity_state(attribute="all")
         entity_attributes = entity_states["attributes"]
-        source_list: Optional[list[str]] = entity_attributes.get("source_list")
+        source_list: list[str] | None = entity_attributes.get("source_list")
         if source_list is None or len(source_list) == 0:
             self.log(
                 f"⚠️ There is no `source_list` parameter in `{self.entity}`",
@@ -128,9 +128,9 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
         self,
         message: str,
         service: str = "google_translate_say",
-        cache: Optional[bool] = None,
-        language: Optional[str] = None,
-        options: Optional[dict[str, Any]] = None,
+        cache: bool | None = None,
+        language: str | None = None,
+        options: dict[str, Any] | None = None,
     ) -> None:
         args: dict[str, Any] = {"entity_id": self.entity.name, "message": message}
         if cache is not None:
@@ -143,7 +143,7 @@ class MediaPlayerController(TypeController[Entity], ReleaseHoldController):
 
     @action
     async def volume_from_controller_angle(
-        self, extra: Optional[EventData] = None
+        self, extra: EventData | None = None
     ) -> None:
         if extra is None:
             self.log("No event data present", level="WARNING")

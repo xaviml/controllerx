@@ -1,7 +1,8 @@
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 from unittest import mock
 
 import appdaemon.plugins.hass.hassapi as hass
@@ -80,9 +81,9 @@ class ControllerTypeDocs:
     order: int
     type: str
     entity_arg: str
-    domain: Optional[str]
+    domain: str | None
     cls: str
-    delay: Optional[int]
+    delay: int | None
     mappings: DocsMapping
     integrations_list: list[str]
 
@@ -159,7 +160,7 @@ class ControllerTypeDocs:
 class ControllerDocs:
     name: str
     controller_type_docs: list[ControllerTypeDocs]
-    notes: Optional[str]
+    notes: str | None
 
 
 def get_device_name(controller: str) -> str:
@@ -193,14 +194,14 @@ def get_controller_type(controller: TypeController[Entity]) -> tuple[str, int]:
 def get_controller_docs(controller: TypeController[Entity]) -> ControllerTypeDocs:
     controller_type, order = get_controller_type(controller)
     controller_class = controller.__class__.__name__
-    delay: Optional[int] = None
+    delay: int | None = None
     if isinstance(controller, ReleaseHoldController):
         delay = controller.default_delay()
     mappings: DocsMapping = defaultdict(lambda: defaultdict(list))
     integrations = []
 
     integration_mappings_funcs: dict[
-        str, Callable[[], Optional[DefaultActionsMapping]]
+        str, Callable[[], DefaultActionsMapping | None]
     ] = {
         "z2m": controller.get_z2m_actions_mapping,
         "deconz": controller.get_deconz_actions_mapping,

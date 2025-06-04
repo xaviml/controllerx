@@ -1,7 +1,7 @@
 import importlib
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Any, Callable, Optional, TypeVar
+from typing import TYPE_CHECKING, Any, Optional, TypeVar
 from unittest.mock import MagicMock
 
 import pytest
@@ -27,13 +27,11 @@ class IntegrationMock:
         self.listen_changes_stub(controller_id)
 
 
-def fake_fn(
-    to_return: Optional[Any] = None, async_: bool = False
-) -> Callable[..., Any]:
-    async def inner_fake_async_fn(*args: Any, **kwargs: Any) -> Optional[Any]:
+def fake_fn(to_return: Any | None = None, async_: bool = False) -> Callable[..., Any]:
+    async def inner_fake_async_fn(*args: Any, **kwargs: Any) -> Any | None:
         return to_return
 
-    def inner_fake_fn(*args: Any, **kwargs: Any) -> Optional[Any]:
+    def inner_fake_fn(*args: Any, **kwargs: Any) -> Any | None:
         return to_return
 
     return inner_fake_async_fn if async_ else inner_fake_fn
@@ -48,7 +46,7 @@ def get_controller(module_name: str, class_name: str) -> Optional["Controller"]:
 @contextmanager
 def wrap_execution(
     *, error_expected: bool = True, exception: type[Exception] = Exception
-) -> Generator[Optional[ExceptionInfo[Any]], None, None]:
+) -> Generator[ExceptionInfo[Any] | None, None, None]:
     if error_expected:
         with pytest.raises(exception) as err_info:
             yield err_info

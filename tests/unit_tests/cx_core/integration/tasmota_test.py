@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_core.controller import Controller
@@ -54,9 +52,9 @@ async def test_callback(
     fake_controller: Controller,
     mocker: MockerFixture,
     data: EventData,
-    component_key: Optional[str],
-    payload_key: Optional[str],
-    expected: Optional[str],
+    component_key: str | None,
+    payload_key: str | None,
+    expected: str | None,
     error_expected: bool,
 ) -> None:
     handle_action_patch = mocker.patch.object(fake_controller, "handle_action")
