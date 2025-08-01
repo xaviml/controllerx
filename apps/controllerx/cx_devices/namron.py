@@ -1,6 +1,7 @@
 from cx_const import DefaultActionsMapping, Light
 from cx_core import LightController
 
+
 def generate_n45127772_chanmap(index: int) -> DefaultActionsMapping:
     """Generate mapping for a namron 45127772 channel group."""
     if index not in range(1, 5):
@@ -13,6 +14,7 @@ def generate_n45127772_chanmap(index: int) -> DefaultActionsMapping:
         f"brightness_move_down_l{index}": Light.HOLD_BRIGHTNESS_DOWN,
         f"brightness_stop_l{index}": Light.RELEASE,
     }
+
 
 class Namron4512772Controller(LightController):
     """Namron 4512772 Wall Switch with 8 buttons.
