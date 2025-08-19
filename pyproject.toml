@@ -16,7 +16,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "<3.13,>=3.10"
 appdaemon = ">=4.5.2"
-mkdocs-material = { extras = ["imaging"], version = "^9.6.10" }
+mkdocs-material = { extras = ["imaging"], version = "^9.6.17" }
 
 [tool.poetry.group.dev.dependencies]
 black = ">=22.12.0"
