@@ -286,6 +286,26 @@ class E1743CoverController(CoverController):
         }
 
 
+class E2201LightController(E1743Controller):
+    pass
+
+
+class E2201Z2MLightController(E1743Z2MLightController):
+    pass
+
+
+class E2201MediaPlayerController(E1743MediaPlayerController):
+    pass
+
+
+class E2201SwitchController(E1743SwitchController):
+    pass
+
+
+class E2201CoverController(E1743CoverController):
+    pass
+
+
 class ICTCG1Controller(LightController):
     # Different states reported from the controller:
     # rotate_left, rotate_left_quick
@@ -769,7 +789,6 @@ class E2213Z2MLightController(Z2MLightController):
 
 
 class E2123MediaPlayerController(MediaPlayerController):
-
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
             "toggle": MediaPlayer.PLAY_PAUSE,  # click Play button
