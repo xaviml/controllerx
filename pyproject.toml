@@ -85,6 +85,6 @@ exclude_lines = [
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "5.1.0"
+version = "5.2.0"
 tag_format = "v$major.$minor.$patch$prerelease"
 version_files = ["apps/controllerx/cx_version.py", "pyproject.toml:version"]
