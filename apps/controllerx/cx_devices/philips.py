@@ -254,9 +254,9 @@ class Philips929003017102LightController(LightController):
             "left_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
             "left_hold_release": Light.RELEASE,
             # "right_press": Light.TOGGLE,
-            "right_press_release": Light.TOGGLE,
+            "right_short_release": Light.TOGGLE,
             "right_hold": Light.HOLD_BRIGHTNESS_TOGGLE,
-            "right_hold_release": Light.RELEASE,
+            "right_long_release": Light.RELEASE,
         }
 
     def get_zha_action(self, data: EventData) -> str:
