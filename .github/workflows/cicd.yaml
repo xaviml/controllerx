@@ -16,9 +16,9 @@ jobs:
         python-version: ["3.10", "3.11", "3.12"]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install poetry
@@ -30,7 +30,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .venv
           key: tests-venv-${{ matrix.python-version }}-v1-${{ hashFiles('poetry.lock') }}
@@ -45,13 +45,13 @@ jobs:
     name: pre-commit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Install pre-commit
         run: pip install pre-commit
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -61,7 +61,7 @@ jobs:
     name: HACS validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: hacs/action@main
         with:
           category: appdaemon
@@ -69,9 +69,9 @@ jobs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Install poetry
@@ -83,7 +83,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
@@ -130,7 +130,7 @@ jobs:
     needs: [test, pre-commit, hacs, docs]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
@@ -154,7 +154,7 @@ jobs:
     needs: [deploy]
     if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, 'b')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: main
       - run: mv RELEASE_NOTES.md RELEASE_NOTES.old.md
@@ -173,9 +173,9 @@ jobs:
     needs: [deploy]
     if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, 'b')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Install poetry
@@ -187,7 +187,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
