@@ -349,7 +349,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await ADAPI.call_service(self, service, **attributes)
 
-    @utils.sync_decorator  # type: ignore[misc]
+    @utils.sync_decorator  # type: ignore[untyped-decorator]
     async def get_state(
         self,
         entity_id: str | None = None,

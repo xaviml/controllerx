@@ -264,7 +264,7 @@ def get_devices() -> dict[str, ControllerDocs]:
 
 
 def define_env(env: MacrosPlugin) -> None:
-    @env.macro  # type: ignore[misc]
+    @env.macro  # type: ignore[untyped-decorator]
     def devices() -> dict[str, ControllerDocs]:
         devices = get_devices()
         return dict(sorted(devices.items(), key=lambda device: device[0]))
