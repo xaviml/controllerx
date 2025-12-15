@@ -22,6 +22,7 @@ from cx_devices.linkind import *
 from cx_devices.livarno import *
 from cx_devices.lutron import *
 from cx_devices.muller_licht import *
+from cx_devices.namron import *
 from cx_devices.osram import *
 from cx_devices.philips import *
 from cx_devices.prolight import *
