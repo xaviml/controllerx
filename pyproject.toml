@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "controllerx"
-version = "5.0.0"
+version = "5.2.0"
 description = "Create controller-based automations with ease to control your home devices and scenes."
 authors = ["Xavier Moreno <xaviml.93@gmail.com>"]
 license = "MIT"
