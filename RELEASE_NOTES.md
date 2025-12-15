@@ -10,15 +10,14 @@ _This minor change does not contain any breaking changes._
 ## :pencil2: Features
 -->
 
-<!--
 ## :video_game: New devices
 
-- [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
--->
+- [E2201](https://BASE_URL/controllerx/controllers/E2201) - add E2201 (Somrig/Rodret) support for Z2M. [ #1256 ] @sveatlo
+- [Namron4512773](https://BASE_URL/controllerx/controllers/Namron4512773) - add new device with Z2M support. [ #1222 ] @isolife @Eising
 
-<!--
 ## :hammer: Fixes
--->
+
+- [Philips929003017102](https://BASE_URL/controllerx/controllers/Philips929003017102) - Fix ZHA mapping. [ #1160 ]
 
 <!--
 ## :scroll: Docs
