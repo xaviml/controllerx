@@ -1,7 +1,7 @@
 import abc
 from typing import Any
 
-from cx_core import Controller, action
+from cx_core.controller import Controller, action
 
 DEFAULT_DELAY = 350  # In milliseconds
 DEFAULT_RELEASE_DELAY = 0  # In seconds
