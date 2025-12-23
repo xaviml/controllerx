@@ -16,6 +16,7 @@ from typing import (
 )
 
 import appdaemon.utils as utils
+import cx_core.integration as integration_module
 import cx_version
 from appdaemon.adapi import ADAPI
 from appdaemon.plugins.hass.hassapi import Hass
@@ -27,7 +28,6 @@ from cx_const import (
     DefaultActionsMapping,
     PredefinedActionsMapping,
 )
-from cx_core import integration as integration_module
 from cx_core.action_type import ActionsMapping, parse_actions
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData, Integration
