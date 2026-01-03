@@ -16,10 +16,9 @@ _This minor change does not contain any breaking changes._
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
 
+<!--
 ## :hammer: Fixes
-
-- Fix circular import dependency issue from code. No need to exclude `cx_core` in appdaemon.yaml as a workaround anymore. [ #1280 ] @abaart
-- Fix color_temp attribute error when switching from xy_color mode. [ #1233 ]
+-->
 
 <!--
 ## :scroll: Docs
