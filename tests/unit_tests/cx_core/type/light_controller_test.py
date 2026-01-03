@@ -170,19 +170,19 @@ async def test_is_colortemp_supported(
 
 
 @pytest.mark.parametrize(
-    "attribute_input, smooth_power_on_check, expected_output, error_expected",
+    "attribute_input, smooth_power_on_check, output, expected_output, error_expected",
     [
-        ("xy_color", False, 0, False),
-        ("brightness", False, 3.0, False),
-        ("brightness", False, "3.0", False),
-        ("brightness", False, "3", False),
-        ("color_temp", False, 1, False),
-        ("xy_color", False, 0, False),
-        ("brightness", True, 0, False),
-        ("brightness", False, "error", True),
-        ("brightness", False, None, True),
-        ("color_temp", False, None, True),
-        ("not_a_valid_attribute", False, None, True),
+        ("xy_color", False, 0, 0, False),
+        ("brightness", False, 3.0, 3.0, False),
+        ("brightness", False, "3.0", "3.0", False),
+        ("brightness", False, "3", "3", False),
+        ("color_temp", False, 1, 1, False),
+        ("xy_color", False, 0, 0, False),
+        ("brightness", True, 0, 0, False),
+        ("brightness", False, "error", "error", True),
+        ("brightness", False, None, None, True),
+        ("color_temp", False, None, 326, False),
+        ("not_a_valid_attribute", False, None, None, True),
     ],
 )
 async def test_get_value_attribute(
@@ -190,19 +190,20 @@ async def test_get_value_attribute(
     mocker: MockerFixture,
     attribute_input: str,
     smooth_power_on_check: bool,
+    output: int | float | str,
     expected_output: int | float | str,
     error_expected: bool,
 ) -> None:
     sut.smooth_power_on = True
     sut.smooth_power_on_check = smooth_power_on_check
 
-    mocker.patch.object(sut, "get_entity_state", fake_fn(expected_output, async_=True))
+    mocker.patch.object(sut, "get_entity_state", fake_fn(output, async_=True))
 
     with wrap_execution(error_expected=error_expected, exception=ValueError):
-        output = await sut.get_value_attribute(attribute_input)
+        fn_output = await sut.get_value_attribute(attribute_input)
 
     if not error_expected:
-        assert output == float(expected_output)
+        assert fn_output == float(expected_output)
 
 
 @pytest.mark.parametrize(

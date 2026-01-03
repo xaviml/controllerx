@@ -26,6 +26,9 @@ DEFAULT_MIN_WHITE_VALUE = 1
 DEFAULT_MAX_WHITE_VALUE = 255
 DEFAULT_MIN_COLOR_TEMP = 153
 DEFAULT_MAX_COLOR_TEMP = 500
+DEFAULT_COLOR_TEMP = (
+    DEFAULT_MAX_COLOR_TEMP - DEFAULT_MIN_COLOR_TEMP
+) // 2 + DEFAULT_MIN_COLOR_TEMP
 DEFAULT_TRANSITION = 300
 DEFAULT_ADD_TRANSITION = True
 DEFAULT_TRANSITION_TURN_TOGGLE = False
@@ -749,7 +752,9 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             or attribute == LightController.ATTRIBUTE_COLOR_TEMP
         ):
             value = await self.get_entity_state(attribute=attribute)
-            if value is None:
+            if value is None and attribute == LightController.ATTRIBUTE_COLOR_TEMP:
+                return float(DEFAULT_COLOR_TEMP)
+            elif value is None and attribute != LightController.ATTRIBUTE_COLOR_TEMP:
                 raise ValueError(
                     f"Value for `{attribute}` attribute could not be retrieved "
                     f"from `{self.entity.main}`. "

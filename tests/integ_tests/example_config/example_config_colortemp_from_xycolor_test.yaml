@@ -1,0 +1,13 @@
+# This test validates that there is no error when coming from xy_color to color_temp (see issue #1233)
+entity_state_attributes:
+  supported_features: 36
+  supported_color_modes: ["xy_color", "color_temp"]
+  color_temp: null
+entity_state: "on"
+fired_actions: [arrow_left_click]
+expected_calls:
+  - service: light/turn_on
+    data:
+      entity_id: light.livingroom
+      color_temp: 291
+      transition: 0.3
