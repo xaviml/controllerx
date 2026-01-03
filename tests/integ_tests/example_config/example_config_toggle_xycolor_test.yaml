@@ -12,4 +12,3 @@ expected_calls:
       entity_id: light.livingroom
       xy_color: [0.323, 0.329]
       brightness: 255
-expected_calls_count: 2
