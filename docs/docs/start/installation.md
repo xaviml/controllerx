@@ -21,7 +21,7 @@ appdaemon:
   longitude: X.XXXXXXX
   elevation: XXXX
   time_zone: XXXXXXXX
-  app_dir: /homeassistant/appdaemon/apps # (4)
+  app_dir: /homeassistant/appdaemon/apps # (3)
   plugins:
     HASS:
       type: hass
