@@ -16,9 +16,9 @@ _This minor change does not contain any breaking changes._
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
 
+<!--
 ## :hammer: Fixes
-
-- [E2213](https://BASE_URL/controllerx/controllers/E2213) - fix initial_press issue. [ #1292 ]
+-->
 
 <!--
 ## :scroll: Docs
