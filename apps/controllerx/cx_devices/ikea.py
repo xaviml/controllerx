@@ -759,12 +759,10 @@ class W2049MediaPlayerController(E2002MediaPlayerController):
 class E2213LightController(LightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "1_initial_press": Light.ON,
-            "2_initial_press": Light.OFF,
             "1_long_press": Light.HOLD_BRIGHTNESS_UP,
             "2_long_press": Light.HOLD_BRIGHTNESS_DOWN,
-            "1_short_release": Light.RELEASE,
-            "2_short_release": Light.RELEASE,
+            "1_short_release": Light.ON,
+            "2_short_release": Light.OFF,
             "1_long_release": Light.RELEASE,
             "2_long_release": Light.RELEASE,
             "1_double_press": Light.HOLD_COLOR_UP,
@@ -775,12 +773,10 @@ class E2213LightController(LightController):
 class E2213Z2MLightController(Z2MLightController):
     def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
         return {
-            "1_initial_press": Z2MLight.ON,
-            "2_initial_press": Z2MLight.OFF,
             "1_long_press": Z2MLight.HOLD_BRIGHTNESS_UP,
             "2_long_press": Z2MLight.HOLD_BRIGHTNESS_DOWN,
-            "1_short_release": Z2MLight.RELEASE,
-            "2_short_release": Z2MLight.RELEASE,
+            "1_short_release": Z2MLight.ON,
+            "2_short_release": Z2MLight.OFF,
             "1_long_release": Z2MLight.RELEASE,
             "2_long_release": Z2MLight.RELEASE,
             "1_double_press": Z2MLight.HOLD_COLOR_TEMP_UP,
