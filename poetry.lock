@@ -162,14 +162,14 @@ files = [
 
 [[package]]
 name = "appdaemon"
-version = "4.5.12"
+version = "4.5.13"
 description = "Apps for the Home Assistant home automation package."
 optional = false
-python-versions = "<3.13,>=3.10"
+python-versions = "<3.14,>=3.10"
 groups = ["main"]
 files = [
-    {file = "appdaemon-4.5.12-py3-none-any.whl", hash = "sha256:c8ea0608607aaa39fc32d46045a8787885f57d9fc501a5912852e4e05030b517"},
-    {file = "appdaemon-4.5.12.tar.gz", hash = "sha256:e572fb0cb49d4827c986f6e78eff5ee2fbeb30e52b83e2c2cbf1d9fb1f34c6fc"},
+    {file = "appdaemon-4.5.13-py3-none-any.whl", hash = "sha256:5b764c83309e2be1b396d96b308ce7d460c4d1ef7b79f1a81a94f6a8d4ec34b6"},
+    {file = "appdaemon-4.5.13.tar.gz", hash = "sha256:24a9d98daca2c710ff16687077c2e7aac52c217401e3151a351b8ebe47f5cc09"},
 ]
 
 [package.dependencies]
