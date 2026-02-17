@@ -58,8 +58,8 @@ class Z2MIntegration(Integration):
         payload = json.loads(data["payload"])
         if action_key not in payload:
             self.controller.log(
-                f"⚠️ There is no `{action_key}` in the MQTT topic payload",
-                level="WARNING",
+                f"There is no `{action_key}` in the MQTT topic payload",
+                level="DEBUG",
                 ascii_encode=False,
             )
             return
