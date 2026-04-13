@@ -19,28 +19,28 @@ appdaemon = ">=4.5.2"
 mkdocs-material = { extras = ["imaging"], version = "^9.7.1" }
 
 [tool.poetry.group.dev.dependencies]
-black = ">=22.12.0"
-commitizen = ">=2.29.3"
+black = ">=26.3.1"
+commitizen = ">=4.13.10"
 flake8 = ">=5.0.4"
-isort = ">=5.11.4"
-mypy = ">=0.991"
+isort = ">=8.0.1"
+mypy = ">=1.20.1"
 pre-commit = ">=2.21.0"
-types-mock = ">=5.0.0.0"
-types-PyYAML = ">=6.0.12.2"
+types-mock = ">=5.2.0.20260408"
+types-PyYAML = ">=6.0.12.20260408"
 
 [tool.poetry.group.test.dependencies]
 mock = ">=5.0.1"
-pytest = ">=7.2.1"
+pytest = ">=9.0.3"
 pytest-asyncio = ">=0.20.3"
-pytest-cov = ">=4.0.0"
+pytest-cov = ">=7.1.0"
 pytest-mock = ">=3.10.0"
 pytest-timeout = ">=2.1.0"
 
 [tool.poetry.group.docs.dependencies]
-mkdocs-gen-files = ">=0.4.0"
+mkdocs-gen-files = ">=0.6.1"
 mkdocs-macros-plugin = ">=0.7.0"
 mkdocs-material = ">=8.2.7"
-setuptools = ">=66.0.0"
+setuptools = ">=82.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
