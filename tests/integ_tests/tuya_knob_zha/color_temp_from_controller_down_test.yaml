@@ -13,5 +13,5 @@ expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.my_light
-      color_temp: 163
+      color_temp_kelvin: 6135
       transition: 3

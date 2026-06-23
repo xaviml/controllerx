@@ -451,6 +451,10 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
         await self.call_service(service, entity_id=self.entity.name, **attributes)
 
     async def _on(self, **attributes: Any) -> None:
+        if "color_temp" in attributes:
+            attributes["color_temp_kelvin"] = round(
+                1000000 / attributes.pop("color_temp")
+            )
         await self.call_light_service("light/turn_on", **attributes)
 
     @action

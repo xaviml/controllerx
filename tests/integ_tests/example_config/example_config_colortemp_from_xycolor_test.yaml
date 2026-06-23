@@ -9,5 +9,5 @@ expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.livingroom
-      color_temp: 291
+      color_temp_kelvin: 3436
       transition: 0.3
