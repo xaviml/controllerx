@@ -8,6 +8,7 @@ _This page assumes you already know how the [`mapping` attribute](../) works._
 An action type is reduced version of [Script Syntax](https://www.home-assistant.io/docs/scripts) from Home Assistant. It allows to one or a sequence of actions to execute when an event is fired. The available action types are [predefined action](../predefined-actions), call service, scene activation and delay.
 
 ```yaml
+
 ...
 mapping: # or merge_mapping
   ## Predefined actions
