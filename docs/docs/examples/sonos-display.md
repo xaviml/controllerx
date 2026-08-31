@@ -179,37 +179,37 @@ The automation is written for an Ikea E1810 remote with z2m ControllerX HA integ
     platform: homeassistant
     event: start
   action:
-  - service: group.set
-    data_template:
-      object_id: sonos_all # Name of Sonos group in groups.yaml
-      entities: "{{ state_attr(state_attr('group.sonos_all', 'entity_id')[0], 'sonos_group') | join(',') }}"
+    - service: group.set
+      data_template:
+        object_id: sonos_all # Name of Sonos group in groups.yaml
+        entities: "{{ state_attr(state_attr('group.sonos_all', 'entity_id')[0], 'sonos_group') | join(',') }}"
 
 - id: Sonos reset to defaults settings
   alias: Sonos reset to defaults settings
   trigger:
     platform: state
     entity_id: sensor.your_E1810_sensor_action
-    to: 'toggle_hold'
+    to: "toggle_hold"
   action:
-  - service: sonos.join
-    data:
-      main: media_player.office # This HAS to be your main speaker
-      entity_id:
-      - media_player.kitchen # passive speaker #1
-      - media_player.livingroom # passive speaker #2
-  - service: media_player.volume_set # Reset volume to 25 for all speakers
-    data_template:
-      entity_id:
-      - media_player.office
-      - media_player.kitchen
-      - media_player.livingroom
-      volume_level: 0.25
-  - service: media_player.select_source # Reset to your default choice of source
-    data:
+    - service: sonos.join
+      data:
+        main: media_player.office # This HAS to be your main speaker
+        entity_id:
+          - media_player.kitchen # passive speaker #1
+          - media_player.livingroom # passive speaker #2
+    - service: media_player.volume_set # Reset volume to 25 for all speakers
+      data_template:
+        entity_id:
+          - media_player.office
+          - media_player.kitchen
+          - media_player.livingroom
+        volume_level: 0.25
+    - service: media_player.select_source # Reset to your default choice of source
+      data:
+        entity_id: media_player.office # This HAS to be your main speaker
+        source: "DR P4 Fyn 96.8 (Nyheder)"
+    - service: media_player.media_play # Start playing
       entity_id: media_player.office # This HAS to be your main speaker
-      source: 'DR P4 Fyn 96.8 (Nyheder)'
-  - service: media_player.media_play # Start playing
-    entity_id: media_player.office # This HAS to be your main speaker
 ```
 
 ### ESPHome YAML configuration:
