@@ -374,7 +374,7 @@ def test_get_default_actions_mapping_happyflow(
         integration_mock, "get_default_actions_mapping", lambda: {1001: "test"}
     )
 
-    mapping = sut.get_default_actions_mapping(integration_mock)  # type:ignore[arg-type]
+    mapping = sut.get_default_actions_mapping(integration_mock)  # type: ignore[arg-type]
 
     assert mapping == {1001: "test"}
 

@@ -15,7 +15,6 @@ from typing import (
     overload,
 )
 
-import appdaemon.utils as utils
 import cx_core.integration as integration_module
 import cx_version
 from appdaemon.adapi import ADAPI
@@ -31,6 +30,13 @@ from cx_const import (
 from cx_core.action_type import ActionsMapping, parse_actions
 from cx_core.action_type.base import ActionType
 from cx_core.integration import EventData, Integration
+
+try:
+    from appdaemon.utils.threading import sync_decorator
+except ImportError:  # AppDaemon < 4.5.16, before `utils` became a package
+    import appdaemon.utils
+
+    sync_decorator = getattr(appdaemon.utils, "sync_decorator")
 
 DEFAULT_ACTION_DELTA = 300  # In milliseconds
 DEFAULT_MULTIPLE_CLICK_DELAY = 500  # In milliseconds
@@ -349,7 +355,7 @@ class Controller(Hass, Mqtt):  # type: ignore[misc]
         self.log("\n".join(to_log), level="INFO", ascii_encode=False)
         return await ADAPI.call_service(self, service, **attributes)
 
-    @utils.sync_decorator  # type: ignore[untyped-decorator]
+    @sync_decorator  # type: ignore[untyped-decorator,unused-ignore]
     async def get_state(
         self,
         entity_id: str | None = None,
