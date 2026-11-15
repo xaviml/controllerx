@@ -40,7 +40,7 @@ jobs:
       - name: Testing
         run: poetry run pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=apps --cov-report=xml --cov-report=html
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
   pre-commit:
     name: pre-commit
     runs-on: ubuntu-latest
@@ -57,14 +57,6 @@ jobs:
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure
-  hacs:
-    name: HACS validation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: hacs/action@main
-        with:
-          category: appdaemon
   docs:
     name: Documentation
     runs-on: ubuntu-latest
@@ -99,7 +91,7 @@ jobs:
   publish_preview_docs:
     name: Publish preview documentation
     runs-on: ubuntu-latest
-    needs: [test, pre-commit, hacs, docs]
+    needs: [test, pre-commit, docs]
     if: github.ref_type != 'tag'
     steps:
       - uses: actions/download-artifact@master
@@ -112,7 +104,7 @@ jobs:
         run: echo "/ /controllerx" > ./docs/controllerx-site/_redirects
       - name: Deploy to Netlify
         id: netlify
-        uses: nwtgck/actions-netlify@v3.0
+        uses: nwtgck/actions-netlify@v4.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           publish-dir: "./docs/controllerx-site"
@@ -127,7 +119,7 @@ jobs:
   deploy:
     name: Deployment
     runs-on: ubuntu-latest
-    needs: [test, pre-commit, hacs, docs]
+    needs: [test, pre-commit, docs]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v6
