@@ -22,7 +22,7 @@ Add a description of the bug. Detail the expected behaviour in contrast with the
 - Integration: Choose from `z2m | deconz | zha`
 - AppDaemon version: [ eg. v4.0.1 ]
 - ControllerX version: [ eg. v2.2.1 ]
-- HACS version (if installed from there): [ eg. v0.21.5 ]
+- Installation method: [ ControllerX app | AppDaemon app (manual) | other ]
 - Home Assistant Core version: [ eg. v0.105.4 ]
 
 ## AppDaemon app configuration

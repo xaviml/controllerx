@@ -22,7 +22,7 @@ Solutions like Zigbee2MQTT, deCONZ and ZHA have their pros and cons, but if ther
 
 ## Quick example
 
-With just this configuration placed in `/homeassistant/appdaemon/apps/apps.yaml`, you can have the E2002 controller from IKEA (4 buttons) connected to the livingroom light and be able to change the brightness and color temperature or color.
+With just this configuration placed in your [`apps.yaml`](/controllerx/start/configuration), you can have the E2002 controller from IKEA (4 buttons) connected to the livingroom light and be able to change the brightness and color temperature or color.
 
 ```yaml
 livingroom_controller:

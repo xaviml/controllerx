@@ -3,7 +3,7 @@ layout: page
 title: Configuration
 ---
 
-Once [AppDaemon and Controller has been installed](../installation), you can proceed to configure ControllerX in `/homeassistant/appdaemon/apps/apps.yaml`. This file follows the [AppDaemon specifications](https://appdaemon.readthedocs.io/en/latest/APPGUIDE.html#configuration-of-apps). ControllerX app links 1 controller with one or multiple devices like:
+Once [ControllerX has been installed](../installation), you can proceed to configure ControllerX in `apps.yaml`: `/app_configs/d35634e3_controllerx/apps/apps.yaml` with the ControllerX app, or `apps.yaml` in the AppDaemon apps folder if you installed it manually. This file follows the [AppDaemon specifications](https://appdaemon.readthedocs.io/en/latest/APPGUIDE.html#configuration-of-apps). ControllerX app links 1 controller with one or multiple devices like:
 
 ```yaml
 example_app:

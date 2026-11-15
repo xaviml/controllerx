@@ -4,7 +4,6 @@
 
 <img src="https://github.com/xaviml/controllerx/blob/main/docs/docs/assets/logo_blue.png" width="192" height="192"/>
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
 [![github-check-status](https://img.shields.io/github/checks-status/xaviml/controllerx/main?style=for-the-badge)](https://github.com/xaviml/controllerx/actions?query=branch%3Amain)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 [![downloads-latest](https://img.shields.io/github/downloads/xaviml/controllerx/latest/total?style=for-the-badge)](http://github.com/xaviml/controllerx/releases/latest)
@@ -30,6 +29,12 @@ livingroom_controller:
     listen_to: mqtt
   light: light.livingroom
 ```
+
+## Installation
+
+Install ControllerX as a Home Assistant app (recommended), or manually in the AppDaemon app. See the [installation guide](https://xaviml.github.io/controllerx/start/installation).
+
+[![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fxaviml%2Fcontrollerx-app)
 
 ## Documentation
 

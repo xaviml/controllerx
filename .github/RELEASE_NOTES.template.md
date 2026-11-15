@@ -4,7 +4,7 @@
 
 _This minor change does not contain any breaking changes._
 
-**_Note: Remember to restart the AppDaemon addon/server after updating to a new version._**
+**_Note: If you installed ControllerX manually, remember to restart AppDaemon after updating to a new version._**
 
 <!--
 ## :pencil2: Features

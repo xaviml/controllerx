@@ -3,59 +3,107 @@ layout: page
 title: Installation
 ---
 
-# AppDaemon installation
+# Installation
 
-This installation guide assumes that ControllerX runs on [AppDaemon addon](https://github.com/hassio-addons/addon-appdaemon), which can be found in the addon store. If you prefer to use your own AppDaemon instance, you can find the latest ControllerX code in the [Manual](#manual) section.
+ControllerX is an [AppDaemon](/controllerx/others/run-appdaemon) app, so it needs AppDaemon to run. There are two ways to install it in Home Assistant:
 
-_You can read [here](/controllerx/others/run-appdaemon) what's AppDaemon and why is needed._
+- [ControllerX app](#controllerx-app-recommended) (recommended): an app with its own AppDaemon instance and ControllerX preinstalled. ControllerX updates like any other app.
+- [Manual installation](#manual-installation): ControllerX copied into the AppDaemon app. Use this if you already run other AppDaemon apps.
 
-## AppDaemon addon
+If you installed ControllerX through HACS, see [Migrating from HACS](#migrating-from-hacs).
 
-First, we will need to install the AppDaemon from the `Add-on store`. This will create the following folder in your system `/addon_configs/a0d7b954_appdaemon`, which we will need to modify the `/addon_configs/a0d7b954_appdaemon/appdaemon.yaml` (e.g. File Editor addon):
+## ControllerX app (recommended)
 
-```yaml
----
-secrets: /homeassistant/secrets.yaml # (1)
-appdaemon:
-  latitude: X.XXXXXXX # (2)
-  longitude: X.XXXXXXX
-  elevation: XXXX
-  time_zone: XXXXXXXX
-  app_dir: /homeassistant/appdaemon/apps # (3)
-  plugins:
-    HASS:
-      type: hass
-http:
-  url: http://127.0.0.1:5050
-admin:
-api:
-hadashboard:
+The ControllerX app runs its own AppDaemon instance with ControllerX preinstalled. Each app update brings the new ControllerX version.
+
+!!! info
+    The app's AppDaemon instance is meant only for ControllerX. If you already use the AppDaemon app for other apps, [install ControllerX manually](#manual-installation) in it instead, so you keep a single AppDaemon instance.
+
+1. Add the ControllerX app repository to Home Assistant:
+
+    [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fxaviml%2Fcontrollerx-app)
+
+    Or go to **Settings → Apps → App store**, select **Repositories** in the top-right menu, and add `https://github.com/xaviml/controllerx-app`.
+
+2. Install the **ControllerX** app and start it.
+3. [Configure your controllers](/controllerx/start/configuration) in `/app_configs/d35634e3_controllerx/apps/apps.yaml`, for example with the Studio Code Server or Samba share apps. The app creates this file with a commented example on its first start. AppDaemon picks up changes to it without a restart.
+
+The app keeps all its files in `/app_configs/d35634e3_controllerx/`:
+
+```text
+/app_configs/d35634e3_controllerx/
+├── appdaemon.yaml      AppDaemon configuration (e.g. to enable the MQTT plugin)
+├── secrets.yaml        Optional, for `!secret` values
+└── apps/
+    ├── apps.yaml       Your ControllerX configuration
+    └── controllerx/    ControllerX code, replaced on every app start
 ```
 
-1. This line is important for AppDaemon to get the secrets from the correct path.
-2. Substitute with the correct values, or leave the default ones.
-3. This line is important for AppDaemon to get the correct apps path where HACS install ControllerX in.
+The `d35634e3` prefix is the one you get when adding the repository with the button or URL above. If your folder has a different prefix, look for the one ending in `_controllerx`.
 
-Note that by this point the addon might fail since `/homeassistant/appdaemon` might not exists yet, but you can keep following the installation steps.
+To update ControllerX, update the app from **Settings → Apps**. Your files aren't changed by updates.
 
-You can read more about these changes in [this GitHub discussion](https://github.com/xaviml/controllerx/discussions/874).
+### Moving your configuration to the app
 
-## Enabling MQTT plugin (optional)
+If ControllerX runs in the AppDaemon app today, move its configuration to the ControllerX app. The commands below run in the **Terminal & SSH** app. Set `OLD` to the folder that has your `apps.yaml`:
 
-In case of using Zigbee2MQTT integration, it is recommended to [enable MQTT plugin](/controllerx/others/enable-mqtt-plugin) since the default [HA sensor listener is now deprecated](/controllerx/others/z2m-ha-sensor-deprecated).
+- `/homeassistant/appdaemon/apps` if you installed ControllerX through HACS (some tools show it as `/config/appdaemon/apps`).
+- `/app_configs/a0d7b954_appdaemon/apps` if you installed it manually in the AppDaemon app's default folder.
 
-## ControllerX installation
+1. Install and start the ControllerX app once, so it creates its folder.
+2. Copy your apps:
 
-You can proceed to install ControllerX either manually or through HACS in the `/homeassistant/appdaemon/apps/` folder.
+    ```bash
+    OLD=/homeassistant/appdaemon/apps
+    cp "$OLD/apps.yaml" /app_configs/d35634e3_controllerx/apps/apps.yaml
+    ```
 
-### HACS
+    If the file also has apps other than ControllerX, remove them from the copy; they stay in the AppDaemon app. Don't copy the `controllerx` folder, the app brings its own.
 
-The easiest way to add this to your Home Assistant installation is using HACS with `Enable AppDaemon apps discovery & tracking` checked. If you don't have it enabled, go to `Configuration > Integrations > HACS (Options)`. You will find ControllerX in the `Automation` section on HACS. This will automatically add ControllerX in `/homeassistant/appdaemon/apps/`, and updates will be tracked by HACS and update within the same folder.
+3. If you use the [MQTT plugin](/controllerx/others/enable-mqtt-plugin), copy its `MQTT:` section from the AppDaemon app's `appdaemon.yaml` into `plugins:` in `/app_configs/d35634e3_controllerx/appdaemon.yaml`, and add `client_id: controllerx` to it, so it doesn't clash with the AppDaemon app on the MQTT broker (see [Enable MQTT plugin](/controllerx/others/enable-mqtt-plugin)). If you copy other settings too, **leave out the `app_dir` line**: the app always uses its own `apps` folder. Also leave out `secrets: /homeassistant/secrets.yaml`, since the app can't read the Home Assistant configuration folder.
+4. If your configuration uses `!secret`, copy those secrets into `/app_configs/d35634e3_controllerx/secrets.yaml`.
+5. Remove ControllerX from the AppDaemon app:
+    - If you only used AppDaemon for ControllerX, uninstall the AppDaemon app.
+    - Otherwise, remove the ControllerX apps from its `apps.yaml`, delete the ControllerX code with `rm -rf "$OLD/controllerx"`, and restart the AppDaemon app.
+6. Restart the ControllerX app and check its **Log** tab.
 
-### Manual
+## Manual installation
 
-Download the [latest version](https://github.com/xaviml/controllerx/releases/latest/download/controllerx.zip), and then place the `controllerx` folder in your machine `/homeassistant/appdaemon/apps/controllerx`. The `controllerx.py` needs to be in `/homeassistant/appdaemon/apps/controllerx/controllerx.py`.
+1. Install the **AppDaemon** app from **Settings → Apps → App store** and start it once. It creates its folder in `/app_configs/a0d7b954_appdaemon/`.
+2. Install the **Terminal & SSH** app, open its terminal, and run:
 
-## Setup `apps.yaml`
+    ```bash
+    APPS=/app_configs/a0d7b954_appdaemon/apps; rm -rf "$APPS/controllerx" && mkdir -p "$APPS/controllerx" && curl -fsSL https://github.com/xaviml/controllerx/releases/latest/download/controllerx.zip -o /tmp/controllerx.zip && unzip -oq /tmp/controllerx.zip -d "$APPS/controllerx" && rm /tmp/controllerx.zip
+    ```
 
-Once we have the addon and ControllerX installed, we can create `/homeassistant/appdaemon/apps/apps.yaml`, where we can [configure ControllerX](../configuration) in.
+    This downloads the latest ControllerX release into `/app_configs/a0d7b954_appdaemon/apps/controllerx/`.
+
+3. [Configure your controllers](/controllerx/start/configuration) in `/app_configs/a0d7b954_appdaemon/apps/apps.yaml`.
+4. Restart the AppDaemon app.
+
+If you run AppDaemon in some other way, download [controllerx.zip](https://github.com/xaviml/controllerx/releases/latest/download/controllerx.zip) and unzip it into a `controllerx` folder inside your AppDaemon apps folder, so that `controllerx.py` ends up in `<apps folder>/controllerx/controllerx.py`.
+
+### Updating
+
+Run the same command again and restart the AppDaemon app. It only replaces the `controllerx` folder, so your `apps.yaml` stays as it is. To know when there's a new version, you can watch the [ControllerX releases](https://github.com/xaviml/controllerx/releases) on GitHub (**Watch → Custom → Releases**).
+
+## Migrating from HACS
+
+HACS no longer supports AppDaemon apps. ControllerX installed through HACS keeps working, but it won't get updates anymore. HACS installed it in `/homeassistant/appdaemon/apps/controllerx`, next to your `apps.yaml`. Switch to one of the installation methods above:
+
+- **Stay with the AppDaemon app:** you don't need to move anything. Update ControllerX with the [manual installation](#manual-installation) command, using your current folder, and restart the AppDaemon app:
+
+    ```bash
+    APPS=/homeassistant/appdaemon/apps; rm -rf "$APPS/controllerx" && mkdir -p "$APPS/controllerx" && curl -fsSL https://github.com/xaviml/controllerx/releases/latest/download/controllerx.zip -o /tmp/controllerx.zip && unzip -oq /tmp/controllerx.zip -d "$APPS/controllerx" && rm /tmp/controllerx.zip
+    ```
+
+    Keep the `app_dir: /homeassistant/appdaemon/apps` line in your `appdaemon.yaml`, it's what points AppDaemon to this folder.
+
+- **Switch to the ControllerX app:** follow [Moving your configuration to the app](#moving-your-configuration-to-the-app).
+
+!!! warning
+    Keep only one copy of ControllerX running. If the same controller is configured in both the AppDaemon app and the ControllerX app, every button press runs twice (for example, a toggle turns the light on and straight back off).
+
+## Enabling the MQTT plugin (optional)
+
+If you use the Zigbee2MQTT integration, [enable the MQTT plugin](/controllerx/others/enable-mqtt-plugin), since the [Home Assistant sensor listener is deprecated](/controllerx/others/z2m-ha-sensor-deprecated).

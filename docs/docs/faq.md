@@ -7,11 +7,11 @@ hide:
 
 #### 1. I placed the configuration in configuration.yaml and it doesn't work
 
-ControllerX depends on AppDaemon and all the configuration for AppDaemon apps goes to `/homeassistant/appdaemon/apps/apps.yaml` and not `/config/configuration.yaml`.
+ControllerX depends on AppDaemon and all the configuration for AppDaemon apps goes to `apps.yaml` in the AppDaemon apps folder (see [Installation](/controllerx/start/installation)) and not `/config/configuration.yaml`.
 
 #### 2. I updated ControllerX to a new version and it does not work
 
-When updating ControllerX, the AppDaemon server (or addon) needs to be restarted.
+If you installed ControllerX manually, the AppDaemon app (or server) needs to be restarted after updating ControllerX. The ControllerX app restarts on its own when updated.
 
 #### 3. I properly configured E1744 (symfonisk) with z2m but it doesn't work
 
@@ -53,7 +53,7 @@ However, these are some actions you can take to overcome this problem and reduce
 
 #### 8. Symfonisk controller (E1744) is not working with Zigbee2MQTT integration
 
-Do you have a configuration that seems to be right, but is not working? Well, the default mapping for E1744 has the actions of the new implementation in Zigbee2MQTT for this controller. For this, you will need to [deactivate the legacy mode](https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration) for this controller in Zigbee2MQTT. If you have the Zigbee2MQTT addon, you will have a file in `/share/zigbee2mqtt/devices.yaml` with the device-specific configuration. You will need to add `legacy: false` to your E1744 controller as shown in the Zigbee2MQTT documentation. With this the problem will be solved once Zigbee2MQTT is restarted. While I have you here reading this, I strongly recommend to you to check the FAQ#9 if you are having slowness issues with your controller.
+Do you have a configuration that seems to be right, but is not working? Well, the default mapping for E1744 has the actions of the new implementation in Zigbee2MQTT for this controller. For this, you will need to [deactivate the legacy mode](https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration) for this controller in Zigbee2MQTT. If you have the Zigbee2MQTT app, you will have a file in `/share/zigbee2mqtt/devices.yaml` with the device-specific configuration. You will need to add `legacy: false` to your E1744 controller as shown in the Zigbee2MQTT documentation. With this the problem will be solved once Zigbee2MQTT is restarted. While I have you here reading this, I strongly recommend to you to check the FAQ#9 if you are having slowness issues with your controller.
 
 #### 9. Symfonisk controller (E1744) works, but pretty laggy
 

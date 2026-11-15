@@ -123,9 +123,11 @@ docker run --pull=always --rm \
 acockburn/appdaemon:latest
 ```
 
-### Samba addon
+### Samba app
 
-Install `Samba share` addon in Home Assistant, so you can connect to HA folder structure from your computer. Then, you can just copy `apps/controllerx` on `/homeassistant/appdaemon/apps/`. When done, you should be able to find `controllerx.py` in `/homeassistant/appdaemon/apps/controllerx/controllerx.py`. Then, you can restart `AppDaemon` addon.
+Install the `Samba share` app in Home Assistant, so you can connect to HA folder structure from your computer. Then, you can copy `apps/controllerx` into the AppDaemon app's apps folder, so that `controllerx.py` ends up in `/app_configs/a0d7b954_appdaemon/apps/controllerx/controllerx.py`. Then, restart the `AppDaemon` app.
+
+Use the AppDaemon app for this, not the ControllerX app: the ControllerX app replaces its `controllerx` folder with the bundled version on every start.
 
 ## How to change someone else's PR code
 
