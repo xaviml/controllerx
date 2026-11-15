@@ -44,6 +44,14 @@ STEPPER_MODES: dict[str, type[Stepper]] = {
 }
 
 
+def mired_to_kelvin(value: Number) -> int:
+    return round(1_000_000 / value)
+
+
+def kelvin_to_mired(value: Number) -> int:
+    return round(1_000_000 / value)
+
+
 class LightEntity(Entity):
     color_mode: ColorMode
 
@@ -448,7 +456,20 @@ class LightController(TypeController[LightEntity], ReleaseHoldController):
             attributes["transition"] = self.transition / 1000
         if self.remove_transition_check and not force_transition:
             del attributes["transition"]
+        # Color temperature is handled in mireds internally, but HA only accepts
+        # `color_temp_kelvin` since 2026.3
+        if LightController.ATTRIBUTE_COLOR_TEMP in attributes:
+            attributes["color_temp_kelvin"] = mired_to_kelvin(
+                attributes.pop(LightController.ATTRIBUTE_COLOR_TEMP)
+            )
         await self.call_service(service, entity_id=self.entity.name, **attributes)
+
+    async def get_entity_state(self, attribute: str | None = None) -> Any:
+        if attribute != LightController.ATTRIBUTE_COLOR_TEMP:
+            return await super().get_entity_state(attribute=attribute)
+        # HA no longer exposes `color_temp` (mireds) as a state attribute
+        kelvin = await super().get_entity_state(attribute="color_temp_kelvin")
+        return None if kelvin is None else kelvin_to_mired(kelvin)
 
     async def _on(self, **attributes: Any) -> None:
         await self.call_light_service("light/turn_on", **attributes)

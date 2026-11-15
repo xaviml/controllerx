@@ -207,6 +207,33 @@ async def test_get_value_attribute(
 
 
 @pytest.mark.parametrize(
+    "attribute_input, state_attribute, state_value, expected_output",
+    [
+        ("brightness", "brightness", 128, 128),
+        ("color_temp", "color_temp_kelvin", 2000, 500),
+        ("color_temp", "color_temp_kelvin", 6536, 153),
+        ("color_temp", "color_temp_kelvin", None, None),
+    ],
+)
+async def test_get_entity_state(
+    sut: LightController,
+    mocker: MockerFixture,
+    attribute_input: str,
+    state_attribute: str,
+    state_value: int | None,
+    expected_output: int | None,
+) -> None:
+    get_state_patch = mocker.patch.object(
+        sut, "get_state", mocker.AsyncMock(return_value=state_value)
+    )
+
+    output = await sut.get_entity_state(attribute=attribute_input)
+
+    assert output == expected_output
+    assert get_state_patch.call_args.kwargs["attribute"] == state_attribute
+
+
+@pytest.mark.parametrize(
     "attribute, mode, expected_stepper, error_expected",
     [
         (LightController.ATTRIBUTE_BRIGHTNESS, StepperMode.STOP, StopStepper, False),
@@ -335,6 +362,8 @@ async def test_change_light_state(
             True,
             {"test": "test", "transition": 0.5},
         ),
+        ({"color_temp": 370}, True, False, {"color_temp_kelvin": 2703}),
+        ({"color_temp_kelvin": 2700}, True, False, {"color_temp_kelvin": 2700}),
     ],
 )
 async def test_call_light_service(
@@ -423,11 +452,11 @@ async def test_toggle(sut: LightController, mocker: MockerFixture) -> None:
 
 
 @pytest.mark.parametrize(
-    "attribute, min_max, expected_attribute_value",
+    "attribute, min_max, expected_attributes",
     [
-        ("brightness", MinMax(1, 255), 255),
-        ("color_temp", MinMax(153, 500), 500),
-        ("test", MinMax(1, 10), 10),
+        ("brightness", MinMax(1, 255), {"brightness": 255}),
+        ("color_temp", MinMax(153, 500), {"color_temp_kelvin": 2000}),
+        ("test", MinMax(1, 10), {"test": 10}),
     ],
 )
 async def test_toggle_full(
@@ -435,7 +464,7 @@ async def test_toggle_full(
     mocker: MockerFixture,
     attribute: str,
     min_max: MinMax,
-    expected_attribute_value: int,
+    expected_attributes: dict[str, int],
 ) -> None:
     call_service_patch = mocker.patch.object(sut, "call_service")
     sut.min_max_attributes = {attribute: min_max}
@@ -443,17 +472,16 @@ async def test_toggle_full(
     await sut.toggle_full(attribute)
 
     call_service_patch.assert_called_once_with(
-        "light/toggle",
-        **{"entity_id": ENTITY_NAME, attribute: expected_attribute_value}
+        "light/toggle", **{"entity_id": ENTITY_NAME, **expected_attributes}
     )
 
 
 @pytest.mark.parametrize(
-    "attribute, min_max, expected_attribute_value",
+    "attribute, min_max, expected_attributes",
     [
-        ("brightness", MinMax(1, 255), 1),
-        ("color_temp", MinMax(153, 500), 153),
-        ("test", MinMax(1, 10), 1),
+        ("brightness", MinMax(1, 255), {"brightness": 1}),
+        ("color_temp", MinMax(153, 500), {"color_temp_kelvin": 6536}),
+        ("test", MinMax(1, 10), {"test": 1}),
     ],
 )
 async def test_toggle_min(
@@ -461,7 +489,7 @@ async def test_toggle_min(
     mocker: MockerFixture,
     attribute: str,
     min_max: MinMax,
-    expected_attribute_value: int,
+    expected_attributes: dict[str, int],
 ) -> None:
     call_service_patch = mocker.patch.object(sut, "call_service")
     sut.min_max_attributes = {attribute: min_max}
@@ -469,8 +497,7 @@ async def test_toggle_min(
     await sut.toggle_min(attribute)
 
     call_service_patch.assert_called_once_with(
-        "light/toggle",
-        **{"entity_id": ENTITY_NAME, attribute: expected_attribute_value}
+        "light/toggle", **{"entity_id": ENTITY_NAME, **expected_attributes}
     )
 
 
@@ -527,7 +554,7 @@ async def test_on_min(sut: LightController, mocker: MockerFixture) -> None:
 @pytest.mark.parametrize(
     "max_brightness, color_attribute, expected_attributes",
     [
-        (255, "color_temp", {"brightness": 255, "color_temp": 370}),
+        (255, "color_temp", {"brightness": 255, "color_temp_kelvin": 2703}),
         (255, "xy_color", {"brightness": 255, "xy_color": [0.323, 0.329]}),
         (120, "error", {"brightness": 120}),
     ],

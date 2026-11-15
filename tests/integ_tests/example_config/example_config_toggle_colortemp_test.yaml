@@ -10,5 +10,5 @@ expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.livingroom
-      color_temp: 370
+      color_temp_kelvin: 2703
       brightness: 255

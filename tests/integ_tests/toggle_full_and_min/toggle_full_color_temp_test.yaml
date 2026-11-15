@@ -4,4 +4,4 @@ expected_calls:
   - service: light/toggle
     data:
       entity_id: light.my_light
-      color_temp: 300
+      color_temp_kelvin: 3333

@@ -2,12 +2,12 @@
 entity_state_attributes:
   supported_features: 36
   supported_color_modes: ["xy_color", "color_temp"]
-  color_temp: null
+  color_temp_kelvin: null
 entity_state: "on"
 fired_actions: [arrow_left_click]
 expected_calls:
   - service: light/turn_on
     data:
       entity_id: light.livingroom
-      color_temp: 291
+      color_temp_kelvin: 3436
       transition: 0.3
