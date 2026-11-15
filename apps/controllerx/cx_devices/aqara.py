@@ -210,6 +210,10 @@ class WXKG11LMSensorSwitchLightController(LightController):
         }
 
     def get_zha_action(self, data: EventData) -> str:
+        # Only 0x8000 reports the number of clicks. The device also reports
+        # on_off (attribute 0) with `True`, which would match 1 (`True == 1`).
+        if data["args"].get("attribute_id") != 0x8000:
+            return ""
         mapping = {
             1: "single",
             2: "double",

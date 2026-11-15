@@ -72,11 +72,14 @@ def test_zha_action_WXKG11LMRemoteLightController(
 @pytest.mark.parametrize(
     "data, expected_action",
     [
-        ({"args": {"value": 0}}, ""),
-        ({"args": {"value": 1}}, "single"),
-        ({"args": {"value": 2}}, "double"),
-        ({"args": {"value": 3}}, "triple"),
-        ({"args": {"value": 4}}, "quadruple"),
+        ({"args": {"attribute_id": 32768, "value": 0}}, ""),
+        ({"args": {"attribute_id": 32768, "value": 1}}, "single"),
+        ({"args": {"attribute_id": 32768, "value": 2}}, "double"),
+        ({"args": {"attribute_id": 32768, "value": 3}}, "triple"),
+        ({"args": {"attribute_id": 32768, "value": 4}}, "quadruple"),
+        ({"args": {"attribute_id": 0, "value": True}}, ""),
+        ({"args": {"attribute_id": 0, "value": 1}}, ""),
+        ({"args": {"value": 1}}, ""),
     ],
 )
 def test_zha_action_WXKG11LMSensorSwitchLightController(
