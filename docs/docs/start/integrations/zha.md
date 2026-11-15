@@ -1,9 +1,9 @@
 ---
 title: ZHA
-layout: page
+description: Configure ControllerX with ZHA (zha_event) and find the controller ID (device IEEE address) of your device.
 ---
 
-This integration (**`zha`**) listens to `zha_event` events and concatenates the command with the argument for the action string. It does not have any additional arguments.
+This integration (**`zha`**) listens to `zha_event` events and builds the action by concatenating the command with its arguments. It does not have any additional arguments.
 
 ## Parameters
 
@@ -15,4 +15,4 @@ _\* Required fields_
 
 ## How to extract the `controller` attribute
 
-To extract the controller ID for ZHA, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `zha_event` and start listening. Then, press any button and you will see the event of the button, you will need to copy the `device_ieee` inside the `data` object. It is a number like the following 00:67:88:56:06:78:9b:3f.
+To find the controller ID for ZHA, go to `Developer Tools > Events`, subscribe to `zha_event` at the bottom of the page and start listening. Then, press any button on the controller and copy the `device_ieee` from the `data` object of the event. It looks like `00:67:88:56:06:78:9b:3f`.

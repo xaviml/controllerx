@@ -1,6 +1,11 @@
 ---
-layout: page
 title: Update ControllerX
+description: How to update ControllerX to a new version.
 ---
 
-Note that AppDaemon will need to be restarted when installing a new version of ControllerX. This is due to AppDaemon not reimporting the modules again. If AppDaemon server is not restarted, then it will keep executing the old version.
+How to update ControllerX depends on how you [installed it](../start/installation.md):
+
+- **ControllerX app:** update the app from **Settings → Apps**. The app restarts on its own.
+- **Manual installation:** follow the [updating steps](../start/installation.md#updating) and restart the AppDaemon app.
+
+Note that AppDaemon needs to be restarted after installing a new version of ControllerX, since AppDaemon does not reimport the modules. If AppDaemon is not restarted, it will keep running the old version.

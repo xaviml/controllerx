@@ -1,9 +1,9 @@
 ---
 title: Tasmota
-layout: page
+description: Configure ControllerX with Tasmota buttons and switches through MQTT.
 ---
 
-This integration ([**`tasmota`**](https://tasmota.github.io)) listens for the MQTT topic sent from the `controller` attribute, and gets the action from the attribute defined in `component`.
+This integration ([**`tasmota`**](https://tasmota.github.io)) listens to the MQTT topic set in the `controller` attribute, and gets the action from the attribute defined in `component`.
 
 ## Parameters
 
@@ -29,7 +29,7 @@ Tasmota payload:
 
 ## How to extract the `controller` attribute
 
-Tasmota integration relies on MQTT plugin, so the `controller` is the MQTT topic to listen to (e.g. `stat/tasmota_device/RESULT`).
+The Tasmota integration relies on the [MQTT plugin](../../others/enable-mqtt-plugin.md), so the `controller` is the MQTT topic to listen to (e.g. `stat/tasmota_device/RESULT`).
 
 ## Example
 

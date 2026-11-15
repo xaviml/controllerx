@@ -1,16 +1,16 @@
 ---
 title: Stateful Controllers
-layout: page
+description: Use a Home Assistant input_select and AppDaemon constraints to make one controller control different devices depending on a state.
 ---
 
-This page describes how to define an state to execute one action or another depending on the state selected. This is a feature that is not necessarily from ControlleX, but from to [Input Select](https://www.home-assistant.io/integrations/input_select/) (a.k.a. Dropdown) from Home Assistant, and [Callback Constraints](https://appdaemon.readthedocs.io/en/latest/APPGUIDE.html#callback-constraints) from AppDaemon.
+This page describes how to define a state to execute one action or another depending on the selected state. This is not a ControllerX feature itself, but a combination of the Home Assistant [Input Select](https://www.home-assistant.io/integrations/input_select/) (a.k.a. Dropdown) and the AppDaemon [callback constraints](https://appdaemon.readthedocs.io/en/latest/APPGUIDE.html#callback-constraints).
 
-Through this page we will go over an easy example to setup a single controller to manage multiple lights. However, this can also be used for other use cases like:
+In this page, we will go over a simple example to set up a single controller to manage multiple lights. However, this can also be used for other use cases like:
 
 - Change/cycle the state of the controller to run different commands over the same device (e.g. light).
 - Cycle through a series of light states.
 
-First, we will need to setup an Input Select. Home Assistant allows you to create one through UI on `Settings -> Devices & Services -> Helpers`, and then clicking `Dropdown`, but we can also create one through YAML:
+First, we need to set up an Input Select. Home Assistant allows you to create one through the UI in `Settings > Devices & services > Helpers`, and then clicking `Dropdown`, but we can also create one through YAML:
 
 ```yaml
 input_select:
@@ -20,7 +20,7 @@ input_select:
       - state_1
 ```
 
-Once we have an entity that Home Assistant controls, we can create the following ControllerX configs:
+Once we have the entity in Home Assistant, we can create the following ControllerX configurations:
 
 ```yaml
 example_app_0:
@@ -58,13 +58,13 @@ example_app_1:
   constrain_input_select: input_select.controller_state,state_1
 ```
 
-From these configuration we see the following:
+From this configuration, we see the following:
 
-- `arrow_left_click` and `arrow_right_click` are used to change the `input_select.controller_state` state. This service will cycle through the options, so we could have only one (e.g. `input_select.select_next`).
+- `arrow_left_click` and `arrow_right_click` are used to change the `input_select.controller_state` state. This service cycles through the options, so we could use only one of them (e.g. `input_select.select_next`).
 - `constrain_input_select` is used to select which configuration is active depending on the state from `input_select.controller_state`.
-- First config controls `light.my_light_1`, and the second one controls `light.my_light_2`.
+- The first configuration controls `light.my_light_1`, and the second one controls `light.my_light_2`.
 
-This particular example, could be simplified if we configured the `input_select` with the `light` entities names:
+This particular example could be simplified if we configured the `input_select` with the names of the `light` entities:
 
 ```yaml
 input_select:
@@ -74,9 +74,7 @@ input_select:
       - light.my_light_2
 ```
 
-Then, the configuration would be simplified to the following thanks to [templating](./templating.md):
-
-{% set special = "{{ states('input_select.controller_state') }}" %}
+Then, thanks to [templating](templating.md), the configuration would be simplified to the following:
 
 ```yaml
 example_app:
@@ -86,7 +84,7 @@ example_app:
   integration:
     name: z2m
     listen_to: mqtt
-  light: "{{ special }}"
+  light: "{{ states('input_select.controller_state') }}"
   merge_mapping:
     arrow_left_click:
       service: input_select.select_previous
@@ -96,6 +94,6 @@ example_app:
       entity_id: input_select.controller_state
 ```
 
-Note that the `constrain_input_select` is no longer necessary since the `light` already has a template that checks the name dynamically. However, if we want to do any specific mapping depending on the light, we would need to go back to the previous configuration since it is more flexible and allows us to define a mapping for each state.
+Note that `constrain_input_select` is no longer necessary, since `light` already has a template that gets the entity name dynamically. However, if we want to do any specific mapping depending on the light, we would need to go back to the previous configuration since it is more flexible and allows us to define a mapping for each state.
 
-In the `Advanced` section from the [examples page](../examples/index.md#advanced), we can see some examples using this feature.
+The `Advanced` section of the [examples page](../examples/index.md#advanced) has more examples using this feature.

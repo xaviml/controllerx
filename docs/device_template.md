@@ -1,73 +1,46 @@
-{% set device = controller_docs.name %}
-{% set ct_docs = controller_docs.controller_type_docs %}
+---
+title: {{ device.title }}
+description: {{ device.description }}
+---
 
-<table>
-  <tr>
-    <th>Picture</th>
-    <th>
-      <a href="#">Controller types</a>
-    </th>
-    <th>Integrations</th>
-  </tr>
-  <tr>
-    <td style="vertical-align: middle;"><img src="/controllerx/assets/controllers/{{ device }}.jpeg" /></td>
-    <td style="vertical-align: middle;">
-      <ul>
-        {% for ctrl in ct_docs %}
-        <li>
-          <a href="#{{ ctrl.type | lower | replace(' ','-') }}">{{ ctrl.type }}</a> — <code>{{ctrl.cls}}</code>
-        </li>
-        {% endfor %}
-      </ul>
-    </td>
-    <td style="vertical-align: middle;">
-      <ul>
-        {% for integration in ct_docs[0].integrations_list %}
-        <li>
-          {{ INTEGRATIONS_TITLES[integration] }} ({{ integration }})
-        </li>
-        {% endfor %}
-      </ul>
-    </td>
-  </tr>
-</table>
+# {{ device.title }}
 
-{% if controller_docs.notes is not none %}
+![{{ device.title }}](../assets/controllers/{{ device.name }}.jpeg){ .cx-device-image width="180" }
+
+- **Manufacturer:** {{ device.manufacturer }}
+- **Device ID:** `{{ device.name }}`
+- **Controller types:** {% for ct in device.controller_type_docs %}[{{ ct.type }}](#{{ ct.section }}) (`{{ ct.cls }}`){% if not loop.last %}, {% endif %}{% endfor %}
+- **Integrations:** {% for name in device.integrations_list %}[{{ INTEGRATIONS[name].title }}](../{{ INTEGRATIONS[name].page }}) (`{{ name }}`){% if not loop.last %}, {% endif %}{% endfor %}
+
+[Build the configuration for this device](../start/config-builder.md?device={{ device.name }}){ .md-button .md-button--primary }
+{%- if device.notes %}
 
 ## Notes
 
-{{ controller_docs.notes }}
-{% endif %}
+{{ device.notes | trim }}
+{%- endif %}
+{%- for ct in device.controller_type_docs %}
 
-{% for controller in ct_docs %}
+## {{ ct.type }}
 
-## {{ controller.type }}
+- **Class:** `{{ ct.cls }}`
+- **Entity parameter:** `{{ ct.entity_arg }}`
+{%- if ct.delay is not none %}
+- **Default delay:** `{{ ct.delay }}ms`
+{%- endif %}
 
-Class: `{{ controller.cls }}`
+### Default mapping { #{{ ct.section }}-default-mapping }
 
-{% if controller.delay is not none %}
-Default delay: `{{ controller.delay }}ms`
-{% endif %}
+Each row shows the events fired by the device for each integration and the [predefined action](../advanced/predefined-actions.md#{{ ct.section }}) they trigger by default. You can change it with a [custom mapping](../advanced/index.md).
 
-Default mapping:
+{{ ct.make_table("../advanced/predefined-actions.md") }}
 
-{{ controller.make_table() }}
-
-{% for integration in controller.integrations_examples %}
-
-=== "{{ integration["title"] }}"
+### Example configuration { #{{ ct.section }}-example-configuration }
+{% for example in ct.integrations_examples %}
+=== "{{ example.title }}"
 
     ```yaml
-    example_app:
-      module: controllerx
-      class: {{ controller.cls }}{% if "attrs" not in integration %}
-      integration: {{ integration["name"] }}{% else %}
-      integration:
-        name: {{ integration["name"] }}
-      {% for attr_key, attr_value in integration["attrs"].items() %}  {{ attr_key }}: {{ attr_value }}{% endfor %}{% endif %}
-      controller: {{ integration["controller"] }}
-      {{ controller.entity_arg }}: {{ controller.entity_name }}
+{{ ct.example_yaml(example) | indent(4, first=true) }}
     ```
-
 {% endfor %}
-{% endfor %}
+{%- endfor %}

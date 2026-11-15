@@ -1,34 +1,34 @@
 ---
 title: Tasmota SwitchMode 11/12 Example - v1.1
-layout: page
+description: Make dumb wall switches smart with Tasmota SwitchMode 11/12 and control your lights with ControllerX.
 ---
 
 **Updated August, 2020.
 Changelog at last page**
 
-### TASMOTA SWITCHMODE 11/12 WALL SWITCH IMPLEMENTATION WITH HOME ASSISTANT / CONTROLLERX
+### Tasmota SwitchMode 11/12 wall switch implementation with Home Assistant / ControllerX
 
-Want to make your 'dumb' wall switches smart and at the same time improve installation of smart lights WAF 👩‍🦰 ? Then the solution could be to 'Tasmotize' your wall switches, and use Home Asssistant with ControllerX app to control the smart light connected to that switch. With this setup, you'll be able to toggle, turn lights on at full brightness, sync and dim your lights directly from your wall switch. Today, many WIFI switches are so small, that they can fit behind wall outlets/switches or in ceiling outlets. Personally, I've used [Shelly One devices](https://shop.shelly.cloud/shelly-1-wifi-smart-home-automation#50) and [Itead Sonoff Mini's](https://www.itead.cc/sonoff-mini.html). Both are easy to flash with Tasmota using either USB-to-UART adapter or directly OTA. No soldering is actually needed these days. The flash part and build instructions are to comprehensive to elaborate on further in this documentation. Instructions are 'out there' - Google it! 😉
+Want to make your 'dumb' wall switches smart and at the same time improve installation of smart lights WAF 👩‍🦰 ? Then the solution could be to 'Tasmotize' your wall switches, and use Home Assistant with the ControllerX app to control the smart light connected to that switch. With this setup, you'll be able to toggle, turn lights on at full brightness, sync and dim your lights directly from your wall switch. Today, many WIFI switches are so small, that they can fit behind wall outlets/switches or in ceiling outlets. Personally, I've used [Shelly One devices](https://shop.shelly.cloud/shelly-1-wifi-smart-home-automation#50) and [Itead Sonoff Mini's](https://www.itead.cc/sonoff-mini.html). Both are easy to flash with Tasmota using either USB-to-UART adapter or directly OTA. No soldering is actually needed these days. The flash part and build instructions are too comprehensive to elaborate on further in this documentation. Instructions are 'out there' - Google it! 😉
 
 One of my Sonoff Mini installations behind a wall switch. Danish wall switch modules are typically not larger than appx. 50x50mm pr. module (outside measurements). I’ve LK Opus 66 installed, which is a slightly larger type measuring 66mm in width. Still I can squeeze a Sonoff Mini in behind a ‘typical’ double module wall switch. Shelly devices are a bit smaller, round in shape and in general easier to fit than the Sonoff Mini’s.
 
-![switchmode11-12.jpeg](/assets/img/switchmode11-12.jpeg)
+![switchmode11-12.jpeg](../assets/tutorials/switchmode11-12.jpeg)
 
 **One final warning:** Using Shelly/Sonoff devices behind wall switches/outlets involves fiddling with **⚡HIGH VOLTAGE⚡** that could potentially **INJURE OR KILL YOU 🩸😱💀**, if not handled/installed correctly !! Furthermore, local building code might prohibit use of such devices in wall outlets and unauthorized installation will most likely be illegal in most countries. If you don't know EXACTLY what you're doing - then DON'T proceed with this project !! Now you've been warned !!
 
 Following example is with a Shelly One device, placed in the wall socket behind the switch, to control an Ikea WS bulb in the ceiling outlet. The bulb is connected to Home Assistant via Zigbee2MQTT. I've refitted my wall switch with a spring, so it'll act like a push button.
 
-The Switchmode11/12 option in Tasmota, gives the user six different switch commands to be used for automation. With ControllerX only four of these commands are needed, as ControllerX internally controls changes in dimming direction. These commands (events) are send directly to ControllerX via MQTT.
+The Switchmode11/12 option in Tasmota, gives the user six different switch commands to be used for automation. With ControllerX only four of these commands are needed, as ControllerX internally controls changes in dimming direction. These commands (events) are sent directly to ControllerX via MQTT.
 
 #### Switchmode11/12 Tasmota output commands are:
 
 ```
 Switchstate=2: toggle (Normal TOGGLE function. One single press)
-Switchstate=4: inc-dec (HOLD function. Send after delay defined with Setoption32)
+Switchstate=4: inc-dec (HOLD function. Sent after delay defined with Setoption32)
 Switchstate=5: inv (INVERSE dim direction function. Not used in this implementation, as ControllerX handles this internally)
-Switchstate=6: clear (Delayed RELEASE function. Send when button is released AFTER delay defined with Setoption32. Not used in this implementation)
-Switchstate=7: clear (Normal RELEASE function. Send immediately after button is released
-Switchstate=8: double (DOUBLE press function. Two consecutive presses within time delay defined with SetOption32
+Switchstate=6: clear (Delayed RELEASE function. Sent when button is released AFTER delay defined with Setoption32. Not used in this implementation)
+Switchstate=7: clear (Normal RELEASE function. Sent immediately after button is released)
+Switchstate=8: double (DOUBLE press function. Two consecutive presses within time delay defined with SetOption32)
 ```
 
 #### Requirements:
@@ -117,13 +117,13 @@ tasmota_switchmode11:
 
 #### Notes on Appdaemon and HA's state machine:
 
-Things unfortunately take time when HA's state machine is involved! This can for some be notisable (for others not), when Appdaemon apps has to check HA states by eg. using constrain_input_boolean's (as in example 1) or change HA states by toggling lights. In my setup, using a constrain_input_boolean adds some 100 ms. delay on execution. Not much on its own, but still worth to keep in mind. Toggling lights via HA automation is also some 100 ms. faster than toggling through Appdaemon/ControllerX. So in order to get the fastest possible toggle of lights, I'm personally using a simple HA automation for toggling lights and let ControllerX handle everything else 🙂
+Things unfortunately take time when HA's state machine is involved! This can be noticeable for some (for others not), when AppDaemon apps have to check HA states, e.g. by using `constrain_input_boolean` (as in example 1) or change HA states by toggling lights. In my setup, using a constrain_input_boolean adds some 100 ms. delay on execution. Not much on its own, but still worth to keep in mind. Toggling lights via HA automation is also some 100 ms. faster than toggling through Appdaemon/ControllerX. So in order to get the fastest possible toggle of lights, I'm personally using a simple HA automation for toggling lights and let ControllerX handle everything else 🙂
 
 Optional HA toggle automation below.
 Remember to remove `toggle` from mapping in Appdaemon/ControllerX apps.yaml 😉
 
 ```yaml
-# Toggle lights through HA using direct MQTT events. Quicker responce than using platform state or directly in appdaemon ControllerX app
+# Toggle lights through HA using direct MQTT events. Quicker response than using platform state or directly in appdaemon ControllerX app
 - alias: tasmota_switchmode11_toggle
   trigger:
     platform: mqtt
@@ -139,7 +139,7 @@ Remember to remove `toggle` from mapping in Appdaemon/ControllerX apps.yaml 😉
 #### Setup needed commands and rules in Tasmota software via console:
 
 ```
-Powerretain1 1    Retain Tasmota power settings i HA in event of power outage
+Powerretain1 1    Retain Tasmota power settings in HA in event of power outage
 Setoption1 1      Allow only single, double and hold press button actions
 Setoption32 8     Delay for HOLD button (in 0,1 sec.). I use 8 = 0,8 sec. Max value allowed is 63 !!
 Setoption34 50    Minimize delay between backlog commands to 50 ms. (Default 200 ms.)
@@ -167,11 +167,11 @@ on switch1#state=4 do backlog publish zigbee2mqtt/tasmota_topic {"action": "inc-
 
 **RULE2** handles the 'fall back' to direct switch control if MQTT server is unavailable. Nice WAF feature, if HA/MQTT server is down. Then lights still can be toggled on/off using the wall switch.
 
-**RULE3** sends the HOLD command and disables itselves (to ensure only one HOLD command is fired).
+**RULE3** sends the HOLD command and disables itself (to ensure only one HOLD command is fired).
 
-RULE3 is set as 'run once' in Tasmota (with the decimal 5 after the rule number) to prevent some extra HOLD commands gets fired before rule is disabled.
+RULE3 is set as 'run once' in Tasmota (with the decimal 5 after the rule number) to prevent extra HOLD commands from being fired before the rule is disabled.
 
-Rules also needs to be 'escaped', if used with HA automation.
+Rules also need to be 'escaped', if used with HA automation.
 Tasmota will automatically add needed escape characters, if rules are entered without.
 
 #### Changelog:

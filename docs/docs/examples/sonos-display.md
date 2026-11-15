@@ -1,24 +1,23 @@
 ---
 title: SONOS/SYMFONISK Display example
-layout: page
+description: Build an ESPHome display that shows what your Sonos/SYMFONISK speakers controlled with ControllerX are playing.
 ---
 
-{% raw %}
-![Three different Sonos displays](/controllerx/assets/tutorials/sonos_displays_2.jpg)
+![Three different Sonos displays](../assets/tutorials/sonos_displays_2.jpg)
 
-![Three different Sonos displays](/controllerx/assets/tutorials/sonos_displays_1.jpg)
+![Three different Sonos displays](../assets/tutorials/sonos_displays_1.jpg)
 
-Using ControllerX - Controlling your Sonos speakers have never been easier 😎 But the occasional wish for a visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there 👀 Leaving you with no other choice than adding a display integration as the obvious solution for this need 😉
+Using ControllerX - Controlling your Sonos speakers has never been easier 😎 But the occasional wish for a visual check on what’s actually playing, volume setting, media artist/title, active speakers in group etc. is still there 👀 Leaving you with no other choice than adding a display integration as the obvious solution for this need 😉
 
-All it takes is an ESP8266 with ESPHome software, an appropriate display, a handfull (well actually 2 handfulls and then some) of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
+All it takes is an ESP8266 with ESPHome software, an appropriate display, a handful (well, actually 2 handfuls and then some) of HA sensors and you’re all set to go 🚀 ESPHome is a system framework for ESP8266 units that has support for several I2C OLED/E-ink display types and numerous sensors, has direct HA integration via add-on and easy, yet powerful YAML configuration. Read more about ESPHome and how to set it up in HA here: https://esphome.io/
 
 **Current v1.1 display code uses newly merged display on/off and brightness commands. Use ESPHome version [1.15.0b4](https://github.com/esphome/esphome/releases/tag/v1.15.0b4) or newer !**
 
-YAML has been tested on both NodeMCUv2 , Wemos D1 Mini and NodeMCU with integrated display using both SSD1306 & SSD1309 displays (I2C connected).
+YAML has been tested on NodeMCUv2, Wemos D1 Mini and NodeMCU with integrated display using both SSD1306 & SSD1309 displays (I2C connected).
 
 ### Hardware:
 
-I initially used the simple and inexpensive (less than 2 US$ ) SSD1306 0,96" OLED display for this build. Resolution is only 128x64. But still enough, when using several pages to be displayed continously. The SSD1306 has a 'big brother' in the SSD1309 display. This display has identical resolution as SSD1306, is priced at some 14 US$, can use same drivers/library as SSD1306 but is much, much larger at 2,42". I really like this good sized and simple I2C display and ended up using this display in the final build, as it's much easier to read from a distance 🙂
+I initially used the simple and inexpensive (less than 2 US$ ) SSD1306 0,96" OLED display for this build. Resolution is only 128x64. But still enough, when using several pages to be displayed continuously. The SSD1306 has a 'big brother' in the SSD1309 display. This display has identical resolution as SSD1306, is priced at some 14 US$, can use same drivers/library as SSD1306 but is much, much larger at 2,42". I really like this good sized and simple I2C display and ended up using this display in the final build, as it's much easier to read from a distance 🙂
 
 An optional PIR sensor or microwave radar sensor can be added for automatic dimming (brightness control) and turning the display on/off completely. The RCWL 0516 sensor is cheap, but can be somewhat difficult to use in 'tight' builds as it's somewhat sensitive to many things - WiFi in particular. So you could experience some false triggers using this sensor if fitted very close to the ESP8266. AM 312 is a cheap and simple 'no nonsense' PIR sensor that just always works as expected. Sensor can also be used for other purposes as well in HA 🙂 Sensor is configured in YAML using pin D5 (GPIO14). Display is set to dim down after 5 minutes with no PIR triggers and completely off after additional 10 minutes without registered movement.
 
@@ -82,18 +81,18 @@ If you experience some strange characters on the display, you probably need to e
 
 Calibri TTF fonts [link](https://www.fontdload.com/dl/calibri-font/)
 
-Heydings Icons special file [link](/controllerx/assets/tutorials/HeydingsIconsSymbols.ttf)
+Heydings Icons special file [link](../assets/tutorials/HeydingsIconsSymbols.ttf)
 
 Copy Calibri Bold, Calibri Regular, Calibri Light fonts plus the special Heydings Icons Symbols font file to the ESPHome folder `/config/esphome/`
 
 ### Home Assistant sensors:
 
-Below you’ll find the HA template sensors needed in `configuration.yaml `for ESPHome display to work. ESPHome will establish some four HA sensors as well, presented on HA frontend: PIR sensor, connection status, WiFi strength and display on/off sensor. If display on/off is turned off from HA, then triggering PIR will not turn on display or alter brightness.
+Below you’ll find the HA template sensors needed in `configuration.yaml` for the ESPHome display to work. ESPHome will establish some four HA sensors as well, presented on HA frontend: PIR sensor, connection status, WiFi strength and display on/off sensor. If display on/off is turned off from HA, then triggering PIR will not turn on display or alter brightness.
 
 Note: `media_artist` and `media_title` attributes from HA's Sonos integration _could_ be swapped for some radio stations, as these attributes are split from one combined string in the stream. Some radio stations have artist - title order, others use title - artist. You really can't tell...
 My danish radio stations (source list) all use the 'swapped' version, so my templates below swap these two attributes for radio stations.
 
-Enter your main speaker as trigger entity ID for all templates but the first two (search for `media_player.office` and replace with your main speaker entity). Without this specific hardcoded trigger entity, templates simply doesn't always update correctly. So unfortunately they're needed for now, until I hopefully find a 'cleaner' and more dynamic solution.
+Enter your main speaker as trigger entity ID for all templates but the first two (search for `media_player.office` and replace with your main speaker entity). Without this specific hardcoded trigger entity, templates simply don't always update correctly. So unfortunately they're needed for now, until I hopefully find a 'cleaner' and more dynamic solution.
 
 ```yaml
 # Sonos sensors
@@ -149,10 +148,10 @@ sensor:
 
 ### Home Assistant group:
 
-Here you define your Sonos speaker entities. main speaker has to be entered as first entity and all that's actually needed. Active passive speakers will dynamically be added on HA restart or when group configuration is changed (via Sonos app/HA service calls eg.) If you're only using one speaker, you still need to create the group in `groups.yaml` and populate with that single main speaker entity, as the group entity is needed in the code.
+Here you define your Sonos speaker entities. The main speaker has to be entered as the first entity, and that's all that's actually needed. Active passive speakers will dynamically be added on HA restart or when group configuration is changed (e.g. via the Sonos app or HA service calls). If you're only using one speaker, you still need to create the group in `groups.yaml` and populate with that single main speaker entity, as the group entity is needed in the code.
 
 **One note on main speaker, passives and Sonos groups**<br />
-Your defined main speaker actually doesn't need to be **_the_** main speaker. As long as it's part of the group (main **_or_** passive), then display will still show data for the group. But if defined main speaker is removed from the group, it will be a 'single speaker group' on it's own, and display will reflect main speaker data only.
+Your defined main speaker actually doesn't need to be **_the_** main speaker. As long as it's part of the group (main **_or_** passive), then display will still show data for the group. But if defined main speaker is removed from the group, it will be a 'single speaker group' on its own, and display will reflect main speaker data only.
 
 ```yaml
 sonos_all:
@@ -165,10 +164,10 @@ sonos_all:
 
 ### Home Assistant automations:
 
-First automation is identical with the one I've already used in my ControllerX Sonos group setup example [link](../sonos).
+First automation is identical with the one I've already used in my ControllerX Sonos group setup example [link](sonos.md).
 
 Second automation is purely optional, and not really directly related to the display. It's just a quick shortcut to easily reset active speakers within group, volume and source playing to some defaults you've defined in the automation. Really nice when you have teenagers in the house, messing with active speaker entities in the group, playlists and volume all the time... 😉
-The automation is written for an Ikea E1810 remote with z2m ControllerX HA integration. Here `toggle_hold`(Press and hold center button for appx. 3.5 seconds) is used as trigger.
+The automation is written for an Ikea E1810 remote with z2m ControllerX HA integration. Here `toggle_hold` (press and hold center button for appx. 3.5 seconds) is used as trigger.
 
 ```yaml
 - id: Dynamic Sonos groups
@@ -214,16 +213,16 @@ The automation is written for an Ikea E1810 remote with z2m ControllerX HA integ
 
 ### ESPHome YAML configuration:
 
-As ESPHome currently don't support attributes, all data to be displayed has to be in separate HA sensors. Hence the huge amount of sensors.
+As ESPHome currently doesn't support attributes, all data to be displayed has to be in separate HA sensors. Hence the huge amount of sensors.
 
 If you're not using a movement sensor in your build, you could (but actually don't need to) revise YAML. If you experience issues with the 'floating' GPIO used for the PIR sensor, just pull pin D5 permanently low or high.
 
-Two entities needs to be entered. Your Sonos main speaker and optional temperature sensor. If temperature sensor is omitted, you can just revise YAML and delete page 3 & 4 from the display lambda configuration. Also remember to revise `interval` page count from 4 to 2.
+Two entities need to be entered. Your Sonos main speaker and optional temperature sensor. If temperature sensor is omitted, you can just revise YAML and delete page 3 & 4 from the display lambda configuration. Also remember to revise `interval` page count from 4 to 2.
 
 Revise `sonos_status` and `outdoor_temp` sensors in YAML below, to match your HA entities for Sonos main speaker and outdoor temperature sensor. Create a new ESPHome node and configure it with your ESP8266 board settings and WiFi credentials. Edit node and copy/paste revised YAML below to your node. Remember to insert your node's autogenerated WiFi ap settings to YAML. Save it, upload and enjoy! 🎉😎
 
 **One final note on current YAML configuration**
-ESPHome is at **max** with all these included sensors, schedulers running and the quite extensive display lambda. Addding just one extra sensor to current YAML, will make ESPHome crash on boot. Omitting `fast_connect: true`from WiFi configuration in YAML will also send ESPHome into an eternal stack trace error boot loop 🚀💀
+ESPHome is at **max** with all these included sensors, schedulers running and the quite extensive display lambda. Adding just one extra sensor to current YAML, will make ESPHome crash on boot. Omitting `fast_connect: true` from the WiFi configuration in YAML will also send ESPHome into an eternal stack trace error boot loop 🚀💀
 
 So 'tweak' YAML with care! 😁😉
 
@@ -523,7 +522,7 @@ display:
 
 ## Change log
 
-- Intitial version published July, 2020
+- Initial version published July, 2020
 - v1.1 published September, 2020
 - Added optional sensor for brightness control & display on/off
 - Added 'shuffle' & 'mute' signs
@@ -545,5 +544,3 @@ Thank you Xavi for providing the perfect solution for some of my templating issu
 
 September, 2020
 _[@htvekov](https://github.com/htvekov)_
-
-{% endraw %}

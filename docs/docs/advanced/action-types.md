@@ -1,17 +1,17 @@
 ---
 title: Action types
-layout: page
+description: Action types that can be used in a ControllerX mapping, including predefined actions, service calls, scenes and delays.
 ---
 
-_This page assumes you already know how the [`mapping` attribute](../) works._
+_This page assumes you already know how the [`mapping` attribute](index.md) works._
 
-An action type is reduced version of [Script Syntax](https://www.home-assistant.io/docs/scripts) from Home Assistant. It allows to one or a sequence of actions to execute when an event is fired. The available action types are [predefined action](../predefined-actions), call service, scene activation and delay.
+An action type is a reduced version of the Home Assistant [script syntax](https://www.home-assistant.io/docs/scripts). It defines one action or a sequence of actions to execute when an event is fired. The available action types are [predefined actions](predefined-actions.md), service calls, scene activation and delays.
 
 ```yaml
 ...
 mapping: # or merge_mapping
   ## Predefined actions
-  # `toogle` is a light predefined action
+  # `toggle` is a light predefined action
   <event>:
     action: toggle
 
@@ -30,7 +30,7 @@ mapping: # or merge_mapping
   # Additionally, if the service is within the same domain
   # (light, media_player, etc) as the main entity from the configuration,
   # and entity_id is not passed, then it will use the one from the configuration.
-  # This is handy, so there is no need to repeat the same entity over and over.
+  # This is handy, so there is no need to repeat the same entity over and over again.
   # Priority order for entity_id:
   # - Inside data
   # - In the same level as "service"
@@ -45,7 +45,7 @@ mapping: # or merge_mapping
     scene: scene.my_scene
 
   ## Delay
-  # `delay` is usefull when defining a list of actions, and you want
+  # `delay` is useful when defining a list of actions, and you want
   # an action to be triggered after some defined time.
   # The value of the attribute only accepts seconds.
   <event>:
@@ -56,6 +56,6 @@ mapping: # or merge_mapping
 
 _The `<event>` key is the event from your controller and integration._
 
-If an action is still executing (most likely because of a `delay` in place), and another of the same type gets fired, the previous one will be cancelled and a new one will be executed. This is not configurable and it works the same as [`mode: restart`](https://www.home-assistant.io/docs/automation/modes) from Home Assistant automations.
+If an action is still executing (most likely because of a `delay`) and the same event gets fired again, the behaviour depends on the [`mode`](../start/configuration.md#parameters) parameter, which works like the [Home Assistant automation modes](https://www.home-assistant.io/docs/automation/modes). By default (`mode: single`), the new execution is ignored and a warning is logged. Use `mode: restart` to cancel the running action and start a new one.
 
-Actions will be executed sequentially, so keep in mind that if using predefined actions, it is not recommended to use a list of `hold` actions since they will be executed sequentially, and it will not result in an expected behaviour. This is because the `hold` actions are blocking operations and they will not be finished until a `release` action is fired.
+Actions are executed sequentially, so it is not recommended to use a list of `hold` predefined actions, since it will not result in the expected behaviour. This is because `hold` actions are blocking operations, and they do not finish until a `release` action is fired.

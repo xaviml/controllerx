@@ -1,6 +1,6 @@
 ---
 title: Lutron Caséta
-layout: page
+description: Configure ControllerX with Lutron Caséta (lutron_caseta_button_event) and find the controller ID of your Pico remote.
 ---
 
 This integration (**`lutron_caseta`**) listens to `lutron_caseta_button_event` events. It creates an action like `button_<number>_<action type>`. It does not have any additional arguments.
@@ -15,4 +15,4 @@ _\* Required fields_
 
 ## How to extract the `controller` attribute
 
-To extract the controller ID for Lutron Caséta, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `lutron_caseta_button_event` and start listening. Then, press any button and you will see the event of the button, you will need to copy the relevant attribute inside the `data` object.
+To find the controller ID for Lutron Caséta, go to `Developer Tools > Events`, subscribe to `lutron_caseta_button_event` at the bottom of the page and start listening. Then, press any button on the controller and copy the `serial` from the `data` object of the event.

@@ -1,67 +1,73 @@
 ---
 title: Zigbee2MQTT Light Controller
-layout: page
+description: The Zigbee2MQTT light controller changes brightness and color temperature smoothly using the Zigbee2MQTT move commands over MQTT.
 ---
 
 _This is supported since ControllerX v4.21.0_
 
-ControllerX has always given support for [Light Controller](/controllerx/start/type-configuration#light-controller) which allows amongst other features to smoothly change attributes (brightness, color temperature) values by requesting the changes periodically to Home Assistant. This has allowed to work with lights integrated with many integrations (e.g.: Zigbee2MQTT, deCONZ, WLED, Hue). However, this generalization has penalized Zigbee2MQTT which has its own mechanism to change brightness and color temp over time which works much smoother than the Light Controller.
+ControllerX has always supported the [Light Controller](../start/type-configuration.md#light-controller), which, amongst other features, smoothly changes attributes (brightness, color temperature) by periodically requesting the changes to Home Assistant. This works with lights from many integrations (e.g. Zigbee2MQTT, deCONZ, WLED, Hue). However, this generalization penalizes Zigbee2MQTT, which has its own mechanism to change the brightness and color temperature over time, and works much more smoothly than the Light Controller.
 
-Zigbee2MQTT allows to send the following topic `zigbee2mqtt/FRIENDLY_NAME/set` with a payload like `{"brightness_move": -40}` which will change the brightness down with 40 steps over time. Then, we can send to the same topic the following payload to make it stop: `{"brightness_move": "stop"}`. Zigbee2MQTT does not have an specific page with this documentation since it depends on the device itself. For example, we can see all this further explained for the [LED1545G12](https://www.zigbee2mqtt.io/devices/LED1545G12.html#light) light.
+Zigbee2MQTT allows sending a payload like `{"brightness_move": -40}` to the `zigbee2mqtt/FRIENDLY_NAME/set` topic, which decreases the brightness 40 steps per second over time. Then, we can send the following payload to the same topic to make it stop: `{"brightness_move": "stop"}`. Zigbee2MQTT does not have a specific page documenting this, since it depends on the device. For example, we can see all this further explained for the [LED1545G12](https://www.zigbee2mqtt.io/devices/LED1545G12.html#light) light.
 
-ControllerX has always wanted to integrate this inside the Light Controller, but there are many features that are not compatible with what Zigbee2MQTT offers:
+Ideally, this would be part of the Light Controller, but there are many features that are not compatible with what Zigbee2MQTT offers:
 
-- [Hold/Click modes](/controllerx/advanced/hold-click-modes) (bounce, loop)
+- [Hold/Click modes](../advanced/hold-click-modes.md) (bounce, loop)
 - Color looping
-- Define a minimum and maximum attribute values
+- Minimum and maximum attribute values
 
-For this reason, it has been decided to create a new controller type, [Z2M Light Controller](/controllerx/start/type-configuration#z2m-light-controller), which allows most of the same functionalities as Light Controller, but using MQTT features from Zigbee2MQTT.
+For this reason, there is a separate controller type, [Z2M Light Controller](../start/type-configuration.md#zigbee2mqtt-light-controller), which offers most of the functionality of the Light Controller, but uses the MQTT features from Zigbee2MQTT.
 
-Imagine we have a light that in Zigbee2MQTT has friendly name `livingroom` and entity `light.livingroom` in Home Assistant. Then, let's say we had the following ControllerX configuration for [E1810](/controllerx/controllers/E1810):
+Imagine we have a light with the friendly name `livingroom` in Zigbee2MQTT and the entity `light.livingroom` in Home Assistant. Then, let's say we had the following ControllerX configuration for [E1810](../controllers/E1810.md):
 
 ```yaml
 livingroom_controller:
   module: controllerx
   class: E1810Controller # (1)
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller_action
+  integration:
+    name: z2m
+    listen_to: event
   light: light.livingroom
 ```
 
 1. `E1810Controller` is a `Light Controller`
 
-This allows us to control the the `livingroom` light with the Light Controller, however if we replace `E1810Controller` for the new `E1810Z2MLightController` and the `light.livingroom` for `livingroom` we will be using Z2M Light Controller:
+This allows us to control the `livingroom` light with the Light Controller. However, if we replace `E1810Controller` with `E1810Z2MLightController`, and `light.livingroom` with `livingroom`, we will be using the Z2M Light Controller:
 
-```yaml hl_lines="3 6"
+```yaml hl_lines="3 8"
 livingroom_controller:
   module: controllerx
   class: E1810Z2MLightController # (1)
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller_action
+  integration:
+    name: z2m
+    listen_to: event
   light: livingroom # (2)
 ```
 
 1.  This is a `Z2M Light Controller`
-2.  This the Zigbee2MQTT friendly name
+2.  This is the Zigbee2MQTT friendly name of the light
 
-This will be sending MQTT messages through Home Assistant, but if we have the [MQTT plugin enabled](/controllerx/others/enable-mqtt-plugin) in AppDaemon, then we could send the MQTT through MQTT plugin:
+This sends the MQTT messages through Home Assistant, but if we have the [MQTT plugin enabled](enable-mqtt-plugin.md) in AppDaemon, we can send them through the MQTT plugin instead:
 
-```yaml hl_lines="6 7 8"
+```yaml hl_lines="8-10"
 livingroom_controller:
   module: controllerx
   class: E1810Z2MLightController
-  controller: sensor.livingroom_controller_action
-  integration: z2m
+  controller: livingroom_controller_action
+  integration:
+    name: z2m
+    listen_to: event
   light:
     name: livingroom
     mode: mqtt # (1)
 ```
 
-1.  `mode` can either be `ha` or `mqtt` (default: `ha`). On the one hand, `ha` will send the mqtt messages through Home Assistant with [`mqtt.publish` service](https://www.home-assistant.io/docs/mqtt/service/#service-mqttpublish). On the other hand, `mqtt` will send the MQTT messages through MQTT plugin from AppDaemon (hence skipping HA).
+1.  `mode` can either be `ha` or `mqtt` (default: `ha`). On the one hand, `ha` sends the MQTT messages through Home Assistant with the [`mqtt.publish` service](https://www.home-assistant.io/docs/mqtt/service/#service-mqttpublish). On the other hand, `mqtt` sends the MQTT messages through the AppDaemon MQTT plugin (hence skipping HA).
 
-Finally, we can have the full ControllerX configuration listening and sending to MQTT broker directly without going through Home Assistant:
+Finally, we can have ControllerX both listening and sending to the MQTT broker directly, without going through Home Assistant:
 
-```yaml hl_lines="5 6 7"
+```yaml hl_lines="4 7"
 livingroom_controller:
   module: controllerx
   class: E1810Z2MLightController
@@ -76,10 +82,10 @@ livingroom_controller:
 
 1.  `livingroom_controller` is the Zigbee2MQTT friendly name of the controller
 
-With this latest configuration, we can keep using the light even if Home Assistant is down since all interactions go:
+With this configuration, we can keep using the light even if Home Assistant is down, since all the interactions go:
 
-```
+```text
 Zigbee2MQTT <> MQTT Broker <> AppDaemon (ControllerX)
 ```
 
-Many of the existing devices now have support to `Z2MLightController`, and you can use it in the `class` as you can now use `LightController` as well. Check [Supported controllers](/controllerx/controllers) pages to see the class names.
+Many of the supported devices have a Zigbee2MQTT light controller class, which can be used in `class` the same way as their light controller class. Check the [supported controllers](../controllers/index.md) pages to see the class names.

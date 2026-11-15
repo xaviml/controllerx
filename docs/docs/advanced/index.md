@@ -1,12 +1,12 @@
 ---
 title: Custom mapping
-layout: page
+description: Replace or extend the default behaviour of a controller with the mapping and merge_mapping parameters.
 ---
 
-We can make use of the attribute `mapping` to overwrite completely the behaviour of our default controller, or `merge_mapping` to overwrite just the specified events. The content of both work the same way:
+We can use the `mapping` attribute to completely override the default behaviour of a controller, or `merge_mapping` to override just the specified events and keep the rest of the default mapping. Both work the same way:
 
-- **key**: The event to get fired from the controller. You can check these events in the individual pages from the [supported controllers](/controllerx/controllers). Note that they change depending on the controller and the integration (z2m, deconz, zha). [Mutliple click functionality](multiple-clicks) can be configured in the `key` part.
-- **value**: An [action type](action-types) or a list of them. This is/are the action(s) to be executed when the event (`key`) is fired.
+- **key**: The event fired by the controller. You can check these events in the page of each device in [supported controllers](../controllers/index.md). Note that they change depending on the controller and the integration (z2m, deconz, zha). The [multiple clicks functionality](multiple-clicks.md) can be configured in the `key` part.
+- **value**: An [action type](action-types.md) or a list of them. These are the actions executed when the event (`key`) is fired.
 
 Let's see an example:
 
@@ -24,7 +24,7 @@ example_app:
       - scene: scene.night
       - service: notify.telegram
         data:
-          message: "off" clicked
+          message: '"off" clicked'
 ```
 
-In this example, the `key` is `"off"` (extracted from the Zigbee2MQTT mapping of the [E1743 IKEA controller](/controllerx/controllers/E1743#light)) and the value is a list of 2 action types: one to activate an scene and the other to send a message through HA call service.
+In this example, the `key` is `"off"` (extracted from the Zigbee2MQTT mapping of the [E1743 IKEA controller](../controllers/E1743.md#light)) and the value is a list of 2 action types: one to activate a scene and the other to send a message through a HA service call.

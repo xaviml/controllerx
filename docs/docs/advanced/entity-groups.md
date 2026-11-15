@@ -1,13 +1,13 @@
 ---
 title: Entity groups
-layout: page
+description: How ControllerX controls groups of entities (Group and Light Group integrations) and which entity it reads the attributes from.
 ---
 
 _This is supported since ControllerX v4.14.0_
 
-ControllerX allow for Entity Controllers (LightController, MediaPlayerController, CoverController, etc) to work with grouped entities.
+ControllerX allows entity controllers (LightController, MediaPlayerController, CoverController, etc.) to work with grouped entities.
 
-All is needed is an entity with `entity_id` attribute with a list of entities controlled by the grouped entity. For example, we can use a group entity from [Group Integration](https://www.home-assistant.io/integrations/group/), or from [Light Group Integration](https://www.home-assistant.io/integrations/light.group/). ControllerX will read attribute from the main entity (the first one from the list), but will run the actions on the grouped entity.
+All that is needed is an entity with an `entity_id` attribute containing the list of entities controlled by the group. For example, we can use a group entity from the [Group integration](https://www.home-assistant.io/integrations/group/), or from the [Light Group integration](https://www.home-assistant.io/integrations/light.group/). ControllerX reads the attributes from the main entity (the first one in the list), but runs the actions on the grouped entity.
 
 Let's imagine we have a Light Group entity (`light.livingroom`):
 
@@ -21,7 +21,7 @@ light:
       - light.livingroom_3
 ```
 
-Then, we could for example configure the following in apps.yaml file:
+Then, we could configure the following in the `apps.yaml` file:
 
 ```yaml
 example_app:
@@ -34,6 +34,6 @@ example_app:
   light: light.livingroom
 ```
 
-`light.livingroom_1` will be the main light that ControllerX will read from, but `light.livingroom` will be the grouped entity that ControllerX will perform the actions.
+`light.livingroom_1` will be the main light that ControllerX reads from, but `light.livingroom` will be the grouped entity that ControllerX performs the actions on.
 
-For example, if `light.livingroom_1` does not support `brightness`, but `light.livingroom_2` and `light.livingroom_3` do, then the configuration will not work because ControllerX will not be able to read `brightness` attribute from `light.livingroom_1`.
+For example, if `light.livingroom_1` does not support `brightness`, but `light.livingroom_2` and `light.livingroom_3` do, then the configuration will not work because ControllerX will not be able to read the `brightness` attribute from `light.livingroom_1`.

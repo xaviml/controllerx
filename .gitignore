@@ -136,3 +136,6 @@ dmypy.json
 # Project
 apps.yaml
 appdaemon.yaml
+
+# Generated device pages (docs/gen_device_pages.py)
+docs/docs/controllers/

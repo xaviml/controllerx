@@ -1,0 +1,66 @@
+name: Publish documentation
+
+on:
+  # Manual trigger from the GitHub UI (Actions > Publish documentation > Run workflow)
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch, tag or SHA to build the docs from (empty = the branch selected above)"
+        required: false
+        default: ""
+        type: string
+  # Called from cicd.yaml after a code release (tag push)
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-docs
+  cancel-in-progress: false
+
+jobs:
+  publish_doc:
+    name: Publish documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install poetry
+        uses: snok/install-poetry@v1.4
+        with:
+          version: 1.4.0
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          virtualenvs-path: "{project-dir}/.venv"
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v5
+        with:
+          path: .venv
+          key: docs-venv-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install --only main,docs
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      - name: Build docs
+        run: |
+          cd docs
+          poetry run python gen_device_pages.py
+          poetry run zensical build --clean
+      - name: Publish docs
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/site
+          publish_branch: gh-pages
+          force_orphan: true

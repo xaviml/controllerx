@@ -1,13 +1,13 @@
 ---
 title: Examples
-layout: page
+description: Real ControllerX configuration examples, from basic setups to advanced custom mappings, multiple clicks and templating.
 ---
 
-The purpose of this page is to show some real examples for the configuration. These are configurations placed in your [`apps.yaml`](/controllerx/start/configuration)
+This page shows some real configuration examples. These configurations are placed in your [`apps.yaml`](../start/configuration.md).
 
 ## Basic
 
-E1524/E1810 controller with z2m event entities that controls all the livingroom lights.
+E1524/E1810 controller with z2m event entities that controls all the living room lights.
 
 ```yaml
 livingroom_controller:
@@ -33,7 +33,7 @@ office_light:
   light: light.office
 ```
 
-Controlling a media player with E1744 with deCONZ:
+Controlling a media player with the E1744 and deCONZ:
 
 ```yaml
 bedroom_speaker:
@@ -44,7 +44,7 @@ bedroom_speaker:
   media_player: media_player.bedroom_speaker
 ```
 
-Controlling a light (just on/off) with E1743 with ZHA:
+Controlling a light (just on/off) with the E1743 and ZHA:
 
 ```yaml
 bedroom_light:
@@ -58,7 +58,7 @@ bedroom_light:
     - "off"
 ```
 
-Controlling two lights with Aqara double key wireless switch (z2m):
+Controlling two lights with the Aqara double key wireless switch (z2m):
 
 ```yaml
 controller_left_switch:
@@ -90,7 +90,7 @@ controller_right_switch:
     - right_long
 ```
 
-Controlling just the color with E1810 and z2m because toggle and brightness is controlled with zigbee groups.
+Controlling just the color with the E1810 and z2m, because toggle and brightness are controlled with Zigbee groups.
 
 ```yaml
 example_app:
@@ -110,7 +110,7 @@ example_app:
     - arrow_left_click
 ```
 
-Controlling a simple light with Lutron Caseta Pro Pico, but giving the light a slower transition of 800ms:
+Controlling a simple light with the Lutron Caseta Pro Pico, but giving the light a slower transition of 800ms:
 
 ```yaml
 example_app:
@@ -122,13 +122,13 @@ example_app:
   transition: 800
 ```
 
-Hue Bridge HA integration for the lights and z2m for E1810 IKEA controller.
+Hue Bridge HA integration for the lights and z2m for the E1810 IKEA controller.
 
 ```yaml
 hallway_light_group_no_toggle:
   # all actions, but toggle/hold for smooth operation with light groups on Hue Bridge
   # use HA groups to control dimming and color/color temp change
-  # use Hue bridge light group for even and syncronized on/off function
+  # use Hue bridge light group for even and synchronized on/off function
   module: controllerx
   class: E1810Controller
   controller: "x90fd9ffffe17d796"
@@ -154,7 +154,7 @@ hallway_light_group_no_toggle:
 
 hallway_light_group_toggle:
   # toggle/hold for smooth operation with light groups on Hue Bridge
-  # use Hue bridge light group for even and syncronized on/off function
+  # use Hue bridge light group for even and synchronized on/off function
   module: controllerx
   class: E1810Controller
   controller: "x90fd9ffffe17d796"
@@ -168,7 +168,7 @@ hallway_light_group_toggle:
     - toggle_hold
 ```
 
-Regular use of E1743 controller for a light, but delaying the `off` action for 10 seconds. The use case could be for when we have a switch at the beginning of the corridor and we do not want the light to turn off until a certain period of time.
+Regular use of the E1743 controller for a light, but delaying the `off` action by 10 seconds. A use case could be a switch at the beginning of a corridor, where we do not want the light to turn off until some time has passed.
 
 ```yaml
 corridor_controller:
@@ -181,7 +181,7 @@ corridor_controller:
     2002: 10
 ```
 
-Using a xy color light bulb as a color temperature one when it does support it.
+Using an xy color light bulb as a color temperature one when it supports color temperature.
 
 ```yaml
 office:
@@ -196,7 +196,7 @@ office:
     color_mode: color_temp
 ```
 
-Using a xy color light bulb as a color temperature one when it does NOT support it.
+Using an xy color light bulb as a color temperature one when it does NOT support color temperature.
 
 ```yaml
 office:
@@ -210,7 +210,7 @@ office:
 
 ## Advanced
 
-Controlling different lights with the same controller depending where you are.
+Controlling different lights with the same controller depending on where you are.
 
 ```yaml
 livingroom_controller:
@@ -279,7 +279,7 @@ all_lights_controller:
     1002: "off"
 ```
 
-Extending the functionality of the smooth power onfor the E1810, so when clicked or hold each button when the light is off, it sets the light to its minimum or maximum brightness or color, depending on the button pressed. This assumes you have a light with support to color temperature.
+Extending the smooth power on functionality of the E1810, so when each button is clicked or held while the light is off, it sets the light to its minimum or maximum brightness or color, depending on the button pressed. This assumes you have a light that supports color temperature.
 
 ```yaml
 livingroom_light_on:
@@ -313,7 +313,7 @@ livingroom_light_off:
   constrain_input_boolean: light.livingroom,off
 ```
 
-Customising Aqara magic cube with deCONZ. The key values were extracted from the deCONZ section in [here](/controllerx/controllers/MFKZQ01LM) and the values were extracted from the [predefined media player action list](/controllerx/advanced/predefined-actions#media-player).
+Customising the Aqara magic cube with deCONZ. The keys were extracted from the deCONZ column of its [device page](../controllers/MFKZQ01LM.md), and the values from the [predefined media player action list](../advanced/predefined-actions.md#media-player).
 
 ```yaml
 example_app:
@@ -332,7 +332,7 @@ example_app:
     4: previous_track # Flip180
 ```
 
-Customising Aqara magic cube with z2m. This makes use of the `mapping` attribute to turn on different HA scenes.
+Customising the Aqara magic cube with z2m. This uses the `mapping` attribute to turn on different HA scenes.
 
 ```yaml
 cube_bedroom:
@@ -357,7 +357,7 @@ cube_bedroom:
         entity_id: scene.bedroom3
 ```
 
-Customising WXKG01LM de Aqara. We want to toggle the light and turn it on always to brightness 20 (min: 0, max: 255). For this we create one instance app configuration for the default behaviour of the controller, but excluding `single` which toggles the light. Then we create a custom controller with the `mapping` attribute to give a behaviour to the `single` action.
+Customising the Aqara WXKG01LM. We want to toggle the light, always turning it on with brightness 20 (min: 0, max: 255). For this, we create one app configuration for the default behaviour of the controller, excluding `single`, which toggles the light. Then, we create a custom controller with the `mapping` attribute to give a behaviour to the `single` action.
 
 ```yaml
 mando_aqara_salon:
@@ -376,7 +376,7 @@ mando_aqara_salon:
         brightness: 20
 ```
 
-Customising the E1810 to invert the click and hold actions and control a group of sonos devices. By default it skips track when pressing, whit this it skips source by pressing.
+Customising the E1810 to invert the click and hold actions and control a group of Sonos devices. By default, it skips the track when pressing; with this configuration, it skips the source instead.
 
 ```yaml
 sonos_speaker:
@@ -401,7 +401,7 @@ sonos_speaker:
     arrow_left_hold: previous_track
 ```
 
-This next configuration shows the use of multiple click functionality, and `merge_mapping`. We want to use the E1810 for a light (`light.light1`) and toggle another light (`light.light2`) when clicking twice the toggle button. We could do this in one application configuration as you can see in the [multiple click page](/controllerx/advanced/multiple-clicks), but we will do it separatelly to show that the first config needs to change the toggle for `toggle$1` to be detected as a multiple-clickable action, otherwise when the center button is clicked twice, it will also toggle `light.light1`.
+The next configuration shows the use of the multiple clicks functionality and `merge_mapping`. We want to use the E1810 for a light (`light.light1`), and toggle another light (`light.light2`) when clicking the toggle button twice. We could do this in one app configuration, as you can see in the [multiple clicks page](../advanced/multiple-clicks.md), but we will do it separately to show that the first configuration needs to change `toggle` to `toggle$1`, so it is detected as a multiple-clickable action. Otherwise, when the center button is clicked twice, it will also toggle `light.light1`.
 
 ```yaml
 example_app_1:
@@ -427,14 +427,14 @@ example_app_2:
     toggle$2: toggle
 ```
 
-The following configuration is a tricky one, but at the same time it also shows the power of ControllerX to adapt to any use case. Imagine we want the following for our Symfonisk controller (E1744) with deCONZ:
+The following configuration is a tricky one, but it also shows the power of ControllerX to adapt to any use case. Imagine we want the following for our Symfonisk controller (E1744) with deCONZ:
 
 - 1 click: Toggle light on/off.
-- 2 click: Toggle between (pre-defined) Warm - and Cold-White.
-- 3 click: "switch to alternate behavior" - instead of the default dimming-behavior when turning left/right - change color-temperature by turning turning left makes light colder (more blueish) and right make it warmer (more reds).
-- rotate left/right: This will depend on the state when clicking 3 times.
+- 2 clicks: Toggle between (predefined) warm and cold white.
+- 3 clicks: "Switch to alternate behavior". Instead of the default dimming behavior when turning left/right, it changes the color temperature: turning left makes the light colder (more blueish) and turning right makes it warmer (more reddish).
+- Rotate left/right: This depends on the state set when clicking 3 times.
 
-Assuming you have created the following input_booleans in HA (`input_boolean.light_mode`, `input_boolean.light_colortemp_mode`) we can use the following configuration:
+Assuming you have created the following input booleans in HA (`input_boolean.light_mode`, `input_boolean.light_colortemp_mode`), we can use the following configuration:
 
 ```yaml
 example_app:
@@ -507,7 +507,7 @@ example_app5:
         entity_id: input_boolean.light_mode
 ```
 
-The following example shows the potential of templating render. Let's say we want to execute different [predefined actions](advanced/predefined-actions) every time we click a button (E1810 in this case). First, we can create an input select through UI or YAML in HA:
+The following example shows the potential of [templating](../advanced/templating.md). Let's say we want to execute different [predefined actions](../advanced/predefined-actions.md) every time we click a button (E1810 in this case). First, we can create an input select through the UI or YAML in HA:
 
 ```yaml
 input_select:
@@ -518,9 +518,7 @@ input_select:
       - set_half_brightness
 ```
 
-Then we can define the following ControllerX config to change the option of the input_select and apply the predefined action that is selected:
-
-{% set special = "{{ states('input_select.light_state') }}" %}
+Then, we can define the following ControllerX configuration to change the option of the input select and apply the selected predefined action:
 
 ```yaml
 example_app:
@@ -536,5 +534,5 @@ example_app:
       - service: input_select.select_next
         data:
           entity_id: input_select.light_state
-      - action: "{{ special }}"
+      - action: "{{ states('input_select.light_state') }}"
 ```

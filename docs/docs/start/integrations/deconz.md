@@ -1,23 +1,23 @@
 ---
 title: deCONZ
-layout: page
+description: Configure ControllerX with deCONZ (deconz_event) and find the controller ID of your device.
 ---
 
-ControllerX listens to `deconz_event` events and actions get fired by default with the `event` attribute from the `data` object. However, you can change the attribute to listen to by adding a `type` attribute. In addition, you can select which attribute to listen to (`id` or `unique_id`) with `listen_to`.
+This integration (**`deconz`**) listens to `deconz_event` events, and the action is taken by default from the `event` attribute of the `data` object. You can change the attribute that contains the action with the `type` parameter. In addition, you can select which attribute identifies the controller (`id` or `unique_id`) with `listen_to`.
 
 ## Parameters
 
 | Parameter   | Description                                                 | Default  |
 | ----------- | ----------------------------------------------------------- | -------- |
 | `name`\*    | Integration name.                                           | `deconz` |
-| `listen_to` | Selects which attribute to listen to (`id` or `unique_id`). | `id`     |
-| `type`      | The attribute to listen to.                                 | `event`  |
+| `listen_to` | Attribute that identifies the controller (`id` or `unique_id`). | `id`     |
+| `type`      | Attribute that contains the action.                         | `event`  |
 
 _\* Required fields_
 
 ## How to extract the `controller` attribute
 
-To extract the controller ID for deCONZ, you can go to `Developer Tools > Events` then down the bottom you can subscribe for `deconz_event` and start listening. Then, press any button and you will see the event of the button, you will need to copy the `id` inside the `data` object.
+To find the controller ID for deCONZ, go to `Developer Tools > Events`, subscribe to `deconz_event` at the bottom of the page and start listening. Then, press any button on the controller and copy the `id` from the `data` object of the event.
 
 ## Example
 

@@ -10,13 +10,13 @@ poetry shell
 pre-commit install
 ```
 
-_Note: I recommend working with Python 3.11 since is the minimum version supported._
+_Note: I recommend working with Python 3.11, since it is the minimum supported version._
 
 ## Adding a new controller
 
-New controllers need to be added into the `apps/controllerx/cx_devices/` and you will need to define the mapping for the integration you are adding support to.
+New controllers need to be added to `apps/controllerx/cx_devices/`, and you will need to define the mapping for the integration you are adding support for.
 
-The controller will be added to the documentation automatically, but a JPEG will need to be added to `docs/docs/assets/controllers`. You can easily find the model (for picture) in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html). Check [here](#documentation) to know how to run the documentation locally.
+The controller will be added to the documentation automatically, but a JPEG named after the device (e.g. `E1743.jpeg`) needs to be added to `docs/docs/assets/controllers`. If you create a new file in `cx_devices/` for a new manufacturer, add its display name to `MANUFACTURERS` in `docs/main.py`, and if the device needs extra explanations, add them to `docs/notes.yaml`. You can easily find the model (for picture) in the [Zigbee2MQTT supported devices page](https://www.zigbee2mqtt.io/information/supported_devices.html). Check [here](#documentation) to know how to run the documentation locally.
 
 The class name convention should be `Device Model (No special characters) + Type + Controller`. For example, for a new light controller for E1743, the class name should be `E1743LightController`. Take into account that there are some old controllers that do not follow this convention.
 
@@ -56,7 +56,7 @@ or the following to get a report of the missing lines to be tested:
 pytest --cov-report term-missing --cov=apps
 ```
 
-## Commiting
+## Committing
 
 You can use the tool `commitizen` to commit based in a standard. If you are in the virtual environment, you can run `cz commit` and answer the questions to commit.
 
@@ -64,14 +64,19 @@ If the commit adds new functionality or fixes something, please add the changes 
 
 ## Documentation
 
-[Material for MkDocs](https://squidfunk.github.io/mkdocs-material) is used for documentation. If depedencies are installed with poetry, the following can be executed to get the documentation running locally:
+[Zensical](https://zensical.org) is used for documentation (it reads the existing `docs/mkdocs.yml`). If dependencies are installed with poetry, the following can be executed to get the documentation running locally:
 
 ```shell
 cd docs
-poetry run mkdocs serve
+poetry run python gen_device_pages.py
+poetry run zensical serve
 ```
 
 Then, open http://127.0.0.1:8000/controllerx/ in the browser.
+
+The supported controllers pages (`docs/docs/controllers/`) are generated from the code by `gen_device_pages.py` and are not committed: the catalogue (`index.md`), one page per device and `devices.json` (used by the configuration builder and AI tools). Re-run the script after adding or changing a controller to see the changes.
+
+Use relative links to the Markdown files (e.g. `[configuration](../start/configuration.md)`), so the build can check them. `poetry run zensical build --strict` fails on broken links and anchors. The predefined actions documented in `docs/docs/advanced/predefined-actions.md` are checked against the code by `tests/unit_tests/docs_test.py`.
 
 ## Pull Request
 
@@ -141,7 +146,7 @@ git fetch $USERNAME $BRANCH
 git checkout -b $USERNAME-$BRANCH $USERNAME/$BRANCH
 ```
 
-Do your changes and once the changes are commited, you can push with the following command:
+Do your changes and once the changes are committed, you can push with the following command:
 
 ```shell
 git push $USERNAME HEAD:$BRANCH
@@ -149,7 +154,7 @@ git push $USERNAME HEAD:$BRANCH
 
 ## Deployment
 
-Thanks to the GitHub Actions, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
+Thanks to the GitHub Actions, we are able to deploy by just creating a new tag on git. Before proceeding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
 
 We use `commitizen` to bump version. Once we are ready to release, we can bump the version and push the tag:
 

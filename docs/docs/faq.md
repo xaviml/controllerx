@@ -1,13 +1,13 @@
 ---
-layout: page
 title: Frequently asked questions (FAQ)
+description: Answers to the most common ControllerX problems, like configuration not working, lights not stopping when holding and laggy controllers.
 hide:
   - navigation
 ---
 
 #### 1. I placed the configuration in configuration.yaml and it doesn't work
 
-ControllerX depends on AppDaemon and all the configuration for AppDaemon apps goes to `apps.yaml` in the AppDaemon apps folder (see [Installation](/controllerx/start/installation)) and not `/config/configuration.yaml`.
+ControllerX depends on AppDaemon, and all the configuration for AppDaemon apps goes into `apps.yaml` in the AppDaemon apps folder (see [Installation](start/installation.md)) and not `/config/configuration.yaml`.
 
 #### 2. I updated ControllerX to a new version and it does not work
 
@@ -15,49 +15,49 @@ If you installed ControllerX manually, the AppDaemon app (or server) needs to be
 
 #### 3. I properly configured E1744 (symfonisk) with z2m but it doesn't work
 
-From the zigbee2mqtt documentation is recommended to set the `debounce` attribute. However, when set it does not send an empty state and the state of the controller stays active instead of being removed. This causes problems to ControllerX, so if you want to use this controller, I recommend to remove the `debounce` attribute since ControllerX handles repeated events by itself already.
+The Zigbee2MQTT documentation recommends setting the `debounce` attribute. However, when it is set, the controller does not send an empty state, and its state stays active instead of being removed. This causes problems for ControllerX, so if you want to use this controller, I recommend removing the `debounce` attribute, since ControllerX already handles repeated events by itself.
 
 #### 4. I have a group of lights and it does not work properly
 
-Please see [here](/controllerx/advanced/entity-groups) to understand how grouped entities work.
+Please read [entity groups](advanced/entity-groups.md) to understand how grouped entities work.
 
 #### 5. Error: "Value for X attribute could not be retrieved from light Y"
 
-This error is shown when the light has support for the X attribute (e.g. brightness or color_temp) and the attribute is not in the state attribute of the entity. You can check whether the attribute X is shown in the state attributes from the "Developer Tools > States".
+This error is shown when the light supports the X attribute (e.g. brightness or color_temp), but the attribute is not in the state attributes of the entity. You can check whether the attribute X is shown in the state attributes in "Developer Tools > States".
 
 #### 6. Light is not turning on to the previous brightness
 
-Zigbee does not support transition natively to lights, so this attribute depends on the integration you have installed for your light. ControllerX by default adds transition when changing brightness or color, but not when turning on/off the light. So if this is happening to you it might be because `add_transition_turn_toggle: true` is added in your controller configuration. These are the issues created related to this problem on the different integrations:
+Zigbee does not support transitions natively for lights, so this depends on the integration you use for your light. By default, ControllerX adds a transition when changing the brightness or color, but not when turning the light on/off. So if this is happening to you, it might be because `add_transition_turn_toggle: true` is set in your controller configuration. These are the issues related to this problem in the different integrations:
 
 - [Zigbee2MQTT](https://github.com/Koenkk/zigbee-herdsman-converters/issues/1073) (FIXED)
 - [Hue integration](https://github.com/home-assistant/core/issues/32894) (CLOSED, but not fixed)
 
 #### 7. When holding or rotating the controller (especially the Symfonisk - E1744), it doesn't stop changing the brightness or volume
 
-This is a known issue that cannot be fixed in the code. Controllers with holding-release functionality fire 2 events, one when the holding/rotation starts and another when it stops rotating or is released. What ControllerX does for you is send periodically requests to HA via call services to update your brightness, volume, etc.
+This is a known issue that cannot be fixed in the code. Controllers with hold-release functionality fire 2 events: one when the holding/rotation starts and another one when it stops rotating or is released. In between, ControllerX periodically calls HA services to update your brightness, volume, etc. (see [how it works](index.md#how-it-works)).
 
-This is probably happenning to you sometimes and is because the stop/release action has not been fired. This can happen due to:
+If this happens to you sometimes, it is because the stop/release action has not been received. This can happen because:
 
-- A rotation is too fast and confusing to know if it stopped or not.
+- The rotation is too fast, so the controller cannot tell whether it stopped or not.
 - The network is overloaded.
 - The server cannot handle the requests on time.
-- The controller and the light are far distanced from the coordinator.
+- The controller and the light are far away from the coordinator.
 
-However, these are some actions you can take to overcome this problem and reduce the number of times that this happens:
+However, these are some things you can do to reduce how often this happens:
 
-- If `release` action is sent at a similar time than a `hold` one, you could use [`release_delay` attribute](/controllerx/start/type-configuration/?h=release_delay#light-controller) to execute `release` actions some amount of time defined after they have been fired. For example: `release_delay: 0.01` (time in seconds).
-- If using z2m, change the integration to listen MQTT directly, this way it will avoid the HA state machine layer. Read more about in [here](/controllerx/start/integrations/zigbee2mqtt).
-- If using deCONZ and you just want to dim your lights smoothly, then you can consider using [this AppDaemon app](https://github.com/Burningstone91/Hue_Dimmer_Deconz) from [_@Burningstone91_](https://github.com/Burningstone91). It brightens/dims your lights with a deCONZ calls instead of calling HA periodically, this means that deCONZ would handle the dimming for you.
-- Play around with delay (default is 350ms) and automatic_steps (default is 10) attributes. You can read more about them in [here](/controllerx/start/type-configuration#light-controller). The lower the delay is, the more requests will go to HA. The more automatic_steps, the more steps it will take to get from min to max, and vice versa.
+- If the `release` action is sent at almost the same time as the `hold` one, you can use the [`release_delay` attribute](start/type-configuration.md#light-controller) to delay `release` actions by some time after they are fired. For example: `release_delay: 0.01` (time in seconds).
+- If using z2m, change the integration to listen to MQTT directly, so it avoids the HA state machine layer. Read more about it [here](start/integrations/zigbee2mqtt.md).
+- If using deCONZ and you just want to dim your lights smoothly, then you can consider using [this AppDaemon app](https://github.com/Burningstone91/Hue_Dimmer_Deconz) from [_@Burningstone91_](https://github.com/Burningstone91). It brightens/dims your lights with deCONZ calls instead of calling HA periodically, which means that deCONZ handles the dimming for you.
+- Play around with the `delay` (default is 350ms) and `automatic_steps` (default is 10) attributes. You can read more about them [here](start/type-configuration.md#light-controller). The lower the delay, the more requests are sent to HA. The higher `automatic_steps`, the more steps it takes to get from min to max, and vice versa.
 - Add more Zigbee routers to the network.
 
 #### 8. Symfonisk controller (E1744) is not working with Zigbee2MQTT integration
 
-Do you have a configuration that seems to be right, but is not working? Well, the default mapping for E1744 has the actions of the new implementation in Zigbee2MQTT for this controller. For this, you will need to [deactivate the legacy mode](https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration) for this controller in Zigbee2MQTT. If you have the Zigbee2MQTT app, you will have a file in `/share/zigbee2mqtt/devices.yaml` with the device-specific configuration. You will need to add `legacy: false` to your E1744 controller as shown in the Zigbee2MQTT documentation. With this the problem will be solved once Zigbee2MQTT is restarted. While I have you here reading this, I strongly recommend to you to check the FAQ#9 if you are having slowness issues with your controller.
+Do you have a configuration that seems to be right, but is not working? The default mapping for E1744 uses the actions of the new (non-legacy) Zigbee2MQTT implementation for this controller, so you will need to [deactivate the legacy mode](https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration) for this controller in Zigbee2MQTT. If you use the Zigbee2MQTT app, the device-specific configuration is in `/share/zigbee2mqtt/devices.yaml`. Add `legacy: false` to your E1744 controller as shown in the Zigbee2MQTT documentation, and restart Zigbee2MQTT. While you are here, I strongly recommend checking [FAQ #9](#9-symfonisk-controller-e1744-works-but-pretty-laggy) if your controller feels slow.
 
 #### 9. Symfonisk controller (E1744) works, but pretty laggy
 
-If you are using the `sensor` entity as your controller, then I recommend you to change this configuration to listen from MQTT directly instead of HA. For this, you will need to change your controller configuration (`apps.yaml`) and your AppDaemon configuration (`appdaemon.yaml`). Your new controller configurtion will look like this:
+If you are using the `sensor` entity as your controller, I recommend changing the configuration to listen to MQTT directly instead of HA. For this, you will need to change your controller configuration (`apps.yaml`) and your AppDaemon configuration (`appdaemon.yaml`). Your new controller configuration will look like this:
 
 ```yaml
 example_app:
@@ -70,4 +70,4 @@ example_app:
   media_player: media_player.my_media_player
 ```
 
-Notice how we added the `listen_to` attribute and change the `controller` to the Zigbee2MQTT friendly name. Finally, you will also need to have the [MQTT plugin enabled](/controllerx/others/enable-mqtt-plugin).
+Notice how we added the `listen_to` attribute and changed the `controller` to the Zigbee2MQTT friendly name. Finally, you will also need to have the [MQTT plugin enabled](others/enable-mqtt-plugin.md).

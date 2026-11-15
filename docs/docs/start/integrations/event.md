@@ -1,9 +1,9 @@
 ---
 title: Event
-layout: page
+description: Use the event integration to trigger ControllerX actions from any custom Home Assistant event.
 ---
 
-The `event` integration is meant to be used for a custom event and it is not attached to any type of integration.
+The `event` integration is meant to be used with any custom Home Assistant event, so it is not tied to a specific integration.
 
 ## Parameters
 
@@ -18,6 +18,6 @@ _\* Required fields_
 
 ### How to extract the `controller` attribute
 
-To extract the controller ID for Event, you can go to `Developer Tools > Events` then down the bottom you can subscribe for the event type you are interested in and start listening. Then, press any button and you will see the event of the button, you will need to copy the relevant attribute inside the `data` object.
+To find the controller ID for Event, go to `Developer Tools > Events`, subscribe to the event type you are interested in at the bottom of the page and start listening. Then, press any button on the controller and copy the relevant attribute from the `data` object of the event.
 
-For further explanation and example, please check [here](/controllerx/advanced/event-integration).
+For further explanation and examples, check [here](../../advanced/event-integration.md).

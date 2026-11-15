@@ -1,19 +1,19 @@
 ---
 title: Tasmota - Control an RGB light with two buttons
-layout: page
+description: Control an RGB light with a Tasmota device with two buttons, using single, double and triple presses and holds.
 ---
 
 **Updated November, 2022.**
 
-### CONTROL A SINGLE RGB LIGHT USING A TASMOTA DEVICE WITH TWO BUTTONS
+### Control a single RGB light using a Tasmota device with two buttons
 
-This example shows how to control an RGB light using the `Button1` to decrease brightness, color temperature, and color, and the `Button2` to decrease brightness, color temperature, and color.
-For that, and as explained in the [docs](https://xaviml.github.io/controllerx/controllers/TasmotaButton/), you should set `SetOption73 1` to detach the buttons from the relays you might have, and to make the device to publish MQTT messages instead.
+This example shows how to control an RGB light using the `Button1` to decrease brightness, color temperature, and color, and the `Button2` to increase brightness, color temperature, and color.
+For that, and as explained in the [docs](../controllers/TasmotaButton.md), you should set `SetOption73 1` to detach the buttons from the relays you might have, and to make the device publish MQTT messages instead.
 
 #### Motivation
 
 In most of my rooms, I have a Sonoff Mini behind the switch in the wall, connected to one or more Zigbee RGB bulbs. Then, I replaced the wall switches with double push buttons of the same brand and model (to keep aesthetics and have my wife's approval). The Sonoff Mini allows connecting a button to the terminal header, plus another button to GPIO16 on the board itself through a pin header used to activate the DIY mode, so I connected those two buttons to the Sonoff so I can control the bulbs without cutting the power when the switch is toggled.
-I use the left button as `Button1`and the right button as `Button2`.
+I use the left button as `Button1` and the right button as `Button2`.
 
 #### Requirements
 

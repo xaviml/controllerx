@@ -16,9 +16,9 @@ _This minor change does not contain any breaking changes._
 - [XYZ](https://BASE_URL/controllerx/controllers/XYZ) - add device with Z2M support. [ #123 ]
 -->
 
-<!--
 ## :hammer: Fixes
--->
+
+- Z2M - log at debug level instead of warning when the action key is not in the MQTT payload. [ #1320 ] @mietzen
 
 <!--
 ## :scroll: Docs

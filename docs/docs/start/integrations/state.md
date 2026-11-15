@@ -1,9 +1,9 @@
 ---
 title: State
-layout: page
+description: Use the state integration to trigger ControllerX actions from the state or attribute changes of any Home Assistant entity.
 ---
 
-This integration (**`state`**) listens for the state of a sensor and the action is fired with the changed event. You can add `attribute` parameter if you want to listen to state change on the state attribute level. Read more about the options in [here](https://appdaemon.readthedocs.io/en/latest/AD_API_REFERENCE.html#appdaemon.adapi.ADAPI.listen_state).
+This integration (**`state`**) listens to the state changes of an entity, and the new state is used as the action. Add the `attribute` parameter if you want to listen to the changes of an attribute instead. Read more about the options [here](https://appdaemon.readthedocs.io/en/latest/AD_API_REFERENCE.html#appdaemon.adapi.ADAPI.listen_state).
 
 ## Parameters
 
@@ -16,7 +16,7 @@ _\* Required fields_
 
 ## How to extract the `controller` attribute
 
-To extract the controller ID for State, you can go to `Developer Tools > States` and find the entity id of the sensor you want to use.
+To find the controller ID for State, go to `Developer Tools > States` and find the entity ID of the sensor you want to use.
 
 ## Example
 

@@ -1,18 +1,18 @@
 ---
 title: SONOS/SYMFONISK Examples
-layout: page
+description: Control a single Sonos/SYMFONISK speaker or a dynamic Sonos group with ControllerX.
 ---
 
-![Three different Sonos displays](/controllerx/assets/tutorials/sonos_displays_2.jpg)
+![Three different Sonos displays](../assets/tutorials/sonos_displays_2.jpg)
 
 ### SONOS/SYMFONISK single speaker
 
-ControllerX can 'out of the box' control single speakers with following small app setup.
+ControllerX can control single speakers 'out of the box' with the following small app setup.
 Supports:
 
 - Toggle play/pause, volume up/down, previous/next song (in playlist) and previous/next favourites from Sonos app (source list).
 
-This favourites list can consist of both radio stations, playlists, podcasts etc. Source list is 'circular'. Meaning that choosing next when at last source in list, will skip to first source in list - and vice versa.
+This favourites list can consist of both radio stations, playlists, podcasts etc. The source list is 'circular', meaning that choosing next when at the last source in the list will skip to the first one, and vice versa.
 
 ```yaml
 office_sonos_controller:
@@ -28,24 +28,20 @@ office_sonos_controller:
 
 ### SONOS/SYMFONISK groups
 
-ControllerX supports Sonos groups as well. If media_player in app is set to a group, then ControllerX will read the Sonos source list from FIRST entity_id in group. So this has to be your chosen main speaker! This setup will work perfectly, if you only use static groups that are never altered (via Sonos app/HA or otherwise). But if your Sonos group alters through the day (other family members redefines group speakers to their liking), you need a dynamic group setting.
+ControllerX supports Sonos groups as well. If `media_player` in the app is set to a group, ControllerX will read the Sonos source list from the FIRST `entity_id` in the group. So this has to be your chosen main speaker! This setup will work perfectly, if you only use static groups that are never altered (via Sonos app/HA or otherwise). But if your Sonos group changes through the day (other family members redefine the group speakers to their liking), you need a dynamic group setting.
 
 This can easily be achieved by adding only one sensor and one small automation to your HA configuration.
 
 #### HA configuration.yaml
 
-{% set special = "{{ state_attr('media_player.office', 'sonos_group') }}" %}
-
 ```yaml
 - platform: template
   sensors:
     sonos_main_group_entities:
-      value_template: "{{ special }}" #main speaker
+      value_template: "{{ state_attr('media_player.office', 'sonos_group') }}" #main speaker
 ```
 
 #### HA automation.yaml
-
-{% set special = "{{ state_attr('media_player.office', 'sonos_group') | join(',') }}" %}
 
 ```yaml
 id: dynamic_sonos_groups
@@ -57,7 +53,7 @@ action:
   - service: group.set
     data_template:
       object_id: sonos_all #name of sonos group in groups.yaml
-      entities: "{{ special }}" #main speaker
+      entities: "{{ state_attr('media_player.office', 'sonos_group') | join(',') }}" #main speaker
 ```
 
 #### HA groups.yaml
@@ -70,9 +66,9 @@ entities:
   - media_player.livingroom #passive speaker #2
 ```
 
-And with the following ControllerX configuration, you will be able to control the dynamic group in HA, which will be changed immediately if group is altered eg. from Sonos app. This app version below, has 'flipped' the arrow functions. So click will change source and hold will change previous/next song in playlist. This behaviour will most likely fit better for users that primarily uses favourites (radio stations).
+And with the following ControllerX configuration, you will be able to control the dynamic group in HA, which will be updated immediately if the group is changed, e.g. from the Sonos app. The app below has 'flipped' the arrow functions, so click changes the source and hold changes to the previous/next song in the playlist. This behaviour will most likely fit better for users that primarily use favourites (radio stations).
 
-#### Appdeamon apps.yaml
+#### AppDaemon apps.yaml
 
 ```yaml
 sonos_group:

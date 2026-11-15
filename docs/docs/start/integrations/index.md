@@ -1,39 +1,40 @@
 ---
 title: Integrations
-layout: page
+description: How ControllerX integrations work and which integrations are supported (Zigbee2MQTT, deCONZ, ZHA, Shelly, Tasmota, MQTT, state and custom events).
 ---
 
-Integrations are a way to abstract the logic from the event extraction in ControllerX. Each integration is responsible for listening to the state or event and decoding the events from controllers in a way that ControllerX understands.
+Integrations abstract how ControllerX receives the events from the controllers. Each integration is responsible for listening to a state, an event or an MQTT topic, and for decoding the controller events into actions that ControllerX understands.
 
 These are the integrations supported by ControllerX.
 
 ### Integrations with mappings
 
-These are integrations with default mapping for specific controllers.
+These integrations have a default mapping for specific controllers (see [supported controllers](../../controllers/index.md)).
 
 | Integration                                                      | Configuration value |
 | ---------------------------------------------------------------- | ------------------- |
-| [Zigbee2MQTT](/controllerx/start/integrations/zigbee2mqtt)       | `z2m`               |
-| [deCONZ](/controllerx/start/integrations/deconz)                 | `deconz`            |
-| [ZHA](/controllerx/start/integrations/zha)                       | `zha`               |
-| [Homematic](/controllerx/start/integrations/homematic)           | `homematic`         |
-| [Lutron Caséta](/controllerx/start/integrations/lutron_caseta)   | `lutron_caseta`     |
-| [Shelly](/controllerx/start/integrations/shelly)                 | `shelly`            |
-| [Shelly for HASS](/controllerx/start/integrations/shellyforhass) | `shellyforhass`     |
+| [Zigbee2MQTT](zigbee2mqtt.md)       | `z2m`               |
+| [deCONZ](deconz.md)                 | `deconz`            |
+| [ZHA](zha.md)                       | `zha`               |
+| [Homematic](homematic.md)           | `homematic`         |
+| [Lutron Caséta](lutron_caseta.md)   | `lutron_caseta`     |
+| [Shelly](shelly.md)                 | `shelly`            |
+| [Shelly for HASS](shellyforhass.md) | `shellyforhass`     |
+| [Tasmota](tasmota.md)               | `tasmota`           |
 
 ### Custom integrations
 
-These are integrations that do not require a default mapping. Designed for custom soltions.
+These integrations do not have a default mapping, so they are meant to be used with a [custom mapping](../../advanced/index.md).
 
 | Integration                                    | Configuration value |
 | ---------------------------------------------- | ------------------- |
-| [State](/controllerx/start/integrations/state) | `state`             |
-| [MQTT](/controllerx/start/integrations/mqtt)   | `mqtt`              |
-| [Event](/controllerx/start/integrations/event) | `event`             |
+| [State](state.md) | `state`             |
+| [MQTT](mqtt.md)   | `mqtt`              |
+| [Event](event.md) | `event`             |
 
 ## Example
 
-One could place the configuration name directly in the integration parameter:
+The integration name can be placed directly in the `integration` parameter:
 
 ```yaml
 example_app:
@@ -43,7 +44,7 @@ example_app:
   ...
 ```
 
-Or in the `name` parameter inside `integration` in case you want to add other integration parameters:
+Or in the `name` parameter inside `integration`, in case you want to add other integration parameters:
 
 ```yaml
 example_app:
@@ -51,5 +52,6 @@ example_app:
   ...
   integration:
     name: z2m
+    listen_to: mqtt
   ...
 ```

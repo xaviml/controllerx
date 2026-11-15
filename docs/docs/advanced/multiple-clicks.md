@@ -1,13 +1,13 @@
 ---
 title: Multiple clicks
-layout: page
+description: Trigger different actions on double, triple or more clicks of any controller button with the $ token in a ControllerX mapping.
 ---
 
-_This page assumes you already know how the [`mapping` attribute](../) works._
+_This page assumes you already know how the [`mapping` attribute](index.md) works._
 
-Some controllers allow events like double, triple (even quadruple) clicks, but others only allow single clicks events coming from the controller. This feature, then, allows you to virtually manage multiple clicks, especially for those single click events.
+Some controllers fire events for double, triple (or even quadruple) clicks, but others only fire single click events. This feature allows you to manage multiple clicks virtually, especially for those single click events.
 
-When adding a new custom mapping for your controller, you can use a new token (`$`) to indicate how many times an events needs to occur, so the action gets fired. Let's see an example:
+When adding a new custom mapping for your controller, you can use a token (`$`) to indicate how many times an event needs to occur for the action to be fired. Let's see an example:
 
 ```yaml
 example_app:
@@ -26,13 +26,13 @@ example_app:
     toggle$2: "off"
 ```
 
-This could be a silly example, but it is enough to remark some points about this feature. In this configuration we see 2 actions: `brightness_up_click` (not "multi-clickable") and `toggle` ("multi-clickable"). We also see an attribute called `multiple_click_delay`, which indicates the delay (in milliseconds and 500 by default) when a multiple click action should be trigger. Let's go over the next scenarios:
+This might be a silly example, but it is enough to highlight some points about this feature. In this configuration we see 2 actions: `brightness_up_click` (not "multi-clickable") and `toggle` ("multi-clickable"). We also see an attribute called `multiple_click_delay`, which indicates the delay (in milliseconds, 500 by default) before a multiple click action is triggered. Let's go over the following scenarios:
 
-- `brightness_up_click` is clicked once: The `on` action will be triggered immidiately, with no delay.
-- `toggle` is clicked once: The `click_color_up` action will be triggered after 500ms. Also noticed that `toggle` and `toggle$1` are basically the same, so if both are present, the one with the token (`$`) will be the prevalent. So `click_color_down` will never be called.
-- `toggle` is clicked twice (with less than 500ms between clicks): The `off` action will be triggered in 500ms after the second click.
+- `brightness_up_click` is clicked once: The `on` action will be triggered immediately, with no delay.
+- `toggle` is clicked once: The `click_color_up` action will be triggered after 500ms. Also note that `toggle` and `toggle$1` are basically the same, so if both are present, the one with the token (`$`) prevails. So `click_color_down` will never be called.
+- `toggle` is clicked twice (with less than 500ms between clicks): The `off` action will be triggered 500ms after the second click.
 
-This next example will show a real use of this feature with the E1810 controller from IKEA.
+The next example shows a real use of this feature with the E1810 controller from IKEA.
 
 ```yaml
 livingroom:
@@ -55,6 +55,6 @@ livingroom:
         entity_id: light.bedroom
 ```
 
-This will keep the default mapping for the E1810 controller by using `merge_mapping` and add a new action when clicking 2 and 3 times the middle button to toggle the fairylights and the bedroom lamp.
+This will keep the default mapping for the E1810 controller by using `merge_mapping` and add new actions when clicking the middle button 2 and 3 times, to toggle the fairy lights and the bedroom lamp.
 
-Note that ControllerX registers the multiple-click events in the initialization phase by checking the events with `$`, so it records whether it needs to wait to trigger the multiple-click event or not. If the triggered event is not registered as mutliple-clickable, then it will be triggered immidiately. However, if the triggered event is mutliple-clickable then it will wait as much time as specified in `multiple_click_delay` to detect if another click is issued or not. If not second (n-th click) is registered, then the event is triggered. Therefore, all multi-clickable events will have a delay specified by `multiple_click_delay`.
+Note that ControllerX registers the multiple-click events in the initialization phase by checking the events with `$`, so it records whether it needs to wait to trigger the multiple-click event or not. If the triggered event is not registered as multiple-clickable, then it will be triggered immediately. However, if the triggered event is multiple-clickable, then it will wait as long as specified in `multiple_click_delay` to detect whether another click is issued or not. If no second (n-th) click is registered, then the event is triggered. Therefore, all multi-clickable events will have a delay specified by `multiple_click_delay`.
