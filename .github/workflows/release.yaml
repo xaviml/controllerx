@@ -9,11 +9,6 @@ on:
         default: "MINOR"
         type: choice
         options: [MAJOR, MINOR, PATCH]
-      prerelease:
-        description: "Prerelease"
-        required: true
-        default: true
-        type: boolean
       dry_run:
         description: "Dry run"
         required: true
@@ -24,13 +19,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: "Set prerelease argument"
-        run: |
-          if ${{ inputs.prerelease }} == true; then
-            echo "PRERELEASE_ARG=--prerelease beta" >> $GITHUB_ENV
-          else
-            echo "PRERELEASE_ARG=" >> $GITHUB_ENV
-          fi
       - name: "Set dry run argument"
         run: |
           if ${{ inputs.dry_run }} == true; then
@@ -53,7 +41,7 @@ jobs:
           git config --global user.name 'xaviml'
           git config --global user.email 'xaviml@users.noreply.github.com'
       - name: Bump version
-        run: cz bump --increment ${{ inputs.increment }} ${PRERELEASE_ARG} ${DRY_RUN_ARG}
+        run: cz bump --increment ${{ inputs.increment }} ${DRY_RUN_ARG}
       - name: Push tag
         if: "!inputs.dry_run"
         uses: ad-m/github-push-action@master

@@ -149,16 +149,7 @@ git push $USERNAME HEAD:$BRANCH
 
 Thanks to the GitHub Actions, we are able to deploy by just creating a new tag on git. Before proceding with new version bump, make sure to have all the changes for this release in the `RELEASE_NOTES.md` file.
 
-We use `commitizen` to bump version. First, we might want to create a beta version:
-
-```shell
-cz bump --prerelease beta
-git push origin HEAD --tags
-```
-
-_`--dry-run` can be used with `cz` command to double check the version to be created._
-
-Once we are ready to create the final version, we can bump the version to the final one, and push tag:
+We use `commitizen` to bump version. Once we are ready to release, we can bump the version and push the tag:
 
 ```shell
 cz bump
