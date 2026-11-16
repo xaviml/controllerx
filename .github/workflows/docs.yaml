@@ -29,11 +29,11 @@ jobs:
     name: Publish documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
       - name: Install poetry
@@ -45,7 +45,7 @@ jobs:
           virtualenvs-path: "{project-dir}/.venv"
       - name: Load cached venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: .venv
           key: docs-venv-${{ hashFiles('poetry.lock') }}
