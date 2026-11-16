@@ -9,6 +9,13 @@ repos:
       - id: debug-statements
       - id: name-tests-test
         exclude: ^tests/test_utils.py$
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.3
+    hooks:
+      - id: codespell
+        args: ["--ignore-words-list", "hass"]
+        files: ^(docs/.*\.(md|yaml)|README\.md|CONTRIBUTING\.md)$
+        exclude: ^docs/docs/controllers/
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:

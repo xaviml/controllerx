@@ -56,7 +56,7 @@ jobs:
         run: |
           cd docs
           poetry run python gen_device_pages.py
-          poetry run zensical build --clean
+          poetry run zensical build --clean --strict
       - name: Publish docs
         uses: peaceiris/actions-gh-pages@v4
         with:

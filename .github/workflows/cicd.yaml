@@ -86,7 +86,7 @@ jobs:
         run: |
           cd docs
           poetry run python gen_device_pages.py
-          poetry run zensical build --clean
+          poetry run zensical build --clean --strict
       - uses: actions/upload-artifact@master
         with:
           name: built-docs
