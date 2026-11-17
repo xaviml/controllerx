@@ -1,0 +1,184 @@
+*This page assumes you already know how the [`mapping` attribute](<https://xaviml.github.io/controllerx/advanced/index.md>) works.*
+
+Here you can find a list of predefined actions (one of the [action types](<https://xaviml.github.io/controllerx/advanced/action-types/index.md>)) for each type of controller.
+
+## Light
+
+When using a [light controller](<https://xaviml.github.io/controllerx/start/type-configuration/index.md#light-controller>) (e.g. `E1743Controller`) or `LightController`, the following actions can be used as a predefined action:
+
+| value | description | parameters |
+| --- | --- | --- |
+| `"on"` | It turns on the light | \- `attributes`: a mapping with attribute and value |
+| `"off"` | It turns off the light |  |
+| `toggle` | It toggles the light | \- `attributes`: a mapping with attribute and value |
+| `toggle_full_brightness` | It toggles the light, setting the brightness to the maximum value when turning on. |  |
+| `toggle_full_white_value` | It toggles the light, setting the white value to the maximum value when turning on. |  |
+| `toggle_full_color_temp` | It toggles the light, setting the color temperature to the maximum value when turning on. |  |
+| `toggle_min_brightness` | It toggles the light, setting the brightness to the minimum value when turning on. |  |
+| `toggle_min_white_value` | It toggles the light, setting the white value to the minimum value when turning on. |  |
+| `toggle_min_color_temp` | It toggles the light, setting the color temperature to the minimum value when turning on. |  |
+| `release` | It stops `hold` actions |  |
+| `on_full_brightness` | It sets the brightness to the maximum value |  |
+| `on_full_white_value` | It sets the white value to the maximum value |  |
+| `on_full_color_temp` | It sets the color temp to the maximum value |  |
+| `on_min_brightness` | It sets the brightness to the minimum value |  |
+| `on_min_white_value` | It sets the white value to the minimum value |  |
+| `on_min_color_temp` | It sets the color temp to the minimum value |  |
+| `on_min_max_brightness` | It sets the brightness to the minimum value if the light is off or the brightness is different from the minimum value; otherwise, it sets the brightness to the maximum value. |  |
+| `on_max_min_brightness` | It sets the brightness to the maximum value if the light is off or the brightness is different from the maximum value; otherwise, it sets the brightness to the minimum value. |  |
+| `on_min_max_color_temp` | It sets the color temp to the minimum value if the light is off or the color temp is different from the minimum value; otherwise, it sets the color temp to the maximum value. |  |
+| `on_max_min_color_temp` | It sets the color temp to the maximum value if the light is off or the color temp is different from the maximum value; otherwise, it sets the color temp to the minimum value. |  |
+| `set_half_brightness` | It sets the brightness to 50% |  |
+| `set_half_white_value` | It sets the white value to 50% |  |
+| `set_half_color_temp` | It sets the color temp to 50% |  |
+| `sync` | It syncs the light(s) to full brightness and white color or 2700K (370 mireds) | \- `brightness`<br>\- `color_temp`<br>\- `xy_color` |
+| `click` | It increases/decreases the attribute according to the `manual_steps` attribute, and allows passing parameters through the YAML config. You can read more about it [here](<https://xaviml.github.io/controllerx/advanced/hold-click-modes/index.md>). | \- `attribute`<br>\- `direction`<br>\- `mode`<br>\- `steps` |
+| `click_brightness_up` | It increases the brightness according to the `manual_steps` attribute |  |
+| `click_brightness_down` | It decreases the brightness according to the `manual_steps` attribute |  |
+| `click_white_value_up` | It turns the white value up according to the `manual_steps` attribute |  |
+| `click_white_value_down` | It turns the white value down according to the `manual_steps` attribute |  |
+| `click_color_up` | It turns the color up according to the `manual_steps` attribute |  |
+| `click_color_down` | It turns the color down according to the `manual_steps` attribute |  |
+| `click_colortemp_up` | It turns the color temp up according to the `manual_steps` attribute |  |
+| `click_colortemp_down` | It turns the color temp down according to the `manual_steps` attribute |  |
+| `click_xycolor_up` | It turns the xy color up according to the `manual_steps` attribute |  |
+| `click_xycolor_down` | It turns the xy color down according to the `manual_steps` attribute |  |
+| `hold` | It increases/decreases the attribute until release according to the `automatic_steps` attribute, and allows passing parameters through the YAML config. You can read more about it [here](<https://xaviml.github.io/controllerx/advanced/hold-click-modes/index.md>). | \- `attribute`<br>\- `direction`<br>\- `mode`<br>\- `steps` |
+| `hold_brightness_up` | It increases the brightness until release according to the `automatic_steps` attribute |  |
+| `hold_brightness_down` | It decreases the brightness until release according to the `automatic_steps` attribute |  |
+| `hold_brightness_toggle` | It increases/decreases the attribute until release according to the `automatic_steps` attribute and alternates the direction on each click |  |
+| `hold_white_value_up` | It turns the white value up until release according to the `automatic_steps` attribute |  |
+| `hold_white_value_down` | It turns the white value down until release according to the `automatic_steps` attribute |  |
+| `hold_white_value_toggle` | It turns the white value up/down until release according to the `automatic_steps` attribute and alternates the direction on each click |  |
+| `hold_color_up` | It turns the color up until release according to the `automatic_steps` attribute |  |
+| `hold_color_down` | It turns the color down until release according to the `automatic_steps` attribute |  |
+| `hold_color_toggle` | It turns the color up/down until release according to the `automatic_steps` attribute and alternates the direction on each click |  |
+| `hold_colortemp_up` | It turns the color temp up until release according to the `automatic_steps` attribute |  |
+| `hold_colortemp_down` | It turns the color temp down until release according to the `automatic_steps` attribute |  |
+| `hold_colortemp_toggle` | It turns the color temp up/down until release according to the `automatic_steps` attribute and alternates the direction on each click |  |
+| `hold_xycolor_up` | It turns the xy color up until release according to the `automatic_steps` attribute |  |
+| `hold_xycolor_down` | It turns the xy color down until release according to the `automatic_steps` attribute |  |
+| `hold_xycolor_toggle` | It turns the xy color up/down until release according to the `automatic_steps` attribute and alternates the direction on each click |  |
+| `xycolor_from_controller` | It changes the xy color of the light from the value sent by the controller (if supported) |  |
+| `colortemp_from_controller` | It changes the color temperature of the light from the value sent by the controller (if supported) |  |
+| `brightness_from_controller_level` | It changes the brightness of the light from the value sent by the controller `action_level` (if supported) |  |
+| `brightness_from_controller_angle` | It changes the brightness of the light from the value sent by the controller `action_rotation_angle` (if supported). This fires a `hold` action, so a `release` action is needed to stop the brightness change. | \- `mode`<br>\- `steps` |
+| `brightness_from_controller_step` | It changes the brightness of the light from the value sent by the controller `step_mode`/`step_size` (if supported). |  |
+| `colortemp_from_controller_step` | It changes the color temperature of the light from the value sent by the controller `step_mode`/`step_size` (if supported). |  |
+
+## Zigbee2MQTT Light
+
+When using a [Zigbee2MQTT light controller](<https://xaviml.github.io/controllerx/start/type-configuration/index.md#zigbee2mqtt-light-controller>) (e.g. `E1743Z2MLightController`) or `Z2MLightController`, the following actions can be used as a predefined action:
+
+| value | description | parameters |
+| --- | --- | --- |
+| `"on"` | It turns on the light | \- `attributes`: a mapping with attribute and value |
+| `"off"` | It turns off the light |  |
+| `toggle` | It toggles the light |  |
+| `release` | It stops `hold` actions |  |
+| `on_full_brightness` | It sets the brightness to the maximum value |  |
+| `on_full_color_temp` | It sets the color temp to the maximum value |  |
+| `on_min_brightness` | It sets the brightness to the minimum value |  |
+| `on_min_color_temp` | It sets the color temp to the minimum value |  |
+| `set_half_brightness` | It sets the brightness to 50% |  |
+| `set_half_color_temp` | It sets the color temp to 50% |  |
+| `click` | It increases/decreases the attribute according to the `click_steps` attribute, and allows passing parameters through the YAML config. You can read more about it [here](<https://xaviml.github.io/controllerx/advanced/hold-click-modes/index.md>). | \- `attribute`<br>\- `direction`<br>\- `steps`<br>\- `transition`<br>\- `use_onoff` |
+| `click_brightness_up` | It increases the brightness according to the `click_steps` attribute |  |
+| `click_brightness_down` | It decreases the brightness according to the `click_steps` attribute |  |
+| `click_colortemp_up` | It turns the color temp up according to the `click_steps` attribute |  |
+| `click_colortemp_down` | It turns the color temp down according to the `click_steps` attribute |  |
+| `hold` | It increases/decreases the attribute until release according to the `hold_steps` attribute, and allows passing parameters through the YAML config. You can read more about it [here](<https://xaviml.github.io/controllerx/advanced/hold-click-modes/index.md>). | \- `attribute`<br>\- `direction`<br>\- `steps`<br>\- `use_onoff` |
+| `hold_brightness_up` | It increases the brightness until release according to the `hold_steps` attribute |  |
+| `hold_brightness_down` | It decreases the brightness until release according to the `hold_steps` attribute |  |
+| `hold_brightness_toggle` | It increases/decreases the attribute until release according to the `hold_steps` attribute and alternates the direction on each click |  |
+| `hold_colortemp_up` | It turns the color temp up until release according to the `hold_steps` attribute |  |
+| `hold_colortemp_down` | It turns the color temp down until release according to the `hold_steps` attribute |  |
+| `hold_colortemp_toggle` | It turns the color temp up/down until release according to the `hold_steps` attribute and alternates the direction on each click |  |
+| `xycolor_from_controller` | It changes the xy color of the light from the value sent by the controller (if supported) |  |
+| `colortemp_from_controller` | It changes the color temperature of the light from the value sent by the controller (if supported) |  |
+| `brightness_from_controller_level` | It changes the brightness of the light from the value sent by the controller `action_level` (if supported) |  |
+| `brightness_from_controller_angle` | It changes the brightness of the light from the value sent by the controller `action_rotation_angle` (if supported). This fires a `hold` action, so a `release` action is needed to stop the brightness change. | \- `steps`<br>\- `use_onoff` |
+
+## Media Player
+
+When using a [media player controller](<https://xaviml.github.io/controllerx/start/type-configuration/index.md#media-player-controller>) (e.g. `E1743MediaPlayerController`) or `MediaPlayerController`, the following actions can be used as a predefined action:
+
+| value | description | parameters |
+| --- | --- | --- |
+| `hold_volume_down` | It turns the volume down until `release` is called |  |
+| `hold_volume_up` | It turns the volume up until `release` is called |  |
+| `click_volume_down` | It turns the volume down one step |  |
+| `click_volume_up` | It turns the volume up one step |  |
+| `volume_set` | It sets the volume to the given level | \- `volume_level`: volume level (from 0 to 1) |
+| `release` | It calls `release` for `hold` actions |  |
+| `play` | It plays the media |  |
+| `pause` | It pauses the media |  |
+| `play_pause` | It toggles play/pause |  |
+| `next_track` | It skips the track forward |  |
+| `previous_track` | It skips the track backward |  |
+| `next_source` | It changes to the next source |  |
+| `previous_source` | It changes to the previous source |  |
+| `mute` | It mutes the media player |  |
+| `tts` | Text-to-Speech | \- `message`<br>\- `service`: the service to call without "tts." (str; default: "google\_translate\_say")<br>\- `cache` (bool; default: None)<br>\- `language` (str; default: None)<br>\- `options` (dict; default: None) |
+| `volume_from_controller_angle` | It changes the volume based on the controller angle (if supported). This fires a `hold` action, so a `release` action is needed to stop the volume change. |  |
+
+## Switch
+
+When using a [switch controller](<https://xaviml.github.io/controllerx/start/type-configuration/index.md#switch-controller>) (e.g. `E1743SwitchController`) or `SwitchController`, the following actions can be used as a predefined action:
+
+| value | description | parameters |
+| --- | --- | --- |
+| `"on"` | It turns the switch on |  |
+| `"off"` | It turns the switch off |  |
+| `toggle` | It toggles the state of the switch |  |
+
+## Cover
+
+When using a [cover controller](<https://xaviml.github.io/controllerx/start/type-configuration/index.md#cover-controller>) (e.g. `E1743CoverController`) or `CoverController`, the following actions can be used as a predefined action:
+
+| value | description | parameters |
+| --- | --- | --- |
+| `open` | It opens the cover |  |
+| `close` | It closes the cover |  |
+| `stop` | It stops the cover |  |
+| `toggle_open` | It stops the cover if it is moving, and opens it otherwise |  |
+| `toggle_close` | It stops the cover if it is moving, and closes it otherwise |  |
+
+## How to pass parameters
+
+When passing parameters to predefined actions, we need to use the `action` keyword together with the parameters. This is an example that changes the default parameters of the `sync` action:
+
+```
+example_app:
+  module: controllerx
+  class: E1810Controller
+  controller: livingroom_controller
+  integration:
+    name: z2m
+    listen_to: mqtt
+  light: light.my_light
+  merge_mapping:
+    toggle_hold:
+      action: sync
+      brightness: 128
+      color_temp: 153
+```
+
+And this is another example for the `toggle` action:
+
+```
+example_app:
+  module: controllerx
+  class: E1810Controller
+  controller: controller
+  integration:
+    name: z2m
+    listen_to: mqtt
+  light: light.my_light
+  merge_mapping:
+    toggle:
+      action: toggle
+      attributes:
+        brightness: 128
+        xy_color: [0.323, 0.329]
+```

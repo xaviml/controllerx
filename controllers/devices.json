@@ -1,0 +1,5570 @@
+{
+  "version": "v5.3.0",
+  "description": "Devices supported by ControllerX with their controller classes, supported integrations and default button mappings (integration action event -> predefined action). URLs are relative to https://xaviml.github.io/controllerx/",
+  "integrations": {
+    "z2m": {
+      "title": "Zigbee2MQTT",
+      "url": "start/integrations/zigbee2mqtt/"
+    },
+    "deconz": {
+      "title": "deCONZ",
+      "url": "start/integrations/deconz/"
+    },
+    "zha": {
+      "title": "ZHA",
+      "url": "start/integrations/zha/"
+    },
+    "state": {
+      "title": "State",
+      "url": "start/integrations/state/"
+    },
+    "lutron_caseta": {
+      "title": "Lutron Caseta",
+      "url": "start/integrations/lutron_caseta/"
+    },
+    "homematic": {
+      "title": "Homematic",
+      "url": "start/integrations/homematic/"
+    },
+    "shelly": {
+      "title": "Shelly",
+      "url": "start/integrations/shelly/"
+    },
+    "shellyforhass": {
+      "title": "ShellyForHass",
+      "url": "start/integrations/shellyforhass/"
+    },
+    "tasmota": {
+      "title": "Tasmota",
+      "url": "start/integrations/tasmota/"
+    }
+  },
+  "integration_examples": [
+    {
+      "id": "z2m-mqtt",
+      "name": "z2m",
+      "title": "Zigbee2MQTT (MQTT)",
+      "controller": "my_controller",
+      "controller_help": "Zigbee2MQTT friendly name of the device",
+      "attrs": {
+        "listen_to": "mqtt"
+      }
+    },
+    {
+      "id": "z2m-event",
+      "name": "z2m",
+      "title": "Zigbee2MQTT (event)",
+      "controller": "my_controller_action",
+      "controller_help": "Event entity ID without the `event.` prefix",
+      "attrs": {
+        "listen_to": "event"
+      }
+    },
+    {
+      "id": "deconz",
+      "name": "deconz",
+      "title": "deCONZ",
+      "controller": "my_controller",
+      "controller_help": "deCONZ `id` or `unique_id` of the device"
+    },
+    {
+      "id": "zha",
+      "name": "zha",
+      "title": "ZHA",
+      "controller": "00:11:22:33:44:55:66:77:88",
+      "controller_help": "IEEE address of the device"
+    },
+    {
+      "id": "state",
+      "name": "state",
+      "title": "State",
+      "controller": "sensor.my_custom_controller",
+      "controller_help": "Entity ID whose state changes with each action"
+    },
+    {
+      "id": "lutron_caseta",
+      "name": "lutron_caseta",
+      "title": "Lutron Caseta",
+      "controller": "87654321",
+      "controller_help": "`serial` of the device in `lutron_caseta_button_event`"
+    },
+    {
+      "id": "homematic",
+      "name": "homematic",
+      "title": "Homematic",
+      "controller": "my_controller",
+      "controller_help": "Homematic device name"
+    },
+    {
+      "id": "shelly",
+      "name": "shelly",
+      "title": "Shelly",
+      "controller": "shellybutton-ABC123456",
+      "controller_help": "Shelly device ID"
+    },
+    {
+      "id": "shellyforhass",
+      "name": "shellyforhass",
+      "title": "ShellyForHass",
+      "controller": "binary_sensor.shelly_button_switch",
+      "controller_help": "Binary sensor entity ID"
+    },
+    {
+      "id": "tasmota",
+      "name": "tasmota",
+      "title": "Tasmota",
+      "controller": "stat/tasmota_device/RESULT",
+      "controller_help": "MQTT topic where Tasmota publishes the events",
+      "attrs": {
+        "component": "MyComponent"
+      }
+    }
+  ],
+  "devices": [
+    {
+      "id": "AdeoHRC99CZC045",
+      "title": "ADEO HRC99CZC045",
+      "manufacturer": "ADEO",
+      "model": "HRC99CZC045",
+      "url": "controllers/AdeoHRC99CZC045/",
+      "image": "assets/controllers/AdeoHRC99CZC045.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "AdeoHRC99CZC045LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_step_up": "hold_brightness_up",
+              "brightness_step_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "color_stop": "release",
+              "color_hue_step_up": "hold_color_up",
+              "color_saturation_step_up": "hold_color_up",
+              "color_hue_step_down": "hold_color_down",
+              "color_saturation_step_down": "hold_color_down",
+              "color_temperature_step_up": "hold_colortemp_up",
+              "color_temperature_step_down": "hold_colortemp_down",
+              "scene_1": null,
+              "scene_2": null,
+              "scene_3": null,
+              "scene_4": null
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "AdeoHRC99CZC045Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_step_up": "hold_brightness_up",
+              "brightness_step_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "color_stop": "release",
+              "color_hue_step_up": "hold_colortemp_up",
+              "color_saturation_step_up": "hold_colortemp_up",
+              "color_temperature_step_up": "hold_colortemp_up",
+              "color_hue_step_down": "hold_colortemp_down",
+              "color_saturation_step_down": "hold_colortemp_down",
+              "color_temperature_step_down": "hold_colortemp_down",
+              "scene_1": null,
+              "scene_2": null,
+              "scene_3": null,
+              "scene_4": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "AUA1ZBR2GW",
+      "title": "Aurora AUA1ZBR2GW",
+      "manufacturer": "Aurora",
+      "model": "AUA1ZBR2GW",
+      "url": "controllers/AUA1ZBR2GW/",
+      "image": "assets/controllers/AUA1ZBR2GW.jpeg",
+      "integrations": [
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "AUA1ZBR2GWLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "1_toggle": "toggle",
+              "2_toggle": "toggle",
+              "1_step_up": "click_brightness_up",
+              "2_step_up": "click_brightness_up",
+              "1_step_down": "click_brightness_down",
+              "2_step_down": "click_brightness_down",
+              "1_step_color_temp_up": "click_colortemp_up",
+              "2_step_color_temp_up": "click_colortemp_up",
+              "1_step_color_temp_down": "click_colortemp_down",
+              "2_step_color_temp_down": "click_colortemp_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E1743",
+      "title": "IKEA E1743",
+      "manufacturer": "IKEA",
+      "model": "E1743",
+      "url": "controllers/E1743/",
+      "image": "assets/controllers/E1743.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E1743Controller",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off",
+              "1001": "hold_brightness_up",
+              "2001": "hold_brightness_down",
+              "1003": "release",
+              "2003": "release"
+            },
+            "zha": {
+              "on": "on",
+              "off": "off",
+              "move_with_on_off_0_83": "hold_brightness_up",
+              "move_1_83_0_0": "hold_brightness_down",
+              "stop": "release",
+              "stop_with_on_off": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E1743Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "E1743MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "play_pause",
+              "off": "next_track",
+              "brightness_move_up": "hold_volume_up",
+              "brightness_move_down": "hold_volume_down",
+              "brightness_stop": "release"
+            },
+            "deconz": {
+              "1002": "play_pause",
+              "2002": "next_track",
+              "1001": "hold_volume_up",
+              "2001": "hold_volume_down",
+              "1003": "release",
+              "2003": "release"
+            },
+            "zha": {
+              "on": "play_pause",
+              "off": "next_track",
+              "move_with_on_off_0_83": "hold_volume_up",
+              "move_1_83_0_0": "hold_volume_down",
+              "stop": "release",
+              "stop_with_on_off": "release"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "E1743SwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off"
+            },
+            "zha": {
+              "on": "on",
+              "off": "off"
+            }
+          }
+        },
+        {
+          "type": "Cover",
+          "anchor": "cover",
+          "class": "E1743CoverController",
+          "entity_arg": "cover",
+          "domain": "cover",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle_open",
+              "off": "toggle_close",
+              "brightness_move_up": "open",
+              "brightness_move_down": "close",
+              "brightness_stop": "stop"
+            },
+            "deconz": {
+              "1002": "toggle_open",
+              "2002": "toggle_close",
+              "1001": "open",
+              "2001": "close",
+              "1003": "stop",
+              "2003": "stop"
+            },
+            "zha": {
+              "on": "toggle_open",
+              "off": "toggle_close",
+              "move_with_on_off_0_83": "open",
+              "move_1_83_0_0": "close",
+              "stop": "stop",
+              "stop_with_on_off": "stop"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E1744",
+      "title": "IKEA E1744",
+      "manufacturer": "IKEA",
+      "model": "E1744",
+      "url": "controllers/E1744/",
+      "image": "assets/controllers/E1744.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "If you want to use the default controller, you will need to set `legacy: false` in the Zigbee2MQTT configuration.\nRead more [here](https://www.zigbee2mqtt.io/devices/E1744.html#legacy-integration).\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E1744LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_stop": "release",
+              "toggle": "toggle",
+              "brightness_step_up": "on_full_brightness",
+              "brightness_step_down": "on_min_brightness"
+            },
+            "deconz": {
+              "3001": "hold_brightness_down",
+              "2001": "hold_brightness_up",
+              "2003": "release",
+              "3003": "release",
+              "1002": "toggle",
+              "1004": "on_full_brightness",
+              "1005": "on_min_brightness"
+            },
+            "zha": {
+              "move_1_195_0_0": "hold_brightness_down",
+              "move_0_195_0_0": "hold_brightness_up",
+              "stop": "release",
+              "toggle": "toggle",
+              "step_0_1_0_0_0": "on_full_brightness",
+              "step_1_1_0_0_0": "on_min_brightness"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E1744Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_stop": "release",
+              "toggle": "toggle",
+              "brightness_step_up": "on_full_brightness",
+              "brightness_step_down": "on_min_brightness"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "E1744MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_down": "hold_volume_down",
+              "brightness_move_up": "hold_volume_up",
+              "brightness_stop": "release",
+              "toggle": "play_pause",
+              "brightness_step_up": "next_track",
+              "brightness_step_down": "previous_track"
+            },
+            "deconz": {
+              "3001": "hold_volume_down",
+              "2001": "hold_volume_up",
+              "2003": "release",
+              "3003": "release",
+              "1002": "play_pause",
+              "1004": "next_track",
+              "1005": "previous_track"
+            },
+            "zha": {
+              "move_1_195_0_0": "hold_volume_down",
+              "move_0_195_0_0": "hold_volume_up",
+              "stop": "release",
+              "toggle": "play_pause",
+              "step_0_1_0_0_0": "next_track",
+              "step_1_1_0_0_0": "previous_track"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E1766",
+      "title": "IKEA E1766",
+      "manufacturer": "IKEA",
+      "model": "E1766",
+      "url": "controllers/E1766/",
+      "image": "assets/controllers/E1766.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E1766LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "open": "on",
+              "close": "off"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off",
+              "1003": "on_full_brightness"
+            },
+            "zha": {
+              "up_open": "on",
+              "down_close": "off"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E1766Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "open": "on",
+              "close": "off"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "E1766SwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "open": "on",
+              "close": "off"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off"
+            },
+            "zha": {
+              "up_open": "on",
+              "down_close": "off"
+            }
+          }
+        },
+        {
+          "type": "Cover",
+          "anchor": "cover",
+          "class": "E1766CoverController",
+          "entity_arg": "cover",
+          "domain": "cover",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "open": "toggle_open",
+              "close": "toggle_close",
+              "stop": "stop"
+            },
+            "deconz": {
+              "1002": "toggle_open",
+              "2002": "toggle_close",
+              "1003": "stop",
+              "2003": "stop"
+            },
+            "zha": {
+              "up_open": "toggle_open",
+              "down_close": "toggle_close",
+              "stop": "stop"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E1810",
+      "title": "IKEA E1810",
+      "manufacturer": "IKEA",
+      "model": "E1810",
+      "url": "controllers/E1810/",
+      "image": "assets/controllers/E1810.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "This device mapping also supports the E1524 controller.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E1810Controller",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "toggle": "toggle",
+              "toggle_hold": "sync",
+              "brightness_up_click": "click_brightness_up",
+              "brightness_down_click": "click_brightness_down",
+              "arrow_left_click": "click_color_down",
+              "arrow_right_click": "click_color_up",
+              "brightness_up_hold": "hold_brightness_up",
+              "brightness_up_release": "release",
+              "brightness_down_release": "release",
+              "arrow_left_release": "release",
+              "arrow_right_release": "release",
+              "brightness_down_hold": "hold_brightness_down",
+              "arrow_left_hold": "hold_color_down",
+              "arrow_right_hold": "hold_color_up"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1001": "sync",
+              "2002": "click_brightness_up",
+              "3002": "click_brightness_down",
+              "4002": "click_color_down",
+              "5002": "click_color_up",
+              "2001": "hold_brightness_up",
+              "2003": "release",
+              "3003": "release",
+              "4003": "release",
+              "5003": "release",
+              "3001": "hold_brightness_down",
+              "4001": "hold_color_down",
+              "5001": "hold_color_up"
+            },
+            "zha": {
+              "toggle": "toggle",
+              "press_2_0_0": "sync",
+              "step_with_on_off_0_43_5": "click_brightness_up",
+              "step_1_43_5_0_0": "click_brightness_down",
+              "press_257_13_0": "click_color_down",
+              "press_256_13_0": "click_color_up",
+              "move_with_on_off_0_83": "hold_brightness_up",
+              "move_with_on_off_0_84": "hold_brightness_up",
+              "stop": "release",
+              "stop_with_on_off": "release",
+              "release": "release",
+              "move_1_83_0_0": "hold_brightness_down",
+              "move_1_84_0_0": "hold_brightness_down",
+              "hold_3329_0": "hold_color_down",
+              "hold_3328_0": "hold_color_up"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E1810Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "toggle": "toggle",
+              "toggle_hold": "on_full_brightness",
+              "brightness_up_click": "click_brightness_up",
+              "brightness_down_click": "click_brightness_down",
+              "arrow_left_click": "click_colortemp_down",
+              "arrow_right_click": "click_colortemp_up",
+              "brightness_up_hold": "hold_brightness_up",
+              "brightness_up_release": "release",
+              "brightness_down_release": "release",
+              "arrow_left_release": "release",
+              "arrow_right_release": "release",
+              "brightness_down_hold": "hold_brightness_down",
+              "arrow_left_hold": "hold_colortemp_down",
+              "arrow_right_hold": "hold_colortemp_up"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "E1810MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "toggle": "play_pause",
+              "brightness_up_click": "click_volume_up",
+              "brightness_down_click": "click_volume_down",
+              "arrow_left_click": "previous_track",
+              "arrow_right_click": "next_track",
+              "arrow_left_hold": "previous_source",
+              "arrow_right_hold": "next_source",
+              "brightness_up_hold": "hold_volume_up",
+              "brightness_up_release": "release",
+              "brightness_down_release": "release",
+              "brightness_down_hold": "hold_volume_down"
+            },
+            "deconz": {
+              "1002": "play_pause",
+              "2002": "click_volume_up",
+              "3002": "click_volume_down",
+              "4002": "previous_track",
+              "5002": "next_track",
+              "4001": "previous_source",
+              "5001": "next_source",
+              "2001": "hold_volume_up",
+              "2003": "release",
+              "3003": "release",
+              "3001": "hold_volume_down"
+            },
+            "zha": {
+              "toggle": "play_pause",
+              "step_with_on_off_0_43_5": "click_volume_up",
+              "step_1_43_5_0_0": "click_volume_down",
+              "press_257_13_0": "previous_track",
+              "press_256_13_0": "next_track",
+              "hold_3329_0": "previous_source",
+              "hold_3328_0": "next_source",
+              "move_with_on_off_0_83": "hold_volume_up",
+              "move_with_on_off_0_84": "hold_volume_up",
+              "stop": "release",
+              "stop_with_on_off": "release",
+              "release": "release",
+              "move_1_83_0_0": "hold_volume_down",
+              "move_1_84_0_0": "hold_volume_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E1812",
+      "title": "IKEA E1812",
+      "manufacturer": "IKEA",
+      "model": "E1812",
+      "url": "controllers/E1812/",
+      "image": "assets/controllers/E1812.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E1812LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "brightness_move_up": "hold_brightness_toggle",
+              "brightness_stop": "release"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1001": "hold_brightness_toggle",
+              "1003": "release"
+            },
+            "zha": {
+              "on": "toggle",
+              "move_with_on_off": "hold_brightness_toggle",
+              "stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E1812Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "brightness_move_up": "hold_brightness_toggle",
+              "brightness_stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "E1812SwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle"
+            },
+            "deconz": {
+              "1002": "toggle"
+            },
+            "zha": {
+              "on": "toggle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E1EG7F",
+      "title": "Sengled E1EG7F",
+      "manufacturer": "Sengled",
+      "model": "E1EG7F",
+      "url": "controllers/E1EG7F/",
+      "image": "assets/controllers/E1EG7F.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E1EG7FLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "on_long": "click_color_up",
+              "on_double": "on_full_color_temp",
+              "up": "click_brightness_up",
+              "up_long": "on_full_brightness",
+              "down": "click_brightness_down",
+              "down_long": "on_min_brightness",
+              "off": "off",
+              "off_long": "click_color_down",
+              "off_double": "on_min_color_temp"
+            },
+            "zha": {
+              "on": "on",
+              "on_long": "click_color_up",
+              "on_double": "on_full_color_temp",
+              "step_0_1_0": "click_brightness_up",
+              "step_0_2_0": "on_full_brightness",
+              "step_1_1_0": "click_brightness_down",
+              "step_1_2_0": "on_min_brightness",
+              "off": "off",
+              "off_long": "click_color_down",
+              "off_double": "on_min_color_temp"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E1EG7FZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "on_long": "click_colortemp_up",
+              "on_double": "on_full_color_temp",
+              "up": "click_brightness_up",
+              "up_long": "on_full_brightness",
+              "down": "click_brightness_down",
+              "down_long": "on_min_brightness",
+              "off": "off",
+              "off_long": "click_colortemp_down",
+              "off_double": "on_min_color_temp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E2002",
+      "title": "IKEA E2002",
+      "manufacturer": "IKEA",
+      "model": "E2002",
+      "url": "controllers/E2002/",
+      "image": "assets/controllers/E2002.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "This controller fires the \"on\" action when the arrows are held, as well as the hold arrow action.\nThis means that when long pressing the arrows, the light(s) will turn on before changing the color.\n\nThis device mapping also supports the E2001 controller.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E2002LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "arrow_left_click": "click_color_down",
+              "arrow_right_click": "click_color_up",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_stop": "release",
+              "arrow_left_release": "release",
+              "arrow_right_release": "release",
+              "brightness_move_down": "hold_brightness_down",
+              "arrow_left_hold": "hold_color_down",
+              "arrow_right_hold": "hold_color_up"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off",
+              "3002": "click_color_down",
+              "4002": "click_color_up",
+              "1001": "hold_brightness_up",
+              "1003": "release",
+              "2003": "release",
+              "3003": "release",
+              "4003": "release",
+              "2001": "hold_brightness_down",
+              "3001": "hold_color_down",
+              "4001": "hold_color_up"
+            },
+            "zha": {
+              "on": "on",
+              "off": "off",
+              "press_257_13_0": "click_color_down",
+              "press_256_13_0": "click_color_up",
+              "move_with_on_off_0_83": "hold_brightness_up",
+              "stop": "release",
+              "stop_with_on_off": "release",
+              "release": "release",
+              "move_1_83_0_0": "hold_brightness_down",
+              "hold_3329_0": "hold_color_down",
+              "hold_3328_0": "hold_color_up"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E2002Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "arrow_left_click": "click_colortemp_down",
+              "arrow_right_click": "click_colortemp_up",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_stop": "release",
+              "arrow_left_release": "release",
+              "arrow_right_release": "release",
+              "brightness_move_down": "hold_brightness_down",
+              "arrow_left_hold": "hold_colortemp_down",
+              "arrow_right_hold": "hold_colortemp_up"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "E2002MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "play_pause",
+              "off": "click_volume_down",
+              "arrow_left_click": "previous_track",
+              "arrow_right_click": "next_track",
+              "arrow_left_hold": "previous_source",
+              "arrow_left_release": "release",
+              "arrow_right_release": "release",
+              "brightness_stop": "release",
+              "arrow_right_hold": "next_source",
+              "brightness_move_up": "hold_volume_up",
+              "brightness_move_down": "hold_volume_down"
+            },
+            "deconz": {
+              "1002": "play_pause",
+              "2002": "click_volume_down",
+              "3002": "previous_track",
+              "4002": "next_track",
+              "3001": "previous_source",
+              "1003": "release",
+              "2003": "release",
+              "3003": "release",
+              "4003": "release",
+              "4001": "next_source",
+              "1001": "hold_volume_up",
+              "2001": "hold_volume_down"
+            },
+            "zha": {
+              "on": "play_pause",
+              "off": "click_volume_down",
+              "press_257_13_0": "previous_track",
+              "press_256_13_0": "next_track",
+              "hold_3329_0": "previous_source",
+              "stop": "release",
+              "stop_with_on_off": "release",
+              "release": "release",
+              "hold_3328_0": "next_source",
+              "move_with_on_off_0_83": "hold_volume_up",
+              "move_1_83_0_0": "hold_volume_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E2123",
+      "title": "IKEA E2123",
+      "manufacturer": "IKEA",
+      "model": "E2123",
+      "url": "controllers/E2123/",
+      "image": "assets/controllers/E2123.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "The device supports other events which are not added to the default mapping. Please check\n[this GitHub issue](https://github.com/xaviml/controllerx/issues/842) for more information.\n",
+      "controller_types": [
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "E2123MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "toggle": "play_pause",
+              "play_pause": "play_pause",
+              "track_next": "next_track",
+              "track_previous": "previous_track",
+              "volume_up": "click_volume_up",
+              "volume_up_hold": "click_volume_up",
+              "volume_down": "click_volume_down",
+              "volume_down_hold": "click_volume_down",
+              "dots_1_initial_press": "previous_source",
+              "dots_2_initial_press": "next_source"
+            },
+            "deconz": {
+              "5002": "next_track",
+              "4002": "previous_track",
+              "6000": "previous_source",
+              "7000": "next_source",
+              "1002": "play",
+              "2001": "hold_volume_up",
+              "2002": "release",
+              "3002": "release",
+              "3001": "hold_volume_down"
+            },
+            "zha": {
+              "toggle": "play_pause",
+              "play_pause": "play_pause",
+              "step_0_1_0_0_0": "next_track",
+              "step_1_1_0_0_0": "previous_track",
+              "move_with_on_off_0_255": "click_volume_up",
+              "move_with_on_off_1_255": "click_volume_down",
+              "2_initial_press_0": "previous_source",
+              "3_initial_press_0": "next_source",
+              "move_0_255_0_0": "hold_volume_up",
+              "move_1_255_0_0": "hold_volume_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E2201",
+      "title": "IKEA E2201",
+      "manufacturer": "IKEA",
+      "model": "E2201",
+      "url": "controllers/E2201/",
+      "image": "assets/controllers/E2201.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E2201LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off",
+              "1001": "hold_brightness_up",
+              "2001": "hold_brightness_down",
+              "1003": "release",
+              "2003": "release"
+            },
+            "zha": {
+              "on": "on",
+              "off": "off",
+              "move_with_on_off_0_83": "hold_brightness_up",
+              "move_1_83_0_0": "hold_brightness_down",
+              "stop": "release",
+              "stop_with_on_off": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E2201Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "E2201MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "play_pause",
+              "off": "next_track",
+              "brightness_move_up": "hold_volume_up",
+              "brightness_move_down": "hold_volume_down",
+              "brightness_stop": "release"
+            },
+            "deconz": {
+              "1002": "play_pause",
+              "2002": "next_track",
+              "1001": "hold_volume_up",
+              "2001": "hold_volume_down",
+              "1003": "release",
+              "2003": "release"
+            },
+            "zha": {
+              "on": "play_pause",
+              "off": "next_track",
+              "move_with_on_off_0_83": "hold_volume_up",
+              "move_1_83_0_0": "hold_volume_down",
+              "stop": "release",
+              "stop_with_on_off": "release"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "E2201SwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off"
+            },
+            "deconz": {
+              "1002": "on",
+              "2002": "off"
+            },
+            "zha": {
+              "on": "on",
+              "off": "off"
+            }
+          }
+        },
+        {
+          "type": "Cover",
+          "anchor": "cover",
+          "class": "E2201CoverController",
+          "entity_arg": "cover",
+          "domain": "cover",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle_open",
+              "off": "toggle_close",
+              "brightness_move_up": "open",
+              "brightness_move_down": "close",
+              "brightness_stop": "stop"
+            },
+            "deconz": {
+              "1002": "toggle_open",
+              "2002": "toggle_close",
+              "1001": "open",
+              "2001": "close",
+              "1003": "stop",
+              "2003": "stop"
+            },
+            "zha": {
+              "on": "toggle_open",
+              "off": "toggle_close",
+              "move_with_on_off_0_83": "open",
+              "move_1_83_0_0": "close",
+              "stop": "stop",
+              "stop_with_on_off": "stop"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "E2213",
+      "title": "IKEA E2213",
+      "manufacturer": "IKEA",
+      "model": "E2213",
+      "url": "controllers/E2213/",
+      "image": "assets/controllers/E2213.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "E2213LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "1_long_press": "hold_brightness_up",
+              "2_long_press": "hold_brightness_down",
+              "1_short_release": "on",
+              "2_short_release": "off",
+              "1_long_release": "release",
+              "2_long_release": "release",
+              "1_double_press": "hold_color_up",
+              "2_double_press": "hold_color_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "E2213Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "1_long_press": "hold_brightness_up",
+              "2_long_press": "hold_brightness_down",
+              "1_short_release": "on",
+              "2_short_release": "off",
+              "1_long_release": "release",
+              "2_long_release": "release",
+              "1_double_press": "hold_colortemp_up",
+              "2_double_press": "hold_colortemp_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HG06323",
+      "title": "Livarno HG06323",
+      "manufacturer": "Livarno",
+      "model": "HG06323",
+      "url": "controllers/HG06323/",
+      "image": "assets/controllers/HG06323.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HG06323LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_stop": "release",
+              "brightness_step_down": "click_brightness_down",
+              "brightness_move_down": "hold_brightness_down",
+              "off": "off"
+            },
+            "zha": {
+              "on": "on",
+              "step_0_51_10": "click_brightness_up",
+              "move_0_51": "hold_brightness_up",
+              "stop": "release",
+              "step_1_51_10": "click_brightness_down",
+              "move_1_51": "hold_brightness_down",
+              "off": "off"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "HG06323Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_stop": "release",
+              "brightness_step_down": "click_brightness_down",
+              "brightness_move_down": "hold_brightness_down",
+              "off": "off"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HMPB2WM552",
+      "title": "Homematic HMPB2WM552",
+      "manufacturer": "Homematic",
+      "model": "HMPB2WM552",
+      "url": "controllers/HMPB2WM552/",
+      "image": "assets/controllers/HMPB2WM552.jpeg",
+      "integrations": [
+        "homematic"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HMPB2WM552LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "homematic"
+          ],
+          "default_mapping": {
+            "homematic": {
+              "PRESS_SHORT_1": "off",
+              "PRESS_LONG_1": "hold_brightness_down",
+              "PRESS_CONT_1": null,
+              "PRESS_CONT_2": null,
+              "PRESS_LONG_RELEASE_1": "release",
+              "PRESS_LONG_RELEASE_2": "release",
+              "PRESS_SHORT_2": "on",
+              "PRESS_LONG_2": "hold_brightness_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HMPB6WM55",
+      "title": "Homematic HMPB6WM55",
+      "manufacturer": "Homematic",
+      "model": "HMPB6WM55",
+      "url": "controllers/HMPB6WM55/",
+      "image": "assets/controllers/HMPB6WM55.jpeg",
+      "integrations": [
+        "homematic"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HMPB6WM55LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "homematic"
+          ],
+          "default_mapping": {
+            "homematic": {
+              "PRESS_SHORT_1": "off",
+              "PRESS_CONT_1": null,
+              "PRESS_CONT_2": null,
+              "PRESS_CONT_3": null,
+              "PRESS_CONT_4": null,
+              "PRESS_CONT_5": null,
+              "PRESS_CONT_6": null,
+              "PRESS_LONG_1": "sync",
+              "PRESS_LONG_2": "sync",
+              "PRESS_LONG_RELEASE_1": "release",
+              "PRESS_LONG_RELEASE_2": "release",
+              "PRESS_LONG_RELEASE_3": "release",
+              "PRESS_LONG_RELEASE_4": "release",
+              "PRESS_LONG_RELEASE_5": "release",
+              "PRESS_LONG_RELEASE_6": "release",
+              "PRESS_SHORT_2": "on",
+              "PRESS_SHORT_3": "click_brightness_down",
+              "PRESS_LONG_3": "hold_brightness_down",
+              "PRESS_SHORT_4": "click_brightness_up",
+              "PRESS_LONG_4": "hold_brightness_up",
+              "PRESS_SHORT_5": "click_color_down",
+              "PRESS_LONG_5": "hold_color_down",
+              "PRESS_SHORT_6": "click_color_up",
+              "PRESS_LONG_6": "hold_color_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HMPBI4FM",
+      "title": "Homematic HMPBI4FM",
+      "manufacturer": "Homematic",
+      "model": "HMPBI4FM",
+      "url": "controllers/HMPBI4FM/",
+      "image": "assets/controllers/HMPBI4FM.jpeg",
+      "integrations": [
+        "homematic"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HMPBI4FMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "homematic"
+          ],
+          "default_mapping": {
+            "homematic": {
+              "PRESS_SHORT_1": "off",
+              "PRESS_CONT_1": null,
+              "PRESS_CONT_2": null,
+              "PRESS_CONT_3": null,
+              "PRESS_CONT_4": null,
+              "PRESS_LONG_1": "click_color_down",
+              "PRESS_SHORT_2": "on",
+              "PRESS_LONG_2": "click_color_up",
+              "PRESS_SHORT_3": "click_brightness_down",
+              "PRESS_LONG_3": "on_min_brightness",
+              "PRESS_SHORT_4": "click_brightness_up",
+              "PRESS_LONG_4": "on_full_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HMSenMDIRWM55",
+      "title": "Homematic HMSenMDIRWM55",
+      "manufacturer": "Homematic",
+      "model": "HMSenMDIRWM55",
+      "url": "controllers/HMSenMDIRWM55/",
+      "image": "assets/controllers/HMSenMDIRWM55.jpeg",
+      "integrations": [
+        "homematic"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HMSenMDIRWM55LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "homematic"
+          ],
+          "default_mapping": {
+            "homematic": {
+              "PRESS_SHORT_1": "off",
+              "PRESS_LONG_1": "hold_brightness_down",
+              "PRESS_CONT_1": null,
+              "PRESS_CONT_2": null,
+              "PRESS_LONG_RELEASE_1": "release",
+              "PRESS_LONG_RELEASE_2": "release",
+              "PRESS_SHORT_2": "on",
+              "PRESS_LONG_2": "hold_brightness_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HueDimmer",
+      "title": "Philips HueDimmer",
+      "manufacturer": "Philips",
+      "model": "HueDimmer",
+      "url": "controllers/HueDimmer/",
+      "image": "assets/controllers/HueDimmer.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "When using **z2m**, the device needs to be flagged as `legacy: false`, as the\n[Zigbee2MQTT documentation recommends](https://www.zigbee2mqtt.io/devices/324131092621.html#options).\n\nWhen using **z2m** and the multiple clicks functionality, make sure to remove the\n`multiple_press_timeout` option from the device-specific configuration (`devices.yaml`).\n\nWhen using **deCONZ**, all the click actions are mapped to the X002 actions, which are fired\nwhen the button is released after being clicked.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HueDimmerController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_press_release": "on",
+              "on_hold": "hold_color_up",
+              "on_hold_release": "release",
+              "up_hold_release": "release",
+              "down_hold_release": "release",
+              "off_hold_release": "release",
+              "up_press_release": "click_brightness_up",
+              "up_hold": "hold_brightness_up",
+              "down_press_release": "click_brightness_down",
+              "down_hold": "hold_brightness_down",
+              "off_press_release": "off",
+              "off_hold": "hold_color_down"
+            },
+            "deconz": {
+              "1002": "on",
+              "1001": "hold_color_up",
+              "1003": "release",
+              "2003": "release",
+              "3003": "release",
+              "4003": "release",
+              "2002": "click_brightness_up",
+              "2001": "hold_brightness_up",
+              "3002": "click_brightness_down",
+              "3001": "hold_brightness_down",
+              "4002": "off",
+              "4001": "hold_color_down"
+            },
+            "zha": {
+              "on_short_release": "on",
+              "on_hold": "hold_color_up",
+              "off_long_release": "release",
+              "down_long_release": "release",
+              "up_long_release": "release",
+              "on_long_release": "release",
+              "up_short_release": "click_brightness_up",
+              "up_hold": "hold_brightness_up",
+              "down_short_release": "click_brightness_down",
+              "down_hold": "hold_brightness_down",
+              "off_short_release": "off",
+              "off_hold": "hold_color_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "HueDimmerZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_press_release": "on",
+              "on_hold": "hold_colortemp_up",
+              "on_hold_release": "release",
+              "up_hold_release": "release",
+              "down_hold_release": "release",
+              "off_hold_release": "release",
+              "up_press_release": "click_brightness_up",
+              "up_hold": "hold_brightness_up",
+              "down_press_release": "click_brightness_down",
+              "down_hold": "hold_brightness_down",
+              "off_press_release": "off",
+              "off_hold": "hold_colortemp_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "HueSmartButton",
+      "title": "Philips HueSmartButton",
+      "manufacturer": "Philips",
+      "model": "HueSmartButton",
+      "url": "controllers/HueSmartButton/",
+      "image": "assets/controllers/HueSmartButton.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "HueSmartButtonLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1001": "hold_brightness_toggle",
+              "1003": "release",
+              "1000": null
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "HueSmartButtonZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ICTCG1",
+      "title": "IKEA ICTCG1",
+      "manufacturer": "IKEA",
+      "model": "ICTCG1",
+      "url": "controllers/ICTCG1/",
+      "image": "assets/controllers/ICTCG1.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ICTCG1Controller",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "brightness_move_to_level": "brightness_from_controller_level"
+            },
+            "deconz": {
+              "1002": "rotate_right_quick",
+              "2002": "click_brightness_up",
+              "3002": "click_brightness_down",
+              "4002": "rotate_left_quick"
+            },
+            "zha": {
+              "move_with_on_off_0_70": "hold_brightness_up",
+              "move_1_70": "hold_brightness_down",
+              "move_1_195": "hold_brightness_down",
+              "stop": "release",
+              "move_to_level_with_on_off_255_1": "rotate_right_quick",
+              "move_to_level_with_on_off_0_1": "rotate_left_quick",
+              "move_with_on_off_0_195": "on"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "ICTCG1Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "brightness_move_to_level": "brightness_from_controller_level"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "ICTCG1MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_up": "hold_volume_up",
+              "brightness_move_down": "hold_volume_down",
+              "brightness_stop": "release"
+            },
+            "deconz": {
+              "1002": "rotate_right_quick",
+              "2002": "click_volume_up",
+              "3002": "click_volume_down",
+              "4002": "rotate_left_quick"
+            },
+            "zha": {
+              "move_with_on_off_0_70": "hold_volume_up",
+              "move_with_on_off_0_195": "hold_volume_up",
+              "move_1_70": "hold_volume_down",
+              "move_1_195": "hold_volume_down",
+              "stop": "release",
+              "move_to_level_with_on_off_255_1": "rotate_right_quick",
+              "move_to_level_with_on_off_0_1": "rotate_left_quick"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Legrand600083",
+      "title": "Legrand 600083",
+      "manufacturer": "Legrand",
+      "model": "600083",
+      "url": "controllers/Legrand600083/",
+      "image": "assets/controllers/Legrand600083.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Legrand600083LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release"
+            },
+            "zha": {
+              "1_on": "on",
+              "1_off": "off",
+              "1_move_up": "hold_brightness_up",
+              "1_move_down": "hold_brightness_down",
+              "1_stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Legrand600083Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Legrand600088",
+      "title": "Legrand 600088",
+      "manufacturer": "Legrand",
+      "model": "600088",
+      "url": "controllers/Legrand600088/",
+      "image": "assets/controllers/Legrand600088.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Legrand600088LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_left": "on",
+              "off_left": "off",
+              "brightness_move_up_left": "hold_color_up",
+              "brightness_move_down_left": "hold_color_down",
+              "brightness_stop_left": "release",
+              "brightness_stop_right": "release",
+              "on_right": "on_full_brightness",
+              "off_right": "on_min_brightness",
+              "brightness_move_up_right": "hold_brightness_up",
+              "brightness_move_down_right": "hold_brightness_down"
+            },
+            "zha": {
+              "1_on": "on",
+              "1_off": "off",
+              "1_move_up": "hold_color_up",
+              "1_move_down": "hold_color_down",
+              "1_stop": "release",
+              "2_stop": "release",
+              "2_on": "on_full_brightness",
+              "2_off": "on_min_brightness",
+              "2_move_up": "hold_brightness_up",
+              "2_move_down": "hold_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Legrand600088Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_left": "on",
+              "off_left": "off",
+              "brightness_move_up_left": "hold_colortemp_up",
+              "brightness_move_down_left": "hold_colortemp_down",
+              "brightness_stop_left": "release",
+              "brightness_stop_right": "release",
+              "on_right": "on_full_brightness",
+              "off_right": "on_min_brightness",
+              "brightness_move_up_right": "hold_brightness_up",
+              "brightness_move_down_right": "hold_brightness_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LutronPJ22B",
+      "title": "Lutron PJ22B",
+      "manufacturer": "Lutron",
+      "model": "PJ22B",
+      "url": "controllers/LutronPJ22B/",
+      "image": "assets/controllers/LutronPJ22B.jpeg",
+      "integrations": [
+        "state",
+        "lutron_caseta"
+      ],
+      "notes": "For the State integration, it requires the [LutronCasetaPro](https://github.com/upsert/lutron-caseta-pro)\n**custom** integration by upsert. **This will not work with the default Lutron Caseta integration.**\nAll Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this\ncontroller type, except for the 4-button PJ2-4B remotes, which have their own controller.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "LutronPJ22BLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "state",
+            "lutron_caseta"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "on_full_brightness",
+              "4": "off"
+            },
+            "lutron_caseta": {
+              "button_4_press": "off",
+              "button_2_press": "on"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "LutronPJ22BMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "state",
+            "lutron_caseta"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "play_pause",
+              "4": "next_track"
+            },
+            "lutron_caseta": {
+              "button_2_press": "play_pause",
+              "button_4_press": "next_track"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LutronPJ22BRL",
+      "title": "Lutron PJ22BRL",
+      "manufacturer": "Lutron",
+      "model": "PJ22BRL",
+      "url": "controllers/LutronPJ22BRL/",
+      "image": "assets/controllers/LutronPJ22BRL.jpeg",
+      "integrations": [
+        "state"
+      ],
+      "notes": "For the State integration, it requires the [LutronCasetaPro](https://github.com/upsert/lutron-caseta-pro)\n**custom** integration by upsert. **This will not work with the default Lutron Caseta integration.**\nAll Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this\ncontroller type, except for the 4-button PJ2-4B remotes, which have their own controller.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "LutronPJ22BRLLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "state"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "on_full_brightness",
+              "8": "hold_brightness_up",
+              "16": "hold_brightness_down",
+              "4": "off",
+              "0": "release"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "LutronPJ22BRLMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "state"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "play_pause",
+              "8": "hold_volume_up",
+              "16": "hold_volume_down",
+              "4": "next_track",
+              "0": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LutronPJ23BRL",
+      "title": "Lutron PJ23BRL",
+      "manufacturer": "Lutron",
+      "model": "PJ23BRL",
+      "url": "controllers/LutronPJ23BRL/",
+      "image": "assets/controllers/LutronPJ23BRL.jpeg",
+      "integrations": [
+        "state",
+        "lutron_caseta"
+      ],
+      "notes": "For the State integration, it requires the [LutronCasetaPro](https://github.com/upsert/lutron-caseta-pro)\n**custom** integration by upsert. **This will not work with the default Lutron Caseta integration.**\nAll Lutron Caseta Pro Pico remotes supported by LutronCasetaPro are supported using this\ncontroller type, except for the 4-button PJ2-4B remotes, which have their own controller.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "LutronPJ23BRLLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "state",
+            "lutron_caseta"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "on_full_brightness",
+              "8": "hold_brightness_up",
+              "2": "set_half_brightness",
+              "16": "hold_brightness_down",
+              "4": "off",
+              "0": "release"
+            },
+            "lutron_caseta": {
+              "button_2_press": "on_full_brightness",
+              "button_5_press": "hold_brightness_up",
+              "button_3_press": "set_half_brightness",
+              "button_6_press": "hold_brightness_down",
+              "button_4_press": "off",
+              "button_5_release": "release",
+              "button_6_release": "release"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "LutronPJ23BRLMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "state",
+            "lutron_caseta"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "play_pause",
+              "8": "hold_volume_up",
+              "2": "next_source",
+              "16": "hold_volume_down",
+              "4": "next_track",
+              "0": "release"
+            },
+            "lutron_caseta": {
+              "button_2_press": "play_pause",
+              "button_5_press": "hold_volume_up",
+              "button_3_press": "next_source",
+              "button_6_press": "hold_volume_down",
+              "button_4_press": "next_track",
+              "button_5_release": "release",
+              "button_6_release": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LutronPJ24B",
+      "title": "Lutron PJ24B",
+      "manufacturer": "Lutron",
+      "model": "PJ24B",
+      "url": "controllers/LutronPJ24B/",
+      "image": "assets/controllers/LutronPJ24B.jpeg",
+      "integrations": [
+        "state"
+      ],
+      "notes": "For the State integration, it requires the [LutronCasetaPro](https://github.com/upsert/lutron-caseta-pro)\n**custom** integration by upsert. **This will not work with the default Lutron Caseta integration.**\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "LutronPJ24BLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "state"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "on_full_brightness",
+              "2": "hold_brightness_up",
+              "4": "hold_brightness_down",
+              "8": "off",
+              "0": "release"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "LutronPJ24BMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "state"
+          ],
+          "default_mapping": {
+            "state": {
+              "1": "play_pause",
+              "2": "hold_volume_up",
+              "4": "hold_volume_down",
+              "8": "next_track",
+              "0": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LZL4BWHL01",
+      "title": "Lutron LZL4BWHL01",
+      "manufacturer": "Lutron",
+      "model": "LZL4BWHL01",
+      "url": "controllers/LZL4BWHL01/",
+      "image": "assets/controllers/LZL4BWHL01.jpeg",
+      "integrations": [
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "LZL4BWHL01LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "deconz": {
+              "1002": "on_full_brightness",
+              "2001": "hold_brightness_up",
+              "2003": "release",
+              "3003": "release",
+              "3001": "hold_brightness_down",
+              "4002": "off"
+            },
+            "zha": {
+              "move_to_level_with_on_off_254_4": "on_full_brightness",
+              "step_with_on_off_0_30_6": "hold_brightness_up",
+              "stop": "release",
+              "step_1_30_6": "hold_brightness_down",
+              "move_to_level_with_on_off_0_4": "off"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "MFKZQ01LM",
+      "title": "Aqara MFKZQ01LM",
+      "manufacturer": "Aqara",
+      "model": "MFKZQ01LM",
+      "url": "controllers/MFKZQ01LM/",
+      "image": "assets/controllers/MFKZQ01LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "This controller does not have a self-explanatory way to be used, since its main\npurpose is to be customized. This is why we recommend customizing it with a\n[custom mapping](../advanced/index.md).\n\nThe deCONZ integration should be added with [type gesture](../start/integrations/deconz.md).\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "MFKZQ01LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "shake": "on_min_brightness",
+              "tap": "toggle",
+              "slide": "on_full_brightness",
+              "flip180": "click_color_up",
+              "flip90": "click_color_down",
+              "rotate_left": "click_brightness_down",
+              "rotate_right": "click_brightness_up"
+            },
+            "deconz": {
+              "1": "on_min_brightness",
+              "6": "toggle",
+              "5": "on_full_brightness",
+              "4": "click_color_up",
+              "3": "click_color_down",
+              "8": "click_brightness_down",
+              "7": "click_brightness_up"
+            },
+            "zha": {
+              "shake": "on_min_brightness",
+              "knock": "toggle",
+              "slide": "on_full_brightness",
+              "flip180": "click_color_up",
+              "flip90": "click_color_down",
+              "rotate_left": "click_brightness_down",
+              "rotate_right": "click_brightness_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "MLI404002",
+      "title": "Müller Licht MLI404002",
+      "manufacturer": "Müller Licht",
+      "model": "MLI404002",
+      "url": "controllers/MLI404002/",
+      "image": "assets/controllers/MLI404002.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "MLI404002LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "recall_1": "on_full_brightness"
+            },
+            "zha": {
+              "on": "toggle",
+              "off": "toggle",
+              "step_up": "click_brightness_up",
+              "step_down": "click_brightness_down",
+              "move_up": "hold_brightness_up",
+              "move_down": "hold_brightness_down",
+              "stop": "release",
+              "recall": "on_full_brightness"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "MLI404002Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "recall_1": "on_full_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "MLI404011",
+      "title": "Müller Licht MLI404011",
+      "manufacturer": "Müller Licht",
+      "model": "MLI404011",
+      "url": "controllers/MLI404011/",
+      "image": "assets/controllers/MLI404011.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": "Some buttons are not mapped yet for either integration.\nRead more about it [here (deCONZ)](https://github.com/xaviml/controllerx/issues/111)\nand [here (z2m)](https://github.com/xaviml/controllerx/issues/176).\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "MLI404011LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_down_click": "click_brightness_down",
+              "brightness_down_hold": "hold_brightness_down",
+              "brightness_down_release": "release",
+              "brightness_up_release": "release",
+              "brightness_up_click": "click_brightness_up",
+              "brightness_up_hold": "hold_brightness_up",
+              "color_wheel": "xycolor_from_controller",
+              "color_temp": "colortemp_from_controller",
+              "scene_1": null,
+              "scene_2": null,
+              "scene_3": null,
+              "scene_4": null,
+              "scene_5": null,
+              "scene_6": null
+            },
+            "deconz": {
+              "1002": "toggle",
+              "3002": "click_brightness_down",
+              "3001": "hold_brightness_down",
+              "2003": "release",
+              "3003": "release",
+              "2002": "click_brightness_up",
+              "2001": "hold_brightness_up",
+              "6002": "xycolor_from_controller",
+              "7002": null,
+              "8002": null,
+              "9002": null,
+              "10002": null,
+              "11002": null,
+              "12002": null,
+              "4002": "click_color_up",
+              "5002": "click_color_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "MLI404011Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_down_click": "click_brightness_down",
+              "brightness_down_hold": "hold_brightness_down",
+              "brightness_down_release": "release",
+              "brightness_up_release": "release",
+              "brightness_up_click": "click_brightness_up",
+              "brightness_up_hold": "hold_brightness_up",
+              "color_wheel": "xycolor_from_controller",
+              "color_temp": "colortemp_from_controller",
+              "scene_1": null,
+              "scene_2": null,
+              "scene_3": null,
+              "scene_4": null,
+              "scene_5": null,
+              "scene_6": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Namron4512773",
+      "title": "Namron 4512773",
+      "manufacturer": "Namron",
+      "model": "4512773",
+      "url": "controllers/Namron4512773/",
+      "image": "assets/controllers/Namron4512773.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": "The Namron 4512773 has four groups, and with swappable physical buttons it is intended to control one, two, or four buttons.\nTo make this work with ControllerX, you can use one app per light you want to control.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Namron4512773LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_l1": "on",
+              "on_l2": "on",
+              "on_l3": "on",
+              "on_l4": "on",
+              "off_l1": "off",
+              "off_l2": "off",
+              "off_l3": "off",
+              "off_l4": "off",
+              "brightness_move_up_l1": "hold_brightness_up",
+              "brightness_move_up_l2": "hold_brightness_up",
+              "brightness_move_up_l3": "hold_brightness_up",
+              "brightness_move_up_l4": "hold_brightness_up",
+              "brightness_move_down_l1": "hold_brightness_down",
+              "brightness_move_down_l2": "hold_brightness_down",
+              "brightness_move_down_l3": "hold_brightness_down",
+              "brightness_move_down_l4": "hold_brightness_down",
+              "brightness_stop_l1": "release",
+              "brightness_stop_l2": "release",
+              "brightness_stop_l3": "release",
+              "brightness_stop_l4": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Namron4512773Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_l1": "on",
+              "on_l2": "on",
+              "on_l3": "on",
+              "on_l4": "on",
+              "off_l1": "off",
+              "off_l2": "off",
+              "off_l3": "off",
+              "off_l4": "off",
+              "brightness_move_up_l1": "hold_brightness_up",
+              "brightness_move_up_l2": "hold_brightness_up",
+              "brightness_move_up_l3": "hold_brightness_up",
+              "brightness_move_up_l4": "hold_brightness_up",
+              "brightness_move_down_l1": "hold_brightness_down",
+              "brightness_move_down_l2": "hold_brightness_down",
+              "brightness_move_down_l3": "hold_brightness_down",
+              "brightness_move_down_l4": "hold_brightness_down",
+              "brightness_stop_l1": "release",
+              "brightness_stop_l2": "release",
+              "brightness_stop_l3": "release",
+              "brightness_stop_l4": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "OsramAC025XX00NJ",
+      "title": "OSRAM AC025XX00NJ",
+      "manufacturer": "OSRAM",
+      "model": "AC025XX00NJ",
+      "url": "controllers/OsramAC025XX00NJ/",
+      "image": "assets/controllers/OsramAC025XX00NJ.jpeg",
+      "integrations": [
+        "deconz",
+        "zha"
+      ],
+      "notes": "This controller is supported for AC0251100NJ / AC0251400NJ / AC0251600NJ / AC0251700NJ.\nThe different models are just different colours.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "OsramAC025XX00NJLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "deconz": {
+              "1002": "on",
+              "1001": "hold_brightness_up",
+              "1003": "release",
+              "2003": "release",
+              "3003": "release",
+              "2002": "off",
+              "2001": "hold_brightness_down",
+              "3002": "sync",
+              "3001": "hold_color_up"
+            },
+            "zha": {
+              "1_on": "on",
+              "1_move_with_on_off": "hold_brightness_up",
+              "1_stop": "release",
+              "3_move_hue": "release",
+              "2_stop": "release",
+              "2_off": "off",
+              "2_move": "hold_brightness_down",
+              "3_move_to_color_temp": "sync",
+              "3_move_to_saturation": "hold_color_up",
+              "3_move_to_level_with_on_off": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Philips929002398602",
+      "title": "Philips 929002398602",
+      "manufacturer": "Philips",
+      "model": "929002398602",
+      "url": "controllers/Philips929002398602/",
+      "image": "assets/controllers/Philips929002398602.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Philips929002398602LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_press_release": "toggle",
+              "on_hold": "toggle",
+              "on_hold_release": "release",
+              "up_hold_release": "release",
+              "down_hold_release": "release",
+              "off_hold_release": "release",
+              "up_press_release": "click_brightness_up",
+              "up_hold": "hold_brightness_up",
+              "down_press_release": "click_brightness_down",
+              "down_hold": "hold_brightness_down",
+              "off_press_release": "click_color_up",
+              "off_hold": "hold_color_down"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1001": "toggle",
+              "1003": "release",
+              "2003": "release",
+              "3003": "release",
+              "4003": "release",
+              "2002": "click_brightness_up",
+              "2001": "hold_brightness_up",
+              "3002": "click_brightness_down",
+              "3001": "hold_brightness_down",
+              "4002": "click_color_up",
+              "4001": "hold_color_down"
+            },
+            "zha": {
+              "on_hold": "toggle",
+              "on_short_release": "toggle",
+              "off_long_release": "release",
+              "down_long_release": "release",
+              "up_long_release": "release",
+              "on_long_release": "release",
+              "up_short_release": "click_brightness_up",
+              "up_hold": "hold_brightness_up",
+              "down_short_release": "click_brightness_down",
+              "down_hold": "hold_brightness_down",
+              "off_short_release": "click_color_up",
+              "off_hold": "hold_color_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Philips929002398602Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_press_release": "on",
+              "on_hold": "hold_colortemp_up",
+              "on_hold_release": "release",
+              "up_hold_release": "release",
+              "down_hold_release": "release",
+              "off_hold_release": "release",
+              "up_press_release": "click_brightness_up",
+              "up_hold": "hold_brightness_up",
+              "down_press_release": "click_brightness_down",
+              "down_hold": "hold_brightness_down",
+              "off_press_release": "off",
+              "off_hold": "hold_colortemp_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Philips929003017102",
+      "title": "Philips 929003017102",
+      "manufacturer": "Philips",
+      "model": "929003017102",
+      "url": "controllers/Philips929003017102/",
+      "image": "assets/controllers/Philips929003017102.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "This controller has 4 modes, and depending on which one is used,\nit will trigger one action or another: single_rocker, single_push_button, dual_rocker, dual_push_button.\nYou can read more about it in these threads:\n[deCONZ](https://github.com/dresden-elektronik/deconz-rest-plugin/issues/4566) and\n[Zigbee2MQTT](https://github.com/Koenkk/zigbee-herdsman-converters/issues/2393).\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Philips929003017102LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "left_press_release": "toggle",
+              "right_press_release": "toggle",
+              "left_hold": "hold_brightness_toggle",
+              "right_hold": "hold_brightness_toggle",
+              "left_hold_release": "release",
+              "right_hold_release": "release"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "2002": "toggle",
+              "1001": "hold_brightness_toggle",
+              "2001": "hold_brightness_toggle",
+              "1003": "release",
+              "2003": "release",
+              "1000": null,
+              "2000": null
+            },
+            "zha": {
+              "left_press_release": "toggle",
+              "right_short_release": "toggle",
+              "left_hold": "hold_brightness_toggle",
+              "right_hold": "hold_brightness_toggle",
+              "left_hold_release": "release",
+              "right_long_release": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Philips929003017102Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "left_press_release": "toggle",
+              "right_press_release": "toggle",
+              "left_hold": "hold_brightness_toggle",
+              "right_hold": "hold_brightness_toggle",
+              "left_hold_release": "release",
+              "right_hold_release": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "PhilipsRDM002",
+      "title": "Philips RDM002",
+      "manufacturer": "Philips",
+      "model": "RDM002",
+      "url": "controllers/PhilipsRDM002/",
+      "image": "assets/controllers/PhilipsRDM002.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "PhilipsRDM002LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_press_release": "off",
+              "button_1_hold": "hold_brightness_down",
+              "button_1_hold_release": "release",
+              "button_2_hold_release": "release",
+              "button_3_hold_release": "release",
+              "button_4_hold_release": "release",
+              "button_2_press_release": "on",
+              "button_2_hold": "hold_brightness_up",
+              "button_3_press_release": "click_color_down",
+              "button_3_hold": "hold_color_down",
+              "button_4_press_release": "click_color_up",
+              "button_4_hold": "hold_color_up",
+              "dial_rotate_left_step": "click_brightness_down",
+              "dial_rotate_left_slow": "on_min_color_temp",
+              "dial_rotate_left_fast": "on_min_brightness",
+              "dial_rotate_right_step": "click_brightness_up",
+              "dial_rotate_right_slow": "on_full_color_temp",
+              "dial_rotate_right_fast": "on_full_brightness"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "PhilipsRDM002Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_press_release": "off",
+              "button_1_hold": "hold_brightness_down",
+              "button_1_hold_release": "release",
+              "button_2_hold_release": "release",
+              "button_3_hold_release": "release",
+              "button_4_hold_release": "release",
+              "button_2_press_release": "on",
+              "button_2_hold": "hold_brightness_up",
+              "button_3_press_release": "click_colortemp_down",
+              "button_3_hold": "hold_colortemp_down",
+              "button_4_press_release": "click_colortemp_up",
+              "button_4_hold": "hold_colortemp_up",
+              "dial_rotate_left_step": "click_brightness_down",
+              "dial_rotate_left_slow": "on_min_color_temp",
+              "dial_rotate_left_fast": "on_min_brightness",
+              "dial_rotate_right_step": "click_brightness_up",
+              "dial_rotate_right_slow": "on_full_color_temp",
+              "dial_rotate_right_fast": "on_full_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Prolight5412748727388",
+      "title": "Prolight 5412748727388",
+      "manufacturer": "Prolight",
+      "model": "5412748727388",
+      "url": "controllers/Prolight5412748727388/",
+      "image": "assets/controllers/Prolight5412748727388.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Prolight5412748727388LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "brightness_move_to_level": "brightness_from_controller_level",
+              "color_temperature_move": "colortemp_from_controller",
+              "color_temperature_move_up": "click_colortemp_up",
+              "color_temperature_move_down": "click_colortemp_down",
+              "color_move": "xycolor_from_controller"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Prolight5412748727388Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "brightness_move_to_level": "brightness_from_controller_level",
+              "color_temperature_move": "colortemp_from_controller",
+              "color_temperature_move_up": "click_colortemp_up",
+              "color_temperature_move_down": "click_colortemp_down",
+              "color_move": "xycolor_from_controller"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "PTM215X",
+      "title": "Philips PTM215X",
+      "manufacturer": "Philips",
+      "model": "PTM215X",
+      "url": "controllers/PTM215X/",
+      "image": "assets/controllers/PTM215X.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": "Check the button mapping [here](https://phoscon.de/en/support#pairing-friends-of-hue-switch).\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "PTM215XLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "press_1": "on",
+              "release_1": "release",
+              "release_2": "release",
+              "release_3": "release",
+              "release_4": "release",
+              "release_1_and_3": "release",
+              "release_2_and_4": "release",
+              "press_2": "off",
+              "press_3": "on_full_brightness",
+              "press_4": "on_min_brightness",
+              "press_1_and_3": "on_full_color_temp",
+              "press_2_and_4": "on_min_color_temp",
+              "press_energy_bar": "sync"
+            },
+            "deconz": {
+              "1002": "on",
+              "3003": "release",
+              "4003": "release",
+              "5003": "release",
+              "6003": "release",
+              "2002": "off",
+              "3002": "on_full_brightness",
+              "4002": "on_min_brightness",
+              "5002": "on_full_color_temp",
+              "6002": "on_min_color_temp",
+              "1001": "sync",
+              "2001": "sync",
+              "1000": null,
+              "1003": null,
+              "2000": null,
+              "2003": null,
+              "3000": null,
+              "4000": null,
+              "5000": null,
+              "6000": null,
+              "3001": "hold_brightness_up",
+              "4001": "hold_brightness_down",
+              "5001": "hold_color_up",
+              "6001": "hold_color_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ROB2000070",
+      "title": "ROBB ROB2000070",
+      "manufacturer": "ROBB",
+      "model": "ROB2000070",
+      "url": "controllers/ROB2000070/",
+      "image": "assets/controllers/ROB2000070.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": "Note that each button performs the same actions.\nThis is because ControllerX is designed to control just one entity (light or media player).\nSo, you can include the `actions` parameter to include the actions needed,\nor use the `mapping` attribute to define a [custom mapping](../advanced/index.md).\nYou can check [here](https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634) for reference.\n\nThis controller is a white-label version of the Sunricher SR-ZG9001K8-DIM.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ROB2000070LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_1": "on",
+              "on_2": "on",
+              "on_3": "on",
+              "on_4": "on",
+              "off_1": "off",
+              "off_2": "off",
+              "off_3": "off",
+              "off_4": "off",
+              "brightness_move_up_1": "hold_brightness_up",
+              "brightness_move_up_2": "hold_brightness_up",
+              "brightness_move_up_3": "hold_brightness_up",
+              "brightness_move_up_4": "hold_brightness_up",
+              "brightness_move_down_1": "hold_brightness_down",
+              "brightness_move_down_2": "hold_brightness_down",
+              "brightness_move_down_3": "hold_brightness_down",
+              "brightness_move_down_4": "hold_brightness_down",
+              "brightness_stop_1": "release",
+              "brightness_stop_2": "release",
+              "brightness_stop_3": "release",
+              "brightness_stop_4": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "ROB2000070Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on_1": "on",
+              "on_2": "on",
+              "on_3": "on",
+              "on_4": "on",
+              "off_1": "off",
+              "off_2": "off",
+              "off_3": "off",
+              "off_4": "off",
+              "brightness_move_up_1": "hold_brightness_up",
+              "brightness_move_up_2": "hold_brightness_up",
+              "brightness_move_up_3": "hold_brightness_up",
+              "brightness_move_up_4": "hold_brightness_up",
+              "brightness_move_down_1": "hold_brightness_down",
+              "brightness_move_down_2": "hold_brightness_down",
+              "brightness_move_down_3": "hold_brightness_down",
+              "brightness_move_down_4": "hold_brightness_down",
+              "brightness_stop_1": "release",
+              "brightness_stop_2": "release",
+              "brightness_stop_3": "release",
+              "brightness_stop_4": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Shelly25",
+      "title": "Shelly 25",
+      "manufacturer": "Shelly",
+      "model": "25",
+      "url": "controllers/Shelly25/",
+      "image": "assets/controllers/Shelly25.jpeg",
+      "integrations": [
+        "shelly"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Shelly25LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "shelly"
+          ],
+          "default_mapping": {
+            "shelly": {
+              "single_push_1": "on",
+              "long_push_1": "hold_brightness_up",
+              "btn_up_1": "release",
+              "btn_up_2": "release",
+              "double_push_1": "on_full_brightness",
+              "single_push_2": "off",
+              "long_push_2": "hold_brightness_down",
+              "double_push_2": "on_min_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ShellyDimmer2",
+      "title": "Shelly Dimmer2",
+      "manufacturer": "Shelly",
+      "model": "Dimmer2",
+      "url": "controllers/ShellyDimmer2/",
+      "image": "assets/controllers/ShellyDimmer2.jpeg",
+      "integrations": [
+        "shelly"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ShellyDimmer2LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "shelly"
+          ],
+          "default_mapping": {
+            "shelly": {
+              "single_1": "toggle",
+              "long_1": "toggle",
+              "single_2": null,
+              "long_2": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ShellyI3",
+      "title": "Shelly I3",
+      "manufacturer": "Shelly",
+      "model": "I3",
+      "url": "controllers/ShellyI3/",
+      "image": "assets/controllers/ShellyI3.jpeg",
+      "integrations": [
+        "shellyforhass"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ShellyI3LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "shellyforhass"
+          ],
+          "default_mapping": {
+            "shellyforhass": {
+              "single": "click_brightness_up",
+              "long": "click_brightness_down",
+              "double": "on_full_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ShellyPlusI4",
+      "title": "Shelly PlusI4",
+      "manufacturer": "Shelly",
+      "model": "PlusI4",
+      "url": "controllers/ShellyPlusI4/",
+      "image": "assets/controllers/ShellyPlusI4.jpeg",
+      "integrations": [
+        "shelly"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ShellyPlusI4LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "shelly"
+          ],
+          "default_mapping": {
+            "shelly": {
+              "single_push_1": "on",
+              "long_push_1": "hold_color_up",
+              "btn_up_1": "release",
+              "btn_up_2": "release",
+              "btn_up_3": "release",
+              "btn_up_4": "release",
+              "double_push_1": "on_full_color_temp",
+              "single_push_2": "off",
+              "long_push_2": "hold_color_down",
+              "double_push_2": "on_min_color_temp",
+              "single_push_3": "click_brightness_up",
+              "long_push_3": "hold_brightness_up",
+              "double_push_3": "on_full_brightness",
+              "single_push_4": "click_brightness_down",
+              "long_push_4": "hold_brightness_down",
+              "double_push_4": "on_min_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SK5700002228949",
+      "title": "Smartkontakten SK5700002228949",
+      "manufacturer": "Smartkontakten",
+      "model": "SK5700002228949",
+      "url": "controllers/SK5700002228949/",
+      "image": "assets/controllers/SK5700002228949.jpeg",
+      "integrations": [
+        "deconz"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "SK5700002228949LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "deconz"
+          ],
+          "default_mapping": {
+            "deconz": {
+              "1002": "on",
+              "1001": "hold_brightness_up",
+              "1003": "release",
+              "3003": "release",
+              "2003": "release",
+              "4003": "release",
+              "3002": "off",
+              "3001": "hold_brightness_down",
+              "2002": "click_color_up",
+              "2001": "hold_color_up",
+              "4002": "click_color_down",
+              "4001": "hold_color_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SmartThingsButton",
+      "title": "SmartThings Button",
+      "manufacturer": "SmartThings",
+      "model": "Button",
+      "url": "controllers/SmartThingsButton/",
+      "image": "assets/controllers/SmartThingsButton.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "SmartThingsButtonLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "hold": "set_half_brightness"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1004": "on_full_brightness",
+              "1001": "set_half_brightness"
+            },
+            "zha": {
+              "button_single_1_0_0_0": "toggle",
+              "button_double_2_0_0_0": "on_full_brightness",
+              "button_hold_3_0_0_0": "set_half_brightness"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "SmartThingsButtonMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_click": "play_pause",
+              "double_click": "next_track",
+              "hold": "previous_track"
+            },
+            "deconz": {
+              "1002": "play_pause",
+              "1004": "next_track",
+              "1001": "previous_track"
+            },
+            "zha": {
+              "button_single_1_0_0_0": "play_pause",
+              "button_double_2_0_0_0": "next_track",
+              "button_hold_3_0_0_0": "previous_track"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SNZB01",
+      "title": "SONOFF SNZB01",
+      "manufacturer": "SONOFF",
+      "model": "SNZB01",
+      "url": "controllers/SNZB01/",
+      "image": "assets/controllers/SNZB01.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "SNZB01LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "long": "on_min_brightness"
+            },
+            "zha": {
+              "toggle": "toggle",
+              "on": "on_full_brightness",
+              "off": "on_min_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TasmotaButton",
+      "title": "Tasmota Button",
+      "manufacturer": "Tasmota",
+      "model": "Button",
+      "url": "controllers/TasmotaButton/",
+      "image": "assets/controllers/TasmotaButton.jpeg",
+      "integrations": [
+        "tasmota"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TasmotaButtonLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle",
+              "SINGLE": "toggle",
+              "DOUBLE": "on_min_brightness",
+              "TRIPLE": "set_half_brightness",
+              "QUAD": "on_full_brightness",
+              "PENTA": null,
+              "HOLD": "hold_brightness_toggle",
+              "CLEAR": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "TasmotaButtonZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle",
+              "SINGLE": "toggle",
+              "DOUBLE": "on_min_brightness",
+              "TRIPLE": "set_half_brightness",
+              "QUAD": "on_full_brightness",
+              "PENTA": null,
+              "HOLD": "hold_brightness_toggle",
+              "CLEAR": "release"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "TasmotaButtonSwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle",
+              "SINGLE": "toggle",
+              "DOUBLE": "on",
+              "TRIPLE": "off",
+              "QUAD": null,
+              "PENTA": null,
+              "HOLD": null,
+              "CLEAR": null
+            }
+          }
+        },
+        {
+          "type": "Cover",
+          "anchor": "cover",
+          "class": "TasmotaButtonCoverController",
+          "entity_arg": "cover",
+          "domain": "cover",
+          "default_delay_ms": null,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle_open",
+              "SINGLE": "toggle_open",
+              "DOUBLE": "close",
+              "HOLD": "close",
+              "TRIPLE": null,
+              "QUAD": null,
+              "PENTA": null,
+              "CLEAR": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TasmotaSwitch",
+      "title": "Tasmota Switch",
+      "manufacturer": "Tasmota",
+      "model": "Switch",
+      "url": "controllers/TasmotaSwitch/",
+      "image": "assets/controllers/TasmotaSwitch.jpeg",
+      "integrations": [
+        "tasmota"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TasmotaSwitchLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle",
+              "ON": "on",
+              "OFF": "off",
+              "HOLD": "on_min_max_brightness"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "TasmotaSwitchZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle",
+              "ON": "on",
+              "OFF": "off",
+              "HOLD": "set_half_brightness"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "TasmotaSwitchSwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle",
+              "ON": "on",
+              "OFF": "off",
+              "HOLD": null
+            }
+          }
+        },
+        {
+          "type": "Cover",
+          "anchor": "cover",
+          "class": "TasmotaSwitchCoverController",
+          "entity_arg": "cover",
+          "domain": "cover",
+          "default_delay_ms": null,
+          "integrations": [
+            "tasmota"
+          ],
+          "default_mapping": {
+            "tasmota": {
+              "TOGGLE": "toggle_open",
+              "ON": "open",
+              "OFF": "close",
+              "HOLD": "toggle_close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TerncyPP01",
+      "title": "Terncy PP01",
+      "manufacturer": "Terncy",
+      "model": "PP01",
+      "url": "controllers/TerncyPP01/",
+      "image": "assets/controllers/TerncyPP01.jpeg",
+      "integrations": [
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TerncyPP01LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "button_single": "toggle",
+              "button_double": "on_full_brightness",
+              "button_triple": "on_min_brightness",
+              "button_quadruple": "set_half_brightness",
+              "button_quintuple": "set_half_color_temp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TerncySD01",
+      "title": "Terncy SD01",
+      "manufacturer": "Terncy",
+      "model": "SD01",
+      "url": "controllers/TerncySD01/",
+      "image": "assets/controllers/TerncySD01.jpeg",
+      "integrations": [
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TerncySD01LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "button_single": "toggle",
+              "button_double": "on_full_brightness",
+              "button_triple": "on_min_brightness",
+              "button_quadruple": "set_half_brightness",
+              "button_quintuple": "set_half_color_temp",
+              "rotate_left": "click_brightness_down",
+              "rotate_right": "click_brightness_up"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "TerncySD01MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "button_single": "play_pause",
+              "button_double": "mute",
+              "button_triple": "next_track",
+              "button_quadruple": "previous_track",
+              "button_quintuple": "next_source",
+              "rotate_left": "click_volume_down",
+              "rotate_right": "click_volume_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TS0042",
+      "title": "Tuya TS0042",
+      "manufacturer": "Tuya",
+      "model": "TS0042",
+      "url": "controllers/TS0042/",
+      "image": "assets/controllers/TS0042.jpeg",
+      "integrations": [
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TS0042LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "1_remote_button_short_press": "on",
+              "1_remote_button_double_press": "click_brightness_up",
+              "1_remote_button_long_press": "on_full_brightness",
+              "2_remote_button_short_press": "off",
+              "2_remote_button_double_press": "on_min_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TS0043",
+      "title": "Tuya TS0043",
+      "manufacturer": "Tuya",
+      "model": "TS0043",
+      "url": "controllers/TS0043/",
+      "image": "assets/controllers/TS0043.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TS0043LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "1_single": "toggle",
+              "2_single": "toggle",
+              "3_single": "toggle",
+              "1_double": "click_brightness_up",
+              "2_double": "click_brightness_up",
+              "3_double": "click_brightness_up",
+              "1_hold": "click_brightness_down",
+              "2_hold": "click_brightness_down",
+              "3_hold": "click_brightness_down"
+            },
+            "zha": {
+              "1_remote_button_short_press": "toggle",
+              "2_remote_button_short_press": "toggle",
+              "3_remote_button_short_press": "toggle",
+              "1_remote_button_double_press": "click_brightness_up",
+              "2_remote_button_double_press": "click_brightness_up",
+              "3_remote_button_double_press": "click_brightness_up",
+              "1_remote_button_long_press": "click_brightness_down",
+              "2_remote_button_long_press": "click_brightness_down",
+              "3_remote_button_long_press": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Cover",
+          "anchor": "cover",
+          "class": "TS0043CoverController",
+          "entity_arg": "cover",
+          "domain": "cover",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "1_single": "open",
+              "2_single": "stop",
+              "3_single": "close"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TS0044",
+      "title": "Tuya TS0044",
+      "manufacturer": "Tuya",
+      "model": "TS0044",
+      "url": "controllers/TS0044/",
+      "image": "assets/controllers/TS0044.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": "Note that each button performs the same actions.\nThis is because ControllerX is designed to control just one entity (light or media player).\nSo, you can include the `actions` parameter to include the actions needed,\nor use the `mapping` attribute to define a [custom mapping](../advanced/index.md).\nYou can check [here](https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634) for reference.\n\nAlso, this controller supports the hold action, but not release. This means that there are no\nsmooth brightness changes when holding, just step by step every time it is held.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TS0044LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "1_single": "toggle",
+              "2_single": "toggle",
+              "3_single": "toggle",
+              "4_single": "toggle",
+              "1_double": "click_brightness_up",
+              "2_double": "click_brightness_up",
+              "3_double": "click_brightness_up",
+              "4_double": "click_brightness_up",
+              "1_hold": "click_brightness_down",
+              "2_hold": "click_brightness_down",
+              "3_hold": "click_brightness_down",
+              "4_hold": "click_brightness_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TS0044F",
+      "title": "Tuya TS0044F",
+      "manufacturer": "Tuya",
+      "model": "TS0044F",
+      "url": "controllers/TS0044F/",
+      "image": "assets/controllers/TS0044F.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": "This device is very similar to the TS0044 Tuya, except that it doesn't support hold actions or double clicks.\n\nNote that each button performs the same actions.\nThis is because ControllerX is designed to control just one entity (light or media player).\nSo, you can include the `actions` parameter to include the actions needed,\nor use the `mapping` attribute to define a [custom mapping](../advanced/index.md).\nYou can check [here](https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634) for reference.\n\nSince this controller doesn't support the hold action, there are no smooth brightness\nchanges, just step by step every time it is pressed.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TS0044FLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "TuYaERS10TZBVKAA",
+      "title": "Tuya ERS10TZBVKAA",
+      "manufacturer": "Tuya",
+      "model": "ERS10TZBVKAA",
+      "url": "controllers/TuYaERS10TZBVKAA/",
+      "image": "assets/controllers/TuYaERS10TZBVKAA.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "TuYaERS10TZBVKAALightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_step_up": "click_brightness_up",
+              "rotate_right": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down",
+              "rotate_left": "click_brightness_down",
+              "toggle": "toggle",
+              "single": "toggle",
+              "hue_move": "hold_brightness_toggle",
+              "hue_stop": "release",
+              "color_temperature_step_up": "click_color_up",
+              "color_temperature_step_down": "click_color_down",
+              "double": "on_full_brightness",
+              "hold": "on_min_brightness"
+            },
+            "zha": {
+              "toggle": "toggle",
+              "step_brightness": "brightness_from_controller_step",
+              "step_color_temp": "colortemp_from_controller_step"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "TuYaERS10TZBVKAAZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_step_up": "click_brightness_up",
+              "rotate_right": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down",
+              "rotate_left": "click_brightness_down",
+              "toggle": "toggle",
+              "single": "toggle",
+              "hue_move": "hold_brightness_toggle",
+              "hue_stop": "release",
+              "color_temperature_step_up": "click_colortemp_up",
+              "color_temperature_step_down": "click_colortemp_down",
+              "double": "on_full_brightness",
+              "hold": "on_min_brightness"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "TuYaERS10TZBVKAAMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_step_up": "click_volume_up",
+              "rotate_right": "click_volume_up",
+              "brightness_step_down": "click_volume_down",
+              "rotate_left": "click_volume_down",
+              "toggle": "play_pause",
+              "single": "play_pause",
+              "hue_move": "hold_volume_up",
+              "hue_stop": "release",
+              "color_temperature_step_up": "next_track",
+              "double": "next_track",
+              "color_temperature_step_down": "previous_track",
+              "hold": "previous_track"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXCJKG11LM",
+      "title": "Aqara WXCJKG11LM",
+      "manufacturer": "Aqara",
+      "model": "WXCJKG11LM",
+      "url": "controllers/WXCJKG11LM/",
+      "image": "assets/controllers/WXCJKG11LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXCJKG11LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "off",
+              "button_1_double": "on_min_brightness",
+              "button_1_hold": "hold_brightness_down",
+              "button_1_release": "release",
+              "button_2_release": "release",
+              "button_2_single": "on",
+              "button_2_double": "on_full_brightness",
+              "button_2_hold": "hold_brightness_up"
+            },
+            "deconz": {
+              "1002": "off",
+              "1001": "hold_brightness_down",
+              "1003": "release",
+              "2003": "release",
+              "2002": "on",
+              "2001": "hold_brightness_up"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXCJKG11LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "off",
+              "button_1_double": "on_min_brightness",
+              "button_1_hold": "hold_brightness_down",
+              "button_1_release": "release",
+              "button_2_release": "release",
+              "button_2_single": "on",
+              "button_2_double": "on_full_brightness",
+              "button_2_hold": "hold_brightness_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXCJKG12LM",
+      "title": "Aqara WXCJKG12LM",
+      "manufacturer": "Aqara",
+      "model": "WXCJKG12LM",
+      "url": "controllers/WXCJKG12LM/",
+      "image": "assets/controllers/WXCJKG12LM.jpeg",
+      "integrations": [
+        "z2m",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXCJKG12LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "off",
+              "button_1_double": "on_min_color_temp",
+              "button_1_triple": null,
+              "button_2_triple": null,
+              "button_3_triple": null,
+              "button_4_triple": null,
+              "button_1_hold": "hold_color_down",
+              "button_1_release": "release",
+              "button_2_release": "release",
+              "button_3_release": "release",
+              "button_4_release": "release",
+              "button_2_single": "on",
+              "button_2_double": "on_full_color_temp",
+              "button_2_hold": "hold_color_up",
+              "button_3_single": "click_brightness_down",
+              "button_3_double": "on_min_brightness",
+              "button_3_hold": "hold_brightness_down",
+              "button_4_single": "click_brightness_up",
+              "button_4_double": "on_full_brightness",
+              "button_4_hold": "hold_brightness_up"
+            },
+            "zha": {
+              "1_single": "off",
+              "1_double": "on_min_color_temp",
+              "1_triple": null,
+              "2_triple": null,
+              "3_triple": null,
+              "4_triple": null,
+              "1_long press": "hold_color_down",
+              "1_release": "release",
+              "2_release": "release",
+              "3_release": "release",
+              "4_release": "release",
+              "2_single": "on",
+              "2_double": "on_full_color_temp",
+              "2_long press": "hold_color_up",
+              "3_single": "click_brightness_down",
+              "3_double": "on_min_brightness",
+              "3_long press": "hold_brightness_down",
+              "4_single": "click_brightness_up",
+              "4_double": "on_full_brightness",
+              "4_long press": "hold_brightness_up"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXCJKG12LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "off",
+              "button_1_double": "on_min_color_temp",
+              "button_1_triple": null,
+              "button_2_triple": null,
+              "button_3_triple": null,
+              "button_4_triple": null,
+              "button_1_hold": "hold_colortemp_down",
+              "button_1_release": "release",
+              "button_2_release": "release",
+              "button_3_release": "release",
+              "button_4_release": "release",
+              "button_2_single": "on",
+              "button_2_double": "on_full_color_temp",
+              "button_2_hold": "hold_colortemp_up",
+              "button_3_single": "click_brightness_down",
+              "button_3_double": "on_min_brightness",
+              "button_3_hold": "hold_brightness_down",
+              "button_4_single": "click_brightness_up",
+              "button_4_double": "on_full_brightness",
+              "button_4_hold": "hold_brightness_up"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXCJKG13LM",
+      "title": "Aqara WXCJKG13LM",
+      "manufacturer": "Aqara",
+      "model": "WXCJKG13LM",
+      "url": "controllers/WXCJKG13LM/",
+      "image": "assets/controllers/WXCJKG13LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXCJKG13LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "off",
+              "button_1_double": "sync",
+              "button_2_double": "sync",
+              "button_1_triple": null,
+              "button_1_hold": null,
+              "button_1_release": null,
+              "button_2_triple": null,
+              "button_2_hold": null,
+              "button_2_release": null,
+              "button_3_triple": null,
+              "button_4_triple": null,
+              "button_5_triple": null,
+              "button_6_triple": null,
+              "button_2_single": "on",
+              "button_3_single": "click_brightness_down",
+              "button_3_double": "on_min_brightness",
+              "button_3_hold": "hold_brightness_down",
+              "button_3_release": "release",
+              "button_4_release": "release",
+              "button_5_release": "release",
+              "button_6_release": "release",
+              "button_4_single": "click_brightness_up",
+              "button_4_double": "on_full_brightness",
+              "button_4_hold": "hold_brightness_up",
+              "button_5_single": "click_color_down",
+              "button_5_double": "on_min_color_temp",
+              "button_5_hold": "hold_color_down",
+              "button_6_single": "click_color_up",
+              "button_6_double": "on_full_color_temp",
+              "button_6_hold": "hold_color_up"
+            },
+            "deconz": {
+              "1002": "off",
+              "1004": "sync",
+              "2004": "sync",
+              "1005": null,
+              "1001": null,
+              "1003": null,
+              "2005": null,
+              "2001": null,
+              "2003": null,
+              "3005": null,
+              "4005": null,
+              "5005": null,
+              "6005": null,
+              "2002": "on",
+              "3002": "click_brightness_down",
+              "3004": "on_min_brightness",
+              "3001": "hold_brightness_down",
+              "3003": "release",
+              "4003": "release",
+              "5003": "release",
+              "6003": "release",
+              "4002": "click_brightness_up",
+              "4004": "on_full_brightness",
+              "4001": "hold_brightness_up",
+              "5002": "click_color_down",
+              "5004": "on_min_color_temp",
+              "5001": "hold_color_down",
+              "6002": "click_color_up",
+              "6004": "on_full_color_temp",
+              "6001": "hold_color_up"
+            },
+            "zha": {
+              "1_single": "off",
+              "1_double": "sync",
+              "2_double": "sync",
+              "1_triple": null,
+              "1_long": null,
+              "1_release": null,
+              "2_triple": null,
+              "2_long": null,
+              "2_release": null,
+              "3_triple": null,
+              "4_triple": null,
+              "5_triple": null,
+              "6_triple": null,
+              "2_single": "on",
+              "3_single": "click_brightness_down",
+              "3_double": "on_min_brightness",
+              "3_long": "hold_brightness_down",
+              "3_release": "release",
+              "4_release": "release",
+              "5_release": "release",
+              "6_release": "release",
+              "4_single": "click_brightness_up",
+              "4_double": "on_full_brightness",
+              "4_long": "hold_brightness_up",
+              "5_single": "click_color_down",
+              "5_double": "on_min_color_temp",
+              "5_long": "hold_color_down",
+              "6_single": "click_color_up",
+              "6_double": "on_full_color_temp",
+              "6_long": "hold_color_up"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXCJKG13LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "off",
+              "button_1_double": "on_full_brightness",
+              "button_2_double": "on_full_brightness",
+              "button_4_double": "on_full_brightness",
+              "button_1_triple": null,
+              "button_1_hold": null,
+              "button_1_release": null,
+              "button_2_triple": null,
+              "button_2_hold": null,
+              "button_2_release": null,
+              "button_3_triple": null,
+              "button_4_triple": null,
+              "button_5_triple": null,
+              "button_6_triple": null,
+              "button_2_single": "on",
+              "button_3_single": "click_brightness_down",
+              "button_3_double": "on_min_brightness",
+              "button_3_hold": "hold_brightness_down",
+              "button_3_release": "release",
+              "button_4_release": "release",
+              "button_5_release": "release",
+              "button_6_release": "release",
+              "button_4_single": "click_brightness_up",
+              "button_4_hold": "hold_brightness_up",
+              "button_5_single": "click_colortemp_down",
+              "button_5_double": "on_min_color_temp",
+              "button_5_hold": "hold_colortemp_down",
+              "button_6_single": "click_colortemp_up",
+              "button_6_double": "on_full_color_temp",
+              "button_6_hold": "hold_colortemp_up"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "WXCJKG13LMMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "button_1_single": "click_volume_down",
+              "button_1_double": "mute",
+              "button_1_triple": null,
+              "button_2_triple": null,
+              "button_3_double": null,
+              "button_3_triple": null,
+              "button_3_hold": null,
+              "button_3_release": null,
+              "button_4_double": null,
+              "button_4_triple": null,
+              "button_4_hold": null,
+              "button_4_release": null,
+              "button_5_double": null,
+              "button_5_triple": null,
+              "button_5_hold": null,
+              "button_5_release": null,
+              "button_6_double": null,
+              "button_6_triple": null,
+              "button_6_hold": null,
+              "button_6_release": null,
+              "button_1_hold": "hold_volume_down",
+              "button_1_release": "release",
+              "button_2_release": "release",
+              "button_2_single": "click_volume_up",
+              "button_2_double": "play_pause",
+              "button_2_hold": "hold_volume_up",
+              "button_3_single": "previous_track",
+              "button_4_single": "next_track",
+              "button_5_single": "previous_source",
+              "button_6_single": "next_source"
+            },
+            "deconz": {
+              "1002": "click_volume_down",
+              "1004": "mute",
+              "1005": null,
+              "2005": null,
+              "3001": null,
+              "3003": null,
+              "3004": null,
+              "3005": null,
+              "4001": null,
+              "4003": null,
+              "4004": null,
+              "4005": null,
+              "5001": null,
+              "5003": null,
+              "5004": null,
+              "5005": null,
+              "6001": null,
+              "6003": null,
+              "6004": null,
+              "6005": null,
+              "1001": "hold_volume_down",
+              "1003": "release",
+              "2003": "release",
+              "2002": "click_volume_up",
+              "2004": "play_pause",
+              "2001": "hold_volume_up",
+              "3002": "previous_track",
+              "4002": "next_track",
+              "5002": "previous_source",
+              "6002": "next_source"
+            },
+            "zha": {
+              "1_single": "click_volume_down",
+              "1_double": "mute",
+              "1_triple": null,
+              "2_triple": null,
+              "3_double": null,
+              "3_triple": null,
+              "3_long": null,
+              "3_release": null,
+              "4_double": null,
+              "4_triple": null,
+              "4_long": null,
+              "4_release": null,
+              "5_double": null,
+              "5_triple": null,
+              "5_long": null,
+              "6_double": null,
+              "6_triple": null,
+              "6_long": null,
+              "6_release": null,
+              "1_long": "hold_volume_down",
+              "1_release": "release",
+              "2_release": "release",
+              "5_release": "release",
+              "2_single": "click_volume_up",
+              "2_double": "play_pause",
+              "2_long": "hold_volume_up",
+              "3_single": "previous_track",
+              "4_single": "next_track",
+              "5_single": "previous_source",
+              "6_single": "next_source"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG01LM",
+      "title": "Aqara WXKG01LM",
+      "manufacturer": "Aqara",
+      "model": "WXKG01LM",
+      "url": "controllers/WXKG01LM/",
+      "image": "assets/controllers/WXKG01LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "The ZHA implementation of this button does not support hold and release actions yet.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG01LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "triple": "on_min_brightness",
+              "quadruple": "set_half_brightness",
+              "many": null,
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1004": "on_full_brightness",
+              "1005": "on_min_brightness",
+              "1006": "set_half_brightness",
+              "1010": null,
+              "1001": "hold_brightness_toggle",
+              "1003": "release"
+            },
+            "zha": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "triple": "on_min_brightness",
+              "quadruple": "set_half_brightness"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXKG01LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "triple": "on_min_brightness",
+              "quadruple": "set_half_brightness",
+              "many": null,
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG02LM",
+      "title": "Aqara WXKG02LM",
+      "manufacturer": "Aqara",
+      "model": "WXKG02LM",
+      "url": "controllers/WXKG02LM/",
+      "image": "assets/controllers/WXKG02LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "Note that all actions related to both left and right do the same.\nThis is because ControllerX is designed to control just one entity (light or media player).\nSo, you can include the `actions` parameter to include the actions needed.\nYou can check [here](https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634) for reference.\n\nAlso, this controller supports the hold action, but not release. This means that there are no\nsmooth brightness changes when holding, just step by step every time it is held.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG02LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle",
+              "double_both": "click_brightness_up",
+              "double_left": "click_brightness_up",
+              "double_right": "click_brightness_up",
+              "hold_both": "click_brightness_down",
+              "hold_left": "click_brightness_down",
+              "hold_right": "click_brightness_down"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "2002": "toggle",
+              "3002": "toggle",
+              "1004": "click_brightness_up",
+              "2004": "click_brightness_up",
+              "3004": "click_brightness_up",
+              "1001": "click_brightness_down",
+              "2001": "click_brightness_down",
+              "3001": "click_brightness_down"
+            },
+            "zha": {
+              "both_single": "toggle",
+              "left_single": "toggle",
+              "right_single": "toggle",
+              "both_double": "click_brightness_up",
+              "left_double": "click_brightness_up",
+              "right_double": "click_brightness_up",
+              "both_long press": "click_brightness_down",
+              "left_long press": "click_brightness_down",
+              "right_long press": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXKG02LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle",
+              "double_both": "click_brightness_up",
+              "double_left": "click_brightness_up",
+              "double_right": "click_brightness_up",
+              "hold_both": "click_brightness_down",
+              "hold_left": "click_brightness_down",
+              "hold_right": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "WXKG02LMSwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "2002": "toggle",
+              "3002": "toggle"
+            },
+            "zha": {
+              "both_single": "toggle",
+              "left_single": "toggle",
+              "right_single": "toggle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG06LM",
+      "title": "Aqara WXKG06LM",
+      "manufacturer": "Aqara",
+      "model": "WXKG06LM",
+      "url": "controllers/WXKG06LM/",
+      "image": "assets/controllers/WXKG06LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": "This controller supports the hold action, but not release. This means that there are no\nsmooth brightness changes when holding, just step by step every time it is held.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG06LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "click_brightness_up",
+              "hold": "click_brightness_up"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1004": "click_brightness_up",
+              "1001": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "WXKG06LMSwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle"
+            },
+            "deconz": {
+              "1002": "toggle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG07LM",
+      "title": "Aqara WXKG07LM",
+      "manufacturer": "Aqara",
+      "model": "WXKG07LM",
+      "url": "controllers/WXKG07LM/",
+      "image": "assets/controllers/WXKG07LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": "Note that all actions related to both left and right do the same.\nThis is because ControllerX is designed to control just one entity (light or media player).\nSo, you can include the `actions` parameter to include the actions needed.\nYou can check [here](https://github.com/xaviml/controllerx/issues/18#issuecomment-582535634) for reference.\n\nAlso, this controller supports the hold action, but not release. This means that there are no\nsmooth brightness changes when holding, just step by step every time it is held.\n",
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG07LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle",
+              "double_both": "click_brightness_up",
+              "double_left": "click_brightness_up",
+              "double_right": "click_brightness_up",
+              "hold_both": "click_brightness_down",
+              "hold_left": "click_brightness_down",
+              "hold_right": "click_brightness_down"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "2002": "toggle",
+              "3002": "toggle",
+              "1004": "click_brightness_up",
+              "2004": "click_brightness_up",
+              "3004": "click_brightness_up",
+              "1001": "click_brightness_down",
+              "2001": "click_brightness_down",
+              "3001": "click_brightness_down"
+            },
+            "zha": {
+              "both_single": "toggle",
+              "left_single": "toggle",
+              "right_single": "toggle",
+              "both_double": "click_brightness_up",
+              "left_double": "click_brightness_up",
+              "right_double": "click_brightness_up",
+              "both_long press": "click_brightness_down",
+              "left_long press": "click_brightness_down",
+              "right_long press": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXKG07LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle",
+              "double_both": "click_brightness_up",
+              "double_left": "click_brightness_up",
+              "double_right": "click_brightness_up",
+              "hold_both": "click_brightness_down",
+              "hold_left": "click_brightness_down",
+              "hold_right": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "WXKG07LMSwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "2002": "toggle",
+              "3002": "toggle"
+            },
+            "zha": {
+              "both_single": "toggle",
+              "left_single": "toggle",
+              "right_single": "toggle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG11LMRemote",
+      "title": "Aqara WXKG11LMRemote",
+      "manufacturer": "Aqara",
+      "model": "WXKG11LMRemote",
+      "url": "controllers/WXKG11LMRemote/",
+      "image": "assets/controllers/WXKG11LMRemote.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG11LMRemoteLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1004": "on_full_brightness",
+              "1001": "hold_brightness_toggle",
+              "1003": "release"
+            },
+            "zha": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXKG11LMRemoteZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG11LMSensorSwitch",
+      "title": "Aqara WXKG11LMSensorSwitch",
+      "manufacturer": "Aqara",
+      "model": "WXKG11LMSensorSwitch",
+      "url": "controllers/WXKG11LMSensorSwitch/",
+      "image": "assets/controllers/WXKG11LMSensorSwitch.jpeg",
+      "integrations": [
+        "deconz",
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG11LMSensorSwitchLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "deconz",
+            "zha"
+          ],
+          "default_mapping": {
+            "deconz": {
+              "1002": "toggle",
+              "1004": "on_full_brightness",
+              "1005": "on_min_brightness",
+              "1006": "set_half_brightness"
+            },
+            "zha": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "triple": "on_min_brightness",
+              "quadruple": "set_half_brightness"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG12LM",
+      "title": "Aqara WXKG12LM",
+      "manufacturer": "Aqara",
+      "model": "WXKG12LM",
+      "url": "controllers/WXKG12LM/",
+      "image": "assets/controllers/WXKG12LM.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG12LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "shake": "on_min_brightness",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "1004": "on_full_brightness",
+              "1007": "on_min_brightness",
+              "1001": "hold_brightness_toggle",
+              "1003": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXKG12LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "shake": "on_min_brightness",
+              "hold": "hold_brightness_toggle",
+              "release": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WXKG15LM",
+      "title": "Aqara WXKG15LM",
+      "manufacturer": "Aqara",
+      "model": "WXKG15LM",
+      "url": "controllers/WXKG15LM/",
+      "image": "assets/controllers/WXKG15LM.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "WXKG15LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle",
+              "double_both": "click_brightness_up",
+              "double_left": "click_brightness_up",
+              "double_right": "click_brightness_up",
+              "triple_both": "click_brightness_down",
+              "triple_left": "click_brightness_down",
+              "triple_right": "click_brightness_down",
+              "hold_both": "on_full_brightness",
+              "hold_left": "on_full_brightness",
+              "hold_right": "on_full_brightness"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "WXKG15LMZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle",
+              "double_both": "click_brightness_up",
+              "double_left": "click_brightness_up",
+              "double_right": "click_brightness_up",
+              "triple_both": "click_brightness_down",
+              "triple_left": "click_brightness_down",
+              "triple_right": "click_brightness_down",
+              "hold_both": "on_full_brightness",
+              "hold_left": "on_full_brightness",
+              "hold_right": "on_full_brightness"
+            }
+          }
+        },
+        {
+          "type": "Switch",
+          "anchor": "switch",
+          "class": "WXKG15LMSwitchController",
+          "entity_arg": "switch",
+          "domain": "switch",
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single_both": "toggle",
+              "single_left": "toggle",
+              "single_right": "toggle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Z31BRL",
+      "title": "Lutron Z31BRL",
+      "manufacturer": "Lutron",
+      "model": "Z31BRL",
+      "url": "controllers/Z31BRL/",
+      "image": "assets/controllers/Z31BRL.jpeg",
+      "integrations": [
+        "z2m",
+        "deconz"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "Z31BRLLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m",
+            "deconz"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_to_level": "brightness_from_controller_level"
+            },
+            "deconz": {
+              "1002": "toggle",
+              "2002": "click_brightness_up",
+              "3002": "click_brightness_down"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "Z31BRLZ2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "brightness_move_to_level": "brightness_from_controller_level"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ZB3009",
+      "title": "RGB Genie ZB3009",
+      "manufacturer": "RGB Genie",
+      "model": "ZB3009",
+      "url": "controllers/ZB3009/",
+      "image": "assets/controllers/ZB3009.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ZB3009LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "color_temperature_move_down": "click_colortemp_down",
+              "color_temperature_move_up": "click_colortemp_up",
+              "color_temperature_move": "colortemp_from_controller",
+              "color_move": "xycolor_from_controller",
+              "hue_move": null,
+              "recall_1": null,
+              "recall_3": null,
+              "recall_2": null
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "ZB3009Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "toggle",
+              "off": "toggle",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "color_temperature_move_down": "click_colortemp_down",
+              "color_temperature_move_up": "click_colortemp_up",
+              "color_temperature_move": "colortemp_from_controller",
+              "color_move": "xycolor_from_controller",
+              "hue_move": null,
+              "recall_1": null,
+              "recall_3": null,
+              "recall_2": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ZB5121",
+      "title": "RGB Genie ZB5121",
+      "manufacturer": "RGB Genie",
+      "model": "ZB5121",
+      "url": "controllers/ZB5121/",
+      "image": "assets/controllers/ZB5121.jpeg",
+      "integrations": [
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ZB5121LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "on": "on",
+              "off": "off",
+              "step_with_on_off_0_32_0": "click_brightness_up",
+              "move_with_on_off_0_50": "hold_brightness_up",
+              "step_with_on_off_1_32_0": "click_brightness_down",
+              "move_with_on_off_1_50": "hold_brightness_down",
+              "recall_0_1": null,
+              "stop": "release"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ZB5122",
+      "title": "RGB Genie ZB5122",
+      "manufacturer": "RGB Genie",
+      "model": "ZB5122",
+      "url": "controllers/ZB5122/",
+      "image": "assets/controllers/ZB5122.jpeg",
+      "integrations": [
+        "zha"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ZB5122LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "zha"
+          ],
+          "default_mapping": {
+            "zha": {
+              "on": "on",
+              "off": "off",
+              "hold_brightness_up": "hold_brightness_up",
+              "hold_brightness_down": "hold_brightness_down",
+              "stop": "release",
+              "stop_move_hue": "release",
+              "stop_move_step": "release",
+              "move_to_color": "click_xycolor_up",
+              "move_hue": "hold_xycolor_up",
+              "move_to_color_temp": "colortemp_from_controller",
+              "move_color_temp": "hold_colortemp_toggle",
+              "recall_0_1": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ZNXNKG02LM",
+      "title": "Aqara ZNXNKG02LM",
+      "manufacturer": "Aqara",
+      "model": "ZNXNKG02LM",
+      "url": "controllers/ZNXNKG02LM/",
+      "image": "assets/controllers/ZNXNKG02LM.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ZNXNKG02LMLightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "toggle",
+              "double": "on_full_brightness",
+              "hold": "hold_color_toggle",
+              "release": "release",
+              "stop_rotating": "release",
+              "start_rotating": "brightness_from_controller_angle"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "ZNXNKG02LMMediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "single": "play_pause",
+              "double": "next_track",
+              "hold": "previous_track",
+              "release": "release",
+              "stop_rotating": "release",
+              "start_rotating": "volume_from_controller_angle"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ZS23000278",
+      "title": "Linkind ZS23000278",
+      "manufacturer": "Linkind",
+      "model": "ZS23000278",
+      "url": "controllers/ZS23000278/",
+      "image": "assets/controllers/ZS23000278.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ZS23000278LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down",
+              "brightness_move_to_level": "brightness_from_controller_level",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "color_temperature_move": "colortemp_from_controller",
+              "color_temperature_move_up": "click_colortemp_up",
+              "color_temperature_move_down": "click_colortemp_down",
+              "color_move": "xycolor_from_controller"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "ZS23000278Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "off": "off",
+              "brightness_step_up": "click_brightness_up",
+              "brightness_step_down": "click_brightness_down",
+              "brightness_move_to_level": "brightness_from_controller_level",
+              "brightness_move_up": "hold_brightness_up",
+              "brightness_move_down": "hold_brightness_down",
+              "brightness_stop": "release",
+              "color_temperature_move": "colortemp_from_controller",
+              "color_temperature_move_up": "click_colortemp_up",
+              "color_temperature_move_down": "click_colortemp_down",
+              "color_move": "xycolor_from_controller"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ZYCT202",
+      "title": "Trust ZYCT202",
+      "manufacturer": "Trust",
+      "model": "ZYCT202",
+      "url": "controllers/ZYCT202/",
+      "image": "assets/controllers/ZYCT202.jpeg",
+      "integrations": [
+        "z2m"
+      ],
+      "notes": null,
+      "controller_types": [
+        {
+          "type": "Light",
+          "anchor": "light",
+          "class": "ZYCT202LightController",
+          "entity_arg": "light",
+          "domain": "light",
+          "default_delay_ms": 350,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "up-press": "hold_brightness_up",
+              "down-press": "hold_brightness_down",
+              "off": "off",
+              "stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Zigbee2MQTT Light",
+          "anchor": "zigbee2mqtt-light",
+          "class": "ZYCT202Z2MLightController",
+          "entity_arg": "light",
+          "domain": null,
+          "default_delay_ms": null,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "on",
+              "up-press": "hold_brightness_up",
+              "down-press": "hold_brightness_down",
+              "off": "off",
+              "stop": "release"
+            }
+          }
+        },
+        {
+          "type": "Media Player",
+          "anchor": "media-player",
+          "class": "ZYCT202MediaPlayerController",
+          "entity_arg": "media_player",
+          "domain": "media_player",
+          "default_delay_ms": 500,
+          "integrations": [
+            "z2m"
+          ],
+          "default_mapping": {
+            "z2m": {
+              "on": "play_pause",
+              "off": "play_pause",
+              "up-press": "hold_volume_up",
+              "down-press": "hold_volume_down",
+              "stop": "release"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
