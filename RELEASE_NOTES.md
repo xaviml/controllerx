@@ -20,13 +20,13 @@ _This minor change does not contain any breaking changes._
 ## :hammer: Fixes
 -->
 
-<!--
 ## :scroll: Docs
--->
 
-<!--
+- [Enable MQTT plugin](https://BASE_URL/controllerx/others/enable-mqtt-plugin) - explain how to enable MQTT from the ControllerX app options, and how to make AppDaemon receive only the topics of your controllers.
+
 ## :clock2: Performance
--->
+
+- MQTT - ControllerX now subscribes to the topics of its controllers (`mqtt`, `tasmota` and `z2m` with `listen_to: mqtt`). This allows setting `client_topics: NONE` in the AppDaemon MQTT plugin, so AppDaemon only receives the messages ControllerX needs instead of every message in the broker. Read more [here](https://BASE_URL/controllerx/others/enable-mqtt-plugin).
 
 <!--
 ## :wrench: Refactor

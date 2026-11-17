@@ -34,14 +34,13 @@ The ControllerX app runs its own AppDaemon instance with ControllerX preinstalle
     Or go to **Settings → Apps → App store**, select **Repositories** in the top-right menu, and add `https://github.com/xaviml/controllerx-app`.
 
 2. Install the **ControllerX** app and start it.
-3. [Configure your controllers](configuration.md) in `/app_configs/d35634e3_controllerx/apps/apps.yaml`, for example with the Studio Code Server or Samba share apps. The app creates this file with a commented example on its first start. AppDaemon picks up changes to it without a restart.
+3. [Configure your controllers](configuration.md) in `/app_configs/d35634e3_controllerx/apps/apps.yaml`, for example with the Studio Code Server or Samba share apps. The app creates this file with a commented example on its first start. AppDaemon picks up changes to it without a restart, unless **Production mode** is on in the app's **Configuration** tab.
 
 **Updating:** update the app from **Settings → Apps**. Your files aren't changed by updates.
 
 ??? info "Where the app keeps its files"
     ```text
     /app_configs/d35634e3_controllerx/
-    ├── appdaemon.yaml      AppDaemon configuration (e.g. to enable the MQTT plugin)
     ├── secrets.yaml        Optional, for `!secret` values
     └── apps/
         ├── apps.yaml       Your ControllerX configuration
@@ -102,7 +101,7 @@ If ControllerX runs in the AppDaemon app today (installed through HACS, AppDaemo
 
 1. Install and start the [ControllerX app](#controllerx-app-recommended) once, so it creates its folder.
 2. Copy your `apps.yaml` to `/app_configs/d35634e3_controllerx/apps/apps.yaml`. If it also has apps other than ControllerX, remove them from the copy. Don't copy the `controllerx` folder, the app brings its own.
-3. If you use the [MQTT plugin](../others/enable-mqtt-plugin.md), copy its `MQTT:` section from the AppDaemon app's `appdaemon.yaml` into `plugins:` in `/app_configs/d35634e3_controllerx/appdaemon.yaml`, and add `client_id: controllerx` to it so it doesn't clash with the AppDaemon app on the MQTT broker. If you copy other settings too, **leave out the `app_dir` line** (the app always uses its own `apps` folder) and `secrets: /homeassistant/secrets.yaml` (the app can't read the Home Assistant configuration folder).
+3. If you use the [MQTT plugin](../others/enable-mqtt-plugin.md), turn on **Enable MQTT** in the app's **Configuration** tab. Don't copy the AppDaemon app's `appdaemon.yaml`: the ControllerX app manages its AppDaemon configuration itself.
 4. If your configuration uses `!secret`, copy those secrets into `/app_configs/d35634e3_controllerx/secrets.yaml`.
 5. Remove ControllerX from the AppDaemon app:
     - If you only used AppDaemon for ControllerX, uninstall the AppDaemon app (and AppDaemon Store, if you had it).

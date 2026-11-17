@@ -134,6 +134,16 @@ Install the `Samba share` app in Home Assistant, so you can connect to HA folder
 
 Use the AppDaemon app for this, not the ControllerX app: the ControllerX app replaces its `controllerx` folder with the bundled version on every start.
 
+### ControllerX app
+
+To try your changes in the ControllerX app itself, deploy it as a local app with your checkout bundled. From a clone of [controllerx-app](https://github.com/xaviml/controllerx-app) next to this repository:
+
+```shell
+HA_HOST=hassio@YOUR_HA_IP scripts/deploy-local.sh ../controllerx
+```
+
+See [Testing locally](https://github.com/xaviml/controllerx-app#testing-locally) for the requirements.
+
 ## How to change someone else's PR code
 
 If you have the permission to change code from the source branch of the PR, then you can do the following to change it. Fill in the username and branch and execute the following:

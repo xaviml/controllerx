@@ -2,7 +2,6 @@ import json
 from typing import Any
 
 from appdaemon.plugins.hass.hassapi import Hass
-from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import DefaultActionsMapping
 from cx_core.integration import EventData, Integration
 
@@ -29,11 +28,8 @@ class Z2MIntegration(Integration):
             await Hass.listen_state(self.controller, self.state_callback, controller_id)
         elif listens_to == LISTENS_TO_MQTT:
             topic_prefix = self.kwargs.get("topic_prefix", "zigbee2mqtt")
-            await Mqtt.listen_event(
-                self.controller,
-                self.event_callback,
-                topic=f"{topic_prefix}/{controller_id}",
-                namespace="mqtt",
+            await self.listen_mqtt_topic(
+                f"{topic_prefix}/{controller_id}", self.event_callback
             )
         elif listens_to == LISTENS_TO_EVENT:
             await Hass.listen_state(

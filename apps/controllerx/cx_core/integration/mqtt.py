@@ -1,7 +1,6 @@
 import json
 from typing import Any
 
-from appdaemon.plugins.mqtt.mqttapi import Mqtt
 from cx_const import DefaultActionsMapping
 from cx_core.integration import EventData, Integration
 
@@ -13,9 +12,7 @@ class MQTTIntegration(Integration):
         return self.controller.get_z2m_actions_mapping()
 
     async def listen_changes(self, controller_id: str) -> None:
-        await Mqtt.listen_event(
-            self.controller, self.event_callback, topic=controller_id, namespace="mqtt"
-        )
+        await self.listen_mqtt_topic(controller_id, self.event_callback)
 
     async def event_callback(
         self, event_name: str, data: EventData, kwargs: dict[str, Any]

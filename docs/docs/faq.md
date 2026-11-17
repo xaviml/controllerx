@@ -57,7 +57,7 @@ Do you have a configuration that seems to be right, but is not working? The defa
 
 #### 9. Symfonisk controller (E1744) works, but pretty laggy
 
-If you are using the `sensor` entity as your controller, I recommend changing the configuration to listen to MQTT directly instead of HA. For this, you will need to change your controller configuration (`apps.yaml`) and your AppDaemon configuration (`appdaemon.yaml`). Your new controller configuration will look like this:
+If you are using the `sensor` entity as your controller, I recommend changing the configuration to listen to MQTT directly instead of HA. For this, you will need to change your controller configuration (`apps.yaml`) and enable the AppDaemon MQTT plugin. Your new controller configuration will look like this:
 
 ```yaml
 example_app:
