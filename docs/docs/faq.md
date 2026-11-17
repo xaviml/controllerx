@@ -11,7 +11,7 @@ ControllerX depends on AppDaemon, and all the configuration for AppDaemon apps g
 
 #### 2. I updated ControllerX to a new version and it does not work
 
-If you installed ControllerX manually, the AppDaemon app (or server) needs to be restarted after updating ControllerX. The ControllerX app restarts on its own when updated.
+If you installed ControllerX manually, the AppDaemon app (or server) needs to be restarted after updating ControllerX. AppDaemon Store restarts the AppDaemon app on its own after an update. The ControllerX app restarts on its own when updated.
 
 #### 3. I properly configured E1744 (symfonisk) with z2m but it doesn't work
 
