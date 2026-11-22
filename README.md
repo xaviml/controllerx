@@ -7,6 +7,7 @@
 [![github-check-status](https://img.shields.io/github/checks-status/xaviml/controllerx/main?style=for-the-badge)](https://github.com/xaviml/controllerx/actions?query=branch%3Amain)
 [![last-release](https://img.shields.io/github/v/release/xaviml/controllerx.svg?style=for-the-badge)](https://github.com/xaviml/controllerx/releases)
 [![downloads-latest](https://img.shields.io/github/downloads/xaviml/controllerx/latest/total?style=for-the-badge)](http://github.com/xaviml/controllerx/releases/latest)
+[![downloads-total](https://img.shields.io/github/downloads/xaviml/controllerx/controllerx.zip?style=for-the-badge&label=total%20downloads&logo=github&color=18BCF2&displayAssetName=false)](https://github.com/xaviml/controllerx/releases)
 [![code-coverage](https://img.shields.io/codecov/c/gh/xaviml/controllerx/main?style=for-the-badge&token=7PUZHL97IG)](https://app.codecov.io/gh/xaviml/controllerx/branch/main)
 [![community-topic](https://img.shields.io/badge/community-topic-blue?style=for-the-badge)](https://community.home-assistant.io/t/controllerx-bring-full-functionality-to-light-and-media-player-controllers/148855)
 [![buy-me-a-beer](https://img.shields.io/badge/sponsor-Buy%20me%20a%20beer-orange?style=for-the-badge)](https://www.buymeacoffee.com/xaviml)

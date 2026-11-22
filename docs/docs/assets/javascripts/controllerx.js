@@ -324,6 +324,73 @@
     update();
   }
 
+  /* ---------------------------------------------------------------------- */
+  /* Total downloads in the repository facts (next to version/stars/forks)   */
+  /* ---------------------------------------------------------------------- */
+
+  var DOWNLOADS_URL =
+    "https://img.shields.io/github/downloads/xaviml/controllerx/controllerx.zip.json?displayAssetName=false";
+  var DOWNLOADS_KEY = "cx-downloads";
+  var downloads = null;
+
+  // Same caching as the theme's own facts: once per browser session
+  function loadDownloads() {
+    if (!downloads) {
+      var cached = null;
+      try {
+        cached = sessionStorage.getItem(DOWNLOADS_KEY);
+      } catch (e) {}
+      downloads = cached
+        ? Promise.resolve(cached)
+        : fetch(DOWNLOADS_URL)
+            .then(function (response) {
+              if (!response.ok) throw new Error("Could not load downloads");
+              return response.json();
+            })
+            .then(function (data) {
+              try {
+                sessionStorage.setItem(DOWNLOADS_KEY, data.value);
+              } catch (e) {}
+              return data.value;
+            })
+            .catch(function () {
+              return null;
+            });
+    }
+    return downloads;
+  }
+
+  function addDownloadsFact(facts) {
+    if (facts.querySelector(".md-source__fact--downloads")) return;
+    loadDownloads().then(function (value) {
+      if (!value || facts.querySelector(".md-source__fact--downloads")) return;
+      facts.appendChild(
+        el("li", {
+          class: "md-source__fact md-source__fact--downloads",
+          title: "Total downloads",
+          text: value,
+        })
+      );
+    });
+  }
+
+  // The theme renders the facts asynchronously, and again for the navigation
+  // drawer on every instant navigation, so watch for them to appear
+  function initDownloadsFacts() {
+    document.querySelectorAll(".md-source__facts").forEach(addDownloadsFact);
+    new MutationObserver(function (records) {
+      records.forEach(function (record) {
+        record.addedNodes.forEach(function (node) {
+          if (node.nodeType !== 1) return;
+          if (node.matches(".md-source__facts")) addDownloadsFact(node);
+          else node.querySelectorAll(".md-source__facts").forEach(addDownloadsFact);
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  initDownloadsFacts();
+
   function init() {
     initCatalogueFilters();
     initBuilder();
