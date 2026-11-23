@@ -1,0 +1,100 @@
+/* Device pages */
+@media screen and (min-width: 45em) {
+  .md-typeset .cx-device-image {
+    float: right;
+    margin: 0 0 1em 1.5em;
+  }
+}
+
+/* Supported controllers catalogue */
+.cx-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.5em 0 1em;
+}
+
+.cx-filters[hidden] {
+  display: none;
+}
+
+.cx-filters input,
+.cx-filters select,
+.cx-builder select,
+.cx-builder input {
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.2rem;
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+}
+
+.cx-filters .cx-filter-search {
+  flex: 1 1 14rem;
+}
+
+.cx-filter-count {
+  font-size: 0.7rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .cx-catalogue table:not([class]) td {
+  vertical-align: middle;
+}
+
+.md-typeset .cx-catalogue table:not([class]) img {
+  max-width: 64px;
+  max-height: 64px;
+  object-fit: contain;
+}
+
+/* Configuration builder */
+.cx-builder-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.8rem 1.2rem;
+  margin: 1em 0;
+}
+
+.cx-builder-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.cx-builder-label {
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.cx-builder-help {
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .cx-builder-output {
+  margin: 1em 0;
+}
+
+.md-typeset .cx-builder-output code {
+  display: block;
+  padding: 0.8em 1.2em;
+}
+
+.cx-builder-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Total downloads in the repository facts (added by controllerx.js) */
+:root {
+  --cx-source-downloads-icon: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z'/><path d='M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z'/></svg>");
+}
+
+.md-source__fact--downloads::before {
+  -webkit-mask-image: var(--cx-source-downloads-icon);
+  mask-image: var(--cx-source-downloads-icon);
+}

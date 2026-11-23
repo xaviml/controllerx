@@ -1,0 +1,143 @@
+# ControllerX
+
+ControllerX is an AppDaemon app for Home Assistant that turns button
+controllers (IKEA, Philips Hue, Aqara, Tuya, etc.) into fully working
+light, media player, switch and cover controllers. Each app is
+configured in AppDaemon's `apps.yaml` with `module: controllerx`, a
+device-specific `class` (e.g. `E1810Controller`), the `integration`
+that receives the button events (z2m, deconz, zha, ...), the
+`controller` ID and the entity to control (e.g. `light`). Holding a
+button repeats a Home Assistant service call until it is released.
+Default button mappings can be replaced with a custom `mapping`.
+
+A machine-readable list of the supported devices, with their
+controller classes and default mappings, is available at
+https://xaviml.github.io/controllerx/controllers/devices.json
+
+## Getting started
+
+- [ControllerX](<https://xaviml.github.io/controllerx/index.md>): What ControllerX is and a quick example
+- [Installation](<https://xaviml.github.io/controllerx/start/installation/index.md>): Install ControllerX in Home Assistant
+- [Configuration](<https://xaviml.github.io/controllerx/start/configuration/index.md>): Generic app parameters for apps.yaml
+- [Type Configuration](<https://xaviml.github.io/controllerx/start/type-configuration/index.md>): Parameters for light, media player, switch and cover controllers
+- [Configuration builder](<https://xaviml.github.io/controllerx/start/config-builder/index.md>): Interactive apps.yaml generator
+
+## Integrations
+
+- [deCONZ](<https://xaviml.github.io/controllerx/start/integrations/deconz/index.md>)
+- [Event](<https://xaviml.github.io/controllerx/start/integrations/event/index.md>)
+- [Homematic](<https://xaviml.github.io/controllerx/start/integrations/homematic/index.md>)
+- [Integrations](<https://xaviml.github.io/controllerx/start/integrations/index.md>)
+- [Lutron Caséta](<https://xaviml.github.io/controllerx/start/integrations/lutron_caseta/index.md>)
+- [MQTT](<https://xaviml.github.io/controllerx/start/integrations/mqtt/index.md>)
+- [Shelly](<https://xaviml.github.io/controllerx/start/integrations/shelly/index.md>)
+- [Shelly for HASS](<https://xaviml.github.io/controllerx/start/integrations/shellyforhass/index.md>)
+- [State](<https://xaviml.github.io/controllerx/start/integrations/state/index.md>)
+- [Tasmota](<https://xaviml.github.io/controllerx/start/integrations/tasmota/index.md>)
+- [ZHA](<https://xaviml.github.io/controllerx/start/integrations/zha/index.md>)
+- [Zigbee2MQTT](<https://xaviml.github.io/controllerx/start/integrations/zigbee2mqtt/index.md>)
+
+## Supported controllers
+
+- [Supported controllers](<https://xaviml.github.io/controllerx/controllers/index.md>)
+- [Aurora AUA1ZBR2GW](<https://xaviml.github.io/controllerx/controllers/AUA1ZBR2GW/index.md>)
+- [ADEO HRC99CZC045](<https://xaviml.github.io/controllerx/controllers/AdeoHRC99CZC045/index.md>)
+- [IKEA E1743](<https://xaviml.github.io/controllerx/controllers/E1743/index.md>)
+- [IKEA E1744](<https://xaviml.github.io/controllerx/controllers/E1744/index.md>)
+- [IKEA E1766](<https://xaviml.github.io/controllerx/controllers/E1766/index.md>)
+- [IKEA E1810](<https://xaviml.github.io/controllerx/controllers/E1810/index.md>)
+- [IKEA E1812](<https://xaviml.github.io/controllerx/controllers/E1812/index.md>)
+- [Sengled E1EG7F](<https://xaviml.github.io/controllerx/controllers/E1EG7F/index.md>)
+- [IKEA E2002](<https://xaviml.github.io/controllerx/controllers/E2002/index.md>)
+- [IKEA E2123](<https://xaviml.github.io/controllerx/controllers/E2123/index.md>)
+- [IKEA E2201](<https://xaviml.github.io/controllerx/controllers/E2201/index.md>)
+- [IKEA E2213](<https://xaviml.github.io/controllerx/controllers/E2213/index.md>)
+- [Livarno HG06323](<https://xaviml.github.io/controllerx/controllers/HG06323/index.md>)
+- [Homematic HMPB2WM552](<https://xaviml.github.io/controllerx/controllers/HMPB2WM552/index.md>)
+- [Homematic HMPB6WM55](<https://xaviml.github.io/controllerx/controllers/HMPB6WM55/index.md>)
+- [Homematic HMPBI4FM](<https://xaviml.github.io/controllerx/controllers/HMPBI4FM/index.md>)
+- [Homematic HMSenMDIRWM55](<https://xaviml.github.io/controllerx/controllers/HMSenMDIRWM55/index.md>)
+- [Philips HueDimmer](<https://xaviml.github.io/controllerx/controllers/HueDimmer/index.md>)
+- [Philips HueSmartButton](<https://xaviml.github.io/controllerx/controllers/HueSmartButton/index.md>)
+- [IKEA ICTCG1](<https://xaviml.github.io/controllerx/controllers/ICTCG1/index.md>)
+- [Lutron LZL4BWHL01](<https://xaviml.github.io/controllerx/controllers/LZL4BWHL01/index.md>)
+- [Legrand 600083](<https://xaviml.github.io/controllerx/controllers/Legrand600083/index.md>)
+- [Legrand 600088](<https://xaviml.github.io/controllerx/controllers/Legrand600088/index.md>)
+- [Lutron PJ22B](<https://xaviml.github.io/controllerx/controllers/LutronPJ22B/index.md>)
+- [Lutron PJ22BRL](<https://xaviml.github.io/controllerx/controllers/LutronPJ22BRL/index.md>)
+- [Lutron PJ23BRL](<https://xaviml.github.io/controllerx/controllers/LutronPJ23BRL/index.md>)
+- [Lutron PJ24B](<https://xaviml.github.io/controllerx/controllers/LutronPJ24B/index.md>)
+- [Aqara MFKZQ01LM](<https://xaviml.github.io/controllerx/controllers/MFKZQ01LM/index.md>)
+- [Müller Licht MLI404002](<https://xaviml.github.io/controllerx/controllers/MLI404002/index.md>)
+- [Müller Licht MLI404011](<https://xaviml.github.io/controllerx/controllers/MLI404011/index.md>)
+- [Namron 4512773](<https://xaviml.github.io/controllerx/controllers/Namron4512773/index.md>)
+- [OSRAM AC025XX00NJ](<https://xaviml.github.io/controllerx/controllers/OsramAC025XX00NJ/index.md>)
+- [Philips PTM215X](<https://xaviml.github.io/controllerx/controllers/PTM215X/index.md>)
+- [Philips 929002398602](<https://xaviml.github.io/controllerx/controllers/Philips929002398602/index.md>)
+- [Philips 929003017102](<https://xaviml.github.io/controllerx/controllers/Philips929003017102/index.md>)
+- [Philips RDM002](<https://xaviml.github.io/controllerx/controllers/PhilipsRDM002/index.md>)
+- [Prolight 5412748727388](<https://xaviml.github.io/controllerx/controllers/Prolight5412748727388/index.md>)
+- [ROBB ROB2000070](<https://xaviml.github.io/controllerx/controllers/ROB2000070/index.md>)
+- [Smartkontakten SK5700002228949](<https://xaviml.github.io/controllerx/controllers/SK5700002228949/index.md>)
+- [SONOFF SNZB01](<https://xaviml.github.io/controllerx/controllers/SNZB01/index.md>)
+- [Shelly 25](<https://xaviml.github.io/controllerx/controllers/Shelly25/index.md>)
+- [Shelly Dimmer2](<https://xaviml.github.io/controllerx/controllers/ShellyDimmer2/index.md>)
+- [Shelly I3](<https://xaviml.github.io/controllerx/controllers/ShellyI3/index.md>)
+- [Shelly PlusI4](<https://xaviml.github.io/controllerx/controllers/ShellyPlusI4/index.md>)
+- [SmartThings Button](<https://xaviml.github.io/controllerx/controllers/SmartThingsButton/index.md>)
+- [Tuya TS0042](<https://xaviml.github.io/controllerx/controllers/TS0042/index.md>)
+- [Tuya TS0043](<https://xaviml.github.io/controllerx/controllers/TS0043/index.md>)
+- [Tuya TS0044](<https://xaviml.github.io/controllerx/controllers/TS0044/index.md>)
+- [Tuya TS0044F](<https://xaviml.github.io/controllerx/controllers/TS0044F/index.md>)
+- [Tasmota Button](<https://xaviml.github.io/controllerx/controllers/TasmotaButton/index.md>)
+- [Tasmota Switch](<https://xaviml.github.io/controllerx/controllers/TasmotaSwitch/index.md>)
+- [Terncy PP01](<https://xaviml.github.io/controllerx/controllers/TerncyPP01/index.md>)
+- [Terncy SD01](<https://xaviml.github.io/controllerx/controllers/TerncySD01/index.md>)
+- [Tuya ERS10TZBVKAA](<https://xaviml.github.io/controllerx/controllers/TuYaERS10TZBVKAA/index.md>)
+- [Aqara WXCJKG11LM](<https://xaviml.github.io/controllerx/controllers/WXCJKG11LM/index.md>)
+- [Aqara WXCJKG12LM](<https://xaviml.github.io/controllerx/controllers/WXCJKG12LM/index.md>)
+- [Aqara WXCJKG13LM](<https://xaviml.github.io/controllerx/controllers/WXCJKG13LM/index.md>)
+- [Aqara WXKG01LM](<https://xaviml.github.io/controllerx/controllers/WXKG01LM/index.md>)
+- [Aqara WXKG02LM](<https://xaviml.github.io/controllerx/controllers/WXKG02LM/index.md>)
+- [Aqara WXKG06LM](<https://xaviml.github.io/controllerx/controllers/WXKG06LM/index.md>)
+- [Aqara WXKG07LM](<https://xaviml.github.io/controllerx/controllers/WXKG07LM/index.md>)
+- [Aqara WXKG11LMRemote](<https://xaviml.github.io/controllerx/controllers/WXKG11LMRemote/index.md>)
+- [Aqara WXKG11LMSensorSwitch](<https://xaviml.github.io/controllerx/controllers/WXKG11LMSensorSwitch/index.md>)
+- [Aqara WXKG12LM](<https://xaviml.github.io/controllerx/controllers/WXKG12LM/index.md>)
+- [Aqara WXKG15LM](<https://xaviml.github.io/controllerx/controllers/WXKG15LM/index.md>)
+- [Lutron Z31BRL](<https://xaviml.github.io/controllerx/controllers/Z31BRL/index.md>)
+- [RGB Genie ZB3009](<https://xaviml.github.io/controllerx/controllers/ZB3009/index.md>)
+- [RGB Genie ZB5121](<https://xaviml.github.io/controllerx/controllers/ZB5121/index.md>)
+- [RGB Genie ZB5122](<https://xaviml.github.io/controllerx/controllers/ZB5122/index.md>)
+- [Aqara ZNXNKG02LM](<https://xaviml.github.io/controllerx/controllers/ZNXNKG02LM/index.md>)
+- [Linkind ZS23000278](<https://xaviml.github.io/controllerx/controllers/ZS23000278/index.md>)
+- [Trust ZYCT202](<https://xaviml.github.io/controllerx/controllers/ZYCT202/index.md>)
+
+## Advanced
+
+- [Action types](<https://xaviml.github.io/controllerx/advanced/action-types/index.md>)
+- [Entity groups](<https://xaviml.github.io/controllerx/advanced/entity-groups/index.md>)
+- [Event integration](<https://xaviml.github.io/controllerx/advanced/event-integration/index.md>)
+- [Hold/Click modes](<https://xaviml.github.io/controllerx/advanced/hold-click-modes/index.md>)
+- [Custom mapping](<https://xaviml.github.io/controllerx/advanced/index.md>)
+- [Multiple clicks](<https://xaviml.github.io/controllerx/advanced/multiple-clicks/index.md>)
+- [Predefined actions](<https://xaviml.github.io/controllerx/advanced/predefined-actions/index.md>)
+- [Stateful Controllers](<https://xaviml.github.io/controllerx/advanced/stateful-controllers/index.md>)
+- [Templating](<https://xaviml.github.io/controllerx/advanced/templating/index.md>)
+
+## Examples
+
+- [Examples](<https://xaviml.github.io/controllerx/examples/index.md>)
+- [SONOS/SYMFONISK Display example](<https://xaviml.github.io/controllerx/examples/sonos-display/index.md>)
+- [SONOS/SYMFONISK Examples](<https://xaviml.github.io/controllerx/examples/sonos/index.md>)
+- [Tasmota - Control an RGB light with two buttons](<https://xaviml.github.io/controllerx/examples/tasmota-double-button/index.md>)
+- [Tasmota SwitchMode 11/12 Example - v1.1](<https://xaviml.github.io/controllerx/examples/tasmota-switchmode11/index.md>)
+
+## Optional
+
+- [Enable MQTT Plugin](<https://xaviml.github.io/controllerx/others/enable-mqtt-plugin/index.md>)
+- [What's AppDaemon and why I need it](<https://xaviml.github.io/controllerx/others/run-appdaemon/index.md>)
+- [Update ControllerX](<https://xaviml.github.io/controllerx/others/update/index.md>)
+- [Zigbee2MQTT - HA sensor is deprecated](<https://xaviml.github.io/controllerx/others/z2m-ha-sensor-deprecated/index.md>)
+- [Zigbee2MQTT Light Controller](<https://xaviml.github.io/controllerx/others/zigbee2mqtt-light-controller/index.md>)
+- [Frequently asked questions (FAQ)](<https://xaviml.github.io/controllerx/faq/index.md>): Frequently asked questions
