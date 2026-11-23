@@ -12,7 +12,7 @@ If we want to use the `mqtt` or `tasmota` integrations, `listen_to: mqtt` in the
 3. If you use the Mosquitto broker app, that's all: the app gets the broker address and credentials from Home Assistant. Otherwise, fill in **MQTT host** (without the port, e.g. `192.168.1.10`), **MQTT port**, **MQTT username** and **MQTT password**. They are under **Show unused optional configuration options**.
 4. Save. Home Assistant offers to restart the app.
 
-The app manages the AppDaemon configuration itself, so there's no `appdaemon.yaml` to edit.
+The app manages the AppDaemon configuration itself, so there's no `appdaemon.yaml` to edit. It connects to the broker with a client ID generated for each install, so several ControllerX apps (for example, in two Home Assistant instances) can share the same broker. To use a client ID of your own, set **MQTT client ID**.
 
 ## AppDaemon app
 
